@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Smart Factory Blueprint & Robot Guide | ATPL Group</title>
+  <meta name="description" content="Explore ATPL Group's connected digital transformation smart factory blueprint. Watch our AI Robot move to each product station (Perfect Trace, Perfect Audit, Perfect Warehouse, RFID, etc.) and teach you about each solution.">
+
+  <!-- Favicon -->
+  <link rel="icon" href="https://atplgroup.com/wp-content/uploads/2024/01/cropped-logo_original-32x32.png">
+
+  <!-- Core CSS -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/factoryMap.css">
+</head>
+<body style="background: #030a16;">
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container nav-container">
+      <a href="index.html" class="brand-logo">
+        <div class="logo-mark">
+          <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        </div>
+        <div class="logo-text">
+          <span class="logo-title">ARCHERY TECHNOCRATS</span>
+          <span class="logo-sub">ATPL GROUP • TARGET PERFECTION</span>
+        </div>
+      </a>
+
+      <nav class="nav-menu">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="software.html" class="nav-link">Software</a>
+        <a href="hardware.html" class="nav-link">Hardware</a>
+        <a href="services.html" class="nav-link">Services</a>
+        <a href="about.html" class="nav-link">About Us</a>
+        <a href="factory-map.html" class="nav-link active" style="color: #00f0ff; font-weight: 700;">✨ Factory Blueprint Map</a>
+      </nav>
+
+      <div class="header-actions">
+        <a href="contact.html" class="btn btn-primary btn-sm">Request Demo</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Blueprint Stage Container -->
+  <main class="container" style="padding-top: 7.5rem; padding-bottom: 3rem;">
+
+    <div style="text-align: center; margin-bottom: 1.5rem;">
+      <span class="section-tag" style="background: rgba(0,240,255,0.1); border-color: rgba(0,240,255,0.3); color: #00f0ff;">
+        <span class="dot" style="background: #00f0ff; box-shadow: 0 0 10px #00f0ff;"></span>
+        Digital Transformation Connected Factory Ecosystem
+      </span>
+      <h1 style="font-size: clamp(2rem, 3.8vw, 3rem); color: #fff; margin-bottom: 0.5rem;">
+        ATPL <span class="gradient-text">Connected Factory Blueprint</span>
+      </h1>
+      <p style="color: #94a3b8; max-width: 700px; margin: 0 auto; font-size: 1rem;">
+        Click on any product station or use the navigation buttons below. Our <strong>ATPL AI Robot</strong> will travel across the blueprint to teach you about <strong>Perfect Trace</strong>, <strong>Perfect Audit</strong>, <strong>Perfect Warehouse</strong>, and our complete hardware solutions.
+      </p>
+    </div>
+
+    <!-- The Interactive Factory Blueprint Section -->
+    <div class="factory-blueprint-section">
+      <div class="blueprint-header">
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+          <span style="width: 10px; height: 10px; border-radius: 50%; background: #10b981; box-shadow: 0 0 10px #10b981;"></span>
+          <strong style="color: #fff; font-size: 0.95rem;">ARCHERY TECHNOCRATS DIGITAL TWIN NETWORK</strong>
+        </div>
+        <div style="font-family: var(--font-mono); font-size: 0.8rem; color: #00f0ff;">
+          12 INTERCONNECTED PRODUCT NODES
+        </div>
+      </div>
+
+      <!-- Blueprint Stage Container -->
+      <div id="atpl-blueprint-stage" class="blueprint-stage">
+        <!-- Rendered via js/factoryMap.js -->
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <div>© 2026 Archery Technocrats Private Limited (ATPL Group). All Rights Reserved.</div>
+        <div><a href="index.html" class="text-cyan">Back to Home</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/main.js"></script>
+  <script src="js/factoryMap.js"></script>
+</body>
+</html>

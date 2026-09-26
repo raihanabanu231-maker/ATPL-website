@@ -1,0 +1,610 @@
+/* ==========================================================================
+   ATPL 3D VIRTUAL SMART FACTORY & AI ROBOT GUIDE - HUD STYLES
+   ========================================================================== */
+
+.factory-tour-wrapper {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: #020408;
+  font-family: var(--font-body);
+  user-select: none;
+}
+
+/* 3D WebGL Canvas Layer */
+#factory-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: 1;
+}
+
+/* Sci-Fi HUD Viewport Vignette & Overlay */
+.hud-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.5rem 2rem;
+  background: radial-gradient(circle at center, transparent 40%, rgba(2, 4, 8, 0.4) 80%, rgba(2, 4, 8, 0.85) 100%);
+}
+
+.hud-overlay * {
+  pointer-events: auto;
+}
+
+/* Top HUD Header Bar */
+.hud-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(6, 11, 20, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-lg);
+  padding: 0.85rem 1.75rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.hud-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.hud-logo-icon {
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, var(--cyan-primary), var(--blue-accent));
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  color: #000;
+  font-family: var(--font-display);
+}
+
+.hud-title-info h3 {
+  font-size: 1.1rem;
+  color: #fff;
+  line-height: 1.1;
+  font-weight: 700;
+}
+
+.hud-title-info span {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--cyan-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* Top Live Telemetry Tickers */
+.hud-telemetry-strip {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.telemetry-node {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.85rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-sm);
+}
+
+.telemetry-node .label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.telemetry-node .val {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--cyan-primary);
+}
+
+.hud-top-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.hud-icon-btn {
+  width: 40px;
+  height: 40px;
+  background: rgba(14, 26, 49, 0.8);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.hud-icon-btn:hover, .hud-icon-btn.active {
+  background: rgba(0, 240, 255, 0.2);
+  border-color: var(--cyan-primary);
+  color: var(--cyan-primary);
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+}
+
+/* Center HUD & Robot Speech Floating Module */
+.hud-center-stage {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 2rem;
+  margin-bottom: 1rem;
+}
+
+/* AI Robot Dialogue Box */
+.robot-dialogue-panel {
+  max-width: 520px;
+  width: 100%;
+  background: rgba(10, 19, 36, 0.88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-glass-strong);
+  border-radius: var(--radius-xl);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-lg), 0 0 30px rgba(0, 240, 255, 0.2);
+  position: relative;
+  transition: all var(--transition-normal);
+}
+
+.robot-dialogue-panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--cyan-primary), var(--blue-accent), transparent);
+}
+
+.robot-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.85rem;
+}
+
+.robot-identity {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.robot-avatar-badge {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #00f0ff, #0055ff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #000;
+  box-shadow: 0 0 15px var(--cyan-primary);
+  position: relative;
+}
+
+.robot-avatar-badge::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  background: #10b981;
+  border: 2px solid #060b14;
+  border-radius: 50%;
+}
+
+.robot-name-title h4 {
+  font-size: 1rem;
+  color: #fff;
+  line-height: 1;
+  margin-bottom: 0.2rem;
+}
+
+.robot-name-title span {
+  font-family: var(--font-mono);
+  font-size: 0.725rem;
+  color: var(--cyan-primary);
+  text-transform: uppercase;
+}
+
+/* Audio Wave Visualizer */
+.audio-wave-anim {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  height: 18px;
+}
+
+.wave-bar {
+  width: 3px;
+  height: 100%;
+  background: var(--cyan-primary);
+  border-radius: 2px;
+  animation: wavePulse 1s ease-in-out infinite;
+}
+
+.wave-bar:nth-child(2) { animation-delay: 0.15s; }
+.wave-bar:nth-child(3) { animation-delay: 0.3s; }
+.wave-bar:nth-child(4) { animation-delay: 0.45s; }
+.wave-bar:nth-child(5) { animation-delay: 0.2s; }
+
+@keyframes wavePulse {
+  0%, 100% { height: 4px; }
+  50% { height: 18px; }
+}
+
+.audio-wave-anim.paused .wave-bar {
+  animation: none;
+  height: 4px;
+}
+
+.robot-message-text {
+  font-size: 0.98rem;
+  line-height: 1.6;
+  color: #e2e8f0;
+  margin-bottom: 1.25rem;
+  min-height: 3.8rem;
+}
+
+.robot-quick-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.robot-chip-btn {
+  padding: 0.4rem 0.9rem;
+  background: rgba(0, 240, 255, 0.1);
+  border: 1px solid rgba(0, 240, 255, 0.3);
+  border-radius: var(--radius-full);
+  color: var(--cyan-primary);
+  font-size: 0.8rem;
+  font-family: var(--font-display);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.robot-chip-btn:hover {
+  background: var(--cyan-primary);
+  color: #000;
+  box-shadow: 0 0 15px var(--cyan-primary);
+}
+
+/* Station Details Flyout / Spec Card */
+.station-spec-card {
+  max-width: 440px;
+  width: 100%;
+  background: rgba(8, 16, 32, 0.9);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-glass-strong);
+  border-radius: var(--radius-xl);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-lg);
+  transform: translateX(0);
+  transition: all var(--transition-normal);
+}
+
+.station-spec-card.hidden {
+  opacity: 0;
+  transform: translateX(50px);
+  pointer-events: none;
+}
+
+.station-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.8rem;
+  background: rgba(255, 153, 0, 0.15);
+  border: 1px solid rgba(255, 153, 0, 0.4);
+  border-radius: var(--radius-sm);
+  color: var(--amber-accent);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+
+.station-spec-card h3 {
+  font-size: 1.3rem;
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+
+.station-spec-card p.station-desc {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+.products-included-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.product-item-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.55rem 0.85rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+}
+
+.product-item-row span.name {
+  font-weight: 600;
+  color: #fff;
+}
+
+.product-item-row span.category {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--cyan-primary);
+  background: rgba(0, 240, 255, 0.1);
+  padding: 0.15rem 0.45rem;
+  border-radius: 4px;
+}
+
+/* Bottom Factory Controller Bar */
+.hud-bottombar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(6, 11, 20, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-glass-strong);
+  border-radius: var(--radius-xl);
+  padding: 0.75rem 1.5rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  gap: 1.5rem;
+}
+
+/* Station Waypoints Selector */
+.station-stepper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.station-step-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-full);
+  color: var(--text-secondary);
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.station-step-btn .num {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+}
+
+.station-step-btn.active, .station-step-btn:hover {
+  background: rgba(0, 240, 255, 0.15);
+  border-color: var(--cyan-primary);
+  color: #fff;
+}
+
+.station-step-btn.active .num {
+  background: var(--cyan-primary);
+  color: #000;
+  font-weight: 700;
+}
+
+/* Camera Mode Controls */
+.camera-mode-group {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 0.3rem;
+  border-radius: var(--radius-full);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.cam-btn {
+  padding: 0.45rem 0.95rem;
+  background: none;
+  border: none;
+  border-radius: var(--radius-full);
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  font-family: var(--font-display);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.cam-btn.active {
+  background: var(--cyan-primary);
+  color: #000;
+  font-weight: 700;
+  box-shadow: 0 0 15px var(--cyan-primary);
+}
+
+/* 3D In-Scene Hotspot Labels */
+.hotspot-3d {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  z-index: 5;
+  pointer-events: auto;
+  transition: transform 0.2s ease;
+}
+
+.hotspot-3d:hover {
+  transform: translate(-50%, -50%) scale(1.15);
+}
+
+.hotspot-pin {
+  width: 24px;
+  height: 24px;
+  background: var(--cyan-primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 20px var(--cyan-primary);
+  animation: pulseDot 2s infinite;
+}
+
+.hotspot-pin svg {
+  width: 14px;
+  height: 14px;
+  color: #000;
+}
+
+.hotspot-label {
+  background: rgba(6, 11, 20, 0.85);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--cyan-primary);
+  padding: 0.3rem 0.75rem;
+  border-radius: var(--radius-sm);
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+/* Loading Screen for 3D Engine */
+.factory-loader-screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #040810;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+.factory-loader-screen.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.loader-reactor {
+  width: 90px;
+  height: 90px;
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+.reactor-ring {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 2px dashed var(--cyan-primary);
+  border-radius: 50%;
+  animation: rotateClockwise 6s linear infinite;
+}
+
+.reactor-core {
+  position: absolute;
+  top: 15%;
+  left: 15%;
+  width: 70%;
+  height: 70%;
+  background: radial-gradient(circle, var(--cyan-primary) 0%, transparent 80%);
+  border-radius: 50%;
+  animation: pulseCore 1.5s ease-in-out infinite;
+}
+
+@keyframes rotateClockwise {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pulseCore {
+  0%, 100% { transform: scale(0.8); opacity: 0.5; }
+  50% { transform: scale(1.1); opacity: 1; filter: drop-shadow(0 0 20px var(--cyan-primary)); }
+}
+
+.loader-text {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  color: #fff;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.loader-subtext {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--cyan-primary);
+}
+
+/* Responsive HUD */
+@media (max-width: 1024px) {
+  .hud-telemetry-strip { display: none; }
+  .hud-center-stage { flex-direction: column; align-items: stretch; }
+  .station-spec-card { max-width: 100%; }
+}
+
+@media (max-width: 768px) {
+  .hud-overlay { padding: 1rem; }
+  .hud-bottombar { flex-direction: column; align-items: stretch; gap: 0.75rem; }
+  .station-stepper { overflow-x: auto; padding-bottom: 0.5rem; }
+}

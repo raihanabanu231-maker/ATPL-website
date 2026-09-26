@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>3D Smart Factory & AI Robot Tour | ATPL Group - Archery Technocrats</title>
+  <meta name="description" content="Explore ATPL Group's interactive 3D virtual smart factory floor guided by our AI Robot assistant. Experience live product demonstrations of Perfect Warehouse, Perfect Trace, RFID, and Machine Vision.">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/factory3d.css">
+
+  <!-- Three.js CDN & OrbitControls -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+</head>
+<body style="overflow: hidden; margin: 0; background: #020408;">
+
+  <div class="factory-tour-wrapper">
+
+    <!-- 3D Canvas Mount Point -->
+    <div id="factory-canvas-container" style="width: 100vw; height: 100vh;"></div>
+
+    <!-- 3D Engine Loading Screen -->
+    <div id="factory-loader" class="factory-loader-screen">
+      <div class="loader-reactor">
+        <div class="reactor-ring"></div>
+        <div class="reactor-core"></div>
+      </div>
+      <div class="loader-text">INITIALIZING DIGITAL TWIN</div>
+      <div class="loader-subtext">Calibrating 3D Factory Floor & AI Robot Companion...</div>
+    </div>
+
+    <!-- Interactive HUD Overlay Layer -->
+    <div class="hud-overlay">
+
+      <!-- Top Header Navigation Bar -->
+      <header class="hud-topbar">
+        <div class="hud-brand">
+          <a href="index.html" class="hud-logo-icon" title="Return to Main Homepage">AT</a>
+          <div class="hud-title-info">
+            <h3>ATPL SMART FACTORY 3D</h3>
+            <span>Industry 4.0 Digital Twin & Autonomous Plant</span>
+          </div>
+        </div>
+
+        <!-- Real-time Factory Telemetry Badges -->
+        <div class="hud-telemetry-strip">
+          <div class="telemetry-node">
+            <span class="label">System Status:</span>
+            <span class="val text-emerald">● ONLINE</span>
+          </div>
+          <div class="telemetry-node">
+            <span class="label">RFID Scan Accuracy:</span>
+            <span class="val" id="telemetry-accuracy">99.98%</span>
+          </div>
+          <div class="telemetry-node">
+            <span class="label">Line Throughput:</span>
+            <span class="val text-amber" id="telemetry-throughput">14,200/hr</span>
+          </div>
+          <div class="telemetry-node">
+            <span class="label">OEE Efficiency:</span>
+            <span class="val text-cyan">98.7%</span>
+          </div>
+        </div>
+
+        <!-- Action Controls -->
+        <div class="hud-top-actions">
+          <button id="hud-sound-toggle" class="hud-icon-btn active" title="Toggle AI Voice Speech Narration">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+              <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+            </svg>
+          </button>
+          <a href="index.html" class="btn btn-secondary btn-sm">Exit 3D Tour</a>
+          <a href="contact.html" class="btn btn-primary btn-sm">Request Live POC</a>
+        </div>
+      </header>
+
+      <!-- Center Floating Stage: AI Robot Dialogue & Station Info Card -->
+      <div class="hud-center-stage">
+
+        <!-- AI Robot Companion Dialogue Box -->
+        <div class="robot-dialogue-panel">
+          <div class="robot-header">
+            <div class="robot-identity">
+              <div class="robot-avatar-badge">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2zM7.5 13a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm9 0a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"/>
+                </svg>
+              </div>
+              <div class="robot-name-title">
+                <h4>ATPL RoboGuide AI</h4>
+                <span>Autonomous Tour Companion</span>
+              </div>
+            </div>
+
+            <!-- Voice Activity Waveform -->
+            <div class="audio-wave-anim">
+              <span class="wave-bar"></span>
+              <span class="wave-bar"></span>
+              <span class="wave-bar"></span>
+              <span class="wave-bar"></span>
+              <span class="wave-bar"></span>
+            </div>
+          </div>
+
+          <!-- Spoken Narrative Text Box -->
+          <div class="robot-message-text">
+            Initializing factory walkthrough...
+          </div>
+
+          <!-- Quick Robot Context Buttons -->
+          <div class="robot-quick-actions">
+            <button id="robot-btn-deepdive" class="robot-chip-btn">📖 Product Deep Dive</button>
+            <button id="robot-btn-next" class="robot-chip-btn">Next Station ➔</button>
+          </div>
+        </div>
+
+        <!-- Station Specifications Mini Flyout Card -->
+        <div id="station-spec-card" class="station-spec-card">
+          <div class="station-badge">Zone A - Receiving</div>
+          <h3 class="station-title">Smart Warehouse & Logistics</h3>
+          <p class="station-desc">High-Density Storage, Autonomous RFID & Handheld Mobility</p>
+
+          <h5 style="color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase; margin-bottom: 0.5rem; letter-spacing: 0.05em;">Integrated Hardware & Software:</h5>
+          <div class="products-included-list">
+            <!-- Dynamically injected via factoryHUD.js -->
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 0.75rem;">
+            <button id="btn-open-specs" class="btn btn-secondary btn-sm" style="width: 100%;">View Full Technical Specifications</button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Bottom Controller Bar -->
+      <footer class="hud-bottombar">
+
+        <!-- Station Waypoints Stepper -->
+        <div class="station-stepper">
+          <button class="station-step-btn active" data-station-idx="0">
+            <span class="num">1</span>
+            <span>Smart Warehouse</span>
+          </button>
+          <button class="station-step-btn" data-station-idx="1">
+            <span class="num">2</span>
+            <span>Robotic Assembly</span>
+          </button>
+          <button class="station-step-btn" data-station-idx="2">
+            <span class="num">3</span>
+            <span>AI Quality Vision</span>
+          </button>
+          <button class="station-step-btn" data-station-idx="3">
+            <span class="num">4</span>
+            <span>Packaging & Trace</span>
+          </button>
+          <button class="station-step-btn" data-station-idx="4">
+            <span class="num">5</span>
+            <span>Cloud Operations</span>
+          </button>
+        </div>
+
+        <!-- Camera Perspective Mode Controls -->
+        <div class="camera-mode-group">
+          <button class="cam-btn active" data-cam-mode="guided">Guided Tour</button>
+          <button class="cam-btn" data-cam-mode="orbit">Free Orbit</button>
+          <button class="cam-btn" data-cam-mode="fps">First-Person</button>
+          <button class="cam-btn" data-cam-mode="top">Top View</button>
+        </div>
+
+      </footer>
+
+    </div>
+
+  </div>
+
+  <!-- Product Deep Dive Modal -->
+  <div id="product-deepdive-modal" class="modal-overlay">
+    <div class="modal-container" style="max-width: 720px; max-height: 85vh; overflow-y: auto;">
+      <button id="modal-close-btn" class="modal-close-btn">&times;</button>
+      <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem;">
+        <span class="section-tag" style="margin-bottom: 0;">Station Architecture</span>
+        <h3 id="modal-station-title" style="font-size: 1.4rem; color: #fff;">Station Specifications</h3>
+      </div>
+      <div id="modal-station-body">
+        <!-- Injected via JavaScript -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Factory Scripts -->
+  <script src="js/factory3d/stationsData.js"></script>
+  <script src="js/factory3d/factoryScene.js"></script>
+  <script src="js/factory3d/robotGuide.js"></script>
+  <script src="js/factory3d/factoryHUD.js"></script>
+
+</body>
+</html>
