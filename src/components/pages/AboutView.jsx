@@ -19,9 +19,31 @@ import {
   Zap
 } from 'lucide-react';
 import { ATPL_COMPANY_INFO, ATPL_CLIENTS } from '../../data/initialAdminData';
+import { ClientLogo } from '../common/ClientBrandLogos';
 
 export const AboutView = () => {
   const { openDemoModal, setCurrentView } = useApp();
+  const [activeTopic, setActiveTopic] = useState('all');
+
+  const topics = [
+    { id: 'all', label: 'All Company Info' },
+    { id: 'vision-mission', label: 'Vision & Mission' },
+    { id: 'case-studies', label: 'Case Studies & Impact' },
+    { id: 'enterprise-roster', label: 'Enterprise Roster (250+)' },
+    { id: 'offices-branches', label: 'Offices & R&D Hubs' }
+  ];
+
+  const scrollToSection = (id) => {
+    setActiveTopic(id);
+    if (id === 'all') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+  };
 
   const offices = [
     {
@@ -77,13 +99,44 @@ export const AboutView = () => {
           <h1 style={{ fontSize: '2.6rem', color: '#ffffff', marginBottom: '1rem', fontWeight: 800 }}>
             Target Perfection. <span className="gradient-text">Powering Digital Transformation.</span>
           </h1>
-          <p style={{ color: '#94a3b8', fontSize: '1.05rem', lineHeight: 1.65 }}>
+          <p style={{ color: '#94a3b8', fontSize: '1.05rem', lineHeight: 1.65, marginBottom: '2.25rem' }}>
             Founded by industry veterans with 35+ years of combined experience in AIDC, IIoT, and enterprise software. Operating 6 branches across India with 7+ years of consistent, bootstrapped corporate growth.
           </p>
+
+          {/* Submenu Topic Pills */}
+          <div style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: '0.65rem',
+            justifyContent: 'center',
+            maxWidth: '900px',
+            margin: '0 auto'
+          }}>
+            {topics.map(t => (
+              <button
+                key={t.id}
+                onClick={() => scrollToSection(t.id)}
+                style={{
+                  backgroundColor: activeTopic === t.id ? '#0071ba' : 'rgba(255, 255, 255, 0.05)',
+                  border: activeTopic === t.id ? '2px solid #0071ba' : '1px solid rgba(255, 255, 255, 0.15)',
+                  color: '#ffffff',
+                  padding: '0.55rem 1.15rem',
+                  borderRadius: '10px',
+                  fontSize: '0.88rem',
+                  fontWeight: activeTopic === t.id ? 700 : 500,
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                  boxShadow: activeTopic === t.id ? '0 4px 15px rgba(0, 113, 186, 0.4)' : 'none'
+                }}
+              >
+                {t.label}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Vision & Mission Grid (Official from Pitch Deck) */}
-        <div className="grid-2" style={{ gap: '2rem', marginBottom: '4rem' }}>
+        <div id="vision-mission" className="grid-2" style={{ gap: '2rem', marginBottom: '4rem', marginTop: '2.5rem', scrollMarginTop: '6rem' }}>
           <div className="glass-card" style={{ padding: '2.5rem', borderLeft: '4px solid var(--cyan-primary)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
               <div style={{ width: '42px', height: '42px', borderRadius: '8px', background: 'rgba(0, 240, 255, 0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -159,7 +212,7 @@ export const AboutView = () => {
         </div>
 
         {/* Real Customer Case Studies */}
-        <div style={{ marginBottom: '4rem' }}>
+        <div id="case-studies" style={{ marginBottom: '4rem', scrollMarginTop: '6rem' }}>
           <div style={{ textAlign: 'center', maxWidth: '700px', margin: '0 auto 2.5rem auto' }}>
             <div className="badge badge-cyan" style={{ marginBottom: '0.5rem' }}>PROVEN BUSINESS IMPACT</div>
             <h2 style={{ fontSize: '2rem', color: '#ffffff', fontWeight: 800 }}>
@@ -181,45 +234,60 @@ export const AboutView = () => {
         </div>
 
         {/* Marquee Clients Showcase (From Pitch Deck) */}
-        <div className="glass-card" style={{ padding: '3rem', marginBottom: '4rem' }}>
-          <div style={{ textAlign: 'center', maxWidth: '700px', margin: '0 auto 2rem auto' }}>
-            <div className="badge badge-cyan" style={{ marginBottom: '0.5rem' }}>ENTERPRISE ROSTER</div>
-            <h3 style={{ fontSize: '1.8rem', color: '#ffffff', fontWeight: 800 }}>
+        <div id="enterprise-roster" className="glass-card" style={{ padding: '3.5rem 2.5rem', marginBottom: '4rem', background: 'rgba(10, 20, 38, 0.9)', scrollMarginTop: '6rem' }}>
+          <div style={{ textAlign: 'center', maxWidth: '750px', margin: '0 auto 2.5rem auto' }}>
+            <div className="badge badge-cyan" style={{ marginBottom: '0.75rem' }}>ENTERPRISE ROSTER</div>
+            <h3 style={{ fontSize: '2.2rem', color: '#ffffff', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: '0.5rem' }}>
               Trusted by 250+ Industry Leaders
             </h3>
-            <p style={{ color: '#94a3b8', fontSize: '0.9rem' }}>
-              Deploys across automotive, steel, FMCG, healthcare, defense, and electronics manufacturing.
+            <p style={{ color: '#94a3b8', fontSize: '0.98rem', lineHeight: 1.6 }}>
+              Powering zero-defect operations across automotive, steel, FMCG, healthcare, defense, and electronics manufacturing conglomerates.
             </p>
           </div>
 
           <div style={{
-            display: 'flex',
-            flexWrap: 'wrap',
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(175px, 1fr))',
+            gap: '1rem',
             alignItems: 'center',
-            justifyContent: 'center',
-            gap: '0.75rem'
+            justifyContent: 'center'
           }}>
             {ATPL_CLIENTS.map((client, idx) => (
-              <span
+              <div
                 key={idx}
                 style={{
-                  backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                  border: '1px solid rgba(255, 255, 255, 0.1)',
-                  padding: '0.45rem 0.85rem',
-                  borderRadius: '8px',
-                  color: '#e2e8f0',
-                  fontSize: '0.82rem',
-                  fontWeight: 600
+                  backgroundColor: '#ffffff',
+                  border: '1px solid rgba(255, 255, 255, 0.15)',
+                  borderRadius: '10px',
+                  padding: '0.85rem 0.75rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  minHeight: '62px',
+                  boxShadow: '0 4px 15px rgba(0, 0, 0, 0.25)',
+                  transition: 'all 0.25s ease',
+                  cursor: 'pointer'
                 }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-3px) scale(1.02)';
+                  e.currentTarget.style.boxShadow = '0 10px 25px rgba(0, 113, 186, 0.4)';
+                  e.currentTarget.style.borderColor = '#38bdf8';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                  e.currentTarget.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.25)';
+                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.15)';
+                }}
+                title={client}
               >
-                {client}
-              </span>
+                <ClientLogo clientName={client} height={24} />
+              </div>
             ))}
           </div>
         </div>
 
         {/* Pan-India Presence */}
-        <div className="glass-card" style={{ padding: '3rem', background: 'rgba(8, 17, 34, 0.85)', marginBottom: '4rem' }}>
+        <div id="offices-branches" className="glass-card" style={{ padding: '3rem', background: 'rgba(8, 17, 34, 0.85)', marginBottom: '4rem', scrollMarginTop: '6rem' }}>
           <div style={{ textAlign: 'center', maxWidth: '700px', margin: '0 auto 2.5rem auto' }}>
             <div className="badge badge-cyan" style={{ marginBottom: '0.5rem' }}>6 BRANCHES NATIONWIDE</div>
             <h3 style={{ fontSize: '2rem', color: '#ffffff', marginBottom: '0.5rem' }}>

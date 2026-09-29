@@ -189,6 +189,54 @@ export const Footer = () => {
               </div>
             </div>
 
+            {/* Direct WhatsApp Quick Hub */}
+            <div style={{
+              backgroundColor: 'rgba(37, 211, 102, 0.08)',
+              border: '1px solid rgba(37, 211, 102, 0.3)',
+              borderRadius: '10px',
+              padding: '1rem',
+              marginBottom: '1.25rem'
+            }}>
+              <div style={{ fontSize: '0.78rem', color: '#25D366', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '0.65rem' }}>
+                💬 Direct WhatsApp Support
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem' }}>
+                <a
+                  href="https://wa.me/916380859963?text=Hello%20ATPL%20Sales%20Team%2C%20I%20would%20like%20to%20inquire%20about%20Industry%204.0%20solutions."
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{ color: '#ffffff', textDecoration: 'none', fontSize: '0.84rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0.45rem 0.65rem', borderRadius: '6px', backgroundColor: 'rgba(255, 255, 255, 0.06)', transition: 'background 0.2s ease' }}
+                >
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
+                    <span>🟢</span> <strong>Sales Support</strong>
+                  </span>
+                  <span style={{ color: '#25D366', fontWeight: 700 }}>➔</span>
+                </a>
+                <a
+                  href="https://wa.me/919342173484?text=Hello%20ATPL%20Software%20Support%2C%20I%20need%20assistance%20with%20WMS%20%2F%20Traceability%20software."
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{ color: '#ffffff', textDecoration: 'none', fontSize: '0.84rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0.45rem 0.65rem', borderRadius: '6px', backgroundColor: 'rgba(255, 255, 255, 0.06)', transition: 'background 0.2s ease' }}
+                >
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
+                    <span>💻</span> <strong>Software Support</strong>
+                  </span>
+                  <span style={{ color: '#25D366', fontWeight: 700 }}>➔</span>
+                </a>
+                <a
+                  href="https://wa.me/917200157626?text=Hello%20ATPL%20Field%20Service%2C%20I%20need%20urgent%20AMC%20maintenance%20%2F%20service%20dispatch."
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{ color: '#ffffff', textDecoration: 'none', fontSize: '0.84rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0.45rem 0.65rem', borderRadius: '6px', backgroundColor: 'rgba(255, 255, 255, 0.06)', transition: 'background 0.2s ease' }}
+                >
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
+                    <span>🔧</span> <strong>Service & AMC Support</strong>
+                  </span>
+                  <span style={{ color: '#25D366', fontWeight: 700 }}>➔</span>
+                </a>
+              </div>
+            </div>
+
             <button
               onClick={() => handleNav('admin')}
               style={{

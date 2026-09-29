@@ -125,12 +125,14 @@ export const Navbar = ({ onOpenSearch }) => {
             <style>{`@media(min-width: 768px){ .top-banner-right { display: flex !important; } }`}</style>
             <span style={{ color: '#64748b' }}>ISO 9001:2015 & GS1 Certified</span>
             <span style={{ color: '#cbd5e1' }}>|</span>
-            <button
-              onClick={() => openDemoModal({ solution: 'Enterprise Consultation', notes: 'Inquiry from header prompt' })}
-              style={{ background: 'none', border: 'none', color: '#0f172a', fontWeight: 600, cursor: 'pointer', fontSize: '0.8rem' }}
+            <a
+              href="https://wa.me/916380859963?text=Hello%20ATPL%20Team%2C%20I%20would%20like%20to%20connect%20with%20your%20sales%20and%20engineering%20team."
+              target="_blank"
+              rel="noreferrer"
+              style={{ color: '#0071ba', fontWeight: 700, textDecoration: 'none', fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: '0.35rem' }}
             >
-              Support: +91 98765 43210
-            </button>
+              <span>💬 WhatsApp Support</span>
+            </a>
           </div>
         </div>
       </div>

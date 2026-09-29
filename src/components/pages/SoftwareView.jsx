@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import { 
   Boxes, 
@@ -21,6 +21,18 @@ import {
 
 export const SoftwareView = () => {
   const { openDemoModal } = useApp();
+  const [activeCategory, setActiveCategory] = useState('all');
+
+  const categories = [
+    { id: 'all', label: 'All Software Suites' },
+    { id: 'store', label: 'PERFECT STORE™ (WMS)' },
+    { id: 'trace', label: 'PERFECT TRACE™' },
+    { id: 'vision', label: 'PERFECT AI VISION™' },
+    { id: 'mdm', label: 'PERFECTEDGE MDM™' },
+    { id: 'labeler', label: 'PERFECT LABELER™' },
+    { id: 'audit', label: 'PERFECT AUDIT™' },
+    { id: 'solvedge', label: 'PERFECT SOLVEDGE™' }
+  ];
 
   const softwareProducts = [
     {
@@ -137,12 +149,16 @@ export const SoftwareView = () => {
     }
   ];
 
+  const filteredProducts = activeCategory === 'all'
+    ? softwareProducts
+    : softwareProducts.filter(p => p.id === activeCategory);
+
   return (
     <div className="section" style={{ paddingTop: '4rem' }}>
       <div className="container">
         
         {/* Page Header */}
-        <div style={{ textAlign: 'center', maxWidth: '820px', margin: '0 auto 3.5rem auto' }}>
+        <div style={{ textAlign: 'center', maxWidth: '820px', margin: '0 auto 2.5rem auto' }}>
           <div className="badge badge-cyan" style={{ marginBottom: '0.75rem' }}>
             <Sparkles size={14} />
             <span>PROPRIETARY INDUSTRIAL SOFTWARE SUITE</span>
@@ -150,14 +166,45 @@ export const SoftwareView = () => {
           <h1 style={{ fontSize: '2.6rem', color: '#ffffff', marginBottom: '1rem', fontWeight: 800 }}>
             Enterprise Software for <span className="gradient-text">Connected Smart Factories</span>
           </h1>
-          <p style={{ color: '#94a3b8', fontSize: '1.02rem', lineHeight: 1.65 }}>
+          <p style={{ color: '#94a3b8', fontSize: '1.02rem', lineHeight: 1.65, marginBottom: '2.25rem' }}>
             Archery Technocrats builds robust, deterministic software suites bridging physical factory machinery with enterprise ERP clouds to deliver 100% data fidelity and audit compliance.
           </p>
+
+          {/* Submenu Topic Pills */}
+          <div style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: '0.65rem',
+            justifyContent: 'center',
+            maxWidth: '960px',
+            margin: '0 auto'
+          }}>
+            {categories.map(cat => (
+              <button
+                key={cat.id}
+                onClick={() => setActiveCategory(cat.id)}
+                style={{
+                  backgroundColor: activeCategory === cat.id ? '#0071ba' : 'rgba(255, 255, 255, 0.05)',
+                  border: activeCategory === cat.id ? '2px solid #0071ba' : '1px solid rgba(255, 255, 255, 0.15)',
+                  color: '#ffffff',
+                  padding: '0.55rem 1.15rem',
+                  borderRadius: '10px',
+                  fontSize: '0.88rem',
+                  fontWeight: activeCategory === cat.id ? 700 : 500,
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                  boxShadow: activeCategory === cat.id ? '0 4px 15px rgba(0, 113, 186, 0.4)' : 'none'
+                }}
+              >
+                {cat.label}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Software Cards */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem', marginBottom: '4rem' }}>
-          {softwareProducts.map((prod) => {
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem', marginBottom: '4rem', marginTop: '2.5rem' }}>
+          {filteredProducts.map((prod) => {
             const Icon = prod.icon;
             return (
               <div

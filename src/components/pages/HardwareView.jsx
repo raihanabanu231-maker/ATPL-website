@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import { 
   Radio, 
@@ -18,6 +18,18 @@ import {
 
 export const HardwareView = () => {
   const { openDemoModal } = useApp();
+  const [activeCategory, setActiveCategory] = useState('all');
+
+  const categories = [
+    { id: 'all', label: 'All Hardware' },
+    { id: 'rfid', label: 'RFID Portals & Gates' },
+    { id: 'scanners', label: '2D & DPM Scanners' },
+    { id: 'printers', label: 'Thermal & RFID Printers' },
+    { id: 'handhelds', label: 'Rugged Mobile PDA/EDA' },
+    { id: 'vision', label: 'Vision AI Cameras' },
+    { id: 'labeler', label: 'Print & Apply Systems' },
+    { id: 'automation', label: 'Conveyor & Reject Gates' }
+  ];
 
   const hardwareLines = [
     {
@@ -120,12 +132,16 @@ export const HardwareView = () => {
     }
   ];
 
+  const filteredHardware = activeCategory === 'all'
+    ? hardwareLines
+    : hardwareLines.filter(h => h.id === activeCategory);
+
   return (
     <div className="section" style={{ paddingTop: '4rem' }}>
       <div className="container">
         
         {/* Header */}
-        <div style={{ textAlign: 'center', maxWidth: '850px', margin: '0 auto 3.5rem auto' }}>
+        <div style={{ textAlign: 'center', maxWidth: '850px', margin: '0 auto 2.5rem auto' }}>
           <div className="badge badge-cyan" style={{ marginBottom: '0.75rem' }}>
             <Sparkles size={14} />
             <span>INDUSTRIAL AIDC & SENSOR HARDWARE</span>
@@ -133,14 +149,45 @@ export const HardwareView = () => {
           <h1 style={{ fontSize: '2.6rem', color: '#ffffff', marginBottom: '1rem', fontWeight: 800 }}>
             Rugged Hardware Built for <span className="gradient-text">Demanding Factory Floors</span>
           </h1>
-          <p style={{ color: '#94a3b8', fontSize: '1.02rem', lineHeight: 1.65 }}>
+          <p style={{ color: '#94a3b8', fontSize: '1.02rem', lineHeight: 1.65, marginBottom: '2.25rem' }}>
             Archery Technocrats designs, sources, and commissions enterprise-grade AIDC hardware engineered for 24/7 reliability in automotive foundries, sterile pharmaceutical cleanrooms, and high-velocity fulfillment centers.
           </p>
+
+          {/* Submenu Topic Pills */}
+          <div style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: '0.65rem',
+            justifyContent: 'center',
+            maxWidth: '900px',
+            margin: '0 auto'
+          }}>
+            {categories.map(cat => (
+              <button
+                key={cat.id}
+                onClick={() => setActiveCategory(cat.id)}
+                style={{
+                  backgroundColor: activeCategory === cat.id ? '#0071ba' : 'rgba(255, 255, 255, 0.05)',
+                  border: activeCategory === cat.id ? '2px solid #0071ba' : '1px solid rgba(255, 255, 255, 0.15)',
+                  color: '#ffffff',
+                  padding: '0.55rem 1.15rem',
+                  borderRadius: '10px',
+                  fontSize: '0.88rem',
+                  fontWeight: activeCategory === cat.id ? 700 : 500,
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                  boxShadow: activeCategory === cat.id ? '0 4px 15px rgba(0, 113, 186, 0.4)' : 'none'
+                }}
+              >
+                {cat.label}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Hardware Grid */}
-        <div className="grid-3" style={{ gap: '2rem', marginBottom: '4rem' }}>
-          {hardwareLines.map(hw => {
+        <div className="grid-3" style={{ gap: '2rem', marginBottom: '4rem', marginTop: '2.5rem' }}>
+          {filteredHardware.map(hw => {
             const Icon = hw.icon;
             return (
               <div

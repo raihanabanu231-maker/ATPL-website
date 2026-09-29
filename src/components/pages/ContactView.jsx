@@ -5,6 +5,31 @@ import confetti from 'canvas-confetti';
 
 export const ContactView = () => {
   const { addLead, siteSettings, setCurrentView } = useApp();
+  const [activeTopic, setActiveTopic] = useState('demo');
+
+  const topics = [
+    { id: 'demo', label: '✨ 3D Plant Demo', solution: '3D Smart Factory & Robotics Tour' },
+    { id: 'hardware', label: '🏷️ Hardware & RFID RFQ', solution: 'UHF RFID Portals & Scanners' },
+    { id: 'software', label: '💻 Software & WMS Suite', solution: 'Perfect Store™ WMS & Serialization' },
+    { id: 'amc', label: '🔧 24/7 AMC Support Desk', solution: 'Emergency Field AMC & Service' },
+    { id: 'offices', label: '🏢 Corporate Offices', solution: null }
+  ];
+
+  const handleTopicClick = (topic) => {
+    setActiveTopic(topic.id);
+    if (topic.id === 'offices') {
+      const el = document.getElementById('contact-offices');
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    } else if (topic.solution) {
+      setFormData(prev => ({ ...prev, solution: topic.solution }));
+      const el = document.getElementById('contact-form');
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+  };
 
   const [formData, setFormData] = useState({
     name: '',
@@ -64,7 +89,7 @@ export const ContactView = () => {
       <div className="container">
         
         {/* Header */}
-        <div style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto 3.5rem auto' }}>
+        <div style={{ textAlign: 'center', maxWidth: '850px', margin: '0 auto 2.5rem auto' }}>
           <div className="badge badge-cyan" style={{ marginBottom: '0.75rem' }}>
             <Sparkles size={14} />
             <span>LET'S BUILD THE FUTURE TOGETHER</span>
@@ -72,16 +97,176 @@ export const ContactView = () => {
           <h1 style={{ fontSize: '2.5rem', color: '#ffffff', marginBottom: '1rem' }}>
             Connect with <span className="gradient-text">Our Automation Engineers</span>
           </h1>
-          <p style={{ color: '#94a3b8', fontSize: '1rem', lineHeight: 1.6 }}>
+          <p style={{ color: '#94a3b8', fontSize: '1rem', lineHeight: 1.6, marginBottom: '2.25rem' }}>
             Whether you are planning a new RFID-enabled warehouse, deploying AI vision inspection, or upgrading industrial barcode infrastructure, our experts are ready to assist.
           </p>
+
+          {/* Submenu Topic Pills */}
+          <div style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: '0.65rem',
+            justifyContent: 'center',
+            maxWidth: '900px',
+            margin: '0 auto 2.5rem auto'
+          }}>
+            {topics.map(t => (
+              <button
+                key={t.id}
+                onClick={() => handleTopicClick(t)}
+                style={{
+                  backgroundColor: activeTopic === t.id ? '#0071ba' : 'rgba(255, 255, 255, 0.05)',
+                  border: activeTopic === t.id ? '2px solid #0071ba' : '1px solid rgba(255, 255, 255, 0.15)',
+                  color: '#ffffff',
+                  padding: '0.55rem 1.15rem',
+                  borderRadius: '10px',
+                  fontSize: '0.88rem',
+                  fontWeight: activeTopic === t.id ? 700 : 500,
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                  boxShadow: activeTopic === t.id ? '0 4px 15px rgba(0, 113, 186, 0.4)' : 'none'
+                }}
+              >
+                {t.label}
+              </button>
+            ))}
+          </div>
+
+          {/* WhatsApp Direct Support Hub (Sales, Software, Service) */}
+          <div style={{
+            background: 'linear-gradient(135deg, rgba(37, 211, 102, 0.12) 0%, rgba(18, 140, 126, 0.12) 100%)',
+            border: '1.5px solid rgba(37, 211, 102, 0.4)',
+            borderRadius: '16px',
+            padding: '1.75rem 2rem',
+            maxWidth: '960px',
+            margin: '0 auto',
+            boxShadow: '0 10px 30px rgba(37, 211, 102, 0.1)'
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+              <span style={{ fontSize: '1.4rem' }}>💬</span>
+              <h3 style={{ color: '#ffffff', fontSize: '1.25rem', fontWeight: 800, margin: 0 }}>
+                Instant Departmental WhatsApp Direct Channels
+              </h3>
+            </div>
+            <p style={{ color: '#cbd5e1', fontSize: '0.9rem', marginBottom: '1.25rem' }}>
+              Connect directly with our dedicated technical & sales desks for instant WhatsApp assistance:
+            </p>
+
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+              gap: '1rem'
+            }}>
+              {/* 1. Sales Support */}
+              <a
+                href="https://wa.me/916380859963?text=Hello%20ATPL%20Sales%20Team%2C%20I%20would%20like%20to%20inquire%20about%20Industry%204.0%20hardware%2Fsoftware%20solutions%20and%20request%20a%20quotation."
+                target="_blank"
+                rel="noreferrer"
+                style={{
+                  backgroundColor: '#128C7E',
+                  color: '#ffffff',
+                  padding: '1.1rem 1.25rem',
+                  borderRadius: '12px',
+                  textDecoration: 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.85rem',
+                  transition: 'all 0.2s ease',
+                  boxShadow: '0 4px 14px rgba(18, 140, 126, 0.4)'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.backgroundColor = '#25D366';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.backgroundColor = '#128C7E';
+                }}
+              >
+                <span style={{ fontSize: '1.6rem' }}>💼</span>
+                <div style={{ textAlign: 'left' }}>
+                  <div style={{ fontWeight: 800, fontSize: '0.95rem' }}>Sales Support</div>
+                  <div style={{ fontSize: '0.78rem', opacity: 0.95 }}>WhatsApp: +91 63808 59963</div>
+                  <div style={{ fontSize: '0.72rem', opacity: 0.8 }}>RFQs & Quotations</div>
+                </div>
+              </a>
+
+              {/* 2. Software Support */}
+              <a
+                href="https://wa.me/919342173484?text=Hello%20ATPL%20Software%20Support%20Desk%2C%20I%20need%20technical%20assistance%20with%20Perfect%20Store%20WMS%20%2F%20Traceability%20%2F%20Vision%20AI%20software."
+                target="_blank"
+                rel="noreferrer"
+                style={{
+                  backgroundColor: '#0071ba',
+                  color: '#ffffff',
+                  padding: '1.1rem 1.25rem',
+                  borderRadius: '12px',
+                  textDecoration: 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.85rem',
+                  transition: 'all 0.2s ease',
+                  boxShadow: '0 4px 14px rgba(0, 113, 186, 0.4)'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.backgroundColor = '#005a96';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.backgroundColor = '#0071ba';
+                }}
+              >
+                <span style={{ fontSize: '1.6rem' }}>💻</span>
+                <div style={{ textAlign: 'left' }}>
+                  <div style={{ fontWeight: 800, fontSize: '0.95rem' }}>Software Support</div>
+                  <div style={{ fontSize: '0.78rem', opacity: 0.95 }}>WhatsApp: +91 93421 73484</div>
+                  <div style={{ fontSize: '0.72rem', opacity: 0.8 }}>WMS, Trace & AI Helpdesk</div>
+                </div>
+              </a>
+
+              {/* 3. Service & AMC Support */}
+              <a
+                href="https://wa.me/917200157626?text=Hello%20ATPL%20Field%20Service%20Desk%2C%20I%20need%20urgent%20AMC%20maintenance%20%2F%20engineer%20dispatch%20%2F%20hardware%20calibration%20support."
+                target="_blank"
+                rel="noreferrer"
+                style={{
+                  backgroundColor: '#b45309',
+                  color: '#ffffff',
+                  padding: '1.1rem 1.25rem',
+                  borderRadius: '12px',
+                  textDecoration: 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.85rem',
+                  transition: 'all 0.2s ease',
+                  boxShadow: '0 4px 14px rgba(180, 83, 9, 0.4)'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.backgroundColor = '#d97706';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.backgroundColor = '#b45309';
+                }}
+              >
+                <span style={{ fontSize: '1.6rem' }}>🔧</span>
+                <div style={{ textAlign: 'left' }}>
+                  <div style={{ fontWeight: 800, fontSize: '0.95rem' }}>Service & AMC Support</div>
+                  <div style={{ fontSize: '0.78rem', opacity: 0.95 }}>WhatsApp: +91 72001 57626</div>
+                  <div style={{ fontSize: '0.72rem', opacity: 0.8 }}>Emergency Field AMC</div>
+                </div>
+              </a>
+            </div>
+          </div>
         </div>
 
         {/* Contact Grid */}
-        <div className="grid-2" style={{ gap: '2.5rem', alignItems: 'flex-start' }}>
+        <div className="grid-2" style={{ gap: '2.5rem', alignItems: 'flex-start', marginTop: '2.5rem' }}>
           
           {/* Left: Contact Coordinates */}
-          <div className="glass-card" style={{ padding: '2.5rem' }}>
+          <div id="contact-offices" className="glass-card" style={{ padding: '2.5rem', scrollMarginTop: '6rem' }}>
             <h3 style={{ fontSize: '1.45rem', color: '#ffffff', marginBottom: '1.5rem' }}>Corporate Offices & Contact</h3>
 
             <div style={{ marginBottom: '1.5rem' }}>
@@ -114,22 +299,26 @@ export const ContactView = () => {
 
             <div style={{ marginBottom: '1.5rem' }}>
               <strong style={{ color: 'var(--cyan-primary)', display: 'block', marginBottom: '0.35rem' }}>
-                📞 Telephone & Toll Free
+                📞 Departmental Phone & Mobile Desks
               </strong>
-              <p style={{ color: '#cbd5e1', fontSize: '0.9rem', lineHeight: 1.6 }}>
-                <strong>Toll Free:</strong> <a href="tel:1800120774777" style={{ color: '#38bdf8' }}>1800-120-774777</a><br />
-                <strong>Direct Line:</strong> 044-35537618, +91 9944735993
-              </p>
+              <div style={{ color: '#cbd5e1', fontSize: '0.9rem', lineHeight: 1.6 }}>
+                <div><strong>Toll Free:</strong> <a href="tel:1800120774777" style={{ color: '#38bdf8' }}>1800-120-774777</a></div>
+                <div><strong>Landline:</strong> 044 3553 7618</div>
+                <div><strong>Sales Mobile:</strong> <a href="tel:+916380859963" style={{ color: '#34d399' }}>+91 63808 59963</a></div>
+                <div><strong>Software Mobile:</strong> <a href="tel:+919342173484" style={{ color: '#38bdf8' }}>+91 93421 73484</a></div>
+                <div><strong>Service Mobile:</strong> <a href="tel:+917200157626" style={{ color: '#f59e0b' }}>+91 72001 57626</a></div>
+              </div>
             </div>
 
             <div style={{ marginBottom: '1.75rem' }}>
               <strong style={{ color: 'var(--cyan-primary)', display: 'block', marginBottom: '0.35rem' }}>
-                📧 Official Inquiries
+                📧 Official Departmental Emails
               </strong>
-              <p style={{ color: '#cbd5e1', fontSize: '0.9rem', lineHeight: 1.6 }}>
-                General: <a href="mailto:info@atplgroup.com" style={{ color: 'var(--cyan-primary)' }}>info@atplgroup.com</a><br />
-                Sales & RFQs: <a href="mailto:sales@atplgroup.com" style={{ color: 'var(--cyan-primary)' }}>sales@atplgroup.com</a>
-              </p>
+              <div style={{ color: '#cbd5e1', fontSize: '0.9rem', lineHeight: 1.6 }}>
+                <div><strong>Sales:</strong> <a href="mailto:sales@atplgroup.com" style={{ color: 'var(--cyan-primary)' }}>sales@atplgroup.com</a></div>
+                <div><strong>Software Support:</strong> <a href="mailto:softwaresupport@atplgroup.com" style={{ color: 'var(--cyan-primary)' }}>softwaresupport@atplgroup.com</a></div>
+                <div><strong>Service Desk:</strong> <a href="mailto:support@atplgroup.com" style={{ color: 'var(--cyan-primary)' }}>support@atplgroup.com</a></div>
+              </div>
             </div>
 
             <div style={{ background: 'rgba(0,240,255,0.06)', padding: '1.25rem', borderRadius: '12px', border: '1px solid rgba(0,240,255,0.25)' }}>
@@ -152,7 +341,7 @@ export const ContactView = () => {
           </div>
 
           {/* Right: Inquiry Form */}
-          <div className="glass-card" style={{ padding: '2.5rem' }}>
+          <div id="contact-form" className="glass-card" style={{ padding: '2.5rem', scrollMarginTop: '6rem' }}>
             <h3 style={{ fontSize: '1.45rem', color: '#ffffff', marginBottom: '1.5rem' }}>Send Inquiry / Request PoC</h3>
 
             {isSuccess ? (

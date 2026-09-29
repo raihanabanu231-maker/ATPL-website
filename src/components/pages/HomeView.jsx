@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useApp } from '../../context/AppContext';
 import { FactoryBlueprintMap } from '../common/FactoryBlueprintMap';
 import { OfficialPartnersShowcase } from '../common/PartnerLogos';
+import { CLIENT_LOGOS_LIST, CERTIFICATION_BADGES_LIST } from '../common/ClientBrandLogos';
 import { 
   Boxes, 
   Cpu, 
@@ -1056,74 +1057,148 @@ export const HomeView = () => {
       </section>
 
       {/* Trust, Clients & OEM Partners Strip */}
-      <section style={{ padding: '4.5rem 0', backgroundColor: '#ffffff', borderTop: '1px solid #f1f5f9' }}>
+      <section style={{ padding: '5rem 0', backgroundColor: '#ffffff', borderTop: '1px solid #f1f5f9' }}>
         <div className="container" style={{ textAlign: 'center' }}>
-          <div style={{ fontSize: '0.78rem', fontWeight: 800, color: '#0071ba', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '1.25rem' }}>
+          
+          <div style={{
+            display: 'inline-block',
+            backgroundColor: '#eff6ff',
+            color: '#0071ba',
+            border: '1px solid #bfdbfe',
+            padding: '0.35rem 1rem',
+            borderRadius: '999px',
+            fontSize: '0.78rem',
+            fontWeight: 800,
+            textTransform: 'uppercase',
+            letterSpacing: '0.08em',
+            marginBottom: '1rem'
+          }}>
             TRUSTED BY 250+ ENTERPRISE MANUFACTURING LEADERS
           </div>
 
+          <h3 style={{
+            fontSize: '1.8rem',
+            fontWeight: 800,
+            color: '#0f172a',
+            marginBottom: '2.5rem',
+            letterSpacing: '-0.02em'
+          }}>
+            Powering Shopfloors Across Global Giants & Indian Conglomerates
+          </h3>
+
+          {/* Client Logos Grid */}
           <div style={{
-            display: 'flex',
-            flexWrap: 'wrap',
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(190px, 1fr))',
+            gap: '1rem',
             alignItems: 'center',
             justifyContent: 'center',
-            gap: '0.75rem',
-            marginBottom: '3.5rem',
-            maxWidth: '1000px',
-            margin: '0 auto 3.5rem auto'
+            maxWidth: '1140px',
+            margin: '0 auto 4rem auto'
           }}>
-            {[
-              'Ola Electric FutureFactory', 'Bosch Automotive Electronics', 'JSW Steel Limited', 
-              'Caplin Point Laboratories', 'Ashok Leyland', 'Dixon Technologies', 'Dell', 
-              'Larsen & Toubro (L&T)', 'ABB', 'Hatsun Dairy', 'Hindustan Unilever (HUL)', 
-              'Apollo Tyres', 'Titan', 'Bharat Electronics (BEL)', 'Tenneco', 'JK Fenner'
-            ].map((client, idx) => (
-              <span 
-                key={idx}
-                style={{
-                  backgroundColor: '#f8fafc',
-                  border: '1.5px solid #e2e8f0',
-                  borderRadius: '10px',
-                  padding: '0.6rem 1.15rem',
-                  fontSize: '0.88rem',
-                  fontWeight: 700,
-                  color: '#0f172a',
-                  boxShadow: '0 2px 6px rgba(0, 0, 0, 0.04)'
-                }}
-              >
-                {client}
-              </span>
-            ))}
+            {CLIENT_LOGOS_LIST.map((client) => {
+              const LogoComp = client.component;
+              return (
+                <div 
+                  key={client.id}
+                  style={{
+                    backgroundColor: '#ffffff',
+                    border: '1.5px solid #e2e8f0',
+                    borderRadius: '12px',
+                    padding: '1rem 0.85rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    minHeight: '68px',
+                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.03)',
+                    transition: 'all 0.25s ease',
+                    cursor: 'default'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-3px)';
+                    e.currentTarget.style.boxShadow = '0 10px 20px rgba(0, 113, 186, 0.15)';
+                    e.currentTarget.style.borderColor = '#0071ba';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.03)';
+                    e.currentTarget.style.borderColor = '#e2e8f0';
+                  }}
+                  title={client.name}
+                >
+                  <LogoComp height={26} />
+                </div>
+              );
+            })}
           </div>
 
-          <div style={{ fontSize: '0.78rem', fontWeight: 800, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '1.75rem' }}>
+          <div style={{
+            display: 'inline-block',
+            backgroundColor: '#f8fafc',
+            color: '#475569',
+            border: '1px solid #cbd5e1',
+            padding: '0.35rem 1rem',
+            borderRadius: '999px',
+            fontSize: '0.78rem',
+            fontWeight: 800,
+            textTransform: 'uppercase',
+            letterSpacing: '0.08em',
+            marginBottom: '1rem'
+          }}>
             STANDARDS, CERTIFICATIONS & OEM ALLIANCES
           </div>
 
-          <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', gap: '1.5rem' }}>
-            {[
-              { name: 'ISO 9001:2015', sub: 'BMQR Quality Management Certified', color: '#0071ba' },
-              { name: '#startupindia', sub: 'DPIIT Section 80-IAC Certified', color: '#009a44' },
-              { name: 'Honeywell Gold Partner', sub: 'Go Getter Award Winner', color: '#f59e0b' },
-              { name: 'TSC Rising Star', sub: '2026 Premier Alliance', color: '#e42528' },
-              { name: 'GS1 GLOBAL', sub: 'Certified Solution Partner', color: '#009a44' }
-            ].map((cert, idx) => (
-              <div 
-                key={idx}
-                style={{
-                  backgroundColor: '#ffffff',
-                  border: '1.5px solid #e2e8f0',
-                  borderRadius: '12px',
-                  padding: '1.25rem 1.6rem',
-                  textAlign: 'center',
-                  minWidth: '190px',
-                  boxShadow: '0 4px 15px rgba(0, 0, 0, 0.05)'
-                }}
-              >
-                <div style={{ color: cert.color, fontWeight: 800, fontSize: '1.02rem' }}>{cert.name}</div>
-                <div style={{ color: '#64748b', fontSize: '0.78rem', marginTop: '4px', fontWeight: 500 }}>{cert.sub}</div>
-              </div>
-            ))}
+          <h3 style={{
+            fontSize: '1.6rem',
+            fontWeight: 800,
+            color: '#0f172a',
+            marginBottom: '2rem',
+            letterSpacing: '-0.02em'
+          }}>
+            Government & Global Regulatory Compliance
+          </h3>
+
+          {/* Certification Badges */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(210px, 1fr))',
+            gap: '1.25rem',
+            maxWidth: '1140px',
+            margin: '0 auto'
+          }}>
+            {CERTIFICATION_BADGES_LIST.map((cert) => {
+              const CertComp = cert.component;
+              return (
+                <div 
+                  key={cert.id}
+                  style={{
+                    backgroundColor: '#ffffff',
+                    border: '1.5px solid #e2e8f0',
+                    borderRadius: '14px',
+                    padding: '1.15rem 1.25rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    minHeight: '75px',
+                    boxShadow: '0 4px 14px rgba(0, 0, 0, 0.04)',
+                    transition: 'all 0.25s ease'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-3px)';
+                    e.currentTarget.style.boxShadow = '0 10px 22px rgba(0, 0, 0, 0.08)';
+                    e.currentTarget.style.borderColor = '#0071ba';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = '0 4px 14px rgba(0, 0, 0, 0.04)';
+                    e.currentTarget.style.borderColor = '#e2e8f0';
+                  }}
+                  title={cert.name}
+                >
+                  <CertComp height={34} />
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>

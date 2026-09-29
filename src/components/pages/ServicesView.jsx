@@ -23,6 +23,27 @@ import {
 export const ServicesView = () => {
   const { openDemoModal } = useApp();
   const [activeFaq, setActiveFaq] = useState(null);
+  const [activeTopic, setActiveTopic] = useState('all');
+
+  const topics = [
+    { id: 'all', label: 'All Services & AMC' },
+    { id: 'amc-tiers', label: 'Structured AMC Tiers' },
+    { id: 'quick-dispatch', label: 'Urgent Dispatch & SLA' },
+    { id: 'scope', label: 'Comprehensive Engineering Scope' },
+    { id: 'faqs', label: 'AMC FAQs' }
+  ];
+
+  const scrollToSection = (id) => {
+    setActiveTopic(id);
+    if (id === 'all') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+  };
 
   const faqs = [
     {
@@ -56,15 +77,47 @@ export const ServicesView = () => {
           <h1 style={{ fontSize: '2.6rem', color: '#ffffff', marginBottom: '1rem', fontWeight: 800 }}>
             Guaranteed SLAs & <span className="gradient-text">24/7 Engineering Field Services</span>
           </h1>
-          <p style={{ color: '#94a3b8', fontSize: '1.02rem', lineHeight: 1.65 }}>
+          <p style={{ color: '#94a3b8', fontSize: '1.02rem', lineHeight: 1.65, marginBottom: '2.25rem' }}>
             In high-throughput manufacturing and logistics, unplanned downtime is not an option. Archery Technocrats provides comprehensive, SLA-backed Annual Maintenance Contracts (AMC) to ensure 99.9% uptime for your AIDC hardware, optical vision, and software ecosystems.
           </p>
+
+          {/* Submenu Topic Pills */}
+          <div style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: '0.65rem',
+            justifyContent: 'center',
+            maxWidth: '920px',
+            margin: '0 auto'
+          }}>
+            {topics.map(t => (
+              <button
+                key={t.id}
+                onClick={() => scrollToSection(t.id)}
+                style={{
+                  backgroundColor: activeTopic === t.id ? '#0071ba' : 'rgba(255, 255, 255, 0.05)',
+                  border: activeTopic === t.id ? '2px solid #0071ba' : '1px solid rgba(255, 255, 255, 0.15)',
+                  color: '#ffffff',
+                  padding: '0.55rem 1.15rem',
+                  borderRadius: '10px',
+                  fontSize: '0.88rem',
+                  fontWeight: activeTopic === t.id ? 700 : 500,
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                  boxShadow: activeTopic === t.id ? '0 4px 15px rgba(0, 113, 186, 0.4)' : 'none'
+                }}
+              >
+                {t.label}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Quick Service Request Action Strip */}
-        <div className="glass-card" style={{
+        <div id="quick-dispatch" className="glass-card" style={{
           padding: '1.75rem 2.5rem',
           marginBottom: '4rem',
+          marginTop: '2.5rem',
           background: 'linear-gradient(90deg, rgba(0, 114, 255, 0.15) 0%, rgba(0, 240, 255, 0.1) 100%)',
           border: '1px solid rgba(0, 240, 255, 0.35)',
           display: 'flex',
@@ -93,20 +146,20 @@ export const ServicesView = () => {
               <span>Raise Service Ticket ➔</span>
             </button>
             <a
-              href="https://wa.me/919876543210?text=Hello%20ATPL%20Support%2C%20I%20need%20AMC%20Service%20Support."
+              href="https://wa.me/917200157626?text=Hello%20ATPL%20Field%20Service%20Desk%2C%20I%20need%20urgent%20AMC%20maintenance%20%2F%20service%20dispatch."
               target="_blank"
               rel="noreferrer"
               className="btn btn-secondary"
               style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}
             >
               <PhoneCall size={16} color="#34d399" />
-              <span>WhatsApp Support</span>
+              <span>WhatsApp Service Desk</span>
             </a>
           </div>
         </div>
 
         {/* SLA Tiers Grid */}
-        <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
+        <div id="amc-tiers" style={{ textAlign: 'center', marginBottom: '2.5rem', scrollMarginTop: '6rem' }}>
           <div className="badge badge-emerald" style={{ marginBottom: '0.5rem' }}>STRUCTURED AMC TIERS</div>
           <h2 style={{ fontSize: '2rem', color: '#ffffff' }}>Choose the Right SLA Coverage for Your Plant</h2>
         </div>
@@ -255,7 +308,7 @@ export const ServicesView = () => {
         </div>
 
         {/* What AMC Covers */}
-        <div className="glass-card" style={{ padding: '3rem', background: 'rgba(8, 16, 32, 0.85)', marginBottom: '4rem' }}>
+        <div id="scope" className="glass-card" style={{ padding: '3rem', background: 'rgba(8, 16, 32, 0.85)', marginBottom: '4rem', scrollMarginTop: '6rem' }}>
           <div style={{ textAlign: 'center', maxWidth: '700px', margin: '0 auto 2.5rem auto' }}>
             <h3 style={{ fontSize: '1.8rem', color: '#ffffff', marginBottom: '0.5rem' }}>
               Comprehensive Scope of ATPL Field Maintenance
@@ -315,7 +368,7 @@ export const ServicesView = () => {
         </div>
 
         {/* FAQs */}
-        <div style={{ maxWidth: '850px', margin: '0 auto' }}>
+        <div id="faqs" style={{ maxWidth: '850px', margin: '0 auto', scrollMarginTop: '6rem' }}>
           <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
             <h3 style={{ fontSize: '1.8rem', color: '#ffffff' }}>Frequently Asked Questions About AMC</h3>
           </div>

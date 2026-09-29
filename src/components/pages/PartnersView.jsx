@@ -36,9 +36,19 @@ import {
 
 export const PartnersView = () => {
   const { openDemoModal, setCurrentView } = useApp();
+  const [activeCategory, setActiveCategory] = useState('all');
+
+  const categories = [
+    { id: 'all', label: 'All Alliances' },
+    { id: 'aidc', label: 'AIDC & RFID OEMs' },
+    { id: 'automation', label: 'Robotics & Laser Traceability' },
+    { id: 'mdm', label: 'Enterprise MDM & Software' },
+    { id: 'cert', label: 'Government & GS1 Standards' }
+  ];
 
   const partnerCategories = [
     {
+      id: 'aidc',
       category: 'Global AIDC, Barcode & RFID OEM Alliances',
       icon: Radio,
       color: '#0071ba',
@@ -95,6 +105,7 @@ export const PartnersView = () => {
       ]
     },
     {
+      id: 'automation',
       category: 'Industrial Automation, Robotics & Traceability Alliances',
       icon: Cpu,
       color: '#E85874',
@@ -163,7 +174,16 @@ export const PartnersView = () => {
           focus: 'Automated Conveyor Transfers, Pallet Handling & Shopfloor Racks',
           badge: 'Plant Logistics',
           logoComp: RaiserLogo
-        },
+        }
+      ]
+    },
+    {
+      id: 'mdm',
+      category: 'Enterprise MDM & Mobility Alliances',
+      icon: Layers,
+      color: '#0284c7',
+      desc: 'Centralized mobile device management and frontline handheld support alliances.',
+      partners: [
         {
           id: 'soti',
           name: 'SOTI MobiControl',
@@ -175,6 +195,7 @@ export const PartnersView = () => {
       ]
     },
     {
+      id: 'cert',
       category: 'Standards & Regulatory Certifications',
       icon: ShieldCheck,
       color: '#009a44',
@@ -204,6 +225,10 @@ export const PartnersView = () => {
       ]
     }
   ];
+
+  const filteredCategories = activeCategory === 'all'
+    ? partnerCategories
+    : partnerCategories.filter(c => c.id === activeCategory);
 
   return (
     <div style={{ backgroundColor: '#060b14', color: '#ffffff', minHeight: '100vh', paddingBottom: '6rem' }}>
@@ -248,11 +273,42 @@ export const PartnersView = () => {
             color: '#94a3b8',
             fontSize: 'clamp(1.05rem, 2vw, 1.25rem)',
             maxWidth: '820px',
-            margin: '0 auto 2.5rem auto',
+            margin: '0 auto 2.25rem auto',
             lineHeight: 1.6
           }}>
             Partnering with world-class industrial hardware OEMs, GS1 international standards bodies, and Tier-1 ERP platforms to deliver certified end-to-end automation.
           </p>
+
+          {/* Submenu Topic Pills */}
+          <div style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: '0.65rem',
+            justifyContent: 'center',
+            maxWidth: '860px',
+            margin: '0 auto 2.25rem auto'
+          }}>
+            {categories.map(cat => (
+              <button
+                key={cat.id}
+                onClick={() => setActiveCategory(cat.id)}
+                style={{
+                  backgroundColor: activeCategory === cat.id ? '#0071ba' : 'rgba(255, 255, 255, 0.05)',
+                  border: activeCategory === cat.id ? '2px solid #0071ba' : '1px solid rgba(255, 255, 255, 0.15)',
+                  color: '#ffffff',
+                  padding: '0.55rem 1.15rem',
+                  borderRadius: '10px',
+                  fontSize: '0.88rem',
+                  fontWeight: activeCategory === cat.id ? 700 : 500,
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                  boxShadow: activeCategory === cat.id ? '0 4px 15px rgba(0, 113, 186, 0.4)' : 'none'
+                }}
+              >
+                {cat.label}
+              </button>
+            ))}
+          </div>
 
           <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
             <button
@@ -291,7 +347,7 @@ export const PartnersView = () => {
         <div className="container">
           
           <div style={{ display: 'flex', flexDirection: 'column', gap: '3.5rem' }}>
-            {partnerCategories.map((cat, cIdx) => {
+            {filteredCategories.map((cat, cIdx) => {
               const IconComp = cat.icon;
               return (
                 <div 
