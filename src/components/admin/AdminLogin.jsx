@@ -46,6 +46,9 @@ export const AdminLogin = () => {
         permissions: ['all_access', 'projects_publish', 'crm_manage', 'catalog_edit'],
         token: `ATPL-AUTH-${Date.now()}`
       }, rememberMe, 'projects', false);
+
+      // Open Official ATPL CRM Portal
+      window.location.href = 'https://perfectflow360.atplgroup.org';
     }, 450);
   };
 
@@ -65,6 +68,9 @@ export const AdminLogin = () => {
         permissions: ['all_access', 'projects_publish', 'crm_manage', 'catalog_edit'],
         token: `ATPL-AUTH-${Date.now()}`
       }, true, 'projects', false);
+
+      // Open Official ATPL CRM Portal
+      window.location.href = 'https://perfectflow360.atplgroup.org';
     }, 350);
   };
 
@@ -312,7 +318,7 @@ export const AdminLogin = () => {
             type="submit"
             disabled={isLoading}
             style={{
-              backgroundColor: '#0071ba',
+              backgroundColor: '#E85874',
               color: '#ffffff',
               border: 'none',
               borderRadius: '10px',
@@ -325,25 +331,38 @@ export const AdminLogin = () => {
               justifyContent: 'center',
               gap: '0.5rem',
               marginTop: '0.5rem',
-              boxShadow: '0 8px 25px rgba(0, 113, 186, 0.4)',
+              boxShadow: '0 8px 25px rgba(232, 88, 116, 0.4)',
               transition: 'all 0.2s ease',
-              opacity: isLoading ? 0.7 : 1
+              opacity: isLoading ? 0.85 : 1
+            }}
+            onMouseEnter={(e) => {
+              if (!isLoading) {
+                e.currentTarget.style.backgroundColor = '#d44360';
+                e.currentTarget.style.boxShadow = '0 10px 28px rgba(232, 88, 116, 0.55)';
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (!isLoading) {
+                e.currentTarget.style.backgroundColor = '#E85874';
+                e.currentTarget.style.boxShadow = '0 8px 25px rgba(232, 88, 116, 0.4)';
+              }
             }}
           >
             {isLoading ? (
-              <span>Verifying Admin Credentials...</span>
+              <span>Connecting to Perfectflow 360 CRM...</span>
             ) : (
               <>
-                <span>Sign In to Admin Portal</span>
+                <span>Sign In to Perfectflow 360 CRM</span>
                 <ArrowRight size={17} />
               </>
             )}
           </button>
 
-          {/* 1-Click Fast Demo Login for Quick Verification */}
-          <button
-            type="button"
-            onClick={handleQuickDemoAdmin}
+          {/* Direct Launch Link */}
+          <a
+            href="https://perfectflow360.atplgroup.org"
+            target="_blank"
+            rel="noopener noreferrer"
             style={{
               backgroundColor: 'rgba(255, 255, 255, 0.05)',
               color: '#cbd5e1',
@@ -352,25 +371,27 @@ export const AdminLogin = () => {
               padding: '0.65rem',
               fontSize: '0.85rem',
               fontWeight: 600,
-              cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               gap: '0.4rem',
+              textDecoration: 'none',
               transition: 'all 0.2s ease'
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
               e.currentTarget.style.color = '#ffffff';
+              e.currentTarget.style.borderColor = '#38bdf8';
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.05)';
               e.currentTarget.style.color = '#cbd5e1';
+              e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.15)';
             }}
           >
             <Sparkles size={15} color="#00f0ff" />
-            <span>1-Click Admin Access (Demo Mode)</span>
-          </button>
+            <span>Launch https://perfectflow360.atplgroup.org Directly ↗</span>
+          </a>
 
         </form>
 

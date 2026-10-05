@@ -29,48 +29,44 @@ export const AtplLogo = ({
       <svg 
         width={size} 
         height={size} 
-        viewBox="0 0 100 100" 
+        viewBox="0 0 1000 1000" 
         fill="none" 
         xmlns="http://www.w3.org/2000/svg"
         style={{ flexShrink: 0, overflow: 'visible' }}
       >
         {/* 1. Top Blue Triangle Facet */}
         <polygon 
-          points="22,10.5 38,43 0,58 22,10.5" 
-          fill="#29A2E1" 
+          points="220,107 377,434 80,577" 
+          fill="#29A6E8" 
         />
 
-        {/* 2. Middle Teal/Blue Accent Strip */}
+        {/* 2. Dark Charcoal Arrow Shaft */}
         <polygon 
-          points="23,54 44,53 29,73 23,54" 
-          fill="#0284c7" 
+          points="1,854 80,577 377,434 824,226 840,220 426,538" 
+          fill="#2F4149" 
         />
 
-        {/* 3. Bottom Blue Wing */}
+        {/* 3. Teal Accent Band */}
         <polygon 
-          points="29,73 65,99.5 38,62 29,73" 
-          fill="#38bdf8" 
+          points="229,678 426,538 457,600 296,731" 
+          fill="#0E87A9" 
         />
 
-        {/* 4. Dark Arrow Main Shaft */}
+        {/* 4. Bottom Light Blue Triangle Facet */}
         <polygon 
-          points="0,85 38,51 83,22 75,34 0,85" 
-          fill="#334155" 
+          points="296,731 457,600 648,1000" 
+          fill="#3EA6E9" 
         />
 
-        {/* 5. Dark Arrow Tip Diamond */}
+        {/* 5. Arrowhead Tip Diamond */}
         <polygon 
-          points="83,22 100,10.5 89,22.5 83,22" 
-          fill="#1e293b" 
-        />
-        <polygon 
-          points="89,22.5 100,10.5 91.5,27.5 89,22.5" 
-          fill="#334155" 
+          points="840,220 864,133 1000,107 910,225" 
+          fill="#2F4149" 
         />
 
-        {/* 6. Signature Brand Coral Bow Arc (#E85874) */}
+        {/* 6. Signature Coral Bow Arc */}
         <path 
-          d="M42 0.5 C55 3 67 11 75.5 22.5 C84.5 35 88 50 85 65.5 C82 80 72.5 92 65 99.5 C67 92 72.5 78.5 74.5 65 C76.5 51.5 73 38 65 27 C57 16 47 9 42 0.5 Z" 
+          d="M436,34 L465,59 C605,180 740,430 740,580 C740,730 705,870 648,1000 C725,870 784,710 784,540 C784,370 655,140 436,34 Z" 
           fill="#E85874" 
         />
       </svg>

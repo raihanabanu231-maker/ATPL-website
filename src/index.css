@@ -736,11 +736,21 @@ select.form-control option {
   }
 
   /* Floating Co-Pilot on Mobile */
-  .atpl-copilot-launcher {
+  .atpl-copilot-launcher,
+  .atpl-copilot-btn {
     bottom: 0.85rem !important;
     right: 0.85rem !important;
+    left: auto !important;
     padding: 0.5rem 0.85rem !important;
     font-size: 0.82rem !important;
+  }
+
+  .atpl-copilot-window {
+    bottom: 0.5rem !important;
+    right: 0.5rem !important;
+    left: auto !important;
+    width: 95vw !important;
+    max-height: 85vh !important;
   }
 
   /* Grid Auto-Wrap for all cards */

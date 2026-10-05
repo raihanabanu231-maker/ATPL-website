@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useApp } from '../../context/AppContext';
 import { AtplLogo } from './AtplLogo';
+import { AtplRobotAvatar } from './AtplRobotAvatar';
 import { 
   Boxes, 
   Cpu, 
@@ -34,7 +35,7 @@ import {
 } from 'lucide-react';
 
 export const Navbar = ({ onOpenSearch }) => {
-  const { currentView, setCurrentView, openDemoModal, authSession } = useApp();
+  const { currentView, setCurrentView, openDemoModal, authSession, openCoPilot } = useApp();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [languageOpen, setLanguageOpen] = useState(false);
@@ -780,6 +781,48 @@ export const Navbar = ({ onOpenSearch }) => {
               )}
             </div>
 
+            {/* AI Co-Pilot Trigger (Desktop Header) */}
+            <button
+              onClick={openCoPilot}
+              className="desktop-only-action"
+              style={{
+                background: 'linear-gradient(135deg, rgba(0, 113, 186, 0.08) 0%, rgba(232, 88, 116, 0.08) 100%)',
+                border: '1px solid rgba(0, 113, 186, 0.25)',
+                borderRadius: '999px',
+                padding: '0.4rem 0.85rem',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.45rem',
+                cursor: 'pointer',
+                color: '#0071ba',
+                fontSize: '0.85rem',
+                fontWeight: 700,
+                transition: 'all 0.2s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = '#E85874';
+                e.currentTarget.style.transform = 'translateY(-1px)';
+                e.currentTarget.style.boxShadow = '0 4px 12px rgba(232, 88, 116, 0.2)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = 'rgba(0, 113, 186, 0.25)';
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = 'none';
+              }}
+              title="Open ATPL Co-Pilot AI Advisor"
+            >
+              <AtplRobotAvatar size={18} glow={false} />
+              <span>Ask AI</span>
+              <span style={{
+                fontSize: '0.62rem',
+                backgroundColor: '#E85874',
+                color: '#ffffff',
+                padding: '0.1rem 0.38rem',
+                borderRadius: '999px',
+                fontWeight: 800
+              }}>AI</span>
+            </button>
+
             {/* Sign In Link (Desktop Only) */}
             <button
               onClick={() => handleNavClick(authSession ? 'admin' : 'login')}
@@ -803,10 +846,10 @@ export const Navbar = ({ onOpenSearch }) => {
               onClick={() => openDemoModal({ solution: 'Enterprise Suite Demo', notes: 'Lead initiated from header Request Demo button' })}
               className="desktop-only-action"
               style={{
-                backgroundColor: '#0071ba',
+                backgroundColor: '#E85874',
                 border: 'none',
                 color: '#ffffff',
-                padding: '0.55rem 1.25rem',
+                padding: '0.55rem 1.35rem',
                 borderRadius: '6px',
                 fontFamily: 'var(--font-display)',
                 fontWeight: 700,
@@ -816,15 +859,17 @@ export const Navbar = ({ onOpenSearch }) => {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '0.35rem',
-                boxShadow: '0 2px 8px rgba(0, 113, 186, 0.25)'
+                boxShadow: '0 4px 15px rgba(232, 88, 116, 0.35)'
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#005a96';
-                e.currentTarget.style.boxShadow = '0 4px 14px rgba(0, 113, 186, 0.4)';
+                e.currentTarget.style.backgroundColor = '#d44360';
+                e.currentTarget.style.boxShadow = '0 6px 20px rgba(232, 88, 116, 0.55)';
+                e.currentTarget.style.transform = 'translateY(-1px)';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = '#0071ba';
-                e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 113, 186, 0.25)';
+                e.currentTarget.style.backgroundColor = '#E85874';
+                e.currentTarget.style.boxShadow = '0 4px 15px rgba(232, 88, 116, 0.35)';
+                e.currentTarget.style.transform = 'translateY(0)';
               }}
             >
               <span>Request Demo</span>
@@ -1005,6 +1050,39 @@ export const Navbar = ({ onOpenSearch }) => {
               <button
                 onClick={() => {
                   setMobileMenuOpen(false);
+                  openCoPilot();
+                }}
+                style={{
+                  background: 'linear-gradient(135deg, #0071ba 0%, #005a96 100%)',
+                  color: '#ffffff',
+                  border: 'none',
+                  borderRadius: '8px',
+                  padding: '0.85rem',
+                  fontWeight: 700,
+                  fontSize: '0.95rem',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '0.6rem',
+                  boxShadow: '0 4px 12px rgba(0, 113, 186, 0.3)'
+                }}
+              >
+                <AtplRobotAvatar size={22} glow={false} />
+                <span>Ask ATPL AI Co-Pilot</span>
+                <span style={{
+                  fontSize: '0.65rem',
+                  backgroundColor: '#E85874',
+                  color: '#ffffff',
+                  padding: '0.1rem 0.4rem',
+                  borderRadius: '999px',
+                  fontWeight: 800
+                }}>AI</span>
+              </button>
+
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
                   handleNavClick(authSession ? 'admin' : 'login');
                 }}
                 style={{
@@ -1028,7 +1106,7 @@ export const Navbar = ({ onOpenSearch }) => {
                   openDemoModal({ solution: 'Enterprise Suite Demo', notes: 'Mobile drawer Request Demo click' });
                 }}
                 style={{
-                  backgroundColor: '#0071ba',
+                  backgroundColor: '#E85874',
                   color: '#ffffff',
                   border: 'none',
                   borderRadius: '8px',
@@ -1036,7 +1114,7 @@ export const Navbar = ({ onOpenSearch }) => {
                   fontWeight: 700,
                   fontSize: '0.95rem',
                   cursor: 'pointer',
-                  boxShadow: '0 4px 14px rgba(0, 113, 186, 0.35)',
+                  boxShadow: '0 4px 14px rgba(232, 88, 116, 0.4)',
                   textAlign: 'center'
                 }}
               >

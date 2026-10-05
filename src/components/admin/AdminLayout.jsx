@@ -143,6 +143,27 @@ export const AdminLayout = () => {
         {/* Right: Actions, Notifications & Profile */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
           
+          {/* Direct Link to Perfectflow 360 CRM */}
+          <a
+            href="https://perfectflow360.atplgroup.org"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-sm"
+            style={{
+              backgroundColor: '#E85874',
+              color: '#ffffff',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.4rem',
+              fontWeight: 700,
+              textDecoration: 'none',
+              boxShadow: '0 4px 15px rgba(232, 88, 116, 0.35)'
+            }}
+            title="Open Perfectflow 360 CRM in a new tab"
+          >
+            <span>Perfectflow 360 CRM ↗</span>
+          </a>
+
           {/* Quick Add Project Button */}
           <button
             onClick={openAddProjectModal}

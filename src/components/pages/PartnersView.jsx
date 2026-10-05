@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import { 
   Handshake, 
@@ -293,8 +293,8 @@ export const PartnersView = () => {
                 key={cat.id}
                 onClick={() => setActiveCategory(cat.id)}
                 style={{
-                  backgroundColor: activeCategory === cat.id ? '#0071ba' : 'rgba(255, 255, 255, 0.05)',
-                  border: activeCategory === cat.id ? '2px solid #0071ba' : '1px solid rgba(255, 255, 255, 0.15)',
+                  backgroundColor: activeCategory === cat.id ? '#E85874' : 'rgba(255, 255, 255, 0.05)',
+                  border: activeCategory === cat.id ? '2px solid #E85874' : '1px solid rgba(255, 255, 255, 0.15)',
                   color: '#ffffff',
                   padding: '0.55rem 1.15rem',
                   borderRadius: '10px',
@@ -302,7 +302,7 @@ export const PartnersView = () => {
                   fontWeight: activeCategory === cat.id ? 700 : 500,
                   cursor: 'pointer',
                   transition: 'all 0.2s ease',
-                  boxShadow: activeCategory === cat.id ? '0 4px 15px rgba(0, 113, 186, 0.4)' : 'none'
+                  boxShadow: activeCategory === cat.id ? '0 4px 15px rgba(232, 88, 116, 0.45)' : 'none'
                 }}
               >
                 {cat.label}
@@ -314,7 +314,7 @@ export const PartnersView = () => {
             <button
               onClick={() => openDemoModal({ solution: 'Partner Program Application', notes: 'Inquiry from Partners page' })}
               style={{
-                backgroundColor: '#0071ba',
+                backgroundColor: '#E85874',
                 color: '#ffffff',
                 border: 'none',
                 borderRadius: '10px',
@@ -325,7 +325,18 @@ export const PartnersView = () => {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '0.5rem',
-                boxShadow: '0 8px 25px rgba(0, 113, 186, 0.4)'
+                boxShadow: '0 8px 25px rgba(232, 88, 116, 0.4)',
+                transition: 'all 0.2s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#d44360';
+                e.currentTarget.style.transform = 'translateY(-2px)';
+                e.currentTarget.style.boxShadow = '0 12px 30px rgba(232, 88, 116, 0.55)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = '#E85874';
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = '0 8px 25px rgba(232, 88, 116, 0.4)';
               }}
             >
               <Handshake size={18} />

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useApp } from '../../context/AppContext';
 import { 
   FolderKanban, 
@@ -35,7 +35,7 @@ export const AdminProjects = () => {
   const [editingProject, setEditingProject] = useState(null);
 
   // Sync with global modal trigger
-  React.useEffect(() => {
+  useEffect(() => {
     if (adminProjectModalOpen) {
       handleOpenAdd();
       setAdminProjectModalOpen(false);

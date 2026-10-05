@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import { 
   Compass, 
@@ -92,8 +92,21 @@ export const AboutView = () => {
         
         {/* Header */}
         <div style={{ textAlign: 'center', maxWidth: '850px', margin: '0 auto 3.5rem auto' }}>
-          <div className="badge badge-cyan" style={{ marginBottom: '0.75rem' }}>
-            <Sparkles size={14} />
+          <div style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '0.4rem',
+            backgroundColor: 'rgba(232, 88, 116, 0.1)',
+            border: '1px solid rgba(232, 88, 116, 0.35)',
+            color: '#E85874',
+            padding: '0.35rem 0.9rem',
+            borderRadius: '999px',
+            fontSize: '0.78rem',
+            fontWeight: 700,
+            letterSpacing: '0.05em',
+            marginBottom: '0.75rem'
+          }}>
+            <Sparkles size={14} color="#E85874" />
             <span>ARCHERY TECHNOCRATS PRIVATE LIMITED</span>
           </div>
           <h1 style={{ fontSize: '2.6rem', color: '#ffffff', marginBottom: '1rem', fontWeight: 800 }}>
@@ -117,8 +130,8 @@ export const AboutView = () => {
                 key={t.id}
                 onClick={() => scrollToSection(t.id)}
                 style={{
-                  backgroundColor: activeTopic === t.id ? '#0071ba' : 'rgba(255, 255, 255, 0.05)',
-                  border: activeTopic === t.id ? '2px solid #0071ba' : '1px solid rgba(255, 255, 255, 0.15)',
+                  backgroundColor: activeTopic === t.id ? '#E85874' : 'rgba(255, 255, 255, 0.05)',
+                  border: activeTopic === t.id ? '2px solid #E85874' : '1px solid rgba(255, 255, 255, 0.15)',
                   color: '#ffffff',
                   padding: '0.55rem 1.15rem',
                   borderRadius: '10px',
@@ -126,7 +139,7 @@ export const AboutView = () => {
                   fontWeight: activeTopic === t.id ? 700 : 500,
                   cursor: 'pointer',
                   transition: 'all 0.2s ease',
-                  boxShadow: activeTopic === t.id ? '0 4px 15px rgba(0, 113, 186, 0.4)' : 'none'
+                  boxShadow: activeTopic === t.id ? '0 4px 15px rgba(232, 88, 116, 0.45)' : 'none'
                 }}
               >
                 {t.label}

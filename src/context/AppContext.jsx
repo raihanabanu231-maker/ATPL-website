@@ -42,6 +42,11 @@ export const AppProvider = ({ children }) => {
   const [demoModalOpen, setDemoModalOpen] = useState(false);
   const [demoModalPrefill, setDemoModalPrefill] = useState(null);
 
+  // Co-Pilot Modal State
+  const [coPilotOpen, setCoPilotOpen] = useState(false);
+  const openCoPilot = () => setCoPilotOpen(true);
+  const closeCoPilot = () => setCoPilotOpen(false);
+
   // Project Modal State
   const [adminProjectModalOpen, setAdminProjectModalOpen] = useState(false);
 
@@ -180,23 +185,61 @@ export const AppProvider = ({ children }) => {
   const [activeFaultStation, setActiveFaultStation] = useState(null);
 
   // Site CMS Settings
-  const [siteSettings, setSiteSettings] = useState({
-    companyName: 'Archery Technocrats Private Limited (ATPL Group)',
-    tagline: 'Target Perfection • Industry 4.0 Digital Transformation',
-    phone: '+91 98765 43210',
-    email: 'info@atplgroup.com',
-    salesEmail: 'sales@atplgroup.com',
-    supportEmail: 'support@atplgroup.com',
-    bannerActive: true,
-    bannerText: '🚀 Explore our live 3D Virtual Factory Tour & Digital Twin in your browser!',
-    bannerLink: 'factory-3d',
-    erpSyncEnabled: true,
-    mqttBroker: 'mqtt://telemetry.atplgroup.internal:1883',
-    latencyMs: 14
+  const [siteSettings, setSiteSettings] = useState(() => {
+    let savedSettings = {};
+    try {
+      const saved = localStorage.getItem('atpl_site_settings');
+      if (saved) {
+        savedSettings = JSON.parse(saved);
+      }
+    } catch (e) {
+      console.warn('Failed reading atpl_site_settings from localStorage', e);
+    }
+
+    const savedKey = localStorage.getItem('atpl_grok_api_key') || savedSettings?.grokApiKey || '';
+    const savedModel = localStorage.getItem('atpl_grok_model') || savedSettings?.grokModel || 'openai/gpt-oss-120b';
+    const savedEndpoint = localStorage.getItem('atpl_grok_api_endpoint') || savedSettings?.grokApiEndpoint || 'https://api.groq.com/openai/v1/chat/completions';
+
+    return {
+      companyName: 'Archery Technocrats Private Limited (ATPL Group)',
+      tagline: 'Target Perfection • Industry 4.0 Digital Transformation',
+      phone: '+91 63808 59963',
+      email: 'info@atplgroup.com',
+      salesEmail: 'sales@atplgroup.com',
+      supportEmail: 'support@atplgroup.com',
+      bannerActive: true,
+      bannerText: '🚀 Explore our live 3D Virtual Factory Tour & Digital Twin in your browser!',
+      bannerLink: 'factory-3d',
+      erpSyncEnabled: true,
+      mqttBroker: 'mqtt://telemetry.atplgroup.internal:1883',
+      latencyMs: 14,
+      ...savedSettings,
+      grokApiKey: savedKey,
+      grokModel: savedModel,
+      grokApiEndpoint: savedEndpoint
+    };
   });
 
   // Toast Notifications
   const [toasts, setToasts] = useState([]);
+
+  // Save Site Settings to LocalStorage
+  useEffect(() => {
+    try {
+      localStorage.setItem('atpl_site_settings', JSON.stringify(siteSettings));
+      if (siteSettings?.grokApiKey) {
+        localStorage.setItem('atpl_grok_api_key', siteSettings.grokApiKey);
+      }
+      if (siteSettings?.grokModel) {
+        localStorage.setItem('atpl_grok_model', siteSettings.grokModel);
+      }
+      if (siteSettings?.grokApiEndpoint) {
+        localStorage.setItem('atpl_grok_api_endpoint', siteSettings.grokApiEndpoint);
+      }
+    } catch (e) {
+      console.warn('Failed saving atpl_site_settings', e);
+    }
+  }, [siteSettings]);
 
   // Save to LocalStorage
   useEffect(() => {
@@ -443,6 +486,10 @@ export const AppProvider = ({ children }) => {
         openDemoModal,
         closeDemoModal,
         demoModalPrefill,
+        coPilotOpen,
+        setCoPilotOpen,
+        openCoPilot,
+        closeCoPilot,
         adminProjectModalOpen,
         setAdminProjectModalOpen,
         openAddProjectModal
