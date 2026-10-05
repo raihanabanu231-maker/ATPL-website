@@ -289,8 +289,8 @@ export const AboutView = () => {
 
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))',
-            gap: '1rem',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(175px, 1fr))',
+            gap: '1.15rem',
             alignItems: 'center',
             justifyContent: 'center'
           }}>
@@ -299,14 +299,14 @@ export const AboutView = () => {
                 key={client.id}
                 style={{
                   backgroundColor: '#ffffff',
-                  border: '1px solid rgba(255, 255, 255, 0.15)',
-                  borderRadius: '10px',
-                  padding: '0.85rem 0.75rem',
+                  border: '1px solid rgba(255, 255, 255, 0.2)',
+                  borderRadius: '12px',
+                  padding: '0.85rem 0.85rem 0.65rem 0.85rem',
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  minHeight: '75px',
+                  minHeight: '92px',
                   boxShadow: '0 4px 15px rgba(0, 0, 0, 0.25)',
                   transition: 'all 0.25s ease',
                   cursor: 'pointer',
@@ -314,27 +314,27 @@ export const AboutView = () => {
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = 'translateY(-3px) scale(1.03)';
-                  e.currentTarget.style.boxShadow = '0 10px 25px rgba(0, 113, 186, 0.4)';
+                  e.currentTarget.style.boxShadow = '0 10px 25px rgba(0, 113, 186, 0.45)';
                   e.currentTarget.style.borderColor = '#38bdf8';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.transform = 'translateY(0) scale(1)';
                   e.currentTarget.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.25)';
-                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.15)';
+                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)';
                 }}
                 title={`${client.name} • ${client.category}`}
               >
-                <ClientLogo slug={client.slug} clientName={client.name} height={32} />
+                <ClientLogo slug={client.slug} clientName={client.name} height={46} />
                 <span style={{ 
-                  fontSize: '0.68rem', 
-                  color: '#64748b', 
-                  fontWeight: 600, 
-                  marginTop: '0.35rem', 
+                  fontSize: '0.72rem', 
+                  color: '#475569', 
+                  fontWeight: 700, 
+                  marginTop: '0.4rem', 
                   textAlign: 'center',
                   whiteSpace: 'nowrap',
                   overflow: 'hidden',
                   textOverflow: 'ellipsis',
-                  maxWidth: '140px'
+                  maxWidth: '155px'
                 }}>
                   {client.name}
                 </span>

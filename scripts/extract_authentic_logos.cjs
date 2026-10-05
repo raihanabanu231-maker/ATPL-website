@@ -313,17 +313,26 @@ async function extractAll() {
         const outFilePath = path.join(OUTPUT_DIR, outFileName);
 
         try {
-          await sharp(sheet.file)
+          // Extract the logo region from the cell
+          const buffer = await sharp(sheet.file)
             .extract({ left, top, width, height })
-            .trim() // Auto trim surrounding whitespace/borders
+            .trim({ threshold: 25 }) // Tightly trim white/grey borders
+            .resize({ 
+              width: 320, 
+              height: 160, 
+              fit: 'inside', 
+              withoutEnlargement: false,
+              kernel: 'lanczos3' 
+            })
+            .sharpen({ sigma: 1.1, m1: 1.4, m2: 2.2 })
             .extend({
-              top: 12,
-              bottom: 12,
-              left: 16,
-              right: 16,
+              top: 8,
+              bottom: 8,
+              left: 12,
+              right: 12,
               background: { r: 255, g: 255, b: 255, alpha: 1 }
             })
-            .png({ quality: 95 })
+            .png({ quality: 100, compressionLevel: 8 })
             .toFile(outFilePath);
 
           allClientsList.push({

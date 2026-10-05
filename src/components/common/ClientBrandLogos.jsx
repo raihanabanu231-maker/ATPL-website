@@ -71,7 +71,7 @@ const CLIENT_SLUG_ALIASES = {
 /**
  * Universal Authentic Client Logo component that renders real extracted logos
  */
-export const ClientLogo = ({ clientName, slug, height = 30, className = '', style = {} }) => {
+export const ClientLogo = ({ clientName, slug, height = 48, className = '', style = {} }) => {
   const [imageError, setImageError] = useState(false);
 
   let targetSlug = slug;
@@ -94,14 +94,15 @@ export const ClientLogo = ({ clientName, slug, height = 30, className = '', styl
           display: 'inline-flex', 
           alignItems: 'center', 
           justifyContent: 'center', 
-          padding: '0.2rem 0.5rem',
+          padding: '0.4rem 0.75rem',
           backgroundColor: '#f8fafc',
-          borderRadius: '4px',
+          borderRadius: '6px',
           fontWeight: 800, 
-          fontSize: '0.85rem', 
+          fontSize: '0.9rem', 
           color: '#0f172a',
           letterSpacing: '0.5px',
           border: '1px solid #e2e8f0',
+          textAlign: 'center',
           ...style 
         }}
         title={displayName}
@@ -120,13 +121,13 @@ export const ClientLogo = ({ clientName, slug, height = 30, className = '', styl
       onError={() => setImageError(true)}
       style={{
         maxHeight: `${height}px`,
-        maxWidth: '150px',
+        maxWidth: '160px',
         width: 'auto',
         height: 'auto',
         objectFit: 'contain',
         display: 'inline-block',
         verticalAlign: 'middle',
-        filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.05))',
+        filter: 'contrast(1.05) drop-shadow(0 1px 2px rgba(0,0,0,0.06))',
         ...style
       }}
       loading="lazy"
@@ -150,9 +151,9 @@ export const AuthenticClientsMarquee = ({ direction = 'left', speed = 35 }) => {
       overflow: 'hidden',
       position: 'relative',
       width: '100%',
-      padding: '0.5rem 0',
-      maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
-      WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)'
+      padding: '0.6rem 0',
+      maskImage: 'linear-gradient(to right, transparent, black 8%, black 92%, transparent)',
+      WebkitMaskImage: 'linear-gradient(to right, transparent, black 8%, black 92%, transparent)'
     }}>
       <div 
         style={{
@@ -169,20 +170,20 @@ export const AuthenticClientsMarquee = ({ direction = 'left', speed = 35 }) => {
             key={`${client.id}-${idx}`}
             style={{
               backgroundColor: '#ffffff',
-              borderRadius: '10px',
-              padding: '0.65rem 1.25rem',
+              borderRadius: '12px',
+              padding: '0.6rem 1.25rem',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              minWidth: '150px',
-              height: '62px',
-              border: '1px solid #e2e8f0',
-              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
+              minWidth: '170px',
+              height: '74px',
+              border: '1.5px solid #e2e8f0',
+              boxShadow: '0 3px 10px rgba(0, 0, 0, 0.05)',
               transition: 'all 0.25s ease',
               flexShrink: 0
             }}
           >
-            <ClientLogo slug={client.slug} clientName={client.name} height={34} />
+            <ClientLogo slug={client.slug} clientName={client.name} height={46} />
           </div>
         ))}
       </div>
