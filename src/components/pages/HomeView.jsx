@@ -1113,11 +1113,11 @@ export const HomeView = () => {
           {/* Client Logos Grid */}
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))',
-            gap: '1.1rem',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(185px, 1fr))',
+            gap: '1.25rem',
             alignItems: 'center',
             justifyContent: 'center',
-            maxWidth: '1160px',
+            maxWidth: '1180px',
             margin: '0 auto 4rem auto'
           }}>
             {CLIENT_LOGOS_LIST.map((client) => {
@@ -1129,28 +1129,28 @@ export const HomeView = () => {
                     backgroundColor: '#ffffff',
                     border: '1.5px solid #e2e8f0',
                     borderRadius: '12px',
-                    padding: '0.75rem 1.25rem',
+                    padding: '0.6rem 1.25rem',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    height: '80px',
-                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
+                    height: '88px',
+                    boxShadow: '0 3px 10px rgba(0, 0, 0, 0.05)',
                     transition: 'all 0.25s ease',
                     cursor: 'default'
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.transform = 'translateY(-3px)';
-                    e.currentTarget.style.boxShadow = '0 10px 22px rgba(0, 113, 186, 0.18)';
+                    e.currentTarget.style.boxShadow = '0 12px 24px rgba(0, 113, 186, 0.2)';
                     e.currentTarget.style.borderColor = '#0071ba';
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.transform = 'translateY(0)';
-                    e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.04)';
+                    e.currentTarget.style.boxShadow = '0 3px 10px rgba(0, 0, 0, 0.05)';
                     e.currentTarget.style.borderColor = '#e2e8f0';
                   }}
                   title={client.name}
                 >
-                  <LogoComp height={48} />
+                  <LogoComp height={56} />
                 </div>
               );
             })}

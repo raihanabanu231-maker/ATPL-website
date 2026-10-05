@@ -302,37 +302,88 @@ async function extractAll() {
         
         const logoInfo = sheet.logos[itemIdx];
         
-        // Exact bounding box inside the cell:
-        // Exclude grid border (3px padding) and bottom caption text area (bottom ~25%)
-        const left = Math.round(c * cellW + 4);
-        const top = Math.round(r * cellH + 4);
-        const width = Math.round(cellW - 8);
-        const height = Math.round(cellH * 0.76 - 4); // Only the graphical logo portion
+        const rawLeft = Math.round(c * cellW + 2);
+        const rawTop = Math.round(r * cellH + 2);
+        const rawW = Math.round(cellW - 4);
+        const rawH = Math.round(cellH - 4);
 
         const outFileName = `${logoInfo.slug}.png`;
         const outFilePath = path.join(OUTPUT_DIR, outFileName);
 
         try {
-          // Extract the logo region from the cell
-          const buffer = await sharp(sheet.file)
-            .extract({ left, top, width, height })
-            .trim({ threshold: 25 }) // Tightly trim white/grey borders
+          // Read raw cell pixels to detect exact logo bounding box
+          const { data, info } = await sharp(sheet.file)
+            .extract({ left: rawLeft, top: rawTop, width: rawW, height: rawH })
+            .raw()
+            .toBuffer({ resolveWithObject: true });
+
+          // 1. Calculate row non-white pixel density (excluding bottom 20% caption text)
+          const rowCounts = [];
+          for (let y = 0; y < info.height; y++) {
+            let count = 0;
+            for (let x = 2; x < info.width - 2; x++) {
+              const idx = (y * info.width + x) * info.channels;
+              if (data[idx] < 235 || data[idx+1] < 235 || data[idx+2] < 235) count++;
+            }
+            rowCounts.push(count);
+          }
+
+          // Search in the logo portion (upper 82% of cell)
+          const maxLogoY = Math.round(info.height * 0.82);
+          let minY = -1, maxY = -1;
+          for (let y = 0; y < maxLogoY; y++) {
+            if (rowCounts[y] > 2) {
+              if (minY === -1) minY = y;
+              maxY = y;
+            }
+          }
+
+          if (minY === -1) {
+            minY = 8; 
+            maxY = maxLogoY - 8;
+          }
+
+          // 2. Find horizontal bounds minX..maxX across active logo rows
+          let minX = info.width, maxX = 0;
+          for (let y = minY; y <= maxY; y++) {
+            for (let x = 2; x < info.width - 2; x++) {
+              const idx = (y * info.width + x) * info.channels;
+              if (data[idx] < 235 || data[idx+1] < 235 || data[idx+2] < 235) {
+                if (x < minX) minX = x;
+                if (x > maxX) maxX = x;
+              }
+            }
+          }
+
+          if (minX >= maxX) {
+            minX = 8;
+            maxX = info.width - 8;
+          }
+
+          const cropLeft = rawLeft + Math.max(0, minX - 1);
+          const cropTop = rawTop + Math.max(0, minY - 1);
+          const cropW = Math.max(10, Math.min(rawW, maxX - minX + 3));
+          const cropH = Math.max(10, Math.min(rawH, maxY - minY + 3));
+
+          // Extract precisely cropped logo and scale with high quality
+          await sharp(sheet.file)
+            .extract({ left: cropLeft, top: cropTop, width: cropW, height: cropH })
             .resize({ 
-              width: 320, 
-              height: 160, 
+              width: 360, 
+              height: 180, 
               fit: 'inside', 
               withoutEnlargement: false,
               kernel: 'lanczos3' 
             })
-            .sharpen({ sigma: 1.1, m1: 1.4, m2: 2.2 })
+            .sharpen({ sigma: 1.2, m1: 1.5, m2: 2.5 })
             .extend({
-              top: 8,
-              bottom: 8,
-              left: 12,
-              right: 12,
+              top: 6,
+              bottom: 6,
+              left: 8,
+              right: 8,
               background: { r: 255, g: 255, b: 255, alpha: 1 }
             })
-            .png({ quality: 100, compressionLevel: 8 })
+            .png({ quality: 100 })
             .toFile(outFilePath);
 
           allClientsList.push({
