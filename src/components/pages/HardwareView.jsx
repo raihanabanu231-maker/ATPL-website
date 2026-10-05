@@ -586,7 +586,13 @@ export const HardwareView = () => {
             {categories.map(cat => (
               <button
                 key={cat.id}
-                onClick={() => setActiveCategory(cat.id)}
+                onClick={() => {
+                  setActiveCategory(cat.id);
+                  setTimeout(() => {
+                    const el = document.getElementById('hardware-cards-grid');
+                    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }, 50);
+                }}
                 style={{
                   backgroundColor: activeCategory === cat.id ? '#E85874' : 'rgba(255, 255, 255, 0.05)',
                   border: activeCategory === cat.id ? '2px solid #E85874' : '1px solid rgba(255, 255, 255, 0.15)',
@@ -607,12 +613,13 @@ export const HardwareView = () => {
         </div>
 
         {/* Hardware Grid with Real Images */}
-        <div style={{
+        <div id="hardware-cards-grid" style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))',
           gap: '2rem',
           marginBottom: '4rem',
-          marginTop: '2.5rem'
+          marginTop: '2.5rem',
+          scrollMarginTop: '6rem'
         }}>
           {filteredHardware.map(hw => (
             <div

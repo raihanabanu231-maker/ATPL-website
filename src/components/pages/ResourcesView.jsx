@@ -144,7 +144,13 @@ export const ResourcesView = () => {
             {categories.map(cat => (
               <button
                 key={cat.id}
-                onClick={() => setActiveCategory(cat.id)}
+                onClick={() => {
+                  setActiveCategory(cat.id);
+                  setTimeout(() => {
+                    const el = document.getElementById('resources-grid-section');
+                    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }, 50);
+                }}
                 style={{
                   backgroundColor: activeCategory === cat.id ? '#0071ba' : 'rgba(255, 255, 255, 0.05)',
                   border: activeCategory === cat.id ? '2px solid #0071ba' : '1px solid rgba(255, 255, 255, 0.15)',
@@ -165,73 +171,38 @@ export const ResourcesView = () => {
         </div>
       </section>
 
-      {/* Interactive 3D Twin Callout Card */}
-      <section style={{ padding: '3.5rem 0 1.5rem 0' }}>
+      {/* Downloads Grid Section */}
+      <section id="resources-grid-section" style={{ padding: '3rem 0 2rem 0', scrollMarginTop: '5rem' }}>
         <div className="container">
-          <div style={{
-            background: 'linear-gradient(135deg, rgba(0, 113, 186, 0.2) 0%, rgba(0, 240, 255, 0.1) 100%)',
-            border: '1.5px solid rgba(0, 240, 255, 0.4)',
-            borderRadius: '20px',
-            padding: '2.5rem',
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            gap: '2rem',
-            boxShadow: '0 20px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(0, 240, 255, 0.15)'
-          }}>
-            <div style={{ maxWidth: '650px' }}>
-              <div style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.4rem',
-                backgroundColor: 'rgba(0, 240, 255, 0.2)',
-                color: '#00f0ff',
-                padding: '0.25rem 0.75rem',
-                borderRadius: '6px',
-                fontSize: '0.78rem',
-                fontWeight: 800,
-                marginBottom: '0.75rem'
-              }}>
-                <Sparkles size={14} />
-                <span>FEATURED INTERACTIVE RESOURCE</span>
-              </div>
-              <h2 style={{ fontSize: '1.8rem', fontWeight: 800, color: '#ffffff', marginBottom: '0.5rem' }}>
-                3D Virtual Plant Simulator & Digital Twin
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.75rem', flexWrap: 'wrap', gap: '0.75rem' }}>
+            <div>
+              <span style={{ fontSize: '0.78rem', color: '#00f0ff', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+                DOCUMENTATION DIRECTORY
+              </span>
+              <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#ffffff', margin: '0.2rem 0 0 0' }}>
+                {activeCategory === 'all' 
+                  ? `All Technical Documentation (${downloads.length})` 
+                  : `${categories.find(c => c.id === activeCategory)?.label} (${filteredDownloads.length} Resources)`
+                }
               </h2>
-              <p style={{ color: '#cbd5e1', fontSize: '0.95rem', lineHeight: 1.6, margin: 0 }}>
-                Explore all 12 smart factory stations directly in your web browser with live station telemetry, conveyor simulation, and failure drill testbeds.
-              </p>
             </div>
-
-            <button
-              onClick={() => setCurrentView('factory-3d')}
-              style={{
-                backgroundColor: '#00f0ff',
-                color: '#060b14',
-                border: 'none',
-                borderRadius: '10px',
-                padding: '0.9rem 2rem',
-                fontSize: '0.95rem',
-                fontWeight: 800,
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                boxShadow: '0 8px 25px rgba(0, 240, 255, 0.35)',
-                whiteSpace: 'nowrap'
-              }}
-            >
-              <Sparkles size={18} />
-              <span>Launch 3D Digital Twin</span>
-            </button>
+            {activeCategory !== 'all' && (
+              <button
+                onClick={() => setActiveCategory('all')}
+                style={{
+                  background: 'none',
+                  border: '1px solid rgba(255, 255, 255, 0.2)',
+                  color: '#94a3b8',
+                  padding: '0.35rem 0.85rem',
+                  borderRadius: '6px',
+                  fontSize: '0.8rem',
+                  cursor: 'pointer'
+                }}
+              >
+                Reset to All Resources
+              </button>
+            )}
           </div>
-        </div>
-      </section>
-
-      {/* Downloads Grid */}
-      <section style={{ padding: '2.5rem 0' }}>
-        <div className="container">
           
           <div style={{
             display: 'grid',
@@ -330,8 +301,72 @@ export const ResourcesView = () => {
         </div>
       </section>
 
+      {/* Interactive 3D Twin Callout Card */}
+      <section style={{ padding: '1rem 0 2rem 0' }}>
+        <div className="container">
+          <div style={{
+            background: 'linear-gradient(135deg, rgba(0, 113, 186, 0.2) 0%, rgba(0, 240, 255, 0.1) 100%)',
+            border: '1.5px solid rgba(0, 240, 255, 0.4)',
+            borderRadius: '20px',
+            padding: '2.25rem 2.5rem',
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            gap: '2rem',
+            boxShadow: '0 20px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(0, 240, 255, 0.15)'
+          }}>
+            <div style={{ maxWidth: '650px' }}>
+              <div style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.4rem',
+                backgroundColor: 'rgba(0, 240, 255, 0.2)',
+                color: '#00f0ff',
+                padding: '0.25rem 0.75rem',
+                borderRadius: '6px',
+                fontSize: '0.78rem',
+                fontWeight: 800,
+                marginBottom: '0.75rem'
+              }}>
+                <Sparkles size={14} />
+                <span>FEATURED INTERACTIVE RESOURCE</span>
+              </div>
+              <h2 style={{ fontSize: '1.7rem', fontWeight: 800, color: '#ffffff', marginBottom: '0.4rem' }}>
+                3D Virtual Plant Simulator & Digital Twin
+              </h2>
+              <p style={{ color: '#cbd5e1', fontSize: '0.94rem', lineHeight: 1.6, margin: 0 }}>
+                Explore all 12 smart factory stations directly in your web browser with live station telemetry, conveyor simulation, and failure drill testbeds.
+              </p>
+            </div>
+
+            <button
+              onClick={() => setCurrentView('factory-3d')}
+              style={{
+                backgroundColor: '#00f0ff',
+                color: '#060b14',
+                border: 'none',
+                borderRadius: '10px',
+                padding: '0.85rem 1.8rem',
+                fontSize: '0.92rem',
+                fontWeight: 800,
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                boxShadow: '0 8px 25px rgba(0, 240, 255, 0.35)',
+                whiteSpace: 'nowrap'
+              }}
+            >
+              <Sparkles size={18} />
+              <span>Launch 3D Digital Twin</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
       {/* Custom Consultation Box */}
-      <section style={{ padding: '3rem 0 1rem 0' }}>
+      <section style={{ padding: '2rem 0 1rem 0' }}>
         <div className="container">
           <div style={{
             background: 'radial-gradient(circle at center, #0e1e38 0%, #060e1c 100%)',

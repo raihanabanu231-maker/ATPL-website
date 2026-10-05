@@ -182,7 +182,13 @@ export const SoftwareView = () => {
             {categories.map(cat => (
               <button
                 key={cat.id}
-                onClick={() => setActiveCategory(cat.id)}
+                onClick={() => {
+                  setActiveCategory(cat.id);
+                  setTimeout(() => {
+                    const el = document.getElementById('software-cards-grid');
+                    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }, 50);
+                }}
                 style={{
                   backgroundColor: activeCategory === cat.id ? '#0071ba' : 'rgba(255, 255, 255, 0.05)',
                   border: activeCategory === cat.id ? '2px solid #0071ba' : '1px solid rgba(255, 255, 255, 0.15)',
@@ -203,7 +209,7 @@ export const SoftwareView = () => {
         </div>
 
         {/* Software Cards */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem', marginBottom: '4rem', marginTop: '2.5rem' }}>
+        <div id="software-cards-grid" style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem', marginBottom: '4rem', marginTop: '2.5rem', scrollMarginTop: '6rem' }}>
           {filteredProducts.map((prod) => {
             const Icon = prod.icon;
             return (
