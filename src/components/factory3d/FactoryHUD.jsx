@@ -21,6 +21,7 @@ import {
   ChevronLeft
 } from 'lucide-react';
 import { ATPL_FACTORY_NODES, STATION_KEYS } from '../../data/factoryStations3D';
+import { StationVisualPreview } from './StationVisuals';
 
 export const FactoryHUD = ({
   selectedStation,
@@ -225,19 +226,24 @@ export const FactoryHUD = ({
             {node.name}
           </h3>
 
-          <p style={{ color: '#cbd5e1', fontSize: '0.88rem', lineHeight: 1.5, margin: '0 0 1rem 0' }}>
+          <p style={{ color: '#cbd5e1', fontSize: '0.88rem', lineHeight: 1.5, margin: '0 0 0.85rem 0' }}>
             {node.whatItDoes}
           </p>
+
+          {/* Graphical Station Visual Illustration Preview */}
+          <div style={{ marginBottom: '1rem', overflow: 'hidden', borderRadius: '8px', boxShadow: '0 4px 15px rgba(0,0,0,0.4)' }}>
+            <StationVisualPreview stationId={node.id} color={node.color} height={105} />
+          </div>
 
           {/* AI Robot Lesson Box */}
           <div style={{
             background: 'rgba(255, 255, 255, 0.03)',
             border: '1px solid rgba(255, 255, 255, 0.08)',
             borderRadius: '10px',
-            padding: '1rem',
+            padding: '0.9rem',
             marginBottom: '1rem'
           }}>
-            <div style={{ fontSize: '0.74rem', color: 'var(--cyan-primary, #00f0ff)', fontFamily: 'var(--font-mono, monospace)', marginBottom: '0.4rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+            <div style={{ fontSize: '0.74rem', color: 'var(--cyan-primary, #00f0ff)', fontFamily: 'var(--font-mono, monospace)', marginBottom: '0.35rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
               <span>🤖 ATPL AI ROBOT LESSON:</span>
             </div>
             <p style={{ color: '#e2e8f0', fontSize: '0.84rem', lineHeight: 1.5, margin: 0 }}>

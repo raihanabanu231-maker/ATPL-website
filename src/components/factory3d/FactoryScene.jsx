@@ -616,6 +616,173 @@ export const HotspotMarker = ({ stationKey, isSelected, isHovered, onSelect, onH
 };
 
 /* =========================================================================
+   4b. REALISTIC INDUSTRIAL CONVEYOR & MOVING PACKAGES
+   ========================================================================= */
+const IndustrialPackage = ({ type = 0, initialX = 0 }) => {
+  // Types: 0: Kraft Carton, 1: ATPL Tech Case, 2: Heavy Automotive Crate, 3: Pharma Box
+  const config = [
+    { baseColor: '#c2925b', tapeColor: '#92400e', labelColor: '#f8fafc', rfidColor: '#22c55e', name: 'TRACE-CARTON' },
+    { baseColor: '#0e263d', tapeColor: '#00f0ff', labelColor: '#ffffff', rfidColor: '#38bdf8', name: 'ATPL-SMART' },
+    { baseColor: '#334155', tapeColor: '#eab308', labelColor: '#fef08a', rfidColor: '#f97316', name: 'AUTO-PARTS' },
+    { baseColor: '#f8fafc', tapeColor: '#0284c7', labelColor: '#e2e8f0', rfidColor: '#10b981', name: 'PHARMA-VIAL' }
+  ][type % 4];
+
+  return (
+    <group position={[initialX, 0.62, 0]} castShadow>
+      {/* Main Package Body */}
+      <mesh castShadow receiveShadow>
+        <boxGeometry args={[1.05, 0.65, 0.78]} />
+        <meshStandardMaterial 
+          color={config.baseColor} 
+          roughness={type === 0 ? 0.8 : 0.4} 
+          metalness={type === 2 ? 0.6 : 0.1} 
+        />
+      </mesh>
+
+      {/* Top Sealing Tape Strip */}
+      <mesh position={[0, 0.33, 0]}>
+        <boxGeometry args={[1.06, 0.01, 0.22]} />
+        <meshStandardMaterial color={config.tapeColor} roughness={0.3} />
+      </mesh>
+
+      {/* Barcode & Shipping Label on Front Side */}
+      <mesh position={[0.12, 0.05, 0.395]}>
+        <boxGeometry args={[0.42, 0.32, 0.01]} />
+        <meshStandardMaterial color={config.labelColor} roughness={0.9} />
+      </mesh>
+      {/* Barcode Lines Detail */}
+      {[-0.08, -0.02, 0.04, 0.1, 0.16].map((bx, bi) => (
+        <mesh key={bi} position={[0.12 + bx, 0.08, 0.402]}>
+          <boxGeometry args={[bi % 2 === 0 ? 0.025 : 0.012, 0.14, 0.005]} />
+          <meshBasicMaterial color="#0f172a" />
+        </mesh>
+      ))}
+
+      {/* Embedded UHF RFID Smart Sensor Tag with Active Pulse LED */}
+      <mesh position={[-0.32, 0.12, 0.396]}>
+        <boxGeometry args={[0.16, 0.14, 0.008]} />
+        <meshStandardMaterial color="#0f172a" metalness={0.9} />
+      </mesh>
+      <mesh position={[-0.32, 0.12, 0.403]}>
+        <sphereGeometry args={[0.035, 12, 12]} />
+        <meshBasicMaterial color={config.rfidColor} />
+      </mesh>
+
+      {/* Corner Bumpers for heavy crates */}
+      {type === 2 && (
+        <>
+          {[-0.52, 0.52].map(cx => (
+            [-0.38, 0.38].map(cz => (
+              <mesh key={`${cx}-${cz}`} position={[cx, 0, cz]}>
+                <boxGeometry args={[0.06, 0.64, 0.06]} />
+                <meshStandardMaterial color="#eab308" metalness={0.8} />
+              </mesh>
+            ))
+          ))}
+        </>
+      )}
+    </group>
+  );
+};
+
+export const ConveyorRollerSystem = ({ conveyorPayloadsRef }) => {
+  const rollersGroupRef = useRef();
+
+  // Create 46 individual roller positions along the 36m conveyor
+  const rollerCount = 46;
+  const rollers = useMemo(() => {
+    const arr = [];
+    for (let i = 0; i < rollerCount; i++) {
+      // span from -17.5 to +17.5
+      const x = -17.5 + (i * (35 / (rollerCount - 1)));
+      arr.push(x);
+    }
+    return arr;
+  }, []);
+
+  // Animate rotating rollers on frame
+  useFrame((state, delta) => {
+    if (rollersGroupRef.current) {
+      rollersGroupRef.current.children.forEach(roller => {
+        roller.rotation.z -= delta * 6.5; // continuous forward roll
+      });
+    }
+  });
+
+  return (
+    <group position={[0, 0.6, 6]}>
+      {/* Heavy-Duty Industrial Conveyor Bed Frame (Steel Channelling) */}
+      <mesh position={[0, 0, 0]} receiveShadow>
+        <boxGeometry args={[36.4, 0.36, 1.45]} />
+        <meshStandardMaterial color="#0f172a" metalness={0.9} roughness={0.25} />
+      </mesh>
+
+      {/* Yellow Safety Guardrail Bumpers along sides */}
+      <mesh position={[0, 0.26, 0.68]}>
+        <boxGeometry args={[36.4, 0.18, 0.06]} />
+        <meshStandardMaterial color="#f59e0b" metalness={0.8} roughness={0.3} />
+      </mesh>
+      <mesh position={[0, 0.26, -0.68]}>
+        <boxGeometry args={[36.4, 0.18, 0.06]} />
+        <meshStandardMaterial color="#f59e0b" metalness={0.8} roughness={0.3} />
+      </mesh>
+
+      {/* Active Rotating Metal Roller Bed */}
+      <group ref={rollersGroupRef} position={[0, 0.22, 0]}>
+        {rollers.map((rx, idx) => (
+          <group key={idx} position={[rx, 0, 0]}>
+            {/* Roller Cylinder (Rotates) */}
+            <mesh rotation={[Math.PI / 2, 0, 0]} castShadow>
+              <cylinderGeometry args={[0.075, 0.075, 1.25, 16]} />
+              <meshStandardMaterial
+                color={idx % 4 === 0 ? '#cbd5e1' : '#94a3b8'}
+                metalness={0.95}
+                roughness={0.2}
+              />
+            </mesh>
+            {/* Roller End Bearing Caps */}
+            <mesh position={[0, 0, 0.63]}>
+              <cylinderGeometry args={[0.04, 0.04, 0.02, 12]} rotation={[Math.PI / 2, 0, 0]} />
+              <meshBasicMaterial color="#0284c7" />
+            </mesh>
+            <mesh position={[0, 0, -0.63]}>
+              <cylinderGeometry args={[0.04, 0.04, 0.02, 12]} rotation={[Math.PI / 2, 0, 0]} />
+              <meshBasicMaterial color="#0284c7" />
+            </mesh>
+          </group>
+        ))}
+      </group>
+
+      {/* Real-time Laser Inspection Scanner Overhead Curtains (Station 1 & 4) */}
+      <group position={[-6, 1.2, 0]}>
+        {/* Scanner Arch */}
+        <mesh position={[0, 0, 0]}>
+          <boxGeometry args={[0.12, 1.8, 1.55]} />
+          <meshStandardMaterial color="#1e293b" metalness={0.9} />
+        </mesh>
+        {/* Laser emitter bar */}
+        <mesh position={[0, 0.85, 0]}>
+          <boxGeometry args={[0.2, 0.06, 1.3]} />
+          <meshBasicMaterial color="#ef4444" />
+        </mesh>
+        {/* Semi-transparent red laser curtain */}
+        <mesh position={[0, 0.1, 0]}>
+          <planeGeometry args={[0.02, 1.5]} />
+          <meshBasicMaterial color="#ef4444" transparent opacity={0.35} side={THREE.DoubleSide} />
+        </mesh>
+      </group>
+
+      {/* Moving Industrial Packages on Conveyor with full labels & RFID */}
+      <group ref={conveyorPayloadsRef}>
+        {[-16, -11, -6, -1, 4, 9, 14].map((x, idx) => (
+          <IndustrialPackage key={idx} initialX={x} type={idx} />
+        ))}
+      </group>
+    </group>
+  );
+};
+
+/* =========================================================================
    5. PROCEDURAL 3D SMART FACTORY MACHINERY & INFRASTRUCTURE
    ========================================================================= */
 export const FactoryMachinery = ({ selectedStation, isDemoRunning }) => {
@@ -720,32 +887,8 @@ export const FactoryMachinery = ({ selectedStation, isDemoRunning }) => {
         ))}
       </group>
 
-      {/* 2. Main High-Speed Conveyor Belt Loop */}
-      <group position={[0, 0.6, 6]}>
-        <mesh position={[0, 0, 0]} receiveShadow>
-          <boxGeometry args={[36, 0.4, 1.4]} />
-          <meshStandardMaterial color="#1e293b" metalness={0.9} roughness={0.3} />
-        </mesh>
-        <mesh position={[0, 0.22, 0]}>
-          <boxGeometry args={[36, 0.04, 1.1]} />
-          <meshStandardMaterial color="#0f172a" metalness={0.5} roughness={0.8} />
-        </mesh>
-
-        {/* Moving Packages on Conveyor */}
-        <group ref={conveyorPayloadsRef}>
-          {[-16, -11, -6, -1, 4, 9, 14].map((x, idx) => (
-            <mesh key={idx} position={[x, 0.55, 0]} castShadow>
-              <boxGeometry args={[1.0, 0.65, 0.75]} />
-              <meshStandardMaterial 
-                color={idx % 2 === 0 ? '#38bdf8' : '#f8fafc'} 
-                metalness={0.5}
-                emissive="#00f0ff"
-                emissiveIntensity={0.08}
-              />
-            </mesh>
-          ))}
-        </group>
-      </group>
+      {/* 2. Main High-Speed Smart Conveyor System with Active Rotating Rollers */}
+      <ConveyorRollerSystem conveyorPayloadsRef={conveyorPayloadsRef} />
 
       {/* 3. Industrial 6-Axis Robot Cell (Industrial Robots Node) */}
       <group position={[18, 0, 0]}>
