@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useApp } from '../../context/AppContext';
 import { FactoryBlueprintMap } from '../common/FactoryBlueprintMap';
 import { OfficialPartnersShowcase } from '../common/PartnerLogos';
-import { CLIENT_LOGOS_LIST, CERTIFICATION_BADGES_LIST } from '../common/ClientBrandLogos';
+import { CLIENT_LOGOS_LIST, CERTIFICATION_BADGES_LIST, AuthenticClientsMarquee, ClientLogo } from '../common/ClientBrandLogos';
 import { 
   Boxes, 
   Cpu, 
@@ -392,6 +392,30 @@ export const HomeView = () => {
             </button>
           </div>
 
+        </div>
+      </section>
+
+      {/* =========================================================================
+          AUTHENTIC ENTERPRISE CLIENTS & PARTNERS REAL LOGO MARQUEE
+         ========================================================================= */}
+      <section style={{ backgroundColor: '#f8fafc', padding: '2.5rem 0', borderTop: '1px solid #e2e8f0', borderBottom: '1px solid #e2e8f0' }}>
+        <div className="container" style={{ textAlign: 'center', marginBottom: '1.25rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
+            <span style={{ fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#0071ba', backgroundColor: '#eff6ff', padding: '0.25rem 0.75rem', borderRadius: '999px', border: '1px solid #bfdbfe' }}>
+              TRUSTED BY 200+ TIER-1 CLIENTS & OEM ALLIANCES
+            </span>
+            <span style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: 600 }}>
+              Automotive • Heavy Metals • Pharmaceuticals • FMCG • Electronics EMS
+            </span>
+          </div>
+        </div>
+
+        {/* Row 1 - Left Scrolling Authentic Brand Logos */}
+        <AuthenticClientsMarquee direction="left" speed={45} />
+
+        {/* Row 2 - Right Scrolling Authentic Brand Logos */}
+        <div style={{ marginTop: '0.85rem' }}>
+          <AuthenticClientsMarquee direction="right" speed={50} />
         </div>
       </section>
 

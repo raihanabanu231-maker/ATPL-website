@@ -19,11 +19,18 @@ import {
   Zap
 } from 'lucide-react';
 import { ATPL_COMPANY_INFO, ATPL_CLIENTS } from '../../data/initialAdminData';
-import { ClientLogo } from '../common/ClientBrandLogos';
+import { ClientLogo, REAL_CLIENTS_DATA } from '../common/ClientBrandLogos';
 
 export const AboutView = () => {
   const { openDemoModal, setCurrentView } = useApp();
   const [activeTopic, setActiveTopic] = useState('all');
+  const [clientFilter, setClientFilter] = useState('all');
+
+  const filteredClients = activeTopic === 'all' && clientFilter === 'all'
+    ? REAL_CLIENTS_DATA
+    : clientFilter === 'all'
+      ? REAL_CLIENTS_DATA
+      : REAL_CLIENTS_DATA.filter(c => c.category?.toLowerCase().includes(clientFilter.toLowerCase()));
 
   const topics = [
     { id: 'all', label: 'All Company Info' },
@@ -246,43 +253,67 @@ export const AboutView = () => {
           </div>
         </div>
 
-        {/* Marquee Clients Showcase (From Pitch Deck) */}
-        <div id="enterprise-roster" className="glass-card" style={{ padding: '3.5rem 2.5rem', marginBottom: '4rem', background: 'rgba(10, 20, 38, 0.9)', scrollMarginTop: '6rem' }}>
-          <div style={{ textAlign: 'center', maxWidth: '750px', margin: '0 auto 2.5rem auto' }}>
-            <div className="badge badge-cyan" style={{ marginBottom: '0.75rem' }}>ENTERPRISE ROSTER</div>
+        {/* Marquee Clients Showcase (209+ Verified Real Logos from ATPL Brand Portfolio) */}
+        <div id="enterprise-roster" className="glass-card" style={{ padding: '3.5rem 2.5rem', marginBottom: '4rem', background: 'rgba(10, 20, 38, 0.95)', scrollMarginTop: '6rem' }}>
+          <div style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto 2.5rem auto' }}>
+            <div className="badge badge-cyan" style={{ marginBottom: '0.75rem' }}>AUTHENTIC ENTERPRISE ROSTER</div>
             <h3 style={{ fontSize: '2.2rem', color: '#ffffff', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: '0.5rem' }}>
-              Trusted by 250+ Industry Leaders
+              Trusted by 200+ Tier-1 Industry Leaders
             </h3>
             <p style={{ color: '#94a3b8', fontSize: '0.98rem', lineHeight: 1.6 }}>
-              Powering zero-defect operations across automotive, steel, FMCG, healthcare, defense, and electronics manufacturing conglomerates.
+              Powering zero-defect operations across automotive, heavy metals, FMCG, pharma, defense, electronics EMS, and aerospace leaders with verified production deployments.
             </p>
+          </div>
+
+          {/* Client Filter Controls */}
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', justifyContent: 'center', marginBottom: '2rem' }}>
+            {[
+              { id: 'all', label: `All Clients (${REAL_CLIENTS_DATA.length})` },
+              { id: 'Automotive', label: '🚗 Automotive & EV' },
+              { id: 'Heavy', label: '🏗️ Heavy Metals & Engg' },
+              { id: 'Pharma', label: '💊 Pharma & Healthcare' },
+              { id: 'FMCG', label: '📦 FMCG & Packaging' },
+              { id: 'Electronics', label: '⚡ Electronics & EMS' },
+              { id: 'Logistics', label: '🚚 Supply Chain & 3PL' }
+            ].map(tab => (
+              <button
+                key={tab.id}
+                onClick={() => setClientFilter(tab.id)}
+                className={`btn btn-sm ${clientFilter === tab.id ? 'btn-primary' : 'btn-secondary'}`}
+                style={{ fontSize: '0.8rem', padding: '0.4rem 0.85rem' }}
+              >
+                {tab.label}
+              </button>
+            ))}
           </div>
 
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(175px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))',
             gap: '1rem',
             alignItems: 'center',
             justifyContent: 'center'
           }}>
-            {ATPL_CLIENTS.map((client, idx) => (
+            {filteredClients.map((client) => (
               <div
-                key={idx}
+                key={client.id}
                 style={{
                   backgroundColor: '#ffffff',
                   border: '1px solid rgba(255, 255, 255, 0.15)',
                   borderRadius: '10px',
                   padding: '0.85rem 0.75rem',
                   display: 'flex',
+                  flexDirection: 'column',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  minHeight: '62px',
+                  minHeight: '75px',
                   boxShadow: '0 4px 15px rgba(0, 0, 0, 0.25)',
                   transition: 'all 0.25s ease',
-                  cursor: 'pointer'
+                  cursor: 'pointer',
+                  position: 'relative'
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-3px) scale(1.02)';
+                  e.currentTarget.style.transform = 'translateY(-3px) scale(1.03)';
                   e.currentTarget.style.boxShadow = '0 10px 25px rgba(0, 113, 186, 0.4)';
                   e.currentTarget.style.borderColor = '#38bdf8';
                 }}
@@ -291,9 +322,22 @@ export const AboutView = () => {
                   e.currentTarget.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.25)';
                   e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.15)';
                 }}
-                title={client}
+                title={`${client.name} • ${client.category}`}
               >
-                <ClientLogo clientName={client} height={24} />
+                <ClientLogo slug={client.slug} clientName={client.name} height={32} />
+                <span style={{ 
+                  fontSize: '0.68rem', 
+                  color: '#64748b', 
+                  fontWeight: 600, 
+                  marginTop: '0.35rem', 
+                  textAlign: 'center',
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  maxWidth: '140px'
+                }}>
+                  {client.name}
+                </span>
               </div>
             ))}
           </div>
