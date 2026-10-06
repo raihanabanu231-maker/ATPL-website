@@ -575,62 +575,72 @@ export const FactoryBlueprintMap = () => {
             );
           })}
 
-          {/* CENTER QR CODE HUB (Cleanly Nested on the Futuristic Central Pedestal) */}
+          {/* CENTER FUTURISTIC PEDESTAL DISC (Completely covers background text & aligns with center hub) */}
           <div 
+            onClick={() => setCurrentView('factory-3d')}
+            title="Scan or Click to Launch 3D Factory Tour"
             style={{
               position: 'absolute',
               left: '49.8%',
-              top: '50.2%',
+              top: '49.8%',
               transform: 'translate(-50%, -50%)',
-              zIndex: 22,
+              width: '18%',
+              height: '14%',
+              minWidth: '135px',
+              minHeight: '90px',
+              maxWidth: '220px',
+              maxHeight: '145px',
+              borderRadius: '50%',
+              background: 'radial-gradient(ellipse at center, #0d2242 0%, #071328 65%, #020712 100%)',
+              border: '2px solid #00f0ff',
+              boxShadow: '0 0 25px rgba(0, 240, 255, 0.55), inset 0 0 15px rgba(0, 240, 255, 0.35), 0 12px 30px rgba(0, 0, 0, 0.9)',
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
               justifyContent: 'center',
-              pointerEvents: 'auto'
+              zIndex: 22,
+              pointerEvents: 'auto',
+              cursor: 'pointer',
+              transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'translate(-50%, -50%) scale(1.05)';
+              e.currentTarget.style.boxShadow = '0 0 35px rgba(0, 240, 255, 0.85), inset 0 0 20px rgba(0, 240, 255, 0.5), 0 15px 40px rgba(0, 0, 0, 0.95)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'translate(-50%, -50%) scale(1)';
+              e.currentTarget.style.boxShadow = '0 0 25px rgba(0, 240, 255, 0.55), inset 0 0 15px rgba(0, 240, 255, 0.35), 0 12px 30px rgba(0, 0, 0, 0.9)';
             }}
           >
-            <div 
-              onClick={() => setCurrentView('factory-3d')}
-              title="Scan or click QR code to launch 3D Factory Tour"
-              style={{
-                position: 'relative',
-                padding: '5px',
-                backgroundColor: '#ffffff',
-                borderRadius: '12px',
-                border: '2px solid #00f0ff',
-                boxShadow: '0 0 20px rgba(0, 240, 255, 0.5), 0 8px 25px rgba(0, 0, 0, 0.75)',
-                cursor: 'pointer',
-                transition: 'transform 0.2s ease, box-shadow 0.2s ease'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'scale(1.08)';
-                e.currentTarget.style.boxShadow = '0 0 30px rgba(0, 240, 255, 0.8), 0 0 45px rgba(232, 88, 116, 0.5)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'scale(1)';
-                e.currentTarget.style.boxShadow = '0 0 20px rgba(0, 240, 255, 0.5), 0 8px 25px rgba(0, 0, 0, 0.75)';
-              }}
-            >
+            <div style={{
+              position: 'relative',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: '#ffffff',
+              padding: '3px',
+              borderRadius: '8px',
+              boxShadow: '0 0 12px rgba(0, 240, 255, 0.5)'
+            }}>
               <img 
                 src={atplQrCodeImg} 
                 alt="Scan ATPL QR Code" 
                 style={{
-                  width: '74px',
-                  height: '74px',
+                  width: '56px',
+                  height: '56px',
                   display: 'block',
-                  borderRadius: '6px'
+                  borderRadius: '5px'
                 }}
               />
               <div style={{
                 position: 'absolute',
-                top: '-7px',
-                right: '-7px',
+                top: '-6px',
+                right: '-6px',
                 backgroundColor: '#E85874',
                 color: '#ffffff',
-                fontSize: '0.55rem',
-                fontWeight: 800,
-                padding: '0.08rem 0.35rem',
+                fontSize: '0.52rem',
+                fontWeight: 900,
+                padding: '0.06rem 0.32rem',
                 borderRadius: '999px',
                 letterSpacing: '0.04em',
                 boxShadow: '0 0 8px #E85874'
@@ -639,20 +649,16 @@ export const FactoryBlueprintMap = () => {
               </div>
             </div>
             <div style={{
-              marginTop: '5px',
-              backgroundColor: 'rgba(3, 10, 22, 0.92)',
-              padding: '0.12rem 0.5rem',
-              borderRadius: '999px',
-              border: '1px solid rgba(0, 240, 255, 0.4)',
+              marginTop: '3px',
               color: '#00f0ff',
-              fontSize: '0.62rem',
+              fontSize: '0.58rem',
+              fontFamily: 'var(--font-mono)',
               fontWeight: 800,
-              letterSpacing: '0.06em',
+              letterSpacing: '0.08em',
               textTransform: 'uppercase',
-              whiteSpace: 'nowrap',
-              boxShadow: '0 4px 12px rgba(0,0,0,0.8)'
+              textShadow: '0 0 8px rgba(0, 240, 255, 0.8)'
             }}>
-              📱 Scan Tour
+              ✨ 3D TOUR
             </div>
           </div>
 
