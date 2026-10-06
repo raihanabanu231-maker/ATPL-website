@@ -1,11 +1,10 @@
 import React from 'react';
+import atplLogoImg from '../../../assets/images/atpl_logo.png';
 
 /**
  * ATPL Official Brand Logo Component
  * Incorporates:
- * - Electric Sky Blue (#29A2E1) & Deep Blue
- * - Charcoal Arrow Body (#334155 / #1e293b)
- * - Signature ATPL Coral Bow Arc (#E85874)
+ * - Official ATPL Emblem: Electric Sky Blue & Deep Teal Bow Facets, Charcoal Arrow & Signature Coral Arc
  */
 export const AtplLogo = ({ 
   size = 38, 
@@ -26,50 +25,19 @@ export const AtplLogo = ({
       }} 
       className={className}
     >
-      <svg 
+      <img 
+        src={atplLogoImg} 
+        alt="ATPL Archery Technocrats Official Logo" 
         width={size} 
-        height={size} 
-        viewBox="0 0 1000 1000" 
-        fill="none" 
-        xmlns="http://www.w3.org/2000/svg"
-        style={{ flexShrink: 0, overflow: 'visible' }}
-      >
-        {/* 1. Top Blue Triangle Facet */}
-        <polygon 
-          points="220,107 377,434 80,577" 
-          fill="#29A6E8" 
-        />
-
-        {/* 2. Dark Charcoal Arrow Shaft */}
-        <polygon 
-          points="1,854 80,577 377,434 824,226 840,220 426,538" 
-          fill="#2F4149" 
-        />
-
-        {/* 3. Teal Accent Band */}
-        <polygon 
-          points="229,678 426,538 457,600 296,731" 
-          fill="#0E87A9" 
-        />
-
-        {/* 4. Bottom Light Blue Triangle Facet */}
-        <polygon 
-          points="296,731 457,600 648,1000" 
-          fill="#3EA6E9" 
-        />
-
-        {/* 5. Arrowhead Tip Diamond */}
-        <polygon 
-          points="840,220 864,133 1000,107 910,225" 
-          fill="#2F4149" 
-        />
-
-        {/* 6. Signature Coral Bow Arc */}
-        <path 
-          d="M436,34 L465,59 C605,180 740,430 740,580 C740,730 705,870 648,1000 C725,870 784,710 784,540 C784,370 655,140 436,34 Z" 
-          fill="#E85874" 
-        />
-      </svg>
+        height={size}
+        style={{
+          width: `${size}px`,
+          height: `${size}px`,
+          objectFit: 'contain',
+          flexShrink: 0,
+          display: 'block'
+        }}
+      />
 
       {showText && (
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', lineHeight: 1.1 }}>
