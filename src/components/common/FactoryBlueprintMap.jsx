@@ -575,91 +575,47 @@ export const FactoryBlueprintMap = () => {
             );
           })}
 
-          {/* CENTER FUTURISTIC PEDESTAL DISC (Completely covers background text & aligns with center hub) */}
+          {/* CENTER PROMINENT WHITE QR CODE CARD (Scan to Launch 3D Factory Tour) */}
           <div 
             onClick={() => setCurrentView('factory-3d')}
             title="Scan or Click to Launch 3D Factory Tour"
             style={{
               position: 'absolute',
-              left: '49.8%',
-              top: '49.8%',
+              left: '50%',
+              top: '50%',
               transform: 'translate(-50%, -50%)',
-              width: '18%',
-              height: '14%',
-              minWidth: '135px',
-              minHeight: '90px',
-              maxWidth: '220px',
-              maxHeight: '145px',
-              borderRadius: '50%',
-              background: 'radial-gradient(ellipse at center, #0d2242 0%, #071328 65%, #020712 100%)',
-              border: '2px solid #00f0ff',
-              boxShadow: '0 0 25px rgba(0, 240, 255, 0.55), inset 0 0 15px rgba(0, 240, 255, 0.35), 0 12px 30px rgba(0, 0, 0, 0.9)',
+              zIndex: 25,
+              background: '#ffffff',
+              padding: '10px',
+              borderRadius: '20px',
+              boxShadow: '0 15px 45px rgba(0, 0, 0, 0.75), 0 0 35px rgba(0, 240, 255, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.9)',
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
               justifyContent: 'center',
-              zIndex: 22,
-              pointerEvents: 'auto',
               cursor: 'pointer',
-              transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)'
+              transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
+              pointerEvents: 'auto'
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translate(-50%, -50%) scale(1.05)';
-              e.currentTarget.style.boxShadow = '0 0 35px rgba(0, 240, 255, 0.85), inset 0 0 20px rgba(0, 240, 255, 0.5), 0 15px 40px rgba(0, 0, 0, 0.95)';
+              e.currentTarget.style.transform = 'translate(-50%, -50%) scale(1.08)';
+              e.currentTarget.style.boxShadow = '0 20px 55px rgba(0, 0, 0, 0.9), 0 0 50px rgba(0, 240, 255, 0.75), 0 0 0 2px #00f0ff';
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.transform = 'translate(-50%, -50%) scale(1)';
-              e.currentTarget.style.boxShadow = '0 0 25px rgba(0, 240, 255, 0.55), inset 0 0 15px rgba(0, 240, 255, 0.35), 0 12px 30px rgba(0, 0, 0, 0.9)';
+              e.currentTarget.style.boxShadow = '0 15px 45px rgba(0, 0, 0, 0.75), 0 0 35px rgba(0, 240, 255, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.9)';
             }}
           >
-            <div style={{
-              position: 'relative',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              background: '#ffffff',
-              padding: '3px',
-              borderRadius: '8px',
-              boxShadow: '0 0 12px rgba(0, 240, 255, 0.5)'
-            }}>
-              <img 
-                src={atplQrCodeImg} 
-                alt="Scan ATPL QR Code" 
-                style={{
-                  width: '56px',
-                  height: '56px',
-                  display: 'block',
-                  borderRadius: '5px'
-                }}
-              />
-              <div style={{
-                position: 'absolute',
-                top: '-6px',
-                right: '-6px',
-                backgroundColor: '#E85874',
-                color: '#ffffff',
-                fontSize: '0.52rem',
-                fontWeight: 900,
-                padding: '0.06rem 0.32rem',
-                borderRadius: '999px',
-                letterSpacing: '0.04em',
-                boxShadow: '0 0 8px #E85874'
-              }}>
-                SCAN
-              </div>
-            </div>
-            <div style={{
-              marginTop: '3px',
-              color: '#00f0ff',
-              fontSize: '0.58rem',
-              fontFamily: 'var(--font-mono)',
-              fontWeight: 800,
-              letterSpacing: '0.08em',
-              textTransform: 'uppercase',
-              textShadow: '0 0 8px rgba(0, 240, 255, 0.8)'
-            }}>
-              ✨ 3D TOUR
-            </div>
+            <img 
+              src={atplQrCodeImg} 
+              alt="Scan ATPL QR Code" 
+              style={{
+                width: '110px',
+                height: '110px',
+                display: 'block',
+                borderRadius: '12px'
+              }}
+            />
           </div>
 
           {/* Animated Traveling Robot Avatar with Spotlight Glow */}
