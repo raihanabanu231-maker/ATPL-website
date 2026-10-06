@@ -71,6 +71,18 @@ export const Navbar = ({ onOpenSearch }) => {
     } catch (e) {}
   }, []);
 
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [mobileMenuOpen]);
+
   // Close dropdown on outside click
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -137,27 +149,29 @@ export const Navbar = ({ onOpenSearch }) => {
         overflow: 'hidden',
         boxSizing: 'border-box'
       }}>
-        <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', maxWidth: '100%', padding: '0 0.5rem', boxSizing: 'border-box' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', overflow: 'hidden', whiteSpace: 'nowrap', minWidth: 0, flex: 1 }}>
-            <span style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '0.35rem',
-              backgroundColor: 'rgba(232, 88, 116, 0.12)',
-              color: '#E85874',
-              border: '1px solid rgba(232, 88, 116, 0.3)',
-              fontSize: '0.65rem',
-              fontWeight: 700,
-              padding: '0.12rem 0.45rem',
-              borderRadius: '999px',
-              letterSpacing: '0.04em',
-              flexShrink: 0
-            }}>
-              ANNOUNCEMENT
-            </span>
-            <span style={{ color: '#334155', fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontSize: '0.76rem' }}>
-              🚀 Live 3D Digital Twin Simulator is active!
-            </span>
+        <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', maxWidth: '100%', padding: '0 0.25rem', boxSizing: 'border-box' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', minWidth: 0, gap: '0.5rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', overflow: 'hidden', minWidth: 0, flex: 1 }}>
+              <span style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.35rem',
+                backgroundColor: 'rgba(232, 88, 116, 0.12)',
+                color: '#E85874',
+                border: '1px solid rgba(232, 88, 116, 0.3)',
+                fontSize: '0.62rem',
+                fontWeight: 800,
+                padding: '0.1rem 0.42rem',
+                borderRadius: '999px',
+                letterSpacing: '0.04em',
+                flexShrink: 0
+              }}>
+                ANNOUNCEMENT
+              </span>
+              <span style={{ color: '#334155', fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontSize: '0.74rem' }}>
+                🚀 Live 3D Digital Twin Simulator
+              </span>
+            </div>
             <button
               onClick={() => handleNavClick('factory-3d')}
               style={{
@@ -166,11 +180,11 @@ export const Navbar = ({ onOpenSearch }) => {
                 color: '#E85874',
                 cursor: 'pointer',
                 fontWeight: 700,
-                fontSize: '0.76rem',
+                fontSize: '0.74rem',
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '0.2rem',
-                padding: 0,
+                padding: '0 0.2rem',
                 flexShrink: 0
               }}
             >
@@ -1000,18 +1014,27 @@ export const Navbar = ({ onOpenSearch }) => {
 
         </div>
 
-        {/* Mobile Slide Drawer Menu with Accordions for all 5 categories */}
+        {/* Mobile Full-Screen Slide Drawer Menu */}
         {mobileMenuOpen && (
           <div style={{
+            position: 'fixed',
+            top: '72px',
+            left: 0,
+            right: 0,
+            bottom: 0,
+            width: '100vw',
+            height: 'calc(100dvh - 72px)',
             backgroundColor: '#ffffff',
             borderTop: '1px solid #f1f5f9',
-            padding: '1.25rem',
+            padding: '1.25rem 1.25rem 5rem 1.25rem',
             display: 'flex',
             flexDirection: 'column',
             gap: '0.75rem',
-            boxShadow: '0 10px 25px rgba(0, 0, 0, 0.08)',
-            maxHeight: '80vh',
-            overflowY: 'auto'
+            boxShadow: '0 20px 40px rgba(0, 0, 0, 0.15)',
+            overflowY: 'auto',
+            WebkitOverflowScrolling: 'touch',
+            zIndex: 1050,
+            boxSizing: 'border-box'
           }}>
             {/* Hardware Accordion */}
             <div>
@@ -1084,6 +1107,7 @@ export const Navbar = ({ onOpenSearch }) => {
             <button
               onClick={() => handleNavClick('about')}
               style={{
+                width: '100%',
                 background: '#f8fafc',
                 border: '1px solid #e2e8f0',
                 borderRadius: '8px',
@@ -1102,6 +1126,7 @@ export const Navbar = ({ onOpenSearch }) => {
             <button
               onClick={() => handleNavClick('partners')}
               style={{
+                width: '100%',
                 background: '#f8fafc',
                 border: '1px solid #e2e8f0',
                 borderRadius: '8px',

@@ -523,7 +523,7 @@ export const AtplCoPilot = () => {
               top: 50%;
               right: 0;
               transform: translateY(-50%);
-              z-index: 1000;
+              z-index: 990;
               display: flex;
               align-items: center;
               gap: 0.55rem;
