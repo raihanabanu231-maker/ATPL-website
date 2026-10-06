@@ -34,6 +34,24 @@ import {
   Barcode
 } from 'lucide-react';
 
+export const ATPL_LANGUAGES = [
+  { code: 'en', name: 'English', native: 'English', flag: '🇬🇧' },
+  { code: 'hi', name: 'Hindi', native: 'हिन्दी (Hindi)', flag: '🇮🇳' },
+  { code: 'ta', name: 'Tamil', native: 'தமிழ் (Tamil)', flag: '🇮🇳' },
+  { code: 'te', name: 'Telugu', native: 'తెలుగు (Telugu)', flag: '🇮🇳' },
+  { code: 'kn', name: 'Kannada', native: 'ಕನ್ನಡ (Kannada)', flag: '🇮🇳' },
+  { code: 'ml', name: 'Malayalam', native: 'മലയാളം (Malayalam)', flag: '🇮🇳' },
+  { code: 'mr', name: 'Marathi', native: 'मराठी (Marathi)', flag: '🇮🇳' },
+  { code: 'gu', name: 'Gujarati', native: 'ગુજરાતી (Gujarati)', flag: '🇮🇳' },
+  { code: 'bn', name: 'Bengali', native: 'বাংলা (Bengali)', flag: '🇮🇳' },
+  { code: 'de', name: 'German', native: 'Deutsch', flag: '🇩🇪' },
+  { code: 'ja', name: 'Japanese', native: '日本語', flag: '🇯🇵' },
+  { code: 'es', name: 'Spanish', native: 'Español', flag: '🇪🇸' },
+  { code: 'fr', name: 'French', native: 'Français', flag: '🇫🇷' },
+  { code: 'ar', name: 'Arabic', native: 'العربية', flag: '🇸🇦' },
+  { code: 'zh-CN', name: 'Chinese', native: '中文 (Simplified)', flag: '🇨🇳' }
+];
+
 export const Navbar = ({ onOpenSearch }) => {
   const { currentView, setCurrentView, openDemoModal, authSession, openCoPilot } = useApp();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -42,6 +60,16 @@ export const Navbar = ({ onOpenSearch }) => {
   const [selectedLang, setSelectedLang] = useState('English');
   const [mobileExpandedSection, setMobileExpandedSection] = useState(null);
   const dropdownRef = useRef(null);
+
+  // Restore saved language preference on mount
+  useEffect(() => {
+    try {
+      const savedName = localStorage.getItem('atpl_selected_lang_name');
+      if (savedName) {
+        setSelectedLang(savedName);
+      }
+    } catch (e) {}
+  }, []);
 
   // Close dropdown on outside click
   useEffect(() => {
@@ -63,7 +91,33 @@ export const Navbar = ({ onOpenSearch }) => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const languages = ['English', 'हिन्दी (Hindi)', 'தமிழ் (Tamil)', 'Deutsch', '日本語'];
+  const handleLanguageChange = (langObj) => {
+    setSelectedLang(langObj.native);
+    setLanguageOpen(false);
+
+    try {
+      localStorage.setItem('atpl_selected_lang_code', langObj.code);
+      localStorage.setItem('atpl_selected_lang_name', langObj.native);
+
+      // Set cookie for Google Translate
+      const host = window.location.hostname;
+      document.cookie = `googtrans=/en/${langObj.code}; path=/;`;
+      if (host && host !== 'localhost') {
+        document.cookie = `googtrans=/en/${langObj.code}; domain=.${host}; path=/;`;
+      }
+
+      // Trigger translate combo box
+      const select = document.querySelector('.goog-te-combo');
+      if (select) {
+        select.value = langObj.code;
+        select.dispatchEvent(new Event('change'));
+      } else {
+        window.location.reload();
+      }
+    } catch (e) {
+      console.warn('Language change error:', e);
+    }
+  };
 
   return (
     <>
@@ -734,60 +788,98 @@ export const Navbar = ({ onOpenSearch }) => {
                 onClick={() => setLanguageOpen(!languageOpen)}
                 style={{
                   background: 'transparent',
-                  border: 'none',
-                  color: '#475569',
+                  border: '1px solid #e2e8f0',
+                  color: '#334155',
                   cursor: 'pointer',
-                  fontSize: '0.88rem',
-                  fontWeight: 500,
+                  fontSize: '0.86rem',
+                  fontWeight: 600,
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '0.35rem',
-                  padding: '0.4rem 0.5rem',
-                  borderRadius: '6px'
+                  gap: '0.4rem',
+                  padding: '0.4rem 0.65rem',
+                  borderRadius: '6px',
+                  transition: 'all 0.15s ease'
                 }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = '#0071ba';
+                  e.currentTarget.style.color = '#0071ba';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = '#e2e8f0';
+                  e.currentTarget.style.color = '#334155';
+                }}
+                title="Change Website Language (Google Translate)"
               >
-                <Globe size={16} />
+                <Globe size={15} color="#0071ba" />
                 <span>{selectedLang.split(' ')[0]}</span>
-                <ChevronDown size={13} />
+                <ChevronDown size={13} style={{ transform: languageOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s ease' }} />
               </button>
 
               {languageOpen && (
                 <div style={{
                   position: 'absolute',
-                  top: '100%',
+                  top: 'calc(100% + 6px)',
                   right: 0,
                   backgroundColor: '#ffffff',
-                  boxShadow: '0 10px 25px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0,0,0,0.06)',
+                  boxShadow: '0 15px 35px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0,0,0,0.08)',
                   borderRadius: '10px',
-                  padding: '0.4rem',
+                  padding: '0.5rem',
                   zIndex: 1060,
-                  width: '160px',
+                  width: '210px',
+                  maxHeight: '340px',
+                  overflowY: 'auto',
                   display: 'flex',
                   flexDirection: 'column',
                   gap: '0.2rem'
                 }}>
-                  {languages.map(lang => (
-                    <button
-                      key={lang}
-                      onClick={() => {
-                        setSelectedLang(lang);
-                        setLanguageOpen(false);
-                      }}
-                      style={{
-                        background: selectedLang === lang ? '#f8fafc' : 'transparent',
-                        border: 'none',
-                        color: selectedLang === lang ? '#e42528' : '#334155',
-                        fontWeight: selectedLang === lang ? 700 : 500,
-                        fontSize: '0.84rem',
-                        textAlign: 'left',
-                        padding: '0.45rem 0.65rem',
-                        borderRadius: '6px',
-                        cursor: 'pointer'
-                      }}
-                    >
-                      {lang}
-                    </button>
-                  ))}
+                  <div style={{
+                    fontSize: '0.7rem',
+                    fontWeight: 700,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.08em',
+                    color: '#94a3b8',
+                    padding: '0.3rem 0.5rem 0.2rem 0.5rem',
+                    borderBottom: '1px solid #f1f5f9'
+                  }}>
+                    Select Language / மொழி
+                  </div>
+                  {ATPL_LANGUAGES.map(lang => {
+                    const isSelected = selectedLang === lang.native || selectedLang === lang.name;
+                    return (
+                      <button
+                        key={lang.code}
+                        onClick={() => handleLanguageChange(lang)}
+                        style={{
+                          background: isSelected ? 'rgba(0, 113, 186, 0.08)' : 'transparent',
+                          border: 'none',
+                          color: isSelected ? '#0071ba' : '#334155',
+                          fontWeight: isSelected ? 700 : 500,
+                          fontSize: '0.84rem',
+                          textAlign: 'left',
+                          padding: '0.5rem 0.65rem',
+                          borderRadius: '6px',
+                          cursor: 'pointer',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          gap: '0.5rem',
+                          transition: 'background 0.15s ease'
+                        }}
+                        onMouseEnter={(e) => {
+                          if (!isSelected) e.currentTarget.style.backgroundColor = '#f8fafc';
+                        }}
+                        onMouseLeave={(e) => {
+                          if (!isSelected) e.currentTarget.style.backgroundColor = 'transparent';
+                        }}
+                      >
+                        <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                          <span style={{ fontSize: '1rem' }}>{lang.flag}</span>
+                          <span>{lang.native}</span>
+                        </span>
+                        {isSelected && <span style={{ color: '#0071ba', fontSize: '0.8rem' }}>✓</span>}
+                      </button>
+                    );
+                  })}
                 </div>
               )}
             </div>
@@ -1053,6 +1145,74 @@ export const Navbar = ({ onOpenSearch }) => {
                   <button onClick={() => handleNavClick('factory-3d')} style={{ background: 'none', border: 'none', textAlign: 'left', padding: '0.4rem', color: '#E85874', fontWeight: 600, fontSize: '0.9rem' }}>• ✨ 3D Virtual Plant Tour</button>
                   <button onClick={() => handleNavClick('services')} style={{ background: 'none', border: 'none', textAlign: 'left', padding: '0.4rem', color: '#334155', fontSize: '0.9rem' }}>• 24/7 AMC Maintenance Contracts</button>
                   <button onClick={() => handleNavClick('contact')} style={{ background: 'none', border: 'none', textAlign: 'left', padding: '0.4rem', color: '#334155', fontSize: '0.9rem' }}>• Helpdesk & Contact Sales</button>
+                </div>
+              )}
+            </div>
+
+            {/* Mobile Language Selector Accordion */}
+            <div>
+              <button
+                onClick={() => setMobileExpandedSection(mobileExpandedSection === 'language' ? null : 'language')}
+                style={{
+                  width: '100%',
+                  background: '#f8fafc',
+                  border: '1px solid #e2e8f0',
+                  borderRadius: '8px',
+                  padding: '0.75rem 1rem',
+                  fontSize: '0.96rem',
+                  fontWeight: 700,
+                  color: '#0f172a',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  cursor: 'pointer'
+                }}
+              >
+                <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <Globe size={18} color="#0071ba" />
+                  <span>Language / மொழி: <strong style={{ color: '#0071ba' }}>{selectedLang.split(' ')[0]}</strong></span>
+                </span>
+                <ChevronDown size={16} style={{ transform: mobileExpandedSection === 'language' ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s ease' }} />
+              </button>
+              {mobileExpandedSection === 'language' && (
+                <div style={{ 
+                  padding: '0.5rem', 
+                  display: 'grid', 
+                  gridTemplateColumns: 'repeat(2, 1fr)', 
+                  gap: '0.4rem',
+                  backgroundColor: '#f8fafc',
+                  borderRadius: '8px',
+                  marginTop: '0.4rem'
+                }}>
+                  {ATPL_LANGUAGES.map(lang => {
+                    const isSelected = selectedLang === lang.native || selectedLang === lang.name;
+                    return (
+                      <button
+                        key={lang.code}
+                        onClick={() => {
+                          handleLanguageChange(lang);
+                          setMobileMenuOpen(false);
+                        }}
+                        style={{
+                          background: isSelected ? '#0071ba' : '#ffffff',
+                          color: isSelected ? '#ffffff' : '#334155',
+                          border: '1px solid #e2e8f0',
+                          borderRadius: '6px',
+                          padding: '0.5rem',
+                          fontSize: '0.82rem',
+                          fontWeight: isSelected ? 700 : 500,
+                          textAlign: 'left',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '0.4rem',
+                          cursor: 'pointer'
+                        }}
+                      >
+                        <span>{lang.flag}</span>
+                        <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{lang.native}</span>
+                      </button>
+                    );
+                  })}
                 </div>
               )}
             </div>

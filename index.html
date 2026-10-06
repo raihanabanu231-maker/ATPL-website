@@ -127,6 +127,22 @@
   </head>
   <body>
     <div id="root"></div>
+
+    <!-- Hidden Google Translate Element & Init Script -->
+    <div id="google_translate_element" style="position: absolute; left: -9999px; top: -9999px; visibility: hidden;"></div>
+    <script type="text/javascript">
+      window.googleTranslateElementInit = function() {
+        if (window.google && window.google.translate) {
+          new window.google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,hi,ta,te,kn,ml,mr,gu,bn,de,ja,es,fr,ar,zh-CN',
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+      };
+    </script>
+    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
