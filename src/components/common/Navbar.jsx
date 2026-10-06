@@ -940,23 +940,29 @@ export const Navbar = ({ onOpenSearch }) => {
               }}>AI</span>
             </button>
 
-            {/* Admin CMS / CRM Button (Desktop Only) */}
-            <button
-              onClick={() => handleNavClick('admin')}
+            {/* Admin CRM Link (Direct to PerfectFlow 360 CRM Login) */}
+            <a
+              href="https://perfectflow360.atplgroup.org"
+              target="_blank"
+              rel="noopener noreferrer"
               className="desktop-only-action"
               style={{
-                background: 'transparent',
-                border: 'none',
+                textDecoration: 'none',
                 color: '#0071ba',
                 fontWeight: 600,
                 fontSize: '0.92rem',
-                cursor: 'pointer',
                 padding: '0.45rem 0.6rem',
-                borderRadius: '6px'
+                borderRadius: '6px',
+                display: 'inline-flex',
+                alignItems: 'center',
+                transition: 'color 0.2s ease'
               }}
+              onMouseEnter={(e) => e.currentTarget.style.color = '#E85874'}
+              onMouseLeave={(e) => e.currentTarget.style.color = '#0071ba'}
+              title="Open Official PerfectFlow 360 CRM Portal"
             >
-              Admin CMS
-            </button>
+              Admin CRM
+            </a>
 
             {/* ATPL Request Demo Button (Desktop Only) */}
             <button
@@ -1276,25 +1282,25 @@ export const Navbar = ({ onOpenSearch }) => {
                 }}>AI</span>
               </button>
 
-              <button
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  handleNavClick('admin');
-                }}
+              <a
+                href="https://perfectflow360.atplgroup.org"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setMobileMenuOpen(false)}
                 style={{
                   backgroundColor: '#f1f5f9',
                   color: '#0071ba',
-                  border: 'none',
+                  textDecoration: 'none',
                   borderRadius: '8px',
                   padding: '0.85rem',
                   fontWeight: 700,
                   fontSize: '0.95rem',
-                  cursor: 'pointer',
+                  display: 'block',
                   textAlign: 'center'
                 }}
               >
-                Admin CMS
-              </button>
+                Admin CRM (PerfectFlow 360)
+              </a>
 
               <button
                 onClick={() => {
