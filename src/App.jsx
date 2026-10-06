@@ -7,7 +7,6 @@ import { LeadModal } from './components/common/LeadModal';
 import { SearchModal } from './components/common/SearchModal';
 import { AtplCoPilot } from './components/common/AtplCoPilot';
 import { ErrorBoundary } from './components/common/ErrorBoundary';
-import { AdminLayout } from './components/admin/AdminLayout';
 import { AdminLogin } from './components/admin/AdminLogin';
 import { Factory3DView } from './components/factory3d/Factory3DView';
 import { HomeView } from './components/pages/HomeView';
@@ -24,32 +23,12 @@ const MainAppContent = () => {
   const { currentView, setCurrentView, authSession } = useApp();
   const [searchOpen, setSearchOpen] = useState(false);
 
-  // If in Login View
-  if (currentView === 'login') {
+  // If in CRM Login / Admin View
+  if (currentView === 'login' || currentView === 'admin') {
     return (
       <ErrorBoundary>
         <AdminLogin />
         <ToastContainer />
-      </ErrorBoundary>
-    );
-  }
-
-  // If in Admin Control Center Mode
-  if (currentView === 'admin') {
-    if (!authSession) {
-      return (
-        <ErrorBoundary>
-          <AdminLogin />
-          <ToastContainer />
-        </ErrorBoundary>
-      );
-    }
-
-    return (
-      <ErrorBoundary>
-        <AdminLayout />
-        <ToastContainer />
-        <LeadModal />
       </ErrorBoundary>
     );
   }

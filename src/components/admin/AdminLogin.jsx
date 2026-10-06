@@ -37,7 +37,7 @@ export const AdminLogin = () => {
 
     setTimeout(() => {
       setIsLoading(false);
-      // Authenticate admin session
+      // Authenticate and redirect directly to Perfectflow 360 CRM
       loginAdmin({
         name: 'Amarnath P. (Admin)',
         email: email.trim(),
@@ -47,7 +47,7 @@ export const AdminLogin = () => {
         token: `ATPL-AUTH-${Date.now()}`
       }, rememberMe, 'projects', false);
 
-      // Open Official ATPL CRM Portal
+      // Redirect directly to Perfectflow 360 CRM
       window.location.href = 'https://perfectflow360.atplgroup.org';
     }, 450);
   };
@@ -69,7 +69,7 @@ export const AdminLogin = () => {
         token: `ATPL-AUTH-${Date.now()}`
       }, true, 'projects', false);
 
-      // Open Official ATPL CRM Portal
+      // Redirect directly to Perfectflow 360 CRM
       window.location.href = 'https://perfectflow360.atplgroup.org';
     }, 350);
   };
@@ -160,7 +160,7 @@ export const AdminLogin = () => {
             letterSpacing: '-0.02em',
             marginBottom: '0.35rem'
           }}>
-            ATPL Admin Portal
+            ATPL CRM Portal
           </h1>
 
           <p style={{
@@ -168,7 +168,7 @@ export const AdminLogin = () => {
             fontSize: '0.88rem',
             lineHeight: 1.5
           }}>
-            Authorized access only. Sign in to add & manage customer projects, case studies, and live inquiries.
+            Sign in to access Perfectflow 360 CRM & Enterprise Management Suite.
           </p>
         </div>
 
@@ -197,7 +197,7 @@ export const AdminLogin = () => {
           {/* Email Input */}
           <div>
             <label style={{ display: 'block', fontSize: '0.82rem', fontWeight: 600, color: '#cbd5e1', marginBottom: '0.4rem' }}>
-              Admin Email Address
+              CRM Admin Email Address
             </label>
             <div style={{ position: 'relative' }}>
               <div style={{ position: 'absolute', left: '0.9rem', top: '50%', transform: 'translateY(-50%)', color: '#64748b' }}>
@@ -222,8 +222,8 @@ export const AdminLogin = () => {
                   boxSizing: 'border-box'
                 }}
                 onFocus={(e) => {
-                  e.target.style.borderColor = '#0071ba';
-                  e.target.style.backgroundColor = 'rgba(0, 113, 186, 0.08)';
+                  e.target.style.borderColor = '#E85874';
+                  e.target.style.backgroundColor = 'rgba(232, 88, 116, 0.08)';
                 }}
                 onBlur={(e) => {
                   e.target.style.borderColor = 'rgba(255, 255, 255, 0.15)';
@@ -266,8 +266,8 @@ export const AdminLogin = () => {
                   boxSizing: 'border-box'
                 }}
                 onFocus={(e) => {
-                  e.target.style.borderColor = '#0071ba';
-                  e.target.style.backgroundColor = 'rgba(0, 113, 186, 0.08)';
+                  e.target.style.borderColor = '#E85874';
+                  e.target.style.backgroundColor = 'rgba(232, 88, 116, 0.08)';
                 }}
                 onBlur={(e) => {
                   e.target.style.borderColor = 'rgba(255, 255, 255, 0.15)';
@@ -303,7 +303,7 @@ export const AdminLogin = () => {
                 type="checkbox"
                 checked={rememberMe}
                 onChange={(e) => setRememberMe(e.target.checked)}
-                style={{ accentColor: '#0071ba', cursor: 'pointer' }}
+                style={{ accentColor: '#E85874', cursor: 'pointer' }}
               />
               <span>Remember this session</span>
             </label>
@@ -319,6 +319,7 @@ export const AdminLogin = () => {
             disabled={isLoading}
             style={{
               backgroundColor: '#E85874',
+              backgroundImage: 'linear-gradient(135deg, #E85874 0%, #ff4b72 100%)',
               color: '#ffffff',
               border: 'none',
               borderRadius: '10px',
@@ -337,13 +338,11 @@ export const AdminLogin = () => {
             }}
             onMouseEnter={(e) => {
               if (!isLoading) {
-                e.currentTarget.style.backgroundColor = '#d44360';
-                e.currentTarget.style.boxShadow = '0 10px 28px rgba(232, 88, 116, 0.55)';
+                e.currentTarget.style.boxShadow = '0 10px 28px rgba(232, 88, 116, 0.6)';
               }
             }}
             onMouseLeave={(e) => {
               if (!isLoading) {
-                e.currentTarget.style.backgroundColor = '#E85874';
                 e.currentTarget.style.boxShadow = '0 8px 25px rgba(232, 88, 116, 0.4)';
               }
             }}
@@ -358,7 +357,7 @@ export const AdminLogin = () => {
             )}
           </button>
 
-          {/* Direct Launch Link */}
+          {/* Direct Launch Button */}
           <a
             href="https://perfectflow360.atplgroup.org"
             target="_blank"
@@ -392,7 +391,6 @@ export const AdminLogin = () => {
             <Sparkles size={15} color="#00f0ff" />
             <span>Launch https://perfectflow360.atplgroup.org Directly ↗</span>
           </a>
-
         </form>
 
         {/* Security Badge */}

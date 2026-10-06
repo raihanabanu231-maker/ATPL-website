@@ -311,32 +311,91 @@ export const FactoryBlueprintMap = () => {
             />
           </svg>
 
+          {/* Responsive Mobile Styles */}
+          <style>{`
+            @media (max-width: 768px) {
+              #factory-blueprint-section {
+                height: 540px !important;
+                min-height: 540px !important;
+                max-height: 540px !important;
+                padding: 0.25rem 0.4rem !important;
+              }
+              .factory-blueprint-top-hud {
+                top: 6px !important;
+                left: 6px !important;
+                right: 6px !important;
+                padding: 0.3rem 0.55rem !important;
+              }
+              .factory-top-title-span {
+                font-size: 0.68rem !important;
+              }
+              .factory-pin-label-span {
+                display: none !important;
+              }
+              .factory-pin-label-span.active {
+                display: inline !important;
+                font-size: 0.62rem !important;
+                max-width: 90px !important;
+                overflow: hidden !important;
+                text-overflow: ellipsis !important;
+              }
+              .factory-hud-bottom-overlay {
+                grid-template-columns: 1fr !important;
+                gap: 0.3rem !important;
+                padding: 0.4rem 0.65rem !important;
+                bottom: 6px !important;
+                left: 6px !important;
+                right: 6px !important;
+                border-radius: 10px !important;
+              }
+              .hud-speech-paragraph {
+                max-height: 38px !important;
+                font-size: 0.72rem !important;
+                line-height: 1.25 !important;
+              }
+              .hud-actions-container {
+                display: flex !important;
+                width: 100% !important;
+                gap: 0.3rem !important;
+              }
+              .hud-actions-container button {
+                flex: 1 !important;
+                justify-content: center !important;
+                padding: 0.3rem 0.4rem !important;
+                font-size: 0.7rem !important;
+              }
+            }
+          `}</style>
+
           {/* TOP HUD HEADER OVERLAY (Inside Stage) */}
-          <div style={{
-            position: 'absolute',
-            top: '10px',
-            left: '12px',
-            right: '12px',
-            zIndex: 35,
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            flexWrap: 'wrap',
-            gap: '0.5rem',
-            background: 'rgba(4, 11, 24, 0.85)',
-            backdropFilter: 'blur(16px)',
-            WebkitBackdropFilter: 'blur(16px)',
-            border: '1px solid rgba(0, 240, 255, 0.3)',
-            borderRadius: '10px',
-            padding: '0.4rem 0.85rem',
-            boxShadow: '0 8px 25px rgba(0, 0, 0, 0.5)'
-          }}>
+          <div 
+            className="factory-blueprint-top-hud"
+            style={{
+              position: 'absolute',
+              top: '10px',
+              left: '12px',
+              right: '12px',
+              zIndex: 35,
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              flexWrap: 'wrap',
+              gap: '0.5rem',
+              background: 'rgba(4, 11, 24, 0.85)',
+              backdropFilter: 'blur(16px)',
+              WebkitBackdropFilter: 'blur(16px)',
+              border: '1px solid rgba(0, 240, 255, 0.3)',
+              borderRadius: '10px',
+              padding: '0.4rem 0.85rem',
+              boxShadow: '0 8px 25px rgba(0, 0, 0, 0.5)'
+            }}
+          >
             
             {/* Title / Badge */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
               <span className="pulse-dot"></span>
               <div>
-                <span style={{
+                <span className="factory-top-title-span" style={{
                   fontFamily: 'var(--font-display)',
                   fontWeight: 800,
                   fontSize: '0.85rem',
@@ -409,7 +468,7 @@ export const FactoryBlueprintMap = () => {
                 }}
               >
                 {isAutoTour ? <Pause size={12} /> : <Play size={12} />}
-                <span>{isAutoTour ? 'Pause Tour' : 'Auto Tour'}</span>
+                <span>{isAutoTour ? 'Pause' : 'Auto'}</span>
               </button>
 
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.76rem', color: '#00f0ff', fontWeight: 800 }}>
@@ -435,11 +494,11 @@ export const FactoryBlueprintMap = () => {
                   transform: `translate(-50%, -50%) scale(${isActive ? 1.15 : 1})`,
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '0.4rem',
+                  gap: '0.35rem',
                   cursor: 'pointer',
                   zIndex: 20,
                   transition: 'all 0.3s cubic-bezier(0.25, 1, 0.5, 1)',
-                  padding: '0.25rem 0.55rem',
+                  padding: isActive ? '0.2rem 0.5rem' : '0.15rem 0.35rem',
                   background: isActive ? '#002248' : 'rgba(4, 11, 24, 0.88)',
                   border: isActive ? '2px solid #E85874' : '1px solid rgba(0, 240, 255, 0.45)',
                   borderRadius: '20px',
@@ -448,23 +507,23 @@ export const FactoryBlueprintMap = () => {
                 }}
               >
                 <div style={{
-                  width: '20px',
-                  height: '20px',
+                  width: '18px',
+                  height: '18px',
                   borderRadius: '50%',
                   background: isActive ? '#E85874' : '#0071ba',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  fontSize: '0.7rem',
+                  fontSize: '0.68rem',
                   fontWeight: 900,
                   color: '#ffffff',
                   boxShadow: isActive ? '0 0 15px #E85874' : 'none'
                 }}>
                   {node.stepNumber}
                 </div>
-                <span style={{
+                <span className={`factory-pin-label-span ${isActive ? 'active' : ''}`} style={{
                   fontFamily: 'var(--font-display)',
-                  fontSize: '0.7rem',
+                  fontSize: '0.68rem',
                   fontWeight: 800,
                   color: isActive ? '#ffffff' : '#e2e8f0',
                   whiteSpace: 'nowrap',
@@ -566,7 +625,7 @@ export const FactoryBlueprintMap = () => {
                   • {currentNode.tagline}
                 </span>
               </div>
-              <p style={{ 
+              <p className="hud-speech-paragraph" style={{ 
                 fontSize: '0.80rem', 
                 color: '#e2e8f0', 
                 lineHeight: 1.35, 
@@ -579,7 +638,7 @@ export const FactoryBlueprintMap = () => {
             </div>
 
             {/* Action Navigation Controls */}
-            <div style={{ display: 'flex', gap: '0.35rem', alignItems: 'center', flexShrink: 0 }}>
+            <div className="hud-actions-container" style={{ display: 'flex', gap: '0.35rem', alignItems: 'center', flexShrink: 0 }}>
               <button
                 onClick={handlePrev}
                 style={{
@@ -645,7 +704,7 @@ export const FactoryBlueprintMap = () => {
                 onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#d44360'}
                 onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#E85874'}
               >
-                Request Demo
+                Demo
               </button>
             </div>
 

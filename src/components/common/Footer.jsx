@@ -237,30 +237,32 @@ export const Footer = () => {
               </div>
             </div>
 
-            <button
-              onClick={() => handleNav('admin')}
+            <a
+              href="https://perfectflow360.atplgroup.org"
+              target="_blank"
+              rel="noopener noreferrer"
               style={{
                 width: '100%',
-                backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                border: '1px solid rgba(255, 255, 255, 0.15)',
+                backgroundColor: 'rgba(232, 88, 116, 0.12)',
+                border: '1px solid rgba(232, 88, 116, 0.35)',
                 color: '#ffffff',
                 borderRadius: '8px',
                 padding: '0.65rem',
                 fontSize: '0.85rem',
                 fontWeight: 600,
-                cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: '0.45rem',
+                textDecoration: 'none',
                 transition: 'all 0.15s ease'
               }}
-              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)'}
-              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.05)'}
+              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(232, 88, 116, 0.25)'}
+              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'rgba(232, 88, 116, 0.12)'}
             >
-              <LayoutDashboard size={15} />
-              <span>Admin & CMS Control Center</span>
-            </button>
+              <LayoutDashboard size={15} color="#E85874" />
+              <span>Perfectflow 360 CRM Portal ↗</span>
+            </a>
           </div>
 
         </div>

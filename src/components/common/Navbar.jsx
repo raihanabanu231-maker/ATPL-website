@@ -71,17 +71,20 @@ export const Navbar = ({ onOpenSearch }) => {
       <div style={{
         background: '#f8fafc',
         borderBottom: '1px solid #e2e8f0',
-        padding: '0.35rem 1rem',
+        padding: '0.35rem 0.75rem',
         fontSize: '0.78rem',
         color: '#475569',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
         position: 'relative',
-        zIndex: 1002
+        zIndex: 1002,
+        maxWidth: '100vw',
+        overflow: 'hidden',
+        boxSizing: 'border-box'
       }}>
-        <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', overflow: 'hidden', whiteSpace: 'nowrap' }}>
+        <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', maxWidth: '100%', padding: '0 0.5rem', boxSizing: 'border-box' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', overflow: 'hidden', whiteSpace: 'nowrap', minWidth: 0, flex: 1 }}>
             <span style={{
               display: 'inline-flex',
               alignItems: 'center',
@@ -89,16 +92,16 @@ export const Navbar = ({ onOpenSearch }) => {
               backgroundColor: 'rgba(232, 88, 116, 0.12)',
               color: '#E85874',
               border: '1px solid rgba(232, 88, 116, 0.3)',
-              fontSize: '0.68rem',
+              fontSize: '0.65rem',
               fontWeight: 700,
-              padding: '0.12rem 0.5rem',
+              padding: '0.12rem 0.45rem',
               borderRadius: '999px',
               letterSpacing: '0.04em',
               flexShrink: 0
             }}>
               ANNOUNCEMENT
             </span>
-            <span style={{ color: '#334155', fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis' }}>
+            <span style={{ color: '#334155', fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontSize: '0.76rem' }}>
               🚀 Live 3D Digital Twin Simulator is active!
             </span>
             <button
@@ -122,8 +125,7 @@ export const Navbar = ({ onOpenSearch }) => {
             </button>
           </div>
 
-          <div style={{ display: 'none', alignItems: 'center', gap: '1.25rem' }} className="top-banner-right">
-            <style>{`@media(min-width: 768px){ .top-banner-right { display: flex !important; } }`}</style>
+          <div style={{ display: 'none', alignItems: 'center', gap: '1.25rem', flexShrink: 0 }} className="top-banner-right">
             <span style={{ color: '#64748b' }}>ISO 9001:2015 & GS1 Certified</span>
             <span style={{ color: '#cbd5e1' }}>|</span>
             <a
@@ -148,10 +150,13 @@ export const Navbar = ({ onOpenSearch }) => {
           backgroundColor: '#ffffff',
           boxShadow: '0 2px 15px rgba(0, 0, 0, 0.05)',
           borderBottom: '1px solid #f1f5f9',
-          transition: 'all 0.2s ease'
+          transition: 'all 0.2s ease',
+          width: '100%',
+          maxWidth: '100vw',
+          boxSizing: 'border-box'
         }}
       >
-        <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '72px' }}>
+        <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '72px', width: '100%', maxWidth: '100%', boxSizing: 'border-box' }}>
           
           {/* Brand Logo with exact ATPL Bow & Arrow + #E85874 Coral Arc */}
           <AtplLogo 
@@ -161,13 +166,19 @@ export const Navbar = ({ onOpenSearch }) => {
           />
 
           {/* Desktop Navigation Links */}
-          <nav style={{ display: 'none', alignItems: 'center', gap: '0.2rem' }} className="atpl-desktop-nav">
-            <style>{`
-              @media (min-width: 860px) {
-                .atpl-desktop-nav { display: flex !important; }
-                .mobile-toggle-btn { display: none !important; }
-              }
-            `}</style>
+          <style>{`
+            @media (max-width: 860px) {
+              .atpl-desktop-nav { display: none !important; }
+              .desktop-only-action { display: none !important; }
+              .mobile-toggle-btn { display: flex !important; }
+            }
+            @media (min-width: 861px) {
+              .atpl-desktop-nav { display: flex !important; }
+              .desktop-only-action { display: flex !important; }
+              .mobile-toggle-btn { display: none !important; }
+            }
+          `}</style>
+          <nav className="atpl-desktop-nav" style={{ alignItems: 'center', gap: '0.2rem' }}>
 
             {/* 1. Hardware Dropdown & Direct Link */}
             <div style={{ position: 'relative' }}>

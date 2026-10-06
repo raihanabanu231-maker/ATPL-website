@@ -208,7 +208,8 @@ export const HomeView = () => {
           top: '-150px',
           left: '50%',
           transform: 'translateX(-50%)',
-          width: '1200px',
+          width: 'min(1200px, 95vw)',
+          maxWidth: '100%',
           height: '600px',
           background: 'radial-gradient(ellipse at center, rgba(0, 113, 186, 0.1) 0%, rgba(0, 240, 255, 0.08) 40%, rgba(16, 185, 129, 0.05) 70%, transparent 100%)',
           filter: 'blur(70px)',
@@ -227,8 +228,8 @@ export const HomeView = () => {
             border: '1px solid rgba(232, 88, 116, 0.3)',
             padding: '0.4rem 1.1rem',
             borderRadius: '999px',
-            marginBottom: '1.4rem',
-            boxShadow: '0 2px 10px rgba(232, 88, 116, 0.12)'
+            marginBottom: '1.5rem',
+            boxShadow: '0 2px 10px rgba(232, 88, 116, 0.1)'
           }}>
             <span style={{
               display: 'inline-block',
@@ -239,7 +240,7 @@ export const HomeView = () => {
               animation: 'pulseCoralDot 2s infinite'
             }} />
             <span style={{
-              fontSize: '0.8rem',
+              fontSize: '0.78rem',
               fontWeight: 700,
               letterSpacing: '0.06em',
               color: '#E85874',
@@ -254,20 +255,23 @@ export const HomeView = () => {
           </div>
 
           <h1 style={{
-            fontSize: 'clamp(2.4rem, 5.5vw, 4.4rem)',
+            fontSize: 'clamp(2.2rem, 5vw, 3.8rem)',
             fontWeight: 800,
-            lineHeight: 1.12,
-            letterSpacing: '-0.035em',
+            lineHeight: 1.18,
+            letterSpacing: '-0.03em',
             color: '#0f172a',
             marginBottom: '1.25rem',
             fontFamily: 'var(--font-display)'
           }}>
-            Targeting Zero-Defect Operations.<br />
+            Architecting the Future of<br />
             <span style={{
-              background: 'linear-gradient(135deg, #0071ba 0%, #E85874 50%, #00a651 100%)',
+              background: 'linear-gradient(135deg, #0071ba 0%, #E85874 100%)',
               WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent'
-            }}>Powering Autonomous Manufacturing.</span>
+              WebkitTextFillColor: 'transparent',
+              display: 'inline-block'
+            }}>
+              Smart Factories, WMS & Traceability.
+            </span>
           </h1>
 
           <div style={{
@@ -275,7 +279,7 @@ export const HomeView = () => {
             height: '4px',
             background: 'linear-gradient(90deg, #0071ba 0%, #E85874 100%)',
             borderRadius: '2px',
-            margin: '0 auto 1.85rem auto'
+            margin: '0 auto 1.5rem auto'
           }}></div>
 
           <p style={{
@@ -496,7 +500,7 @@ export const HomeView = () => {
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
-            gap: '1.5rem'
+            gap: '1.25rem'
           }}>
             {filteredApps.map((app) => {
               const Icon = app.icon;
@@ -511,8 +515,8 @@ export const HomeView = () => {
                   style={{
                     backgroundColor: '#ffffff',
                     border: '1.5px solid #e2e8f0',
-                    borderRadius: '16px',
-                    padding: '1.85rem',
+                    borderRadius: '14px',
+                    padding: '1.25rem',
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'space-between',
@@ -523,8 +527,8 @@ export const HomeView = () => {
                   }}
                   className="atpl-product-card"
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = 'translateY(-5px)';
-                    e.currentTarget.style.boxShadow = `0 18px 35px -10px ${app.color}25, 0 0 0 1px ${app.color}40`;
+                    e.currentTarget.style.transform = 'translateY(-4px)';
+                    e.currentTarget.style.boxShadow = `0 14px 28px -8px ${app.color}25, 0 0 0 1px ${app.color}40`;
                     e.currentTarget.style.borderColor = app.color;
                   }}
                   onMouseLeave={(e) => {
@@ -536,11 +540,11 @@ export const HomeView = () => {
 
                   <div>
                     {/* App Icon Header */}
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.25rem' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.85rem' }}>
                       <div style={{
-                        width: '48px',
-                        height: '48px',
-                        borderRadius: '12px',
+                        width: '38px',
+                        height: '38px',
+                        borderRadius: '10px',
                         backgroundColor: app.bgLight,
                         border: `1px solid ${app.color}30`,
                         display: 'flex',
@@ -548,15 +552,15 @@ export const HomeView = () => {
                         justifyContent: 'center',
                         color: app.color
                       }}>
-                        <Icon size={24} />
+                        <Icon size={20} />
                       </div>
 
                       <span style={{
-                        fontSize: '0.72rem',
+                        fontSize: '0.68rem',
                         fontWeight: 700,
                         color: app.color,
                         backgroundColor: app.bgLight,
-                        padding: '0.2rem 0.6rem',
+                        padding: '0.2rem 0.55rem',
                         borderRadius: '6px'
                       }}>
                         {app.tagline}
@@ -564,26 +568,36 @@ export const HomeView = () => {
                     </div>
 
                     {/* App Title & Description */}
-                    <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0f172a', marginBottom: '0.5rem' }}>
+                    <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#0f172a', marginBottom: '0.35rem', lineHeight: 1.3 }}>
                       {app.name}
                     </h3>
-                    <p style={{ fontSize: '0.88rem', color: '#64748b', lineHeight: 1.55, marginBottom: '1.25rem' }}>
+                    <p style={{
+                      fontSize: '0.82rem',
+                      color: '#64748b',
+                      lineHeight: 1.45,
+                      marginBottom: '0.85rem',
+                      display: '-webkit-box',
+                      WebkitLineClamp: 2,
+                      WebkitBoxOrient: 'vertical',
+                      overflow: 'hidden',
+                      minHeight: '36px'
+                    }}>
                       {app.desc}
                     </p>
 
                     {/* Feature Checkpoints */}
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem', marginBottom: '1.5rem' }}>
-                      {app.features.map((feat, i) => (
-                        <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.82rem', color: '#334155' }}>
-                          <CheckCircle2 size={15} color={app.color} style={{ flexShrink: 0 }} />
-                          <span>{feat}</span>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem', marginBottom: '0.95rem' }}>
+                      {app.features.slice(0, 3).map((feat, i) => (
+                        <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', fontSize: '0.78rem', color: '#334155' }}>
+                          <CheckCircle2 size={13} color={app.color} style={{ flexShrink: 0 }} />
+                          <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{feat}</span>
                         </div>
                       ))}
                     </div>
                   </div>
 
                   {/* Actions Footer */}
-                  <div style={{ paddingTop: '1.25rem', borderTop: '1px solid #f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <div style={{ paddingTop: '0.85rem', borderTop: '1px solid #f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
@@ -595,16 +609,16 @@ export const HomeView = () => {
                         border: 'none',
                         color: app.color,
                         fontWeight: 700,
-                        fontSize: '0.88rem',
+                        fontSize: '0.82rem',
                         cursor: 'pointer',
                         display: 'flex',
                         alignItems: 'center',
-                        gap: '0.35rem',
+                        gap: '0.3rem',
                         padding: 0
                       }}
                     >
                       <span>Explore specs</span>
-                      <ArrowRight size={15} />
+                      <ArrowRight size={13} />
                     </button>
 
                     <button
@@ -617,8 +631,8 @@ export const HomeView = () => {
                         border: '1px solid #e2e8f0',
                         color: '#0f172a',
                         fontWeight: 600,
-                        fontSize: '0.8rem',
-                        padding: '0.35rem 0.75rem',
+                        fontSize: '0.76rem',
+                        padding: '0.25rem 0.65rem',
                         borderRadius: '6px',
                         cursor: 'pointer'
                       }}
@@ -1250,7 +1264,8 @@ export const HomeView = () => {
           bottom: '-100px',
           left: '50%',
           transform: 'translateX(-50%)',
-          width: '800px',
+          width: 'min(800px, 95vw)',
+          maxWidth: '100%',
           height: '300px',
           background: 'radial-gradient(ellipse at center, rgba(0, 113, 186, 0.3) 0%, transparent 70%)',
           filter: 'blur(50px)',

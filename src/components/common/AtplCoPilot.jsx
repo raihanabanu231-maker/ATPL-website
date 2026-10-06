@@ -514,75 +514,96 @@ export const AtplCoPilot = () => {
 
   return (
     <>
-      {/* Floating Toggle Button (Right-Edge Docked) */}
+      {/* Floating Toggle Button (Responsive Docking) */}
       {!isOpen && (
-        <button
-          onClick={() => setIsOpen(true)}
-          className="atpl-copilot-btn"
-          aria-label="Open ATPL Co-Pilot AI Assistant"
-          style={{
-            position: 'fixed',
-            top: '50%',
-            right: 0,
-            transform: 'translateY(-50%)',
-            zIndex: 1000,
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.55rem',
-            background: 'linear-gradient(135deg, #0071ba 0%, #005a96 100%)',
-            color: '#ffffff',
-            border: '1.5px solid rgba(232, 88, 116, 0.5)',
-            borderRight: 'none',
-            borderRadius: '24px 0 0 24px',
-            padding: '0.55rem 0.95rem 0.55rem 0.75rem',
-            boxShadow: '-4px 8px 25px rgba(0, 0, 0, 0.35), 0 0 15px rgba(0, 240, 255, 0.25)',
-            cursor: 'pointer',
-            fontWeight: 700,
-            fontSize: '0.86rem',
-            transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
-            outline: 'none'
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.transform = 'translateY(-50%) translateX(-4px)';
-            e.currentTarget.style.boxShadow = '-6px 12px 30px rgba(232, 88, 116, 0.5)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = 'translateY(-50%) translateX(0)';
-            e.currentTarget.style.boxShadow = '-4px 8px 25px rgba(0, 0, 0, 0.35), 0 0 15px rgba(0, 240, 255, 0.25)';
-          }}
-        >
-          <div style={{
-            position: 'relative',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}>
-            <AtplRobotAvatar size={24} glow={false} />
-            <span style={{
-              position: 'absolute',
-              top: -2,
-              right: -2,
-              width: 7,
-              height: 7,
-              borderRadius: '50%',
+        <>
+          <style>{`
+            .atpl-copilot-btn {
+              position: fixed;
+              top: 50%;
+              right: 0;
+              transform: translateY(-50%);
+              z-index: 1000;
+              display: flex;
+              align-items: center;
+              gap: 0.55rem;
+              background: linear-gradient(135deg, #0071ba 0%, #005a96 100%);
+              color: #ffffff;
+              border: 1.5px solid rgba(232, 88, 116, 0.5);
+              border-right: none;
+              border-radius: 24px 0 0 24px;
+              padding: 0.55rem 0.95rem 0.55rem 0.75rem;
+              box-shadow: -4px 8px 25px rgba(0, 0, 0, 0.35), 0 0 15px rgba(0, 240, 255, 0.25);
+              cursor: pointer;
+              font-weight: 700;
+              font-size: 0.86rem;
+              transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+              outline: none;
+            }
+            .atpl-copilot-btn:hover {
+              transform: translateY(-50%) translateX(-4px);
+              box-shadow: -6px 12px 30px rgba(232, 88, 116, 0.5);
+            }
+            @media (max-width: 768px) {
+              .atpl-copilot-btn {
+                top: auto !important;
+                bottom: 1rem !important;
+                right: 1rem !important;
+                transform: none !important;
+                border-radius: 50% !important;
+                border: 2px solid #E85874 !important;
+                width: 48px !important;
+                height: 48px !important;
+                padding: 0 !important;
+                justify-content: center !important;
+                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5), 0 0 15px rgba(232, 88, 116, 0.4) !important;
+              }
+              .atpl-copilot-btn:hover {
+                transform: scale(1.08) !important;
+              }
+              .atpl-copilot-desktop-text {
+                display: none !important;
+              }
+            }
+          `}</style>
+          <button
+            onClick={() => setIsOpen(true)}
+            className="atpl-copilot-btn"
+            aria-label="Open ATPL Co-Pilot AI Assistant"
+          >
+            <div style={{
+              position: 'relative',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}>
+              <AtplRobotAvatar size={24} glow={false} />
+              <span style={{
+                position: 'absolute',
+                top: -2,
+                right: -2,
+                width: 7,
+                height: 7,
+                borderRadius: '50%',
+                backgroundColor: '#E85874',
+                border: '1.5px solid #0071ba',
+                animation: 'pulseCoralDot 2s infinite'
+              }} />
+            </div>
+            <span className="atpl-copilot-desktop-text" style={{ letterSpacing: '0.01em' }}>ATPL Co-Pilot</span>
+            <span className="atpl-copilot-desktop-text" style={{
+              fontSize: '0.65rem',
               backgroundColor: '#E85874',
-              border: '1.5px solid #0071ba',
-              animation: 'pulseCoralDot 2s infinite'
-            }} />
-          </div>
-          <span style={{ letterSpacing: '0.01em' }}>ATPL Co-Pilot</span>
-          <span style={{
-            fontSize: '0.65rem',
-            backgroundColor: '#E85874',
-            color: '#ffffff',
-            fontWeight: 800,
-            padding: '0.12rem 0.4rem',
-            borderRadius: '999px',
-            textTransform: 'uppercase',
-            letterSpacing: '0.5px',
-            boxShadow: '0 2px 6px rgba(232, 88, 116, 0.4)'
-          }}>AI</span>
-        </button>
+              color: '#ffffff',
+              fontWeight: 800,
+              padding: '0.12rem 0.4rem',
+              borderRadius: '999px',
+              textTransform: 'uppercase',
+              letterSpacing: '0.5px',
+              boxShadow: '0 2px 6px rgba(232, 88, 116, 0.4)'
+            }}>AI</span>
+          </button>
+        </>
       )}
 
       {/* Chat Window Modal */}
