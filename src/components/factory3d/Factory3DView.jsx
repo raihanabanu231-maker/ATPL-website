@@ -94,10 +94,13 @@ export const Factory3DView = () => {
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [quality, setQuality] = useState('HIGH');
 
-  // Station Selection Handler
+  // Station Selection Handler (Pauses auto tour and opens description box for clicked station)
   const handleSelectStation = useCallback((stationKey) => {
     setSelectedStation(stationKey);
     setIsOverview(!stationKey);
+    if (stationKey) {
+      setIsAutoTour(false);
+    }
     playAudioFX('select', soundEnabled);
   }, [soundEnabled]);
 
@@ -105,6 +108,7 @@ export const Factory3DView = () => {
   const handleResetOverview = useCallback(() => {
     setSelectedStation(null);
     setIsOverview(true);
+    setIsAutoTour(false);
     playAudioFX('select', soundEnabled);
   }, [soundEnabled]);
 

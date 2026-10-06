@@ -926,10 +926,10 @@ export const Navbar = ({ onOpenSearch }) => {
                 e.currentTarget.style.transform = 'translateY(0)';
                 e.currentTarget.style.boxShadow = 'none';
               }}
-              title="Open ATPL Co-Pilot AI Advisor"
+              title="Open Archie AI Industrial Advisor"
             >
               <AtplRobotAvatar size={18} glow={false} />
-              <span>Ask AI</span>
+              <span>Ask Archie AI</span>
               <span style={{
                 fontSize: '0.62rem',
                 backgroundColor: '#E85874',
@@ -1265,7 +1265,7 @@ export const Navbar = ({ onOpenSearch }) => {
                 }}
               >
                 <AtplRobotAvatar size={22} glow={false} />
-                <span>Ask ATPL AI Co-Pilot</span>
+                <span>Ask Archie AI (Robot Guide)</span>
                 <span style={{
                   fontSize: '0.65rem',
                   backgroundColor: '#E85874',

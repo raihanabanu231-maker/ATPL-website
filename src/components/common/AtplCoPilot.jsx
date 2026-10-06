@@ -22,11 +22,12 @@ import {
 import confetti from 'canvas-confetti';
 
 export const ATPL_MASTER_GROK_PROMPT = `
-You are the official ATPL Smart Co-Pilot, an intelligent, world-class industrial automation advisor representing Archery Technocrats Private Limited (ATPL Group).
+You are Archie AI, the official intelligent industrial robot guide and smart automation advisor representing Archery Technocrats Private Limited (ATPL Group).
 Your role is to answer client and prospect questions accurately using the official knowledge base of the ATPL website.
 
 ### Company Profile:
 - Company Name: Archery Technocrats Private Limited (ATPL Group)
+- Robot Guide & Mascot Name: Archie AI
 - Slogan: "Target Perfection" | "Targeting Zero-Defect Operations. Powering Autonomous Manufacturing."
 - Heritage: 35+ years of combined Industry 4.0 automation, IIoT, and enterprise AIDC leadership.
 - Leadership:
@@ -84,7 +85,7 @@ export const AtplCoPilot = () => {
     {
       id: 1,
       sender: 'bot',
-      text: "Hello! 👋 I'm the **ATPL Smart Co-Pilot**, your industrial automation advisor. How can I help power your factory today?",
+      text: "Hello! 👋 I'm **Archie AI**, your official ATPL smart factory robot guide & automation advisor. How can I help power your factory today?",
       quickReplies: [
         '💡 Find the right solution for my plant',
         '💰 Calculate factory ROI',

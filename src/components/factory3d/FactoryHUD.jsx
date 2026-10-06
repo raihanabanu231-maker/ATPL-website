@@ -172,10 +172,47 @@ export const FactoryHUD = ({
 
       </div>
 
+      {/* Cinematic Full-View Auto Tour Indicator */}
+      {isAutoTour && node && (
+        <div style={{
+          pointerEvents: 'none',
+          alignSelf: 'center',
+          marginTop: '0.5rem',
+          background: 'rgba(5, 13, 26, 0.88)',
+          backdropFilter: 'blur(16px)',
+          WebkitBackdropFilter: 'blur(16px)',
+          border: '1px solid rgba(0, 240, 255, 0.45)',
+          borderRadius: '999px',
+          padding: '0.45rem 1.25rem',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '0.65rem',
+          boxShadow: '0 8px 30px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 240, 255, 0.25)',
+          animation: 'fadeInDown 0.3s ease-out'
+        }}>
+          <span style={{
+            width: '8px',
+            height: '8px',
+            borderRadius: '50%',
+            backgroundColor: '#10b981',
+            boxShadow: '0 0 10px #10b981'
+          }} />
+          <span style={{ fontFamily: 'var(--font-mono, monospace)', fontSize: '0.76rem', color: '#00f0ff', fontWeight: 800 }}>
+            CINEMATIC TOUR • STATION {node.number}/12:
+          </span>
+          <span style={{ fontFamily: 'var(--font-display, sans-serif)', fontSize: '0.85rem', color: '#ffffff', fontWeight: 700 }}>
+            {node.name}
+          </span>
+          <span style={{ fontSize: '0.72rem', color: '#94a3b8' }}>
+            (Archie AI Companion Flyover)
+          </span>
+        </div>
+      )}
+
       {/* ===================================================================
-          2. FLOATING PRODUCT INFORMATION & LESSON PANEL (When Selected)
+          2. FLOATING PRODUCT INFORMATION & LESSON PANEL (Visible only when station is clicked/selected, hidden in Auto Tour)
           =================================================================== */}
-      {node && (
+      {!isAutoTour && node && (
         <div style={{
           pointerEvents: 'auto',
           maxWidth: '480px',
@@ -235,7 +272,7 @@ export const FactoryHUD = ({
             <StationVisualPreview stationId={node.id} color={node.color} height={105} />
           </div>
 
-          {/* AI Robot Lesson Box */}
+          {/* Archie AI Robot Lesson Box */}
           <div style={{
             background: 'rgba(255, 255, 255, 0.03)',
             border: '1px solid rgba(255, 255, 255, 0.08)',
@@ -244,7 +281,7 @@ export const FactoryHUD = ({
             marginBottom: '1rem'
           }}>
             <div style={{ fontSize: '0.74rem', color: 'var(--cyan-primary, #00f0ff)', fontFamily: 'var(--font-mono, monospace)', marginBottom: '0.35rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-              <span>🤖 ATPL AI ROBOT LESSON:</span>
+              <span>🤖 ARCHIE AI LESSON:</span>
             </div>
             <p style={{ color: '#e2e8f0', fontSize: '0.84rem', lineHeight: 1.5, margin: 0 }}>
               {node.lesson}

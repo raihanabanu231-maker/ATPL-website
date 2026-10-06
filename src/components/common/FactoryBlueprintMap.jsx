@@ -457,7 +457,7 @@ export const FactoryBlueprintMap = () => {
                   gap: '0.4rem'
                 }}>
                   <Activity size={14} color="#00f0ff" />
-                  <span>ATPL CONNECTED SMART FACTORY • 12-STATION ROBOT TOUR</span>
+                  <span>ATPL CONNECTED SMART FACTORY • 12-STATION ARCHIE AI TOUR</span>
                 </span>
               </div>
             </div>
@@ -669,7 +669,7 @@ export const FactoryBlueprintMap = () => {
                 <AtplRobotAvatar size={28} />
               </div>
               <div style={{ whiteSpace: 'nowrap' }}>
-                <strong style={{ color: '#ffffff', fontSize: '0.82rem', display: 'block', letterSpacing: '0.01em' }}>ATPL Robot Guide:</strong>
+                <strong style={{ color: '#ffffff', fontSize: '0.82rem', display: 'block', letterSpacing: '0.01em' }}>Archie AI Guide:</strong>
                 <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', color: '#00f0ff', fontWeight: 800, textTransform: 'uppercase' }}>
                   STOP {currentIndex + 1}/12 • {currentNode.category}
                 </span>
