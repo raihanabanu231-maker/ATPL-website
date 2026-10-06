@@ -277,7 +277,7 @@ export const FactoryBlueprintMap = () => {
             }}
           />
 
-          {/* SVG Connecting Route Path Lines */}
+          {/* Dynamic Laser Line from Robot to Current Station (No cluttered crisscross spiderweb lines) */}
           <svg
             viewBox="0 0 100 100"
             preserveAspectRatio="none"
@@ -291,34 +291,116 @@ export const FactoryBlueprintMap = () => {
               pointerEvents: 'none'
             }}
           >
-            {/* Glowing Outer Route Trace */}
-            <path
-              d={pathD}
-              fill="none"
-              stroke="rgba(0, 240, 255, 0.35)"
-              strokeWidth="0.8"
-              strokeDasharray="2, 2"
-            />
-            {/* Dynamic Laser Line from Robot to Current Station */}
+            {/* Dynamic Focused Scanning Beam to Current Station */}
             <line
               x1={`${currentNode.x}`}
-              y1={`${currentNode.y - 7}`}
+              y1={`${currentNode.y - 6}`}
               x2={`${currentNode.x}`}
               y2={`${currentNode.y}`}
               stroke="#00f0ff"
-              strokeWidth="1.2"
-              strokeDasharray="1, 1"
+              strokeWidth="1.5"
+              strokeDasharray="2, 2"
+            />
+            {/* Pulsating Target Circle at Station Footprint */}
+            <circle
+              cx={`${currentNode.x}`}
+              cy={`${currentNode.y}`}
+              r="2.5"
+              fill="rgba(232, 88, 116, 0.25)"
+              stroke="#E85874"
+              strokeWidth="0.8"
             />
           </svg>
 
-          {/* Responsive Mobile Styles */}
+          {/* Responsive Mobile & Visual Styles */}
           <style>{`
+            .station-pin-container {
+              position: absolute;
+              transform: translate(-50%, -50%);
+              cursor: pointer;
+              z-index: 20;
+              transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            }
+            .station-pin-circle {
+              width: 26px;
+              height: 26px;
+              border-radius: 50%;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-family: var(--font-display, sans-serif);
+              font-size: 0.72rem;
+              font-weight: 900;
+              color: #ffffff;
+              background: linear-gradient(135deg, #0071ba 0%, #004b7c 100%);
+              border: 1.5px solid rgba(0, 240, 255, 0.6);
+              box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6), 0 0 10px rgba(0, 240, 255, 0.35);
+              transition: all 0.25s ease;
+            }
+            .station-pin-container:hover .station-pin-circle {
+              transform: scale(1.18);
+              background: #E85874;
+              border-color: #ffffff;
+              box-shadow: 0 0 20px #E85874;
+            }
+            .station-pin-container.active .station-pin-circle {
+              background: #E85874;
+              border-color: #ffffff;
+              box-shadow: 0 0 25px #E85874;
+              transform: scale(1.15);
+            }
+            .station-tooltip-label {
+              position: absolute;
+              top: calc(100% + 5px);
+              left: 50%;
+              transform: translateX(-50%);
+              background: rgba(4, 11, 24, 0.95);
+              border: 1px solid rgba(0, 240, 255, 0.5);
+              color: #ffffff;
+              padding: 0.25rem 0.6rem;
+              border-radius: 6px;
+              font-size: 0.68rem;
+              font-weight: 800;
+              white-space: nowrap;
+              letter-spacing: 0.03em;
+              text-transform: uppercase;
+              box-shadow: 0 6px 16px rgba(0, 0, 0, 0.7);
+              pointer-events: none;
+              opacity: 0;
+              visibility: hidden;
+              transition: all 0.2s ease;
+              z-index: 25;
+            }
+            .station-pin-container:hover .station-tooltip-label,
+            .station-pin-container.active .station-tooltip-label {
+              opacity: 1;
+              visibility: visible;
+              top: calc(100% + 6px);
+            }
+            .station-pin-container.active .station-tooltip-label {
+              border-color: #E85874;
+              background: rgba(20, 10, 25, 0.95);
+              box-shadow: 0 0 15px rgba(232, 88, 116, 0.4);
+            }
             @media (max-width: 768px) {
               #factory-blueprint-section {
-                height: 540px !important;
-                min-height: 540px !important;
-                max-height: 540px !important;
+                height: 520px !important;
+                min-height: 520px !important;
+                max-height: 520px !important;
                 padding: 0.25rem 0.4rem !important;
+              }
+              .station-pin-circle {
+                width: 22px !important;
+                height: 22px !important;
+                font-size: 0.65rem !important;
+              }
+              .station-tooltip-label {
+                display: none !important;
+              }
+              .station-pin-container.active .station-tooltip-label {
+                display: block !important;
+                font-size: 0.6rem !important;
+                padding: 0.15rem 0.45rem !important;
               }
               .factory-blueprint-top-hud {
                 top: 6px !important;
@@ -329,20 +411,10 @@ export const FactoryBlueprintMap = () => {
               .factory-top-title-span {
                 font-size: 0.68rem !important;
               }
-              .factory-pin-label-span {
-                display: none !important;
-              }
-              .factory-pin-label-span.active {
-                display: inline !important;
-                font-size: 0.62rem !important;
-                max-width: 90px !important;
-                overflow: hidden !important;
-                text-overflow: ellipsis !important;
-              }
               .factory-hud-bottom-overlay {
                 grid-template-columns: 1fr !important;
                 gap: 0.3rem !important;
-                padding: 0.4rem 0.65rem !important;
+                padding: 0.45rem 0.75rem !important;
                 bottom: 6px !important;
                 left: 6px !important;
                 right: 6px !important;
@@ -381,7 +453,7 @@ export const FactoryBlueprintMap = () => {
               alignItems: 'center',
               flexWrap: 'wrap',
               gap: '0.5rem',
-              background: 'rgba(4, 11, 24, 0.85)',
+              background: 'rgba(4, 11, 24, 0.88)',
               backdropFilter: 'blur(16px)',
               WebkitBackdropFilter: 'blur(16px)',
               border: '1px solid rgba(0, 240, 255, 0.3)',
@@ -477,73 +549,40 @@ export const FactoryBlueprintMap = () => {
             </div>
           </div>
 
-          {/* 12 Clickable Hotspot Pins with Sequence Numbers */}
+          {/* 12 Crisp Numbered Hotspot Target Beacons (Clean & Uncluttered) */}
           {ATPL_FACTORY_NODES.map((node, index) => {
             const isActive = currentIndex === index;
             return (
               <div
                 key={node.id}
+                className={`station-pin-container ${isActive ? 'active' : ''}`}
                 onClick={() => {
                   setCurrentIndex(index);
                   setIsAutoTour(false);
                 }}
                 style={{
-                  position: 'absolute',
                   left: `${node.x}%`,
-                  top: `${node.y}%`,
-                  transform: `translate(-50%, -50%) scale(${isActive ? 1.15 : 1})`,
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.35rem',
-                  cursor: 'pointer',
-                  zIndex: 20,
-                  transition: 'all 0.3s cubic-bezier(0.25, 1, 0.5, 1)',
-                  padding: isActive ? '0.2rem 0.5rem' : '0.15rem 0.35rem',
-                  background: isActive ? '#002248' : 'rgba(4, 11, 24, 0.88)',
-                  border: isActive ? '2px solid #E85874' : '1px solid rgba(0, 240, 255, 0.45)',
-                  borderRadius: '20px',
-                  backdropFilter: 'blur(8px)',
-                  boxShadow: isActive ? '0 0 25px #E85874' : '0 2px 8px rgba(0,0,0,0.6)'
+                  top: `${node.y}%`
                 }}
               >
-                <div style={{
-                  width: '18px',
-                  height: '18px',
-                  borderRadius: '50%',
-                  background: isActive ? '#E85874' : '#0071ba',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: '0.68rem',
-                  fontWeight: 900,
-                  color: '#ffffff',
-                  boxShadow: isActive ? '0 0 15px #E85874' : 'none'
-                }}>
+                <div className="station-pin-circle">
                   {node.stepNumber}
                 </div>
-                <span className={`factory-pin-label-span ${isActive ? 'active' : ''}`} style={{
-                  fontFamily: 'var(--font-display)',
-                  fontSize: '0.68rem',
-                  fontWeight: 800,
-                  color: isActive ? '#ffffff' : '#e2e8f0',
-                  whiteSpace: 'nowrap',
-                  letterSpacing: '0.03em',
-                  textTransform: 'uppercase'
-                }}>
+                <div className="station-tooltip-label">
                   {node.name}
-                </span>
+                </div>
               </div>
             );
           })}
 
-          {/* Animated Traveling Robot Avatar */}
+          {/* Animated Traveling Robot Avatar with Spotlight Glow */}
           <div style={{
             position: 'absolute',
             left: `${currentNode.x}%`,
             top: `${currentNode.y - 7}%`,
             transform: 'translate(-50%, -50%)',
-            width: '58px',
-            height: '58px',
+            width: '56px',
+            height: '56px',
             borderRadius: '50%',
             background: 'radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.98) 0%, rgba(224, 242, 254, 0.92) 60%, rgba(0, 240, 255, 0.5) 100%)',
             border: '2px solid #00f0ff',
@@ -553,9 +592,9 @@ export const FactoryBlueprintMap = () => {
             boxShadow: '0 0 35px #00f0ff, 0 0 20px rgba(232, 88, 116, 0.6)',
             zIndex: 30,
             pointerEvents: 'none',
-            transition: 'all 1.0s cubic-bezier(0.25, 1, 0.5, 1)'
+            transition: 'all 0.9s cubic-bezier(0.25, 1, 0.5, 1)'
           }}>
-            <AtplRobotAvatar size={45} />
+            <AtplRobotAvatar size={42} />
             <div style={{
               position: 'absolute',
               bottom: '-4px',
@@ -568,7 +607,7 @@ export const FactoryBlueprintMap = () => {
             }}></div>
           </div>
 
-          {/* BOTTOM HUD DIALOGUE CONSOLE (Inside Stage - 100% Unclipped description & Clean Controls) */}
+          {/* BOTTOM HUD DIALOGUE CONSOLE (Clear, High-Contrast & Unclipped) */}
           <div 
             className="factory-hud-bottom-overlay"
             style={{
@@ -582,7 +621,7 @@ export const FactoryBlueprintMap = () => {
               WebkitBackdropFilter: 'blur(20px)',
               border: '1.5px solid rgba(0, 240, 255, 0.45)',
               borderRadius: '12px',
-              padding: '0.45rem 0.95rem',
+              padding: '0.5rem 1rem',
               boxShadow: '0 12px 35px rgba(0, 0, 0, 0.85), 0 0 25px rgba(0, 240, 255, 0.2)',
               display: 'grid',
               gridTemplateColumns: 'auto 1fr auto',
