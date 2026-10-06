@@ -496,12 +496,27 @@ export const HomeView = () => {
             })}
           </div>
 
-          {/* Zoho-Style Apps Grid with Robot Summon on Click */}
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
-            gap: '1.25rem'
-          }}>
+          {/* 3x3 Balanced Apps Grid (3 rows x 3 columns = 9 cards) */}
+          <style>{`
+            .atpl-suite-grid-3x3 {
+              display: grid;
+              grid-template-columns: repeat(3, minmax(0, 1fr));
+              gap: 1.5rem;
+            }
+            @media (max-width: 1024px) {
+              .atpl-suite-grid-3x3 {
+                grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+                gap: 1.25rem !important;
+              }
+            }
+            @media (max-width: 640px) {
+              .atpl-suite-grid-3x3 {
+                grid-template-columns: 1fr !important;
+                gap: 1rem !important;
+              }
+            }
+          `}</style>
+          <div className="atpl-suite-grid-3x3">
             {filteredApps.map((app) => {
               const Icon = app.icon;
 
