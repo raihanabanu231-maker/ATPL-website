@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import blueprintImg from '../../../assets/images/atpl_isometric_factory.jpg';
 import { AtplRobotAvatar } from './AtplRobotAvatar';
-import { AtplLogo } from './AtplLogo';
 import { 
   Bot, 
   ChevronLeft, 

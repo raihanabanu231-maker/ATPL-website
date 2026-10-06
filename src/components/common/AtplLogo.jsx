@@ -72,12 +72,12 @@ export const AtplLogo = ({
       </svg>
 
       {showText && (
-        <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', lineHeight: 1.1 }}>
           <div style={{
             fontFamily: 'var(--font-display, sans-serif)',
             fontWeight: 900,
             fontSize: `${Math.round(size * 0.44)}px`,
-            letterSpacing: '-0.03em',
+            letterSpacing: '-0.02em',
             color: lightText ? '#ffffff' : '#0f172a',
             lineHeight: 1
           }}>
@@ -85,23 +85,29 @@ export const AtplLogo = ({
           </div>
           <div style={{
             fontSize: `${Math.max(9, Math.round(size * 0.2))}px`,
-            letterSpacing: '0.14em',
-            color: '#0071ba',
+            letterSpacing: '0.12em',
+            color: lightText ? '#38bdf8' : '#0071ba',
             fontWeight: 800,
             textTransform: 'uppercase',
-            marginTop: '2px',
+            marginTop: '3px',
             display: 'flex',
             alignItems: 'center',
-            gap: '4px'
+            gap: '6px'
           }}>
-            <span>ARCHERY TECHNOCRATS</span>
+            <span style={{ 
+              textShadow: lightText ? '0 0 12px rgba(56, 189, 248, 0.4)' : 'none',
+              letterSpacing: '0.1em'
+            }}>
+              ARCHERY TECHNOCRATS
+            </span>
             <span style={{ 
               display: 'inline-block', 
-              width: '5px', 
-              height: '5px', 
+              width: '6px', 
+              height: '6px', 
               borderRadius: '50%', 
               backgroundColor: '#E85874',
-              boxShadow: '0 0 6px rgba(232, 88, 116, 0.6)'
+              boxShadow: lightText ? '0 0 8px #E85874' : '0 0 4px rgba(232, 88, 116, 0.5)',
+              flexShrink: 0
             }} />
           </div>
         </div>
