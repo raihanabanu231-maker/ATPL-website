@@ -37,7 +37,7 @@ export const AdminLogin = () => {
 
     setTimeout(() => {
       setIsLoading(false);
-      // Authenticate and redirect directly to Perfectflow 360 CRM
+      // Authenticate and open internal Admin CMS
       loginAdmin({
         name: 'Amarnath P. (Admin)',
         email: email.trim(),
@@ -45,11 +45,8 @@ export const AdminLogin = () => {
         avatar: '👨‍💼',
         permissions: ['all_access', 'projects_publish', 'crm_manage', 'catalog_edit'],
         token: `ATPL-AUTH-${Date.now()}`
-      }, rememberMe, 'projects', false);
-
-      // Redirect directly to Perfectflow 360 CRM
-      window.location.href = 'https://perfectflow360.atplgroup.org';
-    }, 450);
+      }, rememberMe, 'dashboard', false);
+    }, 350);
   };
 
   const handleQuickDemoAdmin = () => {
@@ -67,11 +64,8 @@ export const AdminLogin = () => {
         avatar: '👨‍💼',
         permissions: ['all_access', 'projects_publish', 'crm_manage', 'catalog_edit'],
         token: `ATPL-AUTH-${Date.now()}`
-      }, true, 'projects', false);
-
-      // Redirect directly to Perfectflow 360 CRM
-      window.location.href = 'https://perfectflow360.atplgroup.org';
-    }, 350);
+      }, true, 'dashboard', false);
+    }, 250);
   };
 
   return (

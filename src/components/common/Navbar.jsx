@@ -940,9 +940,9 @@ export const Navbar = ({ onOpenSearch }) => {
               }}>AI</span>
             </button>
 
-            {/* Sign In Link (Desktop Only) */}
+            {/* Admin CMS / CRM Button (Desktop Only) */}
             <button
-              onClick={() => handleNavClick(authSession ? 'admin' : 'login')}
+              onClick={() => handleNavClick('admin')}
               className="desktop-only-action"
               style={{
                 background: 'transparent',
@@ -955,7 +955,7 @@ export const Navbar = ({ onOpenSearch }) => {
                 borderRadius: '6px'
               }}
             >
-              {authSession ? 'Admin CMS' : 'Portal Login'}
+              Admin CMS
             </button>
 
             {/* ATPL Request Demo Button (Desktop Only) */}
@@ -1279,7 +1279,7 @@ export const Navbar = ({ onOpenSearch }) => {
               <button
                 onClick={() => {
                   setMobileMenuOpen(false);
-                  handleNavClick(authSession ? 'admin' : 'login');
+                  handleNavClick('admin');
                 }}
                 style={{
                   backgroundColor: '#f1f5f9',
@@ -1293,7 +1293,7 @@ export const Navbar = ({ onOpenSearch }) => {
                   textAlign: 'center'
                 }}
               >
-                {authSession ? 'Open Admin CMS' : 'Portal Login'}
+                Admin CMS
               </button>
 
               <button
