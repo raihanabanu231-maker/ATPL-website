@@ -942,7 +942,7 @@ export const Navbar = ({ onOpenSearch }) => {
 
             {/* Admin CRM Link (Direct to PerfectFlow 360 CRM Login) */}
             <a
-              href="https://perfectflow360.atplgroup.org"
+              href="https://perfectflow360.atplgroup.org/login"
               target="_blank"
               rel="noopener noreferrer"
               className="desktop-only-action"
@@ -959,7 +959,7 @@ export const Navbar = ({ onOpenSearch }) => {
               }}
               onMouseEnter={(e) => e.currentTarget.style.color = '#E85874'}
               onMouseLeave={(e) => e.currentTarget.style.color = '#0071ba'}
-              title="Open Official PerfectFlow 360 CRM Portal"
+              title="Open Official PerfectFlow 360 CRM Login"
             >
               Admin CRM
             </a>
@@ -1283,7 +1283,7 @@ export const Navbar = ({ onOpenSearch }) => {
               </button>
 
               <a
-                href="https://perfectflow360.atplgroup.org"
+                href="https://perfectflow360.atplgroup.org/login"
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setMobileMenuOpen(false)}
