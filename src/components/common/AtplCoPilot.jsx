@@ -570,7 +570,7 @@ export const AtplCoPilot = () => {
           <button
             onClick={() => setIsOpen(true)}
             className="atpl-copilot-btn"
-            aria-label="Open ATPL Co-Pilot AI Assistant"
+            aria-label="Open Archie AI Assistant"
           >
             <div style={{
               position: 'relative',
@@ -591,7 +591,7 @@ export const AtplCoPilot = () => {
                 animation: 'pulseCoralDot 2s infinite'
               }} />
             </div>
-            <span className="atpl-copilot-desktop-text" style={{ letterSpacing: '0.01em' }}>ATPL Co-Pilot</span>
+            <span className="atpl-copilot-desktop-text" style={{ letterSpacing: '0.01em' }}>Archie AI</span>
             <span className="atpl-copilot-desktop-text" style={{
               fontSize: '0.65rem',
               backgroundColor: '#E85874',
@@ -652,7 +652,7 @@ export const AtplCoPilot = () => {
               </div>
               <div>
                 <div style={{ fontWeight: 700, fontSize: '0.95rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                  ATPL Co-Pilot
+                  Archie AI
                   <span style={{
                     fontSize: '0.65rem',
                     backgroundColor: '#10b981',
@@ -662,7 +662,7 @@ export const AtplCoPilot = () => {
                     fontWeight: 600
                   }}>Online</span>
                 </div>
-                <div style={{ fontSize: '0.75rem', opacity: 0.85 }}>Intelligent Factory Assistant</div>
+                <div style={{ fontSize: '0.75rem', opacity: 0.85 }}>ATPL Robot & Automation Guide</div>
               </div>
             </div>
 

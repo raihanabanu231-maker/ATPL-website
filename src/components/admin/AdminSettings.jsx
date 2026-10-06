@@ -277,13 +277,13 @@ export const AdminSettings = () => {
           </div>
         </div>
 
-        {/* Section 3: ATPL Co-Pilot AI & LLM Engine Configuration */}
+        {/* Section 3: Archie AI & LLM Engine Configuration */}
         <div className="glass-card" style={{ padding: '1.5rem', border: '1px solid rgba(0, 240, 255, 0.35)', background: 'linear-gradient(135deg, rgba(11, 21, 40, 0.9) 0%, rgba(4, 11, 24, 0.95) 100%)' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.25rem' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <Bot size={20} color="var(--cyan-primary)" />
               <div>
-                <h3 style={{ fontSize: '1.05rem', color: '#ffffff', margin: 0 }}>ATPL Smart Co-Pilot (Live AI Engine)</h3>
+                <h3 style={{ fontSize: '1.05rem', color: '#ffffff', margin: 0 }}>Archie AI (Smart Robot Guide & Live LLM Engine)</h3>
                 <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Supports Free Groq (Llama 3), Free Google Gemini, xAI Grok, or offline Built-in Neural AI.</span>
               </div>
             </div>
