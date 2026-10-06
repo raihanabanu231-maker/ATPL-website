@@ -575,12 +575,12 @@ export const FactoryBlueprintMap = () => {
             );
           })}
 
-          {/* CENTER QR CODE HUB (Scan to Experience Live 3D Factory Tour) */}
+          {/* CENTER QR CODE HUB (Cleanly Nested on the Futuristic Central Pedestal) */}
           <div 
             style={{
               position: 'absolute',
-              left: '50%',
-              top: '50%',
+              left: '49.8%',
+              top: '50.2%',
               transform: 'translate(-50%, -50%)',
               zIndex: 22,
               display: 'flex',
@@ -595,29 +595,29 @@ export const FactoryBlueprintMap = () => {
               title="Scan or click QR code to launch 3D Factory Tour"
               style={{
                 position: 'relative',
-                padding: '6px',
+                padding: '5px',
                 backgroundColor: '#ffffff',
                 borderRadius: '12px',
                 border: '2px solid #00f0ff',
-                boxShadow: '0 0 25px rgba(0, 240, 255, 0.45), 0 0 45px rgba(232, 88, 116, 0.25), 0 10px 30px rgba(0, 0, 0, 0.85)',
+                boxShadow: '0 0 20px rgba(0, 240, 255, 0.5), 0 8px 25px rgba(0, 0, 0, 0.75)',
                 cursor: 'pointer',
                 transition: 'transform 0.2s ease, box-shadow 0.2s ease'
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'scale(1.06)';
-                e.currentTarget.style.boxShadow = '0 0 35px rgba(0, 240, 255, 0.7), 0 0 50px rgba(232, 88, 116, 0.45)';
+                e.currentTarget.style.transform = 'scale(1.08)';
+                e.currentTarget.style.boxShadow = '0 0 30px rgba(0, 240, 255, 0.8), 0 0 45px rgba(232, 88, 116, 0.5)';
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.transform = 'scale(1)';
-                e.currentTarget.style.boxShadow = '0 0 25px rgba(0, 240, 255, 0.45), 0 0 45px rgba(232, 88, 116, 0.25), 0 10px 30px rgba(0, 0, 0, 0.85)';
+                e.currentTarget.style.boxShadow = '0 0 20px rgba(0, 240, 255, 0.5), 0 8px 25px rgba(0, 0, 0, 0.75)';
               }}
             >
               <img 
                 src={atplQrCodeImg} 
                 alt="Scan ATPL QR Code" 
                 style={{
-                  width: '68px',
-                  height: '68px',
+                  width: '74px',
+                  height: '74px',
                   display: 'block',
                   borderRadius: '6px'
                 }}
@@ -639,18 +639,18 @@ export const FactoryBlueprintMap = () => {
               </div>
             </div>
             <div style={{
-              marginTop: '4px',
-              backgroundColor: 'rgba(3, 10, 22, 0.9)',
-              padding: '0.12rem 0.45rem',
+              marginTop: '5px',
+              backgroundColor: 'rgba(3, 10, 22, 0.92)',
+              padding: '0.12rem 0.5rem',
               borderRadius: '999px',
-              border: '1px solid rgba(0, 240, 255, 0.35)',
+              border: '1px solid rgba(0, 240, 255, 0.4)',
               color: '#00f0ff',
-              fontSize: '0.6rem',
+              fontSize: '0.62rem',
               fontWeight: 800,
               letterSpacing: '0.06em',
               textTransform: 'uppercase',
               whiteSpace: 'nowrap',
-              boxShadow: '0 2px 8px rgba(0,0,0,0.6)'
+              boxShadow: '0 4px 12px rgba(0,0,0,0.8)'
             }}>
               📱 Scan Tour
             </div>
