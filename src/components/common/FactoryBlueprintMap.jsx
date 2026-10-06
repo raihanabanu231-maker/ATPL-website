@@ -25,7 +25,7 @@ export const ATPL_FACTORY_NODES = [
     category: 'SERIALIZATION & AGGREGATION',
     icon: '🔍',
     x: 77,
-    y: 78,
+    y: 77,
     tagline: 'GS1 Serialization & Anti-Counterfeit Packaging',
     lesson: 'Step 1: Here is PERFECT TRACE! Our software assigns parent-child serialization (Item -> Pack -> Case -> Pallet) with cryptographic QR verification for 100% DGFT/DSCSA regulatory compliance.',
     specs: ['Multi-level Parent-Child aggregation', '1-Click recall traceability', 'DGFT & EU-FMD compliant'],
@@ -37,7 +37,7 @@ export const ATPL_FACTORY_NODES = [
     name: 'PERFECT AUDIT™',
     category: 'COMPLIANCE & AUDIT MANAGEMENT',
     icon: '📋',
-    x: 30,
+    x: 28,
     y: 48,
     tagline: 'Paperless Digital Audits & Non-Conformance Logs',
     lesson: 'Step 2: Welcome to PERFECT AUDIT! This digital audit platform eliminates paper checklists. Quality inspectors record photo evidence, execute automated CAPA workflows, and sign with 21 CFR Part 11 compliant digital signatures.',
@@ -64,8 +64,8 @@ export const ATPL_FACTORY_NODES = [
     category: 'AIDC HARDWARE',
     icon: '📡',
     x: 39,
-    y: 18,
-    tagline: 'Long-Range UHF Portals & High-Temp Tags',
+    y: 19,
+    tagline: 'Long-Range UHF PortAL & High-Temp Tags',
     lesson: 'Step 4: At the RFID ANTENNA station! Fixed multi-directional UHF portals capture 1,200+ pallet and carton tags in milliseconds as forklifts drive through warehouse bay doors with 99.98% inventory accuracy.',
     specs: ['1,200+ tags/sec dense read rate', 'Up to 15m capture range', 'Directional dock-door sensing'],
     targetView: 'hardware'
@@ -77,7 +77,7 @@ export const ATPL_FACTORY_NODES = [
     category: 'PRODUCTION MANAGEMENT SYSTEM',
     icon: '⚙️',
     x: 58,
-    y: 82,
+    y: 80,
     tagline: 'Real-time Shop-Floor OEE & Machine Monitoring',
     lesson: 'Step 5: Here is PERFECT PMS! It directly connects with assembly lines to track Overall Equipment Effectiveness (OEE), monitor machine cycle times, analyze downtime pareto root causes, and trigger real-time Andon alerts.',
     specs: ['Real-time OEE dashboards', 'Machine cycle monitoring', 'Automated Andon alerts'],
@@ -89,7 +89,7 @@ export const ATPL_FACTORY_NODES = [
     name: 'INDUSTRIAL ROBOTS',
     category: 'ROBOTIC AUTOMATION & PLC',
     icon: '🤖',
-    x: 83,
+    x: 82,
     y: 52,
     tagline: '6-Axis Multi-Joint Robotic Assembly Cells',
     lesson: 'Step 6: Here are the INDUSTRIAL ROBOTS! Multi-axis articulated robotic arms execute precision welding, pick-and-place, and synchronized conveyor transfers with 0.05mm repeatability alongside PLC automation.',
@@ -102,8 +102,8 @@ export const ATPL_FACTORY_NODES = [
     name: 'SCANNING SOLUTIONS',
     category: 'AIDC HARDWARE',
     icon: '📱',
-    x: 52,
-    y: 28,
+    x: 55,
+    y: 19,
     tagline: 'Ultra-Rugged 1D/2D, DPM & Handsfree Scanners',
     lesson: 'Step 7: Check out our SCANNING SOLUTIONS! ATPL deploys high-speed DPM (Direct Part Mark) scanners decoding laser-etched and dot-peen codes on curved reflective automotive metals and pharmaceutical packaging.',
     specs: ['Sub-10ms multi-code decode', 'MIL-STD-810H ultra-rugged drop', 'Multi-illumination liquid lens'],
@@ -115,8 +115,8 @@ export const ATPL_FACTORY_NODES = [
     name: 'INDUSTRIAL PRINTING',
     category: 'PRINTING SOLUTIONS',
     icon: '🖨️',
-    x: 41,
-    y: 77,
+    x: 39,
+    y: 76,
     tagline: 'All-Metal 24/7 Chassis & In-Line Verifiers',
     lesson: 'Step 8: Welcome to INDUSTRIAL PRINTING! Heavy-duty industrial printers with all-metal mechanisms, dual-sensor calibration, and inline ODV barcode verifiers ensuring 100% scan-ready GS1 shipping labels.',
     specs: ['Continuous 24/7 multi-shift uptime', '600 DPI ultra-fine micro-labels', 'Integrated inline barcode verifier'],
@@ -128,8 +128,8 @@ export const ATPL_FACTORY_NODES = [
     name: 'DRONES & REMOTE CONTROL',
     category: 'AERIAL WAREHOUSE AUDIT',
     icon: '🛸',
-    x: 88,
-    y: 28,
+    x: 91,
+    y: 24,
     tagline: 'Autonomous Indoor Optical SLAM Inventory Drones',
     lesson: 'Step 9: Look up at DRONES & REMOTE CONTROL! Autonomous inspection drones navigate high-bay 15-meter racking aisles without GPS, auditing thousands of pallet barcodes in minutes safely without scissor lifts.',
     specs: ['Optical SLAM indoor navigation', 'Zero-fall hazard stocktaking', 'Instant ERP discrepancy alerts'],
@@ -141,8 +141,8 @@ export const ATPL_FACTORY_NODES = [
     name: 'SOFTWARE DEVELOPMENT',
     category: 'R&D LABS (MADURAI & CHENNAI)',
     icon: '💻',
-    x: 23,
-    y: 28,
+    x: 19,
+    y: 20,
     tagline: 'Cloud SaaS, Embedded IIoT Firmware & Mobile Apps',
     lesson: 'Step 10: Here is ATPL SOFTWARE DEVELOPMENT! Our in-house engineering team crafts cloud-native MES/WMS platforms, high-speed OPC-UA middleware, embedded sensor firmware, and mobile enterprise applications.',
     specs: ['35+ years combined domain mastery', 'REST, MQTT & OPC-UA native stacks', 'Custom ERP bi-directional sync'],
@@ -154,8 +154,8 @@ export const ATPL_FACTORY_NODES = [
     name: 'SUPER COMPUTER AI & ML',
     category: 'EDGE AI & VISION INTELLIGENCE',
     icon: '🧠',
-    x: 24,
-    y: 78,
+    x: 18,
+    y: 75,
     tagline: 'Sub-8ms Optical Defect Detection & Neural Inference',
     lesson: 'Step 11: At the SUPER COMPUTER AI & ML hub! GPU-accelerated neural networks analyze gigapixel inspection images in sub-8ms, classifying microscopic surface flaws, solder bridge defects, and dimensional variances.',
     specs: ['Sub-8ms neural inference latency', '99.99% defect catch accuracy', 'Automated Pareto root-cause analytics'],
@@ -167,8 +167,8 @@ export const ATPL_FACTORY_NODES = [
     name: 'ERP SOLUTIONS & SYNC',
     category: 'ENTERPRISE INTEGRATION',
     icon: '🔄',
-    x: 21,
-    y: 53,
+    x: 13,
+    y: 46,
     tagline: 'Bi-directional Real-Time Sync with SAP, Oracle & MS',
     lesson: 'Step 12: Completing our tour at ERP SOLUTIONS! ATPL ERP Sync certified connectors translate shopfloor machine PLC events and barcode scans into real-time SAP IDocs and Oracle BAPIs with zero data latency.',
     specs: ['Certified SAP S/4HANA & Oracle BAPIs', 'Zero-data-loss buffering memory', 'Instant shopfloor-to-boardroom visibility'],
@@ -326,32 +326,40 @@ export const FactoryBlueprintMap = () => {
               box-shadow: 0 0 25px #E85874;
               transform: scale(1.15);
             }
-            .station-tooltip-label {
+            .station-pill-label {
               position: absolute;
-              top: calc(100% + 5px);
+              top: calc(100% + 4px);
               left: 50%;
               transform: translateX(-50%);
-              background: rgba(4, 11, 24, 0.95);
-              border: 1px solid rgba(0, 240, 255, 0.5);
-              color: #ffffff;
-              padding: 0.25rem 0.6rem;
-              border-radius: 6px;
-              font-size: 0.68rem;
+              background: rgba(4, 11, 24, 0.92);
+              backdrop-filter: blur(8px);
+              -webkit-backdrop-filter: blur(8px);
+              border: 1px solid rgba(0, 240, 255, 0.45);
+              color: #f1f5f9;
+              padding: 0.16rem 0.5rem;
+              border-radius: 4px;
+              font-size: 0.62rem;
               font-weight: 800;
               white-space: nowrap;
-              letter-spacing: 0.03em;
+              letter-spacing: 0.02em;
               text-transform: uppercase;
-              box-shadow: 0 6px 16px rgba(0, 0, 0, 0.7);
+              box-shadow: 0 4px 14px rgba(0, 0, 0, 0.75);
               pointer-events: none;
-              opacity: 0;
-              visibility: hidden;
-              transition: all 0.2s ease;
+              transition: all 0.25s ease;
               z-index: 25;
             }
-            .station-pin-container:hover .station-tooltip-label {
-              opacity: 1;
-              visibility: visible;
-              top: calc(100% + 6px);
+            .station-pin-container.active .station-pill-label {
+              border-color: #E85874;
+              color: #ffffff;
+              background: rgba(232, 88, 116, 0.35);
+              box-shadow: 0 0 14px rgba(232, 88, 116, 0.6);
+              font-weight: 900;
+              transform: translateX(-50%) scale(1.05);
+            }
+            .station-pin-container:hover .station-pill-label {
+              border-color: #00f0ff;
+              color: #ffffff;
+              box-shadow: 0 0 14px rgba(0, 240, 255, 0.65);
             }
             @media (max-width: 768px) {
               #factory-blueprint-section {
@@ -365,8 +373,13 @@ export const FactoryBlueprintMap = () => {
                 height: 22px !important;
                 font-size: 0.65rem !important;
               }
-              .station-tooltip-label {
+              .station-pill-label {
                 display: none !important;
+              }
+              .station-pin-container.active .station-pill-label {
+                display: block !important;
+                font-size: 0.58rem !important;
+                padding: 0.12rem 0.35rem !important;
               }
               .factory-blueprint-top-hud {
                 top: 6px !important;
@@ -534,7 +547,7 @@ export const FactoryBlueprintMap = () => {
                 <div className="station-pin-circle">
                   {node.stepNumber}
                 </div>
-                <div className="station-tooltip-label">
+                <div className="station-pill-label">
                   {node.name}
                 </div>
               </div>
