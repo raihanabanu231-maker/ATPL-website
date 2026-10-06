@@ -180,31 +180,8 @@ export const FactoryBlueprintMap = () => {
   const { openDemoModal } = useApp();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoTour, setIsAutoTour] = useState(true);
-  const [typedText, setTypedText] = useState('');
-  const typingRef = useRef(null);
 
   const currentNode = ATPL_FACTORY_NODES[currentIndex];
-
-  // Typing effect when station changes
-  useEffect(() => {
-    if (typingRef.current) clearInterval(typingRef.current);
-    setTypedText('');
-    let idx = 0;
-    const fullText = currentNode.lesson;
-
-    typingRef.current = setInterval(() => {
-      if (idx < fullText.length) {
-        setTypedText(prev => prev + fullText.charAt(idx));
-        idx++;
-      } else {
-        clearInterval(typingRef.current);
-      }
-    }, 10);
-
-    return () => {
-      if (typingRef.current) clearInterval(typingRef.current);
-    };
-  }, [currentIndex]);
 
   // Auto-tour timer (moves automatically every 5.5s)
   useEffect(() => {
@@ -371,16 +348,10 @@ export const FactoryBlueprintMap = () => {
               transition: all 0.2s ease;
               z-index: 25;
             }
-            .station-pin-container:hover .station-tooltip-label,
-            .station-pin-container.active .station-tooltip-label {
+            .station-pin-container:hover .station-tooltip-label {
               opacity: 1;
               visibility: visible;
               top: calc(100% + 6px);
-            }
-            .station-pin-container.active .station-tooltip-label {
-              border-color: #E85874;
-              background: rgba(20, 10, 25, 0.95);
-              box-shadow: 0 0 15px rgba(232, 88, 116, 0.4);
             }
             @media (max-width: 768px) {
               #factory-blueprint-section {
@@ -396,11 +367,6 @@ export const FactoryBlueprintMap = () => {
               }
               .station-tooltip-label {
                 display: none !important;
-              }
-              .station-pin-container.active .station-tooltip-label {
-                display: block !important;
-                font-size: 0.6rem !important;
-                padding: 0.15rem 0.45rem !important;
               }
               .factory-blueprint-top-hud {
                 top: 6px !important;
@@ -708,14 +674,12 @@ export const FactoryBlueprintMap = () => {
                 </span>
               </div>
               <p className="hud-speech-paragraph" style={{ 
-                fontSize: '0.80rem', 
-                color: '#e2e8f0', 
+                fontSize: '0.82rem', 
+                color: '#f1f5f9', 
                 lineHeight: 1.35, 
-                margin: 0,
-                maxHeight: '48px',
-                overflowY: 'auto'
+                margin: 0
               }}>
-                {typedText}
+                {currentNode.lesson}
               </p>
             </div>
 

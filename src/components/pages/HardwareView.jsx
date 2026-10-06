@@ -651,7 +651,8 @@ export const HardwareView = () => {
                 <div style={{
                   height: '230px',
                   width: '100%',
-                  backgroundColor: '#ffffff',
+                  backgroundColor: '#0a1628',
+                  backgroundImage: 'radial-gradient(circle at 50% 50%, rgba(0, 113, 186, 0.25) 0%, rgba(6, 13, 27, 0.95) 100%)',
                   position: 'relative',
                   display: 'flex',
                   alignItems: 'center',
@@ -666,12 +667,42 @@ export const HardwareView = () => {
                       maxHeight: '100%',
                       maxWidth: '100%',
                       objectFit: 'contain',
-                      transition: 'transform 0.3s ease'
+                      transition: 'transform 0.3s ease',
+                      position: 'relative',
+                      zIndex: 2
                     }}
                     onError={(e) => {
                       e.currentTarget.style.display = 'none';
                     }}
                   />
+                  {/* Fallback Icon / Visual */}
+                  <div style={{
+                    position: 'absolute',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '0.5rem',
+                    zIndex: 1,
+                    textAlign: 'center',
+                    padding: '1rem'
+                  }}>
+                    <div style={{
+                      width: '56px',
+                      height: '56px',
+                      borderRadius: '12px',
+                      background: `rgba(${hw.color === '#0071ba' ? '0, 113, 186' : hw.color === '#E85874' ? '232, 88, 116' : '0, 166, 81'}, 0.2)`,
+                      border: `1.5px solid ${hw.color}`,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '1.8rem',
+                      boxShadow: `0 0 20px ${hw.color}40`
+                    }}>
+                      {hw.category === 'scanners' ? '⚡' : hw.category === 'printers' ? '🖨️' : hw.category === 'rfid' ? '📡' : hw.category === 'mobile' ? '📱' : hw.category === 'vision' ? '👁️' : '🏷️'}
+                    </div>
+                    <span style={{ fontSize: '0.8rem', color: '#94a3b8', fontWeight: 600 }}>{hw.model}</span>
+                  </div>
                   <div style={{
                     position: 'absolute',
                     top: '12px',
@@ -683,7 +714,8 @@ export const HardwareView = () => {
                     borderRadius: '6px',
                     padding: '0.25rem 0.65rem',
                     fontSize: '0.75rem',
-                    fontWeight: 700
+                    fontWeight: 700,
+                    zIndex: 3
                   }}>
                     {hw.badge}
                   </div>
