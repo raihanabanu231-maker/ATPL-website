@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import blueprintImg from '../../../assets/images/atpl_isometric_factory.jpg';
+import atplQrCodeImg from '../../../assets/images/atpl_qr_code.png';
 import { AtplRobotAvatar } from './AtplRobotAvatar';
 import { 
   Bot, 
@@ -573,6 +574,87 @@ export const FactoryBlueprintMap = () => {
               </div>
             );
           })}
+
+          {/* CENTER QR CODE HUB (Scan to Experience Live 3D Factory Tour) */}
+          <div 
+            style={{
+              position: 'absolute',
+              left: '50%',
+              top: '50%',
+              transform: 'translate(-50%, -50%)',
+              zIndex: 22,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              pointerEvents: 'auto'
+            }}
+          >
+            <div 
+              onClick={() => setCurrentView('factory-3d')}
+              title="Scan or click QR code to launch 3D Factory Tour"
+              style={{
+                position: 'relative',
+                padding: '6px',
+                backgroundColor: '#ffffff',
+                borderRadius: '12px',
+                border: '2px solid #00f0ff',
+                boxShadow: '0 0 25px rgba(0, 240, 255, 0.45), 0 0 45px rgba(232, 88, 116, 0.25), 0 10px 30px rgba(0, 0, 0, 0.85)',
+                cursor: 'pointer',
+                transition: 'transform 0.2s ease, box-shadow 0.2s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'scale(1.06)';
+                e.currentTarget.style.boxShadow = '0 0 35px rgba(0, 240, 255, 0.7), 0 0 50px rgba(232, 88, 116, 0.45)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'scale(1)';
+                e.currentTarget.style.boxShadow = '0 0 25px rgba(0, 240, 255, 0.45), 0 0 45px rgba(232, 88, 116, 0.25), 0 10px 30px rgba(0, 0, 0, 0.85)';
+              }}
+            >
+              <img 
+                src={atplQrCodeImg} 
+                alt="Scan ATPL QR Code" 
+                style={{
+                  width: '68px',
+                  height: '68px',
+                  display: 'block',
+                  borderRadius: '6px'
+                }}
+              />
+              <div style={{
+                position: 'absolute',
+                top: '-7px',
+                right: '-7px',
+                backgroundColor: '#E85874',
+                color: '#ffffff',
+                fontSize: '0.55rem',
+                fontWeight: 800,
+                padding: '0.08rem 0.35rem',
+                borderRadius: '999px',
+                letterSpacing: '0.04em',
+                boxShadow: '0 0 8px #E85874'
+              }}>
+                SCAN
+              </div>
+            </div>
+            <div style={{
+              marginTop: '4px',
+              backgroundColor: 'rgba(3, 10, 22, 0.9)',
+              padding: '0.12rem 0.45rem',
+              borderRadius: '999px',
+              border: '1px solid rgba(0, 240, 255, 0.35)',
+              color: '#00f0ff',
+              fontSize: '0.6rem',
+              fontWeight: 800,
+              letterSpacing: '0.06em',
+              textTransform: 'uppercase',
+              whiteSpace: 'nowrap',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.6)'
+            }}>
+              📱 Scan Tour
+            </div>
+          </div>
 
           {/* Animated Traveling Robot Avatar with Spotlight Glow */}
           <div style={{
