@@ -898,47 +898,6 @@ export const Navbar = ({ onOpenSearch }) => {
               )}
             </div>
 
-            {/* AI Co-Pilot Trigger (Desktop Header) */}
-            <button
-              onClick={openCoPilot}
-              className="desktop-only-action"
-              style={{
-                background: 'linear-gradient(135deg, rgba(0, 113, 186, 0.08) 0%, rgba(232, 88, 116, 0.08) 100%)',
-                border: '1px solid rgba(0, 113, 186, 0.25)',
-                borderRadius: '999px',
-                padding: '0.4rem 0.85rem',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.45rem',
-                cursor: 'pointer',
-                color: '#0071ba',
-                fontSize: '0.85rem',
-                fontWeight: 700,
-                transition: 'all 0.2s ease'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = '#E85874';
-                e.currentTarget.style.transform = 'translateY(-1px)';
-                e.currentTarget.style.boxShadow = '0 4px 12px rgba(232, 88, 116, 0.2)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = 'rgba(0, 113, 186, 0.25)';
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = 'none';
-              }}
-              title="Open Archie AI Industrial Advisor"
-            >
-              <AtplRobotAvatar size={18} glow={false} />
-              <span>Ask Archie AI</span>
-              <span style={{
-                fontSize: '0.62rem',
-                backgroundColor: '#E85874',
-                color: '#ffffff',
-                padding: '0.1rem 0.38rem',
-                borderRadius: '999px',
-                fontWeight: 800
-              }}>AI</span>
-            </button>
 
             {/* Admin CRM Link (Direct to PerfectFlow 360 CRM Login) */}
             <a

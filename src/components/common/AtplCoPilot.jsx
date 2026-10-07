@@ -521,49 +521,35 @@ export const AtplCoPilot = () => {
           <style>{`
             .atpl-copilot-btn {
               position: fixed;
-              top: 50%;
-              right: 0;
-              transform: translateY(-50%);
+              bottom: 1.5rem;
+              right: 1.5rem;
               z-index: 990;
               display: flex;
               align-items: center;
-              gap: 0.55rem;
-              background: linear-gradient(135deg, #0071ba 0%, #005a96 100%);
+              gap: 0.6rem;
+              background: linear-gradient(135deg, #0071ba 0%, #004b7c 100%);
               color: #ffffff;
-              border: 1.5px solid rgba(232, 88, 116, 0.5);
-              border-right: none;
-              border-radius: 24px 0 0 24px;
-              padding: 0.55rem 0.95rem 0.55rem 0.75rem;
-              box-shadow: -4px 8px 25px rgba(0, 0, 0, 0.35), 0 0 15px rgba(0, 240, 255, 0.25);
+              border: 1.5px solid rgba(0, 240, 255, 0.6);
+              border-radius: 999px;
+              padding: 0.65rem 1.15rem;
+              box-shadow: 0 8px 25px rgba(0, 0, 0, 0.45), 0 0 15px rgba(0, 240, 255, 0.35);
               cursor: pointer;
+              font-family: var(--font-display, sans-serif);
               font-weight: 700;
-              font-size: 0.86rem;
+              font-size: 0.88rem;
               transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
               outline: none;
             }
             .atpl-copilot-btn:hover {
-              transform: translateY(-50%) translateX(-4px);
-              box-shadow: -6px 12px 30px rgba(232, 88, 116, 0.5);
+              transform: translateY(-2px) scale(1.03);
+              border-color: #E85874;
+              box-shadow: 0 12px 30px rgba(232, 88, 116, 0.45), 0 0 20px rgba(0, 240, 255, 0.5);
             }
             @media (max-width: 768px) {
               .atpl-copilot-btn {
-                top: auto !important;
                 bottom: 1rem !important;
                 right: 1rem !important;
-                transform: none !important;
-                border-radius: 50% !important;
-                border: 2px solid #E85874 !important;
-                width: 48px !important;
-                height: 48px !important;
-                padding: 0 !important;
-                justify-content: center !important;
-                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5), 0 0 15px rgba(232, 88, 116, 0.4) !important;
-              }
-              .atpl-copilot-btn:hover {
-                transform: scale(1.08) !important;
-              }
-              .atpl-copilot-desktop-text {
-                display: none !important;
+                padding: 0.55rem 0.9rem !important;
               }
             }
           `}</style>
