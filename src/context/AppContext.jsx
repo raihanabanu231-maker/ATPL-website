@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { INITIAL_LEADS, INITIAL_PRODUCTS, INITIAL_TICKETS, INITIAL_AUDIT_LOGS, INITIAL_PROJECTS } from '../data/initialAdminData';
 import { FACTORY_STATIONS } from '../data/stationsData';
+import { saveLeadToDatabase } from '../services/dbService';
 
 const AppContext = createContext();
 
@@ -315,6 +316,11 @@ export const AppProvider = ({ children }) => {
       ...leadData
     };
     setLeads(prev => [newLead, ...prev]);
+
+    // Asynchronously synchronize lead to Neon PostgreSQL database
+    saveLeadToDatabase(newLead).catch((err) => {
+      console.warn('PostgreSQL lead sync deferred:', err);
+    });
 
     // Log event
     const log = {
