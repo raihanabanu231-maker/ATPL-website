@@ -13,7 +13,8 @@ import {
   Pause,
   Activity,
   Zap,
-  Radio
+  Radio,
+  X
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 
@@ -180,6 +181,7 @@ export const FactoryBlueprintMap = () => {
   const { openDemoModal } = useApp();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoTour, setIsAutoTour] = useState(true);
+  const [isHudClosed, setIsHudClosed] = useState(false);
 
   const currentNode = ATPL_FACTORY_NODES[currentIndex];
 
@@ -538,6 +540,7 @@ export const FactoryBlueprintMap = () => {
                 onClick={() => {
                   setCurrentIndex(index);
                   setIsAutoTour(false);
+                  setIsHudClosed(false);
                 }}
                 style={{
                   left: `${node.x}%`,
@@ -629,145 +632,221 @@ export const FactoryBlueprintMap = () => {
             }}></div>
           </div>
 
-          {/* BOTTOM HUD DIALOGUE CONSOLE (Clear, High-Contrast & Unclipped) */}
-          <div 
-            className="factory-hud-bottom-overlay"
-            style={{
-              position: 'absolute',
-              bottom: '8px',
-              left: '10px',
-              right: '10px',
-              zIndex: 35,
-              background: 'rgba(4, 11, 24, 0.95)',
-              backdropFilter: 'blur(20px)',
-              WebkitBackdropFilter: 'blur(20px)',
-              border: '1.5px solid rgba(0, 240, 255, 0.45)',
-              borderRadius: '12px',
-              padding: '0.5rem 1rem',
-              boxShadow: '0 12px 35px rgba(0, 0, 0, 0.85), 0 0 25px rgba(0, 240, 255, 0.2)',
-              display: 'grid',
-              gridTemplateColumns: 'auto 1fr auto',
-              gap: '0.85rem',
-              alignItems: 'center'
-            }}
-          >
-            
-            {/* Robot Avatar Info */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
-              <div style={{
-                width: '38px',
-                height: '38px',
-                borderRadius: '50%',
-                background: 'radial-gradient(circle, #ffffff 0%, #e0f2fe 70%, #0071ba 100%)',
+          {/* BOTTOM HUD DIALOGUE CONSOLE (Clear, High-Contrast & Unclipped with X Close Button) */}
+          {!isHudClosed ? (
+            <div 
+              className="factory-hud-bottom-overlay"
+              style={{
+                position: 'absolute',
+                bottom: '8px',
+                left: '10px',
+                right: '10px',
+                zIndex: 35,
+                background: 'rgba(4, 11, 24, 0.95)',
+                backdropFilter: 'blur(20px)',
+                WebkitBackdropFilter: 'blur(20px)',
+                border: '1.5px solid rgba(0, 240, 255, 0.45)',
+                borderRadius: '12px',
+                padding: '0.5rem 1rem',
+                boxShadow: '0 12px 35px rgba(0, 0, 0, 0.85), 0 0 25px rgba(0, 240, 255, 0.2)',
+                display: 'grid',
+                gridTemplateColumns: 'auto 1fr auto',
+                gap: '0.85rem',
+                alignItems: 'center',
+                animation: 'fadeInUp 0.25s ease-out'
+              }}
+            >
+              
+              {/* Robot Avatar Info */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+                <div style={{
+                  width: '38px',
+                  height: '38px',
+                  borderRadius: '50%',
+                  background: 'radial-gradient(circle, #ffffff 0%, #e0f2fe 70%, #0071ba 100%)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  border: '2px solid #00f0ff',
+                  boxShadow: '0 0 16px rgba(0, 240, 255, 0.6), 0 0 8px rgba(232, 88, 116, 0.4)',
+                  flexShrink: 0
+                }}>
+                  <AtplRobotAvatar size={28} />
+                </div>
+                <div style={{ whiteSpace: 'nowrap' }}>
+                  <strong style={{ color: '#ffffff', fontSize: '0.82rem', display: 'block', letterSpacing: '0.01em' }}>Archie AI Guide:</strong>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', color: '#00f0ff', fontWeight: 800, textTransform: 'uppercase' }}>
+                    STOP {currentIndex + 1}/12 • {currentNode.category}
+                  </span>
+                </div>
+              </div>
+
+              {/* Live Lesson Speech (Unclipped, Full Description Visibility) */}
+              <div style={{ minWidth: 0, paddingRight: '0.25rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', marginBottom: '0.1rem', flexWrap: 'wrap' }}>
+                  <h3 style={{ fontSize: '0.88rem', color: '#ffffff', margin: 0, fontWeight: 900, letterSpacing: '0.02em' }}>
+                    {currentNode.name}
+                  </h3>
+                  <span style={{ color: '#E85874', fontSize: '0.72rem', fontWeight: 700 }}>
+                    • {currentNode.tagline}
+                  </span>
+                </div>
+                <p className="hud-speech-paragraph" style={{ 
+                  fontSize: '0.82rem', 
+                  color: '#f1f5f9', 
+                  lineHeight: 1.35, 
+                  margin: 0
+                }}>
+                  {currentNode.lesson}
+                </p>
+              </div>
+
+              {/* Action Navigation Controls + X Close Button */}
+              <div className="hud-actions-container" style={{ display: 'flex', gap: '0.35rem', alignItems: 'center', flexShrink: 0 }}>
+                <button
+                  onClick={handlePrev}
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.08)',
+                    border: '1px solid rgba(255, 255, 255, 0.25)',
+                    color: '#ffffff',
+                    borderRadius: '6px',
+                    padding: '0.32rem 0.65rem',
+                    fontSize: '0.75rem',
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.2rem',
+                    transition: 'all 0.15s ease'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.18)'}
+                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.08)'}
+                  title="Previous Station"
+                >
+                  <ChevronLeft size={13} />
+                  <span>Prev</span>
+                </button>
+
+                <button
+                  onClick={handleNext}
+                  style={{
+                    background: '#0071ba',
+                    border: '1px solid #00f0ff',
+                    color: '#ffffff',
+                    borderRadius: '6px',
+                    padding: '0.32rem 0.75rem',
+                    fontSize: '0.75rem',
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.2rem',
+                    transition: 'all 0.15s ease',
+                    boxShadow: '0 2px 10px rgba(0, 113, 186, 0.4)'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#005a96'}
+                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#0071ba'}
+                  title="Next Station"
+                >
+                  <span>Next</span>
+                  <ChevronRight size={13} />
+                </button>
+
+                <button
+                  onClick={() => openDemoModal({ solution: currentNode.name, notes: `Inquiry for ${currentNode.name} from Factory Blueprint map.` })}
+                  style={{
+                    backgroundColor: '#E85874',
+                    border: 'none',
+                    color: '#ffffff',
+                    borderRadius: '6px',
+                    padding: '0.32rem 0.75rem',
+                    fontSize: '0.75rem',
+                    fontWeight: 800,
+                    cursor: 'pointer',
+                    boxShadow: '0 4px 14px rgba(232, 88, 116, 0.4)',
+                    whiteSpace: 'nowrap',
+                    transition: 'all 0.15s ease'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#d44360'}
+                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#E85874'}
+                >
+                  Demo
+                </button>
+
+                {/* X Close Button for Robot Features */}
+                <button
+                  onClick={() => setIsHudClosed(true)}
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.08)',
+                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                    color: '#cbd5e1',
+                    borderRadius: '6px',
+                    padding: '0.32rem 0.45rem',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginLeft: '0.2rem',
+                    transition: 'all 0.15s ease'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = 'rgba(232, 88, 116, 0.3)';
+                    e.currentTarget.style.color = '#ffffff';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.08)';
+                    e.currentTarget.style.color = '#cbd5e1';
+                  }}
+                  title="Close Archie AI Guide panel"
+                  aria-label="Close Archie AI Guide panel"
+                >
+                  <X size={14} />
+                </button>
+              </div>
+
+            </div>
+          ) : (
+            /* Re-open Pill when closed */
+            <button
+              onClick={() => setIsHudClosed(false)}
+              style={{
+                position: 'absolute',
+                bottom: '12px',
+                right: '12px',
+                zIndex: 35,
+                background: 'rgba(4, 11, 24, 0.92)',
+                backdropFilter: 'blur(16px)',
+                WebkitBackdropFilter: 'blur(16px)',
+                border: '1.5px solid rgba(0, 240, 255, 0.6)',
+                color: '#ffffff',
+                borderRadius: '999px',
+                padding: '0.45rem 1rem',
+                fontSize: '0.8rem',
+                fontWeight: 700,
+                cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'center',
-                border: '2px solid #00f0ff',
-                boxShadow: '0 0 16px rgba(0, 240, 255, 0.6), 0 0 8px rgba(232, 88, 116, 0.4)',
-                flexShrink: 0
-              }}>
-                <AtplRobotAvatar size={28} />
-              </div>
-              <div style={{ whiteSpace: 'nowrap' }}>
-                <strong style={{ color: '#ffffff', fontSize: '0.82rem', display: 'block', letterSpacing: '0.01em' }}>Archie AI Guide:</strong>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', color: '#00f0ff', fontWeight: 800, textTransform: 'uppercase' }}>
-                  STOP {currentIndex + 1}/12 • {currentNode.category}
-                </span>
-              </div>
-            </div>
-
-            {/* Live Lesson Speech (Unclipped, Full Description Visibility) */}
-            <div style={{ minWidth: 0, paddingRight: '0.25rem' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', marginBottom: '0.1rem', flexWrap: 'wrap' }}>
-                <h3 style={{ fontSize: '0.88rem', color: '#ffffff', margin: 0, fontWeight: 900, letterSpacing: '0.02em' }}>
-                  {currentNode.name}
-                </h3>
-                <span style={{ color: '#E85874', fontSize: '0.72rem', fontWeight: 700 }}>
-                  • {currentNode.tagline}
-                </span>
-              </div>
-              <p className="hud-speech-paragraph" style={{ 
-                fontSize: '0.82rem', 
-                color: '#f1f5f9', 
-                lineHeight: 1.35, 
-                margin: 0
-              }}>
-                {currentNode.lesson}
-              </p>
-            </div>
-
-            {/* Action Navigation Controls */}
-            <div className="hud-actions-container" style={{ display: 'flex', gap: '0.35rem', alignItems: 'center', flexShrink: 0 }}>
-              <button
-                onClick={handlePrev}
-                style={{
-                  background: 'rgba(255, 255, 255, 0.08)',
-                  border: '1px solid rgba(255, 255, 255, 0.25)',
-                  color: '#ffffff',
-                  borderRadius: '6px',
-                  padding: '0.32rem 0.65rem',
-                  fontSize: '0.75rem',
-                  fontWeight: 700,
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.2rem',
-                  transition: 'all 0.15s ease'
-                }}
-                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.18)'}
-                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.08)'}
-              >
-                <ChevronLeft size={13} />
-                <span>Prev</span>
-              </button>
-
-              <button
-                onClick={handleNext}
-                style={{
-                  background: '#0071ba',
-                  border: '1px solid #00f0ff',
-                  color: '#ffffff',
-                  borderRadius: '6px',
-                  padding: '0.32rem 0.75rem',
-                  fontSize: '0.75rem',
-                  fontWeight: 700,
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.2rem',
-                  transition: 'all 0.15s ease',
-                  boxShadow: '0 2px 10px rgba(0, 113, 186, 0.4)'
-                }}
-                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#005a96'}
-                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#0071ba'}
-              >
-                <span>Next</span>
-                <ChevronRight size={13} />
-              </button>
-
-              <button
-                onClick={() => openDemoModal({ solution: currentNode.name, notes: `Inquiry for ${currentNode.name} from Factory Blueprint map.` })}
-                style={{
-                  backgroundColor: '#E85874',
-                  border: 'none',
-                  color: '#ffffff',
-                  borderRadius: '6px',
-                  padding: '0.32rem 0.75rem',
-                  fontSize: '0.75rem',
-                  fontWeight: 800,
-                  cursor: 'pointer',
-                  boxShadow: '0 4px 14px rgba(232, 88, 116, 0.4)',
-                  whiteSpace: 'nowrap',
-                  transition: 'all 0.15s ease'
-                }}
-                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#d44360'}
-                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#E85874'}
-              >
-                Demo
-              </button>
-            </div>
-
-          </div>
+                gap: '0.55rem',
+                boxShadow: '0 8px 30px rgba(0,0,0,0.7), 0 0 20px rgba(0,240,255,0.3)',
+                transition: 'all 0.2s ease',
+                animation: 'fadeInUp 0.25s ease-out'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'translateY(-2px)';
+                e.currentTarget.style.borderColor = '#00f0ff';
+                e.currentTarget.style.boxShadow = '0 12px 35px rgba(0,0,0,0.8), 0 0 25px rgba(0,240,255,0.5)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.borderColor = 'rgba(0, 240, 255, 0.6)';
+                e.currentTarget.style.boxShadow = '0 8px 30px rgba(0,0,0,0.7), 0 0 20px rgba(0,240,255,0.3)';
+              }}
+              title="Click to show Archie AI Guide"
+            >
+              <AtplRobotAvatar size={22} />
+              <span>Archie AI Guide ({currentIndex + 1}/12)</span>
+            </button>
+          )}
 
         </div>
 

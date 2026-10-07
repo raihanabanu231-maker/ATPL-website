@@ -81,6 +81,7 @@ export const AtplCoPilot = () => {
   const isOpen = coPilotOpen !== undefined ? coPilotOpen : localIsOpen;
   const setIsOpen = setCoPilotOpen || setLocalIsOpen;
   const [isExpanded, setIsExpanded] = useState(false);
+  const [speechBubbleDismissed, setSpeechBubbleDismissed] = useState(false);
   const [messages, setMessages] = useState([
     {
       id: 1,
@@ -515,82 +516,122 @@ export const AtplCoPilot = () => {
 
   return (
     <>
-      {/* Floating Toggle Button (Responsive Docking) */}
+      {/* Floating Robot Button with Dismissible Speech Bubble */}
       {!isOpen && (
-        <>
-          <style>{`
-            .atpl-copilot-btn {
-              position: fixed;
-              bottom: 1.5rem;
-              right: 1.5rem;
-              z-index: 990;
-              display: flex;
-              align-items: center;
-              gap: 0.6rem;
-              background: linear-gradient(135deg, #0071ba 0%, #004b7c 100%);
-              color: #ffffff;
-              border: 1.5px solid rgba(0, 240, 255, 0.6);
-              border-radius: 999px;
-              padding: 0.65rem 1.15rem;
-              box-shadow: 0 8px 25px rgba(0, 0, 0, 0.45), 0 0 15px rgba(0, 240, 255, 0.35);
-              cursor: pointer;
-              font-family: var(--font-display, sans-serif);
-              font-weight: 700;
-              font-size: 0.88rem;
-              transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-              outline: none;
-            }
-            .atpl-copilot-btn:hover {
-              transform: translateY(-2px) scale(1.03);
-              border-color: #E85874;
-              box-shadow: 0 12px 30px rgba(232, 88, 116, 0.45), 0 0 20px rgba(0, 240, 255, 0.5);
-            }
-            @media (max-width: 768px) {
-              .atpl-copilot-btn {
-                bottom: 1rem !important;
-                right: 1rem !important;
-                padding: 0.55rem 0.9rem !important;
-              }
-            }
-          `}</style>
+        <div style={{
+          position: 'fixed',
+          bottom: '1.5rem',
+          right: '1.5rem',
+          zIndex: 990,
+          display: 'flex',
+          alignItems: 'center',
+          gap: '0.65rem'
+        }}>
+          {/* Speech Bubble with 'X' Close Button */}
+          {!speechBubbleDismissed && (
+            <div
+              onClick={() => setIsOpen(true)}
+              style={{
+                background: '#ffffff',
+                color: '#1e293b',
+                padding: '0.55rem 0.85rem',
+                borderRadius: '999px',
+                boxShadow: '0 10px 25px -3px rgba(0, 0, 0, 0.25), 0 4px 10px rgba(0, 0, 0, 0.1)',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.6rem',
+                fontSize: '0.86rem',
+                fontWeight: 600,
+                border: '1px solid rgba(0, 0, 0, 0.08)',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease',
+                userSelect: 'none',
+                whiteSpace: 'nowrap'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
+              onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+            >
+              <span>Hey buddy, need any help? 👋</span>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setSpeechBubbleDismissed(true);
+                }}
+                style={{
+                  background: '#f1f5f9',
+                  border: 'none',
+                  borderRadius: '50%',
+                  width: '20px',
+                  height: '20px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: '#64748b',
+                  cursor: 'pointer',
+                  padding: 0,
+                  transition: 'all 0.15s ease'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = '#e2e8f0';
+                  e.currentTarget.style.color = '#0f172a';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = '#f1f5f9';
+                  e.currentTarget.style.color = '#64748b';
+                }}
+                title="Dismiss message"
+                aria-label="Dismiss message"
+              >
+                <X size={12} strokeWidth={2.5} />
+              </button>
+            </div>
+          )}
+
+          {/* Circular Floating Robot Button */}
           <button
             onClick={() => setIsOpen(true)}
-            className="atpl-copilot-btn"
-            aria-label="Open Archie AI Assistant"
-          >
-            <div style={{
-              position: 'relative',
+            style={{
+              width: '54px',
+              height: '54px',
+              borderRadius: '50%',
+              background: 'linear-gradient(135deg, #0b1e36 0%, #030a16 100%)',
+              border: '2px solid rgba(0, 240, 255, 0.7)',
+              boxShadow: '0 8px 25px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 240, 255, 0.35)',
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'center'
-            }}>
-              <AtplRobotAvatar size={24} glow={false} />
-              <span style={{
-                position: 'absolute',
-                top: -2,
-                right: -2,
-                width: 7,
-                height: 7,
-                borderRadius: '50%',
-                backgroundColor: '#E85874',
-                border: '1.5px solid #0071ba',
-                animation: 'pulseCoralDot 2s infinite'
-              }} />
-            </div>
-            <span className="atpl-copilot-desktop-text" style={{ letterSpacing: '0.01em' }}>Archie AI</span>
-            <span className="atpl-copilot-desktop-text" style={{
-              fontSize: '0.65rem',
-              backgroundColor: '#E85874',
-              color: '#ffffff',
-              fontWeight: 800,
-              padding: '0.12rem 0.4rem',
-              borderRadius: '999px',
-              textTransform: 'uppercase',
-              letterSpacing: '0.5px',
-              boxShadow: '0 2px 6px rgba(232, 88, 116, 0.4)'
-            }}>AI</span>
+              justifyContent: 'center',
+              cursor: 'pointer',
+              transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
+              position: 'relative',
+              flexShrink: 0
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'scale(1.08)';
+              e.currentTarget.style.borderColor = '#E85874';
+              e.currentTarget.style.boxShadow = '0 12px 30px rgba(232, 88, 116, 0.5), 0 0 25px rgba(0, 240, 255, 0.5)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'scale(1)';
+              e.currentTarget.style.borderColor = 'rgba(0, 240, 255, 0.7)';
+              e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 240, 255, 0.35)';
+            }}
+            aria-label="Open Archie AI Assistant"
+            title="Chat with Archie AI"
+          >
+            <AtplRobotAvatar size={32} glow={false} />
+            <span style={{
+              position: 'absolute',
+              top: 2,
+              right: 2,
+              width: 10,
+              height: 10,
+              borderRadius: '50%',
+              backgroundColor: '#10b981',
+              border: '2px solid #030a16',
+              boxShadow: '0 0 8px #10b981'
+            }} />
           </button>
-        </>
+        </div>
       )}
 
       {/* Chat Window Modal */}
