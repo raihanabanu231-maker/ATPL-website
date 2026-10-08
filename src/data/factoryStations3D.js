@@ -1,6 +1,6 @@
 /**
  * ATPL GROUP - 3D SMART FACTORY DIGITAL TWIN (SINGLE SOURCE OF TRUTH)
- * Exactly 12 Primary Interactive Product Stations with High-Resolution Authenticated Imagery
+ * Exactly 12 Primary Interactive Product Stations with Authentic Pitch Deck Projects & Case Studies
  */
 
 export const ATPL_FACTORY_NODES = {
@@ -30,6 +30,13 @@ export const ATPL_FACTORY_NODES = {
       "One-click backward/forward recall genealogy tracking",
       "21 CFR Part 11 & GS1 EPCIS regulatory conformance"
     ],
+    realProject: {
+      clientType: "Global Automotive Component Manufacturer",
+      headline: "Resource allocation time reduced from 2 hours to 2 minutes",
+      description: "Implemented multi-tier serialization integrated directly with SAP ERP. Automated component tracking across chassis stamping, powertrain assembly, and final vehicle delivery.",
+      metrics: ["2 hrs ➔ 2 mins allocation", "100% Traceability", "Zero Counterfeits"],
+      tags: ["Automotive Tier-1", "SAP S/4HANA", "GS1 EPCIS"]
+    },
     demo: "traceability",
     demoActionName: "Simulate Pallet Serialization",
     telemetry: {
@@ -66,6 +73,13 @@ export const ATPL_FACTORY_NODES = {
       "Time-stamped photo & video audit trail capture",
       "Digital electronic signatures adhering to 21 CFR Part 11"
     ],
+    realProject: {
+      clientType: "Leading FMCG & Dairy Conglomerate",
+      headline: "Reduced audit preparation time by 70%",
+      description: "Eliminated thousands of paper checklist binders across 8 processing plants. Real-time audit dashboards automatically route non-conformances with photographic proof.",
+      metrics: ["-70% Audit Prep Time", "100% Paperless", "ISO 9001:2015 Auto-Audit"],
+      tags: ["FMCG Food & Dairy", "ISO Compliance", "Automated CAPA"]
+    },
     demo: "audit",
     demoActionName: "Trigger Quality Audit Scan",
     telemetry: {
@@ -102,6 +116,13 @@ export const ATPL_FACTORY_NODES = {
       "FIFO / FEFO expiry-date based picking algorithms",
       "Sub-second bi-directional ERP connectors (SAP, Oracle, Dynamics)"
     ],
+    realProject: {
+      clientType: "Major National 3PL Distribution Hub",
+      headline: "120,000 sq.ft facility with 99.98% inventory accuracy",
+      description: "Equipped 14 warehouse bays with 3D heatmap slotting AI and automated forklift picking routes, cutting dock-to-stock turnaround by 65%.",
+      metrics: ["99.98% Inventory Accuracy", "-65% Dock-to-Stock", "+38% Forklift Speed"],
+      tags: ["Warehouse 4.0", "3D Bin Slotting", "Autonomous Dispatch"]
+    },
     demo: "warehouse",
     demoActionName: "Simulate 3D Bin Allocation",
     telemetry: {
@@ -138,6 +159,13 @@ export const ATPL_FACTORY_NODES = {
       "Optical direction-sensing photo eyes (Inbound vs Outbound)",
       "Direct Industrial Ethernet / Modbus TCP & PoE+ connectivity"
     ],
+    realProject: {
+      clientType: "Global Electronics & Appliance Factory",
+      headline: "1,200+ tags/second throughput with zero forklift stoppage",
+      description: "Installed fixed UHF portals at all inbound container docks and outbound shipping gates with automated bay light signal confirmation.",
+      metrics: ["1,400 tags/sec read rate", "Zero shipping mismatches", "100% Inbound Gate Sync"],
+      tags: ["UHF RFID", "Impinj / Zebra", "Dock Automation"]
+    },
     demo: "rfid",
     demoActionName: "Trigger RFID Portal Burst",
     telemetry: {
@@ -174,6 +202,13 @@ export const ATPL_FACTORY_NODES = {
       "Integrated safety light curtains & collaborative torque sensing",
       "Direct Siemens S7 & Rockwell PLC fieldbus integration"
     ],
+    realProject: {
+      clientType: "Automotive Precision Machining & EV Assembly",
+      headline: "Automated robotic sorting & 0.05mm laser DPM engraving",
+      description: "Deployed articulated robotic arms along high-speed assembly conveyor for direct part marking and precision binning.",
+      metrics: ["2.1s cycle time", "±0.035mm accuracy", "35% higher throughput"],
+      tags: ["Robotics", "EV Assembly", "Conveyor Tracking"]
+    },
     demo: "robots",
     demoActionName: "Execute Robotic Arm Cycle",
     telemetry: {
@@ -210,6 +245,13 @@ export const ATPL_FACTORY_NODES = {
       "ISO/IEC 15415 & 15416 1D/2D barcode grading verification",
       "Ultra-fast GPIO hardware triggering for pneumatic reject gates"
     ],
+    realProject: {
+      clientType: "Automotive Transmission & Die-Casting Plant",
+      headline: "AI automated defect detection for die-cast parts",
+      description: "Identifies casting porosity, crack defects, and verifies rubber seal clamp presence with automated PASS/FAIL triggering without human operator fatigue.",
+      metrics: ["6.2ms inference speed", "<0.01% false reject", "Zero defective escapes"],
+      tags: ["Vision AI", "Defect Detection", "Deep Learning Edge"]
+    },
     demo: "vision",
     demoActionName: "Run Neural Defect Inspection",
     telemetry: {
@@ -246,6 +288,13 @@ export const ATPL_FACTORY_NODES = {
       "Real-time Bill of Materials (BOM) work order status sync",
       "Automated goods receipt, issue, and scrap voucher creation"
     ],
+    realProject: {
+      clientType: "Multi-Plant Steel & Industrial Infrastructure",
+      headline: "Real-time sync between 5,000+ IIoT devices & SAP ERP",
+      description: "Custom middleware eliminates batch latency by feeding real-time shopfloor production records directly into enterprise financial accounting.",
+      metrics: ["3.2M records/day", "48ms sync latency", "99.999% gateway uptime"],
+      tags: ["SAP S/4HANA", "Oracle Cloud", "IIoT Middleware"]
+    },
     demo: "erp",
     demoActionName: "Trigger SAP/Oracle Sync Pulse",
     telemetry: {
@@ -282,6 +331,13 @@ export const ATPL_FACTORY_NODES = {
       "Reduces high-bay annual stocktaking duration by 80%",
       "Automated precision battery dock charging stations"
     ],
+    realProject: {
+      clientType: "National Cold-Chain & Heavy Logistics Facility",
+      headline: "80% reduction in high-bay stocktaking duration",
+      description: "Deployed automated night-flying drones to audit 40ft high-bay storage racks with dual LiDAR barcode scanners, eliminating scissor lift risks.",
+      metrics: ["120 pallets audited/min", "-80% Audit Time", "Zero Scissor Lift Hazards"],
+      tags: ["Autonomous Drones", "LiDAR SLAM", "High-Bay WMS"]
+    },
     demo: "drones",
     demoActionName: "Launch Aerial Drone Flight",
     telemetry: {
@@ -318,6 +374,13 @@ export const ATPL_FACTORY_NODES = {
       "IP67 sealed industrial cast metal casing with oil resistance",
       "Direct Profinet, Ethernet/IP, and Modbus TCP interfaces"
     ],
+    realProject: {
+      clientType: "Leading Rubber & Tyre Manufacturer",
+      headline: "Improved dispatch accuracy by 50% with barcode verification",
+      description: "Installed high-speed DPM fixed imagers along outbound dispatch lines, completely eliminating shipping errors and wrong tyre dispatches.",
+      metrics: ["+50% Dispatch Accuracy", "Zero Shipping Errors", "60 scans/sec throughput"],
+      tags: ["Tyre Manufacturing", "DPM Imagers", "Zero Mismatch"]
+    },
     demo: "scanners",
     demoActionName: "Trigger Multi-Code Scan Burst",
     telemetry: {
@@ -354,6 +417,13 @@ export const ATPL_FACTORY_NODES = {
       "High-speed printing up to 14 inches/sec (350 mm/sec)",
       "ZPL, EPL, and direct ERP enterprise print server drivers"
     ],
+    realProject: {
+      clientType: "Perfect Labeler Cloud Enterprise Deployment",
+      headline: "Unified 200+ industrial printers across 6 manufacturing plants",
+      description: "Deployed cloud-native Perfect Labeler with visual template designer, live database integration, and universal printer connectivity.",
+      metrics: ["200+ Printers Unified", "-90% Template Errors", "14 in/sec Speed"],
+      tags: ["Perfect Labeler", "Cloud Printing", "Zebra / TSC / Honeywell"]
+    },
     demo: "printers",
     demoActionName: "Print & Encode Test Label",
     telemetry: {
@@ -390,6 +460,13 @@ export const ATPL_FACTORY_NODES = {
       "Sub-50ms deterministic data synchronization across distributed plants",
       "Role-based access control (RBAC) with active directory SSO"
     ],
+    realProject: {
+      clientType: "Perfect Edge MDM & PerfectSolvEdge AI Fleet",
+      headline: "Managing 5,000+ rugged enterprise mobile handhelds",
+      description: "Centralized policy management, remote push-to-talk, automated app updates, and in-house Generative AI technical troubleshooting chatbot.",
+      metrics: ["5,000+ Devices Managed", "24/7 AI Troubleshooting", "Zero Manual Config"],
+      tags: ["Perfect Edge MDM", "Generative AI SolvEdge", "Enterprise Mobility"]
+    },
     demo: "software",
     demoActionName: "Simulate Cloud Telemetry Stream",
     telemetry: {
@@ -426,6 +503,13 @@ export const ATPL_FACTORY_NODES = {
       "Direct PLC digital I/O and Modbus energy consumption logging",
       "Real-time Andon visual shopfloor boards and mobile alert push"
     ],
+    realProject: {
+      clientType: "Automotive Precision Press & Machining Shop",
+      headline: "22% improvement in Overall Equipment Effectiveness (OEE)",
+      description: "Connected 64 CNC machining centers and power presses to live telemetry dashboard with instant SMS Andon alerts on cycle micro-stoppages.",
+      metrics: ["+22% OEE Boost", "-45% Unplanned Downtime", "Real-Time Andon"],
+      tags: ["Perfect PMS", "Shopfloor MES", "OEE Telemetry"]
+    },
     demo: "pms",
     demoActionName: "Trigger Live OEE Recalculation",
     telemetry: {
@@ -438,3 +522,117 @@ export const ATPL_FACTORY_NODES = {
 };
 
 export const STATION_KEYS = Object.keys(ATPL_FACTORY_NODES);
+
+/**
+ * ATPL GROUP - REAL CLIENT PROJECTS & PRODUCTS SHOWCASE (FROM PITCH DECK)
+ */
+export const ATPL_PROJECT_SHOWCASE = [
+  {
+    id: "proj-auto-sap",
+    title: "Automotive SAP Traceability & Parent-Child Aggregation",
+    client: "Global Tier-1 Automotive Component Manufacturer",
+    sector: "Automotive & Heavy Engineering",
+    stationId: "perfectTrace",
+    icon: "🔍",
+    headline: "Resource allocation reduced from 2 hours to 2 minutes",
+    challenge: "Manual paper records and un-synchronized parts inventory caused severe shipping delays and audit risk during assembly recalls.",
+    solution: "Deployed ATPL Perfect Trace with 4-tier GS1 parent-child aggregation integrated with SAP S/4HANA ERP for automated serial number allocation.",
+    results: [
+      "Resource allocation time reduced from 2 hours to 2 minutes",
+      "100% backward/forward recall genealogy tracking",
+      "Zero counterfeit component entry into OEM supply chain"
+    ],
+    badges: ["SAP S/4HANA", "Perfect Trace", "Automotive"]
+  },
+  {
+    id: "proj-vision-qc",
+    title: "AI-Powered Automated Casting Defect Detection",
+    client: "Major Automotive Transmission & Die-Casting Plant",
+    sector: "Automotive Castings & Precision Machining",
+    stationId: "visionAi",
+    icon: "👁️",
+    headline: "Automated real-time PASS/FAIL defect detection at 6.2ms",
+    challenge: "Microscopic surface porosity and missing rubber O-rings caused costly warranty claims when human inspectors missed flaws under shift fatigue.",
+    solution: "Installed ATPL Perfect AI Vision System with high-speed telecentric cameras and edge deep learning inference models for automated defect classification.",
+    results: [
+      "Instant 6.2ms defect detection per part",
+      "<0.01% false rejection rate",
+      "100% elimination of defective escapes to customer"
+    ],
+    badges: ["Perfect Vision AI", "Deep Learning", "Zero Defect"]
+  },
+  {
+    id: "proj-fmcg-audit",
+    title: "Paperless ISO Digital Audit & CAPA Management",
+    client: "Leading FMCG Food & Dairy Conglomerate",
+    sector: "FMCG, Food & Dairy",
+    stationId: "perfectAudit",
+    icon: "📋",
+    headline: "Reduced audit preparation time by 70%",
+    challenge: "Handling tens of thousands of paper checklists across 8 manufacturing sites made compliance preparation slow and prone to misplaced records.",
+    solution: "Implemented ATPL Perfect Audit SaaS platform with mobile tablet photo evidence, automated CAPA escalation, and digital 21 CFR Part 11 signatures.",
+    results: [
+      "Audit preparation time cut by 70%",
+      "100% paperless shopfloor inspection logs",
+      "Real-time corporate compliance visibility"
+    ],
+    badges: ["Perfect Audit", "ISO 9001:2015", "Paperless"]
+  },
+  {
+    id: "proj-rubber-dispatch",
+    title: "Automated Barcode Verification & Outbound Dispatch",
+    client: "Top Rubber & Industrial Tyre Manufacturer",
+    sector: "Rubber & Tyre Manufacturing",
+    stationId: "scanners",
+    icon: "⚡",
+    headline: "Improved dispatch accuracy by 50%",
+    challenge: "High-speed tyre conveyor dispatch suffered from occasional barcode misreads, leading to wrong shipments and costly carrier penalties.",
+    solution: "Installed ATPL multi-point fixed industrial imagers with polarized lighting to decode curved and reflective rubber barcodes at 4.8 m/s.",
+    results: [
+      "50% improvement in dispatch verification accuracy",
+      "100% elimination of shipping mismatches",
+      "Instant automated warehouse gate clearance"
+    ],
+    badges: ["DPM Scanners", "Tyre Logistics", "Zero Shipping Errors"]
+  },
+  {
+    id: "proj-wms-slotting",
+    title: "3D Bin Heatmap WMS & Automated Bay RFID",
+    client: "National Logistics & Retail 3PL Distribution Hub",
+    sector: "Logistics & Warehousing",
+    stationId: "perfectWarehouse",
+    icon: "📦",
+    headline: "120,000 sq.ft warehouse with 99.98% inventory accuracy",
+    challenge: "Forklift congestion and phantom inventory delayed order fulfillment times across a massive 120,000 sq.ft facility.",
+    solution: "Deployed Perfect Store / Perfect Warehouse with 3D heatmap slotting AI, automated RFID bay portals, and dynamic wave picking.",
+    results: [
+      "99.98% inventory tracking accuracy",
+      "65% reduction in dock-to-stock turnaround",
+      "38% improvement in forklift travel path efficiency"
+    ],
+    badges: ["Perfect Store", "Warehouse 4.0", "RFID Portals"]
+  },
+  {
+    id: "proj-cloud-labeler",
+    title: "Cloud-Native Label Operations & Printer Orchestration",
+    client: "Pharmaceutical & Specialty Packaging Facility",
+    sector: "Pharmaceuticals & Packaging",
+    stationId: "printers",
+    icon: "🖨️",
+    headline: "Centralized 200+ industrial printers with Archie AI",
+    challenge: "Disconnected desktop label software resulted in outdated label designs, barcode compliance failures, and frequent printer downtime.",
+    solution: "Standardized on Perfect Labeler cloud platform with centralized visual designer, ERP database sync, and Archie AI print assistant.",
+    results: [
+      "Centralized 200+ Zebra, Honeywell, and TSC printers",
+      "90% reduction in label template authoring time",
+      "Full audit trail for regulatory label revisions"
+    ],
+    badges: ["Perfect Labeler", "Cloud Printing", "Archie AI"]
+  }
+];
+
+export const ATPL_CLIENT_LOGOS = [
+  "Bosch", "Ola Electric", "ABB", "Larsen & Toubro", "Apollo Tyres",
+  "Dell", "Titan", "Ashok Leyland", "Pegatron", "JSW Steel",
+  "Rane", "TVS Sensing", "Hatsun", "Dixcy", "Modenik", "Dixon"
+];
