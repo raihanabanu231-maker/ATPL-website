@@ -2,8 +2,11 @@ import React, { useState, useEffect, Suspense, useCallback } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { useApp } from '../../context/AppContext';
 import { FactoryScene } from './FactoryScene';
-import { FactoryHUD } from './FactoryHUD';
-import { ATPL_FACTORY_NODES, STATION_KEYS } from '../../data/factoryStations3D';
+import { StationPanel } from './StationPanel';
+import { TourControls } from './TourControls';
+import { AboutOverlay } from './AboutOverlay';
+import { ArchieChat } from './ArchieChat';
+import { ATPL_STATIONS, STATION_KEYS } from '../../data/stations';
 
 /* =========================================================================
    SYNTHETIC CYBERNETIC AUDIO FX (Web Audio API - Zero External Dependencies)
@@ -56,7 +59,7 @@ const FactoryLoadingFallback = () => (
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    background: '#040914',
+    background: '#02101C',
     zIndex: 20,
     gap: '1.25rem'
   }}>
@@ -64,23 +67,23 @@ const FactoryLoadingFallback = () => (
       width: '54px',
       height: '54px',
       borderRadius: '50%',
-      border: '3px solid rgba(0, 240, 255, 0.2)',
-      borderTopColor: '#00f0ff',
+      border: '3px solid rgba(24, 224, 255, 0.2)',
+      borderTopColor: '#18E0FF',
       animation: 'spin 1s linear infinite'
     }}></div>
     <div style={{ textAlign: 'center' }}>
-      <div style={{ fontFamily: 'var(--font-display, sans-serif)', fontWeight: 800, fontSize: '1.1rem', color: '#ffffff', letterSpacing: '0.04em' }}>
+      <div style={{ fontFamily: 'Inter, sans-serif', fontWeight: 800, fontSize: '1.1rem', color: '#FFFFFF', letterSpacing: '0.04em' }}>
         LOADING 3D SMART FACTORY DIGITAL TWIN
       </div>
-      <div style={{ fontFamily: 'var(--font-mono, monospace)', fontSize: '0.78rem', color: 'var(--cyan-primary, #00f0ff)', marginTop: '0.3rem' }}>
-        RENDERING 12 4K MACHINERY STATIONS & ARCHIE AI...
+      <div style={{ fontFamily: 'monospace, var(--font-mono)', fontSize: '0.78rem', color: '#18E0FF', marginTop: '0.3rem' }}>
+        RENDERING 12 IOT STATIONS & ARCHIE AI ENGINE...
       </div>
     </div>
   </div>
 );
 
 /* =========================================================================
-   MAIN 3D DIGITAL TWIN VIEW
+   MAIN 3D DIGITAL TWIN & FACTORY TOUR VIEW
    ========================================================================= */
 export const Factory3DView = () => {
   const { setCurrentView, openDemoModal } = useApp();
@@ -92,85 +95,119 @@ export const Factory3DView = () => {
   const [isDemoRunning, setIsDemoRunning] = useState(false);
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [quality, setQuality] = useState('HIGH');
+  const [isAboutOpen, setIsAboutOpen] = useState(false);
 
   // Scroll to top immediately when 3D view mounts
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   }, []);
 
-  // Station Selection Handler
-  const handleSelectStation = useCallback((stationKey) => {
-    setSelectedStation(stationKey);
-    setIsOverview(!stationKey);
-    if (stationKey) {
-      setIsAutoTour(false);
-    }
+  // Keyboard navigation: ESC closes panel, Arrow keys switch stations
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        if (isAboutOpen) {
+          setIsAboutOpen(false);
+        } else {
+          setIsOverview(true);
+          setSelectedStation(null);
+        }
+      } else if (e.key === 'ArrowRight') {
+        const curr = selectedStation ? STATION_KEYS.indexOf(selectedStation) : -1;
+        const next = (curr + 1) % STATION_KEYS.length;
+        handleSelectStation(STATION_KEYS[next]);
+      } else if (e.key === 'ArrowLeft') {
+        const curr = selectedStation ? STATION_KEYS.indexOf(selectedStation) : 0;
+        const prev = (curr - 1 + STATION_KEYS.length) % STATION_KEYS.length;
+        handleSelectStation(STATION_KEYS[prev]);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [selectedStation, isAboutOpen]);
+
+  // Handle station selection
+  const handleSelectStation = useCallback((key) => {
+    setSelectedStation(key);
+    setIsOverview(false);
     playAudioFX('select', soundEnabled);
   }, [soundEnabled]);
 
-  // Reset Overview Camera
+  // Handle Overview reset
   const handleResetOverview = useCallback(() => {
-    setSelectedStation(null);
     setIsOverview(true);
+    setSelectedStation(null);
     setIsAutoTour(false);
     playAudioFX('select', soundEnabled);
   }, [soundEnabled]);
 
-  // Auto-tour timer
+  // Auto Tour Timer (Cycles every 6 seconds)
   useEffect(() => {
     if (!isAutoTour) return;
-    const timer = setInterval(() => {
+
+    const interval = setInterval(() => {
       setSelectedStation((prev) => {
-        const idx = prev ? STATION_KEYS.indexOf(prev) : -1;
-        const nextIdx = (idx + 1) % STATION_KEYS.length;
-        return STATION_KEYS[nextIdx];
+        const currIdx = prev ? STATION_KEYS.indexOf(prev) : -1;
+        const nextIdx = (currIdx + 1) % STATION_KEYS.length;
+        const nextKey = STATION_KEYS[nextIdx];
+        playAudioFX('select', soundEnabled);
+        return nextKey;
       });
       setIsOverview(false);
-      playAudioFX('select', soundEnabled);
-    }, 6500);
+    }, 6000);
 
-    return () => clearInterval(timer);
+    return () => clearInterval(interval);
   }, [isAutoTour, soundEnabled]);
 
-  // Trigger Live 3D Station Demo
+  // Trigger simulated station demo
   const handleTriggerDemo = (stationId) => {
     setIsDemoRunning(true);
     playAudioFX('demo', soundEnabled);
     setTimeout(() => {
       setIsDemoRunning(false);
-    }, 3500);
+    }, 2800);
   };
 
-  return (
-    <div style={{ position: 'relative', width: '100%', height: 'calc(100dvh - 65px)', minHeight: 'calc(100dvh - 65px)', background: '#040812', overflow: 'hidden' }}>
-      
-      {/* HUD & Navigation Overlay */}
-      <FactoryHUD
-        selectedStation={selectedStation}
-        onSelectStation={handleSelectStation}
-        onResetOverview={handleResetOverview}
-        isOverview={isOverview}
-        isAutoTour={isAutoTour}
-        onToggleAutoTour={() => setIsAutoTour(!isAutoTour)}
-        isDemoRunning={isDemoRunning}
-        onTriggerDemo={handleTriggerDemo}
-        onRequestDemoModal={(productName) => openDemoModal({ solution: productName, notes: `Inquiry for ${productName} from 3D Digital Twin Command Center.` })}
-        soundEnabled={soundEnabled}
-        onToggleSound={() => setSoundEnabled(!soundEnabled)}
-        quality={quality}
-        onChangeQuality={setQuality}
-        onExit={() => {
-          window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-          setCurrentView('home');
-        }}
-      />
+  // Open lead modal for PoC
+  const handleRequestPoC = (stationName) => {
+    if (openDemoModal) {
+      openDemoModal({
+        solution: `3D Digital Twin - ${stationName} PoC`,
+        notes: `Customer requested Enterprise PoC demonstration for ${stationName}.`
+      });
+    }
+  };
 
-      {/* High-Performance WebGL 3D Canvas */}
+  const activeStation = selectedStation ? ATPL_STATIONS[selectedStation] : null;
+
+  return (
+    <div style={{
+      position: 'relative',
+      width: '100vw',
+      height: '100vh',
+      maxWidth: '100%',
+      backgroundColor: '#02101C',
+      overflow: 'hidden',
+      userSelect: 'none'
+    }}>
+
+      {/* 3D WebGL Canvas */}
       <Suspense fallback={<FactoryLoadingFallback />}>
         <Canvas
-          shadows
-          camera={{ position: [26, 20, 26], fov: 42, near: 0.1, far: 200 }}
-          dpr={quality === 'HIGH' ? [1, 2] : quality === 'MED' ? 1 : 0.85}
+          shadows={quality === 'HIGH'}
+          dpr={quality === 'HIGH' ? [1, 2] : [0.75, 1]}
+          gl={{
+            antialias: quality === 'HIGH',
+            powerPreference: 'high-performance',
+            toneMapping: 3, // ACESFilmicToneMapping
+            toneMappingExposure: 1.15
+          }}
+          camera={{
+            position: [-1.2, 5.6, 27.5],
+            fov: 48,
+            near: 0.5,
+            far: 140
+          }}
           style={{ width: '100%', height: '100%' }}
         >
           <FactoryScene
@@ -179,11 +216,61 @@ export const Factory3DView = () => {
             onSelectStation={handleSelectStation}
             onHoverStation={setHoveredStation}
             isOverview={isOverview}
-            isDemoRunning={isDemoRunning}
-            quality={quality}
           />
         </Canvas>
       </Suspense>
+
+      {/* Overlay HUD & Tour Controls */}
+      <div style={{
+        position: 'absolute',
+        inset: 0,
+        pointerEvents: 'none',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        padding: '0.75rem 1.25rem',
+        boxSizing: 'border-box',
+        zIndex: 10
+      }}>
+        <TourControls
+          selectedStation={selectedStation}
+          onSelectStation={handleSelectStation}
+          onResetOverview={handleResetOverview}
+          isOverview={isOverview}
+          isAutoTour={isAutoTour}
+          onToggleAutoTour={() => setIsAutoTour(!isAutoTour)}
+          soundEnabled={soundEnabled}
+          onToggleSound={() => setSoundEnabled(!soundEnabled)}
+          quality={quality}
+          onChangeQuality={setQuality}
+          onOpenAbout={() => setIsAboutOpen(true)}
+          onExit={() => setCurrentView('home')}
+        />
+      </div>
+
+      {/* Slide-In Left Detail Panel (With Gold Border) */}
+      {!isAutoTour && activeStation && (
+        <StationPanel
+          station={activeStation}
+          onClose={() => {
+            setSelectedStation(null);
+            setIsOverview(true);
+          }}
+          isDemoRunning={isDemoRunning}
+          onTriggerDemo={handleTriggerDemo}
+          onRequestDemoModal={handleRequestPoC}
+        />
+      )}
+
+      {/* Corporate Pitch Deck / About ATPL Fullscreen Glass Overlay */}
+      <AboutOverlay
+        isOpen={isAboutOpen}
+        onClose={() => setIsAboutOpen(false)}
+        onSelectStation={handleSelectStation}
+      />
+
+      {/* Floating Archie AI Chat Bubble & Panel */}
+      <ArchieChat onSelectStation={handleSelectStation} />
 
     </div>
   );
