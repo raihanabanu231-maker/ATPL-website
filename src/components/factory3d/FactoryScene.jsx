@@ -568,9 +568,9 @@ export const HotspotMarker = ({ stationKey, isSelected, isHovered, onSelect, onH
         opacity={0.6}
       />
 
-      {/* HTML Hotspot Pill */}
+      {/* HTML Hotspot Pill & Holographic 3D Image Billboard */}
       <Html
-        position={[0, 0, 0]}
+        position={[0, 0.4, 0]}
         center
         distanceFactor={24}
         style={{ pointerEvents: 'auto', userSelect: 'none' }}
@@ -579,44 +579,93 @@ export const HotspotMarker = ({ stationKey, isSelected, isHovered, onSelect, onH
           onClick={() => onSelect(stationKey)}
           style={{
             background: isSelected 
-              ? 'rgba(0, 240, 255, 0.95)' 
+              ? 'rgba(4, 11, 24, 0.95)' 
               : isHovered 
-                ? 'rgba(14, 38, 70, 0.95)' 
-                : 'rgba(6, 14, 30, 0.85)',
-            color: isSelected ? '#040914' : '#ffffff',
-            border: isSelected ? '2px solid #ffffff' : '1px solid rgba(0, 240, 255, 0.45)',
-            borderRadius: '20px',
-            padding: isSelected || isHovered ? '0.35rem 0.85rem' : '0.25rem 0.55rem',
+                ? 'rgba(10, 24, 48, 0.95)' 
+                : 'rgba(6, 14, 30, 0.88)',
+            color: '#ffffff',
+            border: isSelected ? '2px solid #00f0ff' : isHovered ? '1.5px solid #00f0ff' : '1px solid rgba(0, 240, 255, 0.45)',
+            borderRadius: isSelected || isHovered ? '12px' : '20px',
+            padding: isSelected || isHovered ? '0.45rem 0.65rem' : '0.25rem 0.55rem',
             boxShadow: isSelected 
-              ? '0 0 25px #00f0ff, 0 0 40px rgba(0,240,255,0.4)' 
-              : '0 4px 15px rgba(0,0,0,0.6)',
+              ? '0 0 30px rgba(0, 240, 255, 0.8), 0 10px 25px rgba(0,0,0,0.8)' 
+              : isHovered 
+                ? '0 0 20px rgba(0, 240, 255, 0.5), 0 8px 20px rgba(0,0,0,0.7)' 
+                : '0 4px 15px rgba(0,0,0,0.6)',
             cursor: 'pointer',
             display: 'flex',
-            alignItems: 'center',
-            gap: '0.4rem',
+            flexDirection: 'column',
+            gap: '0.35rem',
             fontFamily: 'var(--font-display, sans-serif)',
             fontSize: '0.78rem',
             fontWeight: 700,
             whiteSpace: 'nowrap',
-            transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
-            transform: isHovered ? 'scale(1.12)' : 'scale(1)'
+            transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
+            transform: isHovered || isSelected ? 'scale(1.08)' : 'scale(1)',
+            backdropFilter: 'blur(12px)',
+            maxWidth: isSelected || isHovered ? '160px' : 'auto'
           }}
         >
-          <span style={{
-            background: isSelected ? '#040914' : '#00f0ff',
-            color: isSelected ? '#00f0ff' : '#040914',
-            borderRadius: '50%',
-            width: '18px',
-            height: '18px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontSize: '0.65rem',
-            fontWeight: 900
-          }}>
-            {node.number}
-          </span>
-          <span>{node.name}</span>
+          {/* Header Row */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+            <span style={{
+              background: isSelected ? '#00f0ff' : node.color || '#00f0ff',
+              color: '#040914',
+              borderRadius: '50%',
+              width: '18px',
+              height: '18px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '0.65rem',
+              fontWeight: 900,
+              flexShrink: 0
+            }}>
+              {node.number}
+            </span>
+            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>{node.name}</span>
+          </div>
+
+          {/* Holographic 3D Station Image Preview (When Hovered or Selected) */}
+          {(isSelected || isHovered) && node.image && (
+            <div style={{
+              width: '100%',
+              height: '80px',
+              borderRadius: '6px',
+              overflow: 'hidden',
+              border: `1px solid ${node.color || '#00f0ff'}80`,
+              position: 'relative',
+              animation: 'fadeIn 0.2s ease-out'
+            }}>
+              <img
+                src={node.image}
+                alt={node.name}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  display: 'block'
+                }}
+              />
+              <div style={{
+                position: 'absolute',
+                bottom: 2,
+                left: 4,
+                right: 4,
+                background: 'rgba(0,0,0,0.75)',
+                padding: '0.1rem 0.3rem',
+                borderRadius: '3px',
+                fontSize: '0.6rem',
+                fontFamily: 'var(--font-mono, monospace)',
+                color: '#00f0ff',
+                display: 'flex',
+                justifyContent: 'space-between'
+              }}>
+                <span>TELEMETRY</span>
+                <span style={{ color: '#10b981' }}>LIVE</span>
+              </div>
+            </div>
+          )}
         </div>
       </Html>
     </group>

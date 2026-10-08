@@ -1,6 +1,6 @@
 /**
  * ATPL GROUP - 3D SMART FACTORY DIGITAL TWIN (SINGLE SOURCE OF TRUTH)
- * Exactly 12 Primary Interactive Product Stations
+ * Exactly 12 Primary Interactive Product Stations with High-Resolution Authenticated Imagery
  */
 
 export const ATPL_FACTORY_NODES = {
@@ -13,6 +13,7 @@ export const ATPL_FACTORY_NODES = {
     icon: "🔍",
     color: "#00f0ff",
     secondaryColor: "#10b981",
+    image: "/assets/images/stations/trace.jpg",
     node: "station_perfect_trace",
     position: [14, 0, 12],
     robotPosition: [14, 3.2, 10.5],
@@ -46,6 +47,7 @@ export const ATPL_FACTORY_NODES = {
     icon: "📋",
     color: "#10b981",
     secondaryColor: "#00f0ff",
+    image: "/assets/images/stations/pms.jpg",
     node: "station_perfect_audit",
     position: [-14, 0, 10],
     robotPosition: [-14, 3.2, 8.5],
@@ -79,6 +81,7 @@ export const ATPL_FACTORY_NODES = {
     icon: "📦",
     color: "#3b82f6",
     secondaryColor: "#00f0ff",
+    image: "/assets/images/stations/warehouse.jpg",
     node: "station_perfect_warehouse",
     position: [16, 0, -14],
     robotPosition: [16, 3.8, -11.5],
@@ -112,6 +115,7 @@ export const ATPL_FACTORY_NODES = {
     icon: "📡",
     color: "#f59e0b",
     secondaryColor: "#00f0ff",
+    image: "/assets/images/stations/rfid.jpg",
     node: "station_rfid_portals",
     position: [-4, 0, 18],
     robotPosition: [-4, 3.2, 16],
@@ -145,6 +149,7 @@ export const ATPL_FACTORY_NODES = {
     icon: "🤖",
     color: "#ec4899",
     secondaryColor: "#3b82f6",
+    image: "/assets/images/stations/robot_arm.jpg",
     node: "station_industrial_robots",
     position: [18, 0, 0],
     robotPosition: [18, 3.2, -2.5],
@@ -178,6 +183,7 @@ export const ATPL_FACTORY_NODES = {
     icon: "👁️",
     color: "#8b5cf6",
     secondaryColor: "#ec4899",
+    image: "/assets/images/stations/vision_ai.jpg",
     node: "station_vision_ai",
     position: [6, 0, 6],
     robotPosition: [6, 3.2, 4],
@@ -211,6 +217,7 @@ export const ATPL_FACTORY_NODES = {
     icon: "🏢",
     color: "#06b6d4",
     secondaryColor: "#3b82f6",
+    image: "/assets/images/stations/erp_sync.jpg",
     node: "station_erp_sync",
     position: [-18, 0, -6],
     robotPosition: [-18, 3.2, -4],
@@ -244,6 +251,7 @@ export const ATPL_FACTORY_NODES = {
     icon: "🛸",
     color: "#38bdf8",
     secondaryColor: "#00f0ff",
+    image: "/assets/images/stations/drones.jpg",
     node: "station_drones",
     position: [20, 2.5, -8],
     robotPosition: [20, 4.8, -6],
@@ -277,6 +285,7 @@ export const ATPL_FACTORY_NODES = {
     icon: "⚡",
     color: "#eab308",
     secondaryColor: "#f59e0b",
+    image: "/assets/images/stations/scanners.jpg",
     node: "station_scanners",
     position: [8, 0, -8],
     robotPosition: [8, 3.2, -6],
@@ -310,6 +319,7 @@ export const ATPL_FACTORY_NODES = {
     icon: "🖨️",
     color: "#14b8a6",
     secondaryColor: "#00f0ff",
+    image: "/assets/images/stations/printers.jpg",
     node: "station_printers",
     position: [-4, 0, -14],
     robotPosition: [-4, 3.2, -12],
@@ -343,6 +353,7 @@ export const ATPL_FACTORY_NODES = {
     icon: "💻",
     color: "#6366f1",
     secondaryColor: "#8b5cf6",
+    image: "/assets/images/stations/software_lab.jpg",
     node: "station_software",
     position: [-16, 0, 14],
     robotPosition: [-16, 3.2, 12],
@@ -376,6 +387,7 @@ export const ATPL_FACTORY_NODES = {
     icon: "⚙️",
     color: "#f43f5e",
     secondaryColor: "#f59e0b",
+    image: "/assets/images/stations/supercomputer.jpg",
     node: "station_pms",
     position: [2, 0, 16],
     robotPosition: [2, 3.2, 14],
