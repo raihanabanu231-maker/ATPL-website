@@ -18,7 +18,8 @@ import {
   X,
   ExternalLink,
   ChevronRight,
-  ChevronLeft
+  ChevronLeft,
+  LogOut
 } from 'lucide-react';
 import { ATPL_FACTORY_NODES, STATION_KEYS } from '../../data/factoryStations3D';
 import { StationVisualPreview } from './StationVisuals';
@@ -36,7 +37,8 @@ export const FactoryHUD = ({
   soundEnabled,
   onToggleSound,
   quality,
-  onChangeQuality
+  onChangeQuality,
+  onExit
 }) => {
   const node = selectedStation ? ATPL_FACTORY_NODES[selectedStation] : null;
 
@@ -306,6 +308,44 @@ export const FactoryHUD = ({
           >
             Q: {quality}
           </button>
+
+          {/* Exit 3D Tour Button (Return to Website) */}
+          {onExit && (
+            <button
+              onClick={onExit}
+              style={{
+                background: 'rgba(232, 88, 116, 0.22)',
+                border: '1.5px solid #E85874',
+                color: '#ffffff',
+                borderRadius: '8px',
+                padding: 'clamp(0.35rem, 0.6vw, 0.5rem) clamp(0.55rem, 1vw, 0.9rem)',
+                fontSize: 'clamp(0.72rem, 0.8vw, 0.82rem)',
+                fontWeight: 800,
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.35rem',
+                backdropFilter: 'blur(12px)',
+                boxShadow: '0 0 16px rgba(232, 88, 116, 0.35)',
+                transition: 'all 0.18s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#E85874';
+                e.currentTarget.style.transform = 'translateY(-1px)';
+                e.currentTarget.style.boxShadow = '0 0 22px rgba(232, 88, 116, 0.7)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'rgba(232, 88, 116, 0.22)';
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = '0 0 16px rgba(232, 88, 116, 0.35)';
+              }}
+              title="Exit 3D Tour & Return to Website"
+              aria-label="Exit 3D Tour"
+            >
+              <LogOut size={14} />
+              <span>Exit 3D</span>
+            </button>
+          )}
         </div>
 
       </div>

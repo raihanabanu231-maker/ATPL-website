@@ -84,7 +84,7 @@ const FactoryLoadingFallback = () => (
    MAIN 3D DIGITAL TWIN VIEW
    ========================================================================= */
 export const Factory3DView = () => {
-  const { openDemoModal } = useApp();
+  const { setCurrentView, openDemoModal } = useApp();
   
   const [selectedStation, setSelectedStation] = useState('perfectTrace');
   const [hoveredStation, setHoveredStation] = useState(null);
@@ -160,6 +160,7 @@ export const Factory3DView = () => {
         onToggleSound={() => setSoundEnabled(!soundEnabled)}
         quality={quality}
         onChangeQuality={setQuality}
+        onExit={() => setCurrentView('home')}
       />
 
       {/* High-Performance WebGL 3D Canvas */}
