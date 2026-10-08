@@ -225,7 +225,6 @@ export const RobotCompanion = ({ selectedStation, isDemoRunning }) => {
         <coneGeometry args={[0.11, 0.28, 16]} />
         <meshBasicMaterial color="#00f0ff" transparent opacity={0.92} />
       </mesh>
-      <pointLight color="#00f0ff" intensity={2.2} distance={5} position={[0, -0.6, 0]} />
     </group>
   );
 };
@@ -393,30 +392,23 @@ export const StationPodiumKiosk = ({ stationKey, isSelected, isHovered, onSelect
         </Html>
       )}
 
-      {/* Local Spotlight */}
-      <pointLight 
-        color={accentColor} 
-        intensity={isSelected ? 3.0 : hovered ? 1.8 : 0.6} 
-        distance={7} 
-        position={[0, 3.0, 1.2]} 
-      />
     </group>
   );
 };
 
 /* =========================================================================
-   5. LUXURY 3D SHOWROOM FLOOR & CONVEYOR SYSTEM
+   5. LUXURY 3D SHOWROOM FLOOR & CONVEYOR SYSTEM (Smooth Matte, Zero Glare)
    ========================================================================= */
 export const FactoryShowroomEnvironment = () => {
   return (
     <group>
-      {/* 1. Deep Reflective Epoxy Showroom Floor */}
+      {/* 1. Satin Matte Industrial Factory Floor (Zero Harsh Glare) */}
       <mesh position={[0, -0.05, 0]} receiveShadow>
         <boxGeometry args={[72, 0.1, 72]} />
         <meshStandardMaterial
-          color="#060b18"
-          metalness={0.88}
-          roughness={0.12}
+          color="#070c18"
+          metalness={0.2}
+          roughness={0.65}
         />
       </mesh>
 
@@ -438,18 +430,18 @@ export const FactoryShowroomEnvironment = () => {
         <meshStandardMaterial color="#00f0ff" metalness={0.9} emissive="#00f0ff" emissiveIntensity={0.3} />
       </mesh>
 
-      {/* 3. Glowing Floor Light Conduits */}
+      {/* 3. Subtle Glowing Floor Light Conduits */}
       {[-16, 0, 16].map((x, i) => (
         <mesh key={`conduit-x-${i}`} position={[x, 0.01, 0]} rotation={[-Math.PI / 2, 0, 0]}>
           <planeGeometry args={[0.16, 56]} />
-          <meshBasicMaterial color="#0071ba" transparent opacity={0.4} />
+          <meshBasicMaterial color="#0071ba" transparent opacity={0.35} />
         </mesh>
       ))}
 
       {[-14, 0, 14].map((z, i) => (
         <mesh key={`conduit-z-${i}`} position={[0, 0.01, z]} rotation={[-Math.PI / 2, 0, Math.PI / 2]}>
           <planeGeometry args={[0.16, 60]} />
-          <meshBasicMaterial color="#0071ba" transparent opacity={0.4} />
+          <meshBasicMaterial color="#0071ba" transparent opacity={0.35} />
         </mesh>
       ))}
 
@@ -457,7 +449,7 @@ export const FactoryShowroomEnvironment = () => {
       <group position={[0, 0.35, 0]}>
         <mesh position={[0, 0, 0]} castShadow receiveShadow>
           <boxGeometry args={[44, 0.15, 1.2]} />
-          <meshStandardMaterial color="#1e293b" metalness={0.9} roughness={0.2} />
+          <meshStandardMaterial color="#1e293b" metalness={0.9} roughness={0.3} />
         </mesh>
         <mesh position={[0, 0.09, 0.6]}>
           <boxGeometry args={[44, 0.04, 0.03]} />
@@ -482,7 +474,6 @@ export const FactoryShowroomEnvironment = () => {
                 <cylinderGeometry args={[0.5, 0.8, 0.3, 16]} />
                 <meshStandardMaterial color="#0f172a" metalness={0.8} />
               </mesh>
-              <pointLight color="#e0f2fe" intensity={1.6} distance={26} position={[0, -0.6, 0]} />
             </group>
           ))}
         </group>
@@ -504,17 +495,20 @@ export const FactoryScene = ({
 }) => {
   return (
     <>
-      <ambientLight intensity={0.85} color="#e0f2fe" />
+      {/* Soft Ambient Fill Light (No harsh spotlights) */}
+      <ambientLight intensity={1.2} color="#f0f9ff" />
       
+      {/* Studio Key Light */}
       <directionalLight
-        position={[28, 40, 24]}
-        intensity={2.0}
+        position={[25, 40, 25]}
+        intensity={1.2}
         castShadow
-        shadow-mapSize={[2048, 2048]}
+        shadow-mapSize={[1024, 1024]}
       />
 
-      <directionalLight position={[-28, 24, -28]} intensity={1.0} color="#00f0ff" />
-      <directionalLight position={[0, 18, -32]} intensity={0.7} color="#3b82f6" />
+      {/* Cool Soft Fill Light */}
+      <directionalLight position={[-25, 30, -25]} intensity={0.6} color="#38bdf8" />
+      <directionalLight position={[0, 35, 0]} intensity={0.5} color="#e0f2fe" />
 
       <CameraController selectedStation={selectedStation} isOverview={isOverview} />
 
