@@ -761,6 +761,36 @@ export const Navbar = ({ onOpenSearch }) => {
                 </div>
               )}
             </div>
+
+            {/* Direct 3D Digital Twin Link */}
+            <button
+              onClick={() => handleNavClick('factory-3d')}
+              style={{
+                background: currentView === 'factory-3d' ? 'rgba(0, 113, 186, 0.1)' : 'rgba(0, 240, 255, 0.06)',
+                border: currentView === 'factory-3d' ? '1px solid #0071ba' : '1px solid rgba(0, 240, 255, 0.3)',
+                color: currentView === 'factory-3d' ? '#0071ba' : '#0284c7',
+                padding: '0.45rem 0.75rem',
+                fontSize: '0.88rem',
+                fontWeight: 700,
+                cursor: 'pointer',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.4rem',
+                borderRadius: '8px',
+                transition: 'all 0.2s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = 'rgba(0, 113, 186, 0.12)';
+                e.currentTarget.style.transform = 'translateY(-1px)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = currentView === 'factory-3d' ? 'rgba(0, 113, 186, 0.1)' : 'rgba(0, 240, 255, 0.06)';
+                e.currentTarget.style.transform = 'translateY(0)';
+              }}
+            >
+              <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#00f0ff', boxShadow: '0 0 8px #00f0ff', display: 'inline-block' }}></span>
+              <span>3D Digital Twin</span>
+            </button>
           </nav>
 
           {/* Right Action Utilities (Zoho Search, Language, Sign In, Sign Up) */}
