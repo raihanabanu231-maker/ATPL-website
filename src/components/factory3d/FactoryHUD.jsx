@@ -59,11 +59,11 @@ export const FactoryHUD = ({
         pointerEvents: 'none', 
         position: 'absolute', 
         inset: 0, 
-        zIndex: 10, 
+        zIndex: 15, 
         display: 'flex', 
         flexDirection: 'column', 
         justifyContent: 'space-between', 
-        padding: 'clamp(0.4rem, 1.5vw, 1.25rem)',
+        padding: '0.75rem 1.25rem',
         boxSizing: 'border-box'
       }}
     >
@@ -83,7 +83,6 @@ export const FactoryHUD = ({
           background: rgba(0, 240, 255, 0.8);
         }
 
-        /* Mobile specific adjustments (320px - 768px) */
         @media (max-width: 768px) {
           .hud-desktop-dock {
             display: none !important;
@@ -97,17 +96,13 @@ export const FactoryHUD = ({
           .hud-status-compact {
             display: flex !important;
           }
-          .hud-btn-text-full {
-            display: none !important;
-          }
-          .hud-btn-text-short {
-            display: inline !important;
-          }
-          .hud-station-card {
-            max-height: calc(100dvh - 135px) !important;
-            width: calc(100vw - 1rem) !important;
-            margin: auto 0 0.5rem 0 !important;
-            padding: 0.9rem !important;
+          .hud-station-card-container {
+            top: auto !important;
+            bottom: 75px !important;
+            left: 0.5rem !important;
+            right: 0.5rem !important;
+            width: auto !important;
+            max-height: 52vh !important;
           }
         }
 
@@ -124,90 +119,69 @@ export const FactoryHUD = ({
           .hud-status-compact {
             display: none !important;
           }
-          .hud-btn-text-full {
-            display: inline !important;
-          }
-          .hud-btn-text-short {
-            display: none !important;
-          }
-          .hud-station-card {
-            max-height: calc(100dvh - 160px) !important;
-            width: min(480px, calc(100vw - 2rem)) !important;
-            margin: auto 0 1rem 0 !important;
-            padding: 1.5rem !important;
-          }
-        }
-
-        /* 4K Ultra-wide scaling (1600px - 2550px) */
-        @media (min-width: 1800px) {
-          .hud-station-card {
-            max-width: 540px !important;
-            padding: 2rem !important;
-          }
         }
       `}</style>
       
       {/* ===================================================================
-          1. TOP COMMAND BAR (Responsive for 320px to 2550px)
+          1. TOP COMMAND BAR (Fixed at Top, Never Overlapped)
           =================================================================== */}
-      <div style={{ 
+      <header style={{ 
         pointerEvents: 'auto', 
         display: 'flex', 
         flexWrap: 'wrap', 
         alignItems: 'center', 
         justifyContent: 'space-between', 
-        gap: '0.4rem',
-        maxWidth: '100%'
+        gap: '0.6rem',
+        width: '100%',
+        zIndex: 40
       }}>
         
-        {/* Left Status Core - Full on Desktop */}
+        {/* Left Status Badge */}
         <div 
           className="hud-status-full"
           style={{
-            background: 'rgba(6, 14, 30, 0.88)',
+            background: 'rgba(5, 12, 26, 0.94)',
             backdropFilter: 'blur(16px)',
             WebkitBackdropFilter: 'blur(16px)',
             border: '1px solid rgba(0, 240, 255, 0.4)',
             borderRadius: '12px',
-            padding: '0.5rem 1rem',
+            padding: '0.45rem 0.95rem',
             alignItems: 'center',
             gap: '0.85rem',
-            boxShadow: '0 8px 32px rgba(0,0,0,0.6)'
+            boxShadow: '0 8px 32px rgba(0,0,0,0.7)'
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.55rem' }}>
-            <span className="pulse-dot"></span>
+            <span style={{ width: '9px', height: '9px', borderRadius: '50%', background: '#10b981', boxShadow: '0 0 10px #10b981' }}></span>
             <div>
-              <div style={{ fontFamily: 'var(--font-display, sans-serif)', fontWeight: 800, fontSize: '0.88rem', color: '#ffffff', letterSpacing: '0.02em' }}>
+              <div style={{ fontFamily: 'var(--font-display, sans-serif)', fontWeight: 800, fontSize: '0.86rem', color: '#ffffff', letterSpacing: '0.02em' }}>
                 SMART FACTORY DIGITAL TWIN
               </div>
               <div style={{ fontFamily: 'var(--font-mono, monospace)', fontSize: '0.66rem', color: '#00f0ff' }}>
-                ATPL GROUP • 12 ACTIVE IOT STATIONS
+                ATPL GROUP • 12 3D IOT STATIONS
               </div>
             </div>
           </div>
 
           <div style={{ height: '22px', width: '1px', background: 'rgba(255,255,255,0.15)' }}></div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', fontSize: '0.74rem', color: '#34d399', fontFamily: 'var(--font-mono, monospace)', fontWeight: 700 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', fontSize: '0.72rem', color: '#34d399', fontFamily: 'var(--font-mono, monospace)', fontWeight: 700 }}>
             <Activity size={13} />
             <span>TELEMETRY LIVE</span>
           </div>
         </div>
 
-        {/* Left Status Core - Compact on Mobile (320px - 768px) */}
+        {/* Compact Mobile Badge */}
         <div 
           className="hud-status-compact"
           style={{
-            background: 'rgba(6, 14, 30, 0.9)',
+            background: 'rgba(5, 12, 26, 0.94)',
             backdropFilter: 'blur(12px)',
-            WebkitBackdropFilter: 'blur(12px)',
             border: '1px solid rgba(0, 240, 255, 0.4)',
             borderRadius: '8px',
             padding: '0.35rem 0.6rem',
             alignItems: 'center',
-            gap: '0.4rem',
-            boxShadow: '0 4px 20px rgba(0,0,0,0.6)'
+            gap: '0.4rem'
           }}
         >
           <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#10b981', boxShadow: '0 0 8px #10b981' }}></span>
@@ -216,8 +190,8 @@ export const FactoryHUD = ({
           </div>
         </div>
 
-        {/* Right Action Controls */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(0.25rem, 0.8vw, 0.5rem)' }}>
+        {/* Right Controls Bar */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
           
           {/* Reset Overview Camera */}
           <button
@@ -227,21 +201,20 @@ export const FactoryHUD = ({
               border: isOverview ? '1px solid #00f0ff' : '1px solid rgba(0, 240, 255, 0.35)',
               color: isOverview ? '#00f0ff' : '#cbd5e1',
               borderRadius: '8px',
-              padding: 'clamp(0.35rem, 0.6vw, 0.5rem) clamp(0.5rem, 1vw, 0.85rem)',
-              fontSize: 'clamp(0.72rem, 0.8vw, 0.8rem)',
-              fontWeight: 600,
+              padding: '0.4rem 0.8rem',
+              fontSize: '0.76rem',
+              fontWeight: 700,
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
-              gap: '0.3rem',
+              gap: '0.35rem',
               backdropFilter: 'blur(12px)',
               transition: 'all 0.15s ease'
             }}
             title="Reset Camera to Overview"
           >
             <Compass size={14} />
-            <span className="hud-btn-text-full">Overview</span>
-            <span className="hud-btn-text-short">Reset</span>
+            <span>Overview</span>
           </button>
 
           {/* Auto Tour Mode */}
@@ -252,25 +225,23 @@ export const FactoryHUD = ({
               border: isAutoTour ? '1.5px solid #10b981' : '1px solid rgba(255, 255, 255, 0.18)',
               color: isAutoTour ? '#34d399' : '#cbd5e1',
               borderRadius: '8px',
-              padding: 'clamp(0.35rem, 0.6vw, 0.5rem) clamp(0.5rem, 1vw, 0.85rem)',
-              fontSize: 'clamp(0.72rem, 0.8vw, 0.8rem)',
+              padding: '0.4rem 0.8rem',
+              fontSize: '0.76rem',
               fontWeight: 700,
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
-              gap: '0.3rem',
+              gap: '0.35rem',
               backdropFilter: 'blur(12px)',
-              boxShadow: isAutoTour ? '0 0 15px rgba(16, 185, 129, 0.4)' : 'none',
               transition: 'all 0.15s ease'
             }}
-            title="Auto-tour across all 12 stations"
+            title="Automated Guided Tour"
           >
             {isAutoTour ? <Pause size={14} /> : <Play size={14} />}
-            <span className="hud-btn-text-full">{isAutoTour ? 'Pause Tour' : 'Auto Tour'}</span>
-            <span className="hud-btn-text-short">{isAutoTour ? 'Pause' : 'Tour'}</span>
+            <span>{isAutoTour ? 'Touring' : 'Auto Tour'}</span>
           </button>
 
-          {/* Sound FX Toggle */}
+          {/* Audio Sound Toggle */}
           <button
             onClick={onToggleSound}
             style={{
@@ -278,69 +249,63 @@ export const FactoryHUD = ({
               border: '1px solid rgba(255, 255, 255, 0.18)',
               color: soundEnabled ? '#00f0ff' : '#64748b',
               borderRadius: '8px',
-              padding: 'clamp(0.35rem, 0.6vw, 0.5rem)',
+              padding: '0.4rem',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
+              justifyContent: 'center',
               backdropFilter: 'blur(12px)'
             }}
-            title={soundEnabled ? 'Mute Audio FX' : 'Enable Audio FX'}
+            title={soundEnabled ? 'Disable Audio FX' : 'Enable Audio FX'}
           >
             {soundEnabled ? <Volume2 size={15} /> : <VolumeX size={15} />}
           </button>
 
-          {/* Quality Selector */}
+          {/* Quality Switcher */}
           <button
-            onClick={() => onChangeQuality(quality === 'HIGH' ? 'MED' : quality === 'MED' ? 'LOW' : 'HIGH')}
+            onClick={() => {
+              const nextQ = quality === 'HIGH' ? 'MED' : quality === 'MED' ? 'LOW' : 'HIGH';
+              onChangeQuality(nextQ);
+            }}
             style={{
               background: 'rgba(10, 22, 44, 0.88)',
               border: '1px solid rgba(255, 255, 255, 0.18)',
-              color: '#cbd5e1',
+              color: quality === 'HIGH' ? '#34d399' : quality === 'MED' ? '#facc15' : '#94a3b8',
               borderRadius: '8px',
-              padding: 'clamp(0.35rem, 0.6vw, 0.5rem) clamp(0.45rem, 0.8vw, 0.7rem)',
+              padding: '0.4rem 0.65rem',
               fontSize: '0.72rem',
               fontFamily: 'var(--font-mono, monospace)',
               fontWeight: 700,
               cursor: 'pointer',
               backdropFilter: 'blur(12px)'
             }}
-            title="Toggle Graphic Quality"
+            title="Toggle Graphics Quality"
           >
             Q: {quality}
           </button>
 
-          {/* Exit 3D Tour Button (Return to Website) */}
+          {/* EXIT 3D TOUR BUTTON (Prominent & Immediate) */}
           {onExit && (
             <button
               onClick={onExit}
               style={{
-                background: 'rgba(232, 88, 116, 0.22)',
-                border: '1.5px solid #E85874',
+                background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.95), rgba(185, 28, 28, 0.95))',
+                border: '1px solid #f87171',
                 color: '#ffffff',
                 borderRadius: '8px',
-                padding: 'clamp(0.35rem, 0.6vw, 0.5rem) clamp(0.55rem, 1vw, 0.9rem)',
-                fontSize: 'clamp(0.72rem, 0.8vw, 0.82rem)',
-                fontWeight: 800,
+                padding: '0.42rem 0.95rem',
+                fontSize: '0.78rem',
+                fontWeight: 900,
+                letterSpacing: '0.04em',
                 cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '0.35rem',
                 backdropFilter: 'blur(12px)',
-                boxShadow: '0 0 16px rgba(232, 88, 116, 0.35)',
+                boxShadow: '0 0 16px rgba(239, 68, 68, 0.45)',
                 transition: 'all 0.18s ease'
               }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#E85874';
-                e.currentTarget.style.transform = 'translateY(-1px)';
-                e.currentTarget.style.boxShadow = '0 0 22px rgba(232, 88, 116, 0.7)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'rgba(232, 88, 116, 0.22)';
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = '0 0 16px rgba(232, 88, 116, 0.35)';
-              }}
               title="Exit 3D Tour & Return to Website"
-              aria-label="Exit 3D Tour"
             >
               <LogOut size={14} />
               <span>Exit 3D</span>
@@ -348,290 +313,249 @@ export const FactoryHUD = ({
           )}
         </div>
 
-      </div>
-
-      {/* Cinematic Full-View Auto Tour Indicator */}
-      {isAutoTour && node && (
-        <div style={{
-          pointerEvents: 'none',
-          alignSelf: 'center',
-          marginTop: '0.4rem',
-          maxWidth: 'min(92vw, 600px)',
-          background: 'rgba(5, 13, 26, 0.92)',
-          backdropFilter: 'blur(16px)',
-          WebkitBackdropFilter: 'blur(16px)',
-          border: '1px solid rgba(0, 240, 255, 0.45)',
-          borderRadius: '999px',
-          padding: '0.35rem 1rem',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: '0.5rem',
-          boxShadow: '0 8px 30px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 240, 255, 0.25)',
-          animation: 'fadeInDown 0.3s ease-out'
-        }}>
-          <span style={{
-            width: '8px',
-            height: '8px',
-            borderRadius: '50%',
-            backgroundColor: '#10b981',
-            boxShadow: '0 0 10px #10b981',
-            flexShrink: 0
-          }} />
-          <span style={{ fontFamily: 'var(--font-mono, monospace)', fontSize: '0.74rem', color: '#00f0ff', fontWeight: 800, whiteSpace: 'nowrap' }}>
-            STATION {node.number}/12:
-          </span>
-          <span style={{ fontFamily: 'var(--font-display, sans-serif)', fontSize: '0.82rem', color: '#ffffff', fontWeight: 700, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-            {node.name}
-          </span>
-        </div>
-      )}
+      </header>
 
       {/* ===================================================================
-          2. FLOATING PRODUCT INFORMATION & LESSON PANEL (Visible when station is clicked)
+          2. DOCKED STATION DETAILS CARD (Cleanly Positioned, No Overlap)
           =================================================================== */}
       {!isAutoTour && node && (
         <div 
-          className="hud-station-card factory-hud-scrollbar"
+          className="hud-station-card-container"
           style={{
+            position: 'absolute',
+            top: '75px',
+            left: '1.25rem',
+            bottom: '80px',
+            width: 'min(430px, calc(100vw - 2.5rem))',
+            zIndex: 35,
             pointerEvents: 'auto',
-            alignSelf: 'flex-start',
-            background: 'rgba(5, 13, 26, 0.94)',
-            backdropFilter: 'blur(24px)',
-            WebkitBackdropFilter: 'blur(24px)',
-            border: `1.5px solid ${node.color}`,
-            borderRadius: '16px',
-            boxShadow: `0 20px 50px rgba(0,0,0,0.85), 0 0 35px ${node.color}30`,
-            animation: 'fadeInUp 0.25s ease-out',
             display: 'flex',
-            flexDirection: 'column',
-            overflowY: 'auto',
-            boxSizing: 'border-box'
+            flexDirection: 'column'
           }}
         >
-          
-          {/* Header */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.6rem' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <span style={{
-                background: node.color,
-                color: '#040914',
-                borderRadius: '50%',
-                width: '24px',
-                height: '24px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: '0.75rem',
-                fontWeight: 900,
-                flexShrink: 0
-              }}>
-                {node.number}
-              </span>
-              <span style={{ fontFamily: 'var(--font-mono, monospace)', fontSize: '0.72rem', color: node.color, textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 700 }}>
-                {node.category}
-              </span>
+          <div 
+            className="factory-hud-scrollbar"
+            style={{
+              background: 'rgba(5, 13, 26, 0.95)',
+              backdropFilter: 'blur(24px)',
+              WebkitBackdropFilter: 'blur(24px)',
+              border: `1.5px solid ${node.color || '#00f0ff'}`,
+              borderRadius: '16px',
+              padding: '1.25rem',
+              boxShadow: `0 20px 50px rgba(0,0,0,0.85), 0 0 35px ${node.color || '#00f0ff'}30`,
+              display: 'flex',
+              flexDirection: 'column',
+              overflowY: 'auto',
+              maxHeight: '100%',
+              boxSizing: 'border-box'
+            }}
+          >
+            {/* Header with Close Button */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.6rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <span style={{
+                  background: node.color || '#00f0ff',
+                  color: '#040914',
+                  borderRadius: '50%',
+                  width: '24px',
+                  height: '24px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '0.75rem',
+                  fontWeight: 900,
+                  flexShrink: 0
+                }}>
+                  {node.number}
+                </span>
+                <span style={{ fontFamily: 'var(--font-mono, monospace)', fontSize: '0.72rem', color: node.color || '#00f0ff', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 700 }}>
+                  {node.category}
+                </span>
+              </div>
+
+              <button
+                onClick={() => onSelectStation(null)}
+                style={{ 
+                  background: 'rgba(255, 255, 255, 0.08)', 
+                  border: '1px solid rgba(255, 255, 255, 0.15)', 
+                  color: '#cbd5e1', 
+                  cursor: 'pointer', 
+                  padding: '0.3rem',
+                  borderRadius: '6px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}
+                title="Close Station Details"
+              >
+                <X size={15} />
+              </button>
             </div>
 
-            <button
-              onClick={() => onSelectStation(null)}
-              style={{ 
-                background: 'rgba(255, 255, 255, 0.08)', 
-                border: '1px solid rgba(255, 255, 255, 0.15)', 
-                color: '#cbd5e1', 
-                cursor: 'pointer', 
-                padding: '0.25rem',
-                borderRadius: '6px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                transition: 'all 0.15s ease'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = 'rgba(232, 88, 116, 0.3)';
-                e.currentTarget.style.color = '#ffffff';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.08)';
-                e.currentTarget.style.color = '#cbd5e1';
-              }}
-              title="Close panel"
-              aria-label="Close station panel"
-            >
-              <X size={16} />
-            </button>
-          </div>
-
-          <h3 style={{ fontSize: 'clamp(1.1rem, 2vw, 1.35rem)', color: '#ffffff', fontWeight: 800, margin: '0 0 0.35rem 0', lineHeight: 1.25 }}>
-            {node.name}
-          </h3>
-
-          <p style={{ color: '#cbd5e1', fontSize: '0.84rem', lineHeight: 1.45, margin: '0 0 0.75rem 0' }}>
-            {node.whatItDoes}
-          </p>
-
-          {/* Graphical Station Visual Illustration Preview */}
-          <div style={{ marginBottom: '0.75rem', overflow: 'hidden', borderRadius: '8px', boxShadow: '0 4px 15px rgba(0,0,0,0.4)', flexShrink: 0 }}>
-            <StationVisualPreview stationId={node.id} color={node.color} height={95} />
-          </div>
-
-          {/* Archie AI Robot Lesson Box */}
-          <div style={{
-            background: 'rgba(255, 255, 255, 0.03)',
-            border: '1px solid rgba(255, 255, 255, 0.08)',
-            borderRadius: '10px',
-            padding: '0.75rem',
-            marginBottom: '0.75rem'
-          }}>
-            <div style={{ fontSize: '0.72rem', color: '#00f0ff', fontFamily: 'var(--font-mono, monospace)', marginBottom: '0.25rem', display: 'flex', alignItems: 'center', gap: '0.35rem', fontWeight: 700 }}>
-              <span>🤖 ARCHIE AI LESSON:</span>
-            </div>
-            <p style={{ color: '#e2e8f0', fontSize: '0.82rem', lineHeight: 1.45, margin: 0 }}>
-              {node.lesson}
+            {/* Title & Tagline */}
+            <h2 style={{
+              fontFamily: 'var(--font-display, sans-serif)',
+              fontSize: '1.25rem',
+              fontWeight: 900,
+              color: '#ffffff',
+              margin: '0 0 0.35rem 0'
+            }}>
+              {node.name}
+            </h2>
+            <p style={{
+              fontSize: '0.8rem',
+              color: '#94a3b8',
+              margin: '0 0 0.85rem 0',
+              lineHeight: '1.45'
+            }}>
+              {node.tagline}
             </p>
-          </div>
 
-          {/* Key Specifications */}
-          <div style={{ marginBottom: '1rem' }}>
-            <div style={{ fontSize: '0.68rem', color: '#64748b', fontFamily: 'var(--font-mono, monospace)', textTransform: 'uppercase', marginBottom: '0.4rem', fontWeight: 700 }}>
-              TECHNICAL SPECIFICATIONS
+            {/* High-Resolution Photo Preview */}
+            <div style={{ marginBottom: '0.85rem' }}>
+              <StationVisualPreview
+                stationId={selectedStation}
+                color={node.color}
+                height={150}
+              />
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
-              {node.specs.slice(0, 3).map((spec, i) => (
-                <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.45rem', fontSize: '0.78rem', color: '#cbd5e1' }}>
-                  <CheckCircle2 size={13} color={node.color} style={{ flexShrink: 0, marginTop: '2px' }} />
+
+            {/* Archie AI Educational Insight */}
+            <div style={{
+              background: 'rgba(0, 113, 186, 0.12)',
+              border: '1px solid rgba(0, 240, 255, 0.3)',
+              borderRadius: '10px',
+              padding: '0.75rem',
+              marginBottom: '0.85rem'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: '#00f0ff', fontSize: '0.72rem', fontWeight: 800, marginBottom: '0.3rem' }}>
+                <Sparkles size={13} />
+                <span>ARCHIE AI INDUSTRIAL VALUE:</span>
+              </div>
+              <p style={{ fontSize: '0.76rem', color: '#e2e8f0', margin: 0, lineHeight: '1.45' }}>
+                {node.lesson}
+              </p>
+            </div>
+
+            {/* Live Telemetry Data Box */}
+            {node.telemetry && (
+              <div style={{
+                background: 'rgba(15, 23, 42, 0.6)',
+                borderRadius: '8px',
+                border: '1px solid rgba(255, 255, 255, 0.08)',
+                padding: '0.65rem',
+                display: 'grid',
+                gridTemplateColumns: 'repeat(2, 1fr)',
+                gap: '0.5rem',
+                marginBottom: '0.85rem'
+              }}>
+                {Object.entries(node.telemetry).map(([mKey, mVal]) => (
+                  <div key={mKey}>
+                    <div style={{ fontSize: '0.6rem', color: '#94a3b8', textTransform: 'uppercase', fontFamily: 'var(--font-mono, monospace)' }}>
+                      {mKey.replace(/([A-Z])/g, ' $1')}
+                    </div>
+                    <div style={{ fontSize: '0.82rem', fontWeight: 800, color: '#00f0ff', fontFamily: 'var(--font-mono, monospace)', marginTop: '0.1rem' }}>
+                      {mVal}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Technical Specifications */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem', marginBottom: '1rem' }}>
+              <div style={{ fontSize: '0.68rem', color: '#94a3b8', fontWeight: 700, textTransform: 'uppercase' }}>
+                Technical Capabilities:
+              </div>
+              {node.specs?.map((spec, i) => (
+                <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.74rem', color: '#cbd5e1' }}>
+                  <CheckCircle2 size={13} color="#10b981" />
                   <span>{spec}</span>
                 </div>
               ))}
             </div>
+
+            {/* Actions */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginTop: 'auto' }}>
+              <button
+                onClick={() => onTriggerDemo(selectedStation)}
+                disabled={isDemoRunning}
+                style={{
+                  width: '100%',
+                  background: isDemoRunning 
+                    ? '#10b981' 
+                    : `linear-gradient(135deg, ${node.color || '#00f0ff'}, #0071ba)`,
+                  color: isDemoRunning ? '#040914' : '#ffffff',
+                  border: 'none',
+                  borderRadius: '8px',
+                  padding: '0.6rem',
+                  fontSize: '0.78rem',
+                  fontWeight: 900,
+                  cursor: isDemoRunning ? 'default' : 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '0.4rem',
+                  boxShadow: `0 0 16px ${node.color || '#00f0ff'}50`
+                }}
+              >
+                <Zap size={14} />
+                <span>{isDemoRunning ? 'SIMULATING...' : node.demoActionName || 'Run Live Demo'}</span>
+              </button>
+
+              <button
+                onClick={() => onRequestDemoModal(node.name)}
+                style={{
+                  width: '100%',
+                  background: 'rgba(255, 255, 255, 0.06)',
+                  border: '1px solid rgba(255, 255, 255, 0.18)',
+                  color: '#ffffff',
+                  borderRadius: '8px',
+                  padding: '0.55rem',
+                  fontSize: '0.76rem',
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '0.35rem'
+                }}
+              >
+                <span>Request Enterprise PoC</span>
+                <ExternalLink size={13} />
+              </button>
+            </div>
+
           </div>
-
-          {/* Action CTAs */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem', marginTop: 'auto' }}>
-            <button
-              onClick={() => onTriggerDemo(node.id)}
-              style={{
-                background: isDemoRunning ? 'rgba(16, 185, 129, 0.25)' : 'rgba(0, 240, 255, 0.15)',
-                border: isDemoRunning ? '1px solid #10b981' : '1px solid #00f0ff',
-                color: isDemoRunning ? '#34d399' : '#00f0ff',
-                borderRadius: '8px',
-                padding: '0.55rem',
-                fontSize: '0.78rem',
-                fontWeight: 700,
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '0.35rem'
-              }}
-            >
-              <Zap size={14} />
-              <span>{isDemoRunning ? 'Running...' : 'Live Demo'}</span>
-            </button>
-
-            <button
-              onClick={() => onRequestDemoModal(node.name)}
-              className="btn btn-primary"
-              style={{ fontSize: '0.78rem', padding: '0.55rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.35rem' }}
-            >
-              <span>Request PoC</span>
-              <ArrowRight size={13} />
-            </button>
-          </div>
-
         </div>
       )}
 
       {/* ===================================================================
-          3. BOTTOM 12-STATION NAVIGATOR DOCK
+          3. BOTTOM 12-STATION DOCKED CAROUSEL (Touch & Click Friendly)
           =================================================================== */}
-      <div style={{ pointerEvents: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.4rem', width: '100%' }}>
+      <footer style={{ 
+        pointerEvents: 'auto', 
+        width: '100%', 
+        display: 'flex', 
+        justifyContent: 'center',
+        zIndex: 40
+      }}>
         
-        {/* Helper text when no station is selected (Desktop only) */}
-        {!selectedStation && (
-          <div 
-            className="hud-desktop-dock"
-            style={{
-              background: 'rgba(6, 14, 30, 0.85)',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              borderRadius: '20px',
-              padding: '0.3rem 0.9rem',
-              fontSize: '0.74rem',
-              color: '#94a3b8',
-              fontFamily: 'var(--font-mono, monospace)',
-              backdropFilter: 'blur(10px)'
-            }}
-          >
-            Select any station to inspect 3D telemetry & Archie AI lesson
-          </div>
-        )}
-
-        {/* 3A. DESKTOP DOCK (769px - 2550px) */}
+        {/* Desktop Dock Ribbon */}
         <div 
           className="hud-desktop-dock"
-          style={{
-            background: 'rgba(5, 12, 25, 0.92)',
-            backdropFilter: 'blur(20px)',
-            WebkitBackdropFilter: 'blur(20px)',
-            border: '1px solid rgba(0, 240, 255, 0.35)',
-            borderRadius: '16px',
-            padding: '0.45rem 0.75rem',
-            flexWrap: 'wrap',
-            justifyContent: 'center',
-            gap: '0.35rem',
-            maxWidth: 'min(1400px, 96vw)',
-            boxShadow: '0 12px 40px rgba(0,0,0,0.75)'
-          }}
-        >
-          {STATION_KEYS.map((key) => {
-            const st = ATPL_FACTORY_NODES[key];
-            const isActive = selectedStation === key;
-            return (
-              <button
-                key={key}
-                onClick={() => onSelectStation(key)}
-                style={{
-                  background: isActive ? 'rgba(0, 240, 255, 0.22)' : 'rgba(255, 255, 255, 0.04)',
-                  color: isActive ? '#00f0ff' : '#94a3b8',
-                  border: isActive ? '1px solid #00f0ff' : '1px solid rgba(255, 255, 255, 0.08)',
-                  boxShadow: isActive ? '0 0 12px rgba(0, 240, 255, 0.45)' : 'none',
-                  borderRadius: '8px',
-                  padding: '0.35rem 0.65rem',
-                  fontSize: '0.74rem',
-                  fontFamily: 'var(--font-mono, monospace)',
-                  fontWeight: isActive ? 700 : 500,
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.35rem',
-                  transition: 'all 0.15s ease'
-                }}
-              >
-                <span style={{ fontWeight: 800 }}>{st.number}</span>
-                <span style={{ fontFamily: 'var(--font-display, sans-serif)' }}>{st.name}</span>
-              </button>
-            );
-          })}
-        </div>
-
-        {/* 3B. MOBILE HORIZONTAL RIBBON (320px - 768px) */}
-        <div 
-          className="hud-mobile-ribbon"
           style={{
             background: 'rgba(5, 12, 25, 0.94)',
             backdropFilter: 'blur(16px)',
             WebkitBackdropFilter: 'blur(16px)',
             border: '1px solid rgba(0, 240, 255, 0.4)',
             borderRadius: '999px',
-            padding: '0.3rem 0.5rem',
+            padding: '0.35rem 0.6rem',
             alignItems: 'center',
-            gap: '0.35rem',
-            width: 'min(100%, 420px)',
-            boxShadow: '0 8px 30px rgba(0,0,0,0.85)',
-            boxSizing: 'border-box'
+            gap: '0.4rem',
+            boxShadow: '0 8px 30px rgba(0,0,0,0.85)'
           }}
         >
-          {/* Quick Prev Station */}
           <button
             onClick={handlePrevStation}
             style={{
@@ -644,28 +568,97 @@ export const FactoryHUD = ({
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              cursor: 'pointer',
-              flexShrink: 0
+              cursor: 'pointer'
             }}
             title="Previous Station"
-            aria-label="Previous Station"
           >
             <ChevronLeft size={16} />
           </button>
 
-          {/* 12 Horizontal Station Number Chips (Touch-scrollable) */}
-          <div 
+          {STATION_KEYS.map((key) => {
+            const st = ATPL_FACTORY_NODES[key];
+            const isActive = selectedStation === key;
+            return (
+              <button
+                key={key}
+                onClick={() => onSelectStation(key)}
+                style={{
+                  background: isActive ? 'rgba(0, 240, 255, 0.22)' : 'transparent',
+                  border: isActive ? `1.5px solid ${st.color || '#00f0ff'}` : '1px solid transparent',
+                  color: isActive ? '#ffffff' : '#94a3b8',
+                  borderRadius: '20px',
+                  padding: '0.28rem 0.65rem',
+                  fontSize: '0.72rem',
+                  fontWeight: isActive ? 800 : 500,
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.35rem',
+                  boxShadow: isActive ? `0 0 12px ${st.color || '#00f0ff'}40` : 'none',
+                  transition: 'all 0.15s ease'
+                }}
+              >
+                <span style={{ fontFamily: 'var(--font-mono, monospace)', color: st.color || '#00f0ff', fontWeight: 800 }}>
+                  {st.number}
+                </span>
+                <span>{st.name}</span>
+              </button>
+            );
+          })}
+
+          <button
+            onClick={handleNextStation}
             style={{
+              background: '#0071ba',
+              border: 'none',
+              color: '#ffffff',
+              borderRadius: '50%',
+              width: '28px',
+              height: '28px',
               display: 'flex',
               alignItems: 'center',
-              gap: '0.3rem',
-              overflowX: 'auto',
-              scrollbarWidth: 'none',
-              msOverflowStyle: 'none',
-              flex: 1,
-              padding: '0.1rem 0.2rem'
+              justifyContent: 'center',
+              cursor: 'pointer'
+            }}
+            title="Next Station"
+          >
+            <ChevronRight size={16} />
+          </button>
+        </div>
+
+        {/* Mobile Dock Ribbon */}
+        <div 
+          className="hud-mobile-ribbon"
+          style={{
+            background: 'rgba(5, 12, 25, 0.94)',
+            backdropFilter: 'blur(16px)',
+            border: '1px solid rgba(0, 240, 255, 0.4)',
+            borderRadius: '999px',
+            padding: '0.3rem 0.5rem',
+            alignItems: 'center',
+            gap: '0.35rem',
+            width: 'min(100%, 380px)'
+          }}
+        >
+          <button
+            onClick={handlePrevStation}
+            style={{
+              background: 'rgba(255, 255, 255, 0.08)',
+              border: 'none',
+              color: '#ffffff',
+              borderRadius: '50%',
+              width: '26px',
+              height: '26px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer'
             }}
           >
+            <ChevronLeft size={15} />
+          </button>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', overflowX: 'auto', flex: 1 }}>
             {STATION_KEYS.map((key) => {
               const st = ATPL_FACTORY_NODES[key];
               const isActive = selectedStation === key;
@@ -680,18 +673,15 @@ export const FactoryHUD = ({
                     background: isActive ? '#00f0ff' : 'rgba(255, 255, 255, 0.08)',
                     color: isActive ? '#030a16' : '#ffffff',
                     border: isActive ? '1.5px solid #ffffff' : '1px solid rgba(255, 255, 255, 0.15)',
-                    boxShadow: isActive ? '0 0 10px #00f0ff' : 'none',
-                    fontSize: '0.72rem',
+                    fontSize: '0.7rem',
                     fontFamily: 'var(--font-mono, monospace)',
                     fontWeight: 900,
                     cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    flexShrink: 0,
-                    transition: 'all 0.15s ease'
+                    flexShrink: 0
                   }}
-                  title={`${st.number}. ${st.name}`}
                 >
                   {st.number}
                 </button>
@@ -699,7 +689,6 @@ export const FactoryHUD = ({
             })}
           </div>
 
-          {/* Quick Next Station */}
           <button
             onClick={handleNextStation}
             style={{
@@ -707,22 +696,19 @@ export const FactoryHUD = ({
               border: 'none',
               color: '#ffffff',
               borderRadius: '50%',
-              width: '28px',
-              height: '28px',
+              width: '26px',
+              height: '26px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              cursor: 'pointer',
-              flexShrink: 0
+              cursor: 'pointer'
             }}
-            title="Next Station"
-            aria-label="Next Station"
           >
-            <ChevronRight size={16} />
+            <ChevronRight size={15} />
           </button>
         </div>
 
-      </div>
+      </footer>
 
     </div>
   );
