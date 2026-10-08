@@ -101,7 +101,7 @@ export const CameraController = ({ selectedStation, isOverview }) => {
 };
 
 /* =========================================================================
-   3. ARCHIE AI 3D ROBOT COMPANION
+   3. ARCHIE AI 3D ROBOT COMPANION (Prominent, Dynamic Flight & Waving)
    ========================================================================= */
 export const RobotCompanion = ({ selectedStation, isDemoRunning }) => {
   const robotGroupRef = useRef();
@@ -109,44 +109,91 @@ export const RobotCompanion = ({ selectedStation, isDemoRunning }) => {
   const leftArmRef = useRef();
   const rightArmRef = useRef();
   const headRef = useRef();
-  const targetPos = useMemo(() => new THREE.Vector3(0, 4.2, 0), []);
+  const prevPos = useRef(new THREE.Vector3(0, 4.0, 0));
+  const targetPos = useMemo(() => new THREE.Vector3(0, 4.0, 0), []);
 
   useEffect(() => {
     if (selectedStation && ATPL_FACTORY_NODES[selectedStation]) {
       const node = ATPL_FACTORY_NODES[selectedStation];
-      const offsetX = node.position[0] >= 0 ? -4.2 : 4.2;
-      targetPos.set(node.position[0] + offsetX, 4.5, node.position[2] + 2.5);
+      // Position Archie clearly in front-left of the camera view
+      targetPos.set(node.position[0] - 4.5, 3.4, node.position[2] + 3.8);
     } else {
-      targetPos.set(0, 4.5, 0);
+      targetPos.set(0, 4.2, 0);
     }
   }, [selectedStation, targetPos]);
 
   useFrame((state, delta) => {
     if (!robotGroupRef.current) return;
 
-    robotGroupRef.current.position.lerp(targetPos, delta * 3.5);
+    // Velocity calculation for dynamic flight tilt
+    const currentPos = robotGroupRef.current.position;
+    const velocityX = (targetPos.x - currentPos.x) * delta * 2.5;
+    const velocityZ = (targetPos.z - currentPos.z) * delta * 2.5;
+
+    // Smooth position interpolation
+    currentPos.lerp(targetPos, delta * 3.2);
 
     const time = state.clock.getElapsedTime();
-    const bob = Math.sin(time * 3.2) * 0.12;
-    robotGroupRef.current.position.y = targetPos.y + bob;
+    const bob = Math.sin(time * 3.5) * 0.16;
+    currentPos.y = targetPos.y + bob;
 
+    // Dynamic flight tilt
+    robotGroupRef.current.rotation.z = -velocityX * 0.4;
+    robotGroupRef.current.rotation.x = velocityZ * 0.3;
+
+    // Head looking towards camera & station
     if (headRef.current) {
-      headRef.current.rotation.y = Math.sin(time * 1.5) * 0.2;
+      headRef.current.rotation.y = Math.sin(time * 1.8) * 0.25;
+      headRef.current.rotation.x = Math.sin(time * 2.2) * 0.08;
     }
 
-    if (leftArmRef.current && rightArmRef.current) {
-      leftArmRef.current.rotation.x = Math.sin(time * 2.5) * 0.15;
-      rightArmRef.current.rotation.x = -Math.sin(time * 2.5) * 0.2 - 0.2;
+    // Friendly waving arm animation
+    if (rightArmRef.current) {
+      rightArmRef.current.rotation.x = -1.2 + Math.sin(time * 6.0) * 0.35;
+      rightArmRef.current.rotation.z = -0.4 + Math.cos(time * 6.0) * 0.25;
+    }
+    if (leftArmRef.current) {
+      leftArmRef.current.rotation.x = Math.sin(time * 2.0) * 0.15;
     }
 
+    // Thruster flame dynamic flicker
+    if (thrusterRef.current) {
+      const flame = 1.0 + Math.sin(time * 15.0) * 0.25;
+      thrusterRef.current.scale.set(flame, flame * 1.2, flame);
+    }
+
+    // Body faces slightly toward the camera
     if (selectedStation && ATPL_FACTORY_NODES[selectedStation]) {
-      const stationPos = ATPL_FACTORY_NODES[selectedStation].position;
-      robotGroupRef.current.lookAt(new THREE.Vector3(stationPos[0], 3.2, stationPos[2]));
+      const node = ATPL_FACTORY_NODES[selectedStation];
+      robotGroupRef.current.lookAt(new THREE.Vector3(node.position[0] + 5.0, 3.4, node.position[2] + 9.0));
     }
   });
 
   return (
-    <group ref={robotGroupRef} position={[0, 4.5, 0]}>
+    <group ref={robotGroupRef} position={[0, 4.0, 0]} scale={[1.35, 1.35, 1.35]}>
+      
+      {/* 3D Floating Archie AI Name Tag */}
+      <Html position={[0, 1.3, 0]} center distanceFactor={26} style={{ pointerEvents: 'none', userSelect: 'none' }}>
+        <div style={{
+          background: 'rgba(0, 113, 186, 0.95)',
+          color: '#ffffff',
+          border: '1.5px solid #00f0ff',
+          borderRadius: '20px',
+          padding: '0.2rem 0.6rem',
+          fontSize: '0.68rem',
+          fontWeight: 800,
+          fontFamily: 'var(--font-display, sans-serif)',
+          whiteSpace: 'nowrap',
+          boxShadow: '0 0 16px rgba(0, 240, 255, 0.8)',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '0.35rem'
+        }}>
+          <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#00f0ff', boxShadow: '0 0 8px #00f0ff' }}></span>
+          <span>Archie AI Guide</span>
+        </div>
+      </Html>
+
       {/* Head */}
       <group ref={headRef} position={[0, 0.52, 0]}>
         <mesh castShadow>
@@ -157,6 +204,7 @@ export const RobotCompanion = ({ selectedStation, isDemoRunning }) => {
           <boxGeometry args={[0.5, 0.2, 0.14]} />
           <meshStandardMaterial color="#040914" roughness={0.1} />
         </mesh>
+        {/* Glowing Visor Eyes */}
         <mesh position={[-0.12, 0.02, 0.36]}>
           <sphereGeometry args={[0.045, 16, 16]} />
           <meshBasicMaterial color="#00f0ff" />
@@ -167,19 +215,19 @@ export const RobotCompanion = ({ selectedStation, isDemoRunning }) => {
         </mesh>
       </group>
 
-      {/* Torso */}
+      {/* Torso & Official ATPL Brand Logo */}
       <group position={[0, -0.25, 0]}>
         <mesh castShadow scale={[0.96, 1.15, 0.95]}>
           <sphereGeometry args={[0.48, 32, 32]} />
           <meshStandardMaterial color="#ffffff" metalness={0.4} roughness={0.15} />
         </mesh>
-        <mesh position={[0, 0.08, 0.42]}>
-          <cylinderGeometry args={[0.18, 0.18, 0.025, 32]} rotation={[Math.PI / 2, 0, 0]} />
-          <meshStandardMaterial color="#0071ba" metalness={0.8} emissive="#0071ba" emissiveIntensity={0.5} />
+        <mesh position={[0, 0.08, 0.42]} rotation={[Math.PI / 2, 0, 0]}>
+          <cylinderGeometry args={[0.18, 0.18, 0.025, 32]} />
+          <meshStandardMaterial color="#0071ba" metalness={0.8} emissive="#0071ba" emissiveIntensity={0.6} />
         </mesh>
       </group>
 
-      {/* Arms */}
+      {/* Articulated Arms */}
       <group ref={leftArmRef} position={[-0.54, -0.18, 0]}>
         <mesh>
           <sphereGeometry args={[0.09, 16, 16]} />
@@ -202,16 +250,16 @@ export const RobotCompanion = ({ selectedStation, isDemoRunning }) => {
         </mesh>
       </group>
 
-      {/* Thruster */}
+      {/* Ion Thruster & Particle Light */}
       <mesh position={[0, -0.78, 0]}>
         <cylinderGeometry args={[0.16, 0.09, 0.16, 24]} />
         <meshStandardMaterial color="#1e293b" metalness={0.9} />
       </mesh>
-      <mesh ref={thrusterRef} position={[0, -0.92, 0]} rotation={[Math.PI, 0, 0]}>
-        <coneGeometry args={[0.14, 0.32, 16]} />
-        <meshBasicMaterial color="#00f0ff" transparent opacity={0.9} />
+      <mesh ref={thrusterRef} position={[0, -0.96, 0]} rotation={[Math.PI, 0, 0]}>
+        <coneGeometry args={[0.16, 0.4, 16]} />
+        <meshBasicMaterial color="#00f0ff" transparent opacity={0.92} />
       </mesh>
-      <pointLight color="#00f0ff" intensity={2.8} distance={6} />
+      <pointLight color="#00f0ff" intensity={3.5} distance={8} position={[0, -0.8, 0]} />
     </group>
   );
 };
