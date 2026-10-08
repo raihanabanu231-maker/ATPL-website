@@ -336,61 +336,62 @@ export const StationPodiumKiosk = ({ stationKey, isSelected, isHovered, onSelect
         </mesh>
       </group>
 
-      {/* 4. COMPACT 3D PERSPECTIVE PIN (Scaled to 3D Space - No Giant Banner) */}
-      <Html
-        position={[0, 3.8, 0]}
-        center
-        distanceFactor={36}
-        style={{ pointerEvents: 'auto', userSelect: 'none' }}
-      >
-        <div
-          onClick={(e) => {
-            e.stopPropagation();
-            onSelect(stationKey);
-          }}
-          style={{
-            background: isSelected 
-              ? 'rgba(4, 11, 24, 0.95)' 
-              : hovered 
-                ? 'rgba(0, 240, 255, 0.95)' 
-                : 'rgba(5, 12, 26, 0.88)',
-            color: isSelected ? '#ffffff' : hovered ? '#040814' : '#e2e8f0',
-            border: `1.5px solid ${accentColor}`,
-            borderRadius: '20px',
-            padding: isSelected ? '0.2rem 0.6rem' : '0.15rem 0.45rem',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.35rem',
-            fontSize: isSelected ? '0.72rem' : '0.65rem',
-            fontWeight: 800,
-            fontFamily: 'var(--font-display, sans-serif)',
-            boxShadow: isSelected ? `0 0 16px ${accentColor}80` : '0 4px 12px rgba(0,0,0,0.7)',
-            cursor: 'pointer',
-            whiteSpace: 'nowrap',
-            backdropFilter: 'blur(8px)',
-            transition: 'all 0.15s ease'
-          }}
+      {/* 4. CLEAN 3D PERSPECTIVE PIN (Only rendered for selected or hovered station) */}
+      {(isSelected || hovered) && (
+        <Html
+          position={[0, 3.8, 0]}
+          center
+          distanceFactor={32}
+          style={{ pointerEvents: 'auto', userSelect: 'none' }}
         >
-          <span style={{
-            background: accentColor,
-            color: '#040914',
-            borderRadius: '50%',
-            width: '18px',
-            height: '18px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontSize: '0.62rem',
-            fontWeight: 900
-          }}>
-            {node.number}
-          </span>
-          <span>{node.name}</span>
-          {isSelected && (
-            <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#10b981' }}></span>
-          )}
-        </div>
-      </Html>
+          <div
+            onClick={(e) => {
+              e.stopPropagation();
+              onSelect(stationKey);
+            }}
+            style={{
+              background: isSelected 
+                ? 'rgba(4, 11, 24, 0.95)' 
+                : 'rgba(0, 240, 255, 0.95)',
+              color: isSelected ? '#ffffff' : '#040814',
+              border: `1.5px solid ${accentColor}`,
+              borderRadius: '20px',
+              padding: '0.22rem 0.65rem',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.4rem',
+              fontSize: '0.74rem',
+              fontWeight: 800,
+              fontFamily: 'var(--font-display, sans-serif)',
+              boxShadow: isSelected ? `0 0 20px ${accentColor}90` : '0 4px 15px rgba(0,0,0,0.8)',
+              cursor: 'pointer',
+              whiteSpace: 'nowrap',
+              backdropFilter: 'blur(12px)',
+              transform: 'scale(1)',
+              animation: 'fadeIn 0.2s ease-out'
+            }}
+          >
+            <span style={{
+              background: accentColor,
+              color: '#040914',
+              borderRadius: '50%',
+              width: '18px',
+              height: '18px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '0.64rem',
+              fontWeight: 900
+            }}>
+              {node.number}
+            </span>
+            <span>{node.name}</span>
+            {isSelected && (
+              <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#10b981' }}></span>
+            )}
+          </div>
+        </Html>
+      )}
 
       {/* Local Spotlight */}
       <pointLight 
