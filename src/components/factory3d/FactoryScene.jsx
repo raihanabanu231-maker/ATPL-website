@@ -19,16 +19,22 @@ import { ATPL_FACTORY_NODES, STATION_KEYS } from '../../data/factoryStations3D';
    1. CAMERA CONTROLLER (Smooth FlyTo & Overview)
    ========================================================================= */
 export const CameraController = ({ selectedStation, cameraMode, isOverview, quality }) => {
-  const { camera } = useThree();
+  const { camera, size } = useThree();
   const controlsRef = useRef();
 
   useEffect(() => {
+    // Responsive camera distance based on screen aspect ratio (320px mobile to 2550px ultra-wide)
+    const aspect = size.width / Math.max(1, size.height);
+    const isNarrow = aspect < 1.15;
+    // Scale overview distance so full factory floor fits on narrow screens (320px - 768px)
+    const distanceMult = isNarrow ? Math.min(1.7, 1.15 / Math.max(0.48, aspect)) : 1;
+
     if (isOverview || !selectedStation) {
-      // Overview Isometric Angle
+      // Overview Isometric Angle with responsive distance
       gsap.to(camera.position, {
-        x: 28,
-        y: 22,
-        z: 28,
+        x: 28 * distanceMult,
+        y: 22 * distanceMult,
+        z: 28 * distanceMult,
         duration: 1.8,
         ease: 'power3.inOut',
         onUpdate: () => camera.updateProjectionMatrix()
@@ -47,10 +53,12 @@ export const CameraController = ({ selectedStation, cameraMode, isOverview, qual
       // FlyTo specific station
       const node = ATPL_FACTORY_NODES[selectedStation];
       if (node) {
+        // For narrow mobile portrait, adjust position slightly so the station and robot stay in frame
+        const stationDistMult = isNarrow ? 1.25 : 1;
         gsap.to(camera.position, {
-          x: node.cameraPosition[0],
-          y: node.cameraPosition[1],
-          z: node.cameraPosition[2],
+          x: node.cameraPosition[0] * stationDistMult,
+          y: node.cameraPosition[1] * stationDistMult,
+          z: node.cameraPosition[2] * stationDistMult,
           duration: 1.5,
           ease: 'power2.inOut',
           onUpdate: () => camera.updateProjectionMatrix()
@@ -67,7 +75,7 @@ export const CameraController = ({ selectedStation, cameraMode, isOverview, qual
         }
       }
     }
-  }, [selectedStation, isOverview, camera]);
+  }, [selectedStation, isOverview, camera, size]);
 
   return (
     <OrbitControls
