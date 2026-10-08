@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AppProvider, useApp } from './context/AppContext';
 import { Navbar } from './components/common/Navbar';
 import { Footer } from './components/common/Footer';
@@ -23,6 +23,11 @@ import { ContactView } from './components/pages/ContactView';
 const MainAppContent = () => {
   const { currentView, setCurrentView, authSession } = useApp();
   const [searchOpen, setSearchOpen] = useState(false);
+
+  // Automatically scroll to top on every view switch
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  }, [currentView]);
 
   // If in CRM Login View
   if (currentView === 'login') {
@@ -105,9 +110,12 @@ const MainAppContent = () => {
           </ErrorBoundary>
         </main>
 
-        <ErrorBoundary title="Footer">
-          <Footer />
-        </ErrorBoundary>
+        {/* Hide footer on full-screen 3D factory tour */}
+        {currentView !== 'factory-3d' && (
+          <ErrorBoundary title="Footer">
+            <Footer />
+          </ErrorBoundary>
+        )}
         <ToastContainer />
         <ErrorBoundary title="Lead Modal">
           <LeadModal />

@@ -94,6 +94,11 @@ export const Factory3DView = () => {
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [quality, setQuality] = useState('HIGH');
 
+  // Scroll to top immediately when 3D view mounts
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  }, []);
+
   // Station Selection Handler (Pauses auto tour and opens description box for clicked station)
   const handleSelectStation = useCallback((stationKey) => {
     setSelectedStation(stationKey);
@@ -138,7 +143,7 @@ export const Factory3DView = () => {
   };
 
   return (
-    <div style={{ position: 'relative', width: '100%', height: 'calc(100vh - 65px)', minHeight: '680px', background: '#040812', overflow: 'hidden' }}>
+    <div style={{ position: 'relative', width: '100%', height: 'calc(100dvh - 65px)', minHeight: 'calc(100dvh - 65px)', background: '#040812', overflow: 'hidden' }}>
       
       {/* HUD & Navigation Overlay */}
       <FactoryHUD
