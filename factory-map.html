@@ -488,8 +488,8 @@ ul.s li:before{content:"✓";position:absolute;left:0;top:4px;width:19px;height:
     <a href="index.html" class="b red" style="text-decoration:none">⇥ Exit</a>
   </div>
 
-  <!-- Executive Inspector Panel -->
-  <aside id="panel">
+  <!-- Executive Inspector Panel (Constantly Open) -->
+  <aside id="panel" class="open">
     <div id="panel-handle" onclick="over()" title="Tap to close sheet"></div>
     <div class="panel-hdr">
       <button id="x" aria-label="Close" onclick="over()">✕</button>
@@ -622,7 +622,7 @@ S.forEach((s,idx)=>{
 <script>
 const IW=1168,IH=750,$=id=>document.getElementById(id),p2=n=>String(n+1).padStart(2,'0');
 const stage=$('stage'),world=$('world'),bg=$('bg');
-let W,H,w,h,k,ox,oy,cur=-1,mx=0,my=0,auto=null,is3DTilted=false;
+let W,H,w,h,k,ox,oy,cur=0,mx=0,my=0,auto=null,is3DTilted=false,isOverviewMode=false;
 
 // Build Hotspots and Tabs
 S.forEach((s,i)=>{
@@ -647,7 +647,7 @@ const cl=(v,a,b)=>Math.max(Math.min(a,b),Math.min(Math.max(a,b),v));
 
 function apply(){
   let s,px,py,dx,dy;
-  if(cur<0){
+  if(cur<0 || isOverviewMode){
     s=1.0;px=w/2;py=h/2;dx=W/2+mx*14;dy=H/2+my*8;
   } else {
     s=W<900?1.18:1.12;px=S[cur][5]*k;py=S[cur][6]*k;
@@ -1014,8 +1014,9 @@ function draw(i,diag){
   }
 }
 
-// Select Station - Moves Archie Robot directly to the project & opens the side description panel
+// Select Station - Moves Archie Robot directly to the project & updates the constant side description panel
 function sel(i){
+  isOverviewMode=false;
   cur=i;const s=S[i];
   $('pt').innerHTML='<i>'+p2(i)+'</i>'+s[1];
   $('pn').textContent=s[0];
@@ -1044,7 +1045,7 @@ function sel(i){
   $('pPhotoBox').style.display='block';
   $('cvp').style.display='none';
   
-  // Open Side Description Box
+  // Keep Side Description Box Constantly Open
   $('panel').classList.add('open');
   
   // Move Archie Robot Directly to This Project Station
@@ -1089,10 +1090,14 @@ function showDiagramTab(){
   draw(cur>=0?cur:0, true);
 }
 
+function togglePanel(){
+  $('panel').classList.toggle('open');
+}
+
 function over(){
-  cur=-1;
-  $('panel').classList.remove('open');
-  S.forEach(o=>{o.el.classList.remove('sel');o.tab.classList.remove('on')});
+  isOverviewMode=true;
+  $('panel').classList.add('open'); // Keep description box constantly open
+  if(cur < 0) cur = 0;
   
   // Return Archie Robot to Central Factory Patrol
   const robotEl = $('archeryRobotLive');
@@ -1220,7 +1225,7 @@ function inspectRobot(botId){
 // Event Listeners
 $('t1').onclick=showPhotoTab;
 $('t2').onclick=showDiagramTab;
-$('x').onclick=over;
+$('x').onclick=togglePanel;
 $('ov').onclick=()=>{stop();over()};
 $('tour').onclick=()=>{
   if(auto)return stop();
@@ -1296,13 +1301,13 @@ panelEl.addEventListener('touchend', e => {
   if (e.changedTouches.length === 1) {
     const deltaY = e.changedTouches[0].clientY - panelTouchStartY;
     if (deltaY > 60 && panelEl.scrollTop <= 0) {
-      over(); // Dismiss bottom sheet
+      togglePanel(); // Dismiss bottom sheet
     }
   }
 }, { passive: true });
 
 addEventListener('keydown',e=>{
-  if(e.key==='Escape'){over();closePitchDeck();closeGallery()}
+  if(e.key==='Escape'){togglePanel();closePitchDeck();closeGallery()}
   if(e.key===' '){$('tour').click()}
   if(e.key==='ArrowRight'){sel((cur+1)%12)}
   if(e.key==='ArrowLeft'){sel((cur-1+12)%12)}
@@ -1311,8 +1316,8 @@ addEventListener('keydown',e=>{
 addEventListener('resize',layout);
 layout();
 
-// Start in Full Factory 3D Overview Mode (Showing all machines and Archie Robot)
-over();
+// Start with Station #01 (Perfect Trace) active and Description Box constantly open & docked
+sel(0);
 
 function simulateLiveTest(){
   alert('⚡ ATPL Real-Time Telemetry Check:\n\n• Device Latency: ' + MS[cur>=0?cur:0] + 'ms\n• Cloud Sync: Connected to SAP S/4HANA\n• Edge Inference: OK (TensorRT Engine Active)\n• 0 Defects Detected across active lot.');
