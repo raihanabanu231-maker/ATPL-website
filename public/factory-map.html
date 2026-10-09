@@ -137,6 +137,34 @@ button{font:inherit;color:inherit;cursor:pointer;border:none;outline:none}
 }
 @keyframes laserSweep{0%{transform:translateX(-50%) rotate(-15deg)}100%{transform:translateX(-50%) rotate(15deg)}}
 
+/* Official Archery Robot Mascot (Archie) */
+#archeryBot{
+  position:absolute;left:42%;top:46%;width:84px;height:100px;
+  z-index:4;cursor:pointer;transform:translate(-50%,-50%);
+  animation:archieFloat 4s ease-in-out infinite alternate;
+}
+@keyframes archieFloat{
+  0%   {transform:translate(-50%,-50%) translateY(0px) rotate(-1deg)}
+  50%  {transform:translate(-50%,-50%) translateY(-10px) rotate(2deg)}
+  100% {transform:translate(-50%,-50%) translateY(2px) rotate(-2deg)}
+}
+.archie-halo{
+  position:absolute;inset:-10px;border-radius:50%;
+  background:radial-gradient(circle,rgba(24,224,255,0.4) 0%,rgba(24,224,255,0) 70%);
+  animation:haloGlow 2.5s ease-in-out infinite alternate;pointer-events:none;
+}
+@keyframes haloGlow{0%{transform:scale(0.8);opacity:0.5}100%{transform:scale(1.2);opacity:1}}
+.archie-speech{
+  position:absolute;bottom:100%;left:50%;transform:translateX(-50%) translateY(-10px);
+  background:rgba(255,255,255,0.95);color:#071322;border-radius:10px;padding:6px 12px;
+  font-size:11px;font-weight:800;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,0.6);
+  pointer-events:none;border:1.5px solid #18e0ff;
+}
+.archie-speech:after{
+  content:"";position:absolute;top:100%;left:50%;margin-left:-6px;
+  border-width:6px;border-style:solid;border-color:rgba(255,255,255,0.95) transparent transparent transparent;
+}
+
 /* Visual Overlays & HUD */
 #vig{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 50%,rgba(0,0,0,0) 50%,rgba(2,11,20,0.85) 100%)}
 #scan{position:absolute;left:0;right:0;height:100px;pointer-events:none;background:linear-gradient(rgba(24,224,255,0),rgba(24,224,255,0.08),rgba(24,224,255,0));animation:sw 8s linear infinite}
@@ -341,6 +369,14 @@ ul.s li:before{content:"✓";position:absolute;left:0;top:5px;width:16px;height:
         <g class="prop" style="transform-origin:12px 48px;"><ellipse cx="12" cy="48" rx="9" ry="2" fill="rgba(24,224,255,0.7)"/></g>
         <g class="prop" style="transform-origin:48px 48px;"><ellipse cx="48" cy="48" rx="9" ry="2" fill="rgba(24,224,255,0.7)"/></g>
       </svg>
+    <!-- Official Archery Robot Mascot (Archie - Perfect SolvEdge) -->
+    <div id="archeryBot" onclick="openArchieChat()" title="Click to interact with Archie AI (Official Archery Robot Mascot)">
+      <div class="archie-speech">
+        <span style="color:#18e0ff;font-weight:900;">🤖 Archie AI:</span> "Target Perfection! Click me for factory tour."
+      </div>
+      <div class="archie-halo"></div>
+      <img src="assets/images/atpl_archery_robot_transparent.png" alt="Official Archery Robot Mascot" style="width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 0 18px rgba(24,224,255,0.75));">
+      <div style="position:absolute;bottom:-8px;left:50%;transform:translateX(-50%);width:60px;height:12px;background:radial-gradient(ellipse at center, rgba(24,224,255,0.7) 0%, rgba(0,0,0,0) 70%);border-radius:50%;"></div>
     </div>
   </div>
   
@@ -352,7 +388,7 @@ ul.s li:before{content:"✓";position:absolute;left:0;top:5px;width:16px;height:
       <span class="dot"></span>
       <div>
         <h1>SMART FACTORY DIGITAL TWIN</h1>
-        <small class="mono">ATPL ARCHERY TECHNOCRATS • 12 IOT STATIONS • 3 ACTIVE ROBOTS</small>
+        <small class="mono">ATPL ARCHERY TECHNOCRATS • ARCHERY ROBOT COPILOT ACTIVE</small>
       </div>
       <span class="tel mono">∿ TELEMETRY ACTIVE (60 FPS)</span>
     </div>
@@ -431,10 +467,12 @@ ul.s li:before{content:"✓";position:absolute;left:0;top:5px;width:16px;height:
   <!-- Bottom Stations Carousel Bar -->
   <nav id="tabs"></nav>
 
-  <!-- Archie AI Assistant Bubble -->
+  <!-- Archie AI Assistant Bubble with Authentic Archery Robot Mascot -->
   <div id="chat" onclick="openArchieChat()">
-    <span>Ask Archie AI about ATPL solutions! 👋</span>
-    <div>🤖</div>
+    <span>Ask Archie AI Copilot! 👋</span>
+    <div style="overflow:hidden;padding:2px;background:#06101e;border:2px solid var(--cy);box-shadow:0 0 16px rgba(24,224,255,0.6);">
+      <img src="assets/images/atpl_archery_robot_transparent.png" alt="Archie Robot" style="width:100%;height:100%;object-fit:contain;">
+    </div>
   </div>
 </main>
 
