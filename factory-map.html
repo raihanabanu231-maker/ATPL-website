@@ -60,6 +60,83 @@ button{font:inherit;color:inherit;cursor:pointer;border:none;outline:none}
 .hs.sel button:after{border-left-color:var(--go)}
 .hs.sel{z-index:4}
 
+/* Live Animated 3D Moving Robots */
+.live-bot{
+  position:absolute;z-index:3;cursor:pointer;transform-origin:center center;
+  transition:filter .2s;pointer-events:auto;
+}
+.live-bot:hover{filter:drop-shadow(0 0 14px #18e0ff);z-index:8}
+.bot-tag{
+  position:absolute;bottom:100%;left:50%;transform:translateX(-50%) translateY(-6px);
+  background:rgba(4,22,40,0.9);border:1px solid #18e0ff;border-radius:4px;
+  padding:2px 7px;font-size:10px;font-weight:800;color:#18e0ff;white-space:nowrap;
+  box-shadow:0 0 10px rgba(24,224,255,0.4);letter-spacing:0.5px;
+}
+.bot-tag small{color:#10b981;font-size:9px;margin-left:4px}
+
+/* AGV-01 Pallet Carrier Animation Path */
+#agv1{
+  width:76px;height:54px;
+  animation:agvRoute1 24s cubic-bezier(.45,.05,.55,.95) infinite;
+}
+@keyframes agvRoute1{
+  0%   {left:26%;top:64%;transform:translate(-50%,-50%) scale(1) rotate(0deg)}
+  25%  {left:48%;top:64%;transform:translate(-50%,-50%) scale(1.05) rotate(0deg)}
+  30%  {left:52%;top:60%;transform:translate(-50%,-50%) scale(0.95) rotate(-35deg)}
+  50%  {left:68%;top:48%;transform:translate(-50%,-50%) scale(0.9) rotate(0deg)}
+  55%  {left:72%;top:50%;transform:translate(-50%,-50%) scale(0.95) rotate(140deg)}
+  75%  {left:52%;top:66%;transform:translate(-50%,-50%) scale(1.05) rotate(180deg)}
+  95%  {left:26%;top:66%;transform:translate(-50%,-50%) scale(1) rotate(180deg)}
+  100% {left:26%;top:64%;transform:translate(-50%,-50%) scale(1) rotate(0deg)}
+}
+
+/* AGV-02 Express Bin Transporter */
+#agv2{
+  width:64px;height:44px;
+  animation:agvRoute2 18s cubic-bezier(.45,.05,.55,.95) infinite;
+}
+@keyframes agvRoute2{
+  0%   {left:78%;top:72%;transform:translate(-50%,-50%) scale(1.1) rotate(180deg)}
+  45%  {left:42%;top:72%;transform:translate(-50%,-50%) scale(1.1) rotate(180deg)}
+  50%  {left:38%;top:70%;transform:translate(-50%,-50%) scale(1.05) rotate(0deg)}
+  95%  {left:78%;top:70%;transform:translate(-50%,-50%) scale(1.1) rotate(0deg)}
+  100% {left:78%;top:72%;transform:translate(-50%,-50%) scale(1.1) rotate(180deg)}
+}
+
+/* Autonomous High-Bay Stocktaking Drone */
+#drone1{
+  width:60px;height:60px;
+  animation:droneFly 16s ease-in-out infinite alternate;
+}
+@keyframes droneFly{
+  0%   {left:54%;top:22%;transform:translate(-50%,-50%) scale(0.85) rotate(-5deg)}
+  33%  {left:64%;top:17%;transform:translate(-50%,-50%) scale(0.75) rotate(8deg)}
+  66%  {left:72%;top:25%;transform:translate(-50%,-50%) scale(0.8) rotate(-4deg)}
+  100% {left:58%;top:30%;transform:translate(-50%,-50%) scale(0.9) rotate(6deg)}
+}
+
+/* Rotor Blade Spin */
+.prop{animation:spinProp .15s linear infinite;transform-origin:center center}
+@keyframes spinProp{to{transform:rotate(360deg)}}
+
+/* LiDAR Ring Emission */
+.lidar-ring{
+  position:absolute;inset:-16px;border-radius:50%;
+  border:1.5px solid rgba(24,224,255,0.6);
+  animation:lidarPulse 2s ease-out infinite;pointer-events:none;
+}
+@keyframes lidarPulse{0%{transform:scale(0.3);opacity:1}100%{transform:scale(1.8);opacity:0}}
+
+/* Laser Scan Cone */
+.laser-cone{
+  position:absolute;top:50%;left:50%;width:80px;height:90px;
+  background:linear-gradient(to bottom,rgba(16,185,129,0.5),rgba(16,185,129,0));
+  clip-path:polygon(50% 0%,0% 100%,100% 100%);
+  transform:translateX(-50%);animation:laserSweep 3s ease-in-out infinite alternate;
+  pointer-events:none;
+}
+@keyframes laserSweep{0%{transform:translateX(-50%) rotate(-15deg)}100%{transform:translateX(-50%) rotate(15deg)}}
+
 /* Visual Overlays & HUD */
 #vig{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 50%,rgba(0,0,0,0) 50%,rgba(2,11,20,0.85) 100%)}
 #scan{position:absolute;left:0;right:0;height:100px;pointer-events:none;background:linear-gradient(rgba(24,224,255,0),rgba(24,224,255,0.08),rgba(24,224,255,0));animation:sw 8s linear infinite}
@@ -208,6 +285,63 @@ ul.s li:before{content:"✓";position:absolute;left:0;top:5px;width:16px;height:
 <main id="stage">
   <div id="world">
     <img id="bg" alt="ATPL smart factory digital twin" src="assets/images/atpl_factory_3d_interior.jpg">
+    
+    <!-- Moving AGV Robot 01 (Pallet AMR) -->
+    <div id="agv1" class="live-bot" onclick="inspectRobot('AMR-01')" title="Click to inspect AMR-01 Autonomous Pallet Robot">
+      <div class="bot-tag mono">🤖 AMR-01<small>94%</small></div>
+      <div class="lidar-ring"></div>
+      <svg viewBox="0 0 80 60" width="100%" height="100%">
+        <!-- Shadow -->
+        <ellipse cx="40" cy="52" rx="36" ry="7" fill="rgba(0,0,0,0.5)"/>
+        <!-- Chassis -->
+        <rect x="8" y="16" width="64" height="34" rx="8" fill="#0b1e33" stroke="#18e0ff" stroke-width="2"/>
+        <!-- Top Cargo Deck -->
+        <rect x="14" y="8" width="52" height="18" rx="4" fill="#ffc93c" stroke="#d97706" stroke-width="1.5"/>
+        <line x1="26" y1="8" x2="26" y2="26" stroke="#92400e" stroke-width="1.5"/>
+        <line x1="54" y1="8" x2="54" y2="26" stroke="#92400e" stroke-width="1.5"/>
+        <!-- Blue Glowing Core / Direction -->
+        <circle cx="60" cy="33" r="4" fill="#18e0ff"/>
+        <!-- Headlights -->
+        <circle cx="68" cy="22" r="3" fill="#ffffff" filter="drop-shadow(0 0 6px #fff)"/>
+        <circle cx="68" cy="44" r="3" fill="#ffffff" filter="drop-shadow(0 0 6px #fff)"/>
+        <!-- Wheels -->
+        <rect x="18" y="46" width="14" height="6" rx="2" fill="#020b14"/>
+        <rect x="48" y="46" width="14" height="6" rx="2" fill="#020b14"/>
+      </svg>
+    </div>
+
+    <!-- Moving AGV Robot 02 (Express Bin Carrier) -->
+    <div id="agv2" class="live-bot" onclick="inspectRobot('AMR-02')" title="Click to inspect AMR-02 Express Robot">
+      <div class="bot-tag mono" style="border-color:#10b981;color:#10b981;">⚡ AMR-02<small style="color:#ffc93c;">DISPATCH</small></div>
+      <div class="lidar-ring" style="border-color:rgba(16,185,129,0.5);"></div>
+      <svg viewBox="0 0 70 50" width="100%" height="100%">
+        <ellipse cx="35" cy="44" rx="30" ry="6" fill="rgba(0,0,0,0.45)"/>
+        <rect x="6" y="14" width="58" height="28" rx="7" fill="#07201c" stroke="#10b981" stroke-width="2"/>
+        <rect x="12" y="6" width="46" height="14" rx="3" fill="#0ea5e9" stroke="#0284c7" stroke-width="1.5"/>
+        <circle cx="56" cy="28" r="3.5" fill="#10b981"/>
+        <circle cx="60" cy="19" r="2.5" fill="#fff" filter="drop-shadow(0 0 5px #fff)"/>
+        <circle cx="60" cy="37" r="2.5" fill="#fff" filter="drop-shadow(0 0 5px #fff)"/>
+      </svg>
+    </div>
+
+    <!-- Autonomous Stocktaking Drone Hovering in High-Bay Racks -->
+    <div id="drone1" class="live-bot" onclick="inspectRobot('DRONE-01')" title="Click to inspect Autonomous Stocktaking Drone">
+      <div class="bot-tag mono" style="border-color:#a855f7;color:#a855f7;">🛸 DRONE-01<small style="color:#18e0ff;">LiDAR</small></div>
+      <div class="laser-cone"></div>
+      <svg viewBox="0 0 60 60" width="100%" height="100%">
+        <!-- Drone Center Body -->
+        <circle cx="30" cy="30" r="10" fill="#0f172a" stroke="#a855f7" stroke-width="2"/>
+        <circle cx="30" cy="30" r="4" fill="#18e0ff" filter="drop-shadow(0 0 6px #18e0ff)"/>
+        <!-- 4 Arms -->
+        <line x1="12" y1="12" x2="48" y2="48" stroke="#64748b" stroke-width="3"/>
+        <line x1="48" y1="12" x2="12" y2="48" stroke="#64748b" stroke-width="3"/>
+        <!-- Spinning Propellers -->
+        <g class="prop" style="transform-origin:12px 12px;"><ellipse cx="12" cy="12" rx="9" ry="2" fill="rgba(24,224,255,0.7)"/></g>
+        <g class="prop" style="transform-origin:48px 12px;"><ellipse cx="48" cy="12" rx="9" ry="2" fill="rgba(24,224,255,0.7)"/></g>
+        <g class="prop" style="transform-origin:12px 48px;"><ellipse cx="12" cy="48" rx="9" ry="2" fill="rgba(24,224,255,0.7)"/></g>
+        <g class="prop" style="transform-origin:48px 48px;"><ellipse cx="48" cy="48" rx="9" ry="2" fill="rgba(24,224,255,0.7)"/></g>
+      </svg>
+    </div>
   </div>
   
   <div id="vig"></div>
@@ -218,7 +352,7 @@ ul.s li:before{content:"✓";position:absolute;left:0;top:5px;width:16px;height:
       <span class="dot"></span>
       <div>
         <h1>SMART FACTORY DIGITAL TWIN</h1>
-        <small class="mono">ATPL ARCHERY TECHNOCRATS • 12 CONNECTED IOT STATIONS</small>
+        <small class="mono">ATPL ARCHERY TECHNOCRATS • 12 IOT STATIONS • 3 ACTIVE ROBOTS</small>
       </div>
       <span class="tel mono">∿ TELEMETRY ACTIVE (60 FPS)</span>
     </div>
@@ -226,6 +360,7 @@ ul.s li:before{content:"✓";position:absolute;left:0;top:5px;width:16px;height:
 
   <div id="ctl">
     <button class="b accent" onclick="openGallery()">🖼️ All Project Images</button>
+    <button class="b" id="botToggle" onclick="toggleRobots()">🤖 Robots: LIVE</button>
     <button class="b on" id="ab" onclick="openPitchDeck('about')">📑 Pitch Deck</button>
     <button class="b" id="perspMode">📐 3D Tilt: Off</button>
     <button class="b" id="ov">◎ Overview</button>
@@ -833,6 +968,81 @@ function openGallery(){
 
 function closeGallery(){
   pGal.style.display='none';
+}
+
+// Live Autonomous Robots Telemetry Inspection
+let robotsActive=true;
+function toggleRobots(){
+  robotsActive=!robotsActive;
+  const bots=document.querySelectorAll('.live-bot');
+  bots.forEach(b=>{
+    b.style.animationPlayState=robotsActive?'running':'paused';
+  });
+  const tBtn=$('botToggle');
+  if(tBtn){
+    tBtn.textContent='🤖 Robots: '+(robotsActive?'LIVE':'PAUSED');
+    tBtn.classList.toggle('on',!robotsActive);
+  }
+}
+
+function inspectRobot(botId){
+  if(botId==='AMR-01'){
+    $('pt').innerHTML='<i>🤖</i>AUTONOMOUS MOBILE ROBOT FLEET';
+    $('pn').textContent='AMR-01 (Pallet Carrier)';
+    $('pd').textContent='Heavy-payload autonomous guided vehicle dynamically routing pallets between warehouse racks, conveyor line, and outbound RFID dock portals with SLAM navigation.';
+    $('pl').textContent='AMR-01 uses 360-degree LiDAR and dynamic obstacle avoidance. It automatically synchronizes pallet barcodes with SAP S/4HANA at dock entry.';
+    $('psp').innerHTML=[
+      'Payload Capacity: 1,200 kg heavy pallet stack',
+      'Navigation: Natural feature LiDAR SLAM + Optical floor tags',
+      'Safety: 360° LiDAR safety field (PLe SIL2 compliant)',
+      'Speed: 1.4 m/s (loaded) | Battery: 94% (Wireless inductive fast-charge)'
+    ].map(x=>'<li>'+x+'</li>').join('');
+    $('cn').textContent='AMR-01 Live Telemetry';
+    $('cm').textContent='94% BATTERY';
+    const pImg=$('pPhotoImg');
+    if(pImg) pImg.src='assets/images/stations/warehouse.jpg';
+    $('pcs').style.display='block';
+    $('pcs').innerHTML='<b>★ ACTIVE MISSION TELEMETRY</b><em>"Pallet Delivery: Aisle C-04 ➔ Outbound RFID Gate 02"</em><div style="font-size:11.5px;color:#94a3b8;margin-bottom:4px;">Lot ID: #LOT-2026-X89 · 48 Cartons Verified</div><span style="display:inline-block;padding:3px 8px;border-radius:4px;background:rgba(16,185,129,0.2);color:#34d399;font-weight:700;font-size:11px;">Speed: 1.4 m/s · Status: OK</span>';
+  } else if (botId==='AMR-02'){
+    $('pt').innerHTML='<i>⚡</i>EXPRESS ROBOT FLEET';
+    $('pn').textContent='AMR-02 (Bin Transporter)';
+    $('pd').textContent='High-speed lightweight autonomous robot transferring pick-bins and parts between assembly workstations and packing line.';
+    $('pl').textContent='Operates with sub-second task dispatching via ATPL Middleware MES fleet coordination.';
+    $('psp').innerHTML=[
+      'Payload Capacity: 250 kg tote/bin rack',
+      'Speed: 2.2 m/s high-throughput dispatch',
+      'Battery: 88% (Auto dock return when <20%)',
+      'Fleet Sync: ATPL Middleware MQTT Broker'
+    ].map(x=>'<li>'+x+'</li>').join('');
+    $('cn').textContent='AMR-02 Live Telemetry';
+    $('cm').textContent='88% BATTERY';
+    const pImg=$('pPhotoImg');
+    if(pImg) pImg.src='assets/images/stations/trace.jpg';
+    $('pcs').style.display='block';
+    $('pcs').innerHTML='<b>★ ACTIVE MISSION TELEMETRY</b><em>"Bin Dispatch: Workstation #03 ➔ Inspection Gate"</em><div style="font-size:11.5px;color:#94a3b8;margin-bottom:4px;">Payload: High-precision machined parts</div><span style="display:inline-block;padding:3px 8px;border-radius:4px;background:rgba(56,189,248,0.2);color:#38bdf8;font-weight:700;font-size:11px;">Speed: 2.2 m/s · Status: DISPATCH</span>';
+  } else if (botId==='DRONE-01'){
+    $('pt').innerHTML='<i>🛸</i>AERIAL STOCK AUDIT DRONE';
+    $('pn').textContent='Drone-01 (High-Bay LiDAR Scanner)';
+    $('pd').textContent='Autonomous indoor drone performing aerial inventory audit of 40ft high-bay warehouse racks, reading RFID tags and 2D barcodes without scissor lifts.';
+    $('pl').textContent='Reduces annual high-bay physical inventory stocktaking time by 80% while completely eliminating human fall risks.';
+    $('psp').innerHTML=[
+      'Sensor Payload: Dual 4K Barcode Imagers + UHF RFID array',
+      'Flight Duration: 35 mins / battery charge with auto-docking',
+      'Scan Throughput: 120 pallets audited per minute',
+      'Indoor Localization: Optical SLAM + Ultra-Wideband (UWB)'
+    ].map(x=>'<li>'+x+'</li>').join('');
+    $('cn').textContent='Drone-01 Aerial Telemetry';
+    $('cm').textContent='ALT: 8.5m';
+    const pImg=$('pPhotoImg');
+    if(pImg) pImg.src='assets/images/stations/drones.jpg';
+    $('pcs').style.display='block';
+    $('pcs').innerHTML='<b>★ AERIAL STOCK AUDIT IN PROGRESS</b><em>"High-Bay Rack Aisle 07 · Levels 4-6"</em><div style="font-size:11.5px;color:#94a3b8;margin-bottom:4px;">1,420 Pallets Audited in 12 mins</div><span style="display:inline-block;padding:3px 8px;border-radius:4px;background:rgba(168,85,247,0.2);color:#c084fc;font-weight:700;font-size:11px;">100% Scan Accuracy · Zero Discrepancy</span>';
+  }
+  $('t1').className='on';
+  $('t2').className='';
+  $('pPhotoBox').style.display='block';
+  $('cvp').style.display='none';
+  $('panel').classList.add('open');
 }
 
 // Event Listeners
