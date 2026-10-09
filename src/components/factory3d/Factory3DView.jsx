@@ -12,7 +12,7 @@ export const Factory3DView = () => {
       overflow: 'hidden'
     }}>
       <iframe
-        src="/factory-map.html"
+        src="/factory-map.html?v=3.0"
         title="ATPL Smart Factory 3D Digital Twin Tour"
         style={{
           width: '100%',
