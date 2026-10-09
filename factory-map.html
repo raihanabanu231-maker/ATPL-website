@@ -198,7 +198,8 @@ ul.s li:before{content:"✓";position:absolute;left:0;top:5px;width:16px;height:
     <li><a href="contact.html">Contact Branches</a></li>
   </ul>
   <div class="nr">
-    <button class="b accent" onclick="openPitchDeck('about')">📑 Pitch Deck 2026</button>
+    <button class="b accent" onclick="openGallery()">🖼️ Project Images & Gallery</button>
+    <button class="b" onclick="openPitchDeck('about')">📑 Pitch Deck 2026</button>
     <a href="/#login" class="ad">Admin Portal</a>
     <a href="contact.html" class="rq">Request PoC</a>
   </div>
@@ -224,6 +225,7 @@ ul.s li:before{content:"✓";position:absolute;left:0;top:5px;width:16px;height:
   </div>
 
   <div id="ctl">
+    <button class="b accent" onclick="openGallery()">🖼️ All Project Images</button>
     <button class="b on" id="ab" onclick="openPitchDeck('about')">📑 Pitch Deck</button>
     <button class="b" id="perspMode">📐 3D Tilt: Off</button>
     <button class="b" id="ov">◎ Overview</button>
@@ -233,7 +235,7 @@ ul.s li:before{content:"✓";position:absolute;left:0;top:5px;width:16px;height:
     <a href="index.html" class="b red" style="text-decoration:none">⇥ Exit 3D</a>
   </div>
 
-  <!-- Inspector Panel with Real Project Images & Real Pitch Deck UI -->
+  <!-- Inspector Panel with Direct Real Project Images & Real Pitch Deck UI -->
   <aside id="panel">
     <button id="x" aria-label="Close">✕</button>
     <div id="pt" class="mono"></div>
@@ -244,12 +246,19 @@ ul.s li:before{content:"✓";position:absolute;left:0;top:5px;width:16px;height:
       <div class="hd mono">
         <span>● AUTHENTIC PROJECT VIEW</span>
         <div class="tg">
-          <button class="on" id="t1">📸 Station Photo</button>
+          <button class="on" id="t1">📸 Project Photo</button>
           <button id="t2">📊 Pitch Deck Diagram & UI</button>
         </div>
       </div>
-      <canvas id="cvp" width="640" height="340"></canvas>
-      <div class="cap"><span id="cn"></span><span class="mono" id="cm"></span></div>
+      
+      <!-- Direct High-Resolution Project Photo Element -->
+      <div id="pPhotoBox" style="position:relative;width:100%;aspect-ratio:16/9;background:#03101d;overflow:hidden;">
+        <img id="pPhotoImg" src="assets/images/stations/trace.jpg" alt="ATPL Project Hardware Photo" style="width:100%;height:100%;object-fit:cover;display:block;">
+        <div class="cap"><span id="cn"></span><span class="mono" id="cm"></span></div>
+      </div>
+
+      <!-- Diagram Canvas -->
+      <canvas id="cvp" width="640" height="340" style="display:none;"></canvas>
     </div>
 
     <div class="cs" id="pcs"></div>
@@ -258,10 +267,21 @@ ul.s li:before{content:"✓";position:absolute;left:0;top:5px;width:16px;height:
     <ul class="s" id="psp"></ul>
 
     <div class="row">
-      <button class="a1" onclick="simulateLiveTest()">⚡ Live Diagnostics</button>
+      <button class="a1" onclick="openGallery()">🖼️ View All 12 Projects</button>
       <a class="a2" href="contact.html">Request Enterprise PoC →</a>
     </div>
   </aside>
+
+  <!-- Full Visual Project Gallery Modal -->
+  <section id="projGallery" style="position:absolute;inset:0;background:rgba(1,10,20,0.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);z-index:15;display:none;padding:50px 20px 40px;overflow-y:auto;">
+    <div class="abin" style="max-width:1140px;">
+      <button id="galClose" aria-label="Close" onclick="closeGallery()" style="position:absolute;right:20px;top:20px;width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);color:#94a3b8;font-size:14px;font-weight:700;">✕</button>
+      <h2>ATPL PROJECT SHOWCASE & REAL HARDWARE DEPLOYMENTS <small class="mono">OFFICIAL IMAGES FROM ARCHERY TECHNOCRATS PITCH DECK 2026</small></h2>
+      <p style="font-size:13px;color:#cbd5e1;margin-bottom:20px;">Browse the real project photos, AI defect detection captures, SAP middleware integrations, and enterprise mobility platforms deployed by ATPL:</p>
+      
+      <div id="galGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;"></div>
+    </div>
+  </section>
 
   <!-- Pitch Deck Full Presentation Modal -->
   <section id="about">
@@ -731,6 +751,13 @@ function sel(i){
   $('cn').textContent=s[0];
   $('cm').textContent=MS[i]+' ms';
 
+  // Update Direct Project Photo Image
+  const pImg=$('pPhotoImg');
+  if(pImg){
+    pImg.src='assets/images/stations/'+s[7];
+    pImg.alt='ATPL ' + s[0] + ' Deployment Photo';
+  }
+
   if(s[8]){
     $('pcs').style.display='block';
     $('pcs').innerHTML='<b>★ PITCH DECK CUSTOMER SUCCESS STORY</b><em>"'+s[8].head+'"</em><div style="font-size:11.5px;color:#94a3b8;margin-bottom:4px;">Client: '+s[8].client+'</div><span style="display:inline-block;padding:3px 8px;border-radius:4px;background:rgba(16,185,129,0.2);color:#34d399;font-weight:700;font-size:11px;">'+s[8].metric+'</span>';
@@ -740,7 +767,9 @@ function sel(i){
 
   $('t1').className='on';
   $('t2').className='';
-  draw(i, false);
+  $('pPhotoBox').style.display='block';
+  $('cvp').style.display='none';
+  
   $('panel').classList.add('open');
   
   S.forEach((o,j)=>{
@@ -749,6 +778,21 @@ function sel(i){
   });
   s.tab.scrollIntoView({inline:'center',block:'nearest'});
   apply();
+}
+
+function showPhotoTab(){
+  $('t1').className='on';
+  $('t2').className='';
+  $('pPhotoBox').style.display='block';
+  $('cvp').style.display='none';
+}
+
+function showDiagramTab(){
+  $('t2').className='on';
+  $('t1').className='';
+  $('pPhotoBox').style.display='none';
+  $('cvp').style.display='block';
+  draw(cur>=0?cur:0, true);
 }
 
 function over(){
@@ -762,9 +806,38 @@ function stop(){
   if(auto){clearInterval(auto);auto=null;$('tour').classList.remove('on');$('tour').textContent='▷ Auto Tour'}
 }
 
+// Project Gallery Modal Logic
+const pGal=$('projGallery');
+function openGallery(){
+  pGal.style.display='block';
+  const grid=$('galGrid');
+  if(!grid.hasChildNodes()){
+    grid.innerHTML=S.map((s, idx)=>`
+      <div class="card" style="display:flex;flex-direction:column;border:1px solid rgba(24,224,255,0.3);background:rgba(4,22,40,0.85);overflow:hidden;padding:0;">
+        <div style="position:relative;width:100%;height:140px;overflow:hidden;background:#020b14;">
+          <img src="assets/images/stations/${s[7]}" alt="${s[0]}" style="width:100%;height:100%;object-fit:cover;transition:transform .3s;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
+          <span style="position:absolute;top:8px;left:8px;background:rgba(2,11,20,0.85);color:#18e0ff;font-family:monospace;font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;border:1px solid rgba(24,224,255,0.3);">#${p2(idx)}</span>
+        </div>
+        <div style="padding:12px;flex:1;display:flex;flex-direction:column;justify-content:space-between;">
+          <div>
+            <b style="color:#18e0ff;font-size:14px;margin-bottom:2px;">${s[0]}</b>
+            <div style="color:#ffc93c;font-size:10px;font-weight:700;letter-spacing:0.8px;margin-bottom:6px;">${s[1]}</div>
+            <p style="font-size:11.5px;color:#cbd5e1;line-height:1.4;margin:0 0 8px;">${s[2]}</p>
+          </div>
+          <button onclick="closeGallery();sel(${idx})" style="width:100%;background:linear-gradient(135deg,#0b9bff,#18c8ff);color:#fff;border-radius:6px;padding:7px;font-size:11.5px;font-weight:800;">🔍 Inspect Station in 3D →</button>
+        </div>
+      </div>
+    `).join('');
+  }
+}
+
+function closeGallery(){
+  pGal.style.display='none';
+}
+
 // Event Listeners
-$('t1').onclick=()=>{$('t1').className='on';$('t2').className='';draw(cur, false)};
-$('t2').onclick=()=>{$('t2').className='on';$('t1').className='';draw(cur, true)};
+$('t1').onclick=showPhotoTab;
+$('t2').onclick=showDiagramTab;
 $('x').onclick=over;
 $('ov').onclick=()=>{stop();over()};
 $('tour').onclick=()=>{
@@ -798,7 +871,7 @@ stage.addEventListener('pointermove',e=>{
 });
 
 addEventListener('keydown',e=>{
-  if(e.key==='Escape'){over();closePitchDeck()}
+  if(e.key==='Escape'){over();closePitchDeck();closeGallery()}
   if(e.key===' '){$('tour').click()}
   if(e.key==='ArrowRight'){sel((cur+1)%12)}
   if(e.key==='ArrowLeft'){sel((cur-1+12)%12)}
@@ -806,7 +879,11 @@ addEventListener('keydown',e=>{
 
 addEventListener('resize',layout);
 layout();
-bg.onload=()=>{if(cur>=0)draw(cur,false)};
+
+// Auto-open station 0 on startup so project images are immediately visible!
+setTimeout(()=>{
+  sel(0);
+}, 600);
 
 function simulateLiveTest(){
   alert('⚡ ATPL Real-Time Telemetry Check:\n\n• Device Latency: ' + MS[cur>=0?cur:0] + 'ms\n• Cloud Sync: Connected to SAP S/4HANA\n• Edge Inference: OK (TensorRT Engine Active)\n• 0 Defects Detected across active lot.');
