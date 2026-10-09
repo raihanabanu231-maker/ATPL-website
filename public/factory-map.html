@@ -60,109 +60,45 @@ button{font:inherit;color:inherit;cursor:pointer;border:none;outline:none}
 .hs.sel button:after{border-left-color:var(--go)}
 .hs.sel{z-index:4}
 
-/* Live Animated 3D Moving Robots */
-.live-bot{
-  position:absolute;z-index:3;cursor:pointer;transform-origin:center center;
-  transition:filter .2s;pointer-events:auto;
+/* Official Archery Robot Mascot (Archie) Moving on Factory Floor */
+.archery-live-robot{
+  position:absolute;z-index:4;cursor:pointer;
+  width:95px;height:120px;
+  animation:archieWalkTour 20s ease-in-out infinite;
+  transition:filter .2s;
 }
-.live-bot:hover{filter:drop-shadow(0 0 14px #18e0ff);z-index:8}
-.bot-tag{
-  position:absolute;bottom:100%;left:50%;transform:translateX(-50%) translateY(-6px);
-  background:rgba(4,22,40,0.9);border:1px solid #18e0ff;border-radius:4px;
-  padding:2px 7px;font-size:10px;font-weight:800;color:#18e0ff;white-space:nowrap;
-  box-shadow:0 0 10px rgba(24,224,255,0.4);letter-spacing:0.5px;
+.archery-live-robot:hover{
+  filter:drop-shadow(0 0 20px #18e0ff);
 }
-.bot-tag small{color:#10b981;font-size:9px;margin-left:4px}
-
-/* AGV-01 Pallet Carrier Animation Path */
-#agv1{
-  width:76px;height:54px;
-  animation:agvRoute1 24s cubic-bezier(.45,.05,.55,.95) infinite;
-}
-@keyframes agvRoute1{
-  0%   {left:26%;top:64%;transform:translate(-50%,-50%) scale(1) rotate(0deg)}
-  25%  {left:48%;top:64%;transform:translate(-50%,-50%) scale(1.05) rotate(0deg)}
-  30%  {left:52%;top:60%;transform:translate(-50%,-50%) scale(0.95) rotate(-35deg)}
-  50%  {left:68%;top:48%;transform:translate(-50%,-50%) scale(0.9) rotate(0deg)}
-  55%  {left:72%;top:50%;transform:translate(-50%,-50%) scale(0.95) rotate(140deg)}
-  75%  {left:52%;top:66%;transform:translate(-50%,-50%) scale(1.05) rotate(180deg)}
-  95%  {left:26%;top:66%;transform:translate(-50%,-50%) scale(1) rotate(180deg)}
-  100% {left:26%;top:64%;transform:translate(-50%,-50%) scale(1) rotate(0deg)}
+@keyframes archieWalkTour{
+  0%   {left:46%;top:50%;transform:translate(-50%,-50%) scale(1) scaleX(1)}
+  25%  {left:32%;top:58%;transform:translate(-50%,-50%) scale(1.1) scaleX(1)}
+  30%  {left:32%;top:58%;transform:translate(-50%,-50%) scale(1.1) scaleX(-1)}
+  50%  {left:62%;top:62%;transform:translate(-50%,-50%) scale(1.15) scaleX(-1)}
+  55%  {left:62%;top:62%;transform:translate(-50%,-50%) scale(1.15) scaleX(1)}
+  75%  {left:58%;top:46%;transform:translate(-50%,-50%) scale(0.95) scaleX(1)}
+  100% {left:46%;top:50%;transform:translate(-50%,-50%) scale(1) scaleX(1)}
 }
 
-/* AGV-02 Express Bin Transporter */
-#agv2{
-  width:64px;height:44px;
-  animation:agvRoute2 18s cubic-bezier(.45,.05,.55,.95) infinite;
+.archie-glow-ring{
+  position:absolute;bottom:0;left:50%;transform:translateX(-50%);
+  width:70px;height:16px;border-radius:50%;
+  background:radial-gradient(ellipse at center, rgba(24,224,255,0.7) 0%, rgba(24,224,255,0) 70%);
+  box-shadow:0 0 16px rgba(24,224,255,0.6);
+  animation:ringPulse 2s ease-in-out infinite alternate;
 }
-@keyframes agvRoute2{
-  0%   {left:78%;top:72%;transform:translate(-50%,-50%) scale(1.1) rotate(180deg)}
-  45%  {left:42%;top:72%;transform:translate(-50%,-50%) scale(1.1) rotate(180deg)}
-  50%  {left:38%;top:70%;transform:translate(-50%,-50%) scale(1.05) rotate(0deg)}
-  95%  {left:78%;top:70%;transform:translate(-50%,-50%) scale(1.1) rotate(0deg)}
-  100% {left:78%;top:72%;transform:translate(-50%,-50%) scale(1.1) rotate(180deg)}
-}
+@keyframes ringPulse{0%{transform:translateX(-50%) scale(0.85);opacity:0.6}100%{transform:translateX(-50%) scale(1.15);opacity:1}}
 
-/* Autonomous High-Bay Stocktaking Drone */
-#drone1{
-  width:60px;height:60px;
-  animation:droneFly 16s ease-in-out infinite alternate;
-}
-@keyframes droneFly{
-  0%   {left:54%;top:22%;transform:translate(-50%,-50%) scale(0.85) rotate(-5deg)}
-  33%  {left:64%;top:17%;transform:translate(-50%,-50%) scale(0.75) rotate(8deg)}
-  66%  {left:72%;top:25%;transform:translate(-50%,-50%) scale(0.8) rotate(-4deg)}
-  100% {left:58%;top:30%;transform:translate(-50%,-50%) scale(0.9) rotate(6deg)}
-}
-
-/* Rotor Blade Spin */
-.prop{animation:spinProp .15s linear infinite;transform-origin:center center}
-@keyframes spinProp{to{transform:rotate(360deg)}}
-
-/* LiDAR Ring Emission */
-.lidar-ring{
-  position:absolute;inset:-16px;border-radius:50%;
-  border:1.5px solid rgba(24,224,255,0.6);
-  animation:lidarPulse 2s ease-out infinite;pointer-events:none;
-}
-@keyframes lidarPulse{0%{transform:scale(0.3);opacity:1}100%{transform:scale(1.8);opacity:0}}
-
-/* Laser Scan Cone */
-.laser-cone{
-  position:absolute;top:50%;left:50%;width:80px;height:90px;
-  background:linear-gradient(to bottom,rgba(16,185,129,0.5),rgba(16,185,129,0));
-  clip-path:polygon(50% 0%,0% 100%,100% 100%);
-  transform:translateX(-50%);animation:laserSweep 3s ease-in-out infinite alternate;
-  pointer-events:none;
-}
-@keyframes laserSweep{0%{transform:translateX(-50%) rotate(-15deg)}100%{transform:translateX(-50%) rotate(15deg)}}
-
-/* Official Archery Robot Mascot (Archie) */
-#archeryBot{
-  position:absolute;left:42%;top:46%;width:84px;height:100px;
-  z-index:4;cursor:pointer;transform:translate(-50%,-50%);
-  animation:archieFloat 4s ease-in-out infinite alternate;
-}
-@keyframes archieFloat{
-  0%   {transform:translate(-50%,-50%) translateY(0px) rotate(-1deg)}
-  50%  {transform:translate(-50%,-50%) translateY(-10px) rotate(2deg)}
-  100% {transform:translate(-50%,-50%) translateY(2px) rotate(-2deg)}
-}
-.archie-halo{
-  position:absolute;inset:-10px;border-radius:50%;
-  background:radial-gradient(circle,rgba(24,224,255,0.4) 0%,rgba(24,224,255,0) 70%);
-  animation:haloGlow 2.5s ease-in-out infinite alternate;pointer-events:none;
-}
-@keyframes haloGlow{0%{transform:scale(0.8);opacity:0.5}100%{transform:scale(1.2);opacity:1}}
-.archie-speech{
+.archie-bubble{
   position:absolute;bottom:100%;left:50%;transform:translateX(-50%) translateY(-10px);
-  background:rgba(255,255,255,0.95);color:#071322;border-radius:10px;padding:6px 12px;
-  font-size:11px;font-weight:800;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,0.6);
-  pointer-events:none;border:1.5px solid #18e0ff;
+  background:rgba(4,22,40,0.92);color:#fff;border-radius:10px;padding:6px 12px;
+  font-size:11.5px;font-weight:800;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,0.7);
+  pointer-events:none;border:1.5px solid #18e0ff;letter-spacing:0.3px;
 }
-.archie-speech:after{
+.archie-bubble span{color:#18e0ff;margin-right:4px}
+.archie-bubble:after{
   content:"";position:absolute;top:100%;left:50%;margin-left:-6px;
-  border-width:6px;border-style:solid;border-color:rgba(255,255,255,0.95) transparent transparent transparent;
+  border-width:6px;border-style:solid;border-color:rgba(4,22,40,0.92) transparent transparent transparent;
 }
 
 /* Visual Overlays & HUD */
@@ -314,69 +250,13 @@ ul.s li:before{content:"✓";position:absolute;left:0;top:5px;width:16px;height:
   <div id="world">
     <img id="bg" alt="ATPL smart factory digital twin" src="assets/images/atpl_factory_3d_interior.jpg">
     
-    <!-- Moving AGV Robot 01 (Pallet AMR) -->
-    <div id="agv1" class="live-bot" onclick="inspectRobot('AMR-01')" title="Click to inspect AMR-01 Autonomous Pallet Robot">
-      <div class="bot-tag mono">🤖 AMR-01<small>94%</small></div>
-      <div class="lidar-ring"></div>
-      <svg viewBox="0 0 80 60" width="100%" height="100%">
-        <!-- Shadow -->
-        <ellipse cx="40" cy="52" rx="36" ry="7" fill="rgba(0,0,0,0.5)"/>
-        <!-- Chassis -->
-        <rect x="8" y="16" width="64" height="34" rx="8" fill="#0b1e33" stroke="#18e0ff" stroke-width="2"/>
-        <!-- Top Cargo Deck -->
-        <rect x="14" y="8" width="52" height="18" rx="4" fill="#ffc93c" stroke="#d97706" stroke-width="1.5"/>
-        <line x1="26" y1="8" x2="26" y2="26" stroke="#92400e" stroke-width="1.5"/>
-        <line x1="54" y1="8" x2="54" y2="26" stroke="#92400e" stroke-width="1.5"/>
-        <!-- Blue Glowing Core / Direction -->
-        <circle cx="60" cy="33" r="4" fill="#18e0ff"/>
-        <!-- Headlights -->
-        <circle cx="68" cy="22" r="3" fill="#ffffff" filter="drop-shadow(0 0 6px #fff)"/>
-        <circle cx="68" cy="44" r="3" fill="#ffffff" filter="drop-shadow(0 0 6px #fff)"/>
-        <!-- Wheels -->
-        <rect x="18" y="46" width="14" height="6" rx="2" fill="#020b14"/>
-        <rect x="48" y="46" width="14" height="6" rx="2" fill="#020b14"/>
-      </svg>
-    </div>
-
-    <!-- Moving AGV Robot 02 (Express Bin Carrier) -->
-    <div id="agv2" class="live-bot" onclick="inspectRobot('AMR-02')" title="Click to inspect AMR-02 Express Robot">
-      <div class="bot-tag mono" style="border-color:#10b981;color:#10b981;">⚡ AMR-02<small style="color:#ffc93c;">DISPATCH</small></div>
-      <div class="lidar-ring" style="border-color:rgba(16,185,129,0.5);"></div>
-      <svg viewBox="0 0 70 50" width="100%" height="100%">
-        <ellipse cx="35" cy="44" rx="30" ry="6" fill="rgba(0,0,0,0.45)"/>
-        <rect x="6" y="14" width="58" height="28" rx="7" fill="#07201c" stroke="#10b981" stroke-width="2"/>
-        <rect x="12" y="6" width="46" height="14" rx="3" fill="#0ea5e9" stroke="#0284c7" stroke-width="1.5"/>
-        <circle cx="56" cy="28" r="3.5" fill="#10b981"/>
-        <circle cx="60" cy="19" r="2.5" fill="#fff" filter="drop-shadow(0 0 5px #fff)"/>
-        <circle cx="60" cy="37" r="2.5" fill="#fff" filter="drop-shadow(0 0 5px #fff)"/>
-      </svg>
-    </div>
-
-    <!-- Autonomous Stocktaking Drone Hovering in High-Bay Racks -->
-    <div id="drone1" class="live-bot" onclick="inspectRobot('DRONE-01')" title="Click to inspect Autonomous Stocktaking Drone">
-      <div class="bot-tag mono" style="border-color:#a855f7;color:#a855f7;">🛸 DRONE-01<small style="color:#18e0ff;">LiDAR</small></div>
-      <div class="laser-cone"></div>
-      <svg viewBox="0 0 60 60" width="100%" height="100%">
-        <!-- Drone Center Body -->
-        <circle cx="30" cy="30" r="10" fill="#0f172a" stroke="#a855f7" stroke-width="2"/>
-        <circle cx="30" cy="30" r="4" fill="#18e0ff" filter="drop-shadow(0 0 6px #18e0ff)"/>
-        <!-- 4 Arms -->
-        <line x1="12" y1="12" x2="48" y2="48" stroke="#64748b" stroke-width="3"/>
-        <line x1="48" y1="12" x2="12" y2="48" stroke="#64748b" stroke-width="3"/>
-        <!-- Spinning Propellers -->
-        <g class="prop" style="transform-origin:12px 12px;"><ellipse cx="12" cy="12" rx="9" ry="2" fill="rgba(24,224,255,0.7)"/></g>
-        <g class="prop" style="transform-origin:48px 12px;"><ellipse cx="48" cy="12" rx="9" ry="2" fill="rgba(24,224,255,0.7)"/></g>
-        <g class="prop" style="transform-origin:12px 48px;"><ellipse cx="12" cy="48" rx="9" ry="2" fill="rgba(24,224,255,0.7)"/></g>
-        <g class="prop" style="transform-origin:48px 48px;"><ellipse cx="48" cy="48" rx="9" ry="2" fill="rgba(24,224,255,0.7)"/></g>
-      </svg>
-    <!-- Official Archery Robot Mascot (Archie - Perfect SolvEdge) -->
-    <div id="archeryBot" onclick="openArchieChat()" title="Click to interact with Archie AI (Official Archery Robot Mascot)">
-      <div class="archie-speech">
-        <span style="color:#18e0ff;font-weight:900;">🤖 Archie AI:</span> "Target Perfection! Click me for factory tour."
+    <!-- Official Archery Robot Mascot (Archie) Moving & Patrolling Factory Floor -->
+    <div id="archeryRobotLive" class="archery-live-robot" onclick="openArchieChat()" title="Click to interact with Archie AI (Official Archery Robot)">
+      <div class="archie-bubble">
+        <span>🤖 Archie AI:</span> "Target Perfection! Factory Tour Guide Active."
       </div>
-      <div class="archie-halo"></div>
-      <img src="assets/images/atpl_archery_robot_transparent.png" alt="Official Archery Robot Mascot" style="width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 0 18px rgba(24,224,255,0.75));">
-      <div style="position:absolute;bottom:-8px;left:50%;transform:translateX(-50%);width:60px;height:12px;background:radial-gradient(ellipse at center, rgba(24,224,255,0.7) 0%, rgba(0,0,0,0) 70%);border-radius:50%;"></div>
+      <div class="archie-glow-ring"></div>
+      <img src="assets/images/archery_robot_clean.png" alt="Archery Technocrats Robot Mascot" style="width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 0 16px rgba(24,224,255,0.85));">
     </div>
   </div>
   
@@ -396,7 +276,6 @@ ul.s li:before{content:"✓";position:absolute;left:0;top:5px;width:16px;height:
 
   <div id="ctl">
     <button class="b accent" onclick="openGallery()">🖼️ All Project Images</button>
-    <button class="b" id="botToggle" onclick="toggleRobots()">🤖 Robots: LIVE</button>
     <button class="b on" id="ab" onclick="openPitchDeck('about')">📑 Pitch Deck</button>
     <button class="b" id="perspMode">📐 3D Tilt: Off</button>
     <button class="b" id="ov">◎ Overview</button>
