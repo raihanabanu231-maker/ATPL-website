@@ -170,55 +170,90 @@ button{font:inherit;color:inherit;cursor:pointer;border:none;outline:none;-webki
 .b.red{border-color:rgba(255,77,109,0.5);background:rgba(40,10,20,0.85);color:#ff9aab}
 .b.red:hover{background:rgba(70,15,30,0.95);border-color:#ff4d6d;color:#fff}
 
-/* Inspector Panel - Fully Responsive Drawer on Laptops / Bottom Sheet on Mobile & Tablet */
+/* =====================================================================
+   EXECUTIVE INDUSTRIAL INSPECTOR SIDEBAR (Glassmorphic Industrial UI)
+   ===================================================================== */
 #panel{
-  position:absolute;left:18px;top:60px;bottom:45px;width:min(550px, calc(100% - 36px));
-  background:var(--pn);border:1.5px solid var(--go);border-radius:16px;padding:clamp(16px,2vw,22px);
-  overflow-y:auto;transform:translateX(-130%);transition:transform .35s cubic-bezier(.3,0,.2,1);
-  box-shadow:0 12px 36px rgba(0,0,0,0.7),0 0 24px rgba(255,201,60,0.25);z-index:6;
-  -webkit-overflow-scrolling:touch;
+  position:absolute;left:18px;top:18px;bottom:18px;width:clamp(440px, 30vw, 500px);
+  background:linear-gradient(180deg, rgba(8, 22, 38, 0.95) 0%, rgba(4, 14, 26, 0.98) 100%);
+  border:1px solid rgba(24, 224, 255, 0.28);border-radius:18px;
+  display:flex;flex-direction:column;overflow:hidden;
+  transform:translateX(-140%);transition:transform .38s cubic-bezier(.16, 1, .3, 1);
+  box-shadow:0 24px 60px rgba(0,0,0,0.85), 0 0 35px rgba(24,224,255,0.14), inset 0 1px 0 rgba(255,255,255,0.12);
+  z-index:10;-webkit-backdrop-filter:blur(24px);backdrop-filter:blur(24px);
 }
 #panel.open{transform:none}
 #panel-handle{display:none;width:44px;height:5px;border-radius:999px;background:rgba(255,255,255,0.35);margin:0 auto 10px;cursor:pointer}
-#pt{display:flex;align-items:center;gap:7px;color:var(--go);font-size:clamp(10px,1vw,11.5px);font-weight:700;letter-spacing:1px;padding-right:32px}
-#pt i{font-style:normal;background:var(--go);color:#020b14;border-radius:50%;min-width:20px;height:20px;display:grid;place-items:center;font-size:10px;font-weight:900}
-#pn{font-size:clamp(19px,2.2vw,25px);margin:8px 0 4px;font-weight:900;color:#fff;letter-spacing:-0.3px}
-#pd{font-size:clamp(12.5px,1.2vw,14px);line-height:1.5;color:#cbd5e1;margin:0 0 12px}
-#x{position:absolute;right:14px;top:14px;width:30px;height:30px;border-radius:8px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:#94a3b8;font-size:13px;font-weight:700;display:grid;place-items:center}
-#x:hover{background:rgba(255,77,109,0.2);color:#ff4d6d;border-color:rgba(255,77,109,0.5)}
 
-/* Hardware / Project Visual Box */
-.hw{border:1px solid rgba(24,224,255,0.3);border-radius:12px;margin-bottom:12px;overflow:hidden;position:relative;background:#03101d}
-.hd{display:flex;justify-content:space-between;align-items:center;padding:7px 10px;font-size:10px;letter-spacing:0.8px;color:var(--cy);font-weight:800;background:rgba(24,224,255,0.08);border-bottom:1px solid rgba(24,224,255,0.2);gap:6px}
-.tg{display:flex;gap:4px}
-.tg button{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:5px;font-size:10px;padding:4px 8px;color:#94a3b8;font-weight:700;transition:all .2s;white-space:nowrap}
-.tg button:hover{color:#fff;border-color:rgba(255,255,255,0.3)}
-.tg .on{border-color:var(--go);color:var(--go);background:rgba(255,201,60,0.15)}
+/* Fixed Header */
+.panel-hdr{
+  padding:18px 20px 14px;border-bottom:1px solid rgba(255,255,255,0.08);
+  flex-shrink:0;position:relative;background:rgba(4, 16, 30, 0.6);
+}
+.panel-hdr-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px;padding-right:32px}
+#pt{display:flex;align-items:center;gap:7px;color:var(--cy);font-size:11px;font-weight:700;letter-spacing:1px}
+#pt i{font-style:normal;background:linear-gradient(135deg,#0b9bff,#18c8ff);color:#020b14;border-radius:6px;padding:2px 7px;font-size:10px;font-weight:900;letter-spacing:0.5px}
+#pn{font-size:clamp(20px,2vw,24px);margin:0 0 4px;font-weight:900;color:#fff;letter-spacing:-0.4px;line-height:1.2}
+#pd{font-size:12.5px;line-height:1.5;color:#94a3b8;margin:0}
+#x{position:absolute;right:14px;top:16px;width:30px;height:30px;border-radius:8px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:#94a3b8;font-size:13px;font-weight:700;display:grid;place-items:center;transition:all .2s}
+#x:hover{background:rgba(255,77,109,0.25);color:#ff4d6d;border-color:rgba(255,77,109,0.6);transform:scale(1.05)}
+
+/* Scrollable Body */
+.panel-body{
+  flex:1;min-height:0;overflow-y:auto;padding:16px 20px;
+  display:flex;flex-direction:column;gap:14px;scrollbar-width:thin;
+  scrollbar-color:rgba(24,224,255,0.3) transparent;
+}
+.panel-body::-webkit-scrollbar{width:5px}
+.panel-body::-webkit-scrollbar-track{background:transparent}
+.panel-body::-webkit-scrollbar-thumb{background:rgba(24,224,255,0.3);border-radius:999px}
+.panel-body::-webkit-scrollbar-thumb:hover{background:var(--cy)}
+
+/* Visual Box */
+.hw{border:1px solid rgba(24,224,255,0.3);border-radius:12px;overflow:hidden;position:relative;background:#03101d;box-shadow:0 8px 24px rgba(0,0,0,0.5)}
+.hd{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;font-size:10.5px;letter-spacing:0.8px;color:var(--cy);font-weight:800;background:rgba(24,224,255,0.08);border-bottom:1px solid rgba(24,224,255,0.2);gap:6px}
+.tg{display:flex;gap:4px;background:rgba(2,11,20,0.6);padding:2px;border-radius:6px;border:1px solid rgba(255,255,255,0.08)}
+.tg button{background:transparent;border:none;border-radius:4px;font-size:10px;padding:4px 8px;color:#94a3b8;font-weight:700;transition:all .2s;white-space:nowrap}
+.tg button:hover{color:#fff}
+.tg .on{border:none;color:#fff;background:linear-gradient(135deg,#0b9bff,#18c8ff);box-shadow:0 2px 8px rgba(24,224,255,0.35)}
 #cvp{width:100%;display:block;aspect-ratio:16/9;background:#020b14}
-.cap{position:absolute;left:0;right:0;bottom:0;background:rgba(2,11,20,0.9);padding:6px 10px;font-size:11px;font-weight:700;display:flex;justify-content:space-between;border-top:1px solid rgba(255,255,255,0.08)}
-.cap span:last-child{color:var(--go)}
+.cap{position:absolute;left:0;right:0;bottom:0;background:linear-gradient(0deg,rgba(2,11,20,0.95) 0%,rgba(2,11,20,0.7) 100%);padding:6px 12px;font-size:11px;font-weight:700;display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(255,255,255,0.08)}
+.cap span:last-child{color:var(--go);background:rgba(255,201,60,0.15);padding:2px 6px;border-radius:4px;border:1px solid rgba(255,201,60,0.3)}
 
-/* Case Study & Pitch Deck Highlight */
-.cs{border:1px solid rgba(24,224,255,0.35);border-radius:12px;padding:12px 14px;margin-bottom:12px;font-size:clamp(12px,1.1vw,13.5px);line-height:1.45;color:#e2e8f0;background:linear-gradient(135deg,rgba(0,112,192,0.2),rgba(24,224,255,0.06))}
-.cs b{color:#18e0ff;font-size:10px;letter-spacing:1px;display:flex;align-items:center;gap:5px;margin-bottom:3px}
-.cs em{font-style:normal;font-weight:800;color:#fff;display:block;margin-bottom:3px;font-size:clamp(13px,1.3vw,15px)}
+/* Customer ROI Highlight Banner */
+.cs{border:1px solid rgba(16,185,129,0.35);border-radius:12px;padding:12px 14px;background:linear-gradient(135deg,rgba(16,185,129,0.12) 0%,rgba(24,224,255,0.05) 100%);box-shadow:0 4px 16px rgba(0,0,0,0.2)}
+.cs b{color:#10b981;font-size:10px;letter-spacing:1px;display:flex;align-items:center;gap:5px;margin-bottom:4px}
+.cs em{font-style:normal;font-weight:800;color:#fff;display:block;margin-bottom:4px;font-size:13.5px;line-height:1.35}
 
-/* Archie Lesson */
-.ls{border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:12px 14px;margin-bottom:12px;font-size:clamp(12px,1.1vw,13.5px);line-height:1.5;color:#cbd5e1;background:rgba(255,255,255,0.03)}
+/* Archie Assistant Insight Box */
+.ls{border:1px solid rgba(24,224,255,0.25);border-radius:12px;padding:12px 14px;background:rgba(24,224,255,0.04);display:flex;gap:10px;align-items:flex-start}
+.ls-ico{width:28px;height:28px;border-radius:50%;background:#020b14;border:1.5px solid var(--cy);display:grid;place-items:center;flex-shrink:0;box-shadow:0 0 10px rgba(24,224,255,0.4)}
+.ls-ico img{width:100%;height:100%;object-fit:contain}
+.ls-content{flex:1;min-width:0}
 .ls b{color:var(--cy);font-size:10px;letter-spacing:1px;display:block;margin-bottom:3px}
+.ls span{font-size:12.5px;line-height:1.45;color:#cbd5e1;display:block}
 
-.sp{font-size:10px;color:var(--mu);letter-spacing:1px;margin-bottom:6px;font-weight:800}
-ul.s{list-style:none;padding:0;margin:0 0 14px;font-size:clamp(12px,1.1vw,13.5px)}
-ul.s li{padding:4px 0 4px 22px;position:relative;color:#cbd5e1;line-height:1.4}
-ul.s li:before{content:"✓";position:absolute;left:0;top:4px;width:14px;height:14px;border:1.5px solid var(--go);color:var(--go);border-radius:50%;font-size:8.5px;display:grid;place-items:center;font-weight:900}
+/* Specs Box */
+.specs-box{border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:12px 14px;background:rgba(255,255,255,0.02)}
+.sp{font-size:10px;color:var(--mu);letter-spacing:1.2px;margin-bottom:8px;font-weight:800;display:flex;align-items:center;gap:6px}
+ul.s{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px}
+ul.s li{padding:3px 0 3px 22px;position:relative;color:#cbd5e1;line-height:1.35;font-size:12.5px}
+ul.s li:before{content:"✓";position:absolute;left:0;top:3px;width:15px;height:15px;border:1.5px solid var(--cy);color:var(--cy);background:rgba(24,224,255,0.1);border-radius:50%;font-size:9px;display:grid;place-items:center;font-weight:900}
 
-/* Action Buttons */
-.row{display:flex;gap:8px}
-.row a,.row button{flex:1;text-align:center;padding:10px;border-radius:8px;font-size:clamp(11.5px,1.1vw,13px);font-weight:800;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:5px}
-.a1{border:1px solid var(--cy);color:var(--cy);background:rgba(24,224,255,0.1)}
-.a1:hover{background:rgba(24,224,255,0.2)}
-.a2{background:linear-gradient(135deg,#0b9bff,#18c8ff);color:#fff;box-shadow:0 4px 14px rgba(11,155,255,0.35)}
-.a2:hover{transform:translateY(-1px)}
+/* Fixed Footer Actions */
+.panel-ftr{
+  padding:14px 20px;border-top:1px solid rgba(255,255,255,0.08);
+  background:rgba(3, 10, 18, 0.7);flex-shrink:0;display:flex;gap:10px;
+}
+.panel-ftr a, .panel-ftr button{
+  flex:1;text-align:center;padding:11px;border-radius:8px;font-size:12.5px;
+  font-weight:800;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  transition:all .2s;
+}
+.a1{border:1px solid rgba(24,224,255,0.35);color:var(--cy);background:rgba(24,224,255,0.08)}
+.a1:hover{background:rgba(24,224,255,0.18);border-color:var(--cy);transform:translateY(-1px)}
+.a2{background:linear-gradient(135deg,#0b9bff,#18c8ff);color:#fff;box-shadow:0 4px 16px rgba(11,155,255,0.4);border:none}
+.a2:hover{transform:translateY(-1.5px);box-shadow:0 6px 20px rgba(11,155,255,0.55)}
 
 /* Bottom Quick Stations Bar */
 #tabs{
@@ -265,20 +300,20 @@ ul.s li:before{content:"✓";position:absolute;left:0;top:4px;width:14px;height:
    ===================================================================== */
 /* Large Desktop & 4K (>=1440px) */
 @media (min-width: 1440px) {
-  #panel{width: 580px; padding: 24px 28px;}
+  #panel{width: 500px;}
   .grid{grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));}
 }
 
 /* Laptops (1024px - 1439px) */
 @media (min-width: 1024px) and (max-width: 1439px) {
-  #panel{width: 520px; top: 55px; bottom: 45px;}
+  #panel{width: 460px; top: 16px; bottom: 16px; left: 16px;}
 }
 
 /* Tablets (768px - 1023px) */
 @media (max-width: 1023px) and (min-width: 768px) {
   #nav ul{gap: 14px; font-size: 12px;}
   .nr .lg{display:none}
-  #panel{width: 440px; padding: 16px 18px;}
+  #panel{width: 420px; top: 14px; bottom: 14px; left: 14px;}
   .hs button{font-size: 11px; padding: 3px 8px;}
 }
 
@@ -292,16 +327,19 @@ ul.s li:before{content:"✓";position:absolute;left:0;top:4px;width:14px;height:
   /* Bottom Sheet Mode for Mobile / Small Screens */
   #panel{
     top: auto; bottom: 0; left: 0; right: 0;
-    width: 100%; height: 58vh; max-height: 540px;
-    border-radius: 20px 20px 0 0;
+    width: 100%; height: 62vh; max-height: 560px;
+    border-radius: 24px 24px 0 0;
     border-left: none; border-right: none; border-bottom: none;
     transform: translateY(115%);
-    box-shadow: 0 -10px 36px rgba(0,0,0,0.85);
-    padding: 14px 16px 20px;
-    transition: transform .35s cubic-bezier(.3,0,.2,1);
+    box-shadow: 0 -12px 40px rgba(0,0,0,0.9);
+    padding: 0;
+    transition: transform .35s cubic-bezier(.16, 1, .3, 1);
   }
   #panel.open{transform: translateY(0);}
-  #panel-handle{display: block;}
+  #panel-handle{display: block; margin: 10px auto 0;}
+  .panel-hdr{padding: 8px 16px 10px;}
+  .panel-body{padding: 12px 16px;}
+  .panel-ftr{padding: 10px 16px;}
   #tabs{bottom: 6px;}
   #chat span{display: none;}
 }
@@ -440,40 +478,58 @@ ul.s li:before{content:"✓";position:absolute;left:0;top:4px;width:14px;height:
     <a href="index.html" class="b red" style="text-decoration:none">⇥ Exit</a>
   </div>
 
-  <!-- Inspector Panel with Direct Real Project Images & Real Pitch Deck UI -->
+  <!-- Executive Inspector Panel -->
   <aside id="panel">
     <div id="panel-handle" onclick="over()" title="Tap to close sheet"></div>
-    <button id="x" aria-label="Close">✕</button>
-    <div id="pt" class="mono"></div>
-    <div id="pn"></div>
-    <p id="pd"></p>
+    <div class="panel-hdr">
+      <button id="x" aria-label="Close" onclick="over()">✕</button>
+      <div class="panel-hdr-top">
+        <div id="pt" class="mono"></div>
+      </div>
+      <div id="pn"></div>
+      <p id="pd"></p>
+    </div>
     
-    <div class="hw">
-      <div class="hd mono">
-        <span>● AUTHENTIC PROJECT VIEW</span>
-        <div class="tg">
-          <button class="on" id="t1">📸 Project Photo</button>
-          <button id="t2">📊 Pitch Deck Diagram & UI</button>
+    <div class="panel-body">
+      <div class="hw">
+        <div class="hd mono">
+          <span>● AUTHENTIC SYSTEM VIEW</span>
+          <div class="tg">
+            <button class="on" id="t1" onclick="showPhotoTab()">📸 Real Photo</button>
+            <button id="t2" onclick="showDiagramTab()">📊 Architecture & UI</button>
+          </div>
+        </div>
+        
+        <!-- Direct High-Resolution Project Photo Element -->
+        <div id="pPhotoBox" style="position:relative;width:100%;aspect-ratio:16/9;background:#03101d;overflow:hidden;">
+          <img id="pPhotoImg" src="assets/images/stations/trace.jpg" alt="ATPL Project Hardware Photo" style="width:100%;height:100%;object-fit:cover;display:block;">
+          <div class="cap"><span id="cn"></span><span class="mono" id="cm"></span></div>
+        </div>
+
+        <!-- Diagram Canvas -->
+        <canvas id="cvp" width="640" height="340" style="display:none;"></canvas>
+      </div>
+
+      <div class="cs" id="pcs"></div>
+
+      <div class="ls">
+        <div class="ls-ico">
+          <img src="assets/images/atpl_archery_robot_transparent.png" alt="Archie Robot">
+        </div>
+        <div class="ls-content">
+          <b class="mono">🤖 ARCHIE AI INDUSTRIAL INSIGHT</b>
+          <span id="pl"></span>
         </div>
       </div>
-      
-      <!-- Direct High-Resolution Project Photo Element -->
-      <div id="pPhotoBox" style="position:relative;width:100%;aspect-ratio:16/9;background:#03101d;overflow:hidden;">
-        <img id="pPhotoImg" src="assets/images/stations/trace.jpg" alt="ATPL Project Hardware Photo" style="width:100%;height:100%;object-fit:cover;display:block;">
-        <div class="cap"><span id="cn"></span><span class="mono" id="cm"></span></div>
-      </div>
 
-      <!-- Diagram Canvas -->
-      <canvas id="cvp" width="640" height="340" style="display:none;"></canvas>
+      <div class="specs-box">
+        <div class="sp mono">⚙️ ENTERPRISE SPECIFICATIONS</div>
+        <ul class="s" id="psp"></ul>
+      </div>
     </div>
 
-    <div class="cs" id="pcs"></div>
-    <div class="ls"><b class="mono">🤖 ARCHIE AI PROJECT INSIGHT:</b><span id="pl"></span></div>
-    <div class="sp mono">ENTERPRISE SPECIFICATIONS</div>
-    <ul class="s" id="psp"></ul>
-
-    <div class="row">
-      <button class="a1" onclick="openGallery()">🖼️ View All 12 Projects</button>
+    <div class="panel-ftr">
+      <button class="a1" onclick="openGallery()">🖼️ All 12 Projects</button>
       <a class="a2" href="contact.html">Request Enterprise PoC →</a>
     </div>
   </aside>
