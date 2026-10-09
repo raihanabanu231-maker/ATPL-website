@@ -94,9 +94,12 @@ const MainAppContent = () => {
           </>
         )}
 
-        <ErrorBoundary title="Navigation Bar">
-          <Navbar onOpenSearch={() => setSearchOpen(true)} />
-        </ErrorBoundary>
+        {/* Hide React top navbar when full-screen 3D factory tour is active (it has its own integrated header) */}
+        {currentView !== 'factory-3d' && (
+          <ErrorBoundary title="Navigation Bar">
+            <Navbar onOpenSearch={() => setSearchOpen(true)} />
+          </ErrorBoundary>
+        )}
 
         <main style={{ flex: 1 }}>
           <ErrorBoundary 
