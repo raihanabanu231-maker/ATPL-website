@@ -577,11 +577,11 @@ const cl=(v,a,b)=>Math.max(Math.min(a,b),Math.min(Math.max(a,b),v));
 function apply(){
   let s,px,py,dx,dy;
   if(cur<0){
-    s=1.04;px=w/2;py=h/2;dx=W/2+mx*16;dy=H/2+my*10;
+    s=1.0;px=w/2;py=h/2;dx=W/2+mx*14;dy=H/2+my*8;
   } else {
-    s=W<900?2.3:2.1;px=S[cur][5]*k;py=S[cur][6]*k;
-    dx=W<900?W/2:W*0.65;
-    dy=H*(W<900?0.28:0.5);
+    s=W<900?1.18:1.12;px=S[cur][5]*k;py=S[cur][6]*k;
+    dx=W<900?W/2:W*0.62;
+    dy=H*(W<900?0.32:0.5);
   }
   const tx=cl(dx-ox-s*px,W-ox-s*w,-ox);
   const ty=cl(dy-oy-s*py,H-oy-s*h,-oy);
@@ -1207,10 +1207,8 @@ addEventListener('keydown',e=>{
 addEventListener('resize',layout);
 layout();
 
-// Auto-open station 0 on startup so project images are immediately visible!
-setTimeout(()=>{
-  sel(0);
-}, 600);
+// Start in Full Factory 3D Overview Mode (Showing all machines and Archie Robot)
+over();
 
 function simulateLiveTest(){
   alert('⚡ ATPL Real-Time Telemetry Check:\n\n• Device Latency: ' + MS[cur>=0?cur:0] + 'ms\n• Cloud Sync: Connected to SAP S/4HANA\n• Edge Inference: OK (TensorRT Engine Active)\n• 0 Defects Detected across active lot.');
