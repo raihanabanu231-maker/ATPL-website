@@ -530,10 +530,10 @@ export const AtplCoPilot = () => {
   return (
     <>
       <style>{`
-        @media (max-width: 640px) {
+        @media (max-width: 768px) {
           .copilot-floating-container {
-            bottom: 1rem !important;
-            right: 1rem !important;
+            bottom: max(5.2rem, calc(4.5rem + env(safe-area-inset-bottom))) !important;
+            right: 0.85rem !important;
           }
           .copilot-speech-bubble {
             display: none !important;

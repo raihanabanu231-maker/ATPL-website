@@ -22,7 +22,8 @@ import {
   RotateCcw,
   ExternalLink,
   ShieldCheck,
-  Check
+  Check,
+  Video
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 
@@ -295,22 +296,45 @@ export const FactoryBlueprintMap = () => {
   };
 
   const [mobileViewMode, setMobileViewMode] = useState('map'); // 'map' | 'cards'
+  const [isVideoTourOpen, setIsVideoTourOpen] = useState(false);
+  const [isVideoPlaying, setIsVideoPlaying] = useState(true);
+  const [videoProgress, setVideoProgress] = useState(0);
 
-  // WCAG 2.2 AA Keyboard Navigation (Arrow Keys)
+  // Video Tour auto-play timer with progress ticker (6s per station)
+  useEffect(() => {
+    if (!isVideoTourOpen || !isVideoPlaying) return;
+    const interval = 50;
+    const timer = setInterval(() => {
+      setVideoProgress(prev => {
+        if (prev >= 100) {
+          setCurrentIndex(curr => (curr + 1) % ATPL_FACTORY_NODES.length);
+          return 0;
+        }
+        return prev + (50 / 6000) * 100;
+      });
+    }, interval);
+    return () => clearInterval(timer);
+  }, [isVideoTourOpen, isVideoPlaying]);
+
+  // WCAG 2.2 AA Keyboard Navigation (Arrow Keys + Escape)
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement?.tagName)) return;
 
-      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+      if (e.key === 'Escape') {
+        if (isVideoTourOpen) setIsVideoTourOpen(false);
+      } else if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
         handleNext();
+        setVideoProgress(0);
       } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
         handlePrev();
+        setVideoProgress(0);
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
+  }, [isVideoTourOpen]);
 
   const handleStationClick = (index) => {
     if (closingLockRef.current) return;
@@ -1070,6 +1094,35 @@ export const FactoryBlueprintMap = () => {
 
             {/* Controls */}
             <div className="factory-top-controls-wrap" style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+              <button
+                type="button"
+                onClick={() => {
+                  setIsAutoTour(false);
+                  setVideoProgress(0);
+                  setIsVideoTourOpen(true);
+                }}
+                className="tour-auto-btn"
+                aria-label="Watch full 12-station guided factory tour"
+                title="Watch full 12-station guided tour"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(232, 88, 116, 0.28) 0%, rgba(0, 113, 186, 0.32) 100%)',
+                  border: '1.2px solid #E85874',
+                  color: '#ffffff',
+                  borderRadius: '6px',
+                  padding: '0.28rem 0.65rem',
+                  fontSize: '0.74rem',
+                  fontWeight: 800,
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.35rem',
+                  boxShadow: '0 0 12px rgba(232, 88, 116, 0.4)'
+                }}
+              >
+                <Video size={13} color="#E85874" />
+                <span>🎬 Watch Tour</span>
+              </button>
+
               <button
                 type="button"
                 onClick={() => setMobileViewMode(prev => prev === 'map' ? 'cards' : 'map')}
@@ -1995,6 +2048,437 @@ export const FactoryBlueprintMap = () => {
         </div>
 
       </div>
+
+      {/* =====================================================================
+          3. FULLSCREEN INTERACTIVE 12-STATION VIDEO TOUR THEATER MODAL
+         ===================================================================== */}
+      {isVideoTourOpen && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="ATPL Smart Factory 12-Station Video Tour"
+          style={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: 99999,
+            backgroundColor: 'rgba(2, 6, 20, 0.94)',
+            backdropFilter: 'blur(20px)',
+            WebkitBackdropFilter: 'blur(20px)',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            padding: 'clamp(0.75rem, 2vw, 1.5rem)',
+            color: '#ffffff',
+            boxSizing: 'border-box',
+            animation: 'fadeIn 0.25s ease-out'
+          }}
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setIsVideoTourOpen(false);
+          }}
+        >
+          {/* Top Broadcast Bar */}
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            padding: '0.65rem 1rem',
+            backgroundColor: 'rgba(5, 12, 26, 0.9)',
+            border: '1px solid rgba(0, 240, 255, 0.35)',
+            borderRadius: '12px',
+            marginBottom: '0.75rem',
+            gap: '0.75rem',
+            flexWrap: 'wrap'
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <span style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.4rem',
+                backgroundColor: 'rgba(232, 88, 116, 0.2)',
+                border: '1px solid #E85874',
+                color: '#ffffff',
+                padding: '0.2rem 0.6rem',
+                borderRadius: '999px',
+                fontSize: '0.72rem',
+                fontWeight: 900,
+                letterSpacing: '0.06em'
+              }}>
+                <span style={{ width: 8, height: 8, borderRadius: '50%', backgroundColor: '#E85874', animation: 'pulseCoralDot 1.4s infinite' }} />
+                LIVE TOUR FEED
+              </span>
+
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.82rem', color: '#00f0ff', fontWeight: 800 }}>
+                STATION {currentIndex + 1}/12: <span style={{ color: '#ffffff' }}>{currentNode.name}</span>
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+              <span className="desktop-only-inline" style={{ fontFamily: 'var(--font-mono)', fontSize: '0.74rem', color: '#94a3b8' }}>
+                1080P 60FPS • 4.8ms LATENCY • SAP S/4HANA SYNCED
+              </span>
+              <button
+                type="button"
+                onClick={() => setIsVideoTourOpen(false)}
+                aria-label="Close Video Tour"
+                title="Close Video Tour (Esc)"
+                style={{
+                  background: 'rgba(255, 255, 255, 0.1)',
+                  border: '1px solid rgba(255, 255, 255, 0.2)',
+                  color: '#ffffff',
+                  borderRadius: '50%',
+                  width: '34px',
+                  height: '34px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  transition: 'all 0.15s'
+                }}
+                onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#E85874'; e.currentTarget.style.borderColor = '#E85874'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)'; e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)'; }}
+              >
+                <X size={18} />
+              </button>
+            </div>
+          </div>
+
+          {/* Main Stage: CCTV Inspection Canvas & Archie AI Commentary */}
+          <div style={{
+            flex: '1 1 0',
+            minHeight: 0,
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 360px), 1fr))',
+            gap: '1rem',
+            overflowY: 'auto',
+            marginBottom: '0.75rem'
+          }}>
+            {/* Visual Feed Screen */}
+            <div style={{
+              position: 'relative',
+              backgroundColor: '#030814',
+              borderRadius: '16px',
+              border: '1.5px solid rgba(0, 240, 255, 0.4)',
+              overflow: 'hidden',
+              boxShadow: '0 12px 40px rgba(0, 0, 0, 0.9), 0 0 30px rgba(0, 240, 255, 0.2)',
+              minHeight: '260px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}>
+              <img
+                src={currentNode.image}
+                alt={currentNode.name}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  filter: 'contrast(1.08) brightness(0.95)'
+                }}
+              />
+
+              {/* CCTV Corner Reticles */}
+              <div style={{ position: 'absolute', top: 12, left: 12, borderTop: '2px solid #00f0ff', borderLeft: '2px solid #00f0ff', width: 20, height: 20 }} />
+              <div style={{ position: 'absolute', top: 12, right: 12, borderTop: '2px solid #00f0ff', borderRight: '2px solid #00f0ff', width: 20, height: 20 }} />
+              <div style={{ position: 'absolute', bottom: 12, left: 12, borderBottom: '2px solid #00f0ff', borderLeft: '2px solid #00f0ff', width: 20, height: 20 }} />
+              <div style={{ position: 'absolute', bottom: 12, right: 12, borderBottom: '2px solid #00f0ff', borderRight: '2px solid #00f0ff', width: 20, height: 20 }} />
+
+              {/* Watermark Tag */}
+              <div style={{
+                position: 'absolute',
+                top: 14,
+                left: 14,
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.72rem',
+                color: '#00f0ff',
+                backgroundColor: 'rgba(3, 8, 20, 0.8)',
+                padding: '0.2rem 0.5rem',
+                borderRadius: '4px',
+                border: '1px solid rgba(0, 240, 255, 0.3)'
+              }}>
+                FEED: CAM-0{currentIndex + 1} // {currentNode.category}
+              </div>
+
+              {/* Telemetry HUD Bottom Overlay */}
+              <div style={{
+                position: 'absolute',
+                bottom: 14,
+                left: 14,
+                right: 14,
+                backgroundColor: 'rgba(3, 8, 20, 0.88)',
+                backdropFilter: 'blur(10px)',
+                borderRadius: '8px',
+                padding: '0.5rem 0.75rem',
+                border: '1px solid rgba(0, 240, 255, 0.25)',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                flexWrap: 'wrap',
+                gap: '0.5rem'
+              }}>
+                <div style={{ fontSize: '0.75rem', color: '#e2e8f0' }}>
+                  <strong>BENCHMARK:</strong> <span style={{ color: '#00f0ff' }}>{currentNode.roiMetric}</span>
+                </div>
+                <div style={{ fontSize: '0.72rem', color: '#10b981', fontFamily: 'var(--font-mono)', fontWeight: 700 }}>
+                  ● CALIBRATED & OPERATIONAL
+                </div>
+              </div>
+            </div>
+
+            {/* Archie AI Co-Pilot Briefing Card */}
+            <div style={{
+              backgroundColor: 'rgba(5, 12, 26, 0.92)',
+              borderRadius: '16px',
+              border: '1.5px solid rgba(0, 240, 255, 0.35)',
+              padding: '1.25rem',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+              boxShadow: '0 8px 30px rgba(0, 0, 0, 0.7)'
+            }}>
+              <div>
+                {/* Header */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.85rem' }}>
+                  <AtplRobotAvatar size={36} />
+                  <div>
+                    <div style={{ fontSize: '0.72rem', fontWeight: 800, textTransform: 'uppercase', color: '#00f0ff', letterSpacing: '0.06em' }}>
+                      ARCHIE AI STATION BRIEFING
+                    </div>
+                    <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#ffffff', margin: '0.15rem 0 0 0' }}>
+                      {currentNode.name}
+                    </h3>
+                  </div>
+                </div>
+
+                <p style={{ color: '#38bdf8', fontSize: '0.82rem', fontWeight: 700, margin: '0 0 0.65rem 0' }}>
+                  {currentNode.tagline}
+                </p>
+
+                {/* Narration Transcript */}
+                <div style={{
+                  backgroundColor: 'rgba(0, 240, 255, 0.05)',
+                  border: '1px solid rgba(0, 240, 255, 0.2)',
+                  borderRadius: '10px',
+                  padding: '0.85rem',
+                  fontSize: '0.86rem',
+                  color: '#e2e8f0',
+                  lineHeight: 1.55,
+                  marginBottom: '1rem'
+                }}>
+                  {currentNode.lesson}
+                </div>
+
+                {/* Key Capabilities */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem' }}>
+                  {currentNode.keyBenefits.map((benefit, bIdx) => (
+                    <div key={bIdx} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.82rem', color: '#cbd5e1' }}>
+                      <Check size={14} color="#00f0ff" strokeWidth={3} />
+                      <span>{benefit}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div style={{ display: 'flex', gap: '0.65rem', marginTop: '1.25rem', flexWrap: 'wrap' }}>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsVideoTourOpen(false);
+                    openDemoModal({ solution: `Smart Factory Tour: ${currentNode.name}`, notes: `Lead requested demo during 12-station video tour for ${currentNode.name}` });
+                  }}
+                  style={{
+                    flex: '1 1 auto',
+                    backgroundColor: '#E85874',
+                    color: '#ffffff',
+                    border: 'none',
+                    borderRadius: '8px',
+                    padding: '0.75rem 1rem',
+                    fontSize: '0.86rem',
+                    fontWeight: 800,
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '0.4rem',
+                    boxShadow: '0 4px 15px rgba(232, 88, 116, 0.4)'
+                  }}
+                >
+                  <span>Request Turnkey Demo</span>
+                  <ArrowRight size={15} />
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleDownloadBrochure}
+                  style={{
+                    backgroundColor: 'rgba(255, 255, 255, 0.08)',
+                    color: '#ffffff',
+                    border: '1px solid rgba(255, 255, 255, 0.25)',
+                    borderRadius: '8px',
+                    padding: '0.75rem 1rem',
+                    fontSize: '0.82rem',
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.4rem'
+                  }}
+                >
+                  <Download size={14} />
+                  <span>Brochure</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom Timeline, Playback Controls & 12 Station Scrubber */}
+          <div style={{
+            backgroundColor: 'rgba(5, 12, 26, 0.95)',
+            border: '1px solid rgba(0, 240, 255, 0.35)',
+            borderRadius: '14px',
+            padding: '0.75rem 1rem',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '0.65rem'
+          }}>
+            {/* Smooth Progress Bar */}
+            <div style={{
+              width: '100%',
+              height: '4px',
+              backgroundColor: 'rgba(255, 255, 255, 0.12)',
+              borderRadius: '999px',
+              overflow: 'hidden'
+            }}>
+              <div style={{
+                height: '100%',
+                width: `${videoProgress}%`,
+                backgroundColor: '#00f0ff',
+                boxShadow: '0 0 10px #00f0ff',
+                transition: 'width 0.05s linear'
+              }} />
+            </div>
+
+            {/* Scrubber Chips + Controls */}
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: '0.75rem',
+              flexWrap: 'wrap'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <button
+                  type="button"
+                  onClick={() => {
+                    handlePrev();
+                    setVideoProgress(0);
+                  }}
+                  aria-label="Previous Station"
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.1)',
+                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                    color: '#ffffff',
+                    borderRadius: '8px',
+                    padding: '0.4rem 0.75rem',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.3rem',
+                    fontSize: '0.78rem',
+                    fontWeight: 700
+                  }}
+                >
+                  <ChevronLeft size={16} />
+                  <span>Prev</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setIsVideoPlaying(!isVideoPlaying)}
+                  aria-label={isVideoPlaying ? 'Pause video tour' : 'Play video tour'}
+                  style={{
+                    background: isVideoPlaying ? 'rgba(232, 88, 116, 0.3)' : 'rgba(0, 240, 255, 0.2)',
+                    border: isVideoPlaying ? '1px solid #E85874' : '1px solid #00f0ff',
+                    color: '#ffffff',
+                    borderRadius: '8px',
+                    padding: '0.4rem 0.85rem',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.35rem',
+                    fontSize: '0.78rem',
+                    fontWeight: 800
+                  }}
+                >
+                  {isVideoPlaying ? <Pause size={14} /> : <Play size={14} />}
+                  <span>{isVideoPlaying ? 'Pause' : 'Auto Play'}</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    handleNext();
+                    setVideoProgress(0);
+                  }}
+                  aria-label="Next Station"
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.1)',
+                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                    color: '#ffffff',
+                    borderRadius: '8px',
+                    padding: '0.4rem 0.75rem',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.3rem',
+                    fontSize: '0.78rem',
+                    fontWeight: 700
+                  }}
+                >
+                  <span>Next</span>
+                  <ChevronRight size={16} />
+                </button>
+              </div>
+
+              {/* 12 Station Thumb Chips */}
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.35rem',
+                overflowX: 'auto',
+                maxWidth: '100%',
+                padding: '0.2rem 0'
+              }}>
+                {ATPL_FACTORY_NODES.map((node, nIdx) => (
+                  <button
+                    key={node.id}
+                    type="button"
+                    onClick={() => {
+                      setCurrentIndex(nIdx);
+                      setVideoProgress(0);
+                    }}
+                    aria-label={`Jump to station ${node.stepNumber}: ${node.name}`}
+                    style={{
+                      padding: '0.3rem 0.65rem',
+                      borderRadius: '6px',
+                      background: currentIndex === nIdx ? '#E85874' : 'rgba(255, 255, 255, 0.08)',
+                      border: currentIndex === nIdx ? '1px solid #ffffff' : '1px solid rgba(255, 255, 255, 0.15)',
+                      color: '#ffffff',
+                      fontSize: '0.74rem',
+                      fontWeight: 800,
+                      cursor: 'pointer',
+                      whiteSpace: 'nowrap',
+                      transition: 'all 0.15s ease'
+                    }}
+                  >
+                    {node.stepNumber}. {node.name.replace('™', '').replace('PERFECT ', '')}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 };

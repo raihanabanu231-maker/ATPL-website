@@ -170,28 +170,38 @@ export const ClientLogo = ({ clientName, slug, height = 54, className = '', styl
     );
   }
 
+  const avifSrc = `/assets/images/clients/${finalSlug}.avif`;
+  const webpSrc = `/assets/images/clients/${finalSlug}.webp`;
+
   return (
-    <img
-      src={logoSrc}
-      alt={`${displayName} — Enterprise Industry 4.0 Client`}
-      title={`${displayName} — Click to view deployment impact`}
-      className={className}
-      onClick={onClick}
-      onError={() => setImageError(true)}
-      style={{
-        maxHeight: `${height}px`,
-        maxWidth: '180px',
-        width: 'auto',
-        height: `${height}px`,
-        objectFit: 'contain',
-        display: 'inline-block',
-        verticalAlign: 'middle',
-        filter: 'contrast(1.08) drop-shadow(0 1px 3px rgba(0,0,0,0.08))',
-        cursor: onClick ? 'pointer' : 'default',
-        ...style
-      }}
-      loading="lazy"
-    />
+    <picture style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+      <source srcSet={avifSrc} type="image/avif" />
+      <source srcSet={webpSrc} type="image/webp" />
+      <img
+        src={logoSrc}
+        alt={`${displayName} — Enterprise Industry 4.0 Client`}
+        title={`${displayName} — Click to view deployment impact`}
+        className={className}
+        onClick={onClick}
+        onError={() => setImageError(true)}
+        width="160"
+        height={height}
+        loading="lazy"
+        decoding="async"
+        style={{
+          maxHeight: `${height}px`,
+          maxWidth: '180px',
+          width: 'auto',
+          height: `${height}px`,
+          objectFit: 'contain',
+          display: 'inline-block',
+          verticalAlign: 'middle',
+          filter: 'contrast(1.08) drop-shadow(0 1px 3px rgba(0,0,0,0.08))',
+          cursor: onClick ? 'pointer' : 'default',
+          ...style
+        }}
+      />
+    </picture>
   );
 };
 

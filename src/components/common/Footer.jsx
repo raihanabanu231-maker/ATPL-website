@@ -295,14 +295,20 @@ export const Footer = () => {
             </div>
             
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', flexWrap: 'wrap' }}>
+              <span style={{ backgroundColor: 'rgba(0, 113, 186, 0.12)', color: '#38bdf8', padding: '0.2rem 0.55rem', borderRadius: '4px', fontSize: '0.75rem', border: '1px solid rgba(56, 189, 248, 0.3)', fontWeight: 700 }}>
+                ISO 9001:2015 (BMQR)
+              </span>
               <span style={{ backgroundColor: 'rgba(255, 255, 255, 0.04)', padding: '0.2rem 0.55rem', borderRadius: '4px', fontSize: '0.75rem', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
                 DPIIT Reg #DIPP105822
               </span>
               <span style={{ backgroundColor: 'rgba(255, 255, 255, 0.04)', padding: '0.2rem 0.55rem', borderRadius: '4px', fontSize: '0.75rem', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
                 MSME UDYAM-TN-02-0084921
               </span>
-              <span style={{ backgroundColor: 'rgba(0, 154, 68, 0.1)', color: '#10b981', padding: '0.2rem 0.55rem', borderRadius: '4px', fontSize: '0.75rem', border: '1px solid rgba(16, 185, 129, 0.25)' }}>
-                GS1 Solution Partner
+              <span style={{ backgroundColor: 'rgba(0, 154, 68, 0.1)', color: '#10b981', padding: '0.2rem 0.55rem', borderRadius: '4px', fontSize: '0.75rem', border: '1px solid rgba(16, 185, 129, 0.25)', fontWeight: 700 }}>
+                GS1 Global Partner & EPCIS 1.2
+              </span>
+              <span style={{ backgroundColor: 'rgba(255, 255, 255, 0.04)', color: '#cbd5e1', padding: '0.2rem 0.55rem', borderRadius: '4px', fontSize: '0.75rem', border: '1px solid rgba(255, 255, 255, 0.08)', fontWeight: 700 }}>
+                CE Mark & 21 CFR Part 11
               </span>
             </div>
           </div>
