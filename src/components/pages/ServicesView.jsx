@@ -138,7 +138,7 @@ export const ServicesView = () => {
 
           <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
             <button
-              onClick={() => openDemoModal({ solution: 'Urgent AMC Service Ticket', notes: 'Urgent breakdown / support dispatch request.' })}
+              onClick={() => openDemoModal({ mode: 'service', solution: 'Urgent AMC Service Ticket', notes: 'Urgent breakdown / support dispatch request.' })}
               className="btn btn-primary"
               style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}
             >
@@ -196,7 +196,7 @@ export const ServicesView = () => {
             </div>
 
             <button
-              onClick={() => openDemoModal({ solution: 'Standard 8-Hour AMC', notes: 'Request for Standard AMC Contract proposal.' })}
+              onClick={() => openDemoModal({ mode: 'service', solution: 'Standard 8-Hour AMC', notes: 'Request for Standard AMC Contract proposal.' })}
               className="btn btn-secondary"
               style={{ marginTop: '2rem', width: '100%' }}
             >
@@ -259,7 +259,7 @@ export const ServicesView = () => {
             </div>
 
             <button
-              onClick={() => openDemoModal({ solution: 'Enterprise 24/7 AMC', notes: 'Request for Enterprise 24/7 AMC Contract proposal with 4h SLA.' })}
+              onClick={() => openDemoModal({ mode: 'service', solution: 'Enterprise 24/7 AMC', notes: 'Request for Enterprise 24/7 AMC Contract proposal with 4h SLA.' })}
               className="btn btn-primary"
               style={{ marginTop: '2rem', width: '100%' }}
             >
@@ -297,7 +297,7 @@ export const ServicesView = () => {
             </div>
 
             <button
-              onClick={() => openDemoModal({ solution: 'Resident Engineer AMC', notes: 'Request for Resident Engineer AMC proposal.' })}
+              onClick={() => openDemoModal({ mode: 'service', solution: 'Resident Engineer AMC', notes: 'Request for Resident Engineer AMC proposal.' })}
               className="btn btn-secondary"
               style={{ marginTop: '2rem', width: '100%' }}
             >

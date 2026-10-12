@@ -43,24 +43,66 @@ export const ContactView = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [isOnline, setIsOnline] = useState(typeof navigator !== 'undefined' ? navigator.onLine : true);
+  const [isOfflineSaved, setIsOfflineSaved] = useState(false);
+
+  // Monitor network status and sync offline leads automatically
+  React.useEffect(() => {
+    const handleOnline = () => {
+      setIsOnline(true);
+      try {
+        const queued = JSON.parse(localStorage.getItem('atpl_offline_leads') || '[]');
+        if (queued.length > 0) {
+          queued.forEach(lead => addLead(lead));
+          localStorage.removeItem('atpl_offline_leads');
+          if (siteSettings?.addToast) {
+            siteSettings.addToast('Offline Sync', `${queued.length} offline inquiries synchronized to CRM!`, 'success');
+          }
+        }
+      } catch (e) {}
+    };
+
+    const handleOffline = () => setIsOnline(false);
+
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+    return () => {
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+    };
+  }, [addLead, siteSettings]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsSubmitting(true);
 
+    const leadPayload = {
+      name: formData.name,
+      company: formData.company,
+      email: formData.email,
+      phone: formData.phone,
+      solution: formData.solution,
+      budget: formData.budget,
+      notes: formData.notes,
+      priority: 'High',
+      source: 'Website Contact Page',
+      timestamp: new Date().toISOString()
+    };
+
     setTimeout(() => {
-      // Add lead directly into Admin CRM
-      addLead({
-        name: formData.name,
-        company: formData.company,
-        email: formData.email,
-        phone: formData.phone,
-        solution: formData.solution,
-        budget: formData.budget,
-        notes: formData.notes,
-        priority: 'High',
-        source: 'Website Contact Page'
-      });
+      if (typeof navigator !== 'undefined' && !navigator.onLine) {
+        // Offline Fallback
+        try {
+          const queued = JSON.parse(localStorage.getItem('atpl_offline_leads') || '[]');
+          queued.push(leadPayload);
+          localStorage.setItem('atpl_offline_leads', JSON.stringify(queued));
+          setIsOfflineSaved(true);
+        } catch (err) {}
+      } else {
+        // Online Direct Dispatch
+        addLead(leadPayload);
+        setIsOfflineSaved(false);
+      }
 
       try {
         confetti({
@@ -81,7 +123,7 @@ export const ContactView = () => {
         budget: '$100,000 - $250,000',
         notes: ''
       });
-    }, 1000);
+    }, 800);
   };
 
   return (
@@ -342,7 +384,24 @@ export const ContactView = () => {
 
           {/* Right: Inquiry Form */}
           <div id="contact-form" className="glass-card" style={{ padding: '2.5rem', scrollMarginTop: '6rem' }}>
-            <h3 style={{ fontSize: '1.45rem', color: '#ffffff', marginBottom: '1.5rem' }}>Send Inquiry / Request PoC</h3>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '0.5rem' }}>
+              <h3 style={{ fontSize: '1.45rem', color: '#ffffff', margin: 0 }}>Send Inquiry / Request PoC</h3>
+              <span style={{
+                fontSize: '0.72rem',
+                fontWeight: 700,
+                color: isOnline ? '#34d399' : '#f59e0b',
+                backgroundColor: isOnline ? 'rgba(16, 185, 129, 0.15)' : 'rgba(245, 158, 11, 0.15)',
+                border: `1px solid ${isOnline ? 'rgba(16, 185, 129, 0.3)' : 'rgba(245, 158, 11, 0.3)'}`,
+                padding: '0.2rem 0.6rem',
+                borderRadius: '999px',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.35rem'
+              }}>
+                <span style={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: isOnline ? '#34d399' : '#f59e0b', display: 'inline-block' }} />
+                {isOnline ? 'Online (Direct CRM Sync)' : 'Offline Resilient (Auto-Queue)'}
+              </span>
+            </div>
 
             {isSuccess ? (
               <div style={{ textAlign: 'center', padding: '3.5rem 1rem' }}>
@@ -350,21 +409,23 @@ export const ContactView = () => {
                   width: '70px',
                   height: '70px',
                   borderRadius: '50%',
-                  background: 'rgba(16, 185, 129, 0.15)',
-                  border: '2px solid #10b981',
+                  background: isOfflineSaved ? 'rgba(245, 158, 11, 0.15)' : 'rgba(16, 185, 129, 0.15)',
+                  border: `2px solid ${isOfflineSaved ? '#f59e0b' : '#10b981'}`,
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   margin: '0 auto 1.5rem auto',
-                  boxShadow: '0 0 30px rgba(16, 185, 129, 0.4)'
+                  boxShadow: `0 0 30px ${isOfflineSaved ? 'rgba(245, 158, 11, 0.4)' : 'rgba(16, 185, 129, 0.4)'}`
                 }}>
-                  <CheckCircle size={38} color="#10b981" />
+                  <CheckCircle size={38} color={isOfflineSaved ? '#f59e0b' : '#10b981'} />
                 </div>
                 <h3 style={{ color: '#ffffff', fontSize: '1.35rem', marginBottom: '0.5rem' }}>
-                  Inquiry Transmitted to CRM!
+                  {isOfflineSaved ? 'Inquiry Saved Offline (Auto-Queued)' : 'Inquiry Transmitted to CRM!'}
                 </h3>
-                <p style={{ color: '#cbd5e1', fontSize: '0.92rem', maxWidth: '400px', margin: '0 auto 1.5rem auto' }}>
-                  Your request has been logged into the ATPL Admin Lead Queue. An automation specialist will get in touch with you shortly.
+                <p style={{ color: '#cbd5e1', fontSize: '0.92rem', maxWidth: '420px', margin: '0 auto 1.5rem auto' }}>
+                  {isOfflineSaved 
+                    ? 'Your inquiry is stored safely in local storage. As soon as your device reconnects to the network, it will automatically transmit to ATPL automation specialists.'
+                    : 'Your request has been logged into the ATPL Admin Lead Queue. An automation specialist will get in touch with you shortly.'}
                 </p>
                 <button
                   onClick={() => setIsSuccess(false)}

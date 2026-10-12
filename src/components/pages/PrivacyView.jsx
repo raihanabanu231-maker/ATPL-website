@@ -100,7 +100,7 @@ export const PrivacyView = () => {
             1. Information We Collect
           </h2>
           <p>
-            When you visit <strong style={{ color: '#0f172a' }}>https://atpl-website.onrender.com</strong>, interact with our Archie AI assistant, submit an RFQ, or access our proprietary enterprise software (Perfect Store™, Perfect Trace™, Perfect Audit™), we collect the following categories of information:
+            When you visit <strong style={{ color: '#0f172a' }}>https://atplgroup.com</strong>, interact with our Archie AI assistant, submit an RFQ, or access our proprietary enterprise software (Perfect Store™, Perfect Trace™, Perfect Audit™), we collect the following categories of information:
           </p>
           <ul style={{ paddingLeft: '1.5rem', marginTop: '0.5rem', marginBottom: '1.5rem' }}>
             <li><strong>Contact Details:</strong> Name, work email address, telephone number, job title, and organization name when submitted via demo request forms.</li>

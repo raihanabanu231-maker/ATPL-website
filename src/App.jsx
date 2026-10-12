@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { AppProvider, useApp } from './context/AppContext';
 import { Navbar } from './components/common/Navbar';
 import { Footer } from './components/common/Footer';
@@ -7,23 +7,49 @@ import { LeadModal } from './components/common/LeadModal';
 import { SearchModal } from './components/common/SearchModal';
 import { AtplCoPilot } from './components/common/AtplCoPilot';
 import { ErrorBoundary } from './components/common/ErrorBoundary';
-import { AdminLogin } from './components/admin/AdminLogin';
-import { AdminLayout } from './components/admin/AdminLayout';
-import { Factory3DView } from './components/factory3d/Factory3DView';
 import { HomeView } from './components/pages/HomeView';
-import { SoftwareView } from './components/pages/SoftwareView';
-import { HardwareView } from './components/pages/HardwareView';
-import { SolutionsView } from './components/pages/SolutionsView';
-import { PartnersView } from './components/pages/PartnersView';
-import { ResourcesView } from './components/pages/ResourcesView';
-import { ServicesView } from './components/pages/ServicesView';
-import { AboutView } from './components/pages/AboutView';
-import { ContactView } from './components/pages/ContactView';
-import { PrivacyView } from './components/pages/PrivacyView';
-import { TermsView } from './components/pages/TermsView';
+
+// Code-split heavy non-home views and admin portal for sub-second LCP & TBT
+const SoftwareView = lazy(() => import('./components/pages/SoftwareView').then(m => ({ default: m.SoftwareView })));
+const HardwareView = lazy(() => import('./components/pages/HardwareView').then(m => ({ default: m.HardwareView })));
+const SolutionsView = lazy(() => import('./components/pages/SolutionsView').then(m => ({ default: m.SolutionsView })));
+const PartnersView = lazy(() => import('./components/pages/PartnersView').then(m => ({ default: m.PartnersView })));
+const ResourcesView = lazy(() => import('./components/pages/ResourcesView').then(m => ({ default: m.ResourcesView })));
+const ServicesView = lazy(() => import('./components/pages/ServicesView').then(m => ({ default: m.ServicesView })));
+const AboutView = lazy(() => import('./components/pages/AboutView').then(m => ({ default: m.AboutView })));
+const ContactView = lazy(() => import('./components/pages/ContactView').then(m => ({ default: m.ContactView })));
+const PrivacyView = lazy(() => import('./components/pages/PrivacyView').then(m => ({ default: m.PrivacyView })));
+const TermsView = lazy(() => import('./components/pages/TermsView').then(m => ({ default: m.TermsView })));
+const Factory3DView = lazy(() => import('./components/factory3d/Factory3DView').then(m => ({ default: m.Factory3DView })));
+const AdminLogin = lazy(() => import('./components/admin/AdminLogin').then(m => ({ default: m.AdminLogin })));
+const AdminLayout = lazy(() => import('./components/admin/AdminLayout').then(m => ({ default: m.AdminLayout })));
+
+const ViewLoadingFallback = () => (
+  <div style={{
+    minHeight: '60vh',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '1.25rem',
+    color: '#38bdf8'
+  }}>
+    <div style={{
+      width: '42px',
+      height: '42px',
+      border: '3px solid rgba(56, 189, 248, 0.2)',
+      borderTopColor: '#38bdf8',
+      borderRadius: '50%',
+      animation: 'spin 0.8s linear infinite'
+    }} />
+    <span style={{ fontSize: '0.88rem', fontWeight: 600, letterSpacing: '0.05em', color: '#94a3b8' }}>
+      Loading Enterprise Platform...
+    </span>
+  </div>
+);
 
 const MainAppContent = () => {
-  const { currentView, setCurrentView, authSession } = useApp();
+  const { currentView, setCurrentView } = useApp();
   const [searchOpen, setSearchOpen] = useState(false);
 
   // Synchronize URL path on initial load & popstate (supporting /privacy, /terms, etc.)
@@ -58,8 +84,10 @@ const MainAppContent = () => {
   if (currentView === 'login') {
     return (
       <ErrorBoundary>
-        <AdminLogin />
-        <ToastContainer />
+        <Suspense fallback={<ViewLoadingFallback />}>
+          <AdminLogin />
+          <ToastContainer />
+        </Suspense>
       </ErrorBoundary>
     );
   }
@@ -68,8 +96,10 @@ const MainAppContent = () => {
   if (currentView === 'admin') {
     return (
       <ErrorBoundary>
-        <AdminLayout />
-        <ToastContainer />
+        <Suspense fallback={<ViewLoadingFallback />}>
+          <AdminLayout />
+          <ToastContainer />
+        </Suspense>
       </ErrorBoundary>
     );
   }
@@ -139,7 +169,9 @@ const MainAppContent = () => {
             onReset={() => setCurrentView('home')}
             compact
           >
-            {renderCurrentView()}
+            <Suspense fallback={<ViewLoadingFallback />}>
+              {renderCurrentView()}
+            </Suspense>
           </ErrorBoundary>
         </main>
 
@@ -174,4 +206,3 @@ export default function App() {
     </AppProvider>
   );
 }
-

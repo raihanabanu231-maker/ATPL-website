@@ -943,33 +943,40 @@ export const Navbar = ({ onOpenSearch }) => {
             </div>
 
 
-            {/* Admin CRM Link (Direct to PerfectFlow 360 CRM Login) */}
-            <a
-              href="https://perfectflow360.atplgroup.org/login"
-              target="_blank"
-              rel="noopener noreferrer"
+            {/* Talk to an Engineer Primary CTA */}
+            <button
+              onClick={() => openDemoModal({ mode: 'engineer', solution: 'Engineering Consultation', notes: 'Initiated from Talk to an Engineer header CTA' })}
               className="desktop-only-action"
               style={{
-                textDecoration: 'none',
+                backgroundColor: 'transparent',
+                border: '1.5px solid #0071ba',
                 color: '#0071ba',
-                fontWeight: 600,
-                fontSize: '0.92rem',
-                padding: '0.45rem 0.6rem',
+                fontWeight: 700,
+                fontSize: '0.88rem',
+                padding: '0.45rem 1rem',
                 borderRadius: '6px',
                 display: 'inline-flex',
                 alignItems: 'center',
-                transition: 'color 0.2s ease'
+                cursor: 'pointer',
+                transition: 'all 0.2s ease',
+                fontFamily: 'var(--font-display)'
               }}
-              onMouseEnter={(e) => e.currentTarget.style.color = '#E85874'}
-              onMouseLeave={(e) => e.currentTarget.style.color = '#0071ba'}
-              title="Open Official PerfectFlow 360 CRM Login"
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#0071ba';
+                e.currentTarget.style.color = '#ffffff';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'transparent';
+                e.currentTarget.style.color = '#0071ba';
+              }}
+              title="Connect directly with an ATPL Systems Engineer"
             >
-              Admin CRM
-            </a>
+              Talk to an Engineer
+            </button>
 
             {/* ATPL Request Demo Button (Desktop Only) */}
             <button
-              onClick={() => openDemoModal({ solution: 'Enterprise Suite Demo', notes: 'Lead initiated from header Request Demo button' })}
+              onClick={() => openDemoModal({ mode: 'demo', solution: 'Enterprise Suite Demo', notes: 'Lead initiated from header Request Demo button' })}
               className="desktop-only-action"
               style={{
                 backgroundColor: '#E85874',
@@ -1287,30 +1294,32 @@ export const Navbar = ({ onOpenSearch }) => {
                 }}>AI</span>
               </button>
 
-              <a
-                href="https://perfectflow360.atplgroup.org/login"
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => setMobileMenuOpen(false)}
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  openDemoModal({ mode: 'engineer', solution: 'Engineering Consultation', notes: 'Mobile drawer Talk to an Engineer click' });
+                }}
                 style={{
                   backgroundColor: '#f1f5f9',
                   color: '#0071ba',
-                  textDecoration: 'none',
+                  border: '1.5px solid #0071ba',
                   borderRadius: '8px',
                   padding: '0.85rem',
                   fontWeight: 700,
                   fontSize: '0.95rem',
                   display: 'block',
+                  width: '100%',
+                  cursor: 'pointer',
                   textAlign: 'center'
                 }}
               >
-                Admin CRM (PerfectFlow 360)
-              </a>
+                Talk to an Engineer
+              </button>
 
               <button
                 onClick={() => {
                   setMobileMenuOpen(false);
-                  openDemoModal({ solution: 'Enterprise Suite Demo', notes: 'Mobile drawer Request Demo click' });
+                  openDemoModal({ mode: 'demo', solution: 'Enterprise Suite Demo', notes: 'Mobile drawer Request Demo click' });
                 }}
                 style={{
                   backgroundColor: '#E85874',

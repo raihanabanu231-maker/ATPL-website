@@ -8,5 +8,21 @@ export default defineConfig({
     strictPort: true,
     open: false,
     host: true
+  },
+  build: {
+    target: 'esnext',
+    minify: 'esbuild',
+    cssMinify: true,
+    chunkSizeWarningLimit: 600,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'vendor-react': ['react', 'react-dom'],
+          'vendor-icons': ['lucide-react'],
+          'vendor-charts': ['recharts'],
+          'vendor-three': ['three', '@react-three/fiber', '@react-three/drei']
+        }
+      }
+    }
   }
 });

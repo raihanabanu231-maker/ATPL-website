@@ -56,7 +56,7 @@ export const ATPL_STATIONS: Record<string, StationData> = {
     position: [4.2, 0, 12],
     cameraPosition: [4.2, 4.5, 18],
     targetLookAt: [4.2, 1.5, 12],
-    photoUrl: '/assets/images/stations/trace.jpg',
+    photoUrl: '/assets/images/stations/trace.webp',
     latencyBadge: '< 8ms Verification Latency',
     archieLesson: 'In high-speed regulated manufacturing (Pharma, Automotive, FMCG), product recall risks and counterfeit leakage destroy enterprise value. Perfect Trace assigns verifiable cryptographic identities at line speeds up to 450 packs/min.',
     specs: [
@@ -100,7 +100,7 @@ export const ATPL_STATIONS: Record<string, StationData> = {
     position: [12, 0, 8],
     cameraPosition: [8, 4.5, 14],
     targetLookAt: [12, 1.8, 8],
-    photoUrl: '/assets/images/stations/pms.jpg',
+    photoUrl: '/assets/images/stations/pms.webp',
     latencyBadge: 'Real-Time CAPA Sync',
     archieLesson: 'Welcome to Perfect Audit! Inspectors record photo evidence on mobile tablets with geolocation stamps, triggering automated Corrective and Preventive Action (CAPA) routing directly to production supervisors without paper delays.',
     specs: [
@@ -144,7 +144,7 @@ export const ATPL_STATIONS: Record<string, StationData> = {
     position: [-14, 0, -8],
     cameraPosition: [-6, 6.5, 2],
     targetLookAt: [-14, 3.5, -8],
-    photoUrl: '/assets/images/stations/warehouse.jpg',
+    photoUrl: '/assets/images/stations/warehouse.webp',
     latencyBadge: 'Sub-second Sync with ERP',
     archieLesson: 'Modern logistics demands zero phantom inventory. Perfect Store continuously builds dynamic 3D heatmaps of racking aisles, optimizes forklift travel paths via AI slotting, and syncs bi-directionally with SAP and Oracle.',
     specs: [
@@ -188,7 +188,7 @@ export const ATPL_STATIONS: Record<string, StationData> = {
     position: [-3.5, 0, 14],
     cameraPosition: [-3.5, 4.0, 20],
     targetLookAt: [-3.5, 2.5, 14],
-    photoUrl: '/assets/images/stations/rfid.jpg',
+    photoUrl: '/assets/images/stations/rfid.webp',
     latencyBadge: '1,400+ tags/sec Read Rate',
     archieLesson: 'Manual scanning creates shipping bottleneck queues. ATPL multi-directional UHF RFID portals combine beam-steered antenna arrays with optical transit eye sensors to verify inbound and outbound dock shipments instantly.',
     specs: [
@@ -232,7 +232,7 @@ export const ATPL_STATIONS: Record<string, StationData> = {
     position: [-1.8, 0, -2],
     cameraPosition: [0, 4.0, 6],
     targetLookAt: [-1.8, 2.0, -2],
-    photoUrl: '/assets/images/stations/robot_arm.jpg',
+    photoUrl: '/assets/images/stations/robot_arm.webp',
     latencyBadge: '10ms Fieldbus Cycle',
     archieLesson: 'ATPL custom middleware bridges machine controllers (Siemens, Rockwell, Mitsubishi) and automated SPM testing machines with enterprise software, ensuring deterministic telemetry and 0.05mm robotic handling.',
     specs: [
@@ -276,7 +276,7 @@ export const ATPL_STATIONS: Record<string, StationData> = {
     position: [6.5, 0, 2],
     cameraPosition: [3.5, 4.5, 8],
     targetLookAt: [6.5, 3.0, 2],
-    photoUrl: '/assets/images/stations/vision_ai.jpg',
+    photoUrl: '/assets/images/stations/vision_ai.webp',
     latencyBadge: '6.2ms TensorRT Inference',
     archieLesson: 'Traditional rule-based machine vision fails on organic variations. ATPL Vision AI runs edge TensorRT neural inference models on industrial NVIDIA GPUs, classifying microscopic flaws and triggering pneumatic reject gates in 6.2ms.',
     specs: [
@@ -327,7 +327,7 @@ export const ATPL_STATIONS: Record<string, StationData> = {
     position: [-8.5, 0, -4],
     cameraPosition: [-4, 4.0, 2],
     targetLookAt: [-8.5, 2.2, -4],
-    photoUrl: '/assets/images/stations/erp_sync.jpg',
+    photoUrl: '/assets/images/stations/erp_sync.webp',
     latencyBadge: '48ms Sync Latency',
     archieLesson: 'Data silos between shopfloor machines and management ERPs cause delayed financial books and inaccurate inventory. ATPL ERP Sync uses certified connectors to translate OPC-UA, MQTT, and REST streams into native SAP IDOC and Oracle BAPIs automatically.',
     specs: [
@@ -371,7 +371,7 @@ export const ATPL_STATIONS: Record<string, StationData> = {
     position: [0, 6.8, 6],
     cameraPosition: [0, 5.2, 14],
     targetLookAt: [0, 6.8, 6],
-    photoUrl: '/assets/images/stations/drones.jpg',
+    photoUrl: '/assets/images/stations/drones.webp',
     latencyBadge: '120 Pallets/min Audit Speed',
     archieLesson: 'Manual stocktaking in high-bay warehouses requires expensive scissor lifts and creates safety hazards. ATPL inspection drones navigate indoor GPS-denied aisles using optical SLAM, scanning thousands of upper-tier pallet tags in minutes.',
     specs: [
@@ -415,7 +415,7 @@ export const ATPL_STATIONS: Record<string, StationData> = {
     position: [-8.5, 0, 6],
     cameraPosition: [-4, 3.8, 12],
     targetLookAt: [-8.5, 2.0, 6],
-    photoUrl: '/assets/images/stations/scanners.jpg',
+    photoUrl: '/assets/images/stations/scanners.webp',
     latencyBadge: '11ms Decode Time',
     archieLesson: 'Automotive engine blocks and aerospace parts use Direct Part Marking (DPM) that standard scanners cannot read. ATPL multi-spectral liquid-lens imagers dynamically adapt focal length and polarized lighting to decode any marking in milliseconds.',
     specs: [
@@ -459,7 +459,7 @@ export const ATPL_STATIONS: Record<string, StationData> = {
     position: [-11, 0, 15],
     cameraPosition: [-6, 3.8, 21],
     targetLookAt: [-11, 2.0, 15],
-    photoUrl: '/assets/images/stations/printers.jpg',
+    photoUrl: '/assets/images/stations/printers.webp',
     latencyBadge: '14 in/sec Print Throughput',
     archieLesson: 'Line stoppages caused by incorrect label templates or printer jams cost thousands per minute. Perfect Labeler centralizes template authoring in the cloud with universal print drivers and AI compliance verification.',
     specs: [
@@ -503,7 +503,7 @@ export const ATPL_STATIONS: Record<string, StationData> = {
     position: [8.5, 0, 15],
     cameraPosition: [5, 3.8, 21],
     targetLookAt: [8.5, 1.8, 15],
-    photoUrl: '/assets/images/stations/software_lab.jpg',
+    photoUrl: '/assets/images/stations/software_lab.webp',
     latencyBadge: '5,000+ Active Devices',
     archieLesson: 'As enterprises deploy thousands of rugged handhelds, IT teams struggle with device downtime. Perfect Edge MDM delivers remote screen control, automated policy enforcement, and push-to-talk to keep frontline teams connected.',
     specs: [
@@ -547,7 +547,7 @@ export const ATPL_STATIONS: Record<string, StationData> = {
     position: [14, 0, 0],
     cameraPosition: [8, 4.2, 6],
     targetLookAt: [14, 2.5, 0],
-    photoUrl: '/assets/images/stations/supercomputer.jpg',
+    photoUrl: '/assets/images/stations/supercomputer.webp',
     latencyBadge: '24/7 Autonomous AI Agent',
     archieLesson: 'Hi, I am Archie AI! Built on PerfectSolvEdge, I provide real-time fault explanation for vision systems, instant inventory lookup for Perfect Store, and ISO policy guidance for Perfect Audit without human delay.',
     specs: [

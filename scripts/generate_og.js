@@ -110,7 +110,7 @@ async function generateOgImage() {
     <!-- Bottom URL Bar -->
     <g transform="translate(80, 580)">
       <text x="0" y="0" fill="#00f0ff" font-family="JetBrains Mono, monospace" font-size="16" font-weight="700" letter-spacing="1">
-        https://atpl-website.onrender.com
+        https://atplgroup.com
       </text>
       <text x="900" y="0" fill="#64748b" font-family="Inter, -apple-system, sans-serif" font-size="14" font-weight="500">
         TIDEL Park, Chennai, India

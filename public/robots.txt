@@ -1,6 +1,8 @@
 # robots.txt for ATPL Group (Archery Technocrats Private Limited)
 User-agent: *
 Allow: /
+Disallow: /admin
+Disallow: /login
 
 # Sitemaps
-Sitemap: https://atpl-website.onrender.com/sitemap.xml
+Sitemap: https://atplgroup.com/sitemap.xml

@@ -1103,3 +1103,38 @@ body {
   display: none !important;
 }
 
+/* ==========================================================================
+   Mobile Softening: Floating Chat Widget & Bot Launcher
+   Prevents overlap with CTAs, footer links, and form fields
+   ========================================================================== */
+@media (max-width: 768px) {
+  .copilot-floating-container {
+    bottom: 0.85rem !important;
+    right: 0.85rem !important;
+    opacity: 0.92;
+    transition: opacity 0.2s ease;
+  }
+  .copilot-floating-container:hover,
+  .copilot-floating-container:focus-within {
+    opacity: 1;
+  }
+  .copilot-speech-bubble {
+    display: none !important;
+  }
+  .copilot-launcher-btn {
+    width: 46px !important;
+    height: 46px !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4) !important;
+  }
+  .atpl-copilot-window {
+    bottom: 0 !important;
+    right: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 82vh !important;
+    max-height: 85vh !important;
+    border-radius: 1.25rem 1.25rem 0 0 !important;
+  }
+}
+
+

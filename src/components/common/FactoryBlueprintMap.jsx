@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import blueprintImg from '../../../assets/images/atpl_isometric_factory.jpg';
+import blueprintImg from '../../../assets/images/atpl_isometric_factory.webp';
 import atplQrCodeImg from '../../../assets/images/atpl_qr_code.png';
 import { AtplRobotAvatar } from './AtplRobotAvatar';
 import { 
@@ -35,6 +35,7 @@ export const ATPL_FACTORY_NODES = [
     icon: '🔍',
     x: 77,
     y: 77,
+    image: '/assets/images/stations/trace.webp',
     tagline: 'GS1 Serialization & Anti-Counterfeit Packaging',
     lesson: 'Step 1: Here is PERFECT TRACE! Our software assigns parent-child serialization (Item -> Pack -> Case -> Pallet) with cryptographic QR verification for 100% DGFT/DSCSA regulatory compliance.',
     specs: ['Multi-level Parent-Child aggregation', '1-Click recall traceability', 'DGFT & EU-FMD compliant'],
@@ -50,6 +51,7 @@ export const ATPL_FACTORY_NODES = [
     icon: '📋',
     x: 28,
     y: 48,
+    image: '/assets/images/stations/pms.webp',
     tagline: 'Paperless Digital Audits & Non-Conformance Logs',
     lesson: 'Step 2: Welcome to PERFECT AUDIT! This digital audit platform eliminates paper checklists. Quality inspectors record photo evidence, execute automated CAPA workflows, and sign with 21 CFR Part 11 compliant digital signatures.',
     specs: ['100% paperless digital checklists', 'Photo evidence capture', '21 CFR Part 11 compliance'],
@@ -65,6 +67,7 @@ export const ATPL_FACTORY_NODES = [
     icon: '📦',
     x: 74,
     y: 24,
+    image: '/assets/images/stations/warehouse.webp',
     tagline: 'Autonomous WMS with 3D Bin Mapping & RFID',
     lesson: 'Step 3: Visiting PERFECT WAREHOUSE! This enterprise WMS manages automated 3D bin allocation, dynamic slotting, FIFO/FEFO picking optimization, and synchronizes bi-directionally with SAP and Oracle.',
     specs: ['3D bin & rack heatmap mapping', 'Automated pallet & carton tagging', 'Native SAP/Oracle ERP sync'],
@@ -80,6 +83,7 @@ export const ATPL_FACTORY_NODES = [
     icon: '📡',
     x: 39,
     y: 19,
+    image: '/assets/images/stations/rfid.webp',
     tagline: 'Long-Range UHF Portal & High-Temp Tags',
     lesson: 'Step 4: At the RFID ANTENNA station! Fixed multi-directional UHF portals capture 1,200+ pallet and carton tags in milliseconds as forklifts drive through warehouse bay doors with 99.98% inventory accuracy.',
     specs: ['1,200+ tags/sec dense read rate', 'Up to 15m capture range', 'Directional dock-door sensing'],
@@ -95,6 +99,7 @@ export const ATPL_FACTORY_NODES = [
     icon: '⚙️',
     x: 58,
     y: 80,
+    image: '/assets/images/stations/pms.webp',
     tagline: 'Real-time Shop-Floor OEE & Machine Monitoring',
     lesson: 'Step 5: Here is PERFECT PMS! It directly connects with assembly lines to track Overall Equipment Effectiveness (OEE), monitor machine cycle times, analyze downtime pareto root causes, and trigger real-time Andon alerts.',
     specs: ['Real-time OEE dashboards', 'Machine cycle monitoring', 'Automated Andon alerts'],
@@ -110,6 +115,7 @@ export const ATPL_FACTORY_NODES = [
     icon: '🤖',
     x: 82,
     y: 52,
+    image: '/assets/images/stations/robot_arm.webp',
     tagline: '6-Axis Multi-Joint Robotic Assembly Cells',
     lesson: 'Step 6: Here are the INDUSTRIAL ROBOTS! Multi-axis articulated robotic arms execute precision welding, pick-and-place, and synchronized conveyor transfers with 0.05mm repeatability alongside PLC automation.',
     specs: ['6-Axis articulated motion', '0.05mm repeatability precision', 'Direct PLC/SCADA integration'],
@@ -125,6 +131,7 @@ export const ATPL_FACTORY_NODES = [
     icon: '📱',
     x: 55,
     y: 19,
+    image: '/assets/images/stations/scanners.webp',
     tagline: 'Ultra-Rugged 1D/2D, DPM & Handsfree Scanners',
     lesson: 'Step 7: Check out our SCANNING SOLUTIONS! ATPL deploys high-speed DPM (Direct Part Mark) scanners decoding laser-etched and dot-peen codes on curved reflective automotive metals and pharmaceutical packaging.',
     specs: ['Sub-10ms multi-code decode', 'MIL-STD-810H ultra-rugged drop', 'Multi-illumination liquid lens'],
@@ -140,6 +147,7 @@ export const ATPL_FACTORY_NODES = [
     icon: '🖨️',
     x: 39,
     y: 76,
+    image: '/assets/images/stations/printers.webp',
     tagline: 'All-Metal 24/7 Chassis & In-Line Verifiers',
     lesson: 'Step 8: Welcome to INDUSTRIAL PRINTING! Heavy-duty industrial printers with all-metal mechanisms, dual-sensor calibration, and inline ODV barcode verifiers ensuring 100% scan-ready GS1 shipping labels.',
     specs: ['Continuous 24/7 multi-shift uptime', '600 DPI ultra-fine micro-labels', 'Integrated inline barcode verifier'],
@@ -155,6 +163,7 @@ export const ATPL_FACTORY_NODES = [
     icon: '🛸',
     x: 91,
     y: 24,
+    image: '/assets/images/stations/drones.webp',
     tagline: 'Autonomous Indoor Optical SLAM Inventory Drones',
     lesson: 'Step 9: Look up at DRONES & REMOTE CONTROL! Autonomous inspection drones navigate high-bay 15-meter racking aisles without GPS, auditing thousands of pallet barcodes in minutes safely without scissor lifts.',
     specs: ['Optical SLAM indoor navigation', 'Zero-fall hazard stocktaking', 'Instant ERP discrepancy alerts'],
@@ -170,6 +179,7 @@ export const ATPL_FACTORY_NODES = [
     icon: '💻',
     x: 19,
     y: 20,
+    image: '/assets/images/stations/software_lab.webp',
     tagline: 'Cloud SaaS, Embedded IIoT Firmware & Mobile Apps',
     lesson: 'Step 10: Here is ATPL SOFTWARE DEVELOPMENT! Our in-house engineering team crafts cloud-native MES/WMS platforms, high-speed OPC-UA middleware, embedded sensor firmware, and mobile enterprise applications.',
     specs: ['35+ years combined domain mastery', 'REST, MQTT & OPC-UA native stacks', 'Custom ERP bi-directional sync'],
@@ -185,6 +195,7 @@ export const ATPL_FACTORY_NODES = [
     icon: '🧠',
     x: 18,
     y: 75,
+    image: '/assets/images/stations/vision_ai.webp',
     tagline: 'Sub-8ms Optical Defect Detection & Neural Inference',
     lesson: 'Step 11: At the SUPER COMPUTER AI & ML hub! GPU-accelerated neural networks analyze gigapixel inspection images in sub-8ms, classifying microscopic surface flaws, solder bridge defects, and dimensional variances.',
     specs: ['Sub-8ms neural inference latency', '99.99% defect catch accuracy', 'Automated Pareto root-cause analytics'],
@@ -200,6 +211,7 @@ export const ATPL_FACTORY_NODES = [
     icon: '🔄',
     x: 13,
     y: 46,
+    image: '/assets/images/stations/erp_sync.webp',
     tagline: 'Bi-directional Real-Time Sync with SAP, Oracle & MS',
     lesson: 'Step 12: Completing our tour at ERP SOLUTIONS! ATPL ERP Sync certified connectors translate shopfloor machine PLC events and barcode scans into real-time SAP IDocs and Oracle BAPIs with zero data latency.',
     specs: ['Certified SAP S/4HANA & Oracle BAPIs', 'Zero-data-loss buffering memory', 'Instant shopfloor-to-boardroom visibility'],
@@ -281,6 +293,24 @@ export const FactoryBlueprintMap = () => {
   const handlePrev = () => {
     setCurrentIndex(prev => (prev - 1 + ATPL_FACTORY_NODES.length) % ATPL_FACTORY_NODES.length);
   };
+
+  const [mobileViewMode, setMobileViewMode] = useState('map'); // 'map' | 'cards'
+
+  // WCAG 2.2 AA Keyboard Navigation (Arrow Keys)
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement?.tagName)) return;
+
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        handleNext();
+      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        handlePrev();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   const handleStationClick = (index) => {
     if (closingLockRef.current) return;
@@ -392,7 +422,7 @@ export const FactoryBlueprintMap = () => {
             2. INTERACTIVE STAGE BOX
            ===================================================================== */}
         <div 
-          className="factory-blueprint-stage-box"
+          className={`factory-blueprint-stage-box ${mobileViewMode === 'cards' ? 'cards-mode' : ''}`}
           style={{
             position: 'relative',
             width: '100%',
@@ -500,6 +530,33 @@ export const FactoryBlueprintMap = () => {
               color: #ffffff;
               box-shadow: 0 0 14px rgba(0, 240, 255, 0.65);
             }
+            .station-pin-container:focus-visible {
+              outline: 2px solid #00f0ff;
+              outline-offset: 4px;
+              border-radius: 50%;
+            }
+            .tour-chip-btn:focus-visible {
+              outline: 2px solid #00f0ff;
+              outline-offset: 2px;
+            }
+            @media (min-width: 900px) {
+              .mobile-mode-toggle-btn {
+                display: none !important;
+              }
+              .factory-mobile-cards-view {
+                display: none !important;
+              }
+            }
+            @media (max-width: 899px) {
+              .mobile-mode-toggle-btn {
+                display: inline-flex !important;
+              }
+              .factory-blueprint-stage-box.cards-mode .factory-map-viewport,
+              .factory-blueprint-stage-box.cards-mode .factory-hud-bottom-overlay,
+              .factory-blueprint-stage-box.cards-mode .factory-hud-toggle-pill {
+                display: none !important;
+              }
+            }
 
             /* =========================================================
                Desktop Layout: Fits cleanly within Single Screen (One Scroll)
@@ -542,12 +599,48 @@ export const FactoryBlueprintMap = () => {
                 overflow: hidden !important;
                 z-index: 1 !important;
               }
-              .factory-map-viewport img {
+              .factory-map-viewport img.factory-blueprint-bg-img {
                 position: absolute !important;
                 inset: 0 !important;
                 width: 100% !important;
                 height: 100% !important;
                 object-fit: fill !important;
+              }
+              .factory-blueprint-qr-box {
+                position: absolute !important;
+                left: 50% !important;
+                top: 50% !important;
+                transform: translate(-50%, -50%) !important;
+                z-index: 25 !important;
+                background: rgba(4, 11, 24, 0.94) !important;
+                backdrop-filter: blur(12px) !important;
+                -webkit-backdrop-filter: blur(12px) !important;
+                padding: 4px !important;
+                border-radius: 12px !important;
+                border: 1.5px solid rgba(0, 240, 255, 0.65) !important;
+                box-shadow: 0 12px 35px rgba(0, 0, 0, 0.9), 0 0 25px rgba(0, 240, 255, 0.4) !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                cursor: pointer !important;
+                transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+                pointer-events: auto !important;
+              }
+              .factory-blueprint-qr-box:hover {
+                transform: translate(-50%, -50%) scale(1.1) !important;
+                border-color: #E85874 !important;
+                box-shadow: 0 16px 45px rgba(0, 0, 0, 0.95), 0 0 35px rgba(232, 88, 116, 0.7) !important;
+              }
+              .factory-blueprint-qr-img {
+                width: 52px !important;
+                height: 52px !important;
+                min-width: 52px !important;
+                min-height: 52px !important;
+                display: block !important;
+                border-radius: 6px !important;
+                object-fit: contain !important;
+                position: static !important;
+                inset: auto !important;
               }
               .factory-blueprint-top-hud {
                 position: absolute !important;
@@ -936,11 +1029,20 @@ export const FactoryBlueprintMap = () => {
             </div>
 
             {/* Quick 12 Station Number Chips - Clickable on Desktop & Mobile */}
-            <div className="tour-chips-bar" style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+            <div 
+              className="tour-chips-bar" 
+              role="tablist" 
+              aria-label="12 Factory Stations"
+              style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}
+            >
               {ATPL_FACTORY_NODES.map((node, i) => (
                 <button
                   key={node.id}
                   type="button"
+                  role="tab"
+                  aria-selected={currentIndex === i}
+                  aria-controls="factory-station-briefing"
+                  aria-label={`Station ${node.stepNumber}: ${node.name}`}
                   onClick={() => handleStationClick(i)}
                   className="tour-chip-btn"
                   title={`${node.stepNumber}. ${node.name}`}
@@ -970,8 +1072,31 @@ export const FactoryBlueprintMap = () => {
             <div className="factory-top-controls-wrap" style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
               <button
                 type="button"
+                onClick={() => setMobileViewMode(prev => prev === 'map' ? 'cards' : 'map')}
+                className="tour-auto-btn mobile-mode-toggle-btn"
+                aria-label={`Switch to ${mobileViewMode === 'map' ? 'Guided Cards Tour' : 'Blueprint Map'}`}
+                title="Switch Mobile View: Blueprint Map or Guided Cards"
+                style={{
+                  background: 'rgba(0, 240, 255, 0.15)',
+                  border: '1px solid #00f0ff',
+                  color: '#00f0ff',
+                  borderRadius: '6px',
+                  padding: '0.28rem 0.55rem',
+                  fontSize: '0.72rem',
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                  alignItems: 'center',
+                  gap: '0.3rem'
+                }}
+              >
+                {mobileViewMode === 'map' ? '📱 Cards' : '🗺️ Map'}
+              </button>
+
+              <button
+                type="button"
                 onClick={() => setIsAutoTour(!isAutoTour)}
                 className="tour-auto-btn"
+                aria-label={isAutoTour ? 'Pause automatic station rotation' : 'Start automatic station rotation'}
                 style={{
                   background: isAutoTour ? 'rgba(232, 88, 116, 0.2)' : 'rgba(0, 240, 255, 0.15)',
                   border: isAutoTour ? '1px solid #E85874' : '1px solid #00f0ff',
@@ -1003,6 +1128,7 @@ export const FactoryBlueprintMap = () => {
             <img 
               src={blueprintImg} 
               alt="ATPL Isometric Factory Blueprint"
+              className="factory-blueprint-bg-img"
               style={{
                 position: 'absolute',
                 top: 0,
@@ -1066,6 +1192,15 @@ export const FactoryBlueprintMap = () => {
                   key={node.id}
                   className={`station-pin-container ${isActive ? 'active' : ''}`}
                   onClick={() => handleStationClick(index)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      handleStationClick(index);
+                    }
+                  }}
+                  tabIndex={0}
+                  role="button"
+                  aria-label={`Station ${node.stepNumber}: ${node.name}. Press Enter or click to inspect.`}
                   style={{
                     left: `${node.x}%`,
                     top: `${node.y}%`
@@ -1083,24 +1218,33 @@ export const FactoryBlueprintMap = () => {
               );
             })}
 
-            {/* CLEAN QR CODE BADGE (NO TEXT, JUST CRISP QR CODE) */}
+            {/* HIGH-VISIBILITY 3D TOUR LAUNCH BADGE WITH QR CODE */}
             <div 
               className="factory-blueprint-qr-box"
               onClick={() => setCurrentView('factory-3d')}
               title="Click to launch 3D Factory Tour"
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  setCurrentView('factory-3d');
+                }
+              }}
+              aria-label="Launch 3D Digital Twin Factory Tour"
               style={{
                 position: 'absolute',
                 left: '50%',
                 top: '50%',
                 transform: 'translate(-50%, -50%)',
-                zIndex: 25,
-                background: 'rgba(4, 11, 24, 0.92)',
-                backdropFilter: 'blur(12px)',
-                WebkitBackdropFilter: 'blur(12px)',
+                zIndex: 26,
+                background: 'rgba(4, 11, 24, 0.95)',
+                backdropFilter: 'blur(16px)',
+                WebkitBackdropFilter: 'blur(16px)',
                 padding: '4px',
                 borderRadius: '12px',
-                border: '1.5px solid rgba(0, 240, 255, 0.55)',
-                boxShadow: '0 12px 35px rgba(0, 0, 0, 0.85), 0 0 25px rgba(0, 240, 255, 0.35)',
+                border: '1.5px solid rgba(0, 240, 255, 0.75)',
+                boxShadow: '0 12px 35px rgba(0, 0, 0, 0.9), 0 0 25px rgba(0, 240, 255, 0.45)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -1109,30 +1253,43 @@ export const FactoryBlueprintMap = () => {
                 pointerEvents: 'auto'
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translate(-50%, -50%) scale(1.1)';
-                e.currentTarget.style.boxShadow = '0 16px 45px rgba(0, 0, 0, 0.95), 0 0 35px rgba(0, 240, 255, 0.7), 0 0 0 2px #00f0ff';
+                e.currentTarget.style.transform = 'translate(-50%, -50%) scale(1.12)';
+                e.currentTarget.style.borderColor = '#E85874';
+                e.currentTarget.style.boxShadow = '0 16px 45px rgba(0, 0, 0, 0.95), 0 0 35px rgba(232, 88, 116, 0.75), 0 0 0 2px #00f0ff';
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.transform = 'translate(-50%, -50%) scale(1)';
-                e.currentTarget.style.boxShadow = '0 12px 35px rgba(0, 0, 0, 0.85), 0 0 25px rgba(0, 240, 255, 0.35)';
+                e.currentTarget.style.borderColor = 'rgba(0, 240, 255, 0.75)';
+                e.currentTarget.style.boxShadow = '0 12px 35px rgba(0, 0, 0, 0.9), 0 0 25px rgba(0, 240, 255, 0.45)';
               }}
             >
               {/* QR Image with white high-contrast wrapper */}
               <div style={{
                 background: '#ffffff',
-                padding: '2.5px',
-                borderRadius: '7px',
-                display: 'inline-block'
+                padding: '3px',
+                borderRadius: '8px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                boxShadow: '0 2px 10px rgba(0, 0, 0, 0.35)'
               }}>
                 <img 
-                  src={atplQrCodeImg} 
-                  alt="ATPL QR Code" 
+                  src={atplQrCodeImg || "/assets/images/atpl_qr_code.png"} 
+                  onError={(e) => {
+                    e.currentTarget.src = "/assets/images/atpl_qr_code.png";
+                  }}
+                  alt="ATPL 3D Factory Tour QR Code" 
                   className="factory-blueprint-qr-img"
+                  width="54"
+                  height="54"
                   style={{
-                    width: '46px',
-                    height: '46px',
+                    width: '54px',
+                    height: '54px',
+                    minWidth: '54px',
+                    minHeight: '54px',
                     display: 'block',
-                    borderRadius: '5px'
+                    borderRadius: '5px',
+                    objectFit: 'contain'
                   }}
                 />
               </div>
@@ -1364,11 +1521,200 @@ export const FactoryBlueprintMap = () => {
           </div>
 
           {/* =====================================================================
+              2B. MOBILE GUIDED CARDS TOUR (Sleek Fallback & Direct Card Experience)
+             ===================================================================== */}
+          {mobileViewMode === 'cards' && (
+            <div 
+              className="factory-mobile-cards-view"
+              role="region"
+              aria-label={`Mobile Station Card ${currentIndex + 1} of 12: ${currentNode.name}`}
+              style={{
+                padding: '0.85rem',
+                backgroundColor: '#071226',
+                borderRadius: '10px',
+                margin: '0.5rem',
+                border: '1px solid rgba(0, 240, 255, 0.35)',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '0.75rem'
+              }}
+            >
+              {/* Card Header */}
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '0.5rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <span style={{
+                    width: '28px',
+                    height: '28px',
+                    borderRadius: '50%',
+                    backgroundColor: '#E85874',
+                    color: '#ffffff',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontWeight: 900,
+                    fontSize: '0.8rem'
+                  }}>
+                    {currentNode.stepNumber}
+                  </span>
+                  <div>
+                    <h3 style={{ margin: 0, fontSize: '0.95rem', fontWeight: 900, color: '#ffffff' }}>
+                      {currentNode.name}
+                    </h3>
+                    <span style={{ fontSize: '0.68rem', color: '#00f0ff', fontWeight: 700, textTransform: 'uppercase' }}>
+                      {currentNode.category}
+                    </span>
+                  </div>
+                </div>
+                {currentNode.roiMetric && (
+                  <span style={{
+                    backgroundColor: 'rgba(16, 185, 129, 0.2)',
+                    border: '1px solid #10b981',
+                    color: '#34d399',
+                    fontSize: '0.68rem',
+                    fontWeight: 800,
+                    padding: '0.2rem 0.5rem',
+                    borderRadius: '4px'
+                  }}>
+                    ⚡ {currentNode.roiMetric}
+                  </span>
+                )}
+              </div>
+
+              {/* Station Image */}
+              {currentNode.image && (
+                <div style={{ position: 'relative', height: '180px', borderRadius: '8px', overflow: 'hidden', border: '1px solid rgba(0, 240, 255, 0.2)' }}>
+                  <img 
+                    src={currentNode.image} 
+                    alt={currentNode.name} 
+                    loading="lazy"
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  />
+                  <div style={{
+                    position: 'absolute',
+                    bottom: '8px',
+                    left: '8px',
+                    backgroundColor: 'rgba(4, 11, 24, 0.85)',
+                    padding: '0.2rem 0.5rem',
+                    borderRadius: '4px',
+                    fontSize: '0.68rem',
+                    color: '#e2e8f0'
+                  }}>
+                    {currentNode.tagline}
+                  </div>
+                </div>
+              )}
+
+              {/* Archie AI Commentary */}
+              <div style={{
+                backgroundColor: 'rgba(0, 240, 255, 0.06)',
+                border: '1px solid rgba(0, 240, 255, 0.25)',
+                borderRadius: '8px',
+                padding: '0.65rem',
+                display: 'flex',
+                gap: '0.5rem'
+              }}>
+                <div style={{ flexShrink: 0 }}>
+                  <AtplRobotAvatar size={24} />
+                </div>
+                <p style={{ margin: 0, fontSize: '0.76rem', color: '#cbd5e1', lineHeight: 1.4 }}>
+                  <strong style={{ color: '#00f0ff' }}>Archie AI: </strong>
+                  {currentNode.lesson}
+                </p>
+              </div>
+
+              {/* Key Benefits */}
+              {currentNode.keyBenefits && (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem' }}>
+                  {currentNode.keyBenefits.map((benefit, bIdx) => (
+                    <div key={bIdx} style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.72rem', color: '#94a3b8' }}>
+                      <Check size={12} color="#00f0ff" />
+                      <span>{benefit}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Navigation buttons */}
+              <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.25rem' }}>
+                <button
+                  type="button"
+                  onClick={handlePrev}
+                  aria-label="Previous factory station"
+                  style={{
+                    flex: 1,
+                    padding: '0.5rem',
+                    borderRadius: '6px',
+                    background: 'rgba(255,255,255,0.08)',
+                    border: '1px solid rgba(255,255,255,0.2)',
+                    color: '#ffffff',
+                    fontWeight: 700,
+                    fontSize: '0.78rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '0.3rem'
+                  }}
+                >
+                  <ChevronLeft size={14} />
+                  <span>Prev</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={handleNext}
+                  aria-label="Next factory station"
+                  style={{
+                    flex: 1,
+                    padding: '0.5rem',
+                    borderRadius: '6px',
+                    background: 'rgba(0, 240, 255, 0.2)',
+                    border: '1px solid #00f0ff',
+                    color: '#00f0ff',
+                    fontWeight: 800,
+                    fontSize: '0.78rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '0.3rem'
+                  }}
+                >
+                  <span>Next</span>
+                  <ChevronRight size={14} />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => openDemoModal({ solution: currentNode.name, notes: `Inquiry from Mobile Tour - Station ${currentNode.stepNumber}` })}
+                  style={{
+                    flex: 1.4,
+                    padding: '0.5rem',
+                    borderRadius: '6px',
+                    background: 'linear-gradient(135deg, #E85874 0%, #c43854 100%)',
+                    border: 'none',
+                    color: '#ffffff',
+                    fontWeight: 800,
+                    fontSize: '0.78rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '0.3rem'
+                  }}
+                >
+                  <Sparkles size={13} />
+                  <span>Demo</span>
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* =====================================================================
               3. BOTTOM HUD DIALOGUE CONSOLE: Richer Active Station Info & Archie AI
              ===================================================================== */}
           {isTourOpen ? (
             <div 
+              id="factory-station-briefing"
               className="factory-hud-bottom-overlay"
+              role="region"
+              aria-label={`Archie AI Tour Guide: Station ${currentIndex + 1} of 12 - ${currentNode.name}`}
+              aria-live="polite"
               style={{
                 position: 'absolute',
                 bottom: '8px',

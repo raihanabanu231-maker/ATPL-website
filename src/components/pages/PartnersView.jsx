@@ -312,7 +312,7 @@ export const PartnersView = () => {
 
           <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
             <button
-              onClick={() => openDemoModal({ solution: 'Partner Program Application', notes: 'Inquiry from Partners page' })}
+              onClick={() => openDemoModal({ mode: 'partner', solution: 'Partner Program Application', notes: 'Inquiry from Partners page' })}
               style={{
                 backgroundColor: '#E85874',
                 color: '#ffffff',
@@ -505,7 +505,7 @@ export const PartnersView = () => {
             </p>
             <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
               <button
-                onClick={() => openDemoModal({ solution: 'Partner Onboarding', notes: 'Lead initiated partner program request' })}
+                onClick={() => openDemoModal({ mode: 'partner', solution: 'Partner Onboarding', notes: 'Lead initiated partner program request' })}
                 style={{
                   backgroundColor: '#E85874',
                   color: '#ffffff',

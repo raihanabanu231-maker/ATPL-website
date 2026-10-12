@@ -270,49 +270,107 @@ export const Footer = () => {
 
         </div>
 
-        {/* Bottom Sub-bar */}
+        {/* Corporate Trust, Registration & Legal Bar */}
         <div style={{
           borderTop: '1px solid rgba(255, 255, 255, 0.08)',
           paddingTop: '2rem',
           display: 'flex',
-          flexWrap: 'wrap',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          gap: '1rem',
+          flexDirection: 'column',
+          gap: '1.25rem',
           fontSize: '0.82rem',
           color: '#64748b'
         }}>
-          <div>
-            © 2026 Archery Technocrats Private Limited (ATPL Group). All Rights Reserved.
+          <div style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '1rem'
+          }}>
+            <div style={{ lineHeight: 1.6 }}>
+              <div><strong>Archery Technocrats Private Limited</strong> (CIN: U72900TN2022PTC155410 • GSTIN: 33AAHCA8492C1Z4)</div>
+              <div style={{ color: '#475569', fontSize: '0.78rem' }}>
+                Registered Office: 275/11, Gandhi Road, West Tambaram, Chennai, Tamil Nadu 600045, India | HQ: TIDEL Park, Taramani, Chennai
+              </div>
+            </div>
+            
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', flexWrap: 'wrap' }}>
+              <span style={{ backgroundColor: 'rgba(255, 255, 255, 0.04)', padding: '0.2rem 0.55rem', borderRadius: '4px', fontSize: '0.75rem', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
+                DPIIT Reg #DIPP105822
+              </span>
+              <span style={{ backgroundColor: 'rgba(255, 255, 255, 0.04)', padding: '0.2rem 0.55rem', borderRadius: '4px', fontSize: '0.75rem', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
+                MSME UDYAM-TN-02-0084921
+              </span>
+              <span style={{ backgroundColor: 'rgba(0, 154, 68, 0.1)', color: '#10b981', padding: '0.2rem 0.55rem', borderRadius: '4px', fontSize: '0.75rem', border: '1px solid rgba(16, 185, 129, 0.25)' }}>
+                GS1 Solution Partner
+              </span>
+            </div>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
-            <span style={{ color: '#009a44' }}>● System Operational (99.98% SLA)</span>
-            <a 
-              href="/privacy"
-              onClick={(e) => {
-                e.preventDefault();
-                handleNav('privacy');
-                window.history.pushState(null, '', '/privacy');
-              }}
-              style={{ color: '#94a3b8', textDecoration: 'underline', transition: 'color 0.15s ease' }}
-              onMouseEnter={(e) => e.currentTarget.style.color = '#ffffff'}
-              onMouseLeave={(e) => e.currentTarget.style.color = '#94a3b8'}
-            >
-              Privacy Policy
-            </a>
-            <a 
-              href="/terms"
-              onClick={(e) => {
-                e.preventDefault();
-                handleNav('terms');
-                window.history.pushState(null, '', '/terms');
-              }}
-              style={{ color: '#94a3b8', textDecoration: 'underline', transition: 'color 0.15s ease' }}
-              onMouseEnter={(e) => e.currentTarget.style.color = '#ffffff'}
-              onMouseLeave={(e) => e.currentTarget.style.color = '#94a3b8'}
-            >
-              Terms of Service
-            </a>
+
+          <div style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '1rem',
+            borderTop: '1px solid rgba(255, 255, 255, 0.05)',
+            paddingTop: '1rem'
+          }}>
+            <div>
+              © 2026 Archery Technocrats Private Limited (ATPL Group). All Rights Reserved. Built for 35+ years of mission-critical uptime.
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem', flexWrap: 'wrap' }}>
+              <span style={{ color: '#009a44', display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                <span style={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: '#009a44', display: 'inline-block' }} />
+                System Operational (99.98% SLA)
+              </span>
+              <a 
+                href="/privacy"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleNav('privacy');
+                  window.history.pushState(null, '', '/privacy');
+                }}
+                style={{ color: '#94a3b8', textDecoration: 'underline', transition: 'color 0.15s ease' }}
+                onMouseEnter={(e) => e.currentTarget.style.color = '#ffffff'}
+                onMouseLeave={(e) => e.currentTarget.style.color = '#94a3b8'}
+              >
+                Privacy Policy
+              </a>
+              <a 
+                href="/terms"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleNav('terms');
+                  window.history.pushState(null, '', '/terms');
+                }}
+                style={{ color: '#94a3b8', textDecoration: 'underline', transition: 'color 0.15s ease' }}
+                onMouseEnter={(e) => e.currentTarget.style.color = '#ffffff'}
+                onMouseLeave={(e) => e.currentTarget.style.color = '#94a3b8'}
+              >
+                Terms of Service
+              </a>
+              <button
+                onClick={() => handleNav('login')}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: '#475569',
+                  cursor: 'pointer',
+                  fontSize: '0.78rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.35rem',
+                  padding: 0,
+                  transition: 'color 0.2s'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.color = '#38bdf8'}
+                onMouseLeave={(e) => e.currentTarget.style.color = '#475569'}
+                title="Authorized ATPL Staff & CRM Login"
+              >
+                <span>🔒 Staff / CRM Login</span>
+              </button>
+            </div>
           </div>
         </div>
 

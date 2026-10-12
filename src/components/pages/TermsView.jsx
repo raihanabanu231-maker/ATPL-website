@@ -100,7 +100,7 @@ export const TermsView = () => {
             1. Acceptance of Terms
           </h2>
           <p>
-            By accessing or browsing <strong style={{ color: '#0f172a' }}>https://atpl-website.onrender.com</strong>, downloading software documentation, or executing a master service agreement (MSA) with Archery Technocrats Private Limited, you acknowledge that you have read, understood, and agreed to be bound by these Terms of Service.
+            By accessing or browsing <strong style={{ color: '#0f172a' }}>https://atplgroup.com</strong>, downloading software documentation, or executing a master service agreement (MSA) with Archery Technocrats Private Limited, you acknowledge that you have read, understood, and agreed to be bound by these Terms of Service.
           </p>
 
           {/* Section 2 */}

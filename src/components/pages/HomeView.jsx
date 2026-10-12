@@ -3,6 +3,8 @@ import { useApp } from '../../context/AppContext';
 import { FactoryBlueprintMap } from '../common/FactoryBlueprintMap';
 import { OfficialPartnersShowcase } from '../common/PartnerLogos';
 import { CLIENT_LOGOS_LIST, CERTIFICATION_BADGES_LIST, AuthenticClientsMarquee, ClientLogo } from '../common/ClientBrandLogos';
+import { AtplDifferentiation } from '../common/AtplDifferentiation';
+import { AtplResourcesSection } from '../common/AtplResourcesSection';
 import { 
   Boxes, 
   Cpu, 
@@ -369,39 +371,57 @@ export const HomeView = () => {
 
         <div className="container" style={{ position: 'relative', zIndex: 1, maxWidth: '980px', margin: '0 auto' }}>
           
-          {/* ATPL Brand Identity Pill Badge */}
-          <div style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '0.5rem',
-            backgroundColor: 'rgba(232, 88, 116, 0.08)',
-            border: '1px solid rgba(232, 88, 116, 0.3)',
-            padding: '0.4rem 1.1rem',
-            borderRadius: '999px',
-            marginBottom: '1.5rem',
-            boxShadow: '0 2px 10px rgba(232, 88, 116, 0.1)'
-          }}>
-            <span style={{
-              display: 'inline-block',
-              width: '7px',
-              height: '7px',
-              borderRadius: '50%',
-              backgroundColor: '#E85874',
-              animation: 'pulseCoralDot 2s infinite'
-            }} />
-            <span style={{
-              fontSize: '0.78rem',
-              fontWeight: 700,
-              letterSpacing: '0.06em',
-              color: '#E85874',
-              textTransform: 'uppercase'
+          {/* ATPL Brand Identity Pill Badge & 35+ Years Trust Badge */}
+          <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', gap: '0.65rem', marginBottom: '1.5rem' }}>
+            <div style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              backgroundColor: 'rgba(232, 88, 116, 0.08)',
+              border: '1px solid rgba(232, 88, 116, 0.3)',
+              padding: '0.4rem 1.1rem',
+              borderRadius: '999px',
+              boxShadow: '0 2px 10px rgba(232, 88, 116, 0.1)'
             }}>
-              Next-Gen Industry 4.0 Platform
-            </span>
-            <span style={{ color: '#cbd5e1' }}>|</span>
-            <span style={{ fontSize: '0.78rem', color: '#475569', fontWeight: 600 }}>
-              ATPL Autonomous Ecosystem
-            </span>
+              <span style={{
+                display: 'inline-block',
+                width: '7px',
+                height: '7px',
+                borderRadius: '50%',
+                backgroundColor: '#E85874',
+                animation: 'pulseCoralDot 2s infinite'
+              }} />
+              <span style={{
+                fontSize: '0.78rem',
+                fontWeight: 700,
+                letterSpacing: '0.06em',
+                color: '#E85874',
+                textTransform: 'uppercase'
+              }}>
+                Next-Gen Industry 4.0 Platform
+              </span>
+              <span style={{ color: '#cbd5e1' }}>|</span>
+              <span style={{ fontSize: '0.78rem', color: '#475569', fontWeight: 600 }}>
+                ATPL Autonomous Ecosystem
+              </span>
+            </div>
+
+            {/* Built for 35+ years mission-critical uptime trust badge */}
+            <div style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.45rem',
+              backgroundColor: 'rgba(0, 113, 186, 0.08)',
+              border: '1px solid rgba(0, 113, 186, 0.3)',
+              padding: '0.4rem 1.05rem',
+              borderRadius: '999px',
+              fontSize: '0.78rem',
+              fontWeight: 800,
+              color: '#0071ba'
+            }}>
+              <ShieldCheck size={14} color="#0071ba" />
+              <span>Built for 35+ years of mission-critical uptime</span>
+            </div>
           </div>
 
           <h1 style={{
@@ -443,19 +463,51 @@ export const HomeView = () => {
             Archery Technocrats Private Limited (ATPL Group) engineers end-to-end Industry 4.0 automation: proprietary WMS, GS1 serialization, sub-millimeter vision AI, UHF RFID gates, and rugged mobility — built for 35+ years of mission-critical factory uptime.
           </p>
 
-          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center', gap: '1rem' }}>
+          {/* Primary & Secondary High-Conversion CTA Cluster */}
+          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center', gap: '0.85rem' }}>
+            {/* Primary: Request Demo */}
             <button
-              onClick={() => {
-                const el = document.getElementById('atpl-products-grid');
-                if (el) {
-                  el.scrollIntoView({ behavior: 'smooth' });
-                }
+              onClick={() => openDemoModal({ mode: 'demo', solution: 'Enterprise Suite Demo', notes: 'Initiated from Hero Request Live Demo button' })}
+              style={{
+                backgroundColor: '#E85874',
+                color: '#ffffff',
+                border: 'none',
+                padding: '1.05rem 2.2rem',
+                fontSize: '1rem',
+                fontWeight: 800,
+                letterSpacing: '0.02em',
+                borderRadius: '8px',
+                cursor: 'pointer',
+                boxShadow: '0 8px 25px rgba(232, 88, 116, 0.4)',
+                transition: 'all 0.2s ease',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                fontFamily: 'var(--font-display)'
               }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#d44360';
+                e.currentTarget.style.transform = 'translateY(-2px)';
+                e.currentTarget.style.boxShadow = '0 12px 30px rgba(232, 88, 116, 0.55)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = '#E85874';
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = '0 8px 25px rgba(232, 88, 116, 0.4)';
+              }}
+            >
+              <span>Request Live Demo</span>
+              <ArrowRight size={18} />
+            </button>
+
+            {/* Primary: Talk to an Engineer */}
+            <button
+              onClick={() => openDemoModal({ mode: 'engineer', solution: 'Engineering Architecture Consultation', notes: 'Initiated from Hero Talk to an Engineer button' })}
               style={{
                 backgroundColor: '#0071ba',
                 color: '#ffffff',
                 border: 'none',
-                padding: '1.05rem 2.4rem',
+                padding: '1.05rem 2.2rem',
                 fontSize: '1rem',
                 fontWeight: 700,
                 letterSpacing: '0.02em',
@@ -479,18 +531,19 @@ export const HomeView = () => {
                 e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 113, 186, 0.35)';
               }}
             >
-              <span>Explore ATPL Automation Suite</span>
-              <ArrowRight size={18} />
+              <PhoneCall size={18} />
+              <span>Talk to an Engineer</span>
             </button>
 
+            {/* Secondary: Download ROI Calculator */}
             <button
-              onClick={() => setCurrentView('factory-3d')}
+              onClick={() => openDemoModal({ mode: 'roi', solution: 'Warehouse & RFID ROI Model 2026', notes: 'Initiated from Hero Download ROI Calculator button' })}
               style={{
                 backgroundColor: '#ffffff',
                 color: '#0f172a',
                 border: '1.5px solid #cbd5e1',
-                padding: '1.05rem 2.2rem',
-                fontSize: '1rem',
+                padding: '1.05rem 1.8rem',
+                fontSize: '0.96rem',
                 fontWeight: 700,
                 letterSpacing: '0.02em',
                 borderRadius: '8px',
@@ -512,40 +565,56 @@ export const HomeView = () => {
                 e.currentTarget.style.transform = 'translateY(0)';
               }}
             >
-              <Sparkles size={18} color="#0071ba" />
-              <span>✨ Launch 3D Virtual Plant</span>
+              <Download size={17} color="#0071ba" />
+              <span>Download ROI Calculator</span>
+            </button>
+
+            {/* Secondary: 3D Plant */}
+            <button
+              onClick={() => setCurrentView('factory-3d')}
+              style={{
+                backgroundColor: 'rgba(24, 224, 255, 0.08)',
+                color: '#0284c7',
+                border: '1.5px solid rgba(2, 132, 199, 0.3)',
+                padding: '1.05rem 1.8rem',
+                fontSize: '0.96rem',
+                fontWeight: 700,
+                letterSpacing: '0.02em',
+                borderRadius: '8px',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                fontFamily: 'var(--font-display)'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = '#0284c7';
+                e.currentTarget.style.backgroundColor = 'rgba(24, 224, 255, 0.16)';
+                e.currentTarget.style.transform = 'translateY(-2px)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = 'rgba(2, 132, 199, 0.3)';
+                e.currentTarget.style.backgroundColor = 'rgba(24, 224, 255, 0.08)';
+                e.currentTarget.style.transform = 'translateY(0)';
+              }}
+            >
+              <Sparkles size={17} color="#0284c7" />
+              <span>✨ 3D Digital Twin</span>
             </button>
           </div>
 
-          <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', gap: '1.5rem', fontSize: '0.86rem', color: '#64748b', marginTop: '2rem' }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', gap: '1.5rem', fontSize: '0.86rem', color: '#64748b', marginTop: '2.25rem' }}>
             <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
               <CheckCircle2 size={16} color="#009a44" /> 35+ Years Proven Reliability
             </span>
             <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
               <CheckCircle2 size={16} color="#009a44" /> ISO 9001:2015 & GS1 Certified
             </span>
-            <button
-              onClick={() => {
-                setCurrentView('factory-3d');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
-              style={{
-                background: 'none',
-                border: 'none',
-                color: '#0071ba',
-                fontWeight: 600,
-                cursor: 'pointer',
-                fontSize: '0.86rem',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.3rem'
-              }}
-            >
-              <span>Launch 3D Plant Tour</span>
-              <ArrowRight size={14} />
-            </button>
+            <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+              <CheckCircle2 size={16} color="#009a44" /> Sub-Second SAP & Oracle Sync
+            </span>
           </div>
-
         </div>
       </section>
 
@@ -997,297 +1066,6 @@ export const HomeView = () => {
         </div>
       </section>
 
-      {/* Visual Industry 4.0 Live Deployments & Hardware Showcase Gallery */}
-      <section style={{ padding: '5rem 0', backgroundColor: '#0a101d', color: '#ffffff', borderTop: '1px solid #1e293b', position: 'relative' }}>
-        <div className="container">
-          <div style={{ textAlign: 'center', maxWidth: '820px', margin: '0 auto 3.5rem auto' }}>
-            <span style={{
-              fontSize: '0.78rem',
-              fontWeight: 800,
-              textTransform: 'uppercase',
-              letterSpacing: '0.08em',
-              color: '#00f0ff',
-              backgroundColor: 'rgba(0, 240, 255, 0.12)',
-              border: '1px solid rgba(0, 240, 255, 0.3)',
-              padding: '0.35rem 0.9rem',
-              borderRadius: '999px',
-              display: 'inline-block',
-              marginBottom: '1rem'
-            }}>
-              ENGINEERED HARDWARE & VISION AI IN ACTION
-            </span>
-            <h2 style={{ fontSize: 'clamp(2.2rem, 4.5vw, 3.2rem)', fontWeight: 800, color: '#ffffff', letterSpacing: '-0.025em', marginBottom: '1rem' }}>
-              Real-World Shopfloor Deployments
-            </h2>
-            <p style={{ color: '#94a3b8', fontSize: '1.05rem', lineHeight: 1.65 }}>
-              Explore ATPL's heavy-duty industrial hardware, robotic print & apply machines, high-speed vision AI stations, and UHF RFID dock portals operating across top manufacturing plants.
-            </p>
-          </div>
-
-          {/* Visual Showcase Grid */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '2rem' }}>
-            
-            {/* 1. RFID Portal Visual Card */}
-            <div style={{
-              backgroundColor: '#0f172a',
-              border: '1px solid rgba(0, 113, 186, 0.4)',
-              borderRadius: '18px',
-              overflow: 'hidden',
-              boxShadow: '0 20px 45px rgba(0, 0, 0, 0.5)',
-              display: 'flex',
-              flexDirection: 'column'
-            }}>
-              <div style={{ position: 'relative', height: '230px', overflow: 'hidden' }}>
-                <img 
-                  src="/assets/images/atpl_rfid_portal_showcase.jpg" 
-                  alt="ATPL Fixed UHF RFID Dock Gate Portal" 
-                  style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.4s ease' }}
-                  onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
-                  onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-                />
-                <div style={{
-                  position: 'absolute',
-                  top: '12px',
-                  right: '12px',
-                  backgroundColor: 'rgba(16, 185, 129, 0.9)',
-                  color: '#ffffff',
-                  fontSize: '0.72rem',
-                  fontWeight: 800,
-                  padding: '0.25rem 0.65rem',
-                  borderRadius: '6px',
-                  backdropFilter: 'blur(8px)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.3rem'
-                }}>
-                  <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#ffffff', display: 'inline-block' }}></span>
-                  <span>100% READ ACCURACY</span>
-                </div>
-                <div style={{
-                  position: 'absolute',
-                  bottom: '12px',
-                  left: '12px',
-                  backgroundColor: 'rgba(15, 23, 42, 0.85)',
-                  color: '#38bdf8',
-                  fontSize: '0.75rem',
-                  fontWeight: 700,
-                  padding: '0.25rem 0.65rem',
-                  borderRadius: '6px',
-                  border: '1px solid rgba(56, 189, 248, 0.4)'
-                }}>
-                  Fixed UHF RFID Gate Portal #04
-                </div>
-              </div>
-              <div style={{ padding: '1.5rem', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                <div>
-                  <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#ffffff', marginBottom: '0.5rem' }}>
-                    Automated Dock Gate UHF RFID Portals
-                  </h3>
-                  <p style={{ color: '#94a3b8', fontSize: '0.88rem', lineHeight: 1.6, marginBottom: '1.25rem' }}>
-                    Multi-antenna circular array reading 1,200+ pallet and carton RFID tags simultaneously as forklifts drive through warehouse bay doors at 15 km/h.
-                  </p>
-                </div>
-                <button
-                  onClick={() => {
-                    setCurrentView('hardware');
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
-                  style={{
-                    backgroundColor: 'rgba(0, 113, 186, 0.2)',
-                    border: '1px solid rgba(0, 113, 186, 0.5)',
-                    color: '#38bdf8',
-                    padding: '0.65rem',
-                    borderRadius: '8px',
-                    fontWeight: 700,
-                    fontSize: '0.85rem',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '0.4rem',
-                    transition: 'all 0.15s ease'
-                  }}
-                >
-                  <span>Explore RFID Hardware Specs</span>
-                  <ArrowRight size={15} />
-                </button>
-              </div>
-            </div>
-
-            {/* 2. AI Vision Inspection Visual Card */}
-            <div style={{
-              backgroundColor: '#0f172a',
-              border: '1px solid rgba(139, 92, 246, 0.4)',
-              borderRadius: '18px',
-              overflow: 'hidden',
-              boxShadow: '0 20px 45px rgba(0, 0, 0, 0.5)',
-              display: 'flex',
-              flexDirection: 'column'
-            }}>
-              <div style={{ position: 'relative', height: '230px', overflow: 'hidden' }}>
-                <img 
-                  src="/assets/images/atpl_ai_vision_inspection.jpg" 
-                  alt="ATPL Sub-8ms AI Vision Inspection System" 
-                  style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.4s ease' }}
-                  onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
-                  onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-                />
-                <div style={{
-                  position: 'absolute',
-                  top: '12px',
-                  right: '12px',
-                  backgroundColor: 'rgba(139, 92, 246, 0.9)',
-                  color: '#ffffff',
-                  fontSize: '0.72rem',
-                  fontWeight: 800,
-                  padding: '0.25rem 0.65rem',
-                  borderRadius: '6px',
-                  backdropFilter: 'blur(8px)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.3rem'
-                }}>
-                  <Zap size={12} />
-                  <span>&lt;8ms DECISION TIME</span>
-                </div>
-                <div style={{
-                  position: 'absolute',
-                  bottom: '12px',
-                  left: '12px',
-                  backgroundColor: 'rgba(15, 23, 42, 0.85)',
-                  color: '#c084fc',
-                  fontSize: '0.75rem',
-                  fontWeight: 700,
-                  padding: '0.25rem 0.65rem',
-                  borderRadius: '6px',
-                  border: '1px solid rgba(192, 132, 252, 0.4)'
-                }}>
-                  Optical AI Defect Detection Station
-                </div>
-              </div>
-              <div style={{ padding: '1.5rem', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                <div>
-                  <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#ffffff', marginBottom: '0.5rem' }}>
-                    Perfect AI Vision System™ (Defect QC)
-                  </h3>
-                  <p style={{ color: '#94a3b8', fontSize: '0.88rem', lineHeight: 1.6, marginBottom: '1.25rem' }}>
-                    Deep learning optical cameras inspecting circuit boards, connector pins, and EV battery welds in sub-8ms with automatic pneumatic reject sorting.
-                  </p>
-                </div>
-                <button
-                  onClick={() => {
-                    setCurrentView('software');
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
-                  style={{
-                    backgroundColor: 'rgba(139, 92, 246, 0.2)',
-                    border: '1px solid rgba(139, 92, 246, 0.5)',
-                    color: '#c084fc',
-                    padding: '0.65rem',
-                    borderRadius: '8px',
-                    fontWeight: 700,
-                    fontSize: '0.85rem',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '0.4rem',
-                    transition: 'all 0.15s ease'
-                  }}
-                >
-                  <span>Explore AI Vision Models</span>
-                  <ArrowRight size={15} />
-                </button>
-              </div>
-            </div>
-
-            {/* 3. Perfect Labeler Visual Card */}
-            <div style={{
-              backgroundColor: '#0f172a',
-              border: '1px solid rgba(16, 185, 129, 0.4)',
-              borderRadius: '18px',
-              overflow: 'hidden',
-              boxShadow: '0 20px 45px rgba(0, 0, 0, 0.5)',
-              display: 'flex',
-              flexDirection: 'column'
-            }}>
-              <div style={{ position: 'relative', height: '230px', overflow: 'hidden' }}>
-                <img 
-                  src="/assets/images/atpl_labeler_hardware.jpg" 
-                  alt="ATPL High Speed Perfect Labeler Print & Apply System" 
-                  style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.4s ease' }}
-                  onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
-                  onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-                />
-                <div style={{
-                  position: 'absolute',
-                  top: '12px',
-                  right: '12px',
-                  backgroundColor: 'rgba(16, 185, 129, 0.9)',
-                  color: '#ffffff',
-                  fontSize: '0.72rem',
-                  fontWeight: 800,
-                  padding: '0.25rem 0.65rem',
-                  borderRadius: '6px',
-                  backdropFilter: 'blur(8px)'
-                }}>
-                  120 UNITS / MIN SPEED
-                </div>
-                <div style={{
-                  position: 'absolute',
-                  bottom: '12px',
-                  left: '12px',
-                  backgroundColor: 'rgba(15, 23, 42, 0.85)',
-                  color: '#34d399',
-                  fontSize: '0.75rem',
-                  fontWeight: 700,
-                  padding: '0.25rem 0.65rem',
-                  borderRadius: '6px',
-                  border: '1px solid rgba(52, 211, 153, 0.4)'
-                }}>
-                  PERFECT LABELER™ Print & Apply
-                </div>
-              </div>
-              <div style={{ padding: '1.5rem', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                <div>
-                  <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#ffffff', marginBottom: '0.5rem' }}>
-                    Robotic Print & Apply Applicator
-                  </h3>
-                  <p style={{ color: '#94a3b8', fontSize: '0.88rem', lineHeight: 1.6, marginBottom: '1.25rem' }}>
-                    Synchronized inline thermal printing, pneumatic tamp arm applicator, and integrated ISO 15415 barcode grading for fast-moving conveyor lines.
-                  </p>
-                </div>
-                <button
-                  onClick={() => {
-                    setCurrentView('hardware');
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
-                  style={{
-                    backgroundColor: 'rgba(16, 185, 129, 0.2)',
-                    border: '1px solid rgba(16, 185, 129, 0.5)',
-                    color: '#34d399',
-                    padding: '0.65rem',
-                    borderRadius: '8px',
-                    fontWeight: 700,
-                    fontSize: '0.85rem',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '0.4rem',
-                    transition: 'all 0.15s ease'
-                  }}
-                >
-                  <span>Explore Labeler Applicator</span>
-                  <ArrowRight size={15} />
-                </button>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
       {/* =========================================================================
           ENTERPRISE CASE STUDIES & PROVEN RESULTS (6 Detailed Success Stories)
          ========================================================================= */}
@@ -1573,6 +1351,11 @@ export const HomeView = () => {
 
         </div>
       </section>
+
+      {/* =========================================================================
+          WHY ATPL VS TRADITIONAL SYSTEM INTEGRATORS & GLOBAL VENDORS
+         ========================================================================= */}
+      <AtplDifferentiation />
 
       {/* =========================================================================
           VERIFIED CUSTOMER TESTIMONIALS (Executive Quotes & Verified Plants)
@@ -1955,6 +1738,11 @@ export const HomeView = () => {
 
         </div>
       </section>
+
+      {/* =========================================================================
+          INDUSTRY 4.0 RESOURCES, WHITEPAPERS & ROI TOOLS SECTION
+         ========================================================================= */}
+      <AtplResourcesSection />
 
       {/* Trust, Clients & OEM Partners Strip */}
       <section style={{ padding: '5rem 0', backgroundColor: '#ffffff', borderTop: '1px solid #f1f5f9' }}>
