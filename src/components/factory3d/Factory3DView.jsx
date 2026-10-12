@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { memo } from 'react';
 
-export const Factory3DView = () => {
+export const Factory3DView = memo(() => {
   return (
     <div style={{
       position: 'fixed',
@@ -12,7 +12,7 @@ export const Factory3DView = () => {
       overflow: 'hidden'
     }}>
       <iframe
-        src={`/factory-map.html?t=${Date.now()}`}
+        src="/factory-map.html"
         title="ATPL Smart Factory 3D Digital Twin Tour"
         style={{
           width: '100%',
@@ -23,4 +23,4 @@ export const Factory3DView = () => {
       />
     </div>
   );
-};
+});

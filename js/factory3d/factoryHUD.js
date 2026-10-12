@@ -36,14 +36,80 @@ document.addEventListener('DOMContentLoaded', () => {
   const camBtns = document.querySelectorAll('.cam-btn');
   const soundToggleBtn = document.getElementById('hud-sound-toggle');
   const stationSpecCard = document.getElementById('station-spec-card');
+  const robotDialoguePanel = document.querySelector('.robot-dialogue-panel');
+  const dialogueCloseBtn = document.getElementById('dialogue-close-btn');
+  const specCardCloseBtn = document.getElementById('spec-card-close-btn');
+  const openDialogueBtn = document.getElementById('open-robot-dialogue-btn');
+  const openSpecBtn = document.getElementById('open-spec-card-btn');
   const productModal = document.getElementById('product-deepdive-modal');
   const modalCloseBtn = document.getElementById('modal-close-btn');
+
+  // Close & Reopen Card Controls
+  if (dialogueCloseBtn && robotDialoguePanel) {
+    dialogueCloseBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      robotDialoguePanel.style.display = 'none';
+      if (openDialogueBtn) openDialogueBtn.style.display = 'inline-flex';
+    });
+  }
+
+  if (specCardCloseBtn && stationSpecCard) {
+    specCardCloseBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      stationSpecCard.style.display = 'none';
+      if (openSpecBtn) openSpecBtn.style.display = 'inline-flex';
+    });
+  }
+
+  if (openDialogueBtn && robotDialoguePanel) {
+    openDialogueBtn.addEventListener('click', () => {
+      robotDialoguePanel.style.display = 'block';
+      openDialogueBtn.style.display = 'none';
+    });
+  }
+
+  if (openSpecBtn && stationSpecCard) {
+    openSpecBtn.addEventListener('click', () => {
+      stationSpecCard.style.display = 'block';
+      stationSpecCard.classList.remove('hidden');
+      openSpecBtn.style.display = 'none';
+    });
+  }
+
+  // Escape key closes dialogue, spec card or modal
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      if (productModal && productModal.classList.contains('active')) {
+        productModal.classList.remove('active');
+        return;
+      }
+      if (robotDialoguePanel && robotDialoguePanel.style.display !== 'none') {
+        robotDialoguePanel.style.display = 'none';
+        if (openDialogueBtn) openDialogueBtn.style.display = 'inline-flex';
+      }
+      if (stationSpecCard && stationSpecCard.style.display !== 'none') {
+        stationSpecCard.style.display = 'none';
+        if (openSpecBtn) openSpecBtn.style.display = 'inline-flex';
+      }
+    }
+  });
 
   // 4. Station Selection Function
   function selectStation(index) {
     if (index < 0 || index >= stations.length) return;
     currentStationIndex = index;
     const station = stations[index];
+
+    // Restore panels on station switch
+    if (robotDialoguePanel) {
+      robotDialoguePanel.style.display = 'block';
+      if (openDialogueBtn) openDialogueBtn.style.display = 'none';
+    }
+    if (stationSpecCard) {
+      stationSpecCard.style.display = 'block';
+      stationSpecCard.classList.remove('hidden');
+      if (openSpecBtn) openSpecBtn.style.display = 'none';
+    }
 
     // Update Step Buttons in Bottom Bar
     stationStepBtns.forEach((btn, i) => {

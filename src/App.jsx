@@ -37,7 +37,9 @@ const MainAppContent = () => {
         setCurrentView('privacy');
       } else if (target === 'terms') {
         setCurrentView('terms');
-      } else if (['software', 'hardware', 'solutions', 'partners', 'resources', 'services', 'about', 'contact', 'factory-3d'].includes(target)) {
+      } else if (['factory-3d', 'factory-tour', 'factory', 'twin', 'tour', '3d', 'robot-tour', 'digitaltwin'].includes(target)) {
+        setCurrentView('factory-3d');
+      } else if (['software', 'hardware', 'solutions', 'partners', 'resources', 'services', 'about', 'contact'].includes(target)) {
         setCurrentView(target);
       }
     };

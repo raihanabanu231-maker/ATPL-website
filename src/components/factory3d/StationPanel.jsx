@@ -95,9 +95,19 @@ export const StationPanel = ({
           </div>
 
           <button
-            onClick={onClose}
+            type="button"
+            onClick={(e) => {
+              if (e) {
+                if (e.stopPropagation) e.stopPropagation();
+                if (e.preventDefault) e.preventDefault();
+              }
+              onClose?.(e);
+            }}
             aria-label="Close station details"
             style={{
+              position: 'relative',
+              zIndex: 9999,
+              pointerEvents: 'auto',
               background: 'rgba(255, 255, 255, 0.08)',
               border: '1px solid rgba(255, 255, 255, 0.15)',
               color: '#94A3B8',

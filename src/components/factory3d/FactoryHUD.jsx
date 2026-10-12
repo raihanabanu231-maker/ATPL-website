@@ -47,6 +47,24 @@ export const FactoryHUD = ({
 }) => {
   const [showProjectsModal, setShowProjectsModal] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState('ALL');
+  const [panelOpen, setPanelOpen] = useState(false);
+  const userClosedRef = React.useRef(false);
+
+  const closePanel = (e) => {
+    if (e) {
+      if (e.stopPropagation) e.stopPropagation();
+      if (e.preventDefault) e.preventDefault();
+    }
+    console.log("X clicked");
+    userClosedRef.current = true;
+    setPanelOpen(false);
+  };
+
+  const openPanelByUser = () => {
+    userClosedRef.current = false;
+    console.trace("panel reopened");
+    setPanelOpen(true);
+  };
 
   const node = selectedStation ? ATPL_FACTORY_NODES[selectedStation] : null;
 
@@ -256,7 +274,12 @@ export const FactoryHUD = ({
 
           {/* Auto Tour Mode */}
           <button
-            onClick={onToggleAutoTour}
+            onClick={() => {
+              if (!isAutoTour) {
+                setPanelOpen(false);
+              }
+              onToggleAutoTour();
+            }}
             style={{
               background: isAutoTour ? 'rgba(16, 185, 129, 0.28)' : 'rgba(10, 22, 44, 0.88)',
               border: isAutoTour ? '1.5px solid #10b981' : '1px solid rgba(255, 255, 255, 0.18)',
@@ -355,7 +378,7 @@ export const FactoryHUD = ({
       {/* ===================================================================
           2. DOCKED STATION DETAILS CARD (Cleanly Positioned, No Overlap)
           =================================================================== */}
-      {!isAutoTour && node && (
+      {!isAutoTour && node && panelOpen && (
         <div 
           className="hud-station-card-container"
           style={{
@@ -425,8 +448,12 @@ export const FactoryHUD = ({
 
               {/* Close Button to Dismiss Card & View 3D Scene Clearly */}
               <button
-                onClick={onResetOverview}
+                type="button"
+                onClick={closePanel}
                 style={{
+                  position: 'relative',
+                  zIndex: 9999,
+                  pointerEvents: 'auto',
                   background: 'rgba(255, 255, 255, 0.08)',
                   border: '1px solid rgba(255, 255, 255, 0.15)',
                   color: '#94a3b8',
@@ -624,6 +651,36 @@ export const FactoryHUD = ({
         </div>
       )}
 
+      {/* Floating Reopen Details Button when user closes Station Card */}
+      {!isAutoTour && node && !panelOpen && (
+        <button
+          type="button"
+          onClick={openPanelByUser}
+          style={{
+            position: 'absolute',
+            top: '75px',
+            left: '1.25rem',
+            zIndex: 9999,
+            pointerEvents: 'auto',
+            background: 'rgba(5, 13, 26, 0.95)',
+            border: '1.5px solid #00f0ff',
+            color: '#ffffff',
+            borderRadius: '8px',
+            padding: '0.45rem 0.85rem',
+            fontSize: '0.8rem',
+            fontWeight: 800,
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.4rem',
+            boxShadow: '0 4px 15px rgba(0,0,0,0.6)'
+          }}
+          title="Open Details (📋)"
+        >
+          📋 Details [{node.name}] ▶
+        </button>
+      )}
+
       {/* ===================================================================
           3. REAL CLIENT PROJECTS & PITCH DECK SHOWCASE MODAL
           =================================================================== */}
@@ -782,6 +839,7 @@ export const FactoryHUD = ({
                       onClick={() => {
                         setShowProjectsModal(false);
                         onSelectStation(proj.stationId);
+                        openPanelByUser();
                       }}
                       style={{
                         background: 'rgba(0, 240, 255, 0.12)',
@@ -895,7 +953,10 @@ export const FactoryHUD = ({
             return (
               <button
                 key={key}
-                onClick={() => onSelectStation(key)}
+                onClick={() => {
+                  onSelectStation(key);
+                  openPanelByUser();
+                }}
                 style={{
                   background: isActive ? 'rgba(0, 240, 255, 0.22)' : 'transparent',
                   border: isActive ? `1.5px solid ${st.color || '#00f0ff'}` : '1px solid transparent',
@@ -979,7 +1040,10 @@ export const FactoryHUD = ({
               return (
                 <button
                   key={key}
-                  onClick={() => onSelectStation(key)}
+                  onClick={() => {
+                    onSelectStation(key);
+                    openPanelByUser();
+                  }}
                   style={{
                     width: '26px',
                     height: '26px',

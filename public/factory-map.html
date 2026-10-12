@@ -3,6 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <title>ATPL Group | Archery Technocrats – 3D Digital Twin & Project Showcase</title>
 <link rel="icon" href="https://atplgroup.com/wp-content/uploads/2024/01/cropped-logo_original-32x32.png">
 <style>
@@ -112,12 +115,10 @@ button{font:inherit;color:inherit;cursor:pointer;border:none;outline:none;-webki
   filter:drop-shadow(0 0 28px #18e0ff);
 }
 @keyframes archieWalkTour{
-  0%   {left:44%;top:46%;transform:translate(-50%,-50%) scale(1) scaleX(1)}
-  30%  {left:37%;top:51%;transform:translate(-50%,-50%) scale(1.04) scaleX(1)}
-  35%  {left:37%;top:51%;transform:translate(-50%,-50%) scale(1.04) scaleX(-1)}
-  70%  {left:49%;top:43%;transform:translate(-50%,-50%) scale(0.96) scaleX(-1)}
-  75%  {left:49%;top:43%;transform:translate(-50%,-50%) scale(0.96) scaleX(1)}
-  100% {left:44%;top:46%;transform:translate(-50%,-50%) scale(1) scaleX(1)}
+  0%   {left:44%;top:46%;transform:translate(-50%,-50%) scale(1)}
+  30%  {left:37%;top:51%;transform:translate(-50%,-50%) scale(1.04)}
+  70%  {left:49%;top:43%;transform:translate(-50%,-50%) scale(0.96)}
+  100% {left:44%;top:46%;transform:translate(-50%,-50%) scale(1)}
 }
 
 .archery-live-robot.station-guide{
@@ -139,6 +140,7 @@ button{font:inherit;color:inherit;cursor:pointer;border:none;outline:none;-webki
   background:rgba(4,22,40,0.95);color:#fff;border-radius:8px;padding:3px 8px;
   font-size:clamp(8.5px, 1vw, 10.5px);font-weight:800;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,0.7);
   pointer-events:none;border:1.5px solid #18e0ff;letter-spacing:0.3px;z-index:10;
+  direction:ltr !important;unicode-bidi:normal !important;
 }
 .archie-bubble span{color:#18e0ff;margin-right:4px}
 .archie-bubble:after{
@@ -188,31 +190,55 @@ button{font:inherit;color:inherit;cursor:pointer;border:none;outline:none;-webki
   position:absolute;left:14px;top:14px;bottom:14px;width:380px;max-width:calc(100vw - 28px);
   background:linear-gradient(180deg, rgba(8, 22, 38, 0.98) 0%, rgba(4, 14, 26, 0.99) 100%);
   border:1.5px solid rgba(24, 224, 255, 0.35);border-radius:16px;
-  display:flex;flex-direction:column;overflow:hidden;
-  transform:translateX(-140%);transition:transform .38s cubic-bezier(.16, 1, .3, 1);
+  display:none !important;flex-direction:column;overflow:hidden;
+  transform:translateX(-150%) !important;transition:transform .35s cubic-bezier(.16, 1, .3, 1), opacity .3s ease;
   box-shadow:0 20px 50px rgba(0,0,0,0.88), 0 0 30px rgba(24,224,255,0.18), inset 0 1px 0 rgba(255,255,255,0.15);
-  z-index:10;-webkit-backdrop-filter:blur(24px);backdrop-filter:blur(24px);
+  z-index:100 !important;-webkit-backdrop-filter:blur(24px);backdrop-filter:blur(24px);
+  visibility:hidden !important;pointer-events:none !important;opacity:0 !important;
 }
-#panel.open{transform:none}
+#panel.open{
+  display:flex !important;
+  visibility:visible !important;
+  pointer-events:auto !important;
+  transform:none !important;
+  opacity:1 !important;
+}
 #panel-handle{display:none;width:40px;height:4px;border-radius:999px;background:rgba(255,255,255,0.35);margin:0 auto 8px;cursor:pointer}
 
 /* Fixed Header & Interactive Controls */
 .panel-hdr{
   padding:14px 16px 12px;border-bottom:1px solid rgba(255,255,255,0.1);
-  flex-shrink:0;position:relative;background:rgba(4, 16, 30, 0.92);
+  flex-shrink:0;position:relative;z-index:110;background:rgba(4, 16, 30, 0.92);
 }
 .panel-top-actions{
-  position:absolute;right:12px;top:12px;display:flex;align-items:center;gap:4px;z-index:2;
+  position:absolute;right:12px;top:12px;display:flex;align-items:center;gap:6px;z-index:9999;pointer-events:auto !important;
 }
 .panel-action-btn{
-  width:28px;height:28px;border-radius:6px;background:rgba(255,255,255,0.08);
-  border:1px solid rgba(255,255,255,0.18);color:#cbd5e1;font-size:12px;font-weight:800;
-  display:grid;place-items:center;transition:all .2s;cursor:pointer;
+  width:32px;height:32px;border-radius:6px;background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.18);color:#cbd5e1;font-size:13px;font-weight:800;
+  display:grid;place-items:center;transition:all .2s;cursor:pointer;user-select:none;
 }
-.panel-action-btn:hover{background:rgba(24,224,255,0.22);color:#fff;border-color:var(--cy);transform:scale(1.05)}
-.panel-action-btn.close-btn:hover{background:rgba(255,77,109,0.3);color:#ff4d6d;border-color:rgba(255,77,109,0.7)}
+.panel-action-btn:hover{background:rgba(24,224,255,0.25);color:#fff;border-color:var(--cy);transform:scale(1.08)}
+.panel-action-btn.close-btn{
+  position:relative !important;
+  background:rgba(255,77,109,0.22) !important;
+  border:1.5px solid rgba(255,77,109,0.65) !important;
+  color:#ff4d6d !important;
+  font-size:15px !important;
+  font-weight:900 !important;
+  cursor:pointer !important;
+  pointer-events:auto !important;
+  z-index:9999 !important;
+}
+.panel-action-btn.close-btn:hover{
+  background:#ff4d6d !important;
+  color:#fff !important;
+  border-color:#fff !important;
+  transform:scale(1.15) !important;
+  box-shadow:0 0 16px rgba(255,77,109,0.85) !important;
+}
 
-.panel-hdr-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px;padding-right:96px}
+.panel-hdr-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px;padding-right:110px}
 #pt{display:flex;align-items:center;gap:8px;color:var(--cy);font-size:11px;font-weight:800;letter-spacing:0.8px}
 #pt i{font-style:normal;background:linear-gradient(135deg,#0b9bff,#18c8ff);color:#020b14;border-radius:4px;padding:2px 6px;font-size:10.5px;font-weight:900;letter-spacing:0.5px}
 
@@ -231,14 +257,15 @@ button{font:inherit;color:inherit;cursor:pointer;border:none;outline:none;-webki
 
 /* Floating Reopen Button when user minimizes/closes panel */
 #openPanelBtn{
-  position:absolute;left:14px;top:14px;z-index:12;
-  background:linear-gradient(135deg,rgba(8,26,48,0.95) 0%,rgba(4,16,32,0.98) 100%);
+  position:absolute;left:clamp(8px,1.5vw,16px);top:clamp(54px, 5.5vw, 66px);z-index:26;
+  background:linear-gradient(135deg,rgba(8,26,48,0.96) 0%,rgba(4,16,32,0.98) 100%);
   border:1.5px solid var(--cy);box-shadow:0 8px 24px rgba(0,0,0,0.6),0 0 20px rgba(24,224,255,0.35);
-  color:#fff;font-size:12px;font-weight:800;padding:8px 14px;border-radius:10px;
+  color:#fff;font-size:12px;font-weight:800;padding:7px 13px;border-radius:10px;
   display:none;align-items:center;gap:6px;cursor:pointer;transition:all .2s;
 }
 #openPanelBtn:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(24,224,255,0.5);border-color:#fff}
-#panel:not(.open) ~ #openPanelBtn{display:inline-flex}
+body.panel-closed #tabs{left:14px !important;padding:0 clamp(8px,1.5vw,16px);}
+body.panel-closed #hud{left:14px !important;}
 
 /* Scrollable Body */
 .panel-body{
@@ -298,6 +325,8 @@ ul.s li:before{content:"✓";position:absolute;left:0;top:2px;width:16px;height:
 .a1:hover{background:rgba(24,224,255,0.22);border-color:var(--cy);transform:translateY(-1px)}
 .a2{background:linear-gradient(135deg,#0b9bff,#18c8ff);color:#fff;box-shadow:0 4px 14px rgba(11,155,255,0.4);border:none}
 .a2:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(11,155,255,0.55)}
+.a3{background:rgba(255,77,109,0.18);color:#ff4d6d;border:1.5px solid rgba(255,77,109,0.5);font-size:12px;padding:9px 12px;flex:0 0 auto}
+.a3:hover{background:#ff4d6d;color:#fff;border-color:#fff}
 
 /* Bottom Quick Stations Bar */
 #tabs{
@@ -400,12 +429,22 @@ ul.s li:before{content:"✓";position:absolute;left:0;top:2px;width:16px;height:
     width: 100%; height: 56vh; max-height: 480px;
     border-radius: 20px 20px 0 0;
     border-left: none; border-right: none; border-bottom: none;
-    transform: translateY(115%);
+    transform: translateY(120%) !important;
     box-shadow: 0 -12px 40px rgba(0,0,0,0.9);
     padding: 0;
-    transition: transform .35s cubic-bezier(.16, 1, .3, 1);
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    opacity: 0 !important;
+    transition: transform .35s cubic-bezier(.16, 1, .3, 1), opacity .3s ease;
   }
-  #panel.open{transform: translateY(0);}
+  #panel.open{
+    display: flex !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transform: translateY(0) !important;
+    opacity: 1 !important;
+  }
   .panel-hdr{padding: 8px 16px 10px;}
   .panel-body{padding: 12px 16px;}
   .panel-ftr{padding: 10px 16px;}
@@ -554,16 +593,16 @@ ul.s li:before{content:"✓";position:absolute;left:0;top:2px;width:16px;height:
   </div>
 
   <!-- Floating Button to Reopen Description Box if User Closes It -->
-  <button id="openPanelBtn" type="button" onclick="openPanel(event)">📋 Station Details [<b>#01 Perfect Trace</b>] ▶</button>
+  <button id="openPanelBtn" type="button" onclick="userClosed=false;setPanelOpen(true,true)" aria-label="Reopen station details" title="Open Details (📋)">📋 Details [<b>#01 Perfect Trace</b>] ▶</button>
 
-  <!-- Executive Inspector Panel (In Full User Control) -->
-  <aside id="panel" class="open">
+  <!-- Executive Inspector Panel (Opens only when user clicks a project) -->
+  <aside id="panel" class="" style="display: none;">
     <div id="panel-handle" onclick="togglePanel(event)" title="Tap to toggle sheet"></div>
     <div class="panel-hdr">
       <div class="panel-top-actions">
-        <button class="panel-action-btn" id="prevStnBtn" type="button" onclick="stopTour();sel((cur-1+12)%12)" title="Previous Station (←)">◀</button>
-        <button class="panel-action-btn" id="nextStnBtn" type="button" onclick="stopTour();sel((cur+1)%12)" title="Next Station (→)">▶</button>
-        <button class="panel-action-btn close-btn" id="x" type="button" aria-label="Close" onclick="closePanel(event)" title="Close Details (✕)">✕</button>
+        <button class="panel-action-btn" id="prevStnBtn" type="button" onclick="userClosed=false;stopTour();sel((cur-1+12)%12, false);setPanelOpen(true,true)" title="Previous Station (←)">◀</button>
+        <button class="panel-action-btn" id="nextStnBtn" type="button" onclick="userClosed=false;stopTour();sel((cur+1)%12, false);setPanelOpen(true,true)" title="Next Station (→)">▶</button>
+        <button class="panel-action-btn close-btn" id="panelCloseBtn" type="button" aria-label="Close" onclick="if(event){event.stopPropagation();event.preventDefault();}closePanel(event);" title="Close Details (✕)">✕</button>
       </div>
 
       <div class="panel-hdr-top">
@@ -572,7 +611,7 @@ ul.s li:before{content:"✓";position:absolute;left:0;top:2px;width:16px;height:
       
       <!-- Interactive Quick Station Switcher Dropdown -->
       <div class="panel-ctrl-bar">
-        <select id="stationSelect" class="panel-station-select" onchange="stop();sel(Number(this.value))">
+        <select id="stationSelect" class="panel-station-select" onchange="userClosed=false;stopTour();sel(Number(this.value), false);setPanelOpen(true,true)">
           <option value="0">01 · Perfect Trace (GS1 Serialization)</option>
           <option value="1">02 · Perfect Audit (ISO Paperless CAPA)</option>
           <option value="2">03 · Perfect Store (WMS 4.0 3D Heatmaps)</option>
@@ -749,6 +788,56 @@ S.forEach((s,idx)=>{
 const IW=1168,IH=750,$=id=>document.getElementById(id),p2=n=>String(n+1).padStart(2,'0');
 const stage=$('stage'),world=$('world'),bg=$('bg');
 let W,H,w,h,k,ox,oy,cur=0,mx=0,my=0,auto=null,is3DTilted=false,isOverviewMode=false;
+let panelOpen = false;
+let userClosed = false;
+
+function setPanelOpen(isOpen, isExplicitUserAction = false) {
+  if (isOpen) {
+    if (userClosed && !isExplicitUserAction) {
+      console.warn("Blocked non-user attempt to reopen panel while userClosed is true");
+      return;
+    }
+    if (isExplicitUserAction) {
+      userClosed = false;
+    }
+    console.trace("panel reopened");
+  }
+  panelOpen = !!isOpen;
+  const panel = $('panel');
+  const openBtn = $('openPanelBtn');
+  const hud = $('hud');
+
+  if (panelOpen) {
+    if (panel) {
+      panel.classList.add('open');
+      panel.style.setProperty('display', 'flex', 'important');
+      panel.style.setProperty('visibility', 'visible', 'important');
+      panel.style.setProperty('opacity', '1', 'important');
+      panel.style.setProperty('pointer-events', 'auto', 'important');
+      panel.style.setProperty('transform', 'none', 'important');
+    }
+    if (openBtn) openBtn.style.setProperty('display', 'none', 'important');
+    if (hud) hud.classList.add('panel-open');
+    document.body.classList.remove('panel-closed');
+  } else {
+    if (panel) {
+      panel.classList.remove('open');
+      panel.style.setProperty('display', 'none', 'important');
+      panel.style.setProperty('visibility', 'hidden', 'important');
+      panel.style.setProperty('opacity', '0', 'important');
+      panel.style.setProperty('pointer-events', 'none', 'important');
+      panel.style.setProperty('transform', 'translateX(-200%)', 'important');
+    }
+    if (openBtn) {
+      openBtn.style.setProperty('display', 'inline-flex', 'important');
+      const stName = S[cur] ? S[cur][0] : 'Station';
+      openBtn.innerHTML = '📋 Station Details [<b>#' + p2(cur) + ' ' + stName + '</b>] ▶';
+    }
+    if (hud) hud.classList.remove('panel-open');
+    document.body.classList.add('panel-closed');
+  }
+  apply();
+}
 
 // Build Hotspots and Tabs
 S.forEach((s,i)=>{
@@ -756,15 +845,33 @@ S.forEach((s,i)=>{
   d.className='hs';
   d.style.left=(s[5]/IW*100)+'%';
   d.style.top=(s[6]/IH*100)+'%';
-  d.innerHTML='<button><i class="mono">'+p2(i)+'</i>'+s[0]+'</button>';
-  d.onclick=()=>{stop();sel(i)};
+  d.innerHTML='<button type="button"><i class="mono">'+p2(i)+'</i>'+s[0]+'</button>';
+  
+  const handleSelect = (e)=>{
+    if(e && e.stopPropagation) e.stopPropagation();
+    userClosed = false;
+    stopTour();
+    sel(i);
+    setPanelOpen(true, true);
+  };
+  d.onclick = handleSelect;
+  const hsBtn = d.querySelector('button');
+  if(hsBtn) hsBtn.onclick = handleSelect;
+
   world.appendChild(d);
   s.el=d;
 
   const t=document.createElement('button');
   t.className='b mono';
+  t.type='button';
   t.textContent=p2(i)+' '+s[0];
-  t.onclick=()=>{stop();sel(i)};
+  t.onclick=(e)=>{
+    if(e && e.stopPropagation) e.stopPropagation();
+    userClosed = false;
+    stopTour();
+    sel(i);
+    setPanelOpen(true, true);
+  };
   $('tabs').appendChild(t);
   s.tab=t;
 });
@@ -1149,134 +1256,146 @@ function draw(i,diag){
 }
 
 // Select Station - Moves Archie Robot directly to the project & updates the constant side description panel
-function sel(i){
-  isOverviewMode=false;
-  cur=i;const s=S[i];
-  $('pt').innerHTML='<i>'+p2(i)+'</i>'+s[1];
-  $('pn').textContent=s[0];
-  $('pd').textContent=s[2];
-  $('pl').textContent=s[3];
-  $('psp').innerHTML=s[4].map(x=>'<li>'+x+'</li>').join('');
-  $('cn').textContent=s[0];
-  $('cm').textContent=MS[i]+' ms';
+function sel(i, keepClosedIfHidden = false){
+  isOverviewMode = false;
+  cur = i;
+  const s = S[i];
+  if (!s) return;
 
-  // Update Direct Project Photo Image
-  const pImg=$('pPhotoImg');
-  if(pImg){
-    pImg.src='assets/images/stations/'+s[7];
-    pImg.alt='ATPL ' + s[0] + ' Deployment Photo';
-  }
-
-  if(s[8]){
-    $('pcs').style.display='block';
-    $('pcs').innerHTML='<b>★ PITCH DECK CUSTOMER SUCCESS STORY</b><em>"'+s[8].head+'"</em><div style="font-size:11.5px;color:#94a3b8;margin-bottom:4px;">Client: '+s[8].client+'</div><span style="display:inline-block;padding:3px 8px;border-radius:4px;background:rgba(16,185,129,0.2);color:#34d399;font-weight:700;font-size:11px;">'+s[8].metric+'</span>';
-  } else {
-    $('pcs').style.display='none';
-  }
-
-  $('t1').className='on';
-  $('t2').className='';
-  $('pPhotoBox').style.display='block';
-  $('cvp').style.display='none';
+  // 1. Header Tag & Title
+  const ptEl = $('pt');
+  if (ptEl) ptEl.innerHTML = '<i>' + p2(i) + '</i>' + (s[1] || '');
+  const pnEl = $('pn');
+  if (pnEl) pnEl.textContent = s[0] || '';
   
-  // Respect user preference if they closed the panel
-  if (!isPanelClosedByUser) {
-    $('panel').classList.add('open');
-    if ($('openPanelBtn')) $('openPanelBtn').style.display = 'none';
-    if ($('hud')) $('hud').classList.add('panel-open');
-  } else {
-    $('panel').classList.remove('open');
-    if ($('openPanelBtn')) $('openPanelBtn').style.display = 'inline-flex';
-    if ($('hud')) $('hud').classList.remove('panel-open');
+  // 2. Main Station Description
+  const pdEl = $('pd');
+  if (pdEl) pdEl.textContent = s[2] || '';
+
+  // 3. Archie AI Industrial Insight
+  const plEl = $('pl');
+  if (plEl) plEl.textContent = s[3] || '';
+
+  // 4. Enterprise Specifications list
+  const pspEl = $('psp');
+  if (pspEl && Array.isArray(s[4])) {
+    pspEl.innerHTML = s[4].map(x => '<li>' + x + '</li>').join('');
   }
-  
-  // Move Archie Robot Beside This Project Station (avoiding hotspot collision)
+
+  // 5. Hardware Caption and Telemetry
+  const cnEl = $('cn');
+  if (cnEl) cnEl.textContent = s[0] || '';
+  const cmEl = $('cm');
+  if (cmEl) cmEl.textContent = (MS[i] || 10) + ' ms';
+
+  // 6. Direct Project Deployment Photo Image
+  const pImg = $('pPhotoImg');
+  if (pImg) {
+    pImg.src = 'assets/images/stations/' + s[7];
+    pImg.alt = 'ATPL ' + s[0] + ' Deployment Photo';
+  }
+
+  // 7. Customer Case Study Card
+  const pcsEl = $('pcs');
+  if (pcsEl) {
+    if (s[8]) {
+      pcsEl.style.display = 'block';
+      pcsEl.innerHTML = '<b>★ PITCH DECK CUSTOMER SUCCESS STORY</b><em>"' + s[8].head + '"</em><div style="font-size:11.5px;color:#94a3b8;margin-bottom:4px;">Client: ' + s[8].client + '</div><span style="display:inline-block;padding:3px 8px;border-radius:4px;background:rgba(16,185,129,0.2);color:#34d399;font-weight:700;font-size:11px;">' + s[8].metric + '</span>';
+    } else {
+      pcsEl.style.display = 'none';
+    }
+  }
+
+  // 8. Always default to Photo view
+  showPhotoTab();
+
+  // 9. Sync floating reopen Details button text
+  const openBtn = $('openPanelBtn');
+  if (openBtn) {
+    openBtn.innerHTML = '📋 Details [<b>#' + p2(i) + ' ' + s[0] + '</b>] ▶';
+  }
+
+  // 10. Move Archie Robot Beside This Project Station (avoiding hotspot collision)
   const robotEl = $('archeryRobotLive');
   if (robotEl) {
     robotEl.classList.add('station-guide');
     const targetX = (s[5] / IW * 100);
     const targetY = (s[6] / IH * 100);
-    // Position Archie beside the machine with clear clearance so hotspot & Archie never collide
     const offsetX = targetX > 50 ? -12 : 12;
     const offsetY = targetY > 50 ? -7 : 7;
     robotEl.style.left = (targetX + offsetX) + '%';
     robotEl.style.top = (targetY + offsetY) + '%';
-    robotEl.style.transform = `translate(-50%, -50%) scale(0.92) scaleX(${targetX > 50 ? 1 : -1})`;
+    robotEl.style.transform = 'translate(-50%, -50%) scale(0.92)';
+
+    const robotImg = robotEl.querySelector('img');
+    if (robotImg) {
+      robotImg.style.transform = targetX > 50 ? 'none' : 'scaleX(-1)';
+    }
 
     const bubble = $('archieSpeechBubble');
     if (bubble) {
-      bubble.innerHTML = `<span>🤖 Archie Guide:</span> #${p2(i)} · <b>${s[0]}</b>`;
+      bubble.innerHTML = '<span>🤖 Archie Guide:</span> #' + p2(i) + ' · <b>' + s[0] + '</b>';
     }
   }
 
-  // Sync Dropdown and Floating Reopen Button
+  // 11. Sync Dropdown and Floating Reopen Button
   const stSelect = $('stationSelect');
-  if(stSelect) stSelect.value = String(i);
-  const openBtn = $('openPanelBtn');
-  if(openBtn) openBtn.innerHTML = `📋 Station Details [<b>#${p2(i)} ${s[0]}</b>] ▶`;
+  if (stSelect) stSelect.value = String(i);
+  if (openBtn) openBtn.innerHTML = '📋 Station Details [<b>#' + p2(i) + ' ' + s[0] + '</b>] ▶';
 
-  S.forEach((o,j)=>{
-    o.el.classList.toggle('sel',j===i);
-    o.tab.classList.toggle('on',j===i);
+  // 12. Sync Active Hotspots and Bottom Tabs
+  S.forEach((o, j) => {
+    if (o.el) o.el.classList.toggle('sel', j === i);
+    if (o.tab) o.tab.classList.toggle('on', j === i);
   });
-  s.tab.scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'});
+  if (s.tab && s.tab.scrollIntoView) {
+    s.tab.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+  }
+
   apply();
 }
 
 function showPhotoTab(){
-  $('t1').className='on';
-  $('t2').className='';
-  $('pPhotoBox').style.display='block';
-  $('cvp').style.display='none';
+  const t1 = $('t1'); if (t1) t1.className = 'on';
+  const t2 = $('t2'); if (t2) t2.className = '';
+  const pb = $('pPhotoBox'); if (pb) pb.style.display = 'block';
+  const cvp = $('cvp'); if (cvp) cvp.style.display = 'none';
 }
 
 function showDiagramTab(){
-  $('t2').className='on';
-  $('t1').className='';
-  $('pPhotoBox').style.display='none';
-  $('cvp').style.display='block';
-  draw(cur>=0?cur:0, true);
+  const t2 = $('t2'); if (t2) t2.className = 'on';
+  const t1 = $('t1'); if (t1) t1.className = '';
+  const pb = $('pPhotoBox'); if (pb) pb.style.display = 'none';
+  const cvp = $('cvp'); if (cvp) cvp.style.display = 'block';
+  draw(cur >= 0 ? cur : 0, true);
 }
 
-let isPanelClosedByUser = false;
-
 function closePanel(e){
-  if(e && e.stopPropagation){
-    e.stopPropagation();
-    e.preventDefault();
+  console.log("X clicked");
+  if (e) {
+    if (e.stopPropagation) e.stopPropagation();
+    if (e.preventDefault) e.preventDefault();
   }
-  isPanelClosedByUser = true;
-  const panel = $('panel');
-  if(panel) panel.classList.remove('open');
-  const openBtn = $('openPanelBtn');
-  if(openBtn) openBtn.style.display = 'inline-flex';
-  const hud = $('hud');
-  if(hud) hud.classList.remove('panel-open');
-  apply();
+  userClosed = true;
+  stopTour();
+  setPanelOpen(false);
 }
 
 function openPanel(e){
-  if(e && e.stopPropagation){
-    e.stopPropagation();
-    e.preventDefault();
+  if (e) {
+    if (e.stopPropagation) e.stopPropagation();
+    if (e.preventDefault) e.preventDefault();
   }
-  isPanelClosedByUser = false;
-  const panel = $('panel');
-  if(panel) panel.classList.add('open');
-  const openBtn = $('openPanelBtn');
-  if(openBtn) openBtn.style.display = 'none';
-  const hud = $('hud');
-  if(hud) hud.classList.add('panel-open');
-  apply();
+  userClosed = false;
+  setPanelOpen(true, true);
 }
 
 function togglePanel(e){
-  if(e && e.stopPropagation){
-    e.stopPropagation();
-    e.preventDefault();
+  if (e) {
+    if (e.stopPropagation) e.stopPropagation();
+    if (e.preventDefault) e.preventDefault();
   }
-  const panel = $('panel');
-  if(panel && panel.classList.contains('open')){
+  if (panelOpen) {
     closePanel(e);
   } else {
     openPanel(e);
@@ -1285,11 +1404,6 @@ function togglePanel(e){
 
 function over(){
   isOverviewMode=true;
-  if(!isPanelClosedByUser){
-    $('panel').classList.add('open');
-    if($('openPanelBtn')) $('openPanelBtn').style.display = 'none';
-    if($('hud')) $('hud').classList.add('panel-open');
-  }
   if(cur < 0) cur = 0;
   
   // Return Archie Robot to Central Factory Patrol
@@ -1299,6 +1413,8 @@ function over(){
     robotEl.style.left = '';
     robotEl.style.top = '';
     robotEl.style.transform = '';
+    const robotImg = robotEl.querySelector('img');
+    if (robotImg) robotImg.style.transform = 'none';
     const bubble = $('archieSpeechBubble');
     if (bubble) {
       bubble.innerHTML = `<span>🤖 Archie AI:</span> "Target Perfection! Factory Tour Guide Active."`;
@@ -1311,6 +1427,7 @@ let tourTimer = null;
 
 function startTour(){
   stopTour();
+  setPanelOpen(false); // Close description box so user can watch the full tour cleanly
   const tourBtn = $('tour');
   if(tourBtn){
     tourBtn.classList.add('on');
@@ -1328,7 +1445,10 @@ function stopTour(){
     clearInterval(tourTimer);
     tourTimer = null;
   }
-  auto = null;
+  if (auto) {
+    clearInterval(auto);
+    auto = null;
+  }
   const tourBtn = $('tour');
   if(tourBtn){
     tourBtn.classList.remove('on');
@@ -1347,7 +1467,7 @@ function openGallery(){
   const grid=$('galGrid');
   if(!grid.hasChildNodes()){
     grid.innerHTML=S.map((s, idx)=>`
-      <div class="card" style="display:flex;flex-direction:column;border:1px solid rgba(24,224,255,0.3);background:rgba(4,22,40,0.85);overflow:hidden;padding:0;">
+      <div class="card" onclick="userClosed=false;closeGallery();sel(${idx});setPanelOpen(true,true);" style="display:flex;flex-direction:column;border:1px solid rgba(24,224,255,0.3);background:rgba(4,22,40,0.85);overflow:hidden;padding:0;cursor:pointer;">
         <div style="position:relative;width:100%;height:140px;overflow:hidden;background:#020b14;">
           <img src="assets/images/stations/${s[7]}" alt="${s[0]}" style="width:100%;height:100%;object-fit:cover;transition:transform .3s;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
           <span style="position:absolute;top:8px;left:8px;background:rgba(2,11,20,0.85);color:#18e0ff;font-family:monospace;font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;border:1px solid rgba(24,224,255,0.3);">#${p2(idx)}</span>
@@ -1358,7 +1478,7 @@ function openGallery(){
             <div style="color:#ffc93c;font-size:10px;font-weight:700;letter-spacing:0.8px;margin-bottom:6px;">${s[1]}</div>
             <p style="font-size:11.5px;color:#cbd5e1;line-height:1.4;margin:0 0 8px;">${s[2]}</p>
           </div>
-          <button onclick="closeGallery();sel(${idx})" style="width:100%;background:linear-gradient(135deg,#0b9bff,#18c8ff);color:#fff;border-radius:6px;padding:7px;font-size:11.5px;font-weight:800;">🔍 Inspect Station in 3D →</button>
+          <button type="button" onclick="event.stopPropagation();userClosed=false;closeGallery();sel(${idx});setPanelOpen(true,true);" style="width:100%;background:linear-gradient(135deg,#0b9bff,#18c8ff);color:#fff;border-radius:6px;padding:7px;font-size:11.5px;font-weight:800;cursor:pointer;">🔍 Inspect Station in 3D →</button>
         </div>
       </div>
     `).join('');
@@ -1441,7 +1561,8 @@ function inspectRobot(botId){
   $('t2').className='';
   $('pPhotoBox').style.display='block';
   $('cvp').style.display='none';
-  $('panel').classList.add('open');
+  userClosed = false;
+  openPanel();
 }
 
 // Event Listeners
@@ -1509,36 +1630,32 @@ function toggleMobNav() {
   if (drawer) drawer.classList.toggle('open');
 }
 
-// Swipe Down to Dismiss Inspector Bottom Sheet on Mobile
-let panelTouchStartY = 0;
-const panelEl = $('panel');
-panelEl.addEventListener('touchstart', e => {
-  if (e.touches.length === 1) {
-    panelTouchStartY = e.touches[0].clientY;
-  }
-}, { passive: true });
-
-panelEl.addEventListener('touchend', e => {
-  if (e.changedTouches.length === 1) {
-    const deltaY = e.changedTouches[0].clientY - panelTouchStartY;
-    if (deltaY > 60 && panelEl.scrollTop <= 0) {
-      closePanel(e); // Dismiss bottom sheet
-    }
-  }
-}, { passive: true });
-
-addEventListener('keydown',e=>{
-  if(e.key==='Escape'){closePanel();closePitchDeck();closeGallery();closeArchieChat()}
-  if(e.key===' '){$('tour').click()}
-  if(e.key==='ArrowRight'){stopTour();sel((cur+1)%12)}
-  if(e.key==='ArrowLeft'){stopTour();sel((cur-1+12)%12)}
+// Keep panel open until user explicitly clicks the X close button or presses Escape
+addEventListener('keydown', e => {
+  if (e.key === 'Escape') { closePanel(); closePitchDeck(); closeGallery(); closeArchieChat(); }
+  if (e.key === ' ') { $('tour').click(); }
+  if (e.key === 'ArrowRight') { stopTour(); sel((cur + 1) % 12, false); }
+  if (e.key === 'ArrowLeft') { stopTour(); sel((cur - 1 + 12) % 12, false); }
 });
+
+// Explicit event bindings on close button
+const pCloseBtn = $('panelCloseBtn');
+if (pCloseBtn) {
+  pCloseBtn.onclick = (e) => {
+    if (e) {
+      if (e.stopPropagation) e.stopPropagation();
+      if (e.preventDefault) e.preventDefault();
+    }
+    closePanel(e);
+  };
+}
 
 addEventListener('resize',layout);
 layout();
 
-// Start with Station #01 (Perfect Trace) active and Description Box constantly open & docked
+// Start with Station #01 (Perfect Trace) telemetry active, Description Box hidden so user can watch the full tour
 sel(0);
+setPanelOpen(false);
 
 function navigateParent(view, hash = ''){
   try {

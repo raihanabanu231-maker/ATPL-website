@@ -34,3 +34,4 @@ thumbs.db
 # Gemini IDE & Brain caches
 .gemini/
 .agents/
+scratch/
