@@ -309,8 +309,8 @@ export const FactoryBlueprintMap = () => {
     <section 
       id="factory-blueprint-section" 
       aria-label="ATPL Smart Factory Interactive 12-Station Tour"
+      className="factory-blueprint-section-root"
       style={{ 
-        padding: '0.8rem 1rem 1.2rem 1rem', 
         backgroundColor: '#050c1a', 
         color: '#ffffff',
         display: 'flex',
@@ -318,38 +318,47 @@ export const FactoryBlueprintMap = () => {
         boxSizing: 'border-box'
       }}
     >
-      <div style={{ maxWidth: '1440px', width: '100%', margin: '0 auto', display: 'flex', flexDirection: 'column' }}>
+      <div 
+        className="factory-blueprint-main-wrapper" 
+        style={{ 
+          maxWidth: '1440px', 
+          width: '100%', 
+          margin: '0 auto', 
+          display: 'flex', 
+          flexDirection: 'column' 
+        }}
+      >
         
         {/* =====================================================================
-            1. SECTION INTRO HEADER: Clarity & Immediate Purpose
+            1. SECTION INTRO HEADER: High-impact & Single-Screen Proportion
            ===================================================================== */}
-        <div className="factory-tour-header" style={{ textAlign: 'center', marginBottom: '0.75rem' }}>
+        <div className="factory-tour-header" style={{ textAlign: 'center', marginBottom: '0.35rem' }}>
           <div style={{
             display: 'inline-flex',
             alignItems: 'center',
-            gap: '0.45rem',
+            gap: '0.4rem',
             background: 'rgba(0, 240, 255, 0.08)',
             border: '1px solid rgba(0, 240, 255, 0.35)',
             borderRadius: '999px',
-            padding: '0.22rem 0.85rem',
-            marginBottom: '0.35rem',
-            boxShadow: '0 2px 12px rgba(0, 240, 255, 0.15)'
+            padding: '0.15rem 0.65rem',
+            marginBottom: '0.18rem',
+            boxShadow: '0 2px 10px rgba(0, 240, 255, 0.15)'
           }}>
             <span style={{
-              width: '7px',
-              height: '7px',
+              width: '6px',
+              height: '6px',
               borderRadius: '50%',
               backgroundColor: '#00f0ff',
-              boxShadow: '0 0 10px #00f0ff',
+              boxShadow: '0 0 8px #00f0ff',
               display: 'inline-block',
               animation: 'pulseCyanDot 1.8s infinite'
             }} />
             <span style={{
               fontFamily: 'var(--font-mono)',
-              fontSize: '0.74rem',
+              fontSize: '0.72rem',
               fontWeight: 800,
               color: '#00f0ff',
-              letterSpacing: '0.07em',
+              letterSpacing: '0.06em',
               textTransform: 'uppercase'
             }}>
               Industry 4.0 Digital Twin • 12-Station Interactive Tour
@@ -358,22 +367,22 @@ export const FactoryBlueprintMap = () => {
 
           <h2 style={{
             fontFamily: 'var(--font-display)',
-            fontSize: 'clamp(1.25rem, 2.3vw, 1.95rem)',
+            fontSize: 'clamp(1.1rem, 1.8vw, 1.55rem)',
             fontWeight: 900,
             color: '#ffffff',
             letterSpacing: '-0.02em',
-            margin: '0.1rem 0 0.25rem 0',
-            lineHeight: 1.25
+            margin: '0 0 0.12rem 0',
+            lineHeight: 1.2
           }}>
             Explore ATPL Smart Factory – 12 Station Interactive Tour
           </h2>
 
           <p className="factory-tour-header-desc" style={{
             color: '#94a3b8',
-            fontSize: 'clamp(0.8rem, 1.1vw, 0.9rem)',
-            maxWidth: '820px',
+            fontSize: 'clamp(0.74rem, 0.88vw, 0.82rem)',
+            maxWidth: '780px',
             margin: '0 auto',
-            lineHeight: 1.4
+            lineHeight: 1.35
           }}>
             Click directly on any station pin or let Archie AI guide you through our turnkey manufacturing, warehouse automation, RFID portals, and sub-8ms machine vision ecosystem.
           </p>
@@ -387,68 +396,13 @@ export const FactoryBlueprintMap = () => {
           style={{
             position: 'relative',
             width: '100%',
-            height: 'clamp(460px, 60vh, 660px)',
-            minHeight: '440px',
             backgroundColor: '#040b18',
-            borderRadius: '14px',
+            borderRadius: '12px',
             overflow: 'hidden',
             border: '1.5px solid rgba(0, 240, 255, 0.4)',
-            boxShadow: '0 20px 50px rgba(0, 0, 0, 0.8), 0 0 35px rgba(0, 240, 255, 0.15)'
+            boxShadow: '0 16px 40px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 240, 255, 0.15)'
           }}
         >
-          
-          {/* Background Isometric Graphic */}
-          <img 
-            src={blueprintImg} 
-            alt="ATPL Isometric Factory Blueprint"
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              width: '100%',
-              height: '100%',
-              objectFit: 'contain',
-              backgroundColor: '#040b18',
-              pointerEvents: 'none',
-              zIndex: 1
-            }}
-          />
-
-          {/* Dynamic Laser Line from Robot to Current Station */}
-          <svg
-            viewBox="0 0 100 100"
-            preserveAspectRatio="none"
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              width: '100%',
-              height: '100%',
-              zIndex: 10,
-              pointerEvents: 'none'
-            }}
-          >
-            {/* Dynamic Scanning Laser Beam */}
-            <line
-              x1={`${currentNode.x}`}
-              y1={`${currentNode.y - 6}`}
-              x2={`${currentNode.x}`}
-              y2={`${currentNode.y}`}
-              stroke="#00f0ff"
-              strokeWidth="1.6"
-              strokeDasharray="2, 2"
-            />
-            {/* Pulsating Target Circle at Station Footprint */}
-            <circle
-              cx={`${currentNode.x}`}
-              cy={`${currentNode.y}`}
-              r="2.8"
-              fill="rgba(232, 88, 116, 0.28)"
-              stroke="#E85874"
-              strokeWidth="0.9"
-            />
-          </svg>
-
           {/* Visual & Responsive Styles */}
           <style>{`
             @keyframes pulseCyanDot {
@@ -469,17 +423,17 @@ export const FactoryBlueprintMap = () => {
               transform: translate(-50%, -50%);
               cursor: pointer;
               z-index: 20;
-              transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+              transition: all 0.25s cubic-bezier(0.25, 1, 0.5, 1);
             }
             .station-pin-circle {
-              width: 28px;
-              height: 28px;
+              width: 26px;
+              height: 26px;
               border-radius: 50%;
               display: flex;
               align-items: center;
               justify-content: center;
               font-family: var(--font-display, sans-serif);
-              font-size: 0.76rem;
+              font-size: 0.74rem;
               font-weight: 900;
               color: #ffffff;
               background: linear-gradient(135deg, #0071ba 0%, #004b7c 100%);
@@ -489,16 +443,16 @@ export const FactoryBlueprintMap = () => {
               position: relative;
             }
             .station-pin-container:hover .station-pin-circle {
-              transform: scale(1.18);
+              transform: scale(1.15);
               background: #E85874;
               border-color: #ffffff;
-              box-shadow: 0 0 22px #E85874;
+              box-shadow: 0 0 20px #E85874;
             }
             .station-pin-container.active .station-pin-circle {
               background: #E85874;
               border-color: #ffffff;
-              box-shadow: 0 0 25px #E85874;
-              transform: scale(1.15);
+              box-shadow: 0 0 22px #E85874;
+              transform: scale(1.12);
             }
             .station-pin-radar {
               position: absolute;
@@ -513,7 +467,7 @@ export const FactoryBlueprintMap = () => {
             }
             .station-pill-label {
               position: absolute;
-              top: calc(100% + 4px);
+              top: calc(100% + 3px);
               left: 50%;
               transform: translateX(-50%);
               background: rgba(4, 11, 24, 0.94);
@@ -521,9 +475,9 @@ export const FactoryBlueprintMap = () => {
               -webkit-backdrop-filter: blur(8px);
               border: 1px solid rgba(0, 240, 255, 0.45);
               color: #f1f5f9;
-              padding: 0.18rem 0.55rem;
+              padding: 0.16rem 0.5rem;
               border-radius: 4px;
-              font-size: 0.64rem;
+              font-size: 0.62rem;
               font-weight: 800;
               white-space: nowrap;
               letter-spacing: 0.02em;
@@ -536,10 +490,10 @@ export const FactoryBlueprintMap = () => {
             .station-pin-container.active .station-pill-label {
               border-color: #E85874;
               color: #ffffff;
-              background: rgba(232, 88, 116, 0.35);
+              background: rgba(232, 88, 116, 0.4);
               box-shadow: 0 0 16px rgba(232, 88, 116, 0.65);
               font-weight: 900;
-              transform: translateX(-50%) scale(1.05);
+              transform: translateX(-50%) scale(1.04);
             }
             .station-pin-container:hover .station-pill-label {
               border-color: #00f0ff;
@@ -547,107 +501,281 @@ export const FactoryBlueprintMap = () => {
               box-shadow: 0 0 14px rgba(0, 240, 255, 0.65);
             }
 
-            /* Tooltip styling for QR code */
-            .qr-badge-caption {
-              font-size: 0.62rem;
-              color: #38bdf8;
-              font-weight: 700;
-              letter-spacing: 0.04em;
-              text-align: center;
-              margin-top: 3px;
-              white-space: nowrap;
-            }
-
-            @media (max-width: 768px) {
+            /* =========================================================
+               Desktop Layout: Fits cleanly within Single Screen (One Scroll)
+               ========================================================= */
+            @media (min-width: 900px) {
               #factory-blueprint-section {
-                padding: 0.4rem 0.5rem 0.6rem 0.5rem !important;
+                height: calc(100vh - 102px) !important;
+                max-height: calc(100vh - 102px) !important;
+                min-height: 480px !important;
+                padding: 0.25rem 1rem 0.45rem 1rem !important;
+                overflow: hidden !important;
+                box-sizing: border-box !important;
+              }
+              .factory-blueprint-main-wrapper {
+                height: 100% !important;
+                flex: 1 1 0 !important;
+                min-height: 0 !important;
               }
               .factory-tour-header {
-                margin-bottom: 0.35rem !important;
+                flex-shrink: 0 !important;
+                margin-bottom: 0.25rem !important;
+              }
+              .factory-blueprint-stage-box {
+                flex: 1 1 0 !important;
+                min-height: 0 !important;
+                height: 100% !important;
+                position: relative !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                overflow: hidden !important;
+              }
+              .factory-map-viewport {
+                position: relative !important;
+                height: 100% !important;
+                aspect-ratio: 1376 / 768 !important;
+                max-width: 100% !important;
+                max-height: 100% !important;
+                margin: 0 auto !important;
+                overflow: hidden !important;
+                z-index: 1 !important;
+              }
+              .factory-map-viewport img {
+                position: absolute !important;
+                inset: 0 !important;
+                width: 100% !important;
+                height: 100% !important;
+                object-fit: fill !important;
+              }
+              .factory-blueprint-top-hud {
+                position: absolute !important;
+                top: 8px !important;
+                left: 10px !important;
+                right: 10px !important;
+                z-index: 35 !important;
+                padding: 0.25rem 0.75rem !important;
+              }
+              .factory-hud-bottom-overlay {
+                position: absolute !important;
+                bottom: 8px !important;
+                left: 10px !important;
+                right: 10px !important;
+                z-index: 45 !important;
+                padding: 0.38rem 2.2rem 0.38rem 0.85rem !important;
+              }
+            }
+
+            .factory-top-title-wrap {
+              display: flex;
+              align-items: center;
+              gap: 0.65rem;
+            }
+            .factory-top-controls-wrap {
+              display: flex;
+              align-items: center;
+              gap: 0.65rem;
+            }
+            .hud-station-header-row {
+              display: flex;
+              align-items: center;
+              gap: 0.65rem;
+            }
+
+            /* =========================================================
+               Mobile & Tablet Adaptive Layout: Fits in 1 Clean Screen Fold
+               ========================================================= */
+            @media (max-width: 899px) {
+              #factory-blueprint-section {
+                padding: 0.35rem 0.5rem 0.65rem 0.5rem !important;
+                height: auto !important;
+                min-height: auto !important;
+                max-height: none !important;
+              }
+              .factory-tour-header {
+                margin-bottom: 0.25rem !important;
               }
               .factory-tour-header h2 {
-                font-size: 1rem !important;
-                margin: 0.1rem 0 !important;
+                font-size: clamp(1.05rem, 4.2vw, 1.25rem) !important;
+                margin: 0 0 0.12rem 0 !important;
                 line-height: 1.2 !important;
               }
               .factory-tour-header-desc {
+                font-size: 0.72rem !important;
+                line-height: 1.3 !important;
+                color: #94a3b8 !important;
+                max-width: 96% !important;
+                margin: 0 auto !important;
+              }
+
+              /* The stage container on mobile */
+              .factory-blueprint-stage-box {
+                position: relative !important;
+                width: 100% !important;
+                height: auto !important;
+                min-height: auto !important;
+                max-height: none !important;
+                background: #040b18 !important;
+                border: 1.5px solid rgba(0, 240, 255, 0.4) !important;
+                border-radius: 12px !important;
+                overflow: hidden !important;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 240, 255, 0.12) !important;
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 0 !important;
+              }
+
+              /* 1. Sleek Top Bar on Mobile */
+              .factory-blueprint-top-hud {
+                position: relative !important;
+                top: auto !important;
+                left: auto !important;
+                right: auto !important;
+                width: 100% !important;
+                z-index: 25 !important;
+                background: rgba(4, 11, 24, 0.96) !important;
+                border: none !important;
+                border-bottom: 1px solid rgba(0, 240, 255, 0.22) !important;
+                border-radius: 0 !important;
+                padding: 0.32rem 0.55rem !important;
+                box-shadow: none !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: space-between !important;
+                gap: 6px !important;
+                box-sizing: border-box !important;
+              }
+              .factory-top-title-wrap {
                 display: none !important;
               }
-              .factory-blueprint-stage-box {
-                height: 260px !important;
-                min-height: 260px !important;
-                border-radius: 10px !important;
+              .tour-chips-bar {
+                order: 2 !important;
+                flex: 1 !important;
+                min-width: 0 !important;
+                display: flex !important;
+                overflow-x: auto !important;
+                -webkit-overflow-scrolling: touch !important;
+                gap: 4px !important;
+                padding: 1px 2px !important;
+                scrollbar-width: none !important;
+                justify-content: flex-start !important;
+              }
+              .tour-chips-bar::-webkit-scrollbar {
+                display: none !important;
+              }
+              .tour-chip-btn {
+                width: 24px !important;
+                height: 24px !important;
+                min-width: 24px !important;
+                min-height: 24px !important;
+                font-size: 0.72rem !important;
+                flex-shrink: 0 !important;
+                border-radius: 50% !important;
+                touch-action: manipulation !important;
+              }
+              .factory-top-controls-wrap {
+                order: 3 !important;
+                gap: 0.4rem !important;
+                flex-shrink: 0 !important;
+              }
+              .tour-counter-text {
+                order: 1 !important;
+                font-size: 0.72rem !important;
+                font-weight: 800 !important;
+                color: #00f0ff !important;
+                padding: 0.2rem 0.45rem !important;
+                background: rgba(0, 240, 255, 0.08) !important;
+                border: 1px solid rgba(0, 240, 255, 0.25) !important;
+                border-radius: 5px !important;
+                white-space: nowrap !important;
+                flex-shrink: 0 !important;
+              }
+              .tour-auto-btn {
+                min-height: 28px !important;
+                padding: 0.22rem 0.55rem !important;
+                font-size: 0.72rem !important;
+                border-radius: 6px !important;
+                touch-action: manipulation !important;
+              }
+
+              /* 2. Responsive Map Viewport on Mobile */
+              .factory-map-viewport {
+                position: relative !important;
+                width: 100% !important;
+                aspect-ratio: 1376 / 768 !important;
+                height: auto !important;
+                min-height: auto !important;
+                max-height: none !important;
+                border-radius: 0 !important;
+                overflow: hidden !important;
+                background: #040b18 !important;
+                border: none !important;
+                box-shadow: none !important;
+              }
+
+              /* Touch-friendly Hotspot Pins on Mobile */
+              .station-pin-container {
+                padding: 8px !important;
+                margin-top: -8px !important;
+                margin-left: -8px !important;
+                touch-action: manipulation !important;
               }
               .station-pin-circle {
-                width: 20px !important;
-                height: 20px !important;
-                font-size: 0.62rem !important;
+                width: 23px !important;
+                height: 23px !important;
+                font-size: 0.7rem !important;
               }
               .station-pill-label {
                 display: none !important;
               }
               .station-pin-container.active .station-pill-label {
                 display: block !important;
-                font-size: 0.52rem !important;
-                padding: 0.1rem 0.3rem !important;
+                font-size: 0.62rem !important;
+                padding: 0.15rem 0.45rem !important;
+                top: calc(100% + 2px) !important;
+                z-index: 35 !important;
+                max-width: 120px !important;
+                overflow: hidden !important;
+                text-overflow: ellipsis !important;
               }
-              .factory-blueprint-top-hud {
-                top: 5px !important;
-                left: 5px !important;
-                right: 5px !important;
-                padding: 0.25rem 0.45rem !important;
-                gap: 0.35rem !important;
+
+              /* Robot Avatar on Mobile */
+              .factory-robot-avatar-marker {
+                width: 36px !important;
+                height: 36px !important;
               }
-              .factory-top-title-span {
-                font-size: 0.65rem !important;
-              }
-              .tour-chips-bar {
-                display: flex !important;
-                overflow-x: auto !important;
-                -webkit-overflow-scrolling: touch !important;
-                max-width: 100% !important;
-                gap: 3px !important;
-                padding: 2px 0 !important;
-                scrollbar-width: none !important;
-              }
-              .tour-chips-bar::-webkit-scrollbar {
-                display: none !important;
-              }
-              .tour-chip-btn {
-                width: 22px !important;
-                height: 22px !important;
-                font-size: 0.65rem !important;
-                flex-shrink: 0 !important;
-              }
+
+              /* QR Badge on Mobile */
               .factory-blueprint-qr-box {
-                padding: 3px 5px !important;
-                border-radius: 8px !important;
-                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.8) !important;
+                padding: 2.5px !important;
+                border-radius: 7px !important;
               }
               .factory-blueprint-qr-img {
-                width: 34px !important;
-                height: 34px !important;
+                width: 32px !important;
+                height: 32px !important;
                 border-radius: 4px !important;
               }
-              .qr-badge-caption {
-                font-size: 0.5rem !important;
-                display: none !important;
-              }
-              .qr-badge-header {
-                font-size: 0.5rem !important;
-                padding: 0.1rem 0.25rem !important;
-                margin-bottom: 2px !important;
-              }
+
+              /* 3. Docked Archie AI Briefing Console on Mobile */
               .factory-hud-bottom-overlay {
-                grid-template-columns: 1fr !important;
-                gap: 0.2rem !important;
-                padding: 0.4rem 38px 0.4rem 0.6rem !important;
-                bottom: 5px !important;
-                left: 5px !important;
-                right: 5px !important;
-                border-radius: 10px !important;
-                max-height: 120px !important;
-                z-index: 45 !important;
+                position: relative !important;
+                bottom: auto !important;
+                left: auto !important;
+                right: auto !important;
+                width: 100% !important;
+                border-radius: 0 !important;
+                background: rgba(4, 11, 24, 0.98) !important;
+                border: none !important;
+                border-top: 1px solid rgba(0, 240, 255, 0.28) !important;
+                padding: 0.45rem 0.65rem 0.55rem 0.65rem !important;
+                box-shadow: none !important;
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 0.3rem !important;
+                max-height: none !important;
+                z-index: 20 !important;
+                box-sizing: border-box !important;
               }
               .hud-corner-close-btn {
                 position: absolute !important;
@@ -655,81 +783,115 @@ export const FactoryBlueprintMap = () => {
                 right: 6px !important;
                 width: 28px !important;
                 height: 28px !important;
+                min-width: 28px !important;
+                min-height: 28px !important;
+                border-radius: 50% !important;
                 z-index: 70 !important;
-                pointer-events: auto !important;
+                touch-action: manipulation !important;
+              }
+              .hud-station-header-row {
+                display: flex !important;
+                align-items: center !important;
+                gap: 0.5rem !important;
+                padding-right: 32px !important;
+              }
+              .hud-speech-paragraph {
+                font-size: 0.74rem !important;
+                line-height: 1.35 !important;
+                color: #cbd5e1 !important;
+                display: -webkit-box !important;
+                -webkit-line-clamp: 2 !important;
+                -webkit-box-orient: vertical !important;
+                max-height: 2.8em !important;
+                overflow: hidden !important;
+                margin: 0 !important;
               }
               .hud-benefits-row {
                 display: none !important;
               }
-              .hud-speech-paragraph {
-                max-height: 28px !important;
-                font-size: 0.68rem !important;
-                line-height: 1.25 !important;
-                display: -webkit-box !important;
-                -webkit-line-clamp: 2 !important;
-                -webkit-box-orient: vertical !important;
-                overflow: hidden !important;
-                margin-bottom: 0.15rem !important;
-              }
               .hud-actions-container {
                 display: flex !important;
                 width: 100% !important;
-                gap: 5px !important;
-                margin-top: 0.1rem !important;
+                gap: 6px !important;
+                margin-top: 0.15rem !important;
               }
               .hud-btn-prev, .hud-btn-next {
                 flex: 1 1 0 !important;
-                min-height: 34px !important;
-                padding: 0.25rem 0.35rem !important;
-                font-size: 0.72rem !important;
+                min-height: 38px !important;
+                padding: 0.35rem 0.5rem !important;
+                font-size: 0.78rem !important;
+                font-weight: 800 !important;
+                border-radius: 6px !important;
                 justify-content: center !important;
+                touch-action: manipulation !important;
               }
               .hud-btn-demo {
-                flex: 1.25 1 0 !important;
-                min-height: 34px !important;
-                padding: 0.25rem 0.45rem !important;
-                font-size: 0.72rem !important;
+                flex: 1.2 1 0 !important;
+                min-height: 38px !important;
+                padding: 0.35rem 0.5rem !important;
+                font-size: 0.78rem !important;
+                font-weight: 800 !important;
+                border-radius: 6px !important;
                 justify-content: center !important;
+                touch-action: manipulation !important;
               }
+
+              /* Toggle pill when closed on Mobile */
               .factory-hud-toggle-pill {
-                bottom: 8px !important;
-                right: 8px !important;
-                padding: 0.35rem 0.85rem !important;
-                font-size: 0.74rem !important;
-                z-index: 45 !important;
-                pointer-events: auto !important;
+                position: relative !important;
+                bottom: auto !important;
+                right: auto !important;
+                width: 100% !important;
+                min-height: 40px !important;
+                border-radius: 0 !important;
+                border: none !important;
+                border-top: 1px solid rgba(0, 240, 255, 0.28) !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                font-size: 0.78rem !important;
+                font-weight: 800 !important;
+                box-sizing: border-box !important;
+                padding: 0.45rem 0.75rem !important;
+                touch-action: manipulation !important;
               }
+
+              /* Completion Overlay on Mobile */
               .factory-completion-overlay {
-                top: 8px !important;
-                width: 95% !important;
-                padding: 0.55rem 0.8rem !important;
+                position: absolute !important;
+                inset: 6px !important;
+                transform: none !important;
+                width: auto !important;
+                max-width: none !important;
+                padding: 0.75rem !important;
                 border-radius: 10px !important;
+                overflow-y: auto !important;
+                z-index: 50 !important;
               }
               .factory-completion-overlay h3 {
-                font-size: 0.95rem !important;
-                margin: 0.1rem 0 0.25rem 0 !important;
+                font-size: 1rem !important;
+                line-height: 1.25 !important;
               }
               .factory-completion-overlay p {
-                display: none !important;
+                font-size: 0.74rem !important;
+                margin-bottom: 0.6rem !important;
               }
-              .factory-completion-overlay button {
-                padding: 0.32rem 0.65rem !important;
-                font-size: 0.72rem !important;
+              .factory-completion-btns {
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 6px !important;
+                width: 100% !important;
               }
-            }
-            @media (max-width: 480px) {
-              .factory-blueprint-stage-box {
-                height: 240px !important;
-                min-height: 240px !important;
-              }
-              .factory-blueprint-qr-img {
-                width: 32px !important;
-                height: 32px !important;
+              .factory-completion-btns button {
+                min-height: 38px !important;
+                width: 100% !important;
+                justify-content: center !important;
+                font-size: 0.78rem !important;
               }
             }
           `}</style>
 
-          {/* TOP HUD HEADER OVERLAY (Inside Stage) */}
+          {/* 1. TOP HUD HEADER (Inside Stage on Desktop, Clean Top Card on Mobile) */}
           <div 
             className="factory-blueprint-top-hud"
             style={{
@@ -752,9 +914,8 @@ export const FactoryBlueprintMap = () => {
               boxShadow: '0 8px 25px rgba(0, 0, 0, 0.6)'
             }}
           >
-            
             {/* Title / Badge */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+            <div className="factory-top-title-wrap" style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
               <span className="pulse-dot"></span>
               <div>
                 <span className="factory-top-title-span" style={{
@@ -779,6 +940,7 @@ export const FactoryBlueprintMap = () => {
               {ATPL_FACTORY_NODES.map((node, i) => (
                 <button
                   key={node.id}
+                  type="button"
                   onClick={() => handleStationClick(i)}
                   className="tour-chip-btn"
                   title={`${node.stepNumber}. ${node.name}`}
@@ -805,9 +967,11 @@ export const FactoryBlueprintMap = () => {
             </div>
 
             {/* Controls */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+            <div className="factory-top-controls-wrap" style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
               <button
+                type="button"
                 onClick={() => setIsAutoTour(!isAutoTour)}
+                className="tour-auto-btn"
                 style={{
                   background: isAutoTour ? 'rgba(232, 88, 116, 0.2)' : 'rgba(0, 240, 255, 0.15)',
                   border: isAutoTour ? '1px solid #E85874' : '1px solid #00f0ff',
@@ -827,332 +991,378 @@ export const FactoryBlueprintMap = () => {
                 <span>{isAutoTour ? 'Pause' : 'Auto'}</span>
               </button>
 
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.76rem', color: '#00f0ff', fontWeight: 800 }}>
+              <div className="tour-counter-text" style={{ fontFamily: 'var(--font-mono)', fontSize: '0.76rem', color: '#00f0ff', fontWeight: 800 }}>
                 STATION {currentIndex + 1}/12
               </div>
             </div>
           </div>
 
-          {/* 12 Crisp Numbered Hotspot Target Beacons */}
-          {ATPL_FACTORY_NODES.map((node, index) => {
-            const isActive = currentIndex === index;
-            return (
-              <div
-                key={node.id}
-                className={`station-pin-container ${isActive ? 'active' : ''}`}
-                onClick={() => handleStationClick(index)}
-                style={{
-                  left: `${node.x}%`,
-                  top: `${node.y}%`
-                }}
-                title={`Station ${node.stepNumber}: ${node.name}`}
-              >
-                {isActive && <div className="station-pin-radar" />}
-                <div className="station-pin-circle">
-                  {node.stepNumber}
-                </div>
-                <div className="station-pill-label">
-                  {node.name}
-                </div>
-              </div>
-            );
-          })}
-
-          {/* COMPACT & EXPLAINED QR CODE BADGE (Scan for mobile or click to launch 3D tour) */}
-          <div 
-            className="factory-blueprint-qr-box"
-            onClick={() => setCurrentView('factory-3d')}
-            title="Scan with mobile camera to view 3D tour on phone, or click to launch fullscreen 3D WebGL Simulation"
-            style={{
-              position: 'absolute',
-              left: '50%',
-              top: '50%',
-              transform: 'translate(-50%, -50%)',
-              zIndex: 25,
-              background: 'rgba(4, 11, 24, 0.90)',
-              backdropFilter: 'blur(12px)',
-              WebkitBackdropFilter: 'blur(12px)',
-              padding: '6px 8px',
-              borderRadius: '14px',
-              border: '1.5px solid rgba(0, 240, 255, 0.5)',
-              boxShadow: '0 12px 35px rgba(0, 0, 0, 0.8), 0 0 25px rgba(0, 240, 255, 0.3)',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              cursor: 'pointer',
-              transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
-              pointerEvents: 'auto'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translate(-50%, -50%) scale(1.08)';
-              e.currentTarget.style.boxShadow = '0 16px 45px rgba(0, 0, 0, 0.9), 0 0 35px rgba(0, 240, 255, 0.6), 0 0 0 2px #00f0ff';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'translate(-50%, -50%) scale(1)';
-              e.currentTarget.style.boxShadow = '0 12px 35px rgba(0, 0, 0, 0.8), 0 0 25px rgba(0, 240, 255, 0.3)';
-            }}
-          >
-            {/* Header Tag */}
-            <span className="qr-badge-header" style={{
-              fontSize: '0.6rem',
-              fontWeight: 800,
-              color: '#00f0ff',
-              textTransform: 'uppercase',
-              letterSpacing: '0.04em',
-              marginBottom: '3px',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '3px'
-            }}>
-              <QrCode size={11} color="#00f0ff" />
-              <span>Mobile Tour</span>
-            </span>
-
-            {/* QR Image with white high-contrast wrapper */}
-            <div style={{
-              background: '#ffffff',
-              padding: '2.5px',
-              borderRadius: '7px',
-              display: 'inline-block'
-            }}>
-              <img 
-                src={atplQrCodeImg} 
-                alt="Scan ATPL QR Code" 
-                className="factory-blueprint-qr-img"
-                style={{
-                  width: '46px',
-                  height: '46px',
-                  display: 'block',
-                  borderRadius: '5px'
-                }}
-              />
-            </div>
-
-            {/* Explanatory Caption */}
-            <span className="qr-badge-caption">
-              Scan to Launch Tour
-            </span>
-          </div>
-
-          {/* Animated Traveling Robot Avatar with Spotlight Glow */}
-          <div style={{
-            position: 'absolute',
-            left: `${currentNode.x}%`,
-            top: `${currentNode.y - 7}%`,
-            transform: 'translate(-50%, -50%)',
-            width: '54px',
-            height: '54px',
-            borderRadius: '50%',
-            background: 'radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.98) 0%, rgba(224, 242, 254, 0.92) 60%, rgba(0, 240, 255, 0.5) 100%)',
-            border: '2px solid #00f0ff',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            boxShadow: '0 0 35px #00f0ff, 0 0 20px rgba(232, 88, 116, 0.6)',
-            zIndex: 30,
-            pointerEvents: 'none',
-            transition: 'all 0.9s cubic-bezier(0.25, 1, 0.5, 1)'
-          }}>
-            <AtplRobotAvatar size={40} />
-            <div style={{
-              position: 'absolute',
-              bottom: '-4px',
-              width: '12px',
-              height: '12px',
-              background: '#E85874',
-              borderRadius: '50%',
-              boxShadow: '0 0 15px #E85874',
-              animation: 'pulseCoralDot 1.5s infinite ease-in-out'
-            }}></div>
-          </div>
-
-          {/* =====================================================================
-              5. STATION 12/12 ENDING EXPERIENCE OVERLAY (Strong Call To Action)
-             ===================================================================== */}
-          {showCompletionCta && isLastStation && (
-            <div 
-              className="factory-completion-overlay"
+          {/* 2. DEDICATED MAP VIEWPORT (Clean, Uncrowded & Crisp Graphic on All Devices) */}
+          <div className="factory-map-viewport">
+            {/* Background Isometric Graphic */}
+            <img 
+              src={blueprintImg} 
+              alt="ATPL Isometric Factory Blueprint"
               style={{
                 position: 'absolute',
-                top: '52px',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                zIndex: 36,
-                width: 'min(94%, 580px)',
-                background: 'rgba(4, 11, 24, 0.96)',
-                backdropFilter: 'blur(20px)',
-                WebkitBackdropFilter: 'blur(20px)',
-                border: '1.5px solid #00f0ff',
-                borderRadius: '14px',
-                padding: '1.1rem 1.4rem',
-                boxShadow: '0 20px 60px rgba(0, 0, 0, 0.9), 0 0 40px rgba(0, 240, 255, 0.3)',
-                textAlign: 'center',
-                animation: 'fadeInUp 0.3s ease-out'
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                objectFit: 'contain',
+                backgroundColor: '#040b18',
+                pointerEvents: 'none',
+                zIndex: 1
+              }}
+            />
+
+            {/* Dynamic Laser Line from Robot to Current Station */}
+            <svg
+              viewBox="0 0 100 100"
+              preserveAspectRatio="none"
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                zIndex: 10,
+                pointerEvents: 'none'
               }}
             >
-              {/* Close Button */}
-              <button
-                onClick={() => setShowCompletionCta(false)}
-                style={{
-                  position: 'absolute',
-                  top: '10px',
-                  right: '10px',
-                  background: 'rgba(255, 255, 255, 0.08)',
-                  border: '1px solid rgba(255, 255, 255, 0.2)',
-                  color: '#94a3b8',
-                  borderRadius: '50%',
-                  width: '26px',
-                  height: '26px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  cursor: 'pointer'
-                }}
-                title="Dismiss"
-              >
-                <X size={14} />
-              </button>
+              {/* Dynamic Scanning Laser Beam */}
+              <line
+                x1={`${currentNode.x}`}
+                y1={`${currentNode.y - 6}`}
+                x2={`${currentNode.x}`}
+                y2={`${currentNode.y}`}
+                stroke="#00f0ff"
+                strokeWidth="1.6"
+                strokeDasharray="2, 2"
+              />
+              {/* Pulsating Target Circle at Station Footprint */}
+              <circle
+                cx={`${currentNode.x}`}
+                cy={`${currentNode.y}`}
+                r="2.8"
+                fill="rgba(232, 88, 116, 0.28)"
+                stroke="#E85874"
+                strokeWidth="0.9"
+              />
+            </svg>
 
-              <div style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.4rem',
-                background: 'rgba(232, 88, 116, 0.15)',
-                border: '1px solid #E85874',
-                color: '#E85874',
-                padding: '0.2rem 0.75rem',
-                borderRadius: '999px',
-                fontSize: '0.72rem',
-                fontWeight: 800,
-                textTransform: 'uppercase',
-                marginBottom: '0.5rem'
-              }}>
-                <Sparkles size={12} />
-                <span>Tour Complete • 12 Stations Explored</span>
-              </div>
+            {/* 12 Crisp Numbered Hotspot Target Beacons */}
+            {ATPL_FACTORY_NODES.map((node, index) => {
+              const isActive = currentIndex === index;
+              const isNearLeft = node.x < 24;
+              const isNearRight = node.x > 76;
+              const labelPositionStyle = isNearLeft 
+                ? { left: '0%', transform: 'translateX(0%)' } 
+                : isNearRight 
+                  ? { left: 'auto', right: '0%', transform: 'none' } 
+                  : { left: '50%', transform: 'translateX(-50%)' };
+              return (
+                <div
+                  key={node.id}
+                  className={`station-pin-container ${isActive ? 'active' : ''}`}
+                  onClick={() => handleStationClick(index)}
+                  style={{
+                    left: `${node.x}%`,
+                    top: `${node.y}%`
+                  }}
+                  title={`Station ${node.stepNumber}: ${node.name}`}
+                >
+                  {isActive && <div className="station-pin-radar" />}
+                  <div className="station-pin-circle">
+                    {node.stepNumber}
+                  </div>
+                  <div className="station-pill-label" style={labelPositionStyle}>
+                    {node.name}
+                  </div>
+                </div>
+              );
+            })}
 
-              <h3 style={{
-                fontSize: 'clamp(1.15rem, 2vw, 1.45rem)',
-                fontWeight: 900,
-                color: '#ffffff',
-                margin: '0.1rem 0 0.4rem 0',
-                letterSpacing: '-0.02em',
-                fontFamily: 'var(--font-display)'
-              }}>
-                Ready to bring this Smart Factory to your plant?
-              </h3>
-
-              <p style={{
-                fontSize: '0.82rem',
-                color: '#cbd5e1',
-                lineHeight: 1.4,
-                margin: '0 auto 1rem auto',
-                maxWidth: '480px'
-              }}>
-                ATPL delivers turnkey Industry 4.0 automation, RFID portals, and sub-8ms AI vision with seamless ERP integration across 500+ manufacturing plants.
-              </p>
-
-              {/* 3 Strong CTA Buttons */}
-              <div style={{
+            {/* CLEAN QR CODE BADGE (NO TEXT, JUST CRISP QR CODE) */}
+            <div 
+              className="factory-blueprint-qr-box"
+              onClick={() => setCurrentView('factory-3d')}
+              title="Click to launch 3D Factory Tour"
+              style={{
+                position: 'absolute',
+                left: '50%',
+                top: '50%',
+                transform: 'translate(-50%, -50%)',
+                zIndex: 25,
+                background: 'rgba(4, 11, 24, 0.92)',
+                backdropFilter: 'blur(12px)',
+                WebkitBackdropFilter: 'blur(12px)',
+                padding: '4px',
+                borderRadius: '12px',
+                border: '1.5px solid rgba(0, 240, 255, 0.55)',
+                boxShadow: '0 12px 35px rgba(0, 0, 0, 0.85), 0 0 25px rgba(0, 240, 255, 0.35)',
                 display: 'flex',
-                flexWrap: 'wrap',
-                gap: '0.6rem',
+                alignItems: 'center',
                 justifyContent: 'center',
-                alignItems: 'center'
+                cursor: 'pointer',
+                transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
+                pointerEvents: 'auto'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'translate(-50%, -50%) scale(1.1)';
+                e.currentTarget.style.boxShadow = '0 16px 45px rgba(0, 0, 0, 0.95), 0 0 35px rgba(0, 240, 255, 0.7), 0 0 0 2px #00f0ff';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'translate(-50%, -50%) scale(1)';
+                e.currentTarget.style.boxShadow = '0 12px 35px rgba(0, 0, 0, 0.85), 0 0 25px rgba(0, 240, 255, 0.35)';
+              }}
+            >
+              {/* QR Image with white high-contrast wrapper */}
+              <div style={{
+                background: '#ffffff',
+                padding: '2.5px',
+                borderRadius: '7px',
+                display: 'inline-block'
               }}>
-                <button
-                  onClick={() => openDemoModal({ solution: 'Turnkey Smart Factory 4.0', notes: 'Inquiry after completing 12-Station Factory Blueprint Tour' })}
+                <img 
+                  src={atplQrCodeImg} 
+                  alt="ATPL QR Code" 
+                  className="factory-blueprint-qr-img"
                   style={{
-                    background: 'linear-gradient(135deg, #E85874 0%, #c43854 100%)',
-                    border: 'none',
-                    color: '#ffffff',
-                    borderRadius: '8px',
-                    padding: '0.55rem 1.1rem',
-                    fontSize: '0.82rem',
-                    fontWeight: 800,
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.4rem',
-                    boxShadow: '0 4px 18px rgba(232, 88, 116, 0.5)'
+                    width: '46px',
+                    height: '46px',
+                    display: 'block',
+                    borderRadius: '5px'
                   }}
-                >
-                  <Sparkles size={14} />
-                  <span>Request Live Demo</span>
-                </button>
-
-                <button
-                  onClick={() => setCurrentView('contact')}
-                  style={{
-                    background: 'rgba(0, 113, 186, 0.25)',
-                    border: '1.5px solid #00f0ff',
-                    color: '#ffffff',
-                    borderRadius: '8px',
-                    padding: '0.55rem 1.1rem',
-                    fontSize: '0.82rem',
-                    fontWeight: 800,
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.4rem'
-                  }}
-                >
-                  <PhoneCall size={14} color="#00f0ff" />
-                  <span>Talk to Expert</span>
-                </button>
-
-                <button
-                  onClick={handleDownloadBrochure}
-                  style={{
-                    background: 'rgba(255, 255, 255, 0.08)',
-                    border: '1px solid rgba(255, 255, 255, 0.2)',
-                    color: '#f1f5f9',
-                    borderRadius: '8px',
-                    padding: '0.55rem 1.05rem',
-                    fontSize: '0.82rem',
-                    fontWeight: 700,
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.4rem'
-                  }}
-                >
-                  <Download size={14} />
-                  <span>Download Brochure</span>
-                </button>
-              </div>
-
-              {/* Replay option */}
-              <div style={{ marginTop: '0.65rem' }}>
-                <button
-                  onClick={() => {
-                    setCurrentIndex(0);
-                    setIsAutoTour(true);
-                    setShowCompletionCta(false);
-                  }}
-                  style={{
-                    background: 'transparent',
-                    border: 'none',
-                    color: '#94a3b8',
-                    fontSize: '0.72rem',
-                    cursor: 'pointer',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '0.3rem',
-                    textDecoration: 'underline'
-                  }}
-                >
-                  <RotateCcw size={11} />
-                  <span>Replay 12-Station Tour from Station 1</span>
-                </button>
+                />
               </div>
             </div>
-          )}
 
-          {/* =====================================================================
-              3. BOTTOM HUD DIALOGUE CONSOLE: Richer Active Station Info & Archie AI
-             ===================================================================== */}
+            {/* Animated Traveling Robot Avatar with Spotlight Glow */}
+            <div 
+              className="factory-robot-avatar-marker"
+              style={{
+                position: 'absolute',
+                left: `${currentNode.x}%`,
+                top: `${currentNode.y - 7}%`,
+                transform: 'translate(-50%, -50%)',
+                width: '54px',
+                height: '54px',
+                borderRadius: '50%',
+                background: 'radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.98) 0%, rgba(224, 242, 254, 0.92) 60%, rgba(0, 240, 255, 0.5) 100%)',
+                border: '2px solid #00f0ff',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                boxShadow: '0 0 35px #00f0ff, 0 0 20px rgba(232, 88, 116, 0.6)',
+                zIndex: 30,
+                pointerEvents: 'none',
+                transition: 'all 0.9s cubic-bezier(0.25, 1, 0.5, 1)'
+              }}
+            >
+              <AtplRobotAvatar size={40} />
+              <div style={{
+                position: 'absolute',
+                bottom: '-4px',
+                width: '12px',
+                height: '12px',
+                background: '#E85874',
+                borderRadius: '50%',
+                boxShadow: '0 0 15px #E85874',
+                animation: 'pulseCoralDot 1.5s infinite ease-in-out'
+              }}></div>
+            </div>
+
+            {/* STATION 12/12 ENDING EXPERIENCE OVERLAY */}
+            {showCompletionCta && isLastStation && (
+              <div 
+                className="factory-completion-overlay"
+                style={{
+                  position: 'absolute',
+                  top: '52px',
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  zIndex: 36,
+                  width: 'min(94%, 580px)',
+                  background: 'rgba(4, 11, 24, 0.96)',
+                  backdropFilter: 'blur(20px)',
+                  WebkitBackdropFilter: 'blur(20px)',
+                  border: '1.5px solid #00f0ff',
+                  borderRadius: '14px',
+                  padding: '1.1rem 1.4rem',
+                  boxShadow: '0 20px 60px rgba(0, 0, 0, 0.9), 0 0 40px rgba(0, 240, 255, 0.3)',
+                  textAlign: 'center',
+                  animation: 'fadeInUp 0.3s ease-out'
+                }}
+              >
+                {/* Close Button */}
+                <button
+                  type="button"
+                  onClick={() => setShowCompletionCta(false)}
+                  style={{
+                    position: 'absolute',
+                    top: '10px',
+                    right: '10px',
+                    background: 'rgba(255, 255, 255, 0.08)',
+                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                    color: '#94a3b8',
+                    borderRadius: '50%',
+                    width: '26px',
+                    height: '26px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    cursor: 'pointer'
+                  }}
+                  title="Dismiss"
+                >
+                  <X size={14} />
+                </button>
+
+                <div style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.4rem',
+                  background: 'rgba(232, 88, 116, 0.15)',
+                  border: '1px solid #E85874',
+                  color: '#E85874',
+                  padding: '0.2rem 0.75rem',
+                  borderRadius: '999px',
+                  fontSize: '0.72rem',
+                  fontWeight: 800,
+                  textTransform: 'uppercase',
+                  marginBottom: '0.5rem'
+                }}>
+                  <Sparkles size={12} />
+                  <span>Tour Complete • 12 Stations Explored</span>
+                </div>
+
+                <h3 style={{
+                  fontSize: 'clamp(1.15rem, 2vw, 1.45rem)',
+                  fontWeight: 900,
+                  color: '#ffffff',
+                  margin: '0.1rem 0 0.4rem 0',
+                  letterSpacing: '-0.02em',
+                  fontFamily: 'var(--font-display)'
+                }}>
+                  Ready to bring this Smart Factory to your plant?
+                </h3>
+
+                <p style={{
+                  fontSize: '0.82rem',
+                  color: '#cbd5e1',
+                  lineHeight: 1.4,
+                  margin: '0 auto 1rem auto',
+                  maxWidth: '480px'
+                }}>
+                  ATPL delivers turnkey Industry 4.0 automation, RFID portals, and sub-8ms AI vision with seamless ERP integration across 500+ manufacturing plants.
+                </p>
+
+                {/* 3 Strong CTA Buttons */}
+                <div 
+                  className="factory-completion-btns"
+                  style={{
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    gap: '0.6rem',
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                  }}
+                >
+                  <button
+                    type="button"
+                    onClick={() => openDemoModal({ solution: 'Turnkey Smart Factory 4.0', notes: 'Inquiry after completing 12-Station Factory Blueprint Tour' })}
+                    style={{
+                      background: 'linear-gradient(135deg, #E85874 0%, #c43854 100%)',
+                      border: 'none',
+                      color: '#ffffff',
+                      borderRadius: '8px',
+                      padding: '0.55rem 1.1rem',
+                      fontSize: '0.82rem',
+                      fontWeight: 800,
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.4rem',
+                      boxShadow: '0 4px 18px rgba(232, 88, 116, 0.5)'
+                    }}
+                  >
+                    <Sparkles size={14} />
+                    <span>Request Live Demo</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setCurrentView('contact')}
+                    style={{
+                      background: 'rgba(0, 113, 186, 0.25)',
+                      border: '1.5px solid #00f0ff',
+                      color: '#ffffff',
+                      borderRadius: '8px',
+                      padding: '0.55rem 1.1rem',
+                      fontSize: '0.82rem',
+                      fontWeight: 800,
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.4rem'
+                    }}
+                  >
+                    <PhoneCall size={14} color="#00f0ff" />
+                    <span>Talk to Expert</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={handleDownloadBrochure}
+                    style={{
+                      background: 'rgba(255, 255, 255, 0.08)',
+                      border: '1px solid rgba(255, 255, 255, 0.2)',
+                      color: '#f1f5f9',
+                      borderRadius: '8px',
+                      padding: '0.55rem 1.05rem',
+                      fontSize: '0.82rem',
+                      fontWeight: 700,
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.4rem'
+                    }}
+                  >
+                    <Download size={14} />
+                    <span>Download Brochure</span>
+                  </button>
+                </div>
+
+                {/* Replay option */}
+                <div style={{ marginTop: '0.65rem' }}>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setCurrentIndex(0);
+                      setIsAutoTour(true);
+                      setShowCompletionCta(false);
+                    }}
+                    style={{
+                      background: 'transparent',
+                      border: 'none',
+                      color: '#94a3b8',
+                      fontSize: '0.72rem',
+                      cursor: 'pointer',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '0.3rem',
+                      textDecoration: 'underline'
+                    }}
+                  >
+                    <RotateCcw size={11} />
+                    <span>Replay 12-Station Tour from Station 1</span>
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+
           {/* =====================================================================
               3. BOTTOM HUD DIALOGUE CONSOLE: Richer Active Station Info & Archie AI
              ===================================================================== */}
@@ -1225,7 +1435,7 @@ export const FactoryBlueprintMap = () => {
               </button>
 
               {/* Robot Avatar Info */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+              <div className="hud-station-header-row" style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
                 <div style={{
                   width: '38px',
                   height: '38px',

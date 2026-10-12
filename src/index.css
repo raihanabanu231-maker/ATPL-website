@@ -915,12 +915,10 @@ html, body, #root {
     font-size: clamp(1.15rem, 4vw, 1.45rem) !important;
   }
 
-  /* Blueprint / Smart factory map on mobile */
+  /* Blueprint / Smart factory map responsive container */
   #factory-blueprint-section {
-    height: 520px !important;
-    min-height: 520px !important;
-    max-height: 520px !important;
-    padding: 0.25rem 0.35rem !important;
+    box-sizing: border-box !important;
+    padding: 0.35rem 0.5rem 0.65rem 0.5rem !important;
   }
 
   /* Solutions view deep dive box */
