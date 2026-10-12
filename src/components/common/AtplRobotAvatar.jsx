@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useId } from 'react';
 
 /**
  * ATPL Official Robot Mascot Avatar
@@ -15,6 +15,16 @@ export const AtplRobotAvatar = ({
   glow = true, 
   style = {} 
 }) => {
+  const reactId = useId();
+  const idPrefix = 'archie-' + reactId.replace(/[^a-zA-Z0-9_-]/g, '');
+
+  const headShineId = `${idPrefix}-headShine`;
+  const bodyShineId = `${idPrefix}-bodyShine`;
+  const visorDarkId = `${idPrefix}-visorDark`;
+  const eyeGlowId = `${idPrefix}-eyeGlow`;
+  const chestBezelId = `${idPrefix}-chestBezel`;
+  const badgeId = `${idPrefix}-chest-badge`;
+
   return (
     <div 
       style={{ 
@@ -37,32 +47,33 @@ export const AtplRobotAvatar = ({
           filter: glow ? 'drop-shadow(0 4px 12px rgba(0, 240, 255, 0.45))' : 'none',
           overflow: 'visible' 
         }}
+        aria-hidden="true"
       >
         <defs>
           {/* Head & Body Glossy Gradients */}
-          <linearGradient id="headShine" x1="50" y1="20" x2="150" y2="120" gradientUnits="userSpaceOnUse">
+          <linearGradient id={headShineId} x1="50" y1="20" x2="150" y2="120" gradientUnits="userSpaceOnUse">
             <stop offset="0%" stopColor="#ffffff" />
             <stop offset="70%" stopColor="#f1f5f9" />
             <stop offset="100%" stopColor="#cbd5e1" />
           </linearGradient>
 
-          <linearGradient id="bodyShine" x1="60" y1="90" x2="140" y2="180" gradientUnits="userSpaceOnUse">
+          <linearGradient id={bodyShineId} x1="60" y1="90" x2="140" y2="180" gradientUnits="userSpaceOnUse">
             <stop offset="0%" stopColor="#ffffff" />
             <stop offset="65%" stopColor="#e2e8f0" />
             <stop offset="100%" stopColor="#94a3b8" />
           </linearGradient>
 
-          <linearGradient id="visorDark" x1="60" y1="40" x2="140" y2="90" gradientUnits="userSpaceOnUse">
+          <linearGradient id={visorDarkId} x1="60" y1="40" x2="140" y2="90" gradientUnits="userSpaceOnUse">
             <stop offset="0%" stopColor="#0a1526" />
             <stop offset="100%" stopColor="#030712" />
           </linearGradient>
 
-          <filter id="eyeGlow" x="-20%" y="-20%" width="140%" height="140%">
+          <filter id={eyeGlowId} x="-20%" y="-20%" width="140%" height="140%">
             <feGaussianBlur stdDeviation="3" result="blur" />
             <feComposite in="SourceGraphic" in2="blur" operator="over" />
           </filter>
 
-          <radialGradient id="chestBezel" cx="50%" cy="50%" r="50%">
+          <radialGradient id={chestBezelId} cx="50%" cy="50%" r="50%">
             <stop offset="0%" stopColor="#ffffff" />
             <stop offset="80%" stopColor="#e2e8f0" />
             <stop offset="100%" stopColor="#0071ba" />
@@ -102,15 +113,15 @@ export const AtplRobotAvatar = ({
 
         {/* 2. TORSO BODY */}
         {/* White Glossy Egg Torso */}
-        <ellipse cx="100" cy="132" rx="38" ry="42" fill="url(#bodyShine)" stroke="#cbd5e1" strokeWidth="2" />
+        <ellipse cx="100" cy="132" rx="38" ry="42" fill={`url(#${bodyShineId})`} stroke="#cbd5e1" strokeWidth="2" />
         
         {/* Dark Bottom Trim / Hover Base Joint */}
         <path d="M85 168 C90 174 110 174 115 168 Z" fill="#1e293b" />
 
         {/* 3. ATPL ARCHERY LOGO IN CENTER OF CHEST */}
-        <g id="atpl-chest-logo-badge">
+        <g id={badgeId}>
           {/* Outer Bezel Dial */}
-          <circle cx="100" cy="126" r="21" fill="url(#chestBezel)" stroke="#0071ba" strokeWidth="2.5" />
+          <circle cx="100" cy="126" r="21" fill={`url(#${chestBezelId})`} stroke="#0071ba" strokeWidth="2.5" />
           <circle cx="100" cy="126" r="18" fill="#ffffff" />
           <circle cx="100" cy="126" r="15.5" fill="none" stroke="rgba(0, 113, 186, 0.25)" strokeWidth="1" />
 
@@ -151,13 +162,13 @@ export const AtplRobotAvatar = ({
         </g>
 
         {/* Glossy White Dome Head */}
-        <ellipse cx="100" cy="62" rx="48" ry="38" fill="url(#headShine)" stroke="#cbd5e1" strokeWidth="2" />
+        <ellipse cx="100" cy="62" rx="48" ry="38" fill={`url(#${headShineId})`} stroke="#cbd5e1" strokeWidth="2" />
 
         {/* Dark Curved Visor Screen */}
-        <ellipse cx="100" cy="64" rx="36" ry="24" fill="url(#visorDark)" stroke="#0f172a" strokeWidth="1.5" />
+        <ellipse cx="100" cy="64" rx="36" ry="24" fill={`url(#${visorDarkId})`} stroke="#0f172a" strokeWidth="1.5" />
 
         {/* 6. GLOWING CYAN PILL/OVAL EYES */}
-        <g filter="url(#eyeGlow)">
+        <g filter={`url(#${eyeGlowId})`}>
           {/* Left Glowing Eye */}
           <rect x="76" y="57" width="15" height="14" rx="7" fill="#00f0ff" />
           {/* Eye Reflection highlight */}

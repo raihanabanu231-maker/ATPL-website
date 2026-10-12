@@ -1137,4 +1137,41 @@ body {
   }
 }
 
+/* ==========================================================================
+   WCAG 2.2 AA Accessibility: Visible Focus States & Skip Navigation Link
+   ========================================================================== */
+.skip-link {
+  position: absolute;
+  top: -120px;
+  left: 1rem;
+  background: #0071ba;
+  color: #ffffff;
+  padding: 0.65rem 1.25rem;
+  font-weight: 700;
+  font-size: 0.88rem;
+  border-radius: 0.5rem;
+  z-index: 99999;
+  text-decoration: none;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  transition: top 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.skip-link:focus,
+.skip-link:focus-visible {
+  top: 1rem;
+  outline: 3px solid #00f0ff !important;
+  outline-offset: 3px;
+}
+
+/* High-contrast visible focus indicators for all keyboard users */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid #00f0ff !important;
+  outline-offset: 3px !important;
+  box-shadow: 0 0 12px rgba(0, 240, 255, 0.5) !important;
+}
+
 
