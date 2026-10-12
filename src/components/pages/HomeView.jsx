@@ -4,6 +4,7 @@ import { FactoryBlueprintMap } from '../common/FactoryBlueprintMap';
 import { OfficialPartnersShowcase } from '../common/PartnerLogos';
 import { CLIENT_LOGOS_LIST, CERTIFICATION_BADGES_LIST, AuthenticClientsMarquee, ClientLogo } from '../common/ClientBrandLogos';
 import { AtplDifferentiation } from '../common/AtplDifferentiation';
+import { EnterpriseCaseStudiesSection } from '../common/EnterpriseCaseStudiesSection';
 import { AtplResourcesSection } from '../common/AtplResourcesSection';
 import { 
   Boxes, 
@@ -1351,6 +1352,11 @@ export const HomeView = () => {
 
         </div>
       </section>
+
+      {/* =========================================================================
+          PROVEN ENTERPRISE CASE STUDIES & QUANTIFIED RESULTS
+         ========================================================================= */}
+      <EnterpriseCaseStudiesSection />
 
       {/* =========================================================================
           WHY ATPL VS TRADITIONAL SYSTEM INTEGRATORS & GLOBAL VENDORS

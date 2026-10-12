@@ -187,19 +187,27 @@ export const StationVisualPreview = ({ stationId, color = '#00f0ff', height = 15
       <div style={{ position: 'relative', width: '100%', height: `${height}px`, overflow: 'hidden', background: '#020611' }}>
         {viewMode === 'photo' ? (
           <div style={{ position: 'relative', width: '100%', height: '100%' }}>
-            <img
-              src={imageSrc}
-              alt={node.name || 'Station Visual'}
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                display: 'block',
-                transition: 'transform 0.4s ease'
-              }}
-              onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
-              onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1.0)'}
-            />
+            <picture style={{ width: '100%', height: '100%', display: 'block' }}>
+              <source type="image/avif" srcSet={imageSrc.replace(/\.(webp|jpg|png)$/, '.avif')} sizes="(max-width: 768px) 100vw, 400px" />
+              <source type="image/webp" srcSet={imageSrc.replace(/\.(avif|jpg|png)$/, '.webp')} sizes="(max-width: 768px) 100vw, 400px" />
+              <img
+                src={imageSrc}
+                srcSet={`${imageSrc} 1x, ${imageSrc} 2x`}
+                sizes="(max-width: 768px) 100vw, 400px"
+                loading="lazy"
+                decoding="async"
+                alt={node.name || 'Station Visual'}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  display: 'block',
+                  transition: 'transform 0.4s ease'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+                onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1.0)'}
+              />
+            </picture>
             {/* Scanline Gradient Overlay */}
             <div style={{
               position: 'absolute',

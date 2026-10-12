@@ -662,6 +662,10 @@ export const HardwareView = () => {
                 }}>
                   <img 
                     src={hw.image} 
+                    srcSet={`${hw.image} 1x, ${hw.image} 2x`}
+                    sizes="(max-width: 768px) 100vw, 360px"
+                    loading="lazy"
+                    decoding="async"
                     alt={hw.name || 'ATPL Industrial Automation Hardware'}
                     style={{
                       maxHeight: '100%',

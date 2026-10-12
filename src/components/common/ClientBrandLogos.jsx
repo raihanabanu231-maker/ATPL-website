@@ -172,18 +172,27 @@ export const ClientLogo = ({ clientName, slug, height = 54, className = '', styl
 
   const avifSrc = `/assets/images/clients/${finalSlug}.avif`;
   const webpSrc = `/assets/images/clients/${finalSlug}.webp`;
+  const pngSrc = `/assets/images/clients/${finalSlug}.png`;
 
   return (
     <picture style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
-      <source srcSet={avifSrc} type="image/avif" />
-      <source srcSet={webpSrc} type="image/webp" />
+      <source srcSet={`${avifSrc} 1x, ${avifSrc} 2x`} sizes="(max-width: 640px) 120px, 180px" type="image/avif" />
+      <source srcSet={`${webpSrc} 1x, ${webpSrc} 2x`} sizes="(max-width: 640px) 120px, 180px" type="image/webp" />
       <img
-        src={logoSrc}
+        src={webpSrc}
+        srcSet={`${webpSrc} 1x, ${webpSrc} 2x`}
+        sizes="(max-width: 640px) 120px, 180px"
         alt={`${displayName} — Enterprise Industry 4.0 Client`}
         title={`${displayName} — Click to view deployment impact`}
         className={className}
         onClick={onClick}
-        onError={() => setImageError(true)}
+        onError={(e) => {
+          if (e.currentTarget.src !== pngSrc) {
+            e.currentTarget.src = pngSrc;
+          } else {
+            setImageError(true);
+          }
+        }}
         width="160"
         height={height}
         loading="lazy"

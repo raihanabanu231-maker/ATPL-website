@@ -532,15 +532,18 @@ export const AtplCoPilot = () => {
       <style>{`
         @media (max-width: 768px) {
           .copilot-floating-container {
-            bottom: max(5.2rem, calc(4.5rem + env(safe-area-inset-bottom))) !important;
-            right: 0.85rem !important;
+            bottom: max(1.1rem, calc(0.9rem + env(safe-area-inset-bottom))) !important;
+            right: 0.75rem !important;
+            z-index: 85 !important;
+            transition: all 0.25s ease !important;
           }
           .copilot-speech-bubble {
             display: none !important;
           }
           .copilot-launcher-btn {
-            width: 48px !important;
-            height: 48px !important;
+            width: 44px !important;
+            height: 44px !important;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5), 0 0 12px rgba(0, 240, 255, 0.4) !important;
           }
           .atpl-copilot-window {
             bottom: 0 !important;

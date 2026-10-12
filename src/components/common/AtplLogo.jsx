@@ -1,5 +1,4 @@
 import React from 'react';
-import atplLogoImg from '../../../assets/images/atpl_logo.png';
 
 /**
  * ATPL Official Brand Logo Component
@@ -25,19 +24,27 @@ export const AtplLogo = ({
       }} 
       className={className}
     >
-      <img 
-        src={atplLogoImg} 
-        alt="ATPL Archery Technocrats Official Logo" 
-        width={size} 
-        height={size}
-        style={{
-          width: `${size}px`,
-          height: `${size}px`,
-          objectFit: 'contain',
-          flexShrink: 0,
-          display: 'block'
-        }}
-      />
+      <picture style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+        <source srcSet="/atpl_logo.avif 1x, /atpl_logo.avif 2x" sizes={`${size}px`} type="image/avif" />
+        <source srcSet="/atpl_logo.webp 1x, /atpl_logo.webp 2x" sizes={`${size}px`} type="image/webp" />
+        <img 
+          src="/atpl_logo.webp" 
+          srcSet="/atpl_logo.webp 1x, /atpl_logo.webp 2x"
+          sizes={`${size}px`}
+          alt="ATPL Archery Technocrats Official Logo" 
+          width={size} 
+          height={size}
+          loading="eager"
+          decoding="async"
+          style={{
+            width: `${size}px`,
+            height: `${size}px`,
+            objectFit: 'contain',
+            flexShrink: 0,
+            display: 'block'
+          }}
+        />
+      </picture>
 
       {showText && (
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', lineHeight: 1.1 }}>

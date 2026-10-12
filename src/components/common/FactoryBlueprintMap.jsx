@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import blueprintImg from '../../../assets/images/atpl_isometric_factory.webp';
-import atplQrCodeImg from '../../../assets/images/atpl_qr_code.png';
+import atplQrCodeImg from '../../../assets/images/atpl_qr_code.webp';
 import { AtplRobotAvatar } from './AtplRobotAvatar';
 import { 
   Bot, 
@@ -295,7 +295,9 @@ export const FactoryBlueprintMap = () => {
     setCurrentIndex(prev => (prev - 1 + ATPL_FACTORY_NODES.length) % ATPL_FACTORY_NODES.length);
   };
 
-  const [mobileViewMode, setMobileViewMode] = useState('map'); // 'map' | 'cards'
+  const [mobileViewMode, setMobileViewMode] = useState(() => 
+    typeof window !== 'undefined' && window.innerWidth < 900 ? 'cards' : 'map'
+  );
   const [isVideoTourOpen, setIsVideoTourOpen] = useState(false);
   const [isVideoPlaying, setIsVideoPlaying] = useState(true);
   const [videoProgress, setVideoProgress] = useState(0);
@@ -1177,23 +1179,30 @@ export const FactoryBlueprintMap = () => {
 
           {/* 2. DEDICATED MAP VIEWPORT (Clean, Uncrowded & Crisp Graphic on All Devices) */}
           <div className="factory-map-viewport">
-            {/* Background Isometric Graphic */}
-            <img 
-              src={blueprintImg} 
-              alt="ATPL Isometric Factory Blueprint"
-              className="factory-blueprint-bg-img"
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: '100%',
-                objectFit: 'contain',
-                backgroundColor: '#040b18',
-                pointerEvents: 'none',
-                zIndex: 1
-              }}
-            />
+            {/* Background Isometric Graphic with modern formats and srcset */}
+            <picture style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 1 }}>
+              <source type="image/avif" srcSet="/assets/images/atpl_isometric_factory.avif" sizes="(max-width: 900px) 100vw, 1440px" />
+              <source type="image/webp" srcSet="/assets/images/atpl_isometric_factory.webp" sizes="(max-width: 900px) 100vw, 1440px" />
+              <img 
+                src={blueprintImg} 
+                srcSet="/assets/images/atpl_isometric_factory.webp 1440w, /assets/images/atpl_isometric_factory.webp 720w"
+                sizes="(max-width: 900px) 100vw, 1440px"
+                loading="lazy"
+                decoding="async"
+                alt="ATPL Isometric Factory Blueprint"
+                className="factory-blueprint-bg-img"
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain',
+                  backgroundColor: '#040b18',
+                  pointerEvents: 'none'
+                }}
+              />
+            </picture>
 
             {/* Dynamic Laser Line from Robot to Current Station */}
             <svg
@@ -1326,25 +1335,33 @@ export const FactoryBlueprintMap = () => {
                 justifyContent: 'center',
                 boxShadow: '0 2px 10px rgba(0, 0, 0, 0.35)'
               }}>
-                <img 
-                  src={atplQrCodeImg || "/assets/images/atpl_qr_code.png"} 
-                  onError={(e) => {
-                    e.currentTarget.src = "/assets/images/atpl_qr_code.png";
-                  }}
-                  alt="ATPL 3D Factory Tour QR Code" 
-                  className="factory-blueprint-qr-img"
-                  width="54"
-                  height="54"
-                  style={{
-                    width: '54px',
-                    height: '54px',
-                    minWidth: '54px',
-                    minHeight: '54px',
-                    display: 'block',
-                    borderRadius: '5px',
-                    objectFit: 'contain'
-                  }}
-                />
+                <picture>
+                  <source type="image/avif" srcSet="/assets/images/atpl_qr_code.avif" sizes="54px" />
+                  <source type="image/webp" srcSet="/assets/images/atpl_qr_code.webp" sizes="54px" />
+                  <img 
+                    src={atplQrCodeImg || "/assets/images/atpl_qr_code.webp"} 
+                    srcSet="/assets/images/atpl_qr_code.webp 1x, /assets/images/atpl_qr_code.webp 2x"
+                    sizes="54px"
+                    loading="lazy"
+                    decoding="async"
+                    onError={(e) => {
+                      e.currentTarget.src = "/assets/images/atpl_qr_code.png";
+                    }}
+                    alt="ATPL 3D Factory Tour QR Code" 
+                    className="factory-blueprint-qr-img"
+                    width="54"
+                    height="54"
+                    style={{
+                      width: '54px',
+                      height: '54px',
+                      minWidth: '54px',
+                      minHeight: '54px',
+                      display: 'block',
+                      borderRadius: '5px',
+                      objectFit: 'contain'
+                    }}
+                  />
+                </picture>
               </div>
             </div>
 
@@ -1574,7 +1591,7 @@ export const FactoryBlueprintMap = () => {
           </div>
 
           {/* =====================================================================
-              2B. MOBILE GUIDED CARDS TOUR (Sleek Fallback & Direct Card Experience)
+              2B. MOBILE GUIDED CARDS TOUR (Sleek, Production-Grade Thumb-Friendly Experience)
              ===================================================================== */}
           {mobileViewMode === 'cards' && (
             <div 
@@ -1582,178 +1599,379 @@ export const FactoryBlueprintMap = () => {
               role="region"
               aria-label={`Mobile Station Card ${currentIndex + 1} of 12: ${currentNode.name}`}
               style={{
-                padding: '0.85rem',
-                backgroundColor: '#071226',
-                borderRadius: '10px',
-                margin: '0.5rem',
-                border: '1px solid rgba(0, 240, 255, 0.35)',
+                padding: '0.75rem 0.65rem 2.5rem 0.65rem',
+                backgroundColor: '#050d1e',
+                borderRadius: '12px',
+                margin: '0.4rem',
+                border: '1.5px solid rgba(0, 240, 255, 0.35)',
                 display: 'flex',
                 flexDirection: 'column',
-                gap: '0.75rem'
+                gap: '0.75rem',
+                boxShadow: '0 8px 30px rgba(0,0,0,0.6)'
               }}
             >
-              {/* Card Header */}
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '0.5rem' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <span style={{
-                    width: '28px',
-                    height: '28px',
-                    borderRadius: '50%',
-                    backgroundColor: '#E85874',
+              {/* 1. Thumb-Friendly Horizontal Station Scrubber (12 Stations) */}
+              <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '0.35rem',
+                borderBottom: '1px solid rgba(0, 240, 255, 0.2)',
+                paddingBottom: '0.65rem'
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 0.2rem' }}>
+                  <span style={{ fontSize: '0.7rem', color: '#94a3b8', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                    👆 Tap Any Station (1 to 12)
+                  </span>
+                  <span style={{ fontSize: '0.72rem', color: '#00f0ff', fontWeight: 900, fontFamily: 'var(--font-mono)' }}>
+                    STATION {currentIndex + 1}/12
+                  </span>
+                </div>
+                
+                <div 
+                  className="mobile-station-scrubber"
+                  role="tablist"
+                  aria-label="Thumb selectable 12 factory stations"
+                  style={{
+                    display: 'flex',
+                    gap: '0.4rem',
+                    overflowX: 'auto',
+                    WebkitOverflowScrolling: 'touch',
+                    scrollbarWidth: 'none',
+                    padding: '0.2rem 0'
+                  }}
+                >
+                  {ATPL_FACTORY_NODES.map((node, i) => {
+                    const isSelected = currentIndex === i;
+                    return (
+                      <button
+                        key={node.id}
+                        type="button"
+                        role="tab"
+                        aria-selected={isSelected}
+                        aria-label={`Station ${node.stepNumber}: ${node.name}`}
+                        onClick={() => handleStationClick(i)}
+                        style={{
+                          minHeight: '44px',
+                          padding: '0.4rem 0.75rem',
+                          borderRadius: '8px',
+                          flexShrink: 0,
+                          backgroundColor: isSelected ? '#E85874' : 'rgba(255, 255, 255, 0.06)',
+                          border: isSelected ? '1.5px solid #ffffff' : '1px solid rgba(0, 240, 255, 0.25)',
+                          color: '#ffffff',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '0.4rem',
+                          cursor: 'pointer',
+                          touchAction: 'manipulation',
+                          boxShadow: isSelected ? '0 0 14px rgba(232, 88, 116, 0.6)' : 'none',
+                          transition: 'all 0.2s ease'
+                        }}
+                      >
+                        <span style={{
+                          width: '22px',
+                          height: '22px',
+                          borderRadius: '50%',
+                          backgroundColor: isSelected ? '#ffffff' : 'rgba(0, 240, 255, 0.2)',
+                          color: isSelected ? '#E85874' : '#00f0ff',
+                          fontSize: '0.68rem',
+                          fontWeight: 900,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center'
+                        }}>
+                          {node.stepNumber}
+                        </span>
+                        <span style={{ fontSize: '0.74rem', fontWeight: 800, whiteSpace: 'nowrap' }}>
+                          {node.name.replace('™', '')}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* 2. Active Station Header & Key ROI Metric */}
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.5rem', flexWrap: 'wrap' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.55rem' }}>
+                  <div style={{
+                    width: '32px',
+                    height: '32px',
+                    borderRadius: '8px',
+                    backgroundColor: 'rgba(232, 88, 116, 0.2)',
+                    border: '1.5px solid #E85874',
                     color: '#ffffff',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     fontWeight: 900,
-                    fontSize: '0.8rem'
+                    fontSize: '0.86rem',
+                    flexShrink: 0
                   }}>
                     {currentNode.stepNumber}
-                  </span>
+                  </div>
                   <div>
-                    <h3 style={{ margin: 0, fontSize: '0.95rem', fontWeight: 900, color: '#ffffff' }}>
+                    <h3 style={{ margin: 0, fontSize: '1.02rem', fontWeight: 900, color: '#ffffff', letterSpacing: '-0.01em' }}>
                       {currentNode.name}
                     </h3>
-                    <span style={{ fontSize: '0.68rem', color: '#00f0ff', fontWeight: 700, textTransform: 'uppercase' }}>
+                    <span style={{ fontSize: '0.68rem', color: '#00f0ff', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
                       {currentNode.category}
                     </span>
                   </div>
                 </div>
+
                 {currentNode.roiMetric && (
                   <span style={{
                     backgroundColor: 'rgba(16, 185, 129, 0.2)',
                     border: '1px solid #10b981',
                     color: '#34d399',
-                    fontSize: '0.68rem',
+                    fontSize: '0.72rem',
                     fontWeight: 800,
-                    padding: '0.2rem 0.5rem',
-                    borderRadius: '4px'
+                    padding: '0.25rem 0.55rem',
+                    borderRadius: '6px',
+                    boxShadow: '0 0 12px rgba(16, 185, 129, 0.25)'
                   }}>
                     ⚡ {currentNode.roiMetric}
                   </span>
                 )}
               </div>
 
-              {/* Station Image */}
+              {/* 3. Station Photo with WebP & AVIF Picture Element */}
               {currentNode.image && (
-                <div style={{ position: 'relative', height: '180px', borderRadius: '8px', overflow: 'hidden', border: '1px solid rgba(0, 240, 255, 0.2)' }}>
-                  <img 
-                    src={currentNode.image} 
-                    alt={currentNode.name} 
-                    loading="lazy"
-                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                  />
+                <div style={{
+                  position: 'relative',
+                  width: '100%',
+                  aspectRatio: '16 / 9',
+                  maxHeight: '220px',
+                  borderRadius: '10px',
+                  overflow: 'hidden',
+                  border: '1px solid rgba(0, 240, 255, 0.3)',
+                  backgroundColor: '#020611'
+                }}>
+                  <picture>
+                    <source type="image/avif" srcSet={currentNode.image.replace(/\.(webp|jpg|png)$/, '.avif')} sizes="(max-width: 768px) 100vw, 480px" />
+                    <source type="image/webp" srcSet={currentNode.image.replace(/\.(avif|jpg|png)$/, '.webp')} sizes="(max-width: 768px) 100vw, 480px" />
+                    <img 
+                      src={currentNode.image} 
+                      srcSet={`${currentNode.image} 1x, ${currentNode.image} 2x`}
+                      sizes="(max-width: 768px) 100vw, 480px"
+                      alt={currentNode.name} 
+                      loading="lazy"
+                      decoding="async"
+                      style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                    />
+                  </picture>
+
                   <div style={{
                     position: 'absolute',
                     bottom: '8px',
                     left: '8px',
-                    backgroundColor: 'rgba(4, 11, 24, 0.85)',
-                    padding: '0.2rem 0.5rem',
-                    borderRadius: '4px',
-                    fontSize: '0.68rem',
-                    color: '#e2e8f0'
+                    right: '8px',
+                    backgroundColor: 'rgba(4, 11, 24, 0.88)',
+                    backdropFilter: 'blur(8px)',
+                    padding: '0.3rem 0.6rem',
+                    borderRadius: '6px',
+                    fontSize: '0.72rem',
+                    color: '#e2e8f0',
+                    border: '1px solid rgba(255, 255, 255, 0.15)'
                   }}>
                     {currentNode.tagline}
                   </div>
                 </div>
               )}
 
-              {/* Archie AI Commentary */}
+              {/* 4. Archie AI Interactive Shopfloor Guide */}
               <div style={{
-                backgroundColor: 'rgba(0, 240, 255, 0.06)',
-                border: '1px solid rgba(0, 240, 255, 0.25)',
-                borderRadius: '8px',
-                padding: '0.65rem',
+                backgroundColor: 'rgba(0, 240, 255, 0.08)',
+                border: '1.2px solid rgba(0, 240, 255, 0.35)',
+                borderRadius: '10px',
+                padding: '0.75rem',
                 display: 'flex',
-                gap: '0.5rem'
+                gap: '0.65rem',
+                alignItems: 'flex-start'
               }}>
-                <div style={{ flexShrink: 0 }}>
-                  <AtplRobotAvatar size={24} />
+                <div style={{
+                  width: '36px',
+                  height: '36px',
+                  borderRadius: '50%',
+                  backgroundColor: 'radial-gradient(circle, #ffffff 0%, #00f0ff 100%)',
+                  border: '1.5px solid #00f0ff',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexShrink: 0,
+                  boxShadow: '0 0 14px rgba(0, 240, 255, 0.5)'
+                }}>
+                  <AtplRobotAvatar size={26} />
                 </div>
-                <p style={{ margin: 0, fontSize: '0.76rem', color: '#cbd5e1', lineHeight: 1.4 }}>
-                  <strong style={{ color: '#00f0ff' }}>Archie AI: </strong>
-                  {currentNode.lesson}
-                </p>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                    <span style={{ fontSize: '0.76rem', fontWeight: 900, color: '#00f0ff' }}>
+                      Archie AI Industrial Guide
+                    </span>
+                    <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#10b981', display: 'inline-block' }}></span>
+                  </div>
+                  <p style={{ margin: 0, fontSize: '0.78rem', color: '#e2e8f0', lineHeight: 1.45 }}>
+                    {currentNode.lesson}
+                  </p>
+                </div>
               </div>
 
-              {/* Key Benefits */}
+              {/* 5. Key Verified Industrial Benefits */}
               {currentNode.keyBenefits && (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem' }}>
+                <div style={{
+                  display: 'grid',
+                  gridTemplateColumns: '1fr',
+                  gap: '0.35rem',
+                  backgroundColor: 'rgba(255, 255, 255, 0.03)',
+                  padding: '0.6rem 0.75rem',
+                  borderRadius: '8px',
+                  border: '1px solid rgba(255, 255, 255, 0.07)'
+                }}>
+                  <span style={{ fontSize: '0.68rem', fontWeight: 800, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                    Key Plant Capabilities:
+                  </span>
                   {currentNode.keyBenefits.map((benefit, bIdx) => (
-                    <div key={bIdx} style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.72rem', color: '#94a3b8' }}>
-                      <Check size={12} color="#00f0ff" />
+                    <div key={bIdx} style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', fontSize: '0.74rem', color: '#cbd5e1' }}>
+                      <Check size={13} color="#00f0ff" strokeWidth={2.5} style={{ flexShrink: 0 }} />
                       <span>{benefit}</span>
                     </div>
                   ))}
                 </div>
               )}
 
-              {/* Navigation buttons */}
-              <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.25rem' }}>
+              {/* 6. Ergonomic Thumb Navigation Bar (Min 46px Touch Targets for Easy One-Handed Use) */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginTop: '0.3rem' }}>
+                <div style={{ display: 'flex', gap: '0.45rem' }}>
+                  <button
+                    type="button"
+                    onClick={handlePrev}
+                    aria-label="Previous factory station"
+                    style={{
+                      flex: 1,
+                      minHeight: '48px',
+                      padding: '0.55rem',
+                      borderRadius: '8px',
+                      background: 'rgba(255, 255, 255, 0.08)',
+                      border: '1.2px solid rgba(255, 255, 255, 0.22)',
+                      color: '#ffffff',
+                      fontWeight: 800,
+                      fontSize: '0.82rem',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '0.35rem',
+                      cursor: 'pointer',
+                      touchAction: 'manipulation'
+                    }}
+                  >
+                    <ChevronLeft size={16} />
+                    <span>Station {(currentIndex + 11) % 12 + 1}</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={handleNext}
+                    aria-label="Next factory station"
+                    style={{
+                      flex: 1,
+                      minHeight: '48px',
+                      padding: '0.55rem',
+                      borderRadius: '8px',
+                      background: 'rgba(0, 240, 255, 0.2)',
+                      border: '1.5px solid #00f0ff',
+                      color: '#00f0ff',
+                      fontWeight: 900,
+                      fontSize: '0.82rem',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '0.35rem',
+                      cursor: 'pointer',
+                      touchAction: 'manipulation',
+                      boxShadow: '0 0 14px rgba(0, 240, 255, 0.25)'
+                    }}
+                  >
+                    <span>Station {(currentIndex + 1) % 12 + 1}</span>
+                    <ChevronRight size={16} />
+                  </button>
+                </div>
+
+                {/* Primary Station Call-to-Action */}
                 <button
                   type="button"
-                  onClick={handlePrev}
-                  aria-label="Previous factory station"
+                  onClick={() => openDemoModal({ solution: currentNode.name, notes: `Inquiry from Mobile Tour - Station ${currentNode.stepNumber}: ${currentNode.name}` })}
                   style={{
-                    flex: 1,
-                    padding: '0.5rem',
-                    borderRadius: '6px',
-                    background: 'rgba(255,255,255,0.08)',
-                    border: '1px solid rgba(255,255,255,0.2)',
-                    color: '#ffffff',
-                    fontWeight: 700,
-                    fontSize: '0.78rem',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '0.3rem'
-                  }}
-                >
-                  <ChevronLeft size={14} />
-                  <span>Prev</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={handleNext}
-                  aria-label="Next factory station"
-                  style={{
-                    flex: 1,
-                    padding: '0.5rem',
-                    borderRadius: '6px',
-                    background: 'rgba(0, 240, 255, 0.2)',
-                    border: '1px solid #00f0ff',
-                    color: '#00f0ff',
-                    fontWeight: 800,
-                    fontSize: '0.78rem',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '0.3rem'
-                  }}
-                >
-                  <span>Next</span>
-                  <ChevronRight size={14} />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => openDemoModal({ solution: currentNode.name, notes: `Inquiry from Mobile Tour - Station ${currentNode.stepNumber}` })}
-                  style={{
-                    flex: 1.4,
-                    padding: '0.5rem',
-                    borderRadius: '6px',
+                    width: '100%',
+                    minHeight: '48px',
+                    padding: '0.65rem 1rem',
+                    borderRadius: '8px',
                     background: 'linear-gradient(135deg, #E85874 0%, #c43854 100%)',
                     border: 'none',
                     color: '#ffffff',
-                    fontWeight: 800,
-                    fontSize: '0.78rem',
+                    fontWeight: 900,
+                    fontSize: '0.84rem',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    gap: '0.3rem'
+                    gap: '0.45rem',
+                    boxShadow: '0 4px 18px rgba(232, 88, 116, 0.45)',
+                    cursor: 'pointer',
+                    touchAction: 'manipulation'
                   }}
                 >
-                  <Sparkles size={13} />
-                  <span>Demo</span>
+                  <Sparkles size={15} />
+                  <span>Enquire {currentNode.name} • Live Plant Demo</span>
                 </button>
+
+                {/* Secondary Toggles: 2D Blueprint Map & Auto Tour */}
+                <div style={{ display: 'flex', gap: '0.45rem' }}>
+                  <button
+                    type="button"
+                    onClick={() => setMobileViewMode('map')}
+                    style={{
+                      flex: 1,
+                      minHeight: '40px',
+                      padding: '0.4rem',
+                      borderRadius: '6px',
+                      background: 'rgba(255, 255, 255, 0.05)',
+                      border: '1px solid rgba(0, 240, 255, 0.3)',
+                      color: '#94a3b8',
+                      fontSize: '0.74rem',
+                      fontWeight: 700,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '0.3rem',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    <span>🗺️ Switch to 2D Map</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setIsAutoTour(!isAutoTour)}
+                    style={{
+                      flex: 1,
+                      minHeight: '40px',
+                      padding: '0.4rem',
+                      borderRadius: '6px',
+                      background: isAutoTour ? 'rgba(232, 88, 116, 0.2)' : 'rgba(255, 255, 255, 0.05)',
+                      border: isAutoTour ? '1px solid #E85874' : '1px solid rgba(255, 255, 255, 0.15)',
+                      color: isAutoTour ? '#E85874' : '#94a3b8',
+                      fontSize: '0.74rem',
+                      fontWeight: 700,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '0.3rem',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    {isAutoTour ? <Pause size={12} /> : <Play size={12} />}
+                    <span>{isAutoTour ? 'Pause Auto Tour' : '▶ Auto Tour'}</span>
+                  </button>
+                </div>
               </div>
             </div>
           )}
@@ -2165,16 +2383,25 @@ export const FactoryBlueprintMap = () => {
               alignItems: 'center',
               justifyContent: 'center'
             }}>
-              <img
-                src={currentNode.image}
-                alt={currentNode.name}
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  filter: 'contrast(1.08) brightness(0.95)'
-                }}
-              />
+              <picture style={{ width: '100%', height: '100%', display: 'block' }}>
+                <source type="image/avif" srcSet={currentNode.image.replace(/\.(webp|jpg|png)$/, '.avif')} sizes="(max-width: 768px) 100vw, 800px" />
+                <source type="image/webp" srcSet={currentNode.image.replace(/\.(avif|jpg|png)$/, '.webp')} sizes="(max-width: 768px) 100vw, 800px" />
+                <img
+                  src={currentNode.image}
+                  srcSet={`${currentNode.image} 1x, ${currentNode.image} 2x`}
+                  sizes="(max-width: 768px) 100vw, 800px"
+                  loading="lazy"
+                  decoding="async"
+                  alt={currentNode.name}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    filter: 'contrast(1.08) brightness(0.95)',
+                    display: 'block'
+                  }}
+                />
+              </picture>
 
               {/* CCTV Corner Reticles */}
               <div style={{ position: 'absolute', top: 12, left: 12, borderTop: '2px solid #00f0ff', borderLeft: '2px solid #00f0ff', width: 20, height: 20 }} />

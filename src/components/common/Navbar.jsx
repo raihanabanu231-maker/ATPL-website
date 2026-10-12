@@ -568,27 +568,51 @@ export const Navbar = ({ onOpenSearch }) => {
                   }}
                 >
                   <div 
-                    onClick={() => handleNavClick('about')}
+                    onClick={() => {
+                      if (currentView !== 'home') {
+                        setCurrentView('home');
+                        setTimeout(() => {
+                          const el = document.getElementById('case-studies');
+                          if (el) el.scrollIntoView({ behavior: 'smooth' });
+                        }, 100);
+                      } else {
+                        const el = document.getElementById('case-studies');
+                        if (el) el.scrollIntoView({ behavior: 'smooth' });
+                      }
+                      setActiveDropdown(null);
+                    }}
                     style={{ padding: '0.65rem 0.85rem', borderRadius: '8px', cursor: 'pointer' }}
                     className="dropdown-hover-item"
                   >
                     <div style={{ fontWeight: 700, fontSize: '0.9rem', color: '#0f172a', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
                       <Users size={16} color="#0071ba" />
-                      <span>Enterprise Customer Stories</span>
+                      <span>Enterprise Case Studies & Results</span>
                     </div>
-                    <div style={{ fontSize: '0.78rem', color: '#64748b', marginTop: '2px' }}>500+ successful industrial plant deployments</div>
+                    <div style={{ fontSize: '0.78rem', color: '#64748b', marginTop: '2px' }}>Verified ROI metrics across 250+ manufacturing plants</div>
                   </div>
 
                   <div 
-                    onClick={() => handleNavClick('about')}
+                    onClick={() => {
+                      if (currentView !== 'home') {
+                        setCurrentView('home');
+                        setTimeout(() => {
+                          const el = document.getElementById('why-atpl-section');
+                          if (el) el.scrollIntoView({ behavior: 'smooth' });
+                        }, 100);
+                      } else {
+                        const el = document.getElementById('why-atpl-section');
+                        if (el) el.scrollIntoView({ behavior: 'smooth' });
+                      }
+                      setActiveDropdown(null);
+                    }}
                     style={{ padding: '0.65rem 0.85rem', borderRadius: '8px', cursor: 'pointer' }}
                     className="dropdown-hover-item"
                   >
                     <div style={{ fontWeight: 700, fontSize: '0.9rem', color: '#0f172a', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
                       <Award size={16} color="#009a44" />
-                      <span>ROI & 99.98% Accuracy Impact</span>
+                      <span>Why ATPL vs Global Giants</span>
                     </div>
-                    <div style={{ fontSize: '0.78rem', color: '#64748b', marginTop: '2px' }}>Real benchmark metrics across global facilities</div>
+                    <div style={{ fontSize: '0.78rem', color: '#64748b', marginTop: '2px' }}>Siemens, Honeywell, Zebra & Rockwell comparison</div>
                   </div>
 
                   <div 
