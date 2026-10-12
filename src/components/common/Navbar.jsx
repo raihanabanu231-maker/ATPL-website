@@ -151,25 +151,37 @@ export const Navbar = ({ onOpenSearch }) => {
       }}>
         <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', maxWidth: '100%', padding: '0 0.25rem', boxSizing: 'border-box' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', minWidth: 0, gap: '0.5rem' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', overflow: 'hidden', minWidth: 0, flex: 1 }}>
-              <span style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.35rem',
-                backgroundColor: 'rgba(232, 88, 116, 0.12)',
-                color: '#E85874',
-                border: '1px solid rgba(232, 88, 116, 0.3)',
-                fontSize: '0.62rem',
-                fontWeight: 800,
-                padding: '0.1rem 0.42rem',
-                borderRadius: '999px',
-                letterSpacing: '0.04em',
-                flexShrink: 0
-              }}>
-                ANNOUNCEMENT
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', minWidth: 0, flex: 1 }}>
+              <span 
+                className="announcement-pill"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  backgroundColor: 'rgba(232, 88, 116, 0.12)',
+                  color: '#E85874',
+                  border: '1px solid rgba(232, 88, 116, 0.3)',
+                  fontSize: '0.62rem',
+                  fontWeight: 800,
+                  padding: '0.12rem 0.45rem',
+                  borderRadius: '999px',
+                  letterSpacing: '0.04em',
+                  flexShrink: 0
+                }}
+              >
+                <span className="announcement-badge-desktop">ANNOUNCEMENT</span>
+                <span className="announcement-badge-mobile">NEW</span>
               </span>
-              <span style={{ color: '#334155', fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontSize: '0.74rem' }}>
-                🚀 Live 3D Digital Twin Simulator
+              <span 
+                className="announcement-text-content"
+                style={{ 
+                  color: '#334155', 
+                  fontWeight: 600, 
+                  fontSize: '0.74rem',
+                  lineHeight: 1.2
+                }}
+              >
+                <span className="announcement-text-desktop">🚀 Live 3D Digital Twin Simulator</span>
+                <span className="announcement-text-mobile">🚀 3D Digital Twin Tour</span>
               </span>
             </div>
             <button
@@ -184,7 +196,7 @@ export const Navbar = ({ onOpenSearch }) => {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '0.2rem',
-                padding: '0 0.2rem',
+                padding: '0.2rem 0.35rem',
                 flexShrink: 0
               }}
             >
@@ -830,6 +842,8 @@ export const Navbar = ({ onOpenSearch }) => {
               <style>{`@media(min-width: 640px){ .lang-selector-box { display: block !important; } }`}</style>
               <button
                 onClick={() => setLanguageOpen(!languageOpen)}
+                aria-label="Change Website Language"
+                aria-expanded={languageOpen}
                 style={{
                   background: 'transparent',
                   border: '1px solid #e2e8f0',
@@ -991,6 +1005,8 @@ export const Navbar = ({ onOpenSearch }) => {
             <button
               className="mobile-toggle-btn"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+              aria-expanded={mobileMenuOpen}
               style={{
                 background: '#f1f5f9',
                 border: 'none',

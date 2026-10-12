@@ -25,42 +25,42 @@ body{
 button{font:inherit;color:inherit;cursor:pointer;border:none;outline:none;-webkit-tap-highlight-color:transparent}
 .mono{font-family:ui-monospace,SFMono-Regular,Consolas,"Courier New",monospace}/* Announcement Bar */
 #ann{
-  background:#071322;color:#cbd5e1;font-size:12.5px;height:34px;
+  background:#071322;color:#cbd5e1;font-size:11.5px;height:28px;
   display:flex;justify-content:space-between;align-items:center;
   padding:0 clamp(12px,2vw,28px);border-bottom:1px solid rgba(24,224,255,0.18);
   white-space:nowrap;overflow:hidden;gap:10px;flex-shrink:0;z-index:20;
 }
 #ann .ann-left{display:flex;align-items:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;gap:8px}
-#ann b{background:rgba(232,51,79,0.18);color:#ff4d6d;border:1px solid rgba(255,77,109,0.4);border-radius:999px;font-size:11px;padding:2px 8px;flex-shrink:0;font-weight:800;letter-spacing:0.4px}
-#ann a{color:var(--cy);text-decoration:none;font-weight:700;display:inline-flex;align-items:center;gap:4px;flex-shrink:0;font-size:12px}
+#ann b{background:rgba(232,51,79,0.18);color:#ff4d6d;border:1px solid rgba(255,77,109,0.4);border-radius:999px;font-size:10px;padding:1px 7px;flex-shrink:0;font-weight:800;letter-spacing:0.4px}
+#ann a{color:var(--cy);text-decoration:none;font-weight:700;display:inline-flex;align-items:center;gap:4px;flex-shrink:0;font-size:11.5px}
 #ann a:hover{text-decoration:underline}
 
 /* Main Navigation Header */
 #nav{
   background:rgba(7, 19, 34, 0.98);color:var(--navtx);display:flex;align-items:center;
-  justify-content:space-between;padding:0 clamp(12px,2vw,28px);height:64px;
+  justify-content:space-between;padding:0 clamp(12px,2vw,28px);height:52px;
   border-bottom:1px solid rgba(255,255,255,0.1);z-index:20;gap:14px;flex-shrink:0;
   position:relative;-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);
 }
 .logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit;flex-shrink:0;user-select:none}
-.logo img{width:36px;height:36px;object-fit:contain;flex-shrink:0}
+.logo img{width:32px;height:32px;object-fit:contain;flex-shrink:0}
 .logo-text{display:flex;flex-direction:column;justify-content:center;line-height:1.1}
-.logo-title{font-size:19px;font-weight:900;letter-spacing:-0.02em;color:#ffffff;line-height:1}
-.logo-sub{font-size:10.5px;letter-spacing:0.12em;color:#38bdf8;font-weight:800;text-transform:uppercase;margin-top:2px;display:flex;align-items:center;gap:5px}
+.logo-title{font-size:18px;font-weight:900;letter-spacing:-0.02em;color:#ffffff;line-height:1}
+.logo-sub{font-size:9.5px;letter-spacing:0.12em;color:#38bdf8;font-weight:800;text-transform:uppercase;margin-top:2px;display:flex;align-items:center;gap:5px}
 .logo-dot{display:inline-block;width:5px;height:5px;border-radius:50%;background:#E85874;box-shadow:0 0 6px #E85874;flex-shrink:0}
 
-#nav ul{display:flex;gap:clamp(14px,1.8vw,26px);list-style:none;margin:0;padding:0;font-weight:700;font-size:14px}
+#nav ul{display:flex;gap:clamp(12px,1.5vw,22px);list-style:none;margin:0;padding:0;font-weight:700;font-size:13.5px}
 #nav ul a{text-decoration:none;color:#94a3b8;transition:color .2s}
 #nav ul a:hover,#nav ul a.active{color:#ffffff}
-.nr{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;flex-shrink:0}
-.nr .lg{border:1px solid rgba(255,255,255,0.15);border-radius:6px;padding:5px 10px;font-size:12px;background:rgba(255,255,255,0.04);font-weight:700}
-.nr .ad{color:#38bdf8;text-decoration:none;padding:5px 11px;border-radius:6px;background:rgba(56,189,248,0.12);border:1px solid rgba(56,189,248,0.22);font-size:12.5px;font-weight:700}
-.rq{background:linear-gradient(135deg,#e8334f,#ff5722);color:#fff;border-radius:7px;padding:7px 15px;font-weight:800;text-decoration:none;display:inline-block;box-shadow:0 4px 14px rgba(232,51,79,0.35);font-size:13px;white-space:nowrap}
+.nr{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;flex-shrink:0}
+.nr .lg{border:1px solid rgba(255,255,255,0.15);border-radius:6px;padding:4px 8px;font-size:11.5px;background:rgba(255,255,255,0.04);font-weight:700}
+.nr .ad{color:#38bdf8;text-decoration:none;padding:4px 9px;border-radius:6px;background:rgba(56,189,248,0.12);border:1px solid rgba(56,189,248,0.22);font-size:12px;font-weight:700}
+.rq{background:linear-gradient(135deg,#e8334f,#ff5722);color:#fff;border-radius:6px;padding:6px 13px;font-weight:800;text-decoration:none;display:inline-block;box-shadow:0 4px 14px rgba(232,51,79,0.35);font-size:12px;white-space:nowrap}
 
 /* Mobile Hamburger Menu Button & Drawer */
 #mobMenuBtn{
   display:none;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);
-  border-radius:6px;padding:6px 10px;font-size:15px;color:#fff;
+  border-radius:6px;padding:5px 9px;font-size:14px;color:#fff;
 }
 #mobNavDrawer{
   position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(2,11,20,0.96);
@@ -104,7 +104,7 @@ button{font:inherit;color:inherit;cursor:pointer;border:none;outline:none;-webki
 /* Official Archery Robot Mascot (Archie) Moving on Factory Floor */
 .archery-live-robot{
   position:absolute;z-index:4;cursor:pointer;
-  width:clamp(85px, 9.5vw, 130px);height:auto;aspect-ratio:394/360;
+  width:clamp(80px, 8.5vw, 115px);height:auto;aspect-ratio:394/360;
   animation:archieWalkTour 18s ease-in-out infinite;
   transition:filter .2s;
 }
@@ -151,18 +151,28 @@ button{font:inherit;color:inherit;cursor:pointer;border:none;outline:none;-webki
 #scan{position:absolute;left:0;right:0;height:100px;pointer-events:none;background:linear-gradient(rgba(24,224,255,0),rgba(24,224,255,0.08),rgba(24,224,255,0));animation:sw 8s linear infinite}
 @keyframes sw{from{top:-100px}to{top:100%}}
 
-#hud{position:absolute;left:clamp(8px,1.5vw,16px);top:clamp(8px,1.5vw,16px);z-index:5}
-.hb{background:var(--pn);border:1px solid rgba(24,224,255,0.4);border-radius:10px;padding:6px clamp(8px,1.2vw,12px);display:flex;align-items:center;gap:8px;box-shadow:0 8px 24px rgba(0,0,0,0.5)}
-.hb h1{font-size:clamp(10.5px,1.2vw,13px);margin:0 0 1px;font-weight:800;letter-spacing:0.5px}
-.hb small{font-size:clamp(8px,0.9vw,9.5px);color:var(--cy);letter-spacing:0.8px;display:block}
+#hud{position:absolute;left:clamp(8px,1.5vw,16px);top:clamp(8px,1.5vw,16px);z-index:5;transition:left .35s cubic-bezier(.16, 1, .3, 1)}
+#hud.panel-open{left:406px}
+#panel.open ~ #hud{left:406px}
+@media (max-width: 1023px) and (min-width: 768px) {
+  #hud.panel-open{left:350px}
+  #panel.open ~ #hud{left:350px}
+}
+@media (max-width: 767px) {
+  #hud.panel-open{left:6px}
+  #panel.open ~ #hud{left:6px}
+}
+.hb{background:var(--pn);border:1px solid rgba(24,224,255,0.4);border-radius:10px;padding:5px clamp(7px,1vw,11px);display:flex;align-items:center;gap:8px;box-shadow:0 8px 24px rgba(0,0,0,0.5)}
+.hb h1{font-size:clamp(10px,1.1vw,12.5px);margin:0 0 1px;font-weight:800;letter-spacing:0.5px}
+.hb small{font-size:clamp(7.5px,0.85vw,9px);color:var(--cy);letter-spacing:0.8px;display:block}
 .dot{width:7px;height:7px;border-radius:50%;background:#10b981;box-shadow:0 0 8px #10b981;flex:none;animation:blink 2s infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0.4}}
-.tel{color:var(--cy);font-size:clamp(8.5px,0.9vw,10.5px);font-weight:700;letter-spacing:0.8px;border-left:1px solid rgba(24,224,255,0.25);padding-left:8px}
+.tel{color:var(--cy);font-size:clamp(8px,0.85vw,10px);font-weight:700;letter-spacing:0.8px;border-left:1px solid rgba(24,224,255,0.25);padding-left:8px}
 
 /* Top Right Controls */
 #ctl{position:absolute;right:clamp(8px,1.5vw,16px);top:clamp(8px,1.5vw,16px);display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end;z-index:5}
 .b{
-  background:var(--pn);border:1px solid rgba(255,255,255,0.15);border-radius:7px;padding:clamp(5px,0.7vw,7px) clamp(7px,1vw,11px);
+  background:var(--pn);border:1px solid rgba(255,255,255,0.15);border-radius:7px;padding:clamp(4px,0.6vw,6px) clamp(6px,0.9vw,10px);
   font-size:clamp(9.5px,1vw,11.5px);font-weight:700;color:#e2e8f0;transition:all .2s;display:inline-flex;align-items:center;gap:4px;
 }
 .b:hover{background:rgba(18,36,58,0.95);border-color:var(--cy);color:var(--cy)}
@@ -172,142 +182,159 @@ button{font:inherit;color:inherit;cursor:pointer;border:none;outline:none;-webki
 .b.red:hover{background:rgba(70,15,30,0.95);border-color:#ff4d6d;color:#fff}
 
 /* =====================================================================
-   EXECUTIVE INDUSTRIAL INSPECTOR SIDEBAR (Large High-Tech Dashboard)
+   EXECUTIVE INDUSTRIAL INSPECTOR SIDEBAR (Calibrated Enterprise Design)
    ===================================================================== */
 #panel{
-  position:absolute;left:20px;top:20px;bottom:20px;width:clamp(540px, 36vw, 680px);
-  background:linear-gradient(180deg, rgba(8, 22, 38, 0.97) 0%, rgba(4, 14, 26, 0.99) 100%);
-  border:1.5px solid rgba(24, 224, 255, 0.35);border-radius:20px;
+  position:absolute;left:14px;top:14px;bottom:14px;width:380px;max-width:calc(100vw - 28px);
+  background:linear-gradient(180deg, rgba(8, 22, 38, 0.98) 0%, rgba(4, 14, 26, 0.99) 100%);
+  border:1.5px solid rgba(24, 224, 255, 0.35);border-radius:16px;
   display:flex;flex-direction:column;overflow:hidden;
   transform:translateX(-140%);transition:transform .38s cubic-bezier(.16, 1, .3, 1);
-  box-shadow:0 24px 60px rgba(0,0,0,0.88), 0 0 40px rgba(24,224,255,0.2), inset 0 1px 0 rgba(255,255,255,0.15);
+  box-shadow:0 20px 50px rgba(0,0,0,0.88), 0 0 30px rgba(24,224,255,0.18), inset 0 1px 0 rgba(255,255,255,0.15);
   z-index:10;-webkit-backdrop-filter:blur(24px);backdrop-filter:blur(24px);
 }
 #panel.open{transform:none}
-#panel-handle{display:none;width:44px;height:5px;border-radius:999px;background:rgba(255,255,255,0.35);margin:0 auto 10px;cursor:pointer}
+#panel-handle{display:none;width:40px;height:4px;border-radius:999px;background:rgba(255,255,255,0.35);margin:0 auto 8px;cursor:pointer}
 
 /* Fixed Header & Interactive Controls */
 .panel-hdr{
-  padding:20px 24px 16px;border-bottom:1px solid rgba(255,255,255,0.1);
-  flex-shrink:0;position:relative;background:rgba(4, 16, 30, 0.9);
+  padding:14px 16px 12px;border-bottom:1px solid rgba(255,255,255,0.1);
+  flex-shrink:0;position:relative;background:rgba(4, 16, 30, 0.92);
 }
 .panel-top-actions{
-  position:absolute;right:18px;top:18px;display:flex;align-items:center;gap:6px;z-index:2;
+  position:absolute;right:12px;top:12px;display:flex;align-items:center;gap:4px;z-index:2;
 }
 .panel-action-btn{
-  width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,0.08);
-  border:1px solid rgba(255,255,255,0.18);color:#cbd5e1;font-size:13px;font-weight:800;
+  width:28px;height:28px;border-radius:6px;background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.18);color:#cbd5e1;font-size:12px;font-weight:800;
   display:grid;place-items:center;transition:all .2s;cursor:pointer;
 }
 .panel-action-btn:hover{background:rgba(24,224,255,0.22);color:#fff;border-color:var(--cy);transform:scale(1.05)}
 .panel-action-btn.close-btn:hover{background:rgba(255,77,109,0.3);color:#ff4d6d;border-color:rgba(255,77,109,0.7)}
 
-.panel-hdr-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;padding-right:120px}
-#pt{display:flex;align-items:center;gap:10px;color:var(--cy);font-size:12.5px;font-weight:800;letter-spacing:1px}
-#pt i{font-style:normal;background:linear-gradient(135deg,#0b9bff,#18c8ff);color:#020b14;border-radius:6px;padding:3px 8px;font-size:11.5px;font-weight:900;letter-spacing:0.5px}
+.panel-hdr-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px;padding-right:96px}
+#pt{display:flex;align-items:center;gap:8px;color:var(--cy);font-size:11px;font-weight:800;letter-spacing:0.8px}
+#pt i{font-style:normal;background:linear-gradient(135deg,#0b9bff,#18c8ff);color:#020b14;border-radius:4px;padding:2px 6px;font-size:10.5px;font-weight:900;letter-spacing:0.5px}
 
 /* Interactive Station Switcher Bar */
 .panel-ctrl-bar{
-  display:flex;align-items:center;gap:8px;margin-bottom:12px;background:rgba(2,11,20,0.6);padding:4px;border-radius:8px;border:1px solid rgba(24,224,255,0.2);
+  display:flex;align-items:center;gap:6px;margin-bottom:8px;background:rgba(2,11,20,0.6);padding:3px;border-radius:6px;border:1px solid rgba(24,224,255,0.2);
 }
 .panel-station-select{
   flex:1;background:#030f1c;color:var(--cy);border:1px solid rgba(24,224,255,0.3);
-  border-radius:6px;padding:6px 10px;font-size:13px;font-weight:700;outline:none;cursor:pointer;font-family:inherit;
+  border-radius:4px;padding:5px 8px;font-size:12px;font-weight:700;outline:none;cursor:pointer;font-family:inherit;
 }
 .panel-station-select option{background:#041426;color:#fff;}
-.panel-nav-btn{
-  background:rgba(24,224,255,0.12);border:1px solid rgba(24,224,255,0.3);color:#fff;
-  border-radius:6px;padding:6px 10px;font-size:12px;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;gap:4px;transition:all .2s;white-space:nowrap;
-}
-.panel-nav-btn:hover{background:rgba(24,224,255,0.25);border-color:var(--cy)}
 
-#pn{font-size:clamp(24px,2.4vw,30px);margin:0 0 6px;font-weight:900;color:#fff;letter-spacing:-0.5px;line-height:1.2}
-#pd{font-size:15px;line-height:1.6;color:#e2e8f0;margin:0;font-weight:500}
+#pn{font-size:clamp(19px,1.9vw,23px);margin:0 0 3px;font-weight:900;color:#fff;letter-spacing:-0.4px;line-height:1.2}
+#pd{font-size:13px;line-height:1.5;color:#cbd5e1;margin:0;font-weight:400}
 
 /* Floating Reopen Button when user minimizes/closes panel */
 #openPanelBtn{
-  position:absolute;left:20px;top:20px;z-index:12;
+  position:absolute;left:14px;top:14px;z-index:12;
   background:linear-gradient(135deg,rgba(8,26,48,0.95) 0%,rgba(4,16,32,0.98) 100%);
   border:1.5px solid var(--cy);box-shadow:0 8px 24px rgba(0,0,0,0.6),0 0 20px rgba(24,224,255,0.35);
-  color:#fff;font-size:13px;font-weight:800;padding:10px 18px;border-radius:12px;
-  display:none;align-items:center;gap:8px;cursor:pointer;transition:all .2s;
+  color:#fff;font-size:12px;font-weight:800;padding:8px 14px;border-radius:10px;
+  display:none;align-items:center;gap:6px;cursor:pointer;transition:all .2s;
 }
 #openPanelBtn:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(24,224,255,0.5);border-color:#fff}
 #panel:not(.open) ~ #openPanelBtn{display:inline-flex}
 
 /* Scrollable Body */
 .panel-body{
-  flex:1;min-height:0;overflow-y:auto;padding:20px 26px;
-  display:flex;flex-direction:column;gap:18px;scrollbar-width:thin;
+  flex:1;min-height:0;overflow-y:auto;padding:14px 16px;
+  display:flex;flex-direction:column;gap:12px;scrollbar-width:thin;
   scrollbar-color:rgba(24,224,255,0.35) transparent;
 }
-.panel-body::-webkit-scrollbar{width:6px}
+.panel-body::-webkit-scrollbar{width:5px}
 .panel-body::-webkit-scrollbar-track{background:transparent}
 .panel-body::-webkit-scrollbar-thumb{background:rgba(24,224,255,0.35);border-radius:999px}
 .panel-body::-webkit-scrollbar-thumb:hover{background:var(--cy)}
 
 /* Visual Box */
-.hw{border:1.5px solid rgba(24,224,255,0.35);border-radius:16px;overflow:hidden;position:relative;background:#03101d;box-shadow:0 10px 30px rgba(0,0,0,0.5)}
-.hd{display:flex;justify-content:space-between;align-items:center;padding:11px 16px;font-size:12.5px;letter-spacing:1px;color:var(--cy);font-weight:800;background:rgba(24,224,255,0.1);border-bottom:1px solid rgba(24,224,255,0.22);gap:10px}
-.tg{display:flex;gap:4px;background:rgba(2,11,20,0.7);padding:3px;border-radius:7px;border:1px solid rgba(255,255,255,0.1)}
-.tg button{background:transparent;border:none;border-radius:5px;font-size:12px;padding:5px 12px;color:#94a3b8;font-weight:800;transition:all .2s;white-space:nowrap;cursor:pointer}
+.hw{border:1.5px solid rgba(24,224,255,0.35);border-radius:12px;overflow:hidden;position:relative;background:#03101d;box-shadow:0 8px 20px rgba(0,0,0,0.4)}
+.hd{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;font-size:11px;letter-spacing:0.8px;color:var(--cy);font-weight:800;background:rgba(24,224,255,0.1);border-bottom:1px solid rgba(24,224,255,0.22);gap:8px}
+.tg{display:flex;gap:3px;background:rgba(2,11,20,0.7);padding:2px;border-radius:6px;border:1px solid rgba(255,255,255,0.1)}
+.tg button{background:transparent;border:none;border-radius:4px;font-size:11px;padding:4px 9px;color:#94a3b8;font-weight:800;transition:all .2s;white-space:nowrap;cursor:pointer}
 .tg button:hover{color:#fff}
 .tg .on{border:none;color:#fff;background:linear-gradient(135deg,#0b9bff,#18c8ff);box-shadow:0 2px 8px rgba(24,224,255,0.4)}
 #cvp{width:100%;display:block;aspect-ratio:16/9;background:#020b14}
-.cap{position:absolute;left:0;right:0;bottom:0;background:linear-gradient(0deg,rgba(2,11,20,0.98) 0%,rgba(2,11,20,0.75) 100%);padding:10px 16px;font-size:13.5px;font-weight:700;display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(255,255,255,0.1)}
+.cap{position:absolute;left:0;right:0;bottom:0;background:linear-gradient(0deg,rgba(2,11,20,0.98) 0%,rgba(2,11,20,0.75) 100%);padding:7px 12px;font-size:11.5px;font-weight:700;display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(255,255,255,0.1)}
 .cap span:first-child{color:#f1f5f9}
-.cap span:last-child{color:var(--go);background:rgba(255,201,60,0.18);padding:4px 9px;border-radius:5px;border:1px solid rgba(255,201,60,0.35);font-size:12px;font-weight:800}
+.cap span:last-child{color:var(--go);background:rgba(255,201,60,0.18);padding:2px 7px;border-radius:4px;border:1px solid rgba(255,201,60,0.35);font-size:10.5px;font-weight:800}
 
 /* Customer ROI Highlight Banner */
-.cs{border:1.5px solid rgba(16,185,129,0.4);border-radius:15px;padding:18px 20px;background:linear-gradient(135deg,rgba(16,185,129,0.14) 0%,rgba(24,224,255,0.06) 100%);box-shadow:0 4px 18px rgba(0,0,0,0.22)}
-.cs b{color:#10b981;font-size:12px;letter-spacing:1.2px;display:flex;align-items:center;gap:6px;margin-bottom:6px;font-weight:800}
-.cs em{font-style:normal;font-weight:800;color:#fff;display:block;margin-bottom:6px;font-size:16.5px;line-height:1.45}
-.cs div{font-size:13px;font-weight:700}
+.cs{border:1.5px solid rgba(16,185,129,0.4);border-radius:12px;padding:12px 14px;background:linear-gradient(135deg,rgba(16,185,129,0.14) 0%,rgba(24,224,255,0.06) 100%);box-shadow:0 4px 14px rgba(0,0,0,0.2)}
+.cs b{color:#10b981;font-size:11px;letter-spacing:1px;display:flex;align-items:center;gap:5px;margin-bottom:4px;font-weight:800}
+.cs em{font-style:normal;font-weight:800;color:#fff;display:block;margin-bottom:4px;font-size:14px;line-height:1.4}
+.cs div{font-size:11.5px;font-weight:700}
 
 /* Archie Assistant Insight Box */
-.ls{border:1.5px solid rgba(24,224,255,0.3);border-radius:15px;padding:18px 20px;background:rgba(24,224,255,0.05);display:flex;gap:14px;align-items:flex-start}
-.ls-ico{width:40px;height:40px;border-radius:50%;background:#020b14;border:2px solid var(--cy);display:grid;place-items:center;flex-shrink:0;box-shadow:0 0 16px rgba(24,224,255,0.45);padding:2px}
+.ls{border:1.5px solid rgba(24,224,255,0.3);border-radius:12px;padding:12px 14px;background:rgba(24,224,255,0.05);display:flex;gap:10px;align-items:flex-start}
+.ls-ico{width:34px;height:34px;border-radius:50%;background:#020b14;border:1.5px solid var(--cy);display:grid;place-items:center;flex-shrink:0;box-shadow:0 0 12px rgba(24,224,255,0.4);padding:2px}
 .ls-ico img{width:100%;height:100%;object-fit:contain}
 .ls-content{flex:1;min-width:0}
-.ls b{color:var(--cy);font-size:12px;letter-spacing:1.2px;display:block;margin-bottom:4px;font-weight:800}
-.ls span{font-size:14.5px;line-height:1.6;color:#f1f5f9;display:block;font-weight:500}
+.ls b{color:var(--cy);font-size:11px;letter-spacing:1px;display:block;margin-bottom:3px;font-weight:800}
+.ls span{font-size:12.5px;line-height:1.55;color:#f1f5f9;display:block;font-weight:500}
 
 /* Specs Box */
-.specs-box{border:1.5px solid rgba(255,255,255,0.12);border-radius:15px;padding:18px 20px;background:rgba(255,255,255,0.03)}
-.sp{font-size:12.5px;color:var(--cy);letter-spacing:1.3px;margin-bottom:10px;font-weight:800;display:flex;align-items:center;gap:7px}
-ul.s{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px}
-ul.s li{padding:4px 0 4px 30px;position:relative;color:#f8fafc;line-height:1.55;font-size:14.5px;font-weight:500}
-ul.s li:before{content:"✓";position:absolute;left:0;top:4px;width:19px;height:19px;border:1.5px solid var(--cy);color:var(--cy);background:rgba(24,224,255,0.15);border-radius:50%;font-size:11px;display:grid;place-items:center;font-weight:900}
+.specs-box{border:1.5px solid rgba(255,255,255,0.12);border-radius:12px;padding:12px 14px;background:rgba(255,255,255,0.03)}
+.sp{font-size:11px;color:var(--cy);letter-spacing:1.1px;margin-bottom:8px;font-weight:800;display:flex;align-items:center;gap:6px}
+ul.s{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px}
+ul.s li{padding:2px 0 2px 24px;position:relative;color:#f8fafc;line-height:1.5;font-size:12.5px;font-weight:500}
+ul.s li:before{content:"✓";position:absolute;left:0;top:2px;width:16px;height:16px;border:1.5px solid var(--cy);color:var(--cy);background:rgba(24,224,255,0.15);border-radius:50%;font-size:9.5px;display:grid;place-items:center;font-weight:900}
 
 /* Fixed Footer Actions */
 .panel-ftr{
-  padding:16px 26px;border-top:1px solid rgba(255,255,255,0.1);
-  background:rgba(3, 10, 18, 0.85);flex-shrink:0;display:flex;gap:12px;
+  padding:10px 16px;border-top:1px solid rgba(255,255,255,0.1);
+  background:rgba(3, 10, 18, 0.9);flex-shrink:0;display:flex;gap:8px;
 }
 .panel-ftr a, .panel-ftr button{
-  flex:1;text-align:center;padding:14px 18px;border-radius:10px;font-size:14.5px;
-  font-weight:800;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  flex:1;text-align:center;padding:9px 12px;border-radius:8px;font-size:12.5px;
+  font-weight:800;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:6px;
   transition:all .2s;cursor:pointer;
 }
 .a1{border:1.5px solid rgba(24,224,255,0.4);color:var(--cy);background:rgba(24,224,255,0.1)}
-.a1:hover{background:rgba(24,224,255,0.22);border-color:var(--cy);transform:translateY(-1.5px)}
-.a2{background:linear-gradient(135deg,#0b9bff,#18c8ff);color:#fff;box-shadow:0 4px 18px rgba(11,155,255,0.45);border:none}
-.a2:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(11,155,255,0.6)}
+.a1:hover{background:rgba(24,224,255,0.22);border-color:var(--cy);transform:translateY(-1px)}
+.a2{background:linear-gradient(135deg,#0b9bff,#18c8ff);color:#fff;box-shadow:0 4px 14px rgba(11,155,255,0.4);border:none}
+.a2:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(11,155,255,0.55)}
 
 /* Bottom Quick Stations Bar */
 #tabs{
-  position:absolute;left:0;right:0;bottom:6px;display:flex;gap:4px;
-  overflow-x:auto;padding:0 clamp(8px,1.5vw,16px);scrollbar-width:none;z-index:7;
+  position:absolute;left:410px;right:180px;bottom:8px;display:flex;gap:4px;
+  overflow-x:auto;padding:0 8px;scrollbar-width:none;z-index:7;
   -webkit-overflow-scrolling:touch;
 }
 #tabs::-webkit-scrollbar{display:none}
-#tabs .b{flex:none;font-size:clamp(9px,0.9vw,10.5px);padding:5px 9px;white-space:nowrap;border-radius:999px;color:#94a3b8;background:rgba(6,16,29,0.88);backdrop-filter:blur(6px)}
+#tabs .b{flex:none;font-size:11px;padding:4px 9px;white-space:nowrap;border-radius:999px;color:#94a3b8;background:rgba(6,16,29,0.88);backdrop-filter:blur(6px)}
 #tabs .b.on{color:var(--go);border-color:var(--go);background:rgba(40,30,5,0.95)}
+#panel:not(.open) ~ #tabs{left:0;right:0;padding:0 clamp(8px,1.5vw,16px);}
 
 /* Archie Assistant Floating Bubble */
-#chat{position:absolute;right:clamp(8px,1.5vw,16px);bottom:clamp(40px,5vw,52px);display:flex;align-items:center;gap:6px;z-index:7;cursor:pointer}
-#chat span{background:#fff;color:#0f172a;border-radius:10px;padding:5px 10px;font-size:clamp(9.5px,1.1vw,11.5px);font-weight:700;box-shadow:0 8px 24px rgba(0,0,0,0.5)}
-#chat div{width:clamp(36px,4.5vw,44px);height:clamp(36px,4.5vw,44px);border-radius:50%;background:#06101e;border:2px solid var(--cy);display:grid;place-items:center;box-shadow:0 0 16px rgba(24,224,255,0.5);overflow:hidden}
+#chat{position:absolute;right:clamp(8px,1.5vw,16px);bottom:clamp(36px,4.5vw,46px);display:flex;align-items:center;gap:6px;z-index:7;cursor:pointer}
+#chat span{background:#fff;color:#0f172a;border-radius:10px;padding:4px 9px;font-size:11px;font-weight:700;box-shadow:0 8px 24px rgba(0,0,0,0.5)}
+#chat div{width:38px;height:38px;border-radius:50%;background:#06101e;border:2px solid var(--cy);display:grid;place-items:center;box-shadow:0 0 16px rgba(24,224,255,0.5);overflow:hidden}
+
+/* Interactive Archie Chat Modal */
+.archie-chat-modal{
+  position:absolute;right:clamp(10px,2vw,20px);bottom:84px;width:360px;max-width:calc(100vw - 24px);height:480px;max-height:calc(100vh - 160px);
+  background:linear-gradient(180deg, rgba(8, 22, 38, 0.98) 0%, rgba(4, 14, 26, 0.99) 100%);
+  border:1.5px solid rgba(24, 224, 255, 0.4);border-radius:16px;box-shadow:0 16px 40px rgba(0,0,0,0.85), 0 0 30px rgba(24,224,255,0.25);
+  display:flex;flex-direction:column;z-index:25;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);overflow:hidden;
+}
+.archie-chat-header{padding:10px 14px;border-bottom:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:space-between;background:rgba(3, 14, 26, 0.92);flex-shrink:0}
+.archie-chat-body{flex:1;min-height:0;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:10px}
+.archie-msg{display:flex;gap:8px;align-items:flex-start}
+.archie-msg.user{flex-direction:row-reverse}
+.archie-bubble-text{background:rgba(24, 224, 255, 0.08);border:1px solid rgba(24, 224, 255, 0.25);border-radius:10px;padding:8px 12px;font-size:12px;line-height:1.5;color:#f1f5f9;max-width:84%}
+.archie-msg.user .archie-bubble-text{background:linear-gradient(135deg, #0b9bff, #18c8ff);color:#fff;border:none}
+.archie-quick-chips{padding:6px 10px;display:flex;gap:5px;overflow-x:auto;border-top:1px solid rgba(255,255,255,0.06);background:rgba(2, 11, 20, 0.6);flex-shrink:0;scrollbar-width:none}
+.archie-quick-chips::-webkit-scrollbar{display:none}
+.archie-quick-chips button{background:rgba(255,255,255,0.06);border:1px solid rgba(24,224,255,0.25);border-radius:999px;padding:4px 8px;font-size:10.5px;color:#18e0ff;white-space:nowrap;cursor:pointer}
+.archie-quick-chips button:hover{background:rgba(24,224,255,0.2);color:#fff}
+.archie-chat-input-bar{padding:8px 10px;border-top:1px solid rgba(255,255,255,0.1);display:flex;gap:6px;background:rgba(4, 16, 30, 0.95);flex-shrink:0}
+.archie-chat-input-bar input{flex:1;background:#020b14;border:1px solid rgba(24,224,255,0.3);border-radius:6px;padding:7px 10px;color:#fff;font-size:12px;outline:none}
+.archie-chat-input-bar button{background:linear-gradient(135deg, #0b9bff, #18c8ff);color:#fff;border:none;border-radius:6px;padding:6px 12px;font-size:12px;font-weight:700;cursor:pointer}
 
 /* Modals */
 #about,#projGallery{position:absolute;inset:0;background:rgba(1,10,20,0.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);z-index:30;display:none;padding:clamp(36px,5vw,50px) clamp(10px,2.5vw,20px) 30px;overflow-y:auto;-webkit-overflow-scrolling:touch}
@@ -339,35 +366,39 @@ ul.s li:before{content:"✓";position:absolute;left:0;top:4px;width:19px;height:
    ===================================================================== */
 /* Large Desktop & 4K (>=1440px) */
 @media (min-width: 1440px) {
-  #panel{width: 660px;}
+  #panel{width: 420px;}
+  #tabs{left: 450px;}
   .grid{grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));}
 }
 
 /* Laptops (1024px - 1439px) */
 @media (min-width: 1024px) and (max-width: 1439px) {
-  #panel{width: 560px; top: 16px; bottom: 16px; left: 16px;}
+  #panel{width: 380px; top: 12px; bottom: 12px; left: 12px;}
+  #tabs{left: 405px;}
 }
 
 /* Tablets (768px - 1023px) */
 @media (max-width: 1023px) and (min-width: 768px) {
-  #nav ul{gap: 14px; font-size: 12px;}
+  #nav ul{gap: 12px; font-size: 12px;}
   .nr .lg{display:none}
-  #panel{width: 480px; top: 14px; bottom: 14px; left: 14px;}
-  .hs button{font-size: 11px; padding: 3px 8px;}
+  #panel{width: 330px; top: 10px; bottom: 10px; left: 10px;}
+  #tabs{left: 350px;}
+  .hs button{font-size: 11px; padding: 3px 7px;}
 }
 
-/* Mobile & Tablet Portrait (<899px) - Bottom Sheet Mode */
-@media (max-width: 899px) {
+/* Mobile & Tablet Portrait (<768px) - Bottom Sheet Mode */
+@media (max-width: 767px) {
   #nav ul, .nr .lg, .nr .ad{display: none;}
   #mobMenuBtn{display: inline-block;}
-  #hud{top: 8px; left: 8px;}
-  #ctl{top: 8px; right: 8px; gap: 4px;}
+  #hud{top: 6px; left: 6px;}
+  #ctl{top: 6px; right: 6px; gap: 3px;}
+  #tabs{left: 0; right: 0; bottom: 4px;}
   
   /* Bottom Sheet Mode for Mobile / Small Screens */
   #panel{
     top: auto; bottom: 0; left: 0; right: 0;
-    width: 100%; height: 62vh; max-height: 560px;
-    border-radius: 24px 24px 0 0;
+    width: 100%; height: 56vh; max-height: 480px;
+    border-radius: 20px 20px 0 0;
     border-left: none; border-right: none; border-bottom: none;
     transform: translateY(115%);
     box-shadow: 0 -12px 40px rgba(0,0,0,0.9);
@@ -375,11 +406,9 @@ ul.s li:before{content:"✓";position:absolute;left:0;top:4px;width:19px;height:
     transition: transform .35s cubic-bezier(.16, 1, .3, 1);
   }
   #panel.open{transform: translateY(0);}
-  #panel-handle{display: block; margin: 10px auto 0;}
   .panel-hdr{padding: 8px 16px 10px;}
   .panel-body{padding: 12px 16px;}
   .panel-ftr{padding: 10px 16px;}
-  #tabs{bottom: 6px;}
   #chat span{display: none;}
 }
 
@@ -432,7 +461,7 @@ ul.s li:before{content:"✓";position:absolute;left:0;top:4px;width:19px;height:
 </div>
 
 <header id="nav">
-  <a href="index.html" class="logo" title="ATPL - Archery Technocrats Private Limited">
+  <a href="javascript:void(0)" onclick="exitToHome()" class="logo" title="ATPL - Archery Technocrats Private Limited">
     <img src="assets/images/atpl_logo.png" alt="ATPL Logo">
     <div class="logo-text">
       <div class="logo-title">ATPL</div>
@@ -443,18 +472,18 @@ ul.s li:before{content:"✓";position:absolute;left:0;top:4px;width:19px;height:
     </div>
   </a>
   <ul>
-    <li><a href="index.html#hardware">Hardware</a></li>
-    <li><a href="index.html#software">Software</a></li>
-    <li><a href="index.html#solutions">Solutions</a></li>
-    <li><a href="index.html#partners">Partners</a></li>
-    <li><a href="index.html#resources">Resources</a></li>
-    <li><a href="contact.html">Contact</a></li>
+    <li><a href="javascript:void(0)" onclick="navigateParent('hardware')">Hardware</a></li>
+    <li><a href="javascript:void(0)" onclick="navigateParent('software')">Software</a></li>
+    <li><a href="javascript:void(0)" onclick="navigateParent('solutions')">Solutions</a></li>
+    <li><a href="javascript:void(0)" onclick="navigateParent('partners')">Partners</a></li>
+    <li><a href="javascript:void(0)" onclick="navigateParent('resources')">Resources</a></li>
+    <li><a href="javascript:void(0)" onclick="navigateParent('contact')">Contact</a></li>
   </ul>
   <div class="nr">
     <button class="b accent" onclick="openGallery()">🖼️ Projects</button>
     <button class="b" onclick="openPitchDeck('about')">📑 Pitch Deck</button>
-    <a href="/#login" class="ad">Admin CRM</a>
-    <a href="contact.html" class="rq">Request Demo →</a>
+    <a href="javascript:void(0)" onclick="navigateParent('login')" class="ad">Admin CRM</a>
+    <a href="javascript:void(0)" onclick="navigateParent('contact')" class="rq">Request Demo →</a>
     <button id="mobMenuBtn" onclick="toggleMobNav()" aria-label="Toggle Navigation">☰</button>
   </div>
 </header>
@@ -472,16 +501,16 @@ ul.s li:before{content:"✓";position:absolute;left:0;top:4px;width:19px;height:
     <button onclick="toggleMobNav()" style="background:rgba(255,255,255,0.1);border-radius:8px;padding:6px 12px;font-size:16px;color:#fff;cursor:pointer;">✕</button>
   </div>
   <ul>
-    <li><a href="index.html#hardware" onclick="toggleMobNav()">Hardware Solutions <span>→</span></a></li>
-    <li><a href="index.html#software" onclick="toggleMobNav()">Software & SaaS <span>→</span></a></li>
-    <li><a href="index.html#solutions" onclick="toggleMobNav()">Enterprise Solutions <span>→</span></a></li>
-    <li><a href="index.html#partners" onclick="toggleMobNav()">Partners & Ecosystem <span>→</span></a></li>
-    <li><a href="contact.html" onclick="toggleMobNav()">Contact & Branches <span>→</span></a></li>
+    <li><a href="javascript:void(0)" onclick="toggleMobNav();navigateParent('hardware')">Hardware Solutions <span>→</span></a></li>
+    <li><a href="javascript:void(0)" onclick="toggleMobNav();navigateParent('software')">Software & SaaS <span>→</span></a></li>
+    <li><a href="javascript:void(0)" onclick="toggleMobNav();navigateParent('solutions')">Enterprise Solutions <span>→</span></a></li>
+    <li><a href="javascript:void(0)" onclick="toggleMobNav();navigateParent('partners')">Partners & Ecosystem <span>→</span></a></li>
+    <li><a href="javascript:void(0)" onclick="toggleMobNav();navigateParent('contact')">Contact & Branches <span>→</span></a></li>
   </ul>
   <div class="mact">
     <button class="b accent" onclick="toggleMobNav();openGallery()" style="padding:12px;justify-content:center;font-size:14px;cursor:pointer;">🖼️ View All 12 Project Deployments</button>
     <button class="b" onclick="toggleMobNav();openPitchDeck('about')" style="padding:12px;justify-content:center;font-size:14px;cursor:pointer;">📑 Official 2026 Pitch Deck (30 Slides)</button>
-    <a href="contact.html" class="rq" style="text-align:center;padding:12px;font-size:14px;">Request Enterprise PoC →</a>
+    <a href="javascript:void(0)" onclick="toggleMobNav();navigateParent('contact')" class="rq" style="text-align:center;padding:12px;font-size:14px;">Request Enterprise PoC →</a>
   </div>
 </div>
 
@@ -515,26 +544,26 @@ ul.s li:before{content:"✓";position:absolute;left:0;top:4px;width:19px;height:
 
   <div id="ctl">
     <button class="b accent" onclick="openGallery()">🖼️ Projects</button>
-    <button class="b on" id="ab" onclick="openPitchDeck('about')">📑 Pitch Deck</button>
+    <button class="b" id="ab" onclick="openPitchDeck('about')">📑 Pitch Deck</button>
     <button class="b" id="perspMode">📐 3D Tilt: Off</button>
     <button class="b" id="ov">◎ Overview</button>
     <button class="b" id="tour">▷ Tour</button>
     <button class="b" id="snd">🔊</button>
     <button class="b mono" id="q">Q: HIGH</button>
-    <a href="index.html" class="b red" style="text-decoration:none">⇥ Exit</a>
+    <button class="b red" onclick="exitToHome()">⇥ Exit</button>
   </div>
 
   <!-- Floating Button to Reopen Description Box if User Closes It -->
-  <button id="openPanelBtn" onclick="togglePanel()">📋 Station Details [<b>#01 Perfect Trace</b>] ▶</button>
+  <button id="openPanelBtn" type="button" onclick="openPanel(event)">📋 Station Details [<b>#01 Perfect Trace</b>] ▶</button>
 
-  <!-- Executive Inspector Panel (Constantly Open & In Full User Control) -->
+  <!-- Executive Inspector Panel (In Full User Control) -->
   <aside id="panel" class="open">
-    <div id="panel-handle" onclick="togglePanel()" title="Tap to toggle sheet"></div>
+    <div id="panel-handle" onclick="togglePanel(event)" title="Tap to toggle sheet"></div>
     <div class="panel-hdr">
       <div class="panel-top-actions">
-        <button class="panel-action-btn" id="prevStnBtn" onclick="sel((cur-1+12)%12)" title="Previous Station (←)">◀</button>
-        <button class="panel-action-btn" id="nextStnBtn" onclick="sel((cur+1)%12)" title="Next Station (→)">▶</button>
-        <button class="panel-action-btn close-btn" id="x" aria-label="Close" onclick="togglePanel()" title="Toggle / Close Details">✕</button>
+        <button class="panel-action-btn" id="prevStnBtn" type="button" onclick="stopTour();sel((cur-1+12)%12)" title="Previous Station (←)">◀</button>
+        <button class="panel-action-btn" id="nextStnBtn" type="button" onclick="stopTour();sel((cur+1)%12)" title="Next Station (→)">▶</button>
+        <button class="panel-action-btn close-btn" id="x" type="button" aria-label="Close" onclick="closePanel(event)" title="Close Details (✕)">✕</button>
       </div>
 
       <div class="panel-hdr-top">
@@ -603,7 +632,7 @@ ul.s li:before{content:"✓";position:absolute;left:0;top:4px;width:19px;height:
 
     <div class="panel-ftr">
       <button class="a1" onclick="openGallery()">🖼️ All 12 Projects</button>
-      <a class="a2" href="contact.html">Request Enterprise PoC →</a>
+      <button class="a2" onclick="navigateParent('contact')">Request Enterprise PoC →</button>
     </div>
   </aside>
 
@@ -631,8 +660,42 @@ ul.s li:before{content:"✓";position:absolute;left:0;top:4px;width:19px;height:
   <!-- Bottom Stations Carousel Bar -->
   <nav id="tabs"></nav>
 
+  <!-- Interactive Archie AI Copilot Modal -->
+  <div id="archieChatModal" class="archie-chat-modal" style="display:none;">
+    <div class="archie-chat-header">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <div style="width:30px;height:30px;border-radius:50%;background:#06101e;border:1.5px solid var(--cy);overflow:hidden;padding:2px;">
+          <img src="assets/images/atpl_archery_robot_transparent.png" alt="Archie" style="width:100%;height:100%;object-fit:contain;">
+        </div>
+        <div>
+          <b style="color:#fff;font-size:13px;display:block;">Archie AI Industrial Copilot</b>
+          <small style="color:var(--cy);font-size:10px;">ONLINE • DIGITAL TWIN INTELLIGENCE</small>
+        </div>
+      </div>
+      <button onclick="closeArchieChat()" style="background:rgba(255,255,255,0.1);border-radius:6px;padding:4px 8px;color:#fff;font-size:13px;cursor:pointer;">✕</button>
+    </div>
+    <div id="archieChatBody" class="archie-chat-body">
+      <div class="archie-msg bot">
+        <span>🤖</span>
+        <div class="archie-bubble-text">
+          <b>Hey buddy! 👋 I'm Archie AI</b>, your industrial digital twin assistant. Ask me about any of our 12 stations, Vision AI inference, GS1 Perfect Trace, or request an Enterprise PoC!
+        </div>
+      </div>
+    </div>
+    <div class="archie-quick-chips">
+      <button onclick="sendArchiePrompt('Tell me about Perfect Trace (Station 01)')">🔍 Perfect Trace</button>
+      <button onclick="sendArchiePrompt('How fast is Vision AI defect detection?')">👁️ Vision AI</button>
+      <button onclick="sendArchiePrompt('How does WMS 3D Heatmap work?')">📦 Perfect Store WMS</button>
+      <button onclick="sendArchiePrompt('How do RFID Portals work?')">📡 RFID Portals</button>
+    </div>
+    <div class="archie-chat-input-bar">
+      <input type="text" id="archieInput" placeholder="Ask Archie AI about any station..." onkeydown="if(event.key==='Enter')sendArchieUserMsg()">
+      <button onclick="sendArchieUserMsg()">Send ➔</button>
+    </div>
+  </div>
+
   <!-- Archie AI Assistant Bubble with Authentic Archery Robot Mascot -->
-  <div id="chat" onclick="openArchieChat()">
+  <div id="chat" onclick="toggleArchieChat()">
     <span>Ask Archie AI Copilot! 👋</span>
     <div style="overflow:hidden;padding:2px;background:#06101e;border:2px solid var(--cy);box-shadow:0 0 16px rgba(24,224,255,0.6);">
       <img src="assets/images/atpl_archery_robot_transparent.png" alt="Archie Robot" style="width:100%;height:100%;object-fit:contain;">
@@ -710,12 +773,20 @@ const cl=(v,a,b)=>Math.max(Math.min(a,b),Math.min(Math.max(a,b),v));
 
 function apply(){
   let s,px,py,dx,dy;
+  const panelIsOpen = $('panel') && $('panel').classList.contains('open');
   if(cur<0 || isOverviewMode){
     s=1.0;px=w/2;py=h/2;dx=W/2+mx*14;dy=H/2+my*8;
   } else {
-    s=W<900?1.18:1.12;px=S[cur][5]*k;py=S[cur][6]*k;
-    dx=W<900?W/2:W*0.68;
-    dy=H*(W<900?0.32:0.5);
+    s = W < 900 ? 1.18 : 1.15;
+    px = S[cur][5] * k;
+    py = S[cur][6] * k;
+    if (W < 900) {
+      dx = W / 2;
+      dy = H * (panelIsOpen ? 0.32 : 0.5);
+    } else {
+      dx = panelIsOpen ? (W * 0.65) : (W / 2);
+      dy = H * 0.5;
+    }
   }
   const tx=cl(dx-ox-s*px,W-ox-s*w,-ox);
   const ty=cl(dy-oy-s*py,H-oy-s*h,-oy);
@@ -1108,21 +1179,29 @@ function sel(i){
   $('pPhotoBox').style.display='block';
   $('cvp').style.display='none';
   
-  // Keep Side Description Box Constantly Open
-  $('panel').classList.add('open');
+  // Respect user preference if they closed the panel
+  if (!isPanelClosedByUser) {
+    $('panel').classList.add('open');
+    if ($('openPanelBtn')) $('openPanelBtn').style.display = 'none';
+    if ($('hud')) $('hud').classList.add('panel-open');
+  } else {
+    $('panel').classList.remove('open');
+    if ($('openPanelBtn')) $('openPanelBtn').style.display = 'inline-flex';
+    if ($('hud')) $('hud').classList.remove('panel-open');
+  }
   
-  // Move Archie Robot Directly to This Project Station
+  // Move Archie Robot Beside This Project Station (avoiding hotspot collision)
   const robotEl = $('archeryRobotLive');
   if (robotEl) {
     robotEl.classList.add('station-guide');
     const targetX = (s[5] / IW * 100);
     const targetY = (s[6] / IH * 100);
-    // Position Archie right alongside the target machine
-    const offsetX = targetX > 50 ? -6.5 : 6.5;
-    const offsetY = targetY > 50 ? -2.5 : 2.5;
+    // Position Archie beside the machine with clear clearance so hotspot & Archie never collide
+    const offsetX = targetX > 50 ? -12 : 12;
+    const offsetY = targetY > 50 ? -7 : 7;
     robotEl.style.left = (targetX + offsetX) + '%';
     robotEl.style.top = (targetY + offsetY) + '%';
-    robotEl.style.transform = `translate(-50%, -50%) scale(1.05) scaleX(${targetX > 50 ? 1 : -1})`;
+    robotEl.style.transform = `translate(-50%, -50%) scale(0.92) scaleX(${targetX > 50 ? 1 : -1})`;
 
     const bubble = $('archieSpeechBubble');
     if (bubble) {
@@ -1140,7 +1219,7 @@ function sel(i){
     o.el.classList.toggle('sel',j===i);
     o.tab.classList.toggle('on',j===i);
   });
-  s.tab.scrollIntoView({inline:'center',block:'nearest'});
+  s.tab.scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'});
   apply();
 }
 
@@ -1159,13 +1238,58 @@ function showDiagramTab(){
   draw(cur>=0?cur:0, true);
 }
 
-function togglePanel(){
-  $('panel').classList.toggle('open');
+let isPanelClosedByUser = false;
+
+function closePanel(e){
+  if(e && e.stopPropagation){
+    e.stopPropagation();
+    e.preventDefault();
+  }
+  isPanelClosedByUser = true;
+  const panel = $('panel');
+  if(panel) panel.classList.remove('open');
+  const openBtn = $('openPanelBtn');
+  if(openBtn) openBtn.style.display = 'inline-flex';
+  const hud = $('hud');
+  if(hud) hud.classList.remove('panel-open');
+  apply();
+}
+
+function openPanel(e){
+  if(e && e.stopPropagation){
+    e.stopPropagation();
+    e.preventDefault();
+  }
+  isPanelClosedByUser = false;
+  const panel = $('panel');
+  if(panel) panel.classList.add('open');
+  const openBtn = $('openPanelBtn');
+  if(openBtn) openBtn.style.display = 'none';
+  const hud = $('hud');
+  if(hud) hud.classList.add('panel-open');
+  apply();
+}
+
+function togglePanel(e){
+  if(e && e.stopPropagation){
+    e.stopPropagation();
+    e.preventDefault();
+  }
+  const panel = $('panel');
+  if(panel && panel.classList.contains('open')){
+    closePanel(e);
+  } else {
+    openPanel(e);
+  }
 }
 
 function over(){
   isOverviewMode=true;
-  $('panel').classList.add('open'); // Keep description box constantly open
+  if(!isPanelClosedByUser){
+    $('panel').classList.add('open');
+    if($('openPanelBtn')) $('openPanelBtn').style.display = 'none';
+    if($('hud')) $('hud').classList.add('panel-open');
+  }
   if(cur < 0) cur = 0;
   
   // Return Archie Robot to Central Factory Patrol
@@ -1183,8 +1307,37 @@ function over(){
   apply();
 }
 
+let tourTimer = null;
+
+function startTour(){
+  stopTour();
+  const tourBtn = $('tour');
+  if(tourBtn){
+    tourBtn.classList.add('on');
+    tourBtn.textContent = '❚❚ Stop Tour';
+  }
+  sel((cur + 1) % 12);
+  tourTimer = setInterval(() => {
+    sel((cur + 1) % 12);
+  }, 5000);
+  auto = tourTimer;
+}
+
+function stopTour(){
+  if(tourTimer){
+    clearInterval(tourTimer);
+    tourTimer = null;
+  }
+  auto = null;
+  const tourBtn = $('tour');
+  if(tourBtn){
+    tourBtn.classList.remove('on');
+    tourBtn.textContent = '▷ Tour';
+  }
+}
+
 function stop(){
-  if(auto){clearInterval(auto);auto=null;$('tour').classList.remove('on');$('tour').textContent='▷ Auto Tour'}
+  stopTour();
 }
 
 // Project Gallery Modal Logic
@@ -1294,14 +1447,13 @@ function inspectRobot(botId){
 // Event Listeners
 $('t1').onclick=showPhotoTab;
 $('t2').onclick=showDiagramTab;
-$('x').onclick=togglePanel;
-$('ov').onclick=()=>{stop();over()};
+$('ov').onclick=()=>{stopTour();over()};
 $('tour').onclick=()=>{
-  if(auto)return stop();
-  $('tour').classList.add('on');
-  $('tour').textContent='❚❚ Stop';
-  sel((cur+1)%12);
-  auto=setInterval(()=>sel((cur+1)%12),6000);
+  if(tourTimer || auto){
+    stopTour();
+  } else {
+    startTour();
+  }
 };
 
 $('snd').onclick=function(){this.textContent=this.textContent==='🔊'?'🔇':'🔊'};
@@ -1370,16 +1522,16 @@ panelEl.addEventListener('touchend', e => {
   if (e.changedTouches.length === 1) {
     const deltaY = e.changedTouches[0].clientY - panelTouchStartY;
     if (deltaY > 60 && panelEl.scrollTop <= 0) {
-      togglePanel(); // Dismiss bottom sheet
+      closePanel(e); // Dismiss bottom sheet
     }
   }
 }, { passive: true });
 
 addEventListener('keydown',e=>{
-  if(e.key==='Escape'){togglePanel();closePitchDeck();closeGallery()}
+  if(e.key==='Escape'){closePanel();closePitchDeck();closeGallery();closeArchieChat()}
   if(e.key===' '){$('tour').click()}
-  if(e.key==='ArrowRight'){sel((cur+1)%12)}
-  if(e.key==='ArrowLeft'){sel((cur-1+12)%12)}
+  if(e.key==='ArrowRight'){stopTour();sel((cur+1)%12)}
+  if(e.key==='ArrowLeft'){stopTour();sel((cur-1+12)%12)}
 });
 
 addEventListener('resize',layout);
@@ -1388,12 +1540,102 @@ layout();
 // Start with Station #01 (Perfect Trace) active and Description Box constantly open & docked
 sel(0);
 
-function simulateLiveTest(){
-  alert('⚡ ATPL Real-Time Telemetry Check:\n\n• Device Latency: ' + MS[cur>=0?cur:0] + 'ms\n• Cloud Sync: Connected to SAP S/4HANA\n• Edge Inference: OK (TensorRT Engine Active)\n• 0 Defects Detected across active lot.');
+function navigateParent(view, hash = ''){
+  try {
+    if (window.top && window.top !== window) {
+      if (view === 'home' || !view) {
+        window.top.location.href = '/';
+      } else {
+        window.top.location.href = '/' + (hash || ('#' + view));
+      }
+      return;
+    }
+  } catch(e) {}
+  window.location.href = view === 'home' ? '/' : ('/' + (hash || ('#' + view)));
+}
+
+function exitToHome(){
+  navigateParent('home');
+}
+
+function toggleArchieChat(){
+  const modal = $('archieChatModal');
+  if(!modal) return;
+  const isHidden = modal.style.display === 'none' || !modal.style.display;
+  modal.style.display = isHidden ? 'flex' : 'none';
+  if(isHidden){
+    const inp = $('archieInput');
+    if(inp) inp.focus();
+  }
 }
 
 function openArchieChat(){
-  alert('🤖 Archie AI Assistant:\n\n"Hello! I am Archie, your AI industrial copilot. I help manage Perfect Trace serialization, Perfect Store warehouse slotting, Perfect Audit paperless CAPAs, and automated Vision AI defect classification. How can I assist your team today?"');
+  const modal = $('archieChatModal');
+  if(modal) modal.style.display = 'flex';
+  const inp = $('archieInput');
+  if(inp) inp.focus();
+}
+
+function closeArchieChat(){
+  const modal = $('archieChatModal');
+  if(modal) modal.style.display = 'none';
+}
+
+function sendArchiePrompt(text){
+  const inp = $('archieInput');
+  if(inp) inp.value = text;
+  sendArchieUserMsg();
+}
+
+function sendArchieUserMsg(){
+  const inp = $('archieInput');
+  if(!inp) return;
+  const val = inp.value.trim();
+  if(!val) return;
+  
+  const body = $('archieChatBody');
+  if(body){
+    const userMsg = document.createElement('div');
+    userMsg.className = 'archie-msg user';
+    userMsg.innerHTML = '<div class="archie-bubble-text">' + val + '</div>';
+    body.appendChild(userMsg);
+    body.scrollTop = body.scrollHeight;
+  }
+  inp.value = '';
+
+  setTimeout(()=>{
+    let reply = '';
+    const lower = val.toLowerCase();
+    if(lower.includes('trace') || lower.includes('01')){
+      reply = '🔍 <b>Perfect Trace™ (Station 01)</b>: Verifiable 4-tier cryptographic serialization (Item -> Bundle -> Case -> Pallet). A Tier-1 automotive client slashed resource allocation from 2 hours to 2 minutes with automated SAP sync!';
+    } else if(lower.includes('audit') || lower.includes('02')){
+      reply = '📋 <b>Perfect Audit™ (Station 02)</b>: Paperless ISO internal audit platform with time-stamped photo evidence. Cuts audit prep by 70% across multi-plant operations.';
+    } else if(lower.includes('store') || lower.includes('warehouse') || lower.includes('wms') || lower.includes('03')){
+      reply = '📦 <b>Perfect Store™ WMS 4.0 (Station 03)</b>: Dynamic 3D heatmap bin slotting with RFID dock integration and real-time SAP S/4HANA synchronization!';
+    } else if(lower.includes('vision') || lower.includes('defect') || lower.includes('06')){
+      reply = '👁️ <b>Perfect AI Vision System (Station 06)</b>: Powered by NVIDIA TensorRT edge GPUs, classifying casting and surface flaws in <b>6.2 milliseconds</b> with automated pneumatic rejection.';
+    } else if(lower.includes('rfid') || lower.includes('portal') || lower.includes('04')){
+      reply = '📡 <b>RFID Portals (Station 04)</b>: Captures 1,400+ tags/second with beam-steered phased antenna arrays, verifying pallet shipments with zero forklift stoppage.';
+    } else if(lower.includes('drone') || lower.includes('08')){
+      reply = '🛸 <b>Inspection Drones (Station 08)</b>: Autonomous indoor optical SLAM drones auditing 40ft high-bay warehouse racks at 120 pallets/minute without scissor lifts.';
+    } else if(lower.includes('poc') || lower.includes('demo') || lower.includes('contact')){
+      reply = '🚀 We would love to set up an Enterprise Proof of Concept! <a href="javascript:void(0)" onclick="navigateParent(\'contact\')" style="color:#18e0ff;font-weight:800;text-decoration:underline;">Click here to connect with our solution architects</a> or visit our Sales Office at TIDEL Park Chennai.';
+    } else {
+      reply = '✨ ATPL integrates deep IIoT hardware engineering with enterprise SaaS. Click any station (01–12) to inspect real 3D telemetry, or ask about our SAP connectors and clients!';
+    }
+
+    if(body){
+      const botMsg = document.createElement('div');
+      botMsg.className = 'archie-msg bot';
+      botMsg.innerHTML = '<span>🤖</span><div class="archie-bubble-text">' + reply + '</div>';
+      body.appendChild(botMsg);
+      body.scrollTop = body.scrollHeight;
+    }
+  }, 350);
+}
+
+function simulateLiveTest(){
+  alert('⚡ ATPL Real-Time Telemetry Check:\n\n• Device Latency: ' + MS[cur>=0?cur:0] + 'ms\n• Cloud Sync: Connected to SAP S/4HANA\n• Edge Inference: OK (TensorRT Engine Active)\n• 0 Defects Detected across active lot.');
 }
 </script>
 
@@ -1604,11 +1846,15 @@ TABS.forEach(t=>{
 
 function openPitchDeck(tabKey='about'){
   ab.classList.add('open');
+  const abBtn = $('ab');
+  if(abBtn) abBtn.classList.add('on');
   showPitchTab(tabKey);
 }
 
 function closePitchDeck(){
   ab.classList.remove('open');
+  const abBtn = $('ab');
+  if(abBtn) abBtn.classList.remove('on');
 }
 </script>
 

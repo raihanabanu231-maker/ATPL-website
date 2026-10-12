@@ -66,17 +66,18 @@ export const ArchieChat = ({ onSelectStation }) => {
         <button
           onClick={() => setIsOpen(true)}
           aria-label="Open Archie AI Chat"
+          className="archie-chat-launcher"
           style={{
             background: 'linear-gradient(135deg, #0070C0, #18E0FF)',
             border: '2px solid #FFC93C',
             borderRadius: '999px',
-            padding: '0.55rem 1.15rem',
+            padding: '0.45rem 1rem',
             color: '#02101C',
             fontWeight: 800,
-            fontSize: '0.82rem',
+            fontSize: '0.8rem',
             display: 'flex',
             alignItems: 'center',
-            gap: '0.5rem',
+            gap: '0.4rem',
             boxShadow: '0 8px 25px rgba(24, 224, 255, 0.5), 0 0 15px rgba(255, 201, 60, 0.4)',
             cursor: 'pointer',
             transition: 'transform 0.2s ease',
@@ -85,8 +86,9 @@ export const ArchieChat = ({ onSelectStation }) => {
           onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
           onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
         >
-          <span style={{ fontSize: '1.1rem' }}>🤖</span>
-          <span>Hey buddy, need any help? 👋</span>
+          <span style={{ fontSize: '1rem' }}>🤖</span>
+          <span className="desktop-only-inline">Hey buddy, need any help? 👋</span>
+          <span className="mobile-only-inline">Archie Chat</span>
         </button>
       )}
 

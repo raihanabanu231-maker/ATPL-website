@@ -151,6 +151,7 @@ export const SearchModal = ({ isOpen, onClose }) => {
           {query && (
             <button
               onClick={() => setQuery('')}
+              aria-label="Clear search input"
               style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', padding: '0.2rem' }}
             >
               <X size={16} />

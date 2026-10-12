@@ -82,6 +82,46 @@ html {
   color: var(--text-primary);
 }
 
+/* Accessibility & Keyboard Navigation (WCAG 2.1 AA) */
+:focus-visible {
+  outline: 2px solid var(--cyan-primary);
+  outline-offset: 3px;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[role="button"]:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--cyan-primary);
+  outline-offset: 3px;
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.45);
+}
+
+/* Accessible Skip-to-content Link */
+.skip-link {
+  position: absolute;
+  top: -9999px;
+  left: 1rem;
+  z-index: 99999;
+  padding: 0.75rem 1.25rem;
+  background: #0e1a31;
+  color: #00f0ff;
+  border: 1px solid rgba(0, 240, 255, 0.45);
+  border-radius: 6px;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 0.9rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  transition: top 0.2s ease;
+}
+.skip-link:focus,
+.skip-link:focus-visible {
+  top: 1rem;
+}
+
 body {
   font-family: var(--font-body);
   background-color: var(--bg-primary);
@@ -943,6 +983,91 @@ html, body, #root {
   }
   100% {
     transform: translateX(0);
+  }
+}
+
+/* ==========================================================================
+   Responsive Display & Mobile Ergonomics Utilities
+   ========================================================================== */
+.desktop-only-inline {
+  display: inline;
+}
+.mobile-only-inline {
+  display: none;
+}
+.desktop-only {
+  display: block;
+}
+.mobile-only {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .desktop-only-inline {
+    display: none !important;
+  }
+  .mobile-only-inline {
+    display: inline !important;
+  }
+  .desktop-only {
+    display: none !important;
+  }
+  .mobile-only {
+    display: block !important;
+  }
+}
+
+/* Announcement Bar Responsive Text */
+.announcement-badge-desktop {
+  display: inline;
+}
+.announcement-badge-mobile {
+  display: none;
+}
+.announcement-text-desktop {
+  display: inline;
+}
+.announcement-text-mobile {
+  display: none;
+}
+
+@media (max-width: 580px) {
+  .announcement-badge-desktop {
+    display: none !important;
+  }
+  .announcement-badge-mobile {
+    display: inline !important;
+  }
+  .announcement-text-desktop {
+    display: none !important;
+  }
+  .announcement-text-mobile {
+    display: inline !important;
+  }
+}
+
+/* Floating AI Chat Widget Safe Layout & Responsive Clearance */
+@media (max-width: 768px) {
+  .copilot-floating-container {
+    bottom: 1rem !important;
+    right: 1rem !important;
+  }
+  .copilot-speech-bubble {
+    display: none !important;
+  }
+  .copilot-launcher-btn {
+    width: 48px !important;
+    height: 48px !important;
+  }
+  .atpl-footer-main {
+    padding-bottom: 5.5rem !important;
+  }
+}
+
+/* Touch Targets on Mobile (min 40px - 44px comfortable taps) */
+@media (max-width: 640px) {
+  button, a.btn, input, select {
+    touch-action: manipulation;
   }
 }
 

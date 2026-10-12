@@ -12,14 +12,17 @@ export const Footer = () => {
   };
 
   return (
-    <footer style={{
-      backgroundColor: '#090e1a',
-      color: '#94a3b8',
-      borderTop: '1px solid #1e293b',
-      padding: '5rem 0 2rem 0',
-      position: 'relative',
-      zIndex: 10
-    }}>
+    <footer 
+      className="atpl-footer-main"
+      style={{
+        backgroundColor: '#090e1a',
+        color: '#94a3b8',
+        borderTop: '1px solid #1e293b',
+        padding: '5rem 0 3.5rem 0',
+        position: 'relative',
+        zIndex: 10
+      }}
+    >
       <div className="container">
         
         {/* Main 4-Column Grid */}
@@ -284,18 +287,32 @@ export const Footer = () => {
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
             <span style={{ color: '#009a44' }}>● System Operational (99.98% SLA)</span>
-            <button 
-              onClick={() => handleNav('contact')}
-              style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', textDecoration: 'underline' }}
+            <a 
+              href="/privacy"
+              onClick={(e) => {
+                e.preventDefault();
+                handleNav('privacy');
+                window.history.pushState(null, '', '/privacy');
+              }}
+              style={{ color: '#94a3b8', textDecoration: 'underline', transition: 'color 0.15s ease' }}
+              onMouseEnter={(e) => e.currentTarget.style.color = '#ffffff'}
+              onMouseLeave={(e) => e.currentTarget.style.color = '#94a3b8'}
             >
               Privacy Policy
-            </button>
-            <button 
-              onClick={() => handleNav('contact')}
-              style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', textDecoration: 'underline' }}
+            </a>
+            <a 
+              href="/terms"
+              onClick={(e) => {
+                e.preventDefault();
+                handleNav('terms');
+                window.history.pushState(null, '', '/terms');
+              }}
+              style={{ color: '#94a3b8', textDecoration: 'underline', transition: 'color 0.15s ease' }}
+              onMouseEnter={(e) => e.currentTarget.style.color = '#ffffff'}
+              onMouseLeave={(e) => e.currentTarget.style.color = '#94a3b8'}
             >
               Terms of Service
-            </button>
+            </a>
           </div>
         </div>
 

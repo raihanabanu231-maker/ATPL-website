@@ -19,10 +19,33 @@ import { ResourcesView } from './components/pages/ResourcesView';
 import { ServicesView } from './components/pages/ServicesView';
 import { AboutView } from './components/pages/AboutView';
 import { ContactView } from './components/pages/ContactView';
+import { PrivacyView } from './components/pages/PrivacyView';
+import { TermsView } from './components/pages/TermsView';
 
 const MainAppContent = () => {
   const { currentView, setCurrentView, authSession } = useApp();
   const [searchOpen, setSearchOpen] = useState(false);
+
+  // Synchronize URL path on initial load & popstate (supporting /privacy, /terms, etc.)
+  useEffect(() => {
+    const handleLocation = () => {
+      const path = window.location.pathname.replace(/^\//, '').toLowerCase();
+      const hash = window.location.hash.replace(/^#\/?/, '').toLowerCase();
+      const target = path || hash;
+
+      if (target === 'privacy') {
+        setCurrentView('privacy');
+      } else if (target === 'terms') {
+        setCurrentView('terms');
+      } else if (['software', 'hardware', 'solutions', 'partners', 'resources', 'services', 'about', 'contact', 'factory-3d'].includes(target)) {
+        setCurrentView(target);
+      }
+    };
+
+    handleLocation();
+    window.addEventListener('popstate', handleLocation);
+    return () => window.removeEventListener('popstate', handleLocation);
+  }, [setCurrentView]);
 
   // Automatically scroll to top on every view switch
   useEffect(() => {
@@ -69,6 +92,10 @@ const MainAppContent = () => {
         return <AboutView />;
       case 'contact':
         return <ContactView />;
+      case 'privacy':
+        return <PrivacyView />;
+      case 'terms':
+        return <TermsView />;
       case 'home':
       default:
         return <HomeView />;
@@ -78,6 +105,7 @@ const MainAppContent = () => {
   // Main website view with header & footer
   return (
     <ErrorBoundary>
+      <a href="#main-content" className="skip-link">Skip to main content</a>
       <div style={{
         minHeight: '100vh',
         display: 'flex',
@@ -101,7 +129,7 @@ const MainAppContent = () => {
           </ErrorBoundary>
         )}
 
-        <main style={{ flex: 1 }}>
+        <main id="main-content" style={{ flex: 1 }}>
           <ErrorBoundary 
             key={currentView}
             title={`${currentView.toUpperCase()} View Reload Needed`}
@@ -126,9 +154,12 @@ const MainAppContent = () => {
         <ErrorBoundary title="Search Modal">
           <SearchModal isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
         </ErrorBoundary>
-        <ErrorBoundary title="AI CoPilot">
-          <AtplCoPilot />
-        </ErrorBoundary>
+        {/* Hide global React chat widget on factory-3d view since it has its own integrated 3D Archie Copilot */}
+        {currentView !== 'factory-3d' && (
+          <ErrorBoundary title="AI CoPilot">
+            <AtplCoPilot />
+          </ErrorBoundary>
+        )}
       </div>
     </ErrorBoundary>
   );

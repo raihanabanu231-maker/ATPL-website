@@ -81,7 +81,12 @@ export const AtplCoPilot = () => {
   const isOpen = coPilotOpen !== undefined ? coPilotOpen : localIsOpen;
   const setIsOpen = setCoPilotOpen || setLocalIsOpen;
   const [isExpanded, setIsExpanded] = useState(false);
-  const [speechBubbleDismissed, setSpeechBubbleDismissed] = useState(false);
+  const [speechBubbleDismissed, setSpeechBubbleDismissed] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return window.innerWidth < 768;
+    }
+    return false;
+  });
   const [messages, setMessages] = useState([
     {
       id: 1,
@@ -109,6 +114,14 @@ export const AtplCoPilot = () => {
       scrollToBottom();
     }
   }, [messages, isOpen]);
+
+  // Auto-dismiss floating speech bubble after 10 seconds so it never lingers indefinitely
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setSpeechBubbleDismissed(true);
+    }, 10000);
+    return () => clearTimeout(timer);
+  }, []);
 
   // Live AI API Caller (Compatible with Free Groq, Google Gemini, OpenRouter, xAI Grok, OpenAI)
   const callGrokApi = async (userPrompt, chatHistory, apiKey, model, endpoint) => {
@@ -518,29 +531,33 @@ export const AtplCoPilot = () => {
     <>
       {/* Floating Robot Button with Dismissible Speech Bubble */}
       {!isOpen && (
-        <div style={{
-          position: 'fixed',
-          bottom: '1.5rem',
-          right: '1.5rem',
-          zIndex: 990,
-          display: 'flex',
-          alignItems: 'center',
-          gap: '0.65rem'
-        }}>
+        <div 
+          className="copilot-floating-container"
+          style={{
+            position: 'fixed',
+            bottom: '1.5rem',
+            right: '1.5rem',
+            zIndex: 990,
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.65rem'
+          }}
+        >
           {/* Speech Bubble with 'X' Close Button */}
           {!speechBubbleDismissed && (
             <div
               onClick={() => setIsOpen(true)}
+              className="copilot-speech-bubble"
               style={{
                 background: '#ffffff',
                 color: '#1e293b',
-                padding: '0.55rem 0.85rem',
+                padding: '0.45rem 0.75rem',
                 borderRadius: '999px',
                 boxShadow: '0 10px 25px -3px rgba(0, 0, 0, 0.25), 0 4px 10px rgba(0, 0, 0, 0.1)',
                 display: 'flex',
                 alignItems: 'center',
-                gap: '0.6rem',
-                fontSize: '0.86rem',
+                gap: '0.55rem',
+                fontSize: '0.8rem',
                 fontWeight: 600,
                 border: '1px solid rgba(0, 0, 0, 0.08)',
                 cursor: 'pointer',
@@ -561,8 +578,8 @@ export const AtplCoPilot = () => {
                   background: '#f1f5f9',
                   border: 'none',
                   borderRadius: '50%',
-                  width: '20px',
-                  height: '20px',
+                  width: '18px',
+                  height: '18px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -582,7 +599,7 @@ export const AtplCoPilot = () => {
                 title="Dismiss message"
                 aria-label="Dismiss message"
               >
-                <X size={12} strokeWidth={2.5} />
+                <X size={11} strokeWidth={2.5} />
               </button>
             </div>
           )}
@@ -590,6 +607,7 @@ export const AtplCoPilot = () => {
           {/* Circular Floating Robot Button */}
           <button
             onClick={() => setIsOpen(true)}
+            className="copilot-launcher-btn"
             style={{
               width: '54px',
               height: '54px',
@@ -707,6 +725,7 @@ export const AtplCoPilot = () => {
                   alignItems: 'center'
                 }}
                 title={isExpanded ? 'Minimize size' : 'Expand size'}
+                aria-label={isExpanded ? 'Minimize chat window' : 'Expand chat window'}
               >
                 {isExpanded ? <Minimize2 size={16} /> : <Maximize2 size={16} />}
               </button>
@@ -722,7 +741,8 @@ export const AtplCoPilot = () => {
                   display: 'flex',
                   alignItems: 'center'
                 }}
-                title="Close"
+                title="Close chat window"
+                aria-label="Close chat window"
               >
                 <X size={18} />
               </button>

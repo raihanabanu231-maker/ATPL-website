@@ -263,7 +263,7 @@ export const HomeView = () => {
             marginBottom: '1.25rem',
             fontFamily: 'var(--font-display)'
           }}>
-            Architecting the Future of<br />
+            Architecting the Future of{' '}
             <span style={{
               background: 'linear-gradient(135deg, #0071ba 0%, #E85874 100%)',
               WebkitBackgroundClip: 'text',
@@ -502,6 +502,13 @@ export const HomeView = () => {
               display: grid;
               grid-template-columns: repeat(3, minmax(0, 1fr));
               gap: 1.5rem;
+              align-items: stretch;
+            }
+            .atpl-product-card {
+              height: 100% !important;
+              display: flex !important;
+              flex-direction: column !important;
+              justify-content: space-between !important;
             }
             @media (max-width: 1024px) {
               .atpl-suite-grid-3x3 {
@@ -512,7 +519,10 @@ export const HomeView = () => {
             @media (max-width: 640px) {
               .atpl-suite-grid-3x3 {
                 grid-template-columns: 1fr !important;
-                gap: 1rem !important;
+                gap: 1.15rem !important;
+              }
+              .atpl-product-card {
+                padding: 1.15rem !important;
               }
             }
           `}</style>
@@ -532,9 +542,6 @@ export const HomeView = () => {
                     border: '1.5px solid #e2e8f0',
                     borderRadius: '14px',
                     padding: '1.25rem',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'space-between',
                     boxShadow: '0 4px 15px rgba(0, 0, 0, 0.03)',
                     transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
                     position: 'relative',
@@ -553,7 +560,7 @@ export const HomeView = () => {
                   }}
                 >
 
-                  <div>
+                  <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
                     {/* App Icon Header */}
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.85rem' }}>
                       <div style={{
@@ -565,7 +572,8 @@ export const HomeView = () => {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        color: app.color
+                        color: app.color,
+                        flexShrink: 0
                       }}>
                         <Icon size={20} />
                       </div>
@@ -576,43 +584,53 @@ export const HomeView = () => {
                         color: app.color,
                         backgroundColor: app.bgLight,
                         padding: '0.2rem 0.55rem',
-                        borderRadius: '6px'
+                        borderRadius: '6px',
+                        textAlign: 'right'
                       }}>
                         {app.tagline}
                       </span>
                     </div>
 
                     {/* App Title & Description */}
-                    <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#0f172a', marginBottom: '0.35rem', lineHeight: 1.3 }}>
+                    <h3 style={{ 
+                      fontSize: '1.08rem', 
+                      fontWeight: 800, 
+                      color: '#0f172a', 
+                      marginBottom: '0.35rem', 
+                      lineHeight: 1.3,
+                      minHeight: '2.8rem',
+                      display: 'flex',
+                      alignItems: 'flex-start'
+                    }}>
                       {app.name}
                     </h3>
                     <p style={{
-                      fontSize: '0.82rem',
+                      fontSize: '0.83rem',
                       color: '#64748b',
-                      lineHeight: 1.45,
-                      marginBottom: '0.85rem',
+                      lineHeight: 1.5,
+                      marginBottom: '0.95rem',
                       display: '-webkit-box',
-                      WebkitLineClamp: 2,
+                      WebkitLineClamp: 3,
                       WebkitBoxOrient: 'vertical',
                       overflow: 'hidden',
-                      minHeight: '36px'
+                      minHeight: '56px'
                     }}>
                       {app.desc}
                     </p>
 
                     {/* Feature Checkpoints */}
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem', marginBottom: '0.95rem' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', marginBottom: '1.1rem', marginTop: 'auto' }}>
                       {app.features.slice(0, 3).map((feat, i) => (
                         <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', fontSize: '0.78rem', color: '#334155' }}>
                           <CheckCircle2 size={13} color={app.color} style={{ flexShrink: 0 }} />
-                          <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{feat}</span>
+                          <span style={{ lineHeight: 1.3 }}>{feat}</span>
                         </div>
                       ))}
                     </div>
                   </div>
 
                   {/* Actions Footer */}
-                  <div style={{ paddingTop: '0.85rem', borderTop: '1px solid #f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <div style={{ paddingTop: '0.85rem', borderTop: '1px solid #f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 'auto' }}>
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
@@ -629,7 +647,7 @@ export const HomeView = () => {
                         display: 'flex',
                         alignItems: 'center',
                         gap: '0.3rem',
-                        padding: 0
+                        padding: '0.2rem 0'
                       }}
                     >
                       <span>Explore specs</span>
@@ -647,9 +665,20 @@ export const HomeView = () => {
                         color: '#0f172a',
                         fontWeight: 600,
                         fontSize: '0.76rem',
-                        padding: '0.25rem 0.65rem',
+                        padding: '0.3rem 0.75rem',
                         borderRadius: '6px',
-                        cursor: 'pointer'
+                        cursor: 'pointer',
+                        transition: 'all 0.15s ease'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor = app.bgLight;
+                        e.currentTarget.style.borderColor = app.color;
+                        e.currentTarget.style.color = app.color;
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = '#f8fafc';
+                        e.currentTarget.style.borderColor = '#e2e8f0';
+                        e.currentTarget.style.color = '#0f172a';
                       }}
                     >
                       Try Demo
@@ -1139,16 +1168,38 @@ export const HomeView = () => {
             Powering Shopfloors Across Global Giants & Indian Conglomerates
           </h3>
 
-          {/* Client Logos Grid */}
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(185px, 1fr))',
-            gap: '1.25rem',
-            alignItems: 'center',
-            justifyContent: 'center',
-            maxWidth: '1180px',
-            margin: '0 auto 4rem auto'
-          }}>
+          {/* Client Logos Section: Responsive Desktop Grid & Mobile Auto-scrolling Carousels */}
+          <style>{`
+            .client-logos-desktop-grid {
+              display: grid;
+              grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
+              gap: 1.25rem;
+              align-items: center;
+              justify-content: center;
+              max-width: 1180px;
+              margin: 0 auto 4rem auto;
+            }
+            .client-logos-mobile-carousel {
+              display: none;
+            }
+            @media (max-width: 768px) {
+              .client-logos-desktop-grid {
+                display: none !important;
+              }
+              .client-logos-mobile-carousel {
+                display: block !important;
+                width: 100vw;
+                margin-left: calc(-50vw + 50%);
+                overflow: hidden;
+                padding: 0.5rem 0 2rem 0;
+                mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+                -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+              }
+            }
+          `}</style>
+
+          {/* Desktop Grid */}
+          <div className="client-logos-desktop-grid">
             {CLIENT_LOGOS_LIST.map((client) => {
               const LogoComp = client.component;
               return (
@@ -1183,6 +1234,87 @@ export const HomeView = () => {
                 </div>
               );
             })}
+          </div>
+
+          {/* Mobile Horizontal Auto-scrolling Carousels */}
+          <div className="client-logos-mobile-carousel">
+            {/* Row 1 - Smooth Leftward Scroll */}
+            <div style={{ overflow: 'hidden', width: '100%', marginBottom: '0.85rem' }}>
+              <div 
+                style={{
+                  display: 'flex',
+                  gap: '0.75rem',
+                  width: 'max-content',
+                  animation: 'marqueeScroll 26s linear infinite'
+                }}
+                onTouchStart={(e) => { e.currentTarget.style.animationPlayState = 'paused'; }}
+                onTouchEnd={(e) => { e.currentTarget.style.animationPlayState = 'running'; }}
+              >
+                {[...CLIENT_LOGOS_LIST.slice(0, 16), ...CLIENT_LOGOS_LIST.slice(0, 16)].map((client, idx) => {
+                  const LogoComp = client.component;
+                  return (
+                    <div 
+                      key={`mob-row1-${client.id}-${idx}`}
+                      style={{
+                        backgroundColor: '#ffffff',
+                        border: '1.5px solid #e2e8f0',
+                        borderRadius: '10px',
+                        padding: '0.45rem 0.9rem',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        width: '140px',
+                        height: '72px',
+                        flexShrink: 0,
+                        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)'
+                      }}
+                      title={client.name}
+                    >
+                      <LogoComp height={42} />
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Row 2 - Smooth Rightward Scroll */}
+            <div style={{ overflow: 'hidden', width: '100%', marginBottom: '1.5rem' }}>
+              <div 
+                style={{
+                  display: 'flex',
+                  gap: '0.75rem',
+                  width: 'max-content',
+                  animation: 'marqueeScrollReverse 26s linear infinite'
+                }}
+                onTouchStart={(e) => { e.currentTarget.style.animationPlayState = 'paused'; }}
+                onTouchEnd={(e) => { e.currentTarget.style.animationPlayState = 'running'; }}
+              >
+                {[...CLIENT_LOGOS_LIST.slice(16), ...CLIENT_LOGOS_LIST.slice(16)].map((client, idx) => {
+                  const LogoComp = client.component;
+                  return (
+                    <div 
+                      key={`mob-row2-${client.id}-${idx}`}
+                      style={{
+                        backgroundColor: '#ffffff',
+                        border: '1.5px solid #e2e8f0',
+                        borderRadius: '10px',
+                        padding: '0.45rem 0.9rem',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        width: '140px',
+                        height: '72px',
+                        flexShrink: 0,
+                        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)'
+                      }}
+                      title={client.name}
+                    >
+                      <LogoComp height={42} />
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
           </div>
 
           <div style={{

@@ -178,10 +178,15 @@ export const ATPL_FACTORY_NODES = [
 ];
 
 export const FactoryBlueprintMap = () => {
-  const { openDemoModal } = useApp();
+  const { openDemoModal, setCurrentView } = useApp();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoTour, setIsAutoTour] = useState(true);
-  const [isHudClosed, setIsHudClosed] = useState(false);
+  const [isHudClosed, setIsHudClosed] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return window.innerWidth < 768;
+    }
+    return false;
+  });
 
   const currentNode = ATPL_FACTORY_NODES[currentIndex];
 
@@ -365,57 +370,112 @@ export const FactoryBlueprintMap = () => {
             }
             @media (max-width: 768px) {
               #factory-blueprint-section {
-                height: 520px !important;
-                min-height: 520px !important;
-                max-height: 520px !important;
-                padding: 0.25rem 0.4rem !important;
+                height: 330px !important;
+                min-height: 330px !important;
+                max-height: 330px !important;
+                padding: 0.2rem 0.35rem !important;
               }
               .station-pin-circle {
-                width: 22px !important;
-                height: 22px !important;
-                font-size: 0.65rem !important;
+                width: 20px !important;
+                height: 20px !important;
+                font-size: 0.62rem !important;
               }
               .station-pill-label {
                 display: none !important;
               }
               .station-pin-container.active .station-pill-label {
                 display: block !important;
-                font-size: 0.58rem !important;
-                padding: 0.12rem 0.35rem !important;
+                font-size: 0.55rem !important;
+                padding: 0.1rem 0.3rem !important;
               }
               .factory-blueprint-top-hud {
                 top: 6px !important;
                 left: 6px !important;
                 right: 6px !important;
-                padding: 0.3rem 0.55rem !important;
+                padding: 0.25rem 0.5rem !important;
               }
               .factory-top-title-span {
-                font-size: 0.68rem !important;
+                font-size: 0.66rem !important;
+              }
+              .factory-blueprint-qr-box {
+                padding: 5px !important;
+                border-radius: 12px !important;
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.75) !important;
+              }
+              .factory-blueprint-qr-img {
+                width: 50px !important;
+                height: 50px !important;
+                border-radius: 6px !important;
               }
               .factory-hud-bottom-overlay {
                 grid-template-columns: 1fr !important;
-                gap: 0.3rem !important;
-                padding: 0.45rem 0.75rem !important;
+                gap: 0.25rem !important;
+                padding: 0.4rem 0.65rem !important;
                 bottom: 6px !important;
                 left: 6px !important;
                 right: 6px !important;
                 border-radius: 10px !important;
+                max-height: 145px !important;
               }
               .hud-speech-paragraph {
-                max-height: 38px !important;
-                font-size: 0.72rem !important;
+                max-height: 32px !important;
+                font-size: 0.7rem !important;
                 line-height: 1.25 !important;
+                display: -webkit-box !important;
+                -webkit-line-clamp: 2 !important;
+                -webkit-box-orient: vertical !important;
+                overflow: hidden !important;
               }
               .hud-actions-container {
                 display: flex !important;
                 width: 100% !important;
                 gap: 0.3rem !important;
+                margin-top: 0.15rem !important;
               }
-              .hud-actions-container button {
-                flex: 1 !important;
-                justify-content: center !important;
-                padding: 0.3rem 0.4rem !important;
+              .hud-btn-prev, .hud-btn-next {
+                flex: 1 1 0 !important;
+                min-height: 32px !important;
+                padding: 0.25rem 0.35rem !important;
                 font-size: 0.7rem !important;
+                justify-content: center !important;
+              }
+              .hud-btn-demo {
+                flex: 1.2 1 0 !important;
+                min-height: 32px !important;
+                padding: 0.25rem 0.45rem !important;
+                font-size: 0.7rem !important;
+                justify-content: center !important;
+              }
+              .hud-btn-close {
+                flex: 0 0 32px !important;
+                width: 32px !important;
+                height: 32px !important;
+                min-height: 32px !important;
+                padding: 0 !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+              }
+              .factory-hud-toggle-pill {
+                bottom: 8px !important;
+                right: 8px !important;
+                padding: 0.32rem 0.75rem !important;
+                font-size: 0.72rem !important;
+              }
+            }
+            @media (max-width: 480px) {
+              #factory-blueprint-section {
+                height: 295px !important;
+                min-height: 295px !important;
+                max-height: 295px !important;
+              }
+              .factory-blueprint-qr-box {
+                padding: 4px !important;
+                border-radius: 10px !important;
+              }
+              .factory-blueprint-qr-img {
+                width: 42px !important;
+                height: 42px !important;
               }
             }
           `}</style>
@@ -459,7 +519,8 @@ export const FactoryBlueprintMap = () => {
                   gap: '0.4rem'
                 }}>
                   <Activity size={14} color="#00f0ff" />
-                  <span>ATPL CONNECTED SMART FACTORY • 12-STATION ARCHIE AI TOUR</span>
+                  <span className="desktop-only-inline">ATPL CONNECTED SMART FACTORY • 12-STATION ARCHIE AI TOUR</span>
+                  <span className="mobile-only-inline">SMART FACTORY 3D TOUR</span>
                 </span>
               </div>
             </div>
@@ -559,6 +620,7 @@ export const FactoryBlueprintMap = () => {
 
           {/* CENTER PROMINENT WHITE QR CODE CARD (Scan to Launch 3D Factory Tour) */}
           <div 
+            className="factory-blueprint-qr-box"
             onClick={() => setCurrentView('factory-3d')}
             title="Scan or Click to Launch 3D Factory Tour"
             style={{
@@ -591,6 +653,7 @@ export const FactoryBlueprintMap = () => {
             <img 
               src={atplQrCodeImg} 
               alt="Scan ATPL QR Code" 
+              className="factory-blueprint-qr-img"
               style={{
                 width: '110px',
                 height: '110px',
@@ -705,6 +768,7 @@ export const FactoryBlueprintMap = () => {
               <div className="hud-actions-container" style={{ display: 'flex', gap: '0.35rem', alignItems: 'center', flexShrink: 0 }}>
                 <button
                   onClick={handlePrev}
+                  className="hud-btn-prev"
                   style={{
                     background: 'rgba(255, 255, 255, 0.08)',
                     border: '1px solid rgba(255, 255, 255, 0.25)',
@@ -729,6 +793,7 @@ export const FactoryBlueprintMap = () => {
 
                 <button
                   onClick={handleNext}
+                  className="hud-btn-next"
                   style={{
                     background: '#0071ba',
                     border: '1px solid #00f0ff',
@@ -754,6 +819,7 @@ export const FactoryBlueprintMap = () => {
 
                 <button
                   onClick={() => openDemoModal({ solution: currentNode.name, notes: `Inquiry for ${currentNode.name} from Factory Blueprint map.` })}
+                  className="hud-btn-demo"
                   style={{
                     backgroundColor: '#E85874',
                     border: 'none',
@@ -776,6 +842,7 @@ export const FactoryBlueprintMap = () => {
                 {/* X Close Button for Robot Features */}
                 <button
                   onClick={() => setIsHudClosed(true)}
+                  className="hud-btn-close"
                   style={{
                     background: 'rgba(255, 255, 255, 0.08)',
                     border: '1px solid rgba(255, 255, 255, 0.2)',
@@ -809,6 +876,7 @@ export const FactoryBlueprintMap = () => {
             /* Re-open Pill when closed */
             <button
               onClick={() => setIsHudClosed(false)}
+              className="factory-hud-toggle-pill"
               style={{
                 position: 'absolute',
                 bottom: '12px',

@@ -7,7 +7,7 @@ export const Factory3DView = () => {
       inset: 0,
       width: '100vw',
       height: '100vh',
-      zIndex: 100,
+      zIndex: 9999,
       backgroundColor: '#02101C',
       overflow: 'hidden'
     }}>

@@ -662,7 +662,7 @@ export const HardwareView = () => {
                 }}>
                   <img 
                     src={hw.image} 
-                    alt={hw.name}
+                    alt={hw.name || 'ATPL Industrial Automation Hardware'}
                     style={{
                       maxHeight: '100%',
                       maxWidth: '100%',
