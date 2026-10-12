@@ -215,6 +215,7 @@ export const FactoryBlueprintMap = () => {
   const [isAutoTour, setIsAutoTour] = useState(true);
   const [showCompletionCta, setShowCompletionCta] = useState(false);
   const [isTourOpen, setIsTourOpen] = useState(true);
+  const userClosedRef = useRef(false);
   const closingLockRef = useRef(false);
 
   const closeTour = (e) => {
@@ -222,6 +223,7 @@ export const FactoryBlueprintMap = () => {
       if (e.preventDefault) e.preventDefault();
       if (e.stopPropagation) e.stopPropagation();
     }
+    userClosedRef.current = true;
     closingLockRef.current = true;
     setIsTourOpen(false);
     setIsAutoTour(false);
@@ -236,6 +238,7 @@ export const FactoryBlueprintMap = () => {
       if (e.preventDefault) e.preventDefault();
       if (e.stopPropagation) e.stopPropagation();
     }
+    userClosedRef.current = false;
     setIsTourOpen(true);
   };
 
@@ -246,6 +249,7 @@ export const FactoryBlueprintMap = () => {
   useEffect(() => {
     if (!isAutoTour) return;
     const timer = setInterval(() => {
+      if (userClosedRef.current) return;
       setCurrentIndex(prev => {
         const next = (prev + 1) % ATPL_FACTORY_NODES.length;
         if (next === ATPL_FACTORY_NODES.length - 1) {
@@ -282,6 +286,7 @@ export const FactoryBlueprintMap = () => {
     if (closingLockRef.current) return;
     setCurrentIndex(index);
     setIsAutoTour(false);
+    userClosedRef.current = false;
     setIsTourOpen(true);
     if (index === ATPL_FACTORY_NODES.length - 1) {
       setShowCompletionCta(true);
@@ -555,73 +560,93 @@ export const FactoryBlueprintMap = () => {
 
             @media (max-width: 768px) {
               #factory-blueprint-section {
-                padding: 0.5rem 0.5rem 0.8rem 0.5rem !important;
+                padding: 0.4rem 0.5rem 0.6rem 0.5rem !important;
               }
               .factory-tour-header {
-                margin-bottom: 0.4rem !important;
+                margin-bottom: 0.35rem !important;
               }
               .factory-tour-header h2 {
-                font-size: 1.05rem !important;
+                font-size: 1rem !important;
                 margin: 0.1rem 0 !important;
-                line-height: 1.25 !important;
+                line-height: 1.2 !important;
               }
               .factory-tour-header-desc {
                 display: none !important;
               }
               .factory-blueprint-stage-box {
-                height: 275px !important;
-                min-height: 275px !important;
+                height: 260px !important;
+                min-height: 260px !important;
                 border-radius: 10px !important;
               }
               .station-pin-circle {
-                width: 22px !important;
-                height: 22px !important;
-                font-size: 0.65rem !important;
+                width: 20px !important;
+                height: 20px !important;
+                font-size: 0.62rem !important;
               }
               .station-pill-label {
                 display: none !important;
               }
               .station-pin-container.active .station-pill-label {
                 display: block !important;
-                font-size: 0.55rem !important;
-                padding: 0.1rem 0.35rem !important;
-              }
-              .factory-blueprint-top-hud {
-                top: 6px !important;
-                left: 6px !important;
-                right: 6px !important;
-                padding: 0.25rem 0.5rem !important;
-              }
-              .factory-top-title-span {
-                font-size: 0.68rem !important;
-              }
-              .factory-blueprint-qr-box {
-                padding: 4px !important;
-                border-radius: 10px !important;
-                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.8) !important;
-              }
-              .factory-blueprint-qr-img {
-                width: 44px !important;
-                height: 44px !important;
-                border-radius: 4px !important;
-              }
-              .qr-badge-caption {
-                font-size: 0.52rem !important;
-                display: none !important;
-              }
-              .qr-badge-header {
                 font-size: 0.52rem !important;
                 padding: 0.1rem 0.3rem !important;
               }
+              .factory-blueprint-top-hud {
+                top: 5px !important;
+                left: 5px !important;
+                right: 5px !important;
+                padding: 0.25rem 0.45rem !important;
+                gap: 0.35rem !important;
+              }
+              .factory-top-title-span {
+                font-size: 0.65rem !important;
+              }
+              .tour-chips-bar {
+                display: flex !important;
+                overflow-x: auto !important;
+                -webkit-overflow-scrolling: touch !important;
+                max-width: 100% !important;
+                gap: 3px !important;
+                padding: 2px 0 !important;
+                scrollbar-width: none !important;
+              }
+              .tour-chips-bar::-webkit-scrollbar {
+                display: none !important;
+              }
+              .tour-chip-btn {
+                width: 22px !important;
+                height: 22px !important;
+                font-size: 0.65rem !important;
+                flex-shrink: 0 !important;
+              }
+              .factory-blueprint-qr-box {
+                padding: 3px 5px !important;
+                border-radius: 8px !important;
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.8) !important;
+              }
+              .factory-blueprint-qr-img {
+                width: 34px !important;
+                height: 34px !important;
+                border-radius: 4px !important;
+              }
+              .qr-badge-caption {
+                font-size: 0.5rem !important;
+                display: none !important;
+              }
+              .qr-badge-header {
+                font-size: 0.5rem !important;
+                padding: 0.1rem 0.25rem !important;
+                margin-bottom: 2px !important;
+              }
               .factory-hud-bottom-overlay {
                 grid-template-columns: 1fr !important;
-                gap: 0.25rem !important;
-                padding: 0.45rem 2.4rem 0.45rem 0.65rem !important;
+                gap: 0.2rem !important;
+                padding: 0.4rem 38px 0.4rem 0.6rem !important;
                 bottom: 5px !important;
                 left: 5px !important;
                 right: 5px !important;
                 border-radius: 10px !important;
-                max-height: 140px !important;
+                max-height: 120px !important;
                 z-index: 45 !important;
               }
               .hud-corner-close-btn {
@@ -630,26 +655,27 @@ export const FactoryBlueprintMap = () => {
                 right: 6px !important;
                 width: 28px !important;
                 height: 28px !important;
-                z-index: 60 !important;
+                z-index: 70 !important;
                 pointer-events: auto !important;
               }
               .hud-benefits-row {
                 display: none !important;
               }
               .hud-speech-paragraph {
-                max-height: 32px !important;
+                max-height: 28px !important;
                 font-size: 0.68rem !important;
                 line-height: 1.25 !important;
                 display: -webkit-box !important;
                 -webkit-line-clamp: 2 !important;
                 -webkit-box-orient: vertical !important;
                 overflow: hidden !important;
+                margin-bottom: 0.15rem !important;
               }
               .hud-actions-container {
                 display: flex !important;
                 width: 100% !important;
-                gap: 0.35rem !important;
-                margin-top: 0.15rem !important;
+                gap: 5px !important;
+                margin-top: 0.1rem !important;
               }
               .hud-btn-prev, .hud-btn-next {
                 flex: 1 1 0 !important;
@@ -659,7 +685,7 @@ export const FactoryBlueprintMap = () => {
                 justify-content: center !important;
               }
               .hud-btn-demo {
-                flex: 1.3 1 0 !important;
+                flex: 1.25 1 0 !important;
                 min-height: 34px !important;
                 padding: 0.25rem 0.45rem !important;
                 font-size: 0.72rem !important;
@@ -673,15 +699,32 @@ export const FactoryBlueprintMap = () => {
                 z-index: 45 !important;
                 pointer-events: auto !important;
               }
+              .factory-completion-overlay {
+                top: 8px !important;
+                width: 95% !important;
+                padding: 0.55rem 0.8rem !important;
+                border-radius: 10px !important;
+              }
+              .factory-completion-overlay h3 {
+                font-size: 0.95rem !important;
+                margin: 0.1rem 0 0.25rem 0 !important;
+              }
+              .factory-completion-overlay p {
+                display: none !important;
+              }
+              .factory-completion-overlay button {
+                padding: 0.32rem 0.65rem !important;
+                font-size: 0.72rem !important;
+              }
             }
             @media (max-width: 480px) {
               .factory-blueprint-stage-box {
-                height: 250px !important;
-                min-height: 250px !important;
+                height: 240px !important;
+                min-height: 240px !important;
               }
               .factory-blueprint-qr-img {
-                width: 38px !important;
-                height: 38px !important;
+                width: 32px !important;
+                height: 32px !important;
               }
             }
           `}</style>
@@ -726,22 +769,18 @@ export const FactoryBlueprintMap = () => {
                 }}>
                   <Activity size={14} color="#00f0ff" />
                   <span className="desktop-only-inline">ATPL CONNECTED SMART FACTORY • 12-STATION ARCHIE AI TOUR</span>
-                  <span className="mobile-only-inline">SMART FACTORY 3D TOUR</span>
+                  <span className="mobile-only-inline">SMART FACTORY TOUR</span>
                 </span>
               </div>
             </div>
 
-            {/* Quick 12 Station Number Chips */}
-            <div style={{ display: 'none', alignItems: 'center', gap: '0.25rem' }} className="tour-chips-bar">
-              <style>{`
-                @media (min-width: 900px) {
-                  .tour-chips-bar { display: flex !important; }
-                }
-              `}</style>
+            {/* Quick 12 Station Number Chips - Clickable on Desktop & Mobile */}
+            <div className="tour-chips-bar" style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
               {ATPL_FACTORY_NODES.map((node, i) => (
                 <button
                   key={node.id}
                   onClick={() => handleStationClick(i)}
+                  className="tour-chip-btn"
                   title={`${node.stepNumber}. ${node.name}`}
                   style={{
                     width: '25px',
@@ -867,14 +906,14 @@ export const FactoryBlueprintMap = () => {
               gap: '3px'
             }}>
               <QrCode size={11} color="#00f0ff" />
-              <span>Mobile 3D Tour</span>
+              <span>Mobile Tour</span>
             </span>
 
             {/* QR Image with white high-contrast wrapper */}
             <div style={{
               background: '#ffffff',
-              padding: '3px',
-              borderRadius: '8px',
+              padding: '2.5px',
+              borderRadius: '7px',
               display: 'inline-block'
             }}>
               <img 
@@ -882,17 +921,17 @@ export const FactoryBlueprintMap = () => {
                 alt="Scan ATPL QR Code" 
                 className="factory-blueprint-qr-img"
                 style={{
-                  width: '64px',
-                  height: '64px',
+                  width: '46px',
+                  height: '46px',
                   display: 'block',
-                  borderRadius: '6px'
+                  borderRadius: '5px'
                 }}
               />
             </div>
 
             {/* Explanatory Caption */}
             <span className="qr-badge-caption">
-              Scan or Click to Launch 3D
+              Scan to Launch Tour
             </span>
           </div>
 
@@ -1145,7 +1184,10 @@ export const FactoryBlueprintMap = () => {
               <button
                 type="button"
                 onClick={closeTour}
-                onPointerDown={(e) => e.stopPropagation()}
+                onTouchEnd={(e) => {
+                  e.stopPropagation();
+                  closeTour(e);
+                }}
                 className="hud-corner-close-btn"
                 aria-label="Close Archie AI Tour panel"
                 title="Close Archie AI Tour panel (✕)"
@@ -1153,8 +1195,8 @@ export const FactoryBlueprintMap = () => {
                   position: 'absolute',
                   top: '8px',
                   right: '8px',
-                  width: '30px',
-                  height: '30px',
+                  width: '32px',
+                  height: '32px',
                   borderRadius: '50%',
                   background: 'rgba(232, 88, 116, 0.22)',
                   border: '1.5px solid #E85874',
@@ -1163,7 +1205,7 @@ export const FactoryBlueprintMap = () => {
                   alignItems: 'center',
                   justifyContent: 'center',
                   cursor: 'pointer',
-                  zIndex: 60,
+                  zIndex: 70,
                   pointerEvents: 'auto',
                   transition: 'all 0.2s ease',
                   boxShadow: '0 2px 10px rgba(0, 0, 0, 0.7)'

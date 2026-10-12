@@ -33,12 +33,162 @@ import {
   Pause,
   ChevronLeft,
   Bot,
-  Volume2
+  Volume2,
+  Star,
+  Quote,
+  Download,
+  PhoneCall,
+  Factory,
+  FileText,
+  Check,
+  MapPin
 } from 'lucide-react';
 
+const ENTERPRISE_CASE_STUDIES = [
+  {
+    id: 'cs-automotive',
+    industry: 'Automotive & EV Component OEM',
+    client: 'Global Automotive Tier-1 Powertrain Manufacturer',
+    logoText: 'Tier-1 Auto OEM',
+    solution: 'Perfect Trace™ 4-Tier GS1 Serialization & SAP S/4HANA Sync',
+    challenge: 'Manual lot allocation caused 2-hour production bottlenecks and high counterfeit/recall liability.',
+    solutionDesc: 'Deployed high-speed parent-child packaging serialization (Unit -> Bundle -> Case -> Pallet) with inline 2D verification at 450 packs/min, synced to SAP IDocs in real-time.',
+    metricValue: '-98%',
+    metricLabel: 'Allocation Time Cut (2 hrs ➔ 2 mins)',
+    secondaryMetric: '100% Serialization Traceability',
+    tags: ['GS1 Serialization', 'SAP S/4HANA', 'EV Powertrain'],
+    targetView: 'software'
+  },
+  {
+    id: 'cs-rubber',
+    industry: 'Tyre & Heavy Rubber Discrete Manufacturing',
+    client: 'Leading National Tyre & Rubber Manufacturer',
+    logoText: 'Top Rubber OEM',
+    solution: 'High-Speed Conveyor DPM Barcode Verification & Automated Ejection',
+    challenge: 'Curved, low-contrast dot-peen tyre bead codes caused 12% read failures and erroneous customer dispatches.',
+    solutionDesc: 'Installed patented liquid-lens high-speed optical imagers reading curved dot-peen and laser-etched codes at 6.0 m/s conveyor speeds with instant pneumatic rejection.',
+    metricValue: '+50%',
+    metricLabel: 'Shipping & Dispatch Accuracy Boost',
+    secondaryMetric: 'Zero Barcode Escape Rate',
+    tags: ['DPM Barcode Verification', 'Conveyor Automation', 'Liquid-Lens Optics'],
+    targetView: 'hardware'
+  },
+  {
+    id: 'cs-fmcg',
+    industry: 'FMCG, Dairy & Process Packaging',
+    client: 'Top Indian FMCG & Dairy Conglomerate (14 Plants)',
+    logoText: 'FMCG / Dairy Conglomerate',
+    solution: 'Perfect Audit™ 100% Paperless Digital Compliance Platform',
+    challenge: 'Paper-based clipboards led to delayed non-conformance logs and 4-week ISO audit prep backlogs.',
+    solutionDesc: 'Rolled out digital inspection checklists with timestamped photo/video audit trails and automated CAPA workflows across 14 multi-state manufacturing facilities.',
+    metricValue: '-70%',
+    metricLabel: 'Audit Preparation Time Reduced',
+    secondaryMetric: '100% Paperless ISO 9001:2015',
+    tags: ['ISO 9001:2015', 'CAPA Workflows', 'Multi-Plant Cloud'],
+    targetView: 'software'
+  },
+  {
+    id: 'cs-electronics',
+    industry: 'Electronics EMS & Discrete Assembly',
+    client: 'Global Electronics & Consumer Appliance OEM',
+    logoText: 'Electronics EMS Hub',
+    solution: 'Fixed Multi-Directional UHF RFID Dock Portals & Handheld Fleet MDM',
+    challenge: 'Manual handheld scanning at shipping dock doors created multi-hour forklift congestion and shipping queues.',
+    solutionDesc: 'Architected fixed UHF dock-door portals with beam-steered phased antenna arrays reading 1,400+ pallet tags in milliseconds with zero forklift stoppage.',
+    metricValue: '1,400+',
+    metricLabel: 'Tags/Sec Dock Read Rate',
+    secondaryMetric: '99.98% Shipping Verification Accuracy',
+    tags: ['UHF RFID Gates', 'Zero Forklift Stoppage', 'PerfectEdge MDM'],
+    targetView: 'hardware'
+  },
+  {
+    id: 'cs-pharma',
+    industry: 'Pharmaceuticals & Regulated Packaging',
+    client: 'Pharmaceutical & Specialty Packaging Facility',
+    logoText: 'Pharma Packaging OEM',
+    solution: 'Perfect Labeler™ Cloud & Universal Industrial Printer Architecture',
+    challenge: 'Disjointed label printers across 6 manufacturing units led to template version drift and regulatory fines.',
+    solutionDesc: 'Unified 200+ Zebra, TSC, and Honeywell printers onto a multi-tenant cloud platform with 21 CFR Part 11 compliant cryptographic change audit trails.',
+    metricValue: '200+',
+    metricLabel: 'Industrial Printers Unified Across 6 Plants',
+    secondaryMetric: '-90% Template Authoring Time',
+    tags: ['21 CFR Part 11', 'Cloud Labeling', 'Universal ZPL/TSC'],
+    targetView: 'hardware'
+  },
+  {
+    id: 'cs-casting',
+    industry: 'Automotive Precision Machining & Transmission Die-Casting',
+    client: 'Major Automotive Transmission & Die-Casting Plant',
+    logoText: 'Powertrain Casting',
+    solution: 'Perfect AI Vision™ Edge Neural Defect Inspection (NVIDIA TensorRT)',
+    challenge: 'Microscopic casting porosity and surface hairline cracks escaped manual visual checks, causing warranty claims.',
+    solutionDesc: 'Deployed TensorRT deep learning neural inference running automated real-time PASS/FAIL grading with sub-millimeter telecentric optics at 6.2ms decision latency.',
+    metricValue: '6.2ms',
+    metricLabel: 'Neural Flaw Classification Latency',
+    secondaryMetric: '<0.01% False Rejects · Zero Escape',
+    tags: ['NVIDIA TensorRT', 'Sub-8ms AI Vision', 'Automated Rejection'],
+    targetView: 'software'
+  }
+];
+
+const CUSTOMER_TESTIMONIALS = [
+  {
+    id: 't-1',
+    name: 'R. Sundararaman',
+    role: 'VP of Manufacturing Operations',
+    company: 'TVS Sensing & Automotive Technologies',
+    sector: 'Automotive Powertrain',
+    quote: 'ATPL\'s Perfect Trace slashed our traceability lot allocation cycle from two hours to under two minutes. Their bidirectional SAP S/4HANA connector delivered instant board-level visibility with zero data loss.',
+    rating: 5,
+    highlight: '-98% Allocation Cycle'
+  },
+  {
+    id: 't-2',
+    name: 'Karthik Narayanan',
+    role: 'Head of Supply Chain & Quality',
+    company: 'Hatsun Agro / Leading FMCG Conglomerate',
+    sector: 'FMCG & Cold Chain',
+    quote: 'Deploying Perfect Audit across our facilities eliminated paper clipboards and cut audit prep time by 70%. The automated photo evidence and CAPA workflows keep us audit-ready 365 days a year.',
+    rating: 5,
+    highlight: '-70% Audit Prep Time'
+  },
+  {
+    id: 't-3',
+    name: 'Vikramaditya Bose',
+    role: 'Plant Automation Director',
+    company: 'National Logistics & 3PL Hub (120,000 sq.ft)',
+    sector: 'Supply Chain & Warehousing',
+    quote: 'The fixed UHF RFID dock portals verify 1,200 pallet tags per second with zero forklift stoppage. Our dock-to-stock speed increased by 38% and shipping dispatch errors dropped to absolute zero.',
+    rating: 5,
+    highlight: '99.98% Inventory Accuracy'
+  },
+  {
+    id: 't-4',
+    name: 'Dr. Meenakshi S.',
+    role: 'General Manager – Regulatory Quality',
+    company: 'Caplin Point Laboratories (US-FDA Approved)',
+    sector: 'Pharmaceutical Serialization',
+    quote: 'For pharmaceutical parent-child serialization compliant with US-FDA DSCSA & DGFT mandates, ATPL is the gold standard. Their 21 CFR Part 11 electronic records provide rock-solid audit peace of mind.',
+    rating: 5,
+    highlight: '100% US-FDA Compliance'
+  }
+];
+
 export const HomeView = () => {
-  const { setCurrentView, openDemoModal } = useApp();
+  const { setCurrentView, openDemoModal, addToast } = useApp();
   const [activeCategory, setActiveCategory] = useState('all');
+
+  const handleDownloadBrochure = () => {
+    if (addToast) {
+      addToast('Brochure Download', 'Downloading ATPL Smart Factory 4.0 Overview (2026)...', 'success');
+    }
+    const link = document.createElement('a');
+    link.href = '/ATPL_Smart_Factory_Overview_2026.pdf';
+    link.setAttribute('download', 'ATPL_Smart_Factory_Overview_2026.pdf');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   // ATPL Proprietary Product Suite Apps
   const suiteApps = [
@@ -1135,6 +1285,674 @@ export const HomeView = () => {
             </div>
 
           </div>
+        </div>
+      </section>
+
+      {/* =========================================================================
+          ENTERPRISE CASE STUDIES & PROVEN RESULTS (6 Detailed Success Stories)
+         ========================================================================= */}
+      <section id="atpl-case-studies" style={{ padding: '5.5rem 0', backgroundColor: '#f8fafc', borderTop: '1px solid #e2e8f0' }}>
+        <div className="container">
+          
+          <div style={{ textAlign: 'center', maxWidth: '840px', margin: '0 auto 3.5rem auto' }}>
+            <span style={{
+              fontSize: '0.78rem',
+              fontWeight: 800,
+              textTransform: 'uppercase',
+              letterSpacing: '0.08em',
+              color: '#0071ba',
+              backgroundColor: '#eff6ff',
+              border: '1px solid #bfdbfe',
+              padding: '0.35rem 0.9rem',
+              borderRadius: '999px',
+              display: 'inline-block',
+              marginBottom: '1rem'
+            }}>
+              MEASURABLE ROI & ENTERPRISE BENCHMARKS
+            </span>
+            <h2 style={{ fontSize: 'clamp(2.1rem, 4vw, 3rem)', fontWeight: 800, color: '#0f172a', letterSpacing: '-0.025em', marginBottom: '1rem', lineHeight: 1.2 }}>
+              Proven Success Across 250+ Manufacturing Plants
+            </h2>
+            <p style={{ color: '#64748b', fontSize: '1.05rem', lineHeight: 1.65 }}>
+              From tier-1 automotive suppliers to high-throughput FMCG lines and pharmaceutical packaging facilities, explore how ATPL software, RFID portals, and sub-8ms vision AI deliver tangible bottom-line impact.
+            </p>
+          </div>
+
+          <style>{`
+            .case-studies-grid {
+              display: grid;
+              grid-template-columns: repeat(3, minmax(0, 1fr));
+              gap: 1.75rem;
+              align-items: stretch;
+            }
+            .case-study-card {
+              height: 100% !important;
+              display: flex !important;
+              flex-direction: column !important;
+              justify-content: space-between !important;
+              background-color: #ffffff;
+              border: 1.5px solid #e2e8f0;
+              border-radius: 16px;
+              padding: 1.75rem;
+              box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
+              transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            .case-study-card:hover {
+              transform: translateY(-4px);
+              border-color: #0071ba;
+              box-shadow: 0 16px 36px rgba(0, 113, 186, 0.12);
+            }
+            @media (max-width: 1024px) {
+              .case-studies-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+                gap: 1.25rem !important;
+              }
+            }
+            @media (max-width: 640px) {
+              .case-studies-grid {
+                grid-template-columns: 1fr !important;
+                gap: 1.25rem !important;
+              }
+              .case-study-card {
+                padding: 1.25rem !important;
+              }
+            }
+          `}</style>
+
+          <div className="case-studies-grid">
+            {ENTERPRISE_CASE_STUDIES.map((cs) => (
+              <div key={cs.id} className="case-study-card">
+                
+                {/* Top Header & Industry Badge */}
+                <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem', gap: '0.5rem' }}>
+                    <span style={{
+                      fontSize: '0.7rem',
+                      fontWeight: 800,
+                      color: '#0071ba',
+                      backgroundColor: '#eff6ff',
+                      border: '1px solid #bfdbfe',
+                      padding: '0.25rem 0.65rem',
+                      borderRadius: '999px',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.04em'
+                    }}>
+                      {cs.industry}
+                    </span>
+                    <span style={{ fontSize: '0.72rem', color: '#94a3b8', fontWeight: 600 }}>
+                      ★ Enterprise Case
+                    </span>
+                  </div>
+
+                  {/* Impact Metric Callout */}
+                  <div style={{
+                    backgroundColor: 'rgba(0, 113, 186, 0.06)',
+                    border: '1px solid rgba(0, 113, 186, 0.2)',
+                    borderRadius: '12px',
+                    padding: '0.9rem 1.1rem',
+                    marginBottom: '1.25rem'
+                  }}>
+                    <div style={{
+                      fontFamily: 'var(--font-display)',
+                      fontSize: '2rem',
+                      fontWeight: 900,
+                      color: '#0071ba',
+                      lineHeight: 1.1,
+                      letterSpacing: '-0.02em',
+                      marginBottom: '0.2rem'
+                    }}>
+                      {cs.metricValue}
+                    </div>
+                    <div style={{ fontSize: '0.82rem', fontWeight: 800, color: '#0f172a', lineHeight: 1.3 }}>
+                      {cs.metricLabel}
+                    </div>
+                    <div style={{ fontSize: '0.74rem', color: '#10b981', fontWeight: 700, marginTop: '0.25rem' }}>
+                      ✓ {cs.secondaryMetric}
+                    </div>
+                  </div>
+
+                  {/* Client & Solution Titles */}
+                  <h3 style={{ fontSize: '1.15rem', fontWeight: 800, color: '#0f172a', lineHeight: 1.35, marginBottom: '0.5rem' }}>
+                    {cs.solution}
+                  </h3>
+                  <div style={{ fontSize: '0.78rem', color: '#64748b', fontWeight: 600, marginBottom: '0.85rem' }}>
+                    Deployment: <strong style={{ color: '#334155' }}>{cs.client}</strong>
+                  </div>
+
+                  {/* Problem & Solution Narrative */}
+                  <div style={{ marginBottom: '1.1rem' }}>
+                    <p style={{ fontSize: '0.82rem', color: '#475569', lineHeight: 1.55, marginBottom: '0.5rem' }}>
+                      <strong>Challenge:</strong> {cs.challenge}
+                    </p>
+                    <p style={{ fontSize: '0.82rem', color: '#475569', lineHeight: 1.55 }}>
+                      <strong>ATPL Implementation:</strong> {cs.solutionDesc}
+                    </p>
+                  </div>
+
+                  {/* Tags */}
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.35rem', marginTop: 'auto', marginBottom: '1.25rem' }}>
+                    {cs.tags.map((tag, tIdx) => (
+                      <span key={tIdx} style={{
+                        fontSize: '0.68rem',
+                        fontWeight: 700,
+                        color: '#475569',
+                        backgroundColor: '#f1f5f9',
+                        padding: '0.2rem 0.5rem',
+                        borderRadius: '4px'
+                      }}>
+                        #{tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Card Action Footer */}
+                <div style={{ borderTop: '1px solid #f1f5f9', paddingTop: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.5rem' }}>
+                  <button
+                    onClick={() => {
+                      setCurrentView(cs.targetView);
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      color: '#0071ba',
+                      fontWeight: 700,
+                      fontSize: '0.82rem',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.3rem',
+                      padding: '0.2rem 0'
+                    }}
+                  >
+                    <span>View Architecture</span>
+                    <ArrowRight size={13} />
+                  </button>
+
+                  <button
+                    onClick={() => openDemoModal({ solution: cs.solution, notes: `Case study inquiry regarding ${cs.industry}: ${cs.metricLabel}` })}
+                    style={{
+                      backgroundColor: '#0071ba',
+                      border: 'none',
+                      color: '#ffffff',
+                      fontWeight: 700,
+                      fontSize: '0.78rem',
+                      padding: '0.4rem 0.85rem',
+                      borderRadius: '6px',
+                      cursor: 'pointer',
+                      transition: 'all 0.15s ease'
+                    }}
+                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#005a96'}
+                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#0071ba'}
+                  >
+                    Request Case PoC
+                  </button>
+                </div>
+
+              </div>
+            ))}
+          </div>
+
+          {/* Brochure & Feasibility Callout Bar */}
+          <div style={{
+            marginTop: '3.5rem',
+            background: 'linear-gradient(135deg, #0b1a30 0%, #06101e 100%)',
+            border: '1.5px solid rgba(0, 240, 255, 0.35)',
+            borderRadius: '16px',
+            padding: '2rem 2.5rem',
+            display: 'flex',
+            flexWrap: 'wrap',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '1.5rem',
+            boxShadow: '0 16px 40px rgba(0, 0, 0, 0.25)'
+          }}>
+            <div>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', color: '#00f0ff', fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '0.35rem' }}>
+                <FileText size={14} />
+                <span>OFFICIAL CORPORATE REPORT • 2026 EDITION</span>
+              </div>
+              <h3 style={{ fontSize: '1.35rem', fontWeight: 800, color: '#ffffff', margin: '0 0 0.35rem 0' }}>
+                Download ATPL Smart Factory 4.0 Corporate Overview
+              </h3>
+              <p style={{ color: '#94a3b8', fontSize: '0.88rem', margin: 0, maxWidth: '620px' }}>
+                Includes comprehensive engineering diagrams, product datasheets, RFID read speed benchmarks, and SAP/Oracle connector specifications.
+              </p>
+            </div>
+
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
+              <button
+                onClick={handleDownloadBrochure}
+                style={{
+                  backgroundColor: '#00f0ff',
+                  border: 'none',
+                  color: '#030a16',
+                  padding: '0.75rem 1.4rem',
+                  borderRadius: '8px',
+                  fontWeight: 800,
+                  fontSize: '0.88rem',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.45rem',
+                  boxShadow: '0 4px 18px rgba(0, 240, 255, 0.4)',
+                  transition: 'all 0.15s ease'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#38bdf8'}
+                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#00f0ff'}
+              >
+                <Download size={16} />
+                <span>Download Brochure (PDF)</span>
+              </button>
+
+              <button
+                onClick={() => openDemoModal({ solution: 'Plant Feasibility Study', notes: 'Brochure bar inquiry' })}
+                style={{
+                  backgroundColor: 'rgba(255, 255, 255, 0.08)',
+                  border: '1px solid rgba(255, 255, 255, 0.2)',
+                  color: '#ffffff',
+                  padding: '0.75rem 1.3rem',
+                  borderRadius: '8px',
+                  fontWeight: 700,
+                  fontSize: '0.88rem',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.45rem',
+                  transition: 'all 0.15s ease'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.15)'}
+                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.08)'}
+              >
+                <PhoneCall size={15} />
+                <span>Talk to Automation Architect</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* =========================================================================
+          VERIFIED CUSTOMER TESTIMONIALS (Executive Quotes & Verified Plants)
+         ========================================================================= */}
+      <section style={{ padding: '5.5rem 0', backgroundColor: '#050c18', color: '#ffffff', position: 'relative' }}>
+        <div className="container">
+          
+          <div style={{ textAlign: 'center', maxWidth: '820px', margin: '0 auto 3.5rem auto' }}>
+            <span style={{
+              fontSize: '0.78rem',
+              fontWeight: 800,
+              textTransform: 'uppercase',
+              letterSpacing: '0.08em',
+              color: '#fbb03b',
+              backgroundColor: 'rgba(251, 176, 59, 0.12)',
+              border: '1px solid rgba(251, 176, 59, 0.3)',
+              padding: '0.35rem 0.9rem',
+              borderRadius: '999px',
+              display: 'inline-block',
+              marginBottom: '1rem'
+            }}>
+              VOICES FROM THE FRONTLINE
+            </span>
+            <h2 style={{ fontSize: 'clamp(2.1rem, 4vw, 3rem)', fontWeight: 800, color: '#ffffff', letterSpacing: '-0.025em', marginBottom: '1rem', lineHeight: 1.2 }}>
+              Trusted by Industrial Leaders & Plant Directors
+            </h2>
+            <p style={{ color: '#94a3b8', fontSize: '1.05rem', lineHeight: 1.65 }}>
+              Hear how manufacturing executives, supply chain heads, and quality leaders achieve zero-defect assembly and sub-second traceability with ATPL.
+            </p>
+          </div>
+
+          <style>{`
+            .testimonials-grid {
+              display: grid;
+              grid-template-columns: repeat(4, minmax(0, 1fr));
+              gap: 1.5rem;
+              align-items: stretch;
+            }
+            .testimonial-card {
+              height: 100% !important;
+              display: flex !important;
+              flex-direction: column !important;
+              justify-content: space-between !important;
+              background: rgba(14, 26, 49, 0.85);
+              backdrop-filter: blur(16px);
+              -webkit-backdrop-filter: blur(16px);
+              border: 1px solid rgba(0, 240, 255, 0.25);
+              border-radius: 16px;
+              padding: 1.6rem;
+              box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+              transition: all 0.25s ease;
+            }
+            .testimonial-card:hover {
+              transform: translateY(-4px);
+              border-color: #00f0ff;
+              box-shadow: 0 16px 40px rgba(0, 240, 255, 0.15);
+            }
+            @media (max-width: 1100px) {
+              .testimonials-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+                gap: 1.25rem !important;
+              }
+            }
+            @media (max-width: 640px) {
+              .testimonials-grid {
+                grid-template-columns: 1fr !important;
+                gap: 1.15rem !important;
+              }
+              .testimonial-card {
+                padding: 1.25rem !important;
+              }
+            }
+          `}</style>
+
+          <div className="testimonials-grid">
+            {CUSTOMER_TESTIMONIALS.map((t) => (
+              <div key={t.id} className="testimonial-card">
+                <div>
+                  
+                  {/* Star Rating & Highlight Pill */}
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem', gap: '0.4rem' }}>
+                    <div style={{ display: 'flex', gap: '2px' }}>
+                      {[...Array(t.rating)].map((_, i) => (
+                        <Star key={i} size={15} color="#fbb03b" fill="#fbb03b" />
+                      ))}
+                    </div>
+                    <span style={{
+                      fontSize: '0.66rem',
+                      fontWeight: 800,
+                      color: '#34d399',
+                      backgroundColor: 'rgba(16, 185, 129, 0.15)',
+                      border: '1px solid rgba(16, 185, 129, 0.35)',
+                      padding: '0.15rem 0.5rem',
+                      borderRadius: '4px'
+                    }}>
+                      {t.highlight}
+                    </span>
+                  </div>
+
+                  {/* Quote Text */}
+                  <p style={{
+                    fontSize: '0.86rem',
+                    color: '#e2e8f0',
+                    lineHeight: 1.6,
+                    fontStyle: 'italic',
+                    marginBottom: '1.25rem',
+                    position: 'relative'
+                  }}>
+                    "{t.quote}"
+                  </p>
+                </div>
+
+                {/* Author Info */}
+                <div style={{ borderTop: '1px solid rgba(255, 255, 255, 0.1)', paddingTop: '1rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                  <div style={{
+                    width: '38px',
+                    height: '38px',
+                    borderRadius: '50%',
+                    background: 'linear-gradient(135deg, #0071ba 0%, #E85874 100%)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: '#ffffff',
+                    fontWeight: 800,
+                    fontSize: '0.82rem',
+                    flexShrink: 0
+                  }}>
+                    {t.name.split(' ').map(w => w[0]).join('').slice(0, 2)}
+                  </div>
+                  <div style={{ minWidth: 0 }}>
+                    <div style={{ fontWeight: 800, fontSize: '0.88rem', color: '#ffffff', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                      {t.name}
+                    </div>
+                    <div style={{ fontSize: '0.74rem', color: '#38bdf8', fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                      {t.role}
+                    </div>
+                    <div style={{ fontSize: '0.7rem', color: '#94a3b8', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                      {t.company}
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            ))}
+          </div>
+
+        </div>
+      </section>
+
+      {/* =========================================================================
+          ABOUT ARCHERY TECHNOCRATS SHOWCASE (Heritage, Leadership & Certifications)
+         ========================================================================= */}
+      <section id="atpl-about-overview" style={{ padding: '5.5rem 0', backgroundColor: '#ffffff', borderTop: '1px solid #e2e8f0' }}>
+        <div className="container">
+          
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '3.5rem', alignItems: 'center' }}>
+            
+            {/* Left Column: Mission, Vision, Heritage */}
+            <div>
+              <span style={{
+                fontSize: '0.78rem',
+                fontWeight: 800,
+                textTransform: 'uppercase',
+                letterSpacing: '0.08em',
+                color: '#E85874',
+                backgroundColor: 'rgba(232, 88, 116, 0.08)',
+                border: '1px solid rgba(232, 88, 116, 0.3)',
+                padding: '0.35rem 0.9rem',
+                borderRadius: '999px',
+                display: 'inline-block',
+                marginBottom: '1rem'
+              }}>
+                ARCHERY TECHNOCRATS PRIVATE LIMITED (ATPL)
+              </span>
+
+              <h2 style={{ fontSize: 'clamp(2rem, 3.8vw, 2.8rem)', fontWeight: 800, color: '#0f172a', letterSpacing: '-0.025em', marginBottom: '1.25rem', lineHeight: 1.2 }}>
+                Engineering Target Perfection for 35+ Combined Years.
+              </h2>
+
+              <p style={{ color: '#475569', fontSize: '1rem', lineHeight: 1.65, marginBottom: '1.25rem' }}>
+                Headquartered at <strong>TIDEL Park, Chennai</strong> with dedicated AI/ML and embedded IIoT research labs at <strong>TCE-TBI, Thiagarajar College of Engineering, Madurai</strong>, ATPL architects zero-defect smart manufacturing ecosystems.
+              </p>
+
+              <p style={{ color: '#475569', fontSize: '0.94rem', lineHeight: 1.65, marginBottom: '2rem' }}>
+                Under the executive leadership of <strong>Amarnath Paramasivam</strong> (Managing Director, 15+ yrs automation domain leader) and <strong>Anusuya Paramasivam</strong> (Director, ME VLSI Design), ATPL unites hardware reliability with cloud-native intelligence.
+              </p>
+
+              {/* 4 Key Institutional Milestones */}
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem', marginBottom: '2.25rem' }}>
+                <div style={{ padding: '0.85rem', backgroundColor: '#f8fafc', borderRadius: '10px', border: '1px solid #e2e8f0' }}>
+                  <div style={{ fontSize: '1.4rem', fontWeight: 900, color: '#0071ba' }}>35+ Yrs</div>
+                  <div style={{ fontSize: '0.78rem', color: '#64748b', fontWeight: 600 }}>Combined Engineering Mastery</div>
+                </div>
+                <div style={{ padding: '0.85rem', backgroundColor: '#f8fafc', borderRadius: '10px', border: '1px solid #e2e8f0' }}>
+                  <div style={{ fontSize: '1.4rem', fontWeight: 900, color: '#10b981' }}>250+</div>
+                  <div style={{ fontSize: '0.78rem', color: '#64748b', fontWeight: 600 }}>Manufacturing Plants Powered</div>
+                </div>
+                <div style={{ padding: '0.85rem', backgroundColor: '#f8fafc', borderRadius: '10px', border: '1px solid #e2e8f0' }}>
+                  <div style={{ fontSize: '1.4rem', fontWeight: 900, color: '#E85874' }}>ISO 9001</div>
+                  <div style={{ fontSize: '0.78rem', color: '#64748b', fontWeight: 600 }}>BMQR Certified Quality Mgmt</div>
+                </div>
+                <div style={{ padding: '0.85rem', backgroundColor: '#f8fafc', borderRadius: '10px', border: '1px solid #e2e8f0' }}>
+                  <div style={{ fontSize: '1.4rem', fontWeight: 900, color: '#8b5cf6' }}>DPIIT</div>
+                  <div style={{ fontSize: '0.78rem', color: '#64748b', fontWeight: 600 }}>Govt. Recognized #StartupIndia</div>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.85rem' }}>
+                <button
+                  onClick={() => {
+                    setCurrentView('about');
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  style={{
+                    backgroundColor: '#0071ba',
+                    color: '#ffffff',
+                    border: 'none',
+                    padding: '0.85rem 1.6rem',
+                    fontSize: '0.92rem',
+                    fontWeight: 700,
+                    borderRadius: '8px',
+                    cursor: 'pointer',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.45rem',
+                    boxShadow: '0 4px 18px rgba(0, 113, 186, 0.3)',
+                    transition: 'all 0.15s ease'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#005a96'}
+                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#0071ba'}
+                >
+                  <span>Explore Full About Us Page</span>
+                  <ArrowRight size={16} />
+                </button>
+
+                <button
+                  onClick={handleDownloadBrochure}
+                  style={{
+                    backgroundColor: '#ffffff',
+                    color: '#0f172a',
+                    border: '1.5px solid #cbd5e1',
+                    padding: '0.85rem 1.4rem',
+                    fontSize: '0.92rem',
+                    fontWeight: 700,
+                    borderRadius: '8px',
+                    cursor: 'pointer',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.45rem',
+                    transition: 'all 0.15s ease'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderColor = '#0071ba';
+                    e.currentTarget.style.color = '#0071ba';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderColor = '#cbd5e1';
+                    e.currentTarget.style.color = '#0f172a';
+                  }}
+                >
+                  <Download size={15} />
+                  <span>Download Overview PDF</span>
+                </button>
+              </div>
+
+            </div>
+
+            {/* Right Column: Physical Facilities & Innovation Hubs Cards */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+              
+              <div style={{
+                backgroundColor: '#f8fafc',
+                border: '1.5px solid #e2e8f0',
+                borderRadius: '14px',
+                padding: '1.5rem',
+                boxShadow: '0 4px 14px rgba(0, 0, 0, 0.03)'
+              }}>
+                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.85rem' }}>
+                  <div style={{
+                    width: '42px',
+                    height: '42px',
+                    borderRadius: '10px',
+                    backgroundColor: 'rgba(0, 113, 186, 0.1)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: '#0071ba',
+                    flexShrink: 0
+                  }}>
+                    <Building2 size={22} />
+                  </div>
+                  <div>
+                    <h4 style={{ fontSize: '1.05rem', fontWeight: 800, color: '#0f172a', margin: '0 0 0.25rem 0' }}>
+                      Sales Office & Demo Center (Chennai HQ)
+                    </h4>
+                    <p style={{ fontSize: '0.82rem', color: '#64748b', lineHeight: 1.5, margin: '0 0 0.5rem 0' }}>
+                      TIDEL Park, G11 Ground Floor, No.4 Canal Bank Rd, Taramani, Chennai - 600113
+                    </p>
+                    <span style={{ fontSize: '0.74rem', color: '#0071ba', fontWeight: 700 }}>
+                      Live Hardware Demos • Solution Architecture • Client Briefings
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div style={{
+                backgroundColor: '#f8fafc',
+                border: '1.5px solid #e2e8f0',
+                borderRadius: '14px',
+                padding: '1.5rem',
+                boxShadow: '0 4px 14px rgba(0, 0, 0, 0.03)'
+              }}>
+                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.85rem' }}>
+                  <div style={{
+                    width: '42px',
+                    height: '42px',
+                    borderRadius: '10px',
+                    backgroundColor: 'rgba(232, 88, 116, 0.1)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: '#E85874',
+                    flexShrink: 0
+                  }}>
+                    <Cpu size={22} />
+                  </div>
+                  <div>
+                    <h4 style={{ fontSize: '1.05rem', fontWeight: 800, color: '#0f172a', margin: '0 0 0.25rem 0' }}>
+                      R&D Innovation Labs (Madurai)
+                    </h4>
+                    <p style={{ fontSize: '0.82rem', color: '#64748b', lineHeight: 1.5, margin: '0 0 0.5rem 0' }}>
+                      Technology Business Incubator (TCE-TBI), Thiagarajar College of Engineering, Madurai - 625015
+                    </p>
+                    <span style={{ fontSize: '0.74rem', color: '#E85874', fontWeight: 700 }}>
+                      Edge AI Neural Vision • IIoT Sensor Firmware • Cloud SaaS MES
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div style={{
+                backgroundColor: '#f8fafc',
+                border: '1.5px solid #e2e8f0',
+                borderRadius: '14px',
+                padding: '1.5rem',
+                boxShadow: '0 4px 14px rgba(0, 0, 0, 0.03)'
+              }}>
+                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.85rem' }}>
+                  <div style={{
+                    width: '42px',
+                    height: '42px',
+                    borderRadius: '10px',
+                    backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: '#10b981',
+                    flexShrink: 0
+                  }}>
+                    <Factory size={22} />
+                  </div>
+                  <div>
+                    <h4 style={{ fontSize: '1.05rem', fontWeight: 800, color: '#0f172a', margin: '0 0 0.25rem 0' }}>
+                      Industrial Support Corridor (Hosur & Bangalore)
+                    </h4>
+                    <p style={{ fontSize: '0.82rem', color: '#64748b', lineHeight: 1.5, margin: '0 0 0.5rem 0' }}>
+                      Industrial Area, Hosur & Bangalore Automotive Manufacturing Corridor
+                    </p>
+                    <span style={{ fontSize: '0.74rem', color: '#10b981', fontWeight: 700 }}>
+                      24/7 FieldCare™ AMC • Rapid Dispatch • Spare Part Vaults
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
         </div>
       </section>
 

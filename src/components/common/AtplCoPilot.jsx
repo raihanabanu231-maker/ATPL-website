@@ -529,6 +529,32 @@ export const AtplCoPilot = () => {
 
   return (
     <>
+      <style>{`
+        @media (max-width: 640px) {
+          .copilot-floating-container {
+            bottom: 1rem !important;
+            right: 1rem !important;
+          }
+          .copilot-speech-bubble {
+            display: none !important;
+          }
+          .copilot-launcher-btn {
+            width: 48px !important;
+            height: 48px !important;
+          }
+          .atpl-copilot-window {
+            bottom: 0 !important;
+            right: 0 !important;
+            left: 0 !important;
+            top: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            border-radius: 0 !important;
+            z-index: 99999 !important;
+          }
+        }
+      `}</style>
+
       {/* Floating Robot Button with Dismissible Speech Bubble */}
       {!isOpen && (
         <div 
