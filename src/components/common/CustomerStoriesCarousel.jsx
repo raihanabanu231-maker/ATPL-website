@@ -339,6 +339,7 @@ export const CustomerStoriesCarousel = () => {
                 style={{
                   width: '100%',
                   height: '100%',
+                  aspectRatio: '540 / 380',
                   objectFit: 'cover',
                   objectPosition: current.imagePosition || 'center',
                   display: 'block'

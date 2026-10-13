@@ -39,6 +39,7 @@ export const AtplLogo = ({
           style={{
             width: `${size}px`,
             height: `${size}px`,
+            aspectRatio: '1 / 1',
             objectFit: 'contain',
             flexShrink: 0,
             display: 'block'

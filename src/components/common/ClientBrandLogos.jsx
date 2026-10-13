@@ -202,6 +202,7 @@ export const ClientLogo = ({ clientName, slug, height = 54, className = '', styl
           maxWidth: '180px',
           width: 'auto',
           height: `${height}px`,
+          aspectRatio: `160 / ${height}`,
           objectFit: 'contain',
           display: 'inline-block',
           verticalAlign: 'middle',

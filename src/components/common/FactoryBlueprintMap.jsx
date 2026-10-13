@@ -661,6 +661,7 @@ export const FactoryBlueprintMap = () => {
                 style={{
                   width: '100%',
                   height: '100%',
+                  aspectRatio: '1920 / 1080',
                   objectFit: 'cover',
                   display: 'block',
                   pointerEvents: 'none'
@@ -1228,6 +1229,7 @@ export const FactoryBlueprintMap = () => {
                 style={{
                   width: '100%',
                   height: '100%',
+                  aspectRatio: '320 / 82',
                   objectFit: 'cover',
                   display: 'block'
                 }}

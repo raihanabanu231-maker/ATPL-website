@@ -827,11 +827,14 @@ export const HardwareView = () => {
                   <img 
                     src={hw.image} 
                     alt={hw.model || hw.name || 'ATPL Industrial Hardware'}
+                    width="400"
+                    height="260"
                     loading="lazy"
                     decoding="async"
                     style={{
                       width: '100%',
                       height: '100%',
+                      aspectRatio: '400 / 260',
                       objectFit: hw.image.startsWith('http') ? 'contain' : 'cover',
                       objectPosition: 'center',
                       padding: hw.image.startsWith('http') ? '1rem' : '0',

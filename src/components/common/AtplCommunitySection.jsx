@@ -333,6 +333,7 @@ export function AtplCommunitySection() {
                       width: '100%',
                       height: 'auto',
                       maxHeight: '440px',
+                      aspectRatio: '800 / 440',
                       objectFit: 'cover',
                       display: 'block'
                     }}
@@ -391,6 +392,7 @@ export function AtplCommunitySection() {
                       width: '100%',
                       height: 'auto',
                       maxHeight: '440px',
+                      aspectRatio: '800 / 440',
                       objectFit: 'cover',
                       display: 'block'
                     }}

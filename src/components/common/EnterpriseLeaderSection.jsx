@@ -157,6 +157,7 @@ export default function EnterpriseLeaderSection({ setCurrentView }) {
                 style={{
                   width: '92px',
                   height: '92px',
+                  aspectRatio: '1 / 1',
                   borderRadius: '50%',
                   objectFit: 'cover',
                   flexShrink: 0,

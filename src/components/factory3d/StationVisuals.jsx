@@ -194,12 +194,15 @@ export const StationVisualPreview = ({ stationId, color = '#00f0ff', height = 15
                 src={imageSrc}
                 srcSet={`${imageSrc} 1x, ${imageSrc} 2x`}
                 sizes="(max-width: 768px) 100vw, 400px"
+                width="400"
+                height="260"
                 loading="lazy"
                 decoding="async"
                 alt={node.name || 'Station Visual'}
                 style={{
                   width: '100%',
                   height: '100%',
+                  aspectRatio: '400 / 260',
                   objectFit: 'cover',
                   display: 'block',
                   transition: 'transform 0.4s ease'
