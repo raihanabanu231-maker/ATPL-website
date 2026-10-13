@@ -79,7 +79,13 @@ export const AtplCoPilot = () => {
   const { setCurrentView, openDemoModal, coPilotOpen, setCoPilotOpen, siteSettings } = useApp();
   const [localIsOpen, setLocalIsOpen] = useState(false);
   const isOpen = coPilotOpen !== undefined ? coPilotOpen : localIsOpen;
-  const setIsOpen = setCoPilotOpen || setLocalIsOpen;
+  const setIsOpen = (val) => {
+    if (typeof setCoPilotOpen === 'function') {
+      setCoPilotOpen(val);
+    }
+    setLocalIsOpen(val);
+  };
+  const [isExpanded, setIsExpanded] = useState(false);
   const [speechBubbleDismissed, setSpeechBubbleDismissed] = useState(() => {
     if (typeof window !== 'undefined') {
       try {
@@ -228,7 +234,7 @@ export const AtplCoPilot = () => {
               ],
               actionBtn: {
                 label: 'Book Live Demo / Consultation',
-                onClick: () => openDemoModal('Grok AI Inquiry')
+                onClick: () => openDemoModal({ mode: 'demo', solution: 'Grok AI Inquiry', notes: 'Lead initiated via live Archie AI conversation.' })
               }
             }
           ]);
@@ -497,7 +503,7 @@ export const AtplCoPilot = () => {
         quickReplies = ['📞 Request Priority Demo', '📍 View ATPL Regional Offices', '💬 Connect on WhatsApp (+91 63808 59963)'];
         actionBtn = {
           label: 'Request Priority Demo',
-          onClick: () => openDemoModal('General Inquiry')
+          onClick: () => openDemoModal({ mode: 'demo', solution: 'General Automation Inquiry', notes: 'Lead initiated via Archie AI robot guide.' })
         };
       }
       // 22. General Greetings & Welcome
@@ -544,28 +550,31 @@ export const AtplCoPilot = () => {
           .copilot-floating-container {
             bottom: max(1.1rem, calc(0.9rem + env(safe-area-inset-bottom))) !important;
             right: 0.75rem !important;
-            z-index: 85 !important;
+            z-index: 100000 !important;
             transition: all 0.25s ease !important;
           }
           .copilot-speech-bubble {
             display: none !important;
           }
           .copilot-launcher-btn {
-            width: 44px !important;
-            height: 44px !important;
+            width: 48px !important;
+            height: 48px !important;
             min-width: 44px !important;
             min-height: 44px !important;
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5), 0 0 12px rgba(0, 240, 255, 0.4) !important;
           }
           .atpl-copilot-window {
+            position: fixed !important;
             bottom: 0 !important;
             right: 0 !important;
             left: 0 !important;
-            top: 0 !important;
+            top: auto !important;
             width: 100vw !important;
-            height: 100vh !important;
-            border-radius: 0 !important;
-            z-index: 99999 !important;
+            height: 88vh !important;
+            max-height: 90vh !important;
+            border-radius: 1.25rem 1.25rem 0 0 !important;
+            z-index: 100002 !important;
+            box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.5) !important;
           }
         }
       `}</style>
@@ -578,7 +587,7 @@ export const AtplCoPilot = () => {
             position: 'fixed',
             bottom: '1.5rem',
             right: '1.5rem',
-            zIndex: 990,
+            zIndex: 100000,
             display: 'flex',
             alignItems: 'center',
             gap: '0.65rem'
@@ -711,7 +720,7 @@ export const AtplCoPilot = () => {
             position: 'fixed',
             bottom: '1.5rem',
             right: '1.5rem',
-            zIndex: 1001,
+            zIndex: 100002,
             width: isExpanded ? 'min(640px, 92vw)' : 'min(390px, 92vw)',
             height: isExpanded ? 'min(720px, 85vh)' : 'min(560px, 80vh)',
             backgroundColor: '#ffffff',
@@ -721,7 +730,7 @@ export const AtplCoPilot = () => {
             flexDirection: 'column',
             overflow: 'hidden',
             transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
-            animation: 'fadeInUp 0.25s ease-out'
+            animation: 'fadeIn 0.2s ease-out'
           }}
         >
           {/* Header */}

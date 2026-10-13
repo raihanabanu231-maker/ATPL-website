@@ -967,6 +967,42 @@ export const Navbar = ({ onOpenSearch }) => {
             </div>
 
 
+            {/* Ask Archie AI Quick Header Button (Desktop Only) */}
+            <button
+              onClick={openCoPilot}
+              className="desktop-only-action"
+              style={{
+                backgroundColor: 'rgba(0, 113, 186, 0.08)',
+                border: '1.5px solid rgba(0, 113, 186, 0.3)',
+                color: '#0071ba',
+                fontWeight: 700,
+                fontSize: '0.86rem',
+                padding: '0.45rem 0.85rem',
+                borderRadius: '6px',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.45rem',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease',
+                fontFamily: 'var(--font-display)'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#0071ba';
+                e.currentTarget.style.color = '#ffffff';
+                e.currentTarget.style.borderColor = '#0071ba';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'rgba(0, 113, 186, 0.08)';
+                e.currentTarget.style.color = '#0071ba';
+                e.currentTarget.style.borderColor = 'rgba(0, 113, 186, 0.3)';
+              }}
+              title="Chat with Archie AI Smart Guide"
+              aria-label="Open Archie AI Assistant"
+            >
+              <AtplRobotAvatar size={20} glow={false} />
+              <span>Archie AI</span>
+            </button>
+
             {/* Talk to an Engineer Primary CTA */}
             <button
               onClick={() => openDemoModal({ mode: 'engineer', solution: 'Engineering Consultation', notes: 'Initiated from Talk to an Engineer header CTA' })}
@@ -1389,7 +1425,9 @@ export const Navbar = ({ onOpenSearch }) => {
                 <button
                   onClick={() => {
                     setMobileMenuOpen(false);
-                    openCoPilot();
+                    setTimeout(() => {
+                      openCoPilot();
+                    }, 50);
                   }}
                   style={{
                     minHeight: '46px',
