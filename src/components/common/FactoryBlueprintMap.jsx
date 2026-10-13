@@ -1216,13 +1216,15 @@ export const FactoryBlueprintMap = () => {
               flexShrink: 0
             }}>
               <img
-                src={currentNode.image}
+                src={currentNode.image ? currentNode.image.replace('.webp', '_thumb.webp') : ''}
                 alt={currentNode.name}
                 width="320"
                 height="82"
                 loading="lazy"
                 onError={(e) => {
-                  if (e.currentTarget.src.endsWith('.webp')) {
+                  if (e.currentTarget.src.includes('_thumb.webp')) {
+                    e.currentTarget.src = e.currentTarget.src.replace('_thumb.webp', '.webp');
+                  } else if (e.currentTarget.src.endsWith('.webp')) {
                     e.currentTarget.src = e.currentTarget.src.replace('.webp', '.jpg');
                   }
                 }}
