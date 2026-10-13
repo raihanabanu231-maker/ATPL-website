@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import blueprintImg from '../../../assets/images/atpl_isometric_factory.webp';
 import { AtplRobotAvatar } from './AtplRobotAvatar';
+import { AtplLogo } from './AtplLogo';
+import confetti from 'canvas-confetti';
 import { 
   ChevronLeft, 
   ChevronRight, 
@@ -576,6 +578,40 @@ export const FactoryBlueprintMap = () => {
               border-color: #00f0ff;
               box-shadow: 0 0 20px #00f0ff;
             }
+            @keyframes coreHubPulse {
+              0%, 100% {
+                box-shadow: 0 0 25px rgba(0, 240, 255, 0.5), 0 0 50px rgba(0, 113, 186, 0.35), inset 0 0 15px rgba(0, 240, 255, 0.2);
+                border-color: rgba(0, 240, 255, 0.85);
+              }
+              50% {
+                box-shadow: 0 0 42px rgba(0, 240, 255, 0.85), 0 0 75px rgba(232, 88, 116, 0.45), inset 0 0 25px rgba(0, 240, 255, 0.45);
+                border-color: #00f0ff;
+              }
+            }
+            .hud-central-logo-hub {
+              position: absolute;
+              left: 49.5%;
+              top: 53.5%;
+              transform: translate(-50%, -50%);
+              z-index: 22;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              cursor: pointer;
+              user-select: none;
+              transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            }
+            .hud-central-logo-hub:hover {
+              transform: translate(-50%, -50%) scale(1.12);
+            }
+            @media (max-width: 768px) {
+              .hud-central-logo-hub {
+                transform: translate(-50%, -50%) scale(0.78) !important;
+              }
+              .hud-central-logo-hub:hover {
+                transform: translate(-50%, -50%) scale(0.86) !important;
+              }
+            }
             @media (max-width: 768px) {
               .hud-station-pin {
                 width: 32px !important;
@@ -758,6 +794,114 @@ export const FactoryBlueprintMap = () => {
                 }}
               />
             </svg>
+
+            {/* =================================================================
+                CENTRAL ATPL SMART FACTORY EMBLEM & CORE NEXUS
+                Positioned in the exact center of the factory circuit motherboard
+               ================================================================= */}
+            <div 
+              className="hud-central-logo-hub"
+              onClick={() => {
+                confetti({
+                  particleCount: 50,
+                  spread: 65,
+                  origin: { x: 0.49, y: 0.54 },
+                  colors: ['#0071ba', '#E85874', '#00f0ff', '#ffffff']
+                });
+              }}
+              title="ATPL Industrial Core Hub • Target Perfection"
+            >
+              {/* Concentric Rotating Outer Holographic Reticle Ring */}
+              <div style={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                width: '88px',
+                height: '88px',
+                marginTop: '-44px',
+                marginLeft: '-44px',
+                borderRadius: '50%',
+                border: '1.2px dashed rgba(0, 240, 255, 0.45)',
+                animation: 'reticleRotate 20s linear infinite',
+                pointerEvents: 'none'
+              }} />
+
+              {/* Pulsing Sonar Wave Aura */}
+              <div style={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                width: '74px',
+                height: '74px',
+                marginTop: '-37px',
+                marginLeft: '-37px',
+                borderRadius: '50%',
+                background: 'radial-gradient(circle, rgba(0, 240, 255, 0.25) 0%, rgba(232, 88, 116, 0.15) 50%, transparent 75%)',
+                animation: 'sonarPulseWave 2.8s infinite ease-out',
+                pointerEvents: 'none'
+              }} />
+
+              {/* Central Glowing Cybernetic Hub Platform */}
+              <div style={{
+                width: '64px',
+                height: '64px',
+                borderRadius: '50%',
+                background: 'radial-gradient(circle at 35% 35%, #0d2240 0%, #030c1a 100%)',
+                border: '2px solid rgba(0, 240, 255, 0.85)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                animation: 'coreHubPulse 3.2s infinite ease-in-out',
+                position: 'relative',
+                boxShadow: '0 8px 24px rgba(0, 0, 0, 0.6), 0 0 25px rgba(0, 240, 255, 0.4)'
+              }}>
+                {/* Crisp White Inner Disc to showcase authentic ATPL Logo */}
+                <div style={{
+                  width: '50px',
+                  height: '50px',
+                  borderRadius: '50%',
+                  backgroundColor: '#ffffff',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  boxShadow: '0 2px 10px rgba(0, 0, 0, 0.4), inset 0 0 6px rgba(0, 113, 186, 0.15)'
+                }}>
+                  <AtplLogo size={38} showText={false} />
+                </div>
+              </div>
+
+              {/* High-Tech ATPL Brand Core Pill Label */}
+              <div style={{
+                marginTop: '4px',
+                backgroundColor: 'rgba(2, 9, 21, 0.94)',
+                backdropFilter: 'blur(8px)',
+                border: '1px solid rgba(0, 240, 255, 0.65)',
+                borderRadius: '999px',
+                padding: '0.12rem 0.5rem',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.3rem',
+                boxShadow: '0 4px 16px rgba(0, 0, 0, 0.75), 0 0 10px rgba(0, 240, 255, 0.35)',
+                whiteSpace: 'nowrap'
+              }}>
+                <span style={{
+                  width: '5px',
+                  height: '5px',
+                  borderRadius: '50%',
+                  backgroundColor: '#10b981',
+                  boxShadow: '0 0 6px #10b981'
+                }} />
+                <span style={{
+                  fontFamily: 'var(--font-display, sans-serif)',
+                  fontWeight: 900,
+                  fontSize: '0.64rem',
+                  color: '#ffffff',
+                  letterSpacing: '0.06em'
+                }}>
+                  ATPL <span style={{ color: '#00f0ff' }}>CORE</span>
+                </span>
+              </div>
+            </div>
 
             {/* =================================================================
                 ANIMATED TRAVELING ARCHIE ROBOT AVATAR (Smooth Gliding & Hovering)
