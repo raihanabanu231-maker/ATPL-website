@@ -14,8 +14,8 @@ export function DynamicMovingBackground({ currentView }) {
     let height = (canvas.height = window.innerHeight);
 
     const isDark = currentView !== 'home';
-    const particleCount = width < 768 ? 35 : 70;
-    const maxDistance = width < 768 ? 110 : 150;
+    const particleCount = width < 768 ? 18 : 45;
+    const maxDistance = width < 768 ? 85 : 125;
 
     // Particle nodes definition
     const particles = [];
@@ -187,12 +187,27 @@ export function DynamicMovingBackground({ currentView }) {
       animationFrameId = requestAnimationFrame(render);
     };
 
-    render();
+    let idleId;
+    let timerId;
+
+    const startAnimation = () => {
+      render();
+    };
+
+    if ('requestIdleCallback' in window) {
+      idleId = requestIdleCallback(() => {
+        timerId = setTimeout(startAnimation, 1200);
+      });
+    } else {
+      timerId = setTimeout(startAnimation, 1200);
+    }
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseleave', handleMouseLeave);
       window.removeEventListener('resize', handleResize);
+      if (idleId && 'cancelIdleCallback' in window) cancelIdleCallback(idleId);
+      if (timerId) clearTimeout(timerId);
       cancelAnimationFrame(animationFrameId);
     };
   }, [currentView]);
