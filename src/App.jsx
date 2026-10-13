@@ -8,6 +8,7 @@ import { SearchModal } from './components/common/SearchModal';
 import { AtplCoPilot } from './components/common/AtplCoPilot';
 import { ErrorBoundary } from './components/common/ErrorBoundary';
 import { HomeView } from './components/pages/HomeView';
+import { DynamicMovingBackground } from './components/common/DynamicMovingBackground';
 
 // Code-split heavy non-home views and admin portal for sub-second LCP & TBT
 const SoftwareView = lazy(() => import('./components/pages/SoftwareView').then(m => ({ default: m.SoftwareView })));
@@ -146,13 +147,8 @@ const MainAppContent = () => {
         position: 'relative'
       }}>
         
-        {/* Ambient background glow effects for dark pages */}
-        {currentView !== 'home' && (
-          <>
-            <div className="ambient-glow-1"></div>
-            <div className="ambient-glow-2"></div>
-          </>
-        )}
+        {/* Dynamic moving background with interactive sensor nodes & aurora orbs for all pages */}
+        <DynamicMovingBackground currentView={currentView} />
 
         {/* Hide React top navbar when full-screen 3D factory tour is active (it has its own integrated header) */}
         {currentView !== 'factory-3d' && (

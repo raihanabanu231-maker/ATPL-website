@@ -41,7 +41,7 @@ export const HardwareView = () => {
       categoryName: 'Scanning Solutions',
       name: 'Wired Barcode Scanner 1D / 2D',
       model: 'Honeywell Xenon XP 1950g',
-      image: 'https://atplgroup.com/wp-content/uploads/2024/02/sps-ppr-xenon-xp-1950g-barcode-scanner-2-1024x1024.jpg',
+      image: '/assets/images/hw_handheld_scanner.jpg',
       badge: 'High-Accuracy 1D/2D',
       color: '#0071ba',
       desc: 'Superior wired scanning for retail, dispatch, and workstation environments. Captures even difficult-to-read, smudged, or damaged barcodes in milliseconds.',
@@ -58,7 +58,7 @@ export const HardwareView = () => {
       categoryName: 'Scanning Solutions',
       name: 'Wireless Cordless Scanner 1D / 2D',
       model: 'Honeywell Xenon XP 1952g',
-      image: 'https://atplgroup.com/wp-content/uploads/2024/02/Honeywell_Xenon_XP_1952g_black_3-4-pres-black-1952g-Presentation-CCB-1024x1024.jpg',
+      image: '/assets/images/hw_handheld_scanner.jpg',
       badge: 'Cordless Mobility',
       color: '#E85874',
       desc: 'Freedom of movement around POS terminals, conveyor lines, warehouse dispatch bays, and manufacturing assembly cells with ultra-long battery life.',
@@ -75,7 +75,7 @@ export const HardwareView = () => {
       categoryName: 'Scanning Solutions',
       name: 'Industrial High Performance Scanner',
       model: 'Granit XP 1991i Ultra-Rugged',
-      image: 'https://atplgroup.com/wp-content/uploads/2024/02/Granit-XP-1991i-cordless-base-topleftangle-1.jpg',
+      image: '/assets/images/hw_handheld_scanner.jpg',
       badge: '3.0m Drop Spec (IP67)',
       color: '#00a651',
       desc: 'Rock-solid durability engineered to withstand harsh punishment from loading docks, fork trucks, freezing environments, and outdoor chemical exposure.',
@@ -92,7 +92,7 @@ export const HardwareView = () => {
       categoryName: 'Scanning Solutions',
       name: 'Handsfree Presentation Scanner',
       model: 'Honeywell HF680 2D Imager',
-      image: 'https://atplgroup.com/wp-content/uploads/2024/02/honeywell-hf-680-2d-barcode-scanner-373476660-wyi3f.jpg',
+      image: '/assets/images/hw_handheld_scanner.jpg',
       badge: 'Handsfree POS & QC',
       color: '#0071ba',
       desc: 'Point-of-sale hands-free presentation scanner delivering rapid throughput for retail checkouts, supermarket counters, and inspection stations.',
@@ -109,7 +109,7 @@ export const HardwareView = () => {
       categoryName: 'Scanning Solutions',
       name: 'Wearable Hands-Free Ring Scanner',
       model: 'Honeywell 8680i Smart Wearable',
-      image: 'https://atplgroup.com/wp-content/uploads/2024/02/Honeywell-8680i-honeywell.jpg',
+      image: '/assets/images/hw_handheld_scanner.jpg',
       badge: 'Ergonomic Wearable',
       color: '#E85874',
       desc: 'Compact, high-performance wearable scanner that eliminates wasted motion of picking up and putting down handheld devices, boosting pick speed by 30%.',
@@ -126,7 +126,7 @@ export const HardwareView = () => {
       categoryName: 'Scanning Solutions',
       name: 'Direct Part Mark (DPM) Scanner',
       model: 'Honeywell 1920i Industrial DPM',
-      image: 'https://atplgroup.com/wp-content/uploads/2024/02/1920i_1-600x600-1.jpg',
+      image: '/assets/images/hw_laser_marking.jpg',
       badge: 'DPM & Dot-Peen',
       color: '#f59e0b',
       desc: 'Decodes Direct Part Marks (DPM) on curved metal, cast iron, engine blocks, aerospace components, and pharmaceutical medical implants.',
@@ -143,7 +143,7 @@ export const HardwareView = () => {
       categoryName: 'Scanning Solutions',
       name: 'Vision & Fixed Conveyor Scanner',
       model: 'Fixed Mount Conveyor Scanner',
-      image: 'https://atplgroup.com/wp-content/uploads/2024/02/fixedcoveyor.jpg',
+      image: '/assets/images/hw_fixed_conveyor.jpg',
       badge: 'High-Speed Conveyor',
       color: '#00a651',
       desc: 'Lightweight, durable fixed-mount scanning unit designed for automated carton sortation, packaging conveyor lines, and smart kiosk integration.',
@@ -162,7 +162,7 @@ export const HardwareView = () => {
       categoryName: 'Printing Solutions',
       name: 'Desktop Barcode & Label Printer',
       model: 'TSC TX200 Series',
-      image: 'https://atplgroup.com/wp-content/uploads/2024/02/tsc-tx200-barcode-printer.png',
+      image: '/assets/images/hw_desktop_printer.jpg',
       badge: 'Precision Desktop',
       color: '#0071ba',
       desc: 'High-performance desktop thermal transfer printer engineered for shipping labels, product identification, compliance barcodes, and asset tags.',
@@ -179,7 +179,7 @@ export const HardwareView = () => {
       categoryName: 'Printing Solutions',
       name: 'Rugged Mobile Label Printer',
       model: 'Honeywell RP4 / RP2 Series',
-      image: 'https://atplgroup.com/wp-content/uploads/2024/02/sps-ppr-RP4_Fiji-2.png',
+      image: '/assets/images/hw_mobile_printer.jpg',
       badge: 'Portable On-Demand',
       color: '#E85874',
       desc: 'Ultra-rugged mobile receipt and label printer designed for route delivery, warehouse cross-docking, and roadside enforcement labeling.',
@@ -196,7 +196,7 @@ export const HardwareView = () => {
       categoryName: 'Printing Solutions',
       name: 'Industrial Mid-Range Printer',
       model: 'Honeywell PD4500B Industrial',
-      image: 'https://atplgroup.com/wp-content/uploads/2024/02/sps-ppr-03-PD4500B-scaled.jpg',
+      image: '/assets/images/hw_desktop_printer.jpg',
       badge: 'All-Metal 24/7 Chassis',
       color: '#00a651',
       desc: 'Ergonomic all-metal chassis engineered for manufacturing, logistics, and healthcare label printing with anti-wrinkle ribbon sensors.',
@@ -213,7 +213,7 @@ export const HardwareView = () => {
       categoryName: 'Printing Solutions',
       name: 'Industrial High-Speed RFID Printer',
       model: 'Printronix T6000e Enterprise RFID',
-      image: 'https://atplgroup.com/wp-content/uploads/2024/02/T6000e-4_-Left-Label.jpg',
+      image: '/assets/images/hw_desktop_printer.jpg',
       badge: 'UHF RFID & ODV Verifier',
       color: '#f59e0b',
       desc: 'Enterprise RFID encoding printer capable of high-speed UHF tag encoding for standard paper carton labels and thick on-metal asset tracking tags.',
@@ -230,7 +230,7 @@ export const HardwareView = () => {
       categoryName: 'Printing Solutions',
       name: 'High-Performance Data Visualization Printer',
       model: 'Honeywell PM45 / PM45C Industrial',
-      image: 'https://atplgroup.com/wp-content/uploads/2024/02/sps-ppr-PSS_PM45C_Industrial-Printer_Main_screen_highres-scaled.jpg',
+      image: '/assets/images/hw_desktop_printer.jpg',
       badge: 'Precision Calibration',
       color: '#0071ba',
       desc: 'Precision industrial printer built with smart diagnostics, predictive maintenance telemetry, and zero-defect barcode label generation.',
@@ -247,7 +247,7 @@ export const HardwareView = () => {
       categoryName: 'Printing Solutions',
       name: 'Secure ID Card Personalization Printer',
       model: 'Fargo HDP6600xe High Definition',
-      image: 'https://atplgroup.com/wp-content/uploads/2024/02/fargo-hdp6600xe-id-card-printer-base.jpg',
+      image: '/assets/images/hw_desktop_printer.jpg',
       badge: 'Re-Transfer High-Res',
       color: '#8b5cf6',
       desc: 'High-definition re-transfer card printer producing crisp, edge-to-edge employee badges, access control RFID smart cards, and visitor passes.',
@@ -266,7 +266,7 @@ export const HardwareView = () => {
       categoryName: 'Mobility Edge & Tablets',
       name: 'Rugged Field Mobility Computer',
       model: 'Honeywell CT45 / CT45 XP',
-      image: 'https://atplgroup.com/wp-content/uploads/2024/02/sps-ppr-CT-45_Upright-Angle-Left_w-Screen2_7987_highres-1-scaled.jpg',
+      image: '/assets/images/hw_rugged_handheld.jpg',
       badge: 'Mobility Edge Platform',
       color: '#0071ba',
       desc: 'Built on the unified Mobility Edge platform with FlexRange scan engine, providing extreme reliability for field logistics and frontline shopfloor teams.',
@@ -283,7 +283,7 @@ export const HardwareView = () => {
       categoryName: 'Mobility Edge & Tablets',
       name: 'Enterprise Keypad Mobile Computer',
       model: 'Honeywell EDA61K Handheld',
-      image: 'https://atplgroup.com/wp-content/uploads/2024/02/sps-ppr-EDA61K-1-scaled.jpg',
+      image: '/assets/images/hw_rugged_handheld.jpg',
       badge: 'Physical Keypad & Touch',
       color: '#E85874',
       desc: 'Ergonomically balanced mobile computer with physical numeric/alphanumeric keypad, ideal for fast warehouse inventory data entry with gloved hands.',
@@ -300,7 +300,7 @@ export const HardwareView = () => {
       categoryName: 'Mobility Edge & Tablets',
       name: 'Ultra-Rugged Warehouse Handheld',
       model: 'Honeywell CK65 Mobile Computer',
-      image: 'https://atplgroup.com/wp-content/uploads/2024/02/sps-ppr-ck65-mobile-computers-38-scaled.jpg',
+      image: '/assets/images/hw_rugged_handheld.jpg',
       badge: '3.0m Drop / IP68 Rated',
       color: '#00a651',
       desc: 'The industry-standard ultra-rugged computer designed for the most demanding warehouse distribution centers and automated factory operations.',
@@ -317,7 +317,7 @@ export const HardwareView = () => {
       categoryName: 'Mobility Edge & Tablets',
       name: 'Cold Storage Freezer Handheld',
       model: 'Honeywell CK65 Cold Storage',
-      image: 'https://atplgroup.com/wp-content/uploads/2024/02/sps-ppr-CK65-Cold-Storage-Numeric-scaled.jpg',
+      image: '/assets/images/hw_rugged_handheld.jpg',
       badge: '-30°C Cold Chain',
       color: '#00f0ff',
       desc: 'Equipped with internal heating elements and specialized low-temperature battery chemistry for seamless transitions between freezers and ambient docks.',
@@ -334,7 +334,7 @@ export const HardwareView = () => {
       categoryName: 'Mobility Edge & Tablets',
       name: 'Industrial Rugged Vehicle Tablet',
       model: 'Honeywell RT10A / RT10W Rugged Tablet',
-      image: 'https://atplgroup.com/wp-content/uploads/2024/02/sps-ppr-RT10A_Castellini_2021_1MAN0719-1024x683.jpg',
+      image: '/assets/images/hw_rugged_handheld.jpg',
       badge: '10.1" Rugged Screen',
       color: '#f59e0b',
       desc: 'Rugged 10.1-inch tablet for forklift vehicle mounting, supervisor plant audits, and mobile field engineering with near/far barcode scanning.',
@@ -353,7 +353,7 @@ export const HardwareView = () => {
       categoryName: 'RFID Systems & Gates',
       name: 'Mobile UHF RFID Sled Reader',
       model: 'Honeywell IH45 / IH40 RFID Gun',
-      image: 'https://atplgroup.com/wp-content/uploads/2024/02/sps-ppr-IH45_CT30P-IH40-BRS_Angle.860.png',
+      image: '/assets/images/hw_rugged_handheld.jpg',
       badge: '1,000+ Tags/Sec Sled',
       color: '#E85874',
       desc: 'Ergonomic RFID pistol sled pairing seamlessly with mobile computers, reading up to 1,000 RFID tags per second for fast inventory cycle counts.',
@@ -370,7 +370,7 @@ export const HardwareView = () => {
       categoryName: 'RFID Systems & Gates',
       name: 'Heavy-Duty RFID Forklift & Portal Antenna',
       model: 'AN4x Ultra-Rugged UHF Antenna Array',
-      image: 'https://atplgroup.com/wp-content/uploads/2024/02/an4x-front-facing-3x2-3600-scaled.jpg',
+      image: '/assets/images/hw_rfid_portal.jpg',
       badge: 'IP67 Portal Array',
       color: '#0071ba',
       desc: 'High-gain circular polarized antenna engineered specifically for high-vibration forklift mounting and warehouse dock door portal enclosures.',
@@ -387,7 +387,7 @@ export const HardwareView = () => {
       categoryName: 'RFID Systems & Gates',
       name: 'Fixed Multi-Port UHF RFID Reader',
       model: 'Honeywell IF2 Enterprise RFID Controller',
-      image: 'https://atplgroup.com/wp-content/uploads/2024/02/sps-ppr-if2-rfid-2-scaled.jpg',
+      image: '/assets/images/hw_rfid_portal.jpg',
       badge: 'Fixed Gate Controller',
       color: '#00a651',
       desc: 'Compact, cost-effective network-ready fixed RFID reader for dock doors, conveyor choke points, assembly work cells, and automated tool cribs.',
@@ -404,7 +404,7 @@ export const HardwareView = () => {
       categoryName: 'RFID Systems & Gates',
       name: 'Industrial On-Metal & High-Temp RFID Tags',
       model: 'Max Rigid Engineered Tags',
-      image: 'https://atplgroup.com/wp-content/uploads/2024/02/Max_Rigid_Thumbnail_V2___03247.jpg',
+      image: '/assets/images/hw_rfid_portal.jpg',
       badge: 'On-Metal & 250°C Rated',
       color: '#f59e0b',
       desc: 'Rugged encapsulated RFID tags engineered to withstand direct metal mounting, automotive paint shop ovens, acid washdown, and harsh outdoor storage.',
@@ -423,7 +423,7 @@ export const HardwareView = () => {
       categoryName: 'Direct Part Marking & Laser',
       name: 'Industrial Fiber Laser Marking Machine',
       model: 'Forbes Macsa BMFD Fiber Laser',
-      image: 'https://atplgroup.com/wp-content/uploads/2024/02/forbes_macsa_packaginglasers_bmfd_packaging.jpg',
+      image: '/assets/images/hw_laser_marking.jpg',
       badge: 'Zero-Consumable Laser',
       color: '#0071ba',
       desc: 'Chiller-free high-speed fiber laser marking system for permanent engraving, annealing, and high-contrast DataMatrix etching on metals and engineered plastics.',
@@ -440,7 +440,7 @@ export const HardwareView = () => {
       categoryName: 'Direct Part Marking & Laser',
       name: 'Industrial CO2 Packaging Laser Coder',
       model: 'Forbes Macsa iCON-30 CO2 Laser',
-      image: 'https://atplgroup.com/wp-content/uploads/2024/02/Icon-10_Icon-30-1.jpg',
+      image: '/assets/images/hw_laser_marking.jpg',
       badge: 'Fly-Marking for Packaging',
       color: '#E85874',
       desc: 'Designed for high-duty cycle Fly-Marking-Applications (FMA) on high-speed bottling, pharmaceutical cartons, PVC pipes, and food packaging lines.',
@@ -457,7 +457,7 @@ export const HardwareView = () => {
       categoryName: 'Direct Part Marking & Laser',
       name: 'Hyperfine UV Laser Marking Machine',
       model: 'Industrial UV Laser Cold Marker',
-      image: 'https://atplgroup.com/wp-content/uploads/2024/02/UV-LASER-600x500.jpg',
+      image: '/assets/images/hw_vision_camera.jpg',
       badge: 'Hyperfine Cold Marking',
       color: '#00a651',
       desc: 'Ultra-small focal spot with minimal thermal heat-affected zone, delivering damage-free cold marking on sensitive electronics, silicone, and thin medical plastics.',
@@ -474,7 +474,7 @@ export const HardwareView = () => {
       categoryName: 'Direct Part Marking & Laser',
       name: 'Pneumatic Dot Peen Pin Marker',
       model: 'Telesis TMP1000 Pinstamp Marker',
-      image: 'https://atplgroup.com/wp-content/uploads/2024/02/TMP1000_600-x-600-600x500.jpg',
+      image: '/assets/images/hw_laser_marking.jpg',
       badge: 'Pneumatic Heavy Impact',
       color: '#f59e0b',
       desc: 'Indents deep, permanent characters and 2D DataMatrix dots into steel, cast alloys, and aluminum automotive chassis that remain legible even after painting.',
@@ -493,7 +493,7 @@ export const HardwareView = () => {
       categoryName: 'Voice, Touch & Automation',
       name: 'Industrial Voice Directed Picking Headset',
       model: 'Honeywell SRX3 Wireless Headset',
-      image: 'https://atplgroup.com/wp-content/uploads/2024/02/sps-ppr-SRX3-Headset-noHeadband-1536x1356.jpg',
+      image: '/assets/images/hw_voice_headset.jpg',
       badge: 'Hands-Free Voice DC',
       color: '#0071ba',
       desc: 'Hands-free, eyes-free voice recognition headset directing warehouse picking and sorting in high-noise distribution centers with multi-lingual AI.',
@@ -510,7 +510,7 @@ export const HardwareView = () => {
       categoryName: 'Voice, Touch & Automation',
       name: 'Smart Interactive Self-Service Kiosk',
       model: 'Agilysys Enterprise Kiosk Terminal',
-      image: 'https://atplgroup.com/wp-content/uploads/2024/02/agilysys-kiosk-800x600.jpg',
+      image: '/assets/images/hw_fixed_conveyor.jpg',
       badge: 'Touch Kiosk & Scanner',
       color: '#E85874',
       desc: 'Heavy-duty self-service kiosk with integrated PCAP touch monitor, barcode scanner, RFID card reader, and thermal receipt printer for check-in and dispatch.',
@@ -527,7 +527,7 @@ export const HardwareView = () => {
       categoryName: 'Voice, Touch & Automation',
       name: 'Shopfloor PLC Automation & In-Line Reject Gates',
       model: 'ATPL Industrial PLC Control Unit',
-      image: 'https://atplgroup.com/wp-content/uploads/2024/02/PLC-AUTOMATION.jpg',
+      image: '/assets/images/hw_fixed_conveyor.jpg',
       badge: 'PLC / HMI Integration',
       color: '#00a651',
       desc: 'Automates industrial shopfloor processes, synchronizing barcode scanners, RFID readers, vision inspection cameras, and pneumatic reject diverters.',
@@ -543,6 +543,25 @@ export const HardwareView = () => {
   const filteredHardware = activeCategory === 'all'
     ? hardwareProducts
     : hardwareProducts.filter(h => h.category === activeCategory);
+
+  const renderHardwareIcon = (category, size = 48, color = '#0071ba') => {
+    switch (category) {
+      case 'scanners':
+        return <Barcode size={size} color={color} strokeWidth={2} />;
+      case 'printers':
+        return <Printer size={size} color={color} strokeWidth={2} />;
+      case 'mobility':
+        return <Smartphone size={size} color={color} strokeWidth={2} />;
+      case 'rfid':
+        return <Radio size={size} color={color} strokeWidth={2} />;
+      case 'marking':
+        return <Target size={size} color={color} strokeWidth={2} />;
+      case 'automation':
+        return <Cpu size={size} color={color} strokeWidth={2} />;
+      default:
+        return <Barcode size={size} color={color} strokeWidth={2} />;
+    }
+  };
 
   return (
     <div className="section" style={{ paddingTop: '4rem', paddingBottom: '5rem', backgroundColor: '#060b14' }}>
@@ -649,29 +668,27 @@ export const HardwareView = () => {
               <div>
                 {/* Product Image Frame */}
                 <div style={{
-                  height: '230px',
+                  height: '240px',
                   width: '100%',
                   backgroundColor: '#0a1628',
-                  backgroundImage: 'radial-gradient(circle at 50% 50%, rgba(0, 113, 186, 0.25) 0%, rgba(6, 13, 27, 0.95) 100%)',
                   position: 'relative',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  padding: '1.25rem',
                   overflow: 'hidden'
                 }}>
+                  {/* Real Product Image */}
                   <img 
                     src={hw.image} 
-                    srcSet={`${hw.image} 1x, ${hw.image} 2x`}
-                    sizes="(max-width: 768px) 100vw, 360px"
+                    alt={hw.name || 'ATPL Industrial Hardware'}
                     loading="lazy"
                     decoding="async"
-                    alt={hw.name || 'ATPL Industrial Automation Hardware'}
                     style={{
-                      maxHeight: '100%',
-                      maxWidth: '100%',
-                      objectFit: 'contain',
-                      transition: 'transform 0.3s ease',
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      objectPosition: 'center',
+                      transition: 'transform 0.4s ease',
                       position: 'relative',
                       zIndex: 2
                     }}
@@ -679,49 +696,95 @@ export const HardwareView = () => {
                       e.currentTarget.style.display = 'none';
                     }}
                   />
-                  {/* Fallback Icon / Visual */}
+
+                  {/* Gradient vignette on image to blend into card */}
                   <div style={{
                     position: 'absolute',
+                    inset: 0,
+                    background: 'linear-gradient(to top, rgba(11, 21, 40, 0.95) 0%, rgba(11, 21, 40, 0.25) 45%, rgba(11, 21, 40, 0) 100%)',
+                    zIndex: 2,
+                    pointerEvents: 'none'
+                  }} />
+
+                  {/* High-Tech Fallback Visual (Big, Relevant, Fills Space) */}
+                  <div style={{
+                    position: 'absolute',
+                    inset: 0,
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    gap: '0.5rem',
+                    gap: '0.85rem',
                     zIndex: 1,
                     textAlign: 'center',
-                    padding: '1rem'
+                    padding: '1.5rem',
+                    backgroundColor: '#0a1628',
+                    backgroundImage: 'radial-gradient(circle at 50% 50%, rgba(0, 113, 186, 0.25) 0%, rgba(6, 13, 27, 0.98) 100%)'
                   }}>
                     <div style={{
-                      width: '56px',
-                      height: '56px',
-                      borderRadius: '12px',
-                      background: `rgba(${hw.color === '#0071ba' ? '0, 113, 186' : hw.color === '#E85874' ? '232, 88, 116' : '0, 166, 81'}, 0.2)`,
-                      border: `1.5px solid ${hw.color}`,
+                      width: '88px',
+                      height: '88px',
+                      borderRadius: '20px',
+                      background: `rgba(${hw.color === '#0071ba' ? '0, 113, 186' : hw.color === '#E85874' ? '232, 88, 116' : '0, 166, 81'}, 0.18)`,
+                      border: `2px solid ${hw.color}`,
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      fontSize: '1.8rem',
-                      boxShadow: `0 0 20px ${hw.color}40`
+                      boxShadow: `0 0 32px ${hw.color}45`
                     }}>
-                      {hw.category === 'scanners' ? '⚡' : hw.category === 'printers' ? '🖨️' : hw.category === 'rfid' ? '📡' : hw.category === 'mobile' ? '📱' : hw.category === 'vision' ? '👁️' : '🏷️'}
+                      {renderHardwareIcon(hw.category, 46, hw.color)}
                     </div>
-                    <span style={{ fontSize: '0.8rem', color: '#94a3b8', fontWeight: 600 }}>{hw.model}</span>
+                    <div>
+                      <div style={{ fontSize: '0.95rem', color: '#ffffff', fontWeight: 700, marginBottom: '0.2rem' }}>
+                        {hw.model}
+                      </div>
+                      <div style={{ fontSize: '0.8rem', color: '#94a3b8', fontWeight: 600 }}>
+                        {hw.categoryName}
+                      </div>
+                    </div>
                   </div>
+
+                  {/* Top Right Spec Badge */}
                   <div style={{
                     position: 'absolute',
                     top: '12px',
                     right: '12px',
-                    backgroundColor: 'rgba(15, 23, 42, 0.85)',
-                    backdropFilter: 'blur(6px)',
+                    backgroundColor: 'rgba(15, 23, 42, 0.88)',
+                    backdropFilter: 'blur(8px)',
                     color: '#ffffff',
                     border: `1px solid ${hw.color}`,
                     borderRadius: '6px',
-                    padding: '0.25rem 0.65rem',
+                    padding: '0.3rem 0.75rem',
                     fontSize: '0.75rem',
                     fontWeight: 700,
-                    zIndex: 3
+                    zIndex: 3,
+                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)'
                   }}>
                     {hw.badge}
+                  </div>
+
+                  {/* Category Indicator Tag at bottom left of image */}
+                  <div style={{
+                    position: 'absolute',
+                    bottom: '12px',
+                    left: '12px',
+                    backgroundColor: 'rgba(11, 21, 40, 0.85)',
+                    backdropFilter: 'blur(6px)',
+                    color: hw.color,
+                    border: '1px solid rgba(255, 255, 255, 0.15)',
+                    borderRadius: '6px',
+                    padding: '0.25rem 0.65rem',
+                    fontSize: '0.72rem',
+                    fontWeight: 700,
+                    letterSpacing: '0.04em',
+                    textTransform: 'uppercase',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.4rem',
+                    zIndex: 3
+                  }}>
+                    {renderHardwareIcon(hw.category, 13, hw.color)}
+                    <span>{hw.categoryName}</span>
                   </div>
                 </div>
 
