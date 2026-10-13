@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import { 
   Users, 
-  Search, 
   Sparkles, 
   ArrowRight, 
   CheckCircle2, 
@@ -72,34 +71,6 @@ function LaurelWreath({ children, number, label }) {
 export function AtplCommunitySection() {
   const { openDemoModal, setCurrentView } = useApp();
   const [activePhotoTab, setActivePhotoTab] = useState('team'); // 'team' | 'founder'
-  const [searchQuery, setSearchQuery] = useState('');
-
-  const searchChips = [
-    { label: 'Perfect Store WMS', view: 'software' },
-    { label: 'Honeywell Scanners', view: 'hardware' },
-    { label: 'Zebra RFID Portals', view: 'hardware' },
-    { label: 'AI Vision QC', view: 'software' },
-    { label: 'DGFT Serialization', view: 'software' },
-    { label: 'Certified OEM Partners', view: 'partners' }
-  ];
-
-  const handleSearchSubmit = (e) => {
-    e.preventDefault();
-    if (!searchQuery.trim()) return;
-    const q = searchQuery.toLowerCase();
-    if (q.includes('scan') || q.includes('print') || q.includes('rfid') || q.includes('hard')) {
-      setCurrentView('hardware');
-    } else if (q.includes('wms') || q.includes('soft') || q.includes('trace') || q.includes('vision') || q.includes('audit')) {
-      setCurrentView('software');
-    } else if (q.includes('partner') || q.includes('oem') || q.includes('zebra') || q.includes('honeywell')) {
-      setCurrentView('partners');
-    } else if (q.includes('about') || q.includes('team') || q.includes('founder') || q.includes('branch')) {
-      setCurrentView('about');
-    } else {
-      openDemoModal({ mode: 'search', solution: `Inquiry: ${searchQuery}` });
-    }
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
 
   return (
     <section 
@@ -111,7 +82,7 @@ export function AtplCommunitySection() {
           radial-gradient(circle at 90% 80%, rgba(0, 113, 186, 0.08) 0%, transparent 45%),
           linear-gradient(135deg, #e5f4fd 0%, #edf7fd 50%, #f0f9ff 100%)
         `,
-        padding: '5.5rem 0 4rem 0',
+        padding: '5rem 0',
         overflow: 'hidden',
         borderTop: '1px solid #dbeafe',
         borderBottom: '1px solid #dbeafe'
@@ -519,135 +490,6 @@ export function AtplCommunitySection() {
               </div>
             </div>
 
-          </div>
-        </div>
-
-        {/* =========================================================================
-            BOTTOM FLOATING SEARCH / NAVIGATOR BAR (Exact Zoho Community Bottom Bar)
-           ========================================================================= */}
-        <div 
-          style={{
-            maxWidth: '1020px',
-            margin: '0 auto',
-            position: 'relative',
-            zIndex: 2
-          }}
-        >
-          <form 
-            onSubmit={handleSearchSubmit}
-            className="atpl-search-form"
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              backgroundColor: '#ffffff',
-              borderRadius: '999px',
-              padding: '0.5rem 0.75rem 0.5rem 1.5rem',
-              boxShadow: '0 12px 35px rgba(0, 113, 186, 0.14), 0 2px 8px rgba(0, 0, 0, 0.05)',
-              border: '1.5px solid #dbeafe',
-              transition: 'all 0.2s ease'
-            }}
-          >
-            <Search size={22} color="#0071ba" style={{ marginRight: '0.85rem', flexShrink: 0 }} />
-            
-            <input 
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search solutions, AIDC hardware, WMS modules, or client case studies..."
-              className="atpl-search-input"
-              style={{
-                flex: 1,
-                border: 'none',
-                outline: 'none',
-                fontSize: 'clamp(0.95rem, 1.4vw, 1.05rem)',
-                color: '#0f172a',
-                backgroundColor: 'transparent',
-                fontWeight: 500
-              }}
-            />
-
-            <button
-              type="submit"
-              className="atpl-search-btn"
-              style={{
-                backgroundColor: '#0071ba',
-                color: '#ffffff',
-                border: 'none',
-                borderRadius: '999px',
-                padding: '0.75rem 1.6rem',
-                fontSize: '0.92rem',
-                fontWeight: 700,
-                cursor: 'pointer',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.45rem',
-                boxShadow: '0 4px 14px rgba(0, 113, 186, 0.3)',
-                transition: 'all 0.2s ease',
-                flexShrink: 0
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#005288';
-                e.currentTarget.style.transform = 'scale(1.02)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = '#0071ba';
-                e.currentTarget.style.transform = 'scale(1)';
-              }}
-            >
-              <span>Search</span>
-              <ArrowRight size={15} />
-            </button>
-          </form>
-
-          {/* Quick-Click Suggestion Chips */}
-          <div 
-            style={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              gap: '0.55rem',
-              justifyContent: 'center',
-              marginTop: '1.15rem'
-            }}
-          >
-            <span style={{ fontSize: '0.82rem', color: '#64748b', fontWeight: 600, alignSelf: 'center', marginRight: '0.25rem' }}>
-              Popular searches:
-            </span>
-            {searchChips.map((chip, idx) => (
-              <button
-                key={idx}
-                type="button"
-                onClick={() => {
-                  setCurrentView(chip.view);
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }}
-                style={{
-                  backgroundColor: 'rgba(255, 255, 255, 0.75)',
-                  border: '1px solid #cbd5e1',
-                  borderRadius: '999px',
-                  padding: '0.28rem 0.8rem',
-                  fontSize: '0.78rem',
-                  fontWeight: 600,
-                  color: '#334155',
-                  cursor: 'pointer',
-                  transition: 'all 0.15s ease',
-                  backdropFilter: 'blur(6px)'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = '#ffffff';
-                  e.currentTarget.style.borderColor = '#0071ba';
-                  e.currentTarget.style.color = '#0071ba';
-                  e.currentTarget.style.transform = 'translateY(-1px)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.75)';
-                  e.currentTarget.style.borderColor = '#cbd5e1';
-                  e.currentTarget.style.color = '#334155';
-                  e.currentTarget.style.transform = 'translateY(0)';
-                }}
-              >
-                {chip.label}
-              </button>
-            ))}
           </div>
         </div>
 
