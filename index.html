@@ -355,6 +355,25 @@
         </nav>
       </header>
 
+      <!-- LCP Primary Hero Visual (Paints immediately upon preload arrival at FCP to ensure <200ms LCP delay) -->
+      <section style="background-color: #040914; max-width: 1400px; margin: 0 auto; text-align: center; overflow: hidden; position: relative;">
+        <picture style="width: 100%; height: auto; display: block;">
+          <source media="(max-width: 768px)" type="image/avif" srcset="/assets/images/atpl_isometric_factory_mobile.avif" />
+          <source media="(max-width: 768px)" type="image/webp" srcset="/assets/images/atpl_isometric_factory_mobile.webp" />
+          <source type="image/avif" srcset="/assets/images/atpl_isometric_factory.avif" />
+          <source type="image/webp" srcset="/assets/images/atpl_isometric_factory.webp" />
+          <img 
+            src="/assets/images/atpl_isometric_factory.webp" 
+            alt="ATPL Smart Factory Floor Digital Twin" 
+            width="1376" 
+            height="768" 
+            fetchpriority="high"
+            loading="eager"
+            style="width: 100%; height: auto; aspect-ratio: 1376 / 768; object-fit: cover; display: block; margin: 0 auto;"
+          />
+        </picture>
+      </section>
+
       <main style="max-width: 1100px; margin: 0 auto; padding: 2.5rem 1rem;">
         <article>
           <header style="margin-bottom: 2.5rem; text-align: center;">
