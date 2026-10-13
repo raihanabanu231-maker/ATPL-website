@@ -372,8 +372,8 @@ export const FactoryBlueprintMap = () => {
                 justify-content: space-between;
               }
               .hud-tour-grid {
-                grid-template-columns: minmax(0, 1.85fr) minmax(320px, 355px);
-                gap: 1rem;
+                grid-template-columns: minmax(0, 1.65fr) minmax(360px, 415px);
+                gap: 1.15rem;
                 flex: 1;
                 min-height: 0;
                 height: 100%;
@@ -410,13 +410,12 @@ export const FactoryBlueprintMap = () => {
             }
             .hud-side-panel {
               background-color: #050b18;
-              border: 1.5px solid rgba(0, 240, 255, 0.3);
+              border: 1.5px solid rgba(0, 240, 255, 0.35);
               border-radius: 14px;
-              padding: 0.75rem 0.85rem;
+              padding: 0.9rem 1.05rem;
               display: flex;
               flex-direction: column;
-              justify-content: space-between;
-              gap: 0.45rem;
+              gap: 0.55rem;
               box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7), 0 0 20px rgba(0, 240, 255, 0.08);
               position: relative;
               overflow-y: auto;
@@ -846,244 +845,272 @@ export const FactoryBlueprintMap = () => {
               pointerEvents: 'none'
             }} />
 
-            {/* Top Section: Header & Live Tour Mode Controls */}
+            {/* Top Bar: Mode Status & Quick Toggles */}
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              paddingBottom: '0.45rem',
+              borderBottom: '1px solid rgba(255, 255, 255, 0.08)'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
+                <span style={{
+                  width: '8px',
+                  height: '8px',
+                  borderRadius: '50%',
+                  backgroundColor: isAutoTour ? '#10b981' : '#f59e0b',
+                  boxShadow: isAutoTour ? '0 0 8px #10b981' : '0 0 8px #f59e0b',
+                  animation: isAutoTour ? 'sonarPingDot 1.6s infinite' : 'none'
+                }} />
+                <span style={{
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: '0.72rem',
+                  fontWeight: 800,
+                  color: '#00f0ff',
+                  letterSpacing: '0.05em'
+                }}>
+                  {isAutoTour ? 'AUTO TOUR ACTIVE' : 'MANUAL CONTROL'}
+                </span>
+              </div>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                <button
+                  onClick={() => setIsAutoTour(!isAutoTour)}
+                  style={{
+                    backgroundColor: isAutoTour ? 'rgba(232, 88, 116, 0.2)' : 'rgba(0, 240, 255, 0.15)',
+                    border: isAutoTour ? '1px solid #E85874' : '1px solid #00f0ff',
+                    color: '#ffffff',
+                    borderRadius: '5px',
+                    padding: '0.22rem 0.6rem',
+                    fontSize: '0.72rem',
+                    fontWeight: 800,
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.3rem',
+                    minHeight: '28px',
+                    transition: 'all 0.15s ease'
+                  }}
+                  title={isAutoTour ? "Pause automated tour" : "Resume automated tour"}
+                >
+                  {isAutoTour ? <Pause size={11} color="#E85874" /> : <Play size={11} color="#00f0ff" />}
+                  <span>{isAutoTour ? 'Pause' : 'Play'}</span>
+                </button>
+
+                <button
+                  onClick={() => setCurrentView('factory-3d')}
+                  style={{
+                    backgroundColor: 'rgba(0, 113, 186, 0.25)',
+                    border: '1px solid rgba(0, 240, 255, 0.5)',
+                    color: '#00f0ff',
+                    borderRadius: '5px',
+                    padding: '0.22rem 0.6rem',
+                    fontSize: '0.72rem',
+                    fontWeight: 800,
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.3rem',
+                    minHeight: '28px',
+                    transition: 'all 0.15s ease'
+                  }}
+                  title="Switch to 3D Digital Twin View"
+                >
+                  <Layers size={11} />
+                  <span>3D</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Station Identity & Impact Metrics */}
             <div>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.5rem', marginBottom: '0.35rem' }}>
+                <span style={{
+                  backgroundColor: 'rgba(232, 88, 116, 0.2)',
+                  border: '1px solid #E85874',
+                  color: '#ffffff',
+                  padding: '0.2rem 0.55rem',
+                  borderRadius: '5px',
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: '0.72rem',
+                  fontWeight: 800,
+                  letterSpacing: '0.04em'
+                }}>
+                  STATION {currentIndex + 1} / 12
+                </span>
+
+                <span style={{
+                  backgroundColor: 'rgba(16, 185, 129, 0.15)',
+                  border: '1px solid rgba(16, 185, 129, 0.4)',
+                  color: '#34d399',
+                  fontSize: '0.70rem',
+                  fontWeight: 800,
+                  padding: '0.2rem 0.55rem',
+                  borderRadius: '5px'
+                }}>
+                  ⚡ {currentNode.roiMetric}
+                </span>
+              </div>
+
+              <h3 style={{
+                margin: '0 0 0.15rem 0',
+                fontSize: '1.20rem',
+                fontWeight: 800,
+                color: '#ffffff',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.45rem',
+                fontFamily: 'var(--font-display, sans-serif)',
+                lineHeight: 1.2
+              }}>
+                <span>{currentNode.icon}</span>
+                <span>{currentNode.name}</span>
+              </h3>
+
+              <div style={{
+                fontSize: '0.74rem',
+                color: '#38bdf8',
+                fontWeight: 700,
+                textTransform: 'uppercase',
+                letterSpacing: '0.05em'
+              }}>
+                {currentNode.category}
+              </div>
+            </div>
+
+            {/* Station Image Thumbnail Preview */}
+            <div style={{
+              position: 'relative',
+              borderRadius: '8px',
+              overflow: 'hidden',
+              height: '82px',
+              backgroundColor: '#020617',
+              border: '1px solid rgba(0, 240, 255, 0.25)',
+              flexShrink: 0
+            }}>
+              <img
+                src={currentNode.image}
+                alt={currentNode.name}
+                onError={(e) => {
+                  if (e.currentTarget.src.endsWith('.webp')) {
+                    e.currentTarget.src = e.currentTarget.src.replace('.webp', '.jpg');
+                  }
+                }}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  display: 'block'
+                }}
+              />
+              <div style={{
+                position: 'absolute',
+                inset: 0,
+                background: 'linear-gradient(180deg, transparent 20%, rgba(3, 10, 24, 0.94) 100%)',
+                pointerEvents: 'none'
+              }} />
+              <div style={{
+                position: 'absolute',
+                bottom: '6px',
+                left: '8px',
+                right: '8px',
+                fontSize: '0.76rem',
+                fontWeight: 700,
+                color: '#ffffff',
+                lineHeight: 1.25,
+                textShadow: '0 2px 8px rgba(0,0,0,0.95)'
+              }}>
+                {currentNode.tagline}
+              </div>
+            </div>
+
+            {/* Operational Impact & Telemetry Description Box (Prominent & Readable) */}
+            <div style={{
+              flex: 1,
+              minHeight: '85px',
+              backgroundColor: 'rgba(2, 8, 22, 0.7)',
+              border: '1px solid rgba(0, 240, 255, 0.22)',
+              borderLeft: '3.5px solid #00f0ff',
+              borderRadius: '8px',
+              padding: '0.65rem 0.85rem',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              boxShadow: 'inset 0 1px 12px rgba(0, 240, 255, 0.05)'
+            }}>
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'space-between',
-                marginBottom: '0.55rem',
-                paddingBottom: '0.5rem',
-                borderBottom: '1px solid rgba(255, 255, 255, 0.08)'
-              }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                  <span style={{
-                    width: '7px',
-                    height: '7px',
-                    borderRadius: '50%',
-                    backgroundColor: isAutoTour ? '#10b981' : '#f59e0b',
-                    boxShadow: isAutoTour ? '0 0 7px #10b981' : '0 0 7px #f59e0b',
-                    animation: isAutoTour ? 'sonarPingDot 1.6s infinite' : 'none'
-                  }} />
-                  <span style={{
-                    fontFamily: 'var(--font-mono)',
-                    fontSize: '0.68rem',
-                    fontWeight: 800,
-                    color: '#00f0ff',
-                    letterSpacing: '0.05em'
-                  }}>
-                    {isAutoTour ? 'AUTO TOUR' : 'MANUAL'}
-                  </span>
-                </div>
-
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
-                  <button
-                    onClick={() => setIsAutoTour(!isAutoTour)}
-                    style={{
-                      backgroundColor: isAutoTour ? 'rgba(232, 88, 116, 0.2)' : 'rgba(0, 240, 255, 0.15)',
-                      border: isAutoTour ? '1px solid #E85874' : '1px solid #00f0ff',
-                      color: '#ffffff',
-                      borderRadius: '5px',
-                      padding: '0.2rem 0.55rem',
-                      fontSize: '0.7rem',
-                      fontWeight: 800,
-                      cursor: 'pointer',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.25rem',
-                      minHeight: '28px',
-                      transition: 'all 0.15s ease'
-                    }}
-                    title={isAutoTour ? "Pause automated tour" : "Resume automated tour"}
-                  >
-                    {isAutoTour ? <Pause size={10} color="#E85874" /> : <Play size={10} color="#00f0ff" />}
-                    <span>{isAutoTour ? 'Pause' : 'Play'}</span>
-                  </button>
-
-                  <button
-                    onClick={() => setCurrentView('factory-3d')}
-                    style={{
-                      backgroundColor: 'rgba(0, 113, 186, 0.25)',
-                      border: '1px solid rgba(0, 240, 255, 0.5)',
-                      color: '#00f0ff',
-                      borderRadius: '5px',
-                      padding: '0.2rem 0.55rem',
-                      fontSize: '0.7rem',
-                      fontWeight: 800,
-                      cursor: 'pointer',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.25rem',
-                      minHeight: '28px',
-                      transition: 'all 0.15s ease'
-                    }}
-                    title="Switch to 3D Digital Twin View"
-                  >
-                    <Layers size={10} />
-                    <span>3D</span>
-                  </button>
-                </div>
-              </div>
-
-              {/* Station Identity & Badges */}
-              <div style={{ marginBottom: '0.35rem' }}>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.4rem', marginBottom: '0.2rem' }}>
-                  <span style={{
-                    backgroundColor: 'rgba(232, 88, 116, 0.2)',
-                    border: '1px solid #E85874',
-                    color: '#ffffff',
-                    padding: '0.12rem 0.4rem',
-                    borderRadius: '4px',
-                    fontFamily: 'var(--font-mono)',
-                    fontSize: '0.65rem',
-                    fontWeight: 800,
-                    letterSpacing: '0.04em'
-                  }}>
-                    STATION {currentIndex + 1} / 12
-                  </span>
-
-                  <span style={{
-                    backgroundColor: 'rgba(16, 185, 129, 0.15)',
-                    border: '1px solid rgba(16, 185, 129, 0.4)',
-                    color: '#34d399',
-                    fontSize: '0.62rem',
-                    fontWeight: 800,
-                    padding: '0.10rem 0.4rem',
-                    borderRadius: '4px'
-                  }}>
-                    ⚡ {currentNode.roiMetric}
-                  </span>
-                </div>
-
-                <h3 style={{
-                  margin: '0 0 0.1rem 0',
-                  fontSize: '0.96rem',
-                  fontWeight: 800,
-                  color: '#ffffff',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.35rem',
-                  fontFamily: 'var(--font-display, sans-serif)',
-                  lineHeight: 1.15
-                }}>
-                  <span>{currentNode.icon}</span>
-                  <span>{currentNode.name}</span>
-                </h3>
-
-                <div style={{
-                  fontSize: '0.65rem',
-                  color: '#00f0ff',
-                  fontWeight: 700,
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.04em'
-                }}>
-                  {currentNode.category}
-                </div>
-              </div>
-
-              {/* Station Image Thumbnail & Tagline */}
-              <div style={{
-                position: 'relative',
-                borderRadius: '8px',
-                overflow: 'hidden',
-                height: 'clamp(56px, 8vh, 70px)',
-                backgroundColor: '#020617',
-                border: '1px solid rgba(0, 240, 255, 0.25)',
-                marginBottom: '0.35rem',
-                flexShrink: 0
-              }}>
-                <img
-                  src={currentNode.image}
-                  alt={currentNode.name}
-                  onError={(e) => {
-                    if (e.currentTarget.src.endsWith('.webp')) {
-                      e.currentTarget.src = e.currentTarget.src.replace('.webp', '.jpg');
-                    }
-                  }}
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                    display: 'block'
-                  }}
-                />
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  background: 'linear-gradient(180deg, transparent 25%, rgba(3, 10, 24, 0.94) 100%)',
-                  pointerEvents: 'none'
-                }} />
-                <div style={{
-                  position: 'absolute',
-                  bottom: '4px',
-                  left: '6px',
-                  right: '6px',
-                  fontSize: '0.65rem',
-                  fontWeight: 700,
-                  color: '#ffffff',
-                  lineHeight: 1.2,
-                  textShadow: '0 2px 8px rgba(0,0,0,0.95)'
-                }}>
-                  {currentNode.tagline}
-                </div>
-              </div>
-
-              {/* Full Description Box */}
-              <div style={{
-                backgroundColor: 'rgba(255, 255, 255, 0.03)',
-                border: '1px solid rgba(255, 255, 255, 0.07)',
-                borderRadius: '7px',
-                padding: '0.35rem 0.55rem',
+                gap: '0.4rem',
+                fontSize: '0.70rem',
+                fontWeight: 800,
+                textTransform: 'uppercase',
+                color: '#00f0ff',
+                letterSpacing: '0.06em',
                 marginBottom: '0.35rem'
               }}>
-                <div style={{ fontSize: '0.58rem', fontWeight: 800, textTransform: 'uppercase', color: '#94a3b8', letterSpacing: '0.05em', marginBottom: '0.1rem' }}>
-                  OPERATIONAL IMPACT
-                </div>
-                <p style={{
-                  margin: 0,
-                  fontSize: '0.72rem',
-                  color: '#e2e8f0',
-                  lineHeight: 1.34
-                }}>
-                  {currentNode.highlight}
-                </p>
+                <span style={{
+                  width: '6px',
+                  height: '6px',
+                  borderRadius: '50%',
+                  backgroundColor: '#00f0ff',
+                  boxShadow: '0 0 6px #00f0ff'
+                }} />
+                <span>OPERATIONAL IMPACT & VALUE</span>
               </div>
+              <p style={{
+                margin: 0,
+                fontSize: '0.88rem',
+                fontWeight: 500,
+                color: '#f8fafc',
+                lineHeight: 1.52,
+                letterSpacing: '-0.01em'
+              }}>
+                {currentNode.highlight}
+              </p>
+            </div>
 
-              {/* 12 Stations Quick-Selector Grid */}
-              <div style={{ marginBottom: '0.25rem' }}>
-                <div style={{ fontSize: '0.58rem', fontWeight: 800, textTransform: 'uppercase', color: '#94a3b8', letterSpacing: '0.05em', marginBottom: '0.15rem' }}>
-                  JUMP TO STATION (1–12)
-                </div>
-                <div style={{
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(6, 1fr)',
-                  gap: '0.22rem'
-                }}>
-                  {ATPL_FACTORY_NODES.map((node, i) => (
-                    <button
-                      key={node.id}
-                      onClick={() => handleStationClick(i)}
-                      title={`${node.stepNumber}. ${node.name}`}
-                      style={{
-                        height: '25px',
-                        borderRadius: '4px',
-                        backgroundColor: currentIndex === i ? '#E85874' : 'rgba(255, 255, 255, 0.06)',
-                        border: currentIndex === i ? '1.5px solid #ffffff' : '1px solid rgba(255, 255, 255, 0.12)',
-                        color: '#ffffff',
-                        fontSize: '0.68rem',
-                        fontWeight: 800,
-                        cursor: 'pointer',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        transition: 'all 0.15s ease',
-                        boxShadow: currentIndex === i ? '0 0 10px #E85874' : 'none'
-                      }}
-                    >
-                      {node.stepNumber}
-                    </button>
-                  ))}
-                </div>
+            {/* 12 Stations Quick-Selector Grid */}
+            <div>
+              <div style={{
+                fontSize: '0.68rem',
+                fontWeight: 800,
+                textTransform: 'uppercase',
+                color: '#94a3b8',
+                letterSpacing: '0.05em',
+                marginBottom: '0.25rem'
+              }}>
+                JUMP TO STATION (1–12)
+              </div>
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(6, 1fr)',
+                gap: '0.25rem'
+              }}>
+                {ATPL_FACTORY_NODES.map((node, i) => (
+                  <button
+                    key={node.id}
+                    onClick={() => handleStationClick(i)}
+                    title={`${node.stepNumber}. ${node.name}`}
+                    style={{
+                      height: '28px',
+                      borderRadius: '5px',
+                      backgroundColor: currentIndex === i ? '#E85874' : 'rgba(255, 255, 255, 0.06)',
+                      border: currentIndex === i ? '1.5px solid #ffffff' : '1px solid rgba(255, 255, 255, 0.14)',
+                      color: '#ffffff',
+                      fontSize: '0.78rem',
+                      fontWeight: 800,
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      transition: 'all 0.15s ease',
+                      boxShadow: currentIndex === i ? '0 0 10px #E85874' : 'none'
+                    }}
+                  >
+                    {node.stepNumber}
+                  </button>
+                ))}
               </div>
             </div>
 
@@ -1091,12 +1118,12 @@ export const FactoryBlueprintMap = () => {
             <div style={{
               display: 'flex',
               flexDirection: 'column',
-              gap: '0.3rem',
-              paddingTop: '0.35rem',
+              gap: '0.35rem',
+              paddingTop: '0.45rem',
               borderTop: '1px solid rgba(255, 255, 255, 0.08)',
               flexShrink: 0
             }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.3rem' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.35rem' }}>
                 <button
                   onClick={handlePrev}
                   aria-label="Previous station"
@@ -1104,22 +1131,22 @@ export const FactoryBlueprintMap = () => {
                     backgroundColor: 'rgba(255, 255, 255, 0.08)',
                     border: '1px solid rgba(255, 255, 255, 0.2)',
                     color: '#ffffff',
-                    borderRadius: '6px',
-                    padding: '0.35rem',
-                    fontSize: '0.74rem',
+                    borderRadius: '7px',
+                    padding: '0.4rem',
+                    fontSize: '0.80rem',
                     fontWeight: 800,
                     cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    gap: '0.25rem',
-                    minHeight: '36px',
+                    gap: '0.3rem',
+                    minHeight: '38px',
                     transition: 'all 0.15s ease'
                   }}
                   onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.18)'}
                   onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.08)'}
                 >
-                  <ChevronLeft size={14} />
+                  <ChevronLeft size={15} />
                   <span>Prev</span>
                 </button>
 
@@ -1130,16 +1157,16 @@ export const FactoryBlueprintMap = () => {
                     backgroundColor: 'rgba(0, 113, 186, 0.4)',
                     border: '1.2px solid #00f0ff',
                     color: '#ffffff',
-                    borderRadius: '6px',
-                    padding: '0.35rem',
-                    fontSize: '0.74rem',
+                    borderRadius: '7px',
+                    padding: '0.4rem',
+                    fontSize: '0.80rem',
                     fontWeight: 800,
                     cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    gap: '0.25rem',
-                    minHeight: '36px',
+                    gap: '0.3rem',
+                    minHeight: '38px',
                     transition: 'all 0.15s ease',
                     boxShadow: '0 0 10px rgba(0, 113, 186, 0.4)'
                   }}
@@ -1147,7 +1174,7 @@ export const FactoryBlueprintMap = () => {
                   onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'rgba(0, 113, 186, 0.4)'}
                 >
                   <span>Next</span>
-                  <ChevronRight size={14} />
+                  <ChevronRight size={15} />
                 </button>
               </div>
 
@@ -1157,16 +1184,16 @@ export const FactoryBlueprintMap = () => {
                   backgroundColor: '#E85874',
                   border: 'none',
                   color: '#ffffff',
-                  borderRadius: '6px',
-                  padding: '0.45rem 0.75rem',
-                  fontSize: '0.78rem',
+                  borderRadius: '7px',
+                  padding: '0.5rem 0.85rem',
+                  fontSize: '0.84rem',
                   fontWeight: 800,
                   cursor: 'pointer',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  gap: '0.35rem',
-                  minHeight: '36px',
+                  gap: '0.4rem',
+                  minHeight: '40px',
                   boxShadow: '0 4px 16px rgba(232, 88, 116, 0.45)',
                   transition: 'all 0.15s ease',
                   width: '100%'
@@ -1174,7 +1201,7 @@ export const FactoryBlueprintMap = () => {
                 onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#d44360'}
                 onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#E85874'}
               >
-                <Sparkles size={14} />
+                <Sparkles size={15} />
                 <span>Explore Live Station Demo</span>
               </button>
             </div>
