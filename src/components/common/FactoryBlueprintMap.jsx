@@ -272,7 +272,7 @@ export const FactoryBlueprintMap = () => {
         {/* =====================================================================
             1. COMPACT 1-FOLD HEADER (Fits Entire Tour in One Screen View)
            ===================================================================== */}
-        <div style={{
+        <div className="hud-header-bar" style={{
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
@@ -280,16 +280,17 @@ export const FactoryBlueprintMap = () => {
           marginBottom: '0.45rem',
           flexShrink: 0
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', flexWrap: 'wrap' }}>
-            <div style={{
+          <div className="hud-header-left" style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+            <div className="hud-header-pill" style={{
               display: 'inline-flex',
               alignItems: 'center',
-              gap: '0.4rem',
+              gap: '0.35rem',
               background: 'rgba(0, 240, 255, 0.08)',
               border: '1px solid rgba(0, 240, 255, 0.35)',
               borderRadius: '999px',
               padding: '0.15rem 0.6rem',
-              boxShadow: '0 0 12px rgba(0, 240, 255, 0.2)'
+              boxShadow: '0 0 12px rgba(0, 240, 255, 0.2)',
+              flexShrink: 0
             }}>
               <span style={{
                 width: '6px',
@@ -300,7 +301,7 @@ export const FactoryBlueprintMap = () => {
                 display: 'inline-block',
                 animation: 'sonarPingDot 1.6s infinite'
               }} />
-              <span style={{
+              <span className="hud-header-pill-text" style={{
                 fontFamily: 'var(--font-mono)',
                 fontSize: '0.68rem',
                 fontWeight: 800,
@@ -312,7 +313,7 @@ export const FactoryBlueprintMap = () => {
               </span>
             </div>
 
-            <h2 style={{
+            <h2 className="hud-header-title" style={{
               fontFamily: 'var(--font-display)',
               fontSize: 'clamp(1.05rem, 1.8vw, 1.35rem)',
               fontWeight: 800,
@@ -325,7 +326,7 @@ export const FactoryBlueprintMap = () => {
             </h2>
           </div>
 
-          <div style={{
+          <div className="hud-header-right" style={{
             fontSize: '0.76rem',
             color: '#94a3b8',
             display: 'flex',
@@ -333,8 +334,8 @@ export const FactoryBlueprintMap = () => {
             gap: '0.5rem',
             flexShrink: 0
           }}>
-            <span style={{ display: 'inline-block' }}>Click beacon (1–12) to fly Archie</span>
-            <span style={{ color: '#00f0ff' }}>•</span>
+            <span className="hud-header-hint" style={{ display: 'inline-block' }}>Click beacon (1–12) to fly Archie</span>
+            <span className="hud-header-sep" style={{ color: '#00f0ff' }}>•</span>
             <span style={{ color: '#00f0ff', fontFamily: 'var(--font-mono)', fontSize: '0.72rem', fontWeight: 800 }}>
               STATION {currentIndex + 1}/12
             </span>
@@ -396,16 +397,83 @@ export const FactoryBlueprintMap = () => {
               }
             }
             @media (max-width: 1023px) {
+              #factory-blueprint-section {
+                padding-top: 0.45rem !important;
+                padding-bottom: 0.55rem !important;
+                height: auto !important;
+                min-height: auto !important;
+                max-height: none !important;
+              }
+              .hud-header-bar {
+                margin-bottom: 0.35rem !important;
+                gap: 0.4rem !important;
+              }
+              .hud-header-hint,
+              .hud-header-sep {
+                display: none !important;
+              }
+              .hud-header-pill {
+                padding: 0.12rem 0.45rem !important;
+              }
+              .hud-header-pill-text {
+                font-size: 0.60rem !important;
+              }
+              .hud-header-title {
+                font-size: 0.88rem !important;
+                white-space: nowrap !important;
+                overflow: hidden !important;
+                text-overflow: ellipsis !important;
+                max-width: 190px !important;
+              }
+              .hud-tour-grid {
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 0.45rem !important;
+              }
               .hud-factory-viewport {
-                position: relative;
-                width: 100%;
-                aspect-ratio: 16 / 9.5 !important;
-                max-height: 48vh !important;
-                min-height: 230px !important;
-                overflow: hidden;
-                background-color: #030816;
-                border-radius: 12px;
-                border: 1.5px solid rgba(0, 240, 255, 0.35);
+                position: relative !important;
+                width: 100% !important;
+                height: clamp(160px, 24vh, 185px) !important;
+                aspect-ratio: auto !important;
+                max-height: none !important;
+                min-height: 0 !important;
+                overflow: hidden !important;
+                background-color: #030816 !important;
+                border-radius: 10px !important;
+                border: 1.5px solid rgba(0, 240, 255, 0.35) !important;
+              }
+              .hud-station-thumb {
+                display: none !important;
+              }
+              .hud-side-panel {
+                padding: 0.6rem 0.75rem !important;
+                gap: 0.4rem !important;
+                border-radius: 10px !important;
+                height: auto !important;
+                max-height: none !important;
+              }
+              .hud-station-title {
+                font-size: 1.05rem !important;
+              }
+              .hud-desc-box {
+                padding: 0.45rem 0.65rem !important;
+                min-height: 0 !important;
+              }
+              .hud-desc-text {
+                font-size: 0.82rem !important;
+                line-height: 1.42 !important;
+              }
+              .hud-quick-btn {
+                height: 25px !important;
+                font-size: 0.72rem !important;
+              }
+              .hud-action-btn {
+                min-height: 34px !important;
+                font-size: 0.76rem !important;
+              }
+              .hud-demo-btn {
+                min-height: 36px !important;
+                font-size: 0.80rem !important;
               }
             }
             .hud-side-panel {
@@ -510,22 +578,28 @@ export const FactoryBlueprintMap = () => {
             }
             @media (max-width: 768px) {
               .hud-station-pin {
-                width: 38px !important;
-                height: 38px !important;
+                width: 32px !important;
+                height: 32px !important;
                 display: flex !important;
                 align-items: center !important;
                 justify-content: center !important;
               }
               .hud-pin-disc {
-                width: 26px !important;
-                height: 26px !important;
-                font-size: 0.72rem !important;
+                width: 22px !important;
+                height: 22px !important;
+                font-size: 0.65rem !important;
               }
               .hud-archie-speech-badge {
-                padding: 0.18rem 0.55rem !important;
-                font-size: 0.65rem !important;
+                padding: 0.12rem 0.45rem !important;
+                font-size: 0.58rem !important;
                 white-space: nowrap !important;
-                max-width: calc(100vw - 36px) !important;
+                max-width: 170px !important;
+                overflow: hidden !important;
+                text-overflow: ellipsis !important;
+              }
+              .hud-archie-avatar-box {
+                width: 42px !important;
+                height: 42px !important;
               }
             }
           `}</style>
@@ -749,7 +823,9 @@ export const FactoryBlueprintMap = () => {
                 </div>
 
                 {/* Archie Mascot Character Avatar Body */}
-                <div style={{
+                <div 
+                  className="hud-archie-avatar-box"
+                  style={{
                   width: '56px',
                   height: '56px',
                   borderRadius: '50%',
@@ -979,7 +1055,7 @@ export const FactoryBlueprintMap = () => {
             </div>
 
             {/* Station Image Thumbnail Preview */}
-            <div style={{
+            <div className="hud-station-thumb" style={{
               position: 'relative',
               borderRadius: '8px',
               overflow: 'hidden',
@@ -1025,7 +1101,7 @@ export const FactoryBlueprintMap = () => {
             </div>
 
             {/* Operational Impact & Telemetry Description Box (Prominent & Readable) */}
-            <div style={{
+            <div className="hud-desc-box" style={{
               flex: 1,
               minHeight: '85px',
               backgroundColor: 'rgba(2, 8, 22, 0.7)',
@@ -1058,7 +1134,7 @@ export const FactoryBlueprintMap = () => {
                 }} />
                 <span>OPERATIONAL IMPACT & VALUE</span>
               </div>
-              <p style={{
+              <p className="hud-desc-text" style={{
                 margin: 0,
                 fontSize: '0.88rem',
                 fontWeight: 500,
@@ -1082,7 +1158,7 @@ export const FactoryBlueprintMap = () => {
               }}>
                 JUMP TO STATION (1–12)
               </div>
-              <div style={{
+              <div className="hud-quick-buttons-grid" style={{
                 display: 'grid',
                 gridTemplateColumns: 'repeat(6, 1fr)',
                 gap: '0.25rem'
@@ -1092,6 +1168,7 @@ export const FactoryBlueprintMap = () => {
                     key={node.id}
                     onClick={() => handleStationClick(i)}
                     title={`${node.stepNumber}. ${node.name}`}
+                    className="hud-quick-btn"
                     style={{
                       height: '28px',
                       borderRadius: '5px',
@@ -1123,10 +1200,11 @@ export const FactoryBlueprintMap = () => {
               borderTop: '1px solid rgba(255, 255, 255, 0.08)',
               flexShrink: 0
             }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.35rem' }}>
+              <div className="hud-action-btn-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.35rem' }}>
                 <button
                   onClick={handlePrev}
                   aria-label="Previous station"
+                  className="hud-action-btn"
                   style={{
                     backgroundColor: 'rgba(255, 255, 255, 0.08)',
                     border: '1px solid rgba(255, 255, 255, 0.2)',
@@ -1153,6 +1231,7 @@ export const FactoryBlueprintMap = () => {
                 <button
                   onClick={handleNext}
                   aria-label="Next station"
+                  className="hud-action-btn"
                   style={{
                     backgroundColor: 'rgba(0, 113, 186, 0.4)',
                     border: '1.2px solid #00f0ff',
@@ -1180,6 +1259,7 @@ export const FactoryBlueprintMap = () => {
 
               <button
                 onClick={() => openDemoModal({ solution: currentNode.name, notes: `Inquiry from Robot Tour - Station ${currentNode.stepNumber}: ${currentNode.name}` })}
+                className="hud-demo-btn"
                 style={{
                   backgroundColor: '#E85874',
                   border: 'none',
