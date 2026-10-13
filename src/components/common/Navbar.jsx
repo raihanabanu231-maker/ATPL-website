@@ -1249,34 +1249,86 @@ export const Navbar = ({ onOpenSearch }) => {
                 )}
               </div>
 
-              {/* 3. Industry Solutions (Direct Link) */}
-              <button
-                onClick={() => handleNavClick('solutions')}
-                style={{
-                  width: '100%',
-                  minHeight: '44px',
-                  background: '#f8fafc',
-                  border: '1px solid #e2e8f0',
-                  borderRadius: '8px',
-                  padding: '0.7rem 1rem',
-                  textAlign: 'left',
-                  fontSize: '0.96rem',
-                  fontWeight: 700,
-                  color: '#0f172a',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  cursor: 'pointer'
-                }}
-              >
-                <span style={{ display: 'flex', alignItems: 'center', gap: '0.55rem' }}>
-                  <span style={{ color: '#6366f1' }}>🏭</span>
-                  <span>Industry Solutions</span>
-                </span>
-                <span style={{ color: '#94a3b8', fontSize: '0.85rem' }}>➔</span>
-              </button>
+              {/* 3. Customers & Case Studies Accordion */}
+              <div>
+                <button
+                  onClick={() => setMobileExpandedSection(mobileExpandedSection === 'customers' ? null : 'customers')}
+                  style={{
+                    width: '100%',
+                    minHeight: '44px',
+                    background: '#f8fafc',
+                    border: '1px solid #e2e8f0',
+                    borderRadius: '8px',
+                    padding: '0.7rem 1rem',
+                    fontSize: '0.96rem',
+                    fontWeight: 700,
+                    color: '#0f172a',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    cursor: 'pointer'
+                  }}
+                >
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '0.55rem' }}>
+                    <span style={{ color: '#0071ba' }}>👥</span>
+                    <span>Customers & Case Studies</span>
+                  </span>
+                  <ChevronDown size={18} style={{ transform: mobileExpandedSection === 'customers' ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s ease' }} />
+                </button>
+                {mobileExpandedSection === 'customers' && (
+                  <div style={{ padding: '0.5rem 0.5rem 0.5rem 0.85rem', display: 'flex', flexDirection: 'column', gap: '0.4rem', borderLeft: '2px solid #0071ba', marginLeft: '0.5rem', marginTop: '0.35rem' }}>
+                    <button onClick={() => handleNavClick('about')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0071ba', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>• Automotive & EV (Ola Electric, Bosch)</button>
+                    <button onClick={() => handleNavClick('about')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#E85874', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>• Pharmaceuticals (Caplin Point Laboratories)</button>
+                    <button onClick={() => handleNavClick('about')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0071ba', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>• Metals & Heavy Engg (JSW Steel, L&T, BEL)</button>
+                    <button onClick={() => handleNavClick('about')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0284c7', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>• FMCG & Dairy (HUL, Hatsun, Titan)</button>
+                    <button onClick={() => handleNavClick('about')} style={{ minHeight: '44px', background: 'rgba(0, 113, 186, 0.08)', borderRadius: '6px', border: 'none', textAlign: 'left', padding: '0.5rem 0.75rem', color: '#0071ba', fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                      <span>Explore 250+ Enterprise Clients</span>
+                      <span>➔</span>
+                    </button>
+                  </div>
+                )}
+              </div>
 
-              {/* 4. 3D Factory Tour (Highlighted) */}
+              {/* 4. Partners & OEM Alliances Accordion */}
+              <div>
+                <button
+                  onClick={() => setMobileExpandedSection(mobileExpandedSection === 'partners' ? null : 'partners')}
+                  style={{
+                    width: '100%',
+                    minHeight: '44px',
+                    background: '#f8fafc',
+                    border: '1px solid #e2e8f0',
+                    borderRadius: '8px',
+                    padding: '0.7rem 1rem',
+                    fontSize: '0.96rem',
+                    fontWeight: 700,
+                    color: '#0f172a',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    cursor: 'pointer'
+                  }}
+                >
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '0.55rem' }}>
+                    <span style={{ color: '#0071ba' }}>🤝</span>
+                    <span>Partners & OEM Alliances</span>
+                  </span>
+                  <ChevronDown size={18} style={{ transform: mobileExpandedSection === 'partners' ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s ease' }} />
+                </button>
+                {mobileExpandedSection === 'partners' && (
+                  <div style={{ padding: '0.5rem 0.5rem 0.5rem 0.85rem', display: 'flex', flexDirection: 'column', gap: '0.4rem', borderLeft: '2px solid #0071ba', marginLeft: '0.5rem', marginTop: '0.35rem' }}>
+                    <button onClick={() => handleNavClick('partners')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0071ba', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>• Hardware OEMs (Honeywell, Zebra, TSC, Impinj)</button>
+                    <button onClick={() => handleNavClick('partners')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#E85874', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>• ERP Cloud Alliances (SAP S/4HANA, Oracle Cloud)</button>
+                    <button onClick={() => handleNavClick('partners')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0071ba', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>• Authorized GS1 Global Alliance Partner</button>
+                    <button onClick={() => handleNavClick('partners')} style={{ minHeight: '44px', background: 'rgba(0, 113, 186, 0.08)', borderRadius: '6px', border: 'none', textAlign: 'left', padding: '0.5rem 0.75rem', color: '#0071ba', fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                      <span>Explore All Partner Programs</span>
+                      <span>➔</span>
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              {/* 5. 3D Factory Tour (Highlighted) */}
               <button
                 onClick={() => handleNavClick('factory-3d')}
                 style={{
@@ -1303,7 +1355,7 @@ export const Navbar = ({ onOpenSearch }) => {
                 <span style={{ backgroundColor: '#E85874', color: '#ffffff', fontSize: '0.65rem', padding: '0.15rem 0.45rem', borderRadius: '999px', fontWeight: 800 }}>LIVE</span>
               </button>
 
-              {/* 5. Contact Sales & Support (Direct Link) */}
+              {/* 6. Contact Sales & Support (Direct Link) */}
               <button
                 onClick={() => handleNavClick('contact')}
                 style={{
@@ -1341,9 +1393,7 @@ export const Navbar = ({ onOpenSearch }) => {
                 fontSize: '0.82rem',
                 color: '#64748b'
               }}>
-                <button onClick={() => handleNavClick('partners')} style={{ background: 'none', border: 'none', color: '#0071ba', fontWeight: 600, fontSize: '0.82rem', cursor: 'pointer', padding: '0.2rem 0.4rem' }}>Partners</button>
-                <span>•</span>
-                <button onClick={() => handleNavClick('about')} style={{ background: 'none', border: 'none', color: '#0071ba', fontWeight: 600, fontSize: '0.82rem', cursor: 'pointer', padding: '0.2rem 0.4rem' }}>Case Studies</button>
+                <button onClick={() => handleNavClick('solutions')} style={{ background: 'none', border: 'none', color: '#0071ba', fontWeight: 600, fontSize: '0.82rem', cursor: 'pointer', padding: '0.2rem 0.4rem' }}>Industry Solutions</button>
                 <span>•</span>
                 <button onClick={() => handleNavClick('services')} style={{ background: 'none', border: 'none', color: '#0071ba', fontWeight: 600, fontSize: '0.82rem', cursor: 'pointer', padding: '0.2rem 0.4rem' }}>24/7 AMC</button>
                 <span>•</span>
