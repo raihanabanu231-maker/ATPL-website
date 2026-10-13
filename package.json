@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "postbuild": "node scripts/minify-html.js",
+    "postbuild": "node scripts/minify-html.js && node scripts/generate-routes.js",
     "preview": "vite preview"
   },
   "dependencies": {

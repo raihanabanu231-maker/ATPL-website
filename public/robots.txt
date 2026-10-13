@@ -10,3 +10,4 @@ Disallow: /login
 
 # Sitemaps
 Sitemap: https://atplgroup.com/sitemap.xml
+Sitemap: https://atpl-website.onrender.com/sitemap.xml
