@@ -11,7 +11,18 @@ export default defineConfig({
   },
   build: {
     target: 'esnext',
-    minify: 'esbuild',
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: true,
+        drop_debugger: true,
+        pure_funcs: ['console.log', 'console.info'],
+        passes: 2
+      },
+      format: {
+        comments: false
+      }
+    },
     cssMinify: true,
     chunkSizeWarningLimit: 600,
     rollupOptions: {

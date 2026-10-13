@@ -14,41 +14,7 @@
     <link rel="canonical" href="https://atplgroup.com/" />
 
     <!-- Google Analytics & Meta / Facebook Pixel (Deferred on Idle to eliminate Total Blocking Time / TBT) -->
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-ATPLINDIA9', { anonymize_ip: true });
-
-      function _initThirdPartyTracking() {
-        if (window._tpTrackingInit) return;
-        window._tpTrackingInit = true;
-
-        // 1. Google Analytics
-        var ga = document.createElement('script');
-        ga.src = 'https://www.googletagmanager.com/gtag/js?id=G-ATPLINDIA9';
-        ga.async = true;
-        document.head.appendChild(ga);
-
-        // 2. Meta / Facebook Pixel
-        !function(f,b,e,v,n,t,s)
-        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-        n.queue=[];t=b.createElement(e);t.async=!0;
-        t.src=v;s=b.getElementsByTagName(e)[0];
-        s.parentNode.insertBefore(t,s)}(window, document,'script',
-        'https://connect.facebook.net/en_US/fbevents.js');
-        fbq('init', '103740024727332');
-        fbq('track', 'PageView');
-      }
-
-      if ('requestIdleCallback' in window) {
-        requestIdleCallback(function() { setTimeout(_initThirdPartyTracking, 800); });
-      } else {
-        window.addEventListener('load', function() { setTimeout(_initThirdPartyTracking, 1000); });
-      }
-    </script>
+    <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date);gtag("config","G-ATPLINDIA9",{anonymize_ip:!0});function _initThirdPartyTracking(){if(!window._tpTrackingInit){window._tpTrackingInit=!0;var a=document.createElement("script");a.src="https://www.googletagmanager.com/gtag/js?id=G-ATPLINDIA9";a.async=!0;document.head.appendChild(a);!function(a,e,t,n,c,i,o){a.fbq||(c=a.fbq=function(){c.callMethod?c.callMethod.apply(c,arguments):c.queue.push(arguments)},a._fbq||(a._fbq=c),c.push=c,c.loaded=!0,c.version="2.0",c.queue=[],(i=e.createElement(t)).async=!0,i.src="https://connect.facebook.net/en_US/fbevents.js",(o=e.getElementsByTagName(t)[0]).parentNode.insertBefore(i,o))}(window,document,"script");fbq("init","103740024727332");fbq("track","PageView")}}"requestIdleCallback"in window?requestIdleCallback((function(){setTimeout(_initThirdPartyTracking,800)})):window.addEventListener("load",(function(){setTimeout(_initThirdPartyTracking,1e3)}));</script>
 
     <!-- GEO / Local SEO Meta Tags -->
     <meta name="geo.region" content="IN-TN" />
