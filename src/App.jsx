@@ -3,13 +3,15 @@ import { AppProvider, useApp } from './context/AppContext';
 import { Navbar } from './components/common/Navbar';
 import { Footer } from './components/common/Footer';
 import { ToastContainer } from './components/common/ToastContainer';
-import { LeadModal } from './components/common/LeadModal';
-import { SearchModal } from './components/common/SearchModal';
-import { AtplCoPilot } from './components/common/AtplCoPilot';
 import { ErrorBoundary } from './components/common/ErrorBoundary';
 import { HomeView } from './components/pages/HomeView';
 import { DynamicMovingBackground } from './components/common/DynamicMovingBackground';
 import { CookieConsent } from './components/common/CookieConsent';
+
+// Code-split interactive modals and CoPilot to keep initial mobile bundle ultra-lean
+const LeadModal = lazy(() => import('./components/common/LeadModal').then(m => ({ default: m.LeadModal })));
+const SearchModal = lazy(() => import('./components/common/SearchModal').then(m => ({ default: m.SearchModal })));
+const AtplCoPilot = lazy(() => import('./components/common/AtplCoPilot').then(m => ({ default: m.AtplCoPilot })));
 
 // Code-split heavy non-home views and admin portal for sub-second LCP & TBT
 const SoftwareView = lazy(() => import('./components/pages/SoftwareView').then(m => ({ default: m.SoftwareView })));
@@ -180,15 +182,21 @@ const MainAppContent = () => {
         )}
         <ToastContainer />
         <ErrorBoundary title="Lead Modal">
-          <LeadModal />
+          <Suspense fallback={null}>
+            <LeadModal />
+          </Suspense>
         </ErrorBoundary>
         <ErrorBoundary title="Search Modal">
-          <SearchModal isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
+          <Suspense fallback={null}>
+            <SearchModal isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
+          </Suspense>
         </ErrorBoundary>
         {/* Hide global React chat widget on factory-3d view since it has its own integrated 3D Archie Copilot */}
         {currentView !== 'factory-3d' && (
           <ErrorBoundary title="AI CoPilot">
-            <AtplCoPilot />
+            <Suspense fallback={null}>
+              <AtplCoPilot />
+            </Suspense>
           </ErrorBoundary>
         )}
         <ErrorBoundary title="Cookie Consent">

@@ -647,6 +647,8 @@ export const FactoryBlueprintMap = () => {
           <div className="hud-factory-viewport">
             {/* The Isometric Factory Floor Graphic */}
             <picture style={{ width: '100%', height: '100%', display: 'block' }}>
+              <source media="(max-width: 768px)" type="image/avif" srcSet="/assets/images/atpl_isometric_factory_mobile.avif" />
+              <source media="(max-width: 768px)" type="image/webp" srcSet="/assets/images/atpl_isometric_factory_mobile.webp" />
               <source type="image/avif" srcSet="/assets/images/atpl_isometric_factory.avif" />
               <source type="image/webp" srcSet="/assets/images/atpl_isometric_factory.webp" />
               <img 
