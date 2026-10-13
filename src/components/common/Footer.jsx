@@ -237,7 +237,7 @@ export const Footer = () => {
         }}>
           {[
             { name: 'X', icon: SocialIcons.X, href: 'https://x.com/atplgroup' },
-            { name: 'Facebook', icon: SocialIcons.Facebook, href: 'https://facebook.com/atplgroup' },
+            { name: 'Facebook', icon: SocialIcons.Facebook, href: 'https://www.facebook.com/ATPL-GROUP-103740024727332' },
             { name: 'YouTube', icon: SocialIcons.YouTube, href: 'https://youtube.com/@atplgroup' },
             { name: 'LinkedIn', icon: SocialIcons.LinkedIn, href: 'https://linkedin.com/company/atplgroup' },
             { name: 'Instagram', icon: SocialIcons.Instagram, href: 'https://instagram.com/atplgroup' }
