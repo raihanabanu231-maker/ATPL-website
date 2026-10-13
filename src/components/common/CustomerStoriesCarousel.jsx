@@ -19,8 +19,8 @@ export const CustomerStoriesCarousel = () => {
       image: '/assets/images/atpl_team_expo.jpg',
       imagePosition: 'center 30%',
       caption: 'ATPL Engineering Team • Industrial Expo',
-      badgeColor: '#f59e0b',
-      accentColor: '#fbbf24',
+      badgeColor: '#E85874',
+      accentColor: '#fb7185',
       client: 'Archery Technocrats Private Limited',
       location: 'TIDEL Park Chennai HQ • R&D TCE-TBI Madurai',
       metrics: [
@@ -67,8 +67,8 @@ export const CustomerStoriesCarousel = () => {
       subtext: 'Automated multi-antenna RFID dock portals scan full pallet loads on moving forklifts at ProConnect 3PL, cutting dock check-in bottlenecks from 12 minutes to 4 seconds.',
       ctaText: 'READ THE STORY',
       image: '/assets/images/story_logistics.jpg',
-      badgeColor: '#10b981',
-      accentColor: '#34d399',
+      badgeColor: '#0071ba',
+      accentColor: '#00f0ff',
       client: 'ProConnect Mega Distribution Center',
       location: 'Sriperumbudur Hub, Tamil Nadu (120,000 sq.ft)',
       metrics: [
@@ -90,8 +90,8 @@ export const CustomerStoriesCarousel = () => {
       subtext: 'High-speed battery pack serialization and AI optical defect detection on continuous lines, meeting strict 21 CFR & automotive safety compliance.',
       ctaText: 'READ THE STORY',
       image: '/assets/images/atpl_ai_vision_inspection.webp',
-      badgeColor: '#38bdf8',
-      accentColor: '#7dd3fc',
+      badgeColor: '#E85874',
+      accentColor: '#fda4af',
       client: 'High-Volume EV Battery Hub',
       location: 'Krishnagiri / Hosur Corridor',
       metrics: [
@@ -267,7 +267,7 @@ export const CustomerStoriesCarousel = () => {
                 fontSize: 'clamp(1.9rem, 3.4vw, 2.7rem)',
                 fontFamily: '"Georgia", "Cambria", "Times New Roman", serif',
                 fontWeight: 700,
-                color: '#fef3c7',
+                color: '#ffffff',
                 lineHeight: 1.18,
                 letterSpacing: '-0.015em',
                 margin: '0 0 1.25rem 0'

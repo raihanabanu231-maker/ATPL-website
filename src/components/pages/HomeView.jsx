@@ -40,8 +40,8 @@ export const HomeView = () => {
       name: 'PerfectEdge MDM',
       badge: 'Handheld Fleet Management',
       icon: Smartphone,
-      color: '#0284c7',
-      bgColor: '#f0f9ff',
+      color: '#0071ba',
+      bgColor: 'rgba(0, 113, 186, 0.08)',
       shortDesc: 'Centralized mobile fleet management and kiosk lockdown for rugged handhelds.',
       summary: 'Centralized mobile device management for rugged handhelds and forklift terminals.',
       description: 'Gives plant IT teams full control over rugged Android barcode scanners, mobile computers, and forklift tablets. Provision devices in bulk via single barcode scan and lock them down into tamper-proof kiosk mode.',
@@ -53,8 +53,8 @@ export const HomeView = () => {
       name: 'Perfect Labeler',
       badge: 'Cloud Labeling Platform',
       icon: Printer,
-      color: '#10b981',
-      bgColor: '#ecfdf5',
+      color: '#E85874',
+      bgColor: 'rgba(232, 88, 116, 0.08)',
       shortDesc: 'Cloud-native label design with live ERP sync and industrial print-and-apply.',
       summary: 'Centralized cloud label designer with automated industrial print-and-apply.',
       description: 'Replaces fragmented desktop label design files with a single browser-based label hub. Connects live ERP data directly to Zebra, TSC, and Honeywell barcode printers across all your plant units.',
@@ -66,8 +66,8 @@ export const HomeView = () => {
       name: 'Perfect Audit',
       badge: 'Internal Audit & Compliance',
       icon: ShieldCheck,
-      color: '#e11d48',
-      bgColor: '#fff1f2',
+      color: '#0071ba',
+      bgColor: 'rgba(0, 113, 186, 0.08)',
       shortDesc: 'Paperless ISO & IATF digital checklists with photo proof and automated CAPA.',
       summary: '100% paperless ISO internal audit and compliance management SaaS.',
       description: 'Replaces paper clipboards and Excel sheets across multi-plant facilities. Shopfloor inspectors capture photo proof, geo-timestamps, and automated CAPA corrective actions directly on mobile devices.',
@@ -79,8 +79,8 @@ export const HomeView = () => {
       name: 'Perfect Store (WMS)',
       badge: 'Warehouse Management',
       icon: Boxes,
-      color: '#0071ba',
-      bgColor: '#eff6ff',
+      color: '#E85874',
+      bgColor: 'rgba(232, 88, 116, 0.08)',
       shortDesc: 'Warehouse management with bin slotting, FIFO control, and direct ERP sync.',
       summary: 'Bin-level inventory tracking, FIFO enforcement, and direct ERP sync.',
       description: 'Connects warehouse operators on rugged handhelds straight into SAP S/4HANA and Oracle. Automatically directs put-away, stock picking, and dock dispatch without discrepancies.',
@@ -92,8 +92,8 @@ export const HomeView = () => {
       name: 'Perfect Trace',
       badge: 'Track & Trace Serialization',
       icon: Layers,
-      color: '#009a44',
-      bgColor: '#f0fdf4',
+      color: '#0071ba',
+      bgColor: 'rgba(0, 113, 186, 0.08)',
       shortDesc: 'Parent-child packaging serialization meeting DGFT and US-FDA export standards.',
       summary: 'Multi-tier parent-child packaging serialization and aggregation.',
       description: 'Connects packaging lines for automotive OEMs and pharmaceutical exporters. Generates cryptographic serials and verifies 2D barcodes at production line speed to eliminate recall liability.',
@@ -105,8 +105,8 @@ export const HomeView = () => {
       name: 'Perfect Vision AI',
       badge: 'Machine Vision Inspection',
       icon: Eye,
-      color: '#7c3aed',
-      bgColor: '#f5f3ff',
+      color: '#E85874',
+      bgColor: 'rgba(232, 88, 116, 0.08)',
       shortDesc: 'High-speed conveyor optical inspection for automated defect classification.',
       summary: 'High-speed conveyor optical inspection for automated defect detection.',
       description: 'Industrial optical cameras running real-time Pass/Fail defect analysis on high-speed lines. Classifies microscopic surface flaws, label alignment, and solder cracks with automated reject gates.',
@@ -371,7 +371,7 @@ export const HomeView = () => {
               <div style={{
                 width: '42px',
                 height: '3.5px',
-                backgroundColor: '#e11d48',
+                backgroundColor: '#E85874',
                 borderRadius: '999px',
                 marginBottom: '1.75rem'
               }} />
@@ -389,7 +389,7 @@ export const HomeView = () => {
               <button
                 onClick={() => openDemoModal({ solution: 'ATPL Software Suite', notes: 'Requesting PoC for ATPL Enterprise Software Suite' })}
                 style={{
-                  backgroundColor: '#e11d48',
+                  backgroundColor: '#E85874',
                   color: '#ffffff',
                   border: 'none',
                   padding: '1rem 2rem',
@@ -403,17 +403,17 @@ export const HomeView = () => {
                   alignItems: 'center',
                   gap: '0.55rem',
                   transition: 'all 0.15s ease',
-                  boxShadow: '0 4px 14px rgba(225, 29, 72, 0.25)'
+                  boxShadow: '0 4px 14px rgba(232, 88, 116, 0.35)'
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = '#be123c';
+                  e.currentTarget.style.backgroundColor = '#d44360';
                   e.currentTarget.style.transform = 'translateY(-2px)';
-                  e.currentTarget.style.boxShadow = '0 8px 20px rgba(225, 29, 72, 0.35)';
+                  e.currentTarget.style.boxShadow = '0 8px 20px rgba(232, 88, 116, 0.45)';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = '#e11d48';
+                  e.currentTarget.style.backgroundColor = '#E85874';
                   e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 4px 14px rgba(225, 29, 72, 0.25)';
+                  e.currentTarget.style.boxShadow = '0 4px 14px rgba(232, 88, 116, 0.35)';
                 }}
               >
                 <span>REQUEST A POC</span>
@@ -438,7 +438,7 @@ export const HomeView = () => {
                 <div style={{
                   width: '36px',
                   height: '2.5px',
-                  backgroundColor: '#e11d48',
+                  backgroundColor: '#E85874',
                   borderRadius: '999px'
                 }} />
               </div>

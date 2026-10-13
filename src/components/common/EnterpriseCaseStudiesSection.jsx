@@ -200,7 +200,7 @@ export const EnterpriseCaseStudiesSection = () => {
           </div>
 
           <div style={{ borderRight: '1px solid rgba(255, 255, 255, 0.08)', paddingRight: '1rem' }}>
-            <div style={{ fontSize: '2.5rem', fontWeight: 900, color: '#10b981', lineHeight: 1 }}>
+            <div style={{ fontSize: '2.5rem', fontWeight: 900, color: '#00f0ff', lineHeight: 1 }}>
               99.98%
             </div>
             <div style={{ fontSize: '0.92rem', fontWeight: 800, color: '#ffffff', marginTop: '0.4rem' }}>
@@ -212,7 +212,7 @@ export const EnterpriseCaseStudiesSection = () => {
           </div>
 
           <div style={{ borderRight: '1px solid rgba(255, 255, 255, 0.08)', paddingRight: '1rem' }}>
-            <div style={{ fontSize: '2.5rem', fontWeight: 900, color: '#f59e0b', lineHeight: 1 }}>
+            <div style={{ fontSize: '2.5rem', fontWeight: 900, color: '#299fe0', lineHeight: 1 }}>
               10x Faster
             </div>
             <div style={{ fontSize: '0.92rem', fontWeight: 800, color: '#ffffff', marginTop: '0.4rem' }}>

@@ -354,14 +354,14 @@ export const OfficialPartnersShowcase = ({
   };
 
   const categoryBadgeColors = {
-    all: '#f59e0b',
+    all: '#0071ba',
     aidc: '#0071ba',
     automation: '#E85874',
-    mdm: '#00f0ff',
-    cert: '#009a44'
+    mdm: '#0284c7',
+    cert: '#00f0ff'
   };
 
-  const badgeColor = categoryBadgeColors[category] || '#f59e0b';
+  const badgeColor = categoryBadgeColors[category] || '#0071ba';
   const sectionTitle = categoryTitles[category] || 'Our Official Global Partners';
 
   return (

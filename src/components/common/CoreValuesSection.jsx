@@ -17,47 +17,47 @@ export const CoreValuesSection = () => {
       title: 'Long-term industrial commitment',
       icon: HandshakeIcon,
       color: '#0071ba',
-      bgColor: '#eff6ff',
+      bgColor: 'rgba(0, 113, 186, 0.08)',
       description: '35+ years of combined industrial domain experience gives us a deep understanding of shopfloor realities. We build systems to run reliably for decades, partnering with your plants through every production expansion.'
     },
     {
       id: 'operator-first',
       title: 'Plant-floor first philosophy',
       icon: Users,
-      color: '#009a44',
-      bgColor: '#f0fdf4',
+      color: '#E85874',
+      bgColor: 'rgba(232, 88, 116, 0.08)',
       description: 'Software is only as good as the operator holding the scanner on the line. We design our interfaces for busy forklift drivers and line operators — eliminating unnecessary clicks, delays, and friction.'
     },
     {
       id: 'data-ownership',
       title: 'Complete data ownership & zero lock-in',
       icon: Database,
-      color: '#d97706',
-      bgColor: '#fffbeb',
+      color: '#0071ba',
+      bgColor: 'rgba(0, 113, 186, 0.08)',
       description: 'Your manufacturing and inventory data belongs entirely to you. Our software links directly into your SAP or Oracle ERP without locking your plant into proprietary file formats or recurring user licensing traps.'
     },
     {
       id: 'rnd-focus',
       title: 'Focus on research & in-house R&D',
       icon: Cpu,
-      color: '#6366f1',
-      bgColor: '#eef2ff',
+      color: '#E85874',
+      bgColor: 'rgba(232, 88, 116, 0.08)',
       description: 'Industrial automation is our craft. Backed by our R&D center at TCE-TBI Madurai and headquarters at TIDEL Park Chennai, we invest continuously in proprietary firmware, vision neural models, and industrial IoT middleware.'
     },
     {
       id: 'single-team',
       title: 'One accountable engineering team',
       icon: Layers,
-      color: '#0284c7',
-      bgColor: '#f0f9ff',
+      color: '#0071ba',
+      bgColor: 'rgba(0, 113, 186, 0.08)',
       description: 'We handle both the shopfloor hardware mounting and the ERP middleware software in-house. You never have to mediate between an IT software consultant and an industrial hardware reseller.'
     },
     {
       id: 'sla-support',
       title: 'Guaranteed 4-hour on-site SLA',
       icon: Clock,
-      color: '#e11d48',
-      bgColor: '#fff1f2',
+      color: '#E85874',
+      bgColor: 'rgba(232, 88, 116, 0.08)',
       description: 'When a critical packing line or dock portal encounters an issue, our local field engineers dispatch on-site across South India manufacturing corridors with pre-configured hot-swap equipment to keep dispatches rolling 24/7.'
     }
   ];

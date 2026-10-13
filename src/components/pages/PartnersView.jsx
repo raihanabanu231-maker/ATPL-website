@@ -294,9 +294,9 @@ export const PartnersView = () => {
         <PageHeroBackdrop
           badgeIcon={Handshake}
           badgeText="OFFICIAL OEM ALLIANCES & CERTIFIED PARTNERS"
-          badgeColor="#f59e0b"
+          badgeColor="#0071ba"
           accentColor="#0071ba"
-          secondaryGlow="#f59e0b"
+          secondaryGlow="#E85874"
           systemTag="[ GLOBAL TIER-1 OEMS // GS1 STANDARDS ]"
           title="Our Global"
           highlightText="Partner Ecosystem"
@@ -308,7 +308,7 @@ export const PartnersView = () => {
               active={activeCategory === cat.id}
               onClick={() => handleCategorySelect(cat.id)}
               label={cat.label}
-              accentColor="#f59e0b"
+              accentColor="#0071ba"
             />
           ))}
 
@@ -379,9 +379,9 @@ export const PartnersView = () => {
                   key={cat.id}
                   onClick={() => setActiveCategory(cat.id)}
                   style={{
-                    backgroundColor: isActive ? '#f59e0b' : 'rgba(255, 255, 255, 0.05)',
-                    color: isActive ? '#000000' : '#e2e8f0',
-                    border: isActive ? '1px solid #f59e0b' : '1px solid rgba(255, 255, 255, 0.1)',
+                    backgroundColor: isActive ? '#0071ba' : 'rgba(255, 255, 255, 0.05)',
+                    color: isActive ? '#ffffff' : '#e2e8f0',
+                    border: isActive ? '1px solid #299fe0' : '1px solid rgba(255, 255, 255, 0.1)',
                     borderRadius: '999px',
                     padding: '0.45rem 1.1rem',
                     fontSize: '0.85rem',
@@ -392,12 +392,12 @@ export const PartnersView = () => {
                     gap: '0.45rem',
                     transition: 'all 0.2s ease',
                     minHeight: '38px',
-                    boxShadow: isActive ? '0 0 15px rgba(245, 158, 11, 0.4)' : 'none'
+                    boxShadow: isActive ? '0 0 15px rgba(0, 113, 186, 0.5)' : 'none'
                   }}
                   onMouseEnter={(e) => {
                     if (!isActive) {
                       e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.12)';
-                      e.currentTarget.style.borderColor = 'rgba(245, 158, 11, 0.4)';
+                      e.currentTarget.style.borderColor = 'rgba(0, 113, 186, 0.4)';
                       e.currentTarget.style.transform = 'translateY(-1px)';
                     }
                   }}
@@ -527,7 +527,7 @@ export const PartnersView = () => {
                               </div>
                               <span style={{
                                 backgroundColor: `${cat.color}25`,
-                                color: cat.color === '#f59e0b' ? '#fbbf24' : cat.color,
+                                color: cat.color,
                                 border: `1px solid ${cat.color}60`,
                                 padding: '0.25rem 0.65rem',
                                 borderRadius: '6px',

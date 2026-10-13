@@ -13,9 +13,9 @@ import {
 } from 'lucide-react';
 
 /**
- * LaurelWreath: Authentic laurel wreath SVG icon matching the Zoho Community social proof metrics.
+ * LaurelWreath: Authentic laurel wreath SVG icon with ATPL Logo Blue & light styling.
  */
-function LaurelWreath({ children, number, label }) {
+function LaurelWreath({ children, number, label, accentColor = '#299fe0' }) {
   return (
     <div style={{
       display: 'flex',
@@ -24,11 +24,11 @@ function LaurelWreath({ children, number, label }) {
     }}>
       {/* Left Laurel Branch */}
       <svg width="22" height="38" viewBox="0 0 22 38" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ flexShrink: 0 }}>
-        <path d="M18 2C16 8 11 13 6 18C2 22 2 28 6 33C8 35 12 36 18 36" stroke="#eab308" strokeWidth="2.2" strokeLinecap="round"/>
-        <path d="M14 6C10 9 6 10 3 9" stroke="#eab308" strokeWidth="1.8" strokeLinecap="round"/>
-        <path d="M12 14C8 16 5 18 2 17" stroke="#eab308" strokeWidth="1.8" strokeLinecap="round"/>
-        <path d="M11 22C7 24 4 27 2 26" stroke="#eab308" strokeWidth="1.8" strokeLinecap="round"/>
-        <path d="M13 30C10 31 7 33 5 33" stroke="#eab308" strokeWidth="1.8" strokeLinecap="round"/>
+        <path d="M18 2C16 8 11 13 6 18C2 22 2 28 6 33C8 35 12 36 18 36" stroke={accentColor} strokeWidth="2.2" strokeLinecap="round"/>
+        <path d="M14 6C10 9 6 10 3 9" stroke={accentColor} strokeWidth="1.8" strokeLinecap="round"/>
+        <path d="M12 14C8 16 5 18 2 17" stroke={accentColor} strokeWidth="1.8" strokeLinecap="round"/>
+        <path d="M11 22C7 24 4 27 2 26" stroke={accentColor} strokeWidth="1.8" strokeLinecap="round"/>
+        <path d="M13 30C10 31 7 33 5 33" stroke={accentColor} strokeWidth="1.8" strokeLinecap="round"/>
       </svg>
 
       {/* Number and Label */}
@@ -36,7 +36,7 @@ function LaurelWreath({ children, number, label }) {
         <div style={{
           fontSize: '1.45rem',
           fontWeight: 900,
-          color: '#0f172a',
+          color: '#f8fafc',
           lineHeight: 1.1,
           letterSpacing: '-0.02em'
         }}>
@@ -44,7 +44,7 @@ function LaurelWreath({ children, number, label }) {
         </div>
         <div style={{
           fontSize: '0.84rem',
-          color: '#64748b',
+          color: '#94a3b8',
           fontWeight: 600,
           marginTop: '0.15rem'
         }}>
@@ -54,11 +54,11 @@ function LaurelWreath({ children, number, label }) {
 
       {/* Right Laurel Branch */}
       <svg width="22" height="38" viewBox="0 0 22 38" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ flexShrink: 0 }}>
-        <path d="M4 2C6 8 11 13 16 18C20 22 20 28 16 33C14 35 10 36 4 36" stroke="#eab308" strokeWidth="2.2" strokeLinecap="round"/>
-        <path d="M8 6C12 9 16 10 19 9" stroke="#eab308" strokeWidth="1.8" strokeLinecap="round"/>
-        <path d="M10 14C14 16 17 18 20 17" stroke="#eab308" strokeWidth="1.8" strokeLinecap="round"/>
-        <path d="M11 22C15 24 18 27 20 26" stroke="#eab308" strokeWidth="1.8" strokeLinecap="round"/>
-        <path d="M9 30C12 31 15 33 17 33" stroke="#eab308" strokeWidth="1.8" strokeLinecap="round"/>
+        <path d="M4 2C6 8 11 13 16 18C20 22 20 28 16 33C14 35 10 36 4 36" stroke={accentColor} strokeWidth="2.2" strokeLinecap="round"/>
+        <path d="M8 6C12 9 16 10 19 9" stroke={accentColor} strokeWidth="1.8" strokeLinecap="round"/>
+        <path d="M10 14C14 16 17 18 20 17" stroke={accentColor} strokeWidth="1.8" strokeLinecap="round"/>
+        <path d="M11 22C15 24 18 27 20 26" stroke={accentColor} strokeWidth="1.8" strokeLinecap="round"/>
+        <path d="M9 30C12 31 15 33 17 33" stroke={accentColor} strokeWidth="1.8" strokeLinecap="round"/>
       </svg>
     </div>
   );
@@ -66,7 +66,7 @@ function LaurelWreath({ children, number, label }) {
 
 /**
  * AtplCommunitySection: Zoho Community-style hero section featuring our real team & leadership
- * Inspired directly by community.zoho.com layout.
+ * Inspired directly by community.zoho.com layout with 30-30-40 brand harmony.
  */
 export function AtplCommunitySection() {
   const { openDemoModal, setCurrentView } = useApp();
@@ -76,19 +76,19 @@ export function AtplCommunitySection() {
     <section 
       style={{
         position: 'relative',
-        backgroundColor: '#e6f4fc',
+        backgroundColor: '#070d18',
         backgroundImage: `
-          radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.9) 0%, transparent 40%),
-          radial-gradient(circle at 90% 80%, rgba(0, 113, 186, 0.08) 0%, transparent 45%),
-          linear-gradient(135deg, #e5f4fd 0%, #edf7fd 50%, #f0f9ff 100%)
+          radial-gradient(circle at 15% 25%, rgba(0, 113, 186, 0.16) 0%, transparent 45%),
+          radial-gradient(circle at 85% 75%, rgba(232, 88, 116, 0.12) 0%, transparent 50%),
+          linear-gradient(180deg, #060b14 0%, #0a1324 50%, #060b14 100%)
         `,
         padding: '5rem 0',
         overflow: 'hidden',
-        borderTop: '1px solid #dbeafe',
-        borderBottom: '1px solid #dbeafe'
+        borderTop: '1px solid rgba(0, 113, 186, 0.2)',
+        borderBottom: '1px solid rgba(0, 113, 186, 0.2)'
       }}
     >
-      {/* Subtle Background Cityscape / Smart Factory Skyline Vector (Like Zoho Community) */}
+      {/* Subtle Background Cityscape / Smart Factory Skyline Vector */}
       <div 
         aria-hidden="true"
         style={{
@@ -97,7 +97,7 @@ export function AtplCommunitySection() {
           right: 0,
           width: '55vw',
           height: '280px',
-          opacity: 0.12,
+          opacity: 0.08,
           pointerEvents: 'none',
           backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 300' fill='%230071ba'%3E%3Crect x='50' y='120' width='60' height='180'/%3E%3Crect x='130' y='80' width='80' height='220'/%3E%3Cpolygon points='170,20 150,80 190,80'/%3E%3Crect x='230' y='140' width='50' height='160'/%3E%3Crect x='300' y='60' width='90' height='240'/%3E%3Crect x='410' y='110' width='70' height='190'/%3E%3Crect x='500' y='90' width='110' height='210'/%3E%3Cpolygon points='555,30 535,90 575,90'/%3E%3Crect x='630' y='130' width='65' height='170'/%3E%3Crect x='715' y='70' width='85' height='230'/%3E%3Crect x='820' y='100' width='95' height='200'/%3E%3Cpolygon points='867,40 850,100 885,100'/%3E%3Crect x='935' y='135' width='60' height='165'/%3E%3C/svg%3E")`,
           backgroundRepeat: 'no-repeat',
@@ -132,7 +132,7 @@ export function AtplCommunitySection() {
               LEFT COLUMN: Zoho Community Content & Metrics
              ========================================================================= */}
           <div>
-            {/* Small Brand App Badge (Like Zoho Community) */}
+            {/* Small Brand App Badge */}
             <div 
               style={{
                 display: 'inline-flex',
@@ -146,23 +146,23 @@ export function AtplCommunitySection() {
                   width: '42px',
                   height: '42px',
                   borderRadius: '12px',
-                  backgroundColor: '#ffffff',
+                  backgroundColor: 'rgba(14, 26, 49, 0.85)',
                   border: '2px solid #0071ba',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  boxShadow: '0 4px 12px rgba(0, 113, 186, 0.15)'
+                  boxShadow: '0 4px 16px rgba(0, 113, 186, 0.3)'
                 }}
               >
-                <Users size={22} color="#0071ba" strokeWidth={2.4} />
+                <Users size={22} color="#299fe0" strokeWidth={2.4} />
               </div>
               <span style={{
                 fontSize: '1.25rem',
                 fontWeight: 800,
-                color: '#0f172a',
+                color: '#ffffff',
                 letterSpacing: '-0.01em'
               }}>
-                ATPL <span style={{ color: '#0071ba' }}>Community</span>
+                ATPL <span style={{ color: '#299fe0' }}>Community</span>
               </span>
             </div>
 
@@ -171,7 +171,7 @@ export function AtplCommunitySection() {
               style={{
                 fontSize: 'clamp(2.2rem, 4.4vw, 3.8rem)',
                 fontWeight: 900,
-                color: '#0f172a',
+                color: '#ffffff',
                 lineHeight: 1.14,
                 letterSpacing: '-0.03em',
                 marginBottom: '1.25rem'
@@ -185,7 +185,7 @@ export function AtplCommunitySection() {
               style={{
                 fontSize: 'clamp(1rem, 1.6vw, 1.22rem)',
                 lineHeight: 1.65,
-                color: '#475569',
+                color: '#94a3b8',
                 marginBottom: '2rem',
                 maxWidth: '520px'
               }}
@@ -193,15 +193,15 @@ export function AtplCommunitySection() {
               Where Industry 4.0 innovators, mechanical engineers, and factory pioneers connect, engage, and build the future of Indian manufacturing.
             </p>
 
-            {/* CTA Button: Zoho-Style Red/Coral Pill Button */}
+            {/* CTA Button: ATPL Coral Pill Button */}
             <div style={{ marginBottom: '2.75rem' }}>
               <button
                 onClick={() => openDemoModal({ mode: 'community', solution: 'ATPL Community & Engineering Network' })}
                 style={{
-                  backgroundColor: '#e11d48',
+                  backgroundColor: '#E85874',
                   color: '#ffffff',
                   border: 'none',
-                  borderRadius: '6px',
+                  borderRadius: '8px',
                   padding: '0.9rem 2.2rem',
                   fontSize: '0.96rem',
                   fontWeight: 800,
@@ -211,18 +211,18 @@ export function AtplCommunitySection() {
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: '0.5rem',
-                  boxShadow: '0 8px 22px rgba(225, 29, 72, 0.35)',
+                  boxShadow: '0 8px 24px rgba(232, 88, 116, 0.4)',
                   transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)'
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = '#be123c';
+                  e.currentTarget.style.backgroundColor = '#d44360';
                   e.currentTarget.style.transform = 'translateY(-2px)';
-                  e.currentTarget.style.boxShadow = '0 12px 28px rgba(225, 29, 72, 0.45)';
+                  e.currentTarget.style.boxShadow = '0 12px 30px rgba(232, 88, 116, 0.55)';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = '#e11d48';
+                  e.currentTarget.style.backgroundColor = '#E85874';
                   e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 8px 22px rgba(225, 29, 72, 0.35)';
+                  e.currentTarget.style.boxShadow = '0 8px 24px rgba(232, 88, 116, 0.4)';
                 }}
               >
                 <span>JOIN NOW</span>
@@ -230,7 +230,7 @@ export function AtplCommunitySection() {
               </button>
             </div>
 
-            {/* Social Proof Laurel Wreath Metrics (Exact Zoho Community Style) */}
+            {/* Social Proof Laurel Wreath Metrics */}
             <div 
               className="atpl-laurel-metrics"
               style={{
@@ -241,22 +241,22 @@ export function AtplCommunitySection() {
                 paddingTop: '0.5rem'
               }}
             >
-              <LaurelWreath number="250+" label="Enterprise Clients" />
+              <LaurelWreath number="250+" label="Enterprise Clients" accentColor="#299fe0" />
               
               {/* Vertical divider */}
-              <div className="atpl-laurel-divider" style={{ width: '1px', height: '42px', backgroundColor: '#cbd5e1' }} />
+              <div className="atpl-laurel-divider" style={{ width: '1px', height: '42px', backgroundColor: 'rgba(255, 255, 255, 0.12)' }} />
               
-              <LaurelWreath number="35+ Years" label="Domain Legacy" />
+              <LaurelWreath number="35+ Years" label="Domain Legacy" accentColor="#E85874" />
 
               {/* Vertical divider */}
-              <div className="atpl-laurel-divider" style={{ width: '1px', height: '42px', backgroundColor: '#cbd5e1' }} />
+              <div className="atpl-laurel-divider" style={{ width: '1px', height: '42px', backgroundColor: 'rgba(255, 255, 255, 0.12)' }} />
 
-              <LaurelWreath number="6 Hubs" label="Pan-India Branches" />
+              <LaurelWreath number="6 Hubs" label="Pan-India Branches" accentColor="#00f0ff" />
             </div>
           </div>
 
           {/* =========================================================================
-              RIGHT COLUMN: "put our images like this" - Real Team & Leadership
+              RIGHT COLUMN: Real Team & Leadership Showcase
              ========================================================================= */}
           <div style={{ position: 'relative' }}>
             
@@ -275,15 +275,15 @@ export function AtplCommunitySection() {
                 type="button"
                 onClick={() => setActivePhotoTab('team')}
                 style={{
-                  backgroundColor: activePhotoTab === 'team' ? '#0071ba' : 'rgba(255, 255, 255, 0.8)',
-                  color: activePhotoTab === 'team' ? '#ffffff' : '#475569',
-                  border: activePhotoTab === 'team' ? '1.5px solid #0071ba' : '1px solid #cbd5e1',
+                  backgroundColor: activePhotoTab === 'team' ? '#0071ba' : 'rgba(14, 26, 49, 0.75)',
+                  color: activePhotoTab === 'team' ? '#ffffff' : '#94a3b8',
+                  border: activePhotoTab === 'team' ? '1.5px solid #299fe0' : '1px solid rgba(255, 255, 255, 0.12)',
                   borderRadius: '999px',
                   padding: '0.4rem 1rem',
                   fontSize: '0.82rem',
                   fontWeight: 700,
                   cursor: 'pointer',
-                  boxShadow: activePhotoTab === 'team' ? '0 4px 14px rgba(0, 113, 186, 0.3)' : 'none',
+                  boxShadow: activePhotoTab === 'team' ? '0 4px 14px rgba(0, 113, 186, 0.4)' : 'none',
                   transition: 'all 0.2s ease'
                 }}
               >
@@ -293,15 +293,15 @@ export function AtplCommunitySection() {
                 type="button"
                 onClick={() => setActivePhotoTab('founder')}
                 style={{
-                  backgroundColor: activePhotoTab === 'founder' ? '#0071ba' : 'rgba(255, 255, 255, 0.8)',
-                  color: activePhotoTab === 'founder' ? '#ffffff' : '#475569',
-                  border: activePhotoTab === 'founder' ? '1.5px solid #0071ba' : '1px solid #cbd5e1',
+                  backgroundColor: activePhotoTab === 'founder' ? '#0071ba' : 'rgba(14, 26, 49, 0.75)',
+                  color: activePhotoTab === 'founder' ? '#ffffff' : '#94a3b8',
+                  border: activePhotoTab === 'founder' ? '1.5px solid #299fe0' : '1px solid rgba(255, 255, 255, 0.12)',
                   borderRadius: '999px',
                   padding: '0.4rem 1rem',
                   fontSize: '0.82rem',
                   fontWeight: 700,
                   cursor: 'pointer',
-                  boxShadow: activePhotoTab === 'founder' ? '0 4px 14px rgba(0, 113, 186, 0.3)' : 'none',
+                  boxShadow: activePhotoTab === 'founder' ? '0 4px 14px rgba(0, 113, 186, 0.4)' : 'none',
                   transition: 'all 0.2s ease'
                 }}
               >
@@ -309,15 +309,15 @@ export function AtplCommunitySection() {
               </button>
             </div>
 
-            {/* Team / Leadership Showcase Stage (Grounded seamlessly on Sky-Blue Canvas) */}
+            {/* Team / Leadership Showcase Stage */}
             <div 
               style={{
                 position: 'relative',
                 borderRadius: '24px',
                 overflow: 'hidden',
-                backgroundColor: '#ffffff',
-                border: '3px solid #ffffff',
-                boxShadow: '0 24px 60px rgba(0, 113, 186, 0.18), 0 8px 24px rgba(0, 0, 0, 0.08)',
+                backgroundColor: '#0b1528',
+                border: '2px solid rgba(0, 113, 186, 0.35)',
+                boxShadow: '0 24px 60px rgba(0, 0, 0, 0.5), 0 0 35px rgba(0, 113, 186, 0.15)',
                 transition: 'all 0.35s ease'
               }}
             >
@@ -341,7 +341,7 @@ export function AtplCommunitySection() {
                       bottom: 0,
                       left: 0,
                       right: 0,
-                      background: 'linear-gradient(to top, rgba(15, 23, 42, 0.85) 0%, rgba(15, 23, 42, 0.3) 65%, transparent 100%)',
+                      background: 'linear-gradient(to top, rgba(6, 11, 20, 0.95) 0%, rgba(6, 11, 20, 0.4) 65%, transparent 100%)',
                       padding: '1.75rem 1.25rem 1rem 1.25rem',
                       color: '#ffffff'
                     }}
@@ -354,17 +354,17 @@ export function AtplCommunitySection() {
                       gap: '0.5rem'
                     }}>
                       <div>
-                        <div style={{ fontSize: '0.98rem', fontWeight: 800, letterSpacing: '0.02em' }}>
+                        <div style={{ fontSize: '0.98rem', fontWeight: 800, letterSpacing: '0.02em', color: '#ffffff' }}>
                           Archery Technocrats Engineering Force
                         </div>
-                        <div style={{ fontSize: '0.8rem', color: '#cbd5e1' }}>
+                        <div style={{ fontSize: '0.8rem', color: '#94a3b8' }}>
                           In-House Software Engineers, AIDC Integrators &amp; Leadership
                         </div>
                       </div>
                       <span style={{
-                        backgroundColor: 'rgba(0, 240, 255, 0.25)',
+                        backgroundColor: 'rgba(0, 240, 255, 0.2)',
                         border: '1px solid rgba(0, 240, 255, 0.5)',
-                        color: '#38bdf8',
+                        color: '#00f0ff',
                         fontSize: '0.74rem',
                         fontWeight: 700,
                         padding: '0.2rem 0.65rem',
@@ -396,7 +396,7 @@ export function AtplCommunitySection() {
                       bottom: 0,
                       left: 0,
                       right: 0,
-                      background: 'linear-gradient(to top, rgba(15, 23, 42, 0.9) 0%, rgba(15, 23, 42, 0.3) 65%, transparent 100%)',
+                      background: 'linear-gradient(to top, rgba(6, 11, 20, 0.95) 0%, rgba(6, 11, 20, 0.4) 65%, transparent 100%)',
                       padding: '1.75rem 1.25rem 1rem 1.25rem',
                       color: '#ffffff'
                     }}
@@ -409,10 +409,10 @@ export function AtplCommunitySection() {
                       gap: '0.5rem'
                     }}>
                       <div>
-                        <div style={{ fontSize: '1.05rem', fontWeight: 800 }}>
+                        <div style={{ fontSize: '1.05rem', fontWeight: 800, color: '#ffffff' }}>
                           Amarnath Paramasivam
                         </div>
-                        <div style={{ fontSize: '0.82rem', color: '#cbd5e1' }}>
+                        <div style={{ fontSize: '0.82rem', color: '#94a3b8' }}>
                           Founder &amp; Managing Director • 15+ Yrs Industry 4.0 Vision
                         </div>
                       </div>
@@ -441,11 +441,13 @@ export function AtplCommunitySection() {
                 position: 'absolute',
                 top: '45px',
                 right: '-12px',
-                backgroundColor: '#ffffff',
-                border: '1px solid #e2e8f0',
+                backgroundColor: 'rgba(11, 21, 40, 0.92)',
+                backdropFilter: 'blur(10px)',
+                WebkitBackdropFilter: 'blur(10px)',
+                border: '1px solid rgba(0, 113, 186, 0.45)',
                 borderRadius: '12px',
                 padding: '0.65rem 0.95rem',
-                boxShadow: '0 10px 25px rgba(0, 0, 0, 0.1)',
+                boxShadow: '0 10px 25px rgba(0, 0, 0, 0.4)',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '0.5rem',
@@ -457,10 +459,10 @@ export function AtplCommunitySection() {
                 width: '10px',
                 height: '10px',
                 borderRadius: '50%',
-                backgroundColor: '#10b981',
-                boxShadow: '0 0 8px #10b981'
+                backgroundColor: '#00f0ff',
+                boxShadow: '0 0 8px #00f0ff'
               }} />
-              <div style={{ fontSize: '0.78rem', fontWeight: 700, color: '#0f172a' }}>
+              <div style={{ fontSize: '0.78rem', fontWeight: 700, color: '#ffffff' }}>
                 100% In-House R&amp;D
               </div>
             </div>
@@ -472,11 +474,13 @@ export function AtplCommunitySection() {
                 position: 'absolute',
                 bottom: '15px',
                 left: '-15px',
-                backgroundColor: '#ffffff',
-                border: '1px solid #e2e8f0',
+                backgroundColor: 'rgba(11, 21, 40, 0.92)',
+                backdropFilter: 'blur(10px)',
+                WebkitBackdropFilter: 'blur(10px)',
+                border: '1px solid rgba(232, 88, 116, 0.45)',
                 borderRadius: '12px',
                 padding: '0.65rem 0.95rem',
-                boxShadow: '0 10px 25px rgba(0, 0, 0, 0.1)',
+                boxShadow: '0 10px 25px rgba(0, 0, 0, 0.4)',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '0.5rem',
@@ -484,8 +488,8 @@ export function AtplCommunitySection() {
                 animation: 'atplFloatTag 7s ease-in-out infinite alternate-reverse'
               }}
             >
-              <Sparkles size={14} color="#0071ba" />
-              <div style={{ fontSize: '0.78rem', fontWeight: 700, color: '#0f172a' }}>
+              <Sparkles size={14} color="#E85874" />
+              <div style={{ fontSize: '0.78rem', fontWeight: 700, color: '#ffffff' }}>
                 ISO 9001:2015 Certified
               </div>
             </div>

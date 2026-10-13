@@ -324,7 +324,7 @@ export const Navbar = ({ onOpenSearch }) => {
                       style={{ padding: '0.55rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', gap: '0.75rem' }}
                       className="dropdown-hover-item"
                     >
-                      <Zap size={20} color="#f59e0b" style={{ marginTop: '2px', flexShrink: 0 }} />
+                      <Zap size={20} color="#0071ba" style={{ marginTop: '2px', flexShrink: 0 }} />
                       <div>
                         <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#0f172a' }}>Industrial 2D & DPM Scanners</div>
                         <div style={{ fontSize: '0.78rem', color: '#64748b' }}>Fixed mount & rugged handheld imagers</div>
@@ -465,7 +465,7 @@ export const Navbar = ({ onOpenSearch }) => {
                       style={{ padding: '0.55rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', gap: '0.75rem' }}
                       className="dropdown-hover-item"
                     >
-                      <Layers size={20} color="#f59e0b" style={{ marginTop: '2px', flexShrink: 0 }} />
+                      <Layers size={20} color="#E85874" style={{ marginTop: '2px', flexShrink: 0 }} />
                       <div>
                         <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#0f172a' }}>Perfect PMS™ (Production)</div>
                         <div style={{ fontSize: '0.78rem', color: '#64748b' }}>Shopfloor OEE, WIP & line balancing</div>
@@ -1160,8 +1160,8 @@ export const Navbar = ({ onOpenSearch }) => {
                 {mobileExpandedSection === 'hardware' && (
                   <div style={{ padding: '0.5rem 0.5rem 0.5rem 0.85rem', display: 'flex', flexDirection: 'column', gap: '0.4rem', borderLeft: '2px solid #0071ba', marginLeft: '0.5rem', marginTop: '0.35rem' }}>
                     <button onClick={() => handleNavClick('hardware')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0071ba', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>• Fixed UHF RFID Portals & Antennas</button>
-                    <button onClick={() => handleNavClick('hardware')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#f59e0b', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>• Industrial 2D & DPM Barcode Scanners</button>
-                    <button onClick={() => handleNavClick('hardware')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#10b981', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>• Industrial Barcode & RFID Printers</button>
+                    <button onClick={() => handleNavClick('hardware')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#E85874', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>• Industrial 2D & DPM Barcode Scanners</button>
+                    <button onClick={() => handleNavClick('hardware')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0071ba', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>• Industrial Barcode & RFID Printers</button>
                     <button onClick={() => handleNavClick('hardware')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0284c7', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>• Rugged Handheld Computers & PDAs</button>
                     <button onClick={() => handleNavClick('hardware')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#E85874', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>• Robotics, Sorting & Conveyor Systems</button>
                     <button onClick={() => handleNavClick('hardware')} style={{ minHeight: '44px', background: 'rgba(0, 113, 186, 0.08)', borderRadius: '6px', border: 'none', textAlign: 'left', padding: '0.5rem 0.75rem', color: '#0071ba', fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -1193,19 +1193,19 @@ export const Navbar = ({ onOpenSearch }) => {
                   }}
                 >
                   <span style={{ display: 'flex', alignItems: 'center', gap: '0.55rem' }}>
-                    <span style={{ color: '#009a44' }}>💻</span>
+                    <span style={{ color: '#0071ba' }}>💻</span>
                     <span>Software Suites (ATPL One™)</span>
                   </span>
                   <ChevronDown size={18} style={{ transform: mobileExpandedSection === 'software' ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s ease' }} />
                 </button>
                 {mobileExpandedSection === 'software' && (
-                  <div style={{ padding: '0.5rem 0.5rem 0.5rem 0.85rem', display: 'flex', flexDirection: 'column', gap: '0.4rem', borderLeft: '2px solid #009a44', marginLeft: '0.5rem', marginTop: '0.35rem' }}>
+                  <div style={{ padding: '0.5rem 0.5rem 0.5rem 0.85rem', display: 'flex', flexDirection: 'column', gap: '0.4rem', borderLeft: '2px solid #0071ba', marginLeft: '0.5rem', marginTop: '0.35rem' }}>
                     <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0071ba', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>• Perfect Store™ (Warehouse WMS)</button>
-                    <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#009a44', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>• Perfect Trace™ (Serialization & Aggregation)</button>
-                    <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#8b5cf6', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>• Perfect AI Vision™ (Defect Inspection)</button>
-                    <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#f59e0b', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>• Perfect PMS™ (Production Management)</button>
-                    <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#10b981', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>• Perfect Audit™ (Digital Compliance)</button>
-                    <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: 'rgba(0, 154, 68, 0.08)', borderRadius: '6px', border: 'none', textAlign: 'left', padding: '0.5rem 0.75rem', color: '#009a44', fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#E85874', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>• Perfect Trace™ (Serialization & Aggregation)</button>
+                    <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0071ba', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>• Perfect AI Vision™ (Defect Inspection)</button>
+                    <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#E85874', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>• Perfect PMS™ (Production Management)</button>
+                    <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0071ba', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>• Perfect Audit™ (Digital Compliance)</button>
+                    <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: 'rgba(0, 113, 186, 0.08)', borderRadius: '6px', border: 'none', textAlign: 'left', padding: '0.5rem 0.75rem', color: '#0071ba', fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                       <span>Explore All Software Suites</span>
                       <span>➔</span>
                     </button>
