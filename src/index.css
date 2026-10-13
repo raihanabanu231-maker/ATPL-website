@@ -170,6 +170,51 @@ img, video, canvas, svg {
   }
 }
 
+/* =========================================================================
+   Mobile Optimization: Tightened Section Vertical Spacing (Reduces Empty Gaps)
+   ========================================================================= */
+@media (max-width: 768px) {
+  section,
+  .section,
+  [data-section] {
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  section,
+  .section,
+  [data-section] {
+    padding-top: 1.65rem !important;
+    padding-bottom: 1.65rem !important;
+  }
+}
+
+/* =========================================================================
+   WCAG Touch Targets: Minimum 44x44px for Buttons and Mobile Controls
+   ========================================================================= */
+@media (max-width: 768px), (pointer: coarse) {
+  button:not(.inline-icon-btn):not(.tag-remove-btn):not(.color-dot-btn),
+  a.btn,
+  .btn,
+  input[type="button"],
+  input[type="submit"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Exclude inline text links within paragraphs and footnotes */
+  p a,
+  span a,
+  td a,
+  li a:not(.btn),
+  .breadcrumb a {
+    min-height: auto;
+    min-width: auto;
+  }
+}
+
 /* Cyber Grid Background */
 body::before {
   content: '';

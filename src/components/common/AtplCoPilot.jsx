@@ -80,13 +80,23 @@ export const AtplCoPilot = () => {
   const [localIsOpen, setLocalIsOpen] = useState(false);
   const isOpen = coPilotOpen !== undefined ? coPilotOpen : localIsOpen;
   const setIsOpen = setCoPilotOpen || setLocalIsOpen;
-  const [isExpanded, setIsExpanded] = useState(false);
   const [speechBubbleDismissed, setSpeechBubbleDismissed] = useState(() => {
     if (typeof window !== 'undefined') {
+      try {
+        const interacted = localStorage.getItem('atpl_copilot_interacted');
+        if (interacted) return true;
+      } catch (e) {}
       return window.innerWidth < 768;
     }
     return false;
   });
+
+  const recordInteraction = () => {
+    setSpeechBubbleDismissed(true);
+    try {
+      localStorage.setItem('atpl_copilot_interacted', 'true');
+    } catch (e) {}
+  };
   const [messages, setMessages] = useState([
     {
       id: 1,
@@ -542,6 +552,8 @@ export const AtplCoPilot = () => {
           .copilot-launcher-btn {
             width: 44px !important;
             height: 44px !important;
+            min-width: 44px !important;
+            min-height: 44px !important;
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5), 0 0 12px rgba(0, 240, 255, 0.4) !important;
           }
           .atpl-copilot-window {
@@ -574,7 +586,10 @@ export const AtplCoPilot = () => {
           {/* Speech Bubble with 'X' Close Button */}
           {!speechBubbleDismissed && (
             <div
-              onClick={() => setIsOpen(true)}
+              onClick={() => {
+                recordInteraction();
+                setIsOpen(true);
+              }}
               className="copilot-speech-bubble"
               style={{
                 background: '#ffffff',
@@ -600,14 +615,16 @@ export const AtplCoPilot = () => {
               <button
                 onClick={(e) => {
                   e.stopPropagation();
-                  setSpeechBubbleDismissed(true);
+                  recordInteraction();
                 }}
                 style={{
                   background: '#f1f5f9',
                   border: 'none',
                   borderRadius: '50%',
-                  width: '18px',
-                  height: '18px',
+                  width: '24px',
+                  height: '24px',
+                  minWidth: '24px',
+                  minHeight: '24px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -627,18 +644,23 @@ export const AtplCoPilot = () => {
                 title="Dismiss message"
                 aria-label="Dismiss message"
               >
-                <X size={11} strokeWidth={2.5} />
+                <X size={13} strokeWidth={2.5} />
               </button>
             </div>
           )}
 
-          {/* Floating Engineering Help Desk Button */}
+          {/* Floating Engineering Help Desk Button (Min 44x44px Touch Target) */}
           <button
-            onClick={() => setIsOpen(true)}
+            onClick={() => {
+              recordInteraction();
+              setIsOpen(true);
+            }}
             className="copilot-launcher-btn"
             style={{
-              width: '54px',
-              height: '54px',
+              width: '52px',
+              height: '52px',
+              minWidth: '44px',
+              minHeight: '44px',
               borderRadius: '50%',
               backgroundColor: '#0071ba',
               border: '2px solid #ffffff',

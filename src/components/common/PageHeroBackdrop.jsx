@@ -342,6 +342,7 @@ export function PageHeroBackdrop({
           .page-hero-pill-btn {
             padding: 0.48rem 0.92rem !important;
             font-size: 0.8rem !important;
+            min-height: 44px !important;
           }
         }
       `}</style>

@@ -9,6 +9,7 @@ import { AtplCoPilot } from './components/common/AtplCoPilot';
 import { ErrorBoundary } from './components/common/ErrorBoundary';
 import { HomeView } from './components/pages/HomeView';
 import { DynamicMovingBackground } from './components/common/DynamicMovingBackground';
+import { CookieConsent } from './components/common/CookieConsent';
 
 // Code-split heavy non-home views and admin portal for sub-second LCP & TBT
 const SoftwareView = lazy(() => import('./components/pages/SoftwareView').then(m => ({ default: m.SoftwareView })));
@@ -190,6 +191,9 @@ const MainAppContent = () => {
             <AtplCoPilot />
           </ErrorBoundary>
         )}
+        <ErrorBoundary title="Cookie Consent">
+          <CookieConsent />
+        </ErrorBoundary>
       </div>
     </ErrorBoundary>
   );

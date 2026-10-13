@@ -150,23 +150,27 @@ export const HomeView = () => {
           <div style={{
             display: 'inline-flex',
             alignItems: 'center',
+            justifyContent: 'center',
             gap: '0.5rem',
             backgroundColor: '#eff6ff',
             border: '1px solid #bfdbfe',
-            padding: '0.4rem 1rem',
+            padding: '0.45rem 1rem',
             borderRadius: '999px',
-            fontSize: '0.82rem',
+            fontSize: 'clamp(0.74rem, 2.5vw, 0.82rem)',
             fontWeight: 700,
             color: '#0071ba',
-            marginBottom: '1.5rem'
+            marginBottom: '1.5rem',
+            maxWidth: '100%',
+            boxSizing: 'border-box',
+            textAlign: 'center'
           }}>
-            <ShieldCheck size={16} color="#0071ba" />
-            <span>Archery Technocrats • 35+ Years Combined Industrial Experience • ISO 9001:2015</span>
+            <ShieldCheck size={16} color="#0071ba" style={{ flexShrink: 0 }} />
+            <span style={{ lineHeight: 1.35 }}>Archery Technocrats • 35+ Years Combined Industrial Experience • ISO 9001:2015</span>
           </div>
 
           {/* Main Headline */}
           <h1 style={{
-            fontSize: 'clamp(2.1rem, 4.5vw, 3.4rem)',
+            fontSize: 'clamp(1.9rem, 4.5vw, 3.4rem)',
             fontWeight: 800,
             lineHeight: 1.2,
             letterSpacing: '-0.025em',
@@ -179,7 +183,7 @@ export const HomeView = () => {
 
           {/* Sub-headline */}
           <p style={{
-            fontSize: 'clamp(1.05rem, 2vw, 1.2rem)',
+            fontSize: 'clamp(0.95rem, 2vw, 1.2rem)',
             color: '#475569',
             lineHeight: 1.65,
             maxWidth: '820px',
@@ -196,14 +200,17 @@ export const HomeView = () => {
                 backgroundColor: '#0071ba',
                 color: '#ffffff',
                 border: 'none',
-                padding: '0.95rem 2rem',
+                padding: '0.85rem 1.75rem',
                 fontSize: '0.98rem',
                 fontWeight: 700,
                 borderRadius: '8px',
                 cursor: 'pointer',
                 display: 'inline-flex',
                 alignItems: 'center',
+                justifyContent: 'center',
                 gap: '0.5rem',
+                minHeight: '48px',
+                minWidth: '44px',
                 boxShadow: '0 4px 14px rgba(0, 113, 186, 0.3)',
                 transition: 'all 0.15s ease'
               }}
@@ -220,14 +227,17 @@ export const HomeView = () => {
                 backgroundColor: '#ffffff',
                 color: '#0f172a',
                 border: '1.5px solid #cbd5e1',
-                padding: '0.95rem 1.8rem',
+                padding: '0.85rem 1.65rem',
                 fontSize: '0.98rem',
                 fontWeight: 700,
                 borderRadius: '8px',
                 cursor: 'pointer',
                 display: 'inline-flex',
                 alignItems: 'center',
+                justifyContent: 'center',
                 gap: '0.5rem',
+                minHeight: '48px',
+                minWidth: '44px',
                 transition: 'all 0.15s ease'
               }}
               onMouseEnter={(e) => {

@@ -426,8 +426,8 @@ export const FactoryBlueprintMap = () => {
             @media (max-width: 768px) {
               .hud-factory-viewport {
                 aspect-ratio: auto !important;
-                height: 520px !important;
-                min-height: 490px !important;
+                height: clamp(390px, 60vh, 470px) !important;
+                min-height: 390px !important;
               }
               .hud-top-strip {
                 top: 8px !important;
@@ -446,7 +446,7 @@ export const FactoryBlueprintMap = () => {
                 flex-direction: column !important;
                 align-items: stretch !important;
                 gap: 0.45rem !important;
-                background-color: rgba(3, 10, 24, 0.95) !important;
+                background-color: rgba(3, 10, 24, 0.96) !important;
               }
               .hud-dock-desc {
                 white-space: normal !important;
@@ -454,9 +454,10 @@ export const FactoryBlueprintMap = () => {
                 -webkit-line-clamp: 2 !important;
                 -webkit-box-orient: vertical !important;
                 overflow: hidden !important;
-                font-size: 0.76rem !important;
-                line-height: 1.35 !important;
-                color: #94a3b8 !important;
+                font-size: 0.78rem !important;
+                line-height: 1.38 !important;
+                color: #e2e8f0 !important;
+                text-overflow: ellipsis !important;
               }
               .hud-dock-controls {
                 width: 100% !important;
@@ -468,14 +469,28 @@ export const FactoryBlueprintMap = () => {
                 flex: 1 !important;
                 justify-content: center !important;
                 padding: 0.52rem 0.85rem !important;
+                min-height: 44px !important;
               }
               .desktop-only-inline {
                 display: none !important;
+              }
+              .hud-station-pin {
+                width: 44px !important;
+                height: 44px !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
               }
               .hud-pin-disc {
                 width: 28px !important;
                 height: 28px !important;
                 font-size: 0.76rem !important;
+              }
+              .hud-archie-speech-badge {
+                padding: 0.18rem 0.55rem !important;
+                font-size: 0.65rem !important;
+                white-space: nowrap !important;
+                max-width: calc(100vw - 36px) !important;
               }
               @keyframes archieFloating {
                 0%, 100% {
@@ -795,23 +810,29 @@ export const FactoryBlueprintMap = () => {
                 alignItems: 'center',
                 animation: 'archieFloating 2.6s ease-in-out infinite'
               }}>
-                {/* Floating Telemetry Speech Pill Attached to Archie */}
-                <div style={{
-                  position: 'absolute',
-                  bottom: '100%',
-                  marginBottom: '10px',
-                  backgroundColor: 'rgba(3, 10, 24, 0.94)',
-                  backdropFilter: 'blur(12px)',
-                  border: '1px solid #00f0ff',
-                  borderRadius: '999px',
-                  padding: '0.22rem 0.75rem',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.4rem',
-                  boxShadow: '0 8px 25px rgba(0, 0, 0, 0.8), 0 0 15px rgba(0, 240, 255, 0.45)',
-                  whiteSpace: 'nowrap',
-                  zIndex: 36
-                }}>
+                {/* Floating Telemetry Speech Pill Attached to Archie (Edge-safe so text is never cut off) */}
+                <div 
+                  className="hud-archie-speech-badge"
+                  style={{
+                    position: 'absolute',
+                    bottom: '100%',
+                    marginBottom: '10px',
+                    left: currentNode.x > 68 ? 'auto' : currentNode.x < 32 ? '0' : '50%',
+                    right: currentNode.x > 68 ? '0' : 'auto',
+                    transform: currentNode.x > 68 || currentNode.x < 32 ? 'none' : 'translateX(-50%)',
+                    backgroundColor: 'rgba(3, 10, 24, 0.94)',
+                    backdropFilter: 'blur(12px)',
+                    border: '1px solid #00f0ff',
+                    borderRadius: '999px',
+                    padding: '0.22rem 0.75rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.4rem',
+                    boxShadow: '0 8px 25px rgba(0, 0, 0, 0.8), 0 0 15px rgba(0, 240, 255, 0.45)',
+                    whiteSpace: 'nowrap',
+                    zIndex: 36
+                  }}
+                >
                   <span style={{
                     width: '6px',
                     height: '6px',
@@ -995,13 +1016,16 @@ export const FactoryBlueprintMap = () => {
                     cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center',
+                    justifyContent: 'center',
+                    minWidth: '44px',
+                    minHeight: '44px',
                     gap: '0.25rem',
                     transition: 'all 0.15s ease'
                   }}
                   onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.18)'}
                   onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.08)'}
                 >
-                  <ChevronLeft size={15} />
+                  <ChevronLeft size={16} />
                   <span className="desktop-only-inline">Prev</span>
                 </button>
 
@@ -1020,6 +1044,9 @@ export const FactoryBlueprintMap = () => {
                     cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center',
+                    justifyContent: 'center',
+                    minWidth: '44px',
+                    minHeight: '44px',
                     gap: '0.25rem',
                     transition: 'all 0.15s ease',
                     boxShadow: '0 0 12px rgba(0, 113, 186, 0.5)'
@@ -1028,7 +1055,7 @@ export const FactoryBlueprintMap = () => {
                   onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'rgba(0, 113, 186, 0.4)'}
                 >
                   <span className="desktop-only-inline">Next</span>
-                  <ChevronRight size={15} />
+                  <ChevronRight size={16} />
                 </button>
 
                 {/* Request Live Demo CTA */}

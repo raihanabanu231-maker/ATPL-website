@@ -655,15 +655,116 @@ export const HardwareView = () => {
           ))}
         </PageHeroBackdrop>
 
+        {/* Responsive Hardware Grid Styling (2-Column on larger phones, smaller images) */}
+        <style>{`
+          .hw-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.75rem;
+            margin-bottom: 3.5rem;
+            margin-top: 2rem;
+            scroll-margin-top: 6rem;
+          }
+          .hw-card-img-frame {
+            height: 220px;
+            width: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            transition: height 0.3s ease;
+          }
+          .hw-card-body {
+            padding: 1.5rem;
+          }
+          .hw-card-footer {
+            padding: 0 1.5rem 1.5rem 1.5rem;
+          }
+          /* 2-Column Grid on Larger Phones & Tablets (440px - 768px) */
+          @media (max-width: 768px) and (min-width: 440px) {
+            .hw-cards-grid {
+              grid-template-columns: repeat(2, 1fr) !important;
+              gap: 0.75rem !important;
+              margin-top: 1rem !important;
+              margin-bottom: 2rem !important;
+            }
+            .hw-card-img-frame {
+              height: 135px !important;
+            }
+            .hw-card-body {
+              padding: 0.85rem !important;
+            }
+            .hw-card-body h3 {
+              font-size: 0.95rem !important;
+              margin-bottom: 0.35rem !important;
+              line-height: 1.25 !important;
+            }
+            .hw-card-desc {
+              display: -webkit-box !important;
+              -webkit-line-clamp: 2 !important;
+              -webkit-box-orient: vertical !important;
+              overflow: hidden !important;
+              font-size: 0.76rem !important;
+              line-height: 1.35 !important;
+              margin-bottom: 0.65rem !important;
+            }
+            .hw-card-specs {
+              display: none !important;
+            }
+            .hw-card-footer {
+              padding: 0 0.85rem 0.85rem 0.85rem !important;
+            }
+            .hw-card-btn {
+              padding: 0.5rem 0.65rem !important;
+              font-size: 0.76rem !important;
+              min-height: 44px !important;
+              gap: 0.25rem !important;
+            }
+            .hw-oem-badge {
+              top: 6px !important;
+              left: 6px !important;
+              padding: 0.15rem 0.4rem !important;
+              font-size: 0.6rem !important;
+            }
+            .hw-spec-badge {
+              top: 6px !important;
+              right: 6px !important;
+              padding: 0.15rem 0.45rem !important;
+              font-size: 0.62rem !important;
+            }
+            .hw-cat-tag {
+              bottom: 6px !important;
+              left: 6px !important;
+              padding: 0.15rem 0.4rem !important;
+              font-size: 0.6rem !important;
+            }
+          }
+          /* Compact View on Smaller Phones (< 440px) */
+          @media (max-width: 439px) {
+            .hw-cards-grid {
+              grid-template-columns: 1fr !important;
+              gap: 1.15rem !important;
+              margin-top: 1rem !important;
+              margin-bottom: 2rem !important;
+            }
+            .hw-card-img-frame {
+              height: 155px !important;
+            }
+            .hw-card-body {
+              padding: 1rem !important;
+            }
+            .hw-card-footer {
+              padding: 0 1rem 1rem 1rem !important;
+            }
+            .hw-card-specs-item:nth-child(n+3) {
+              display: none !important;
+            }
+          }
+        `}</style>
+
         {/* Hardware Grid with Real Images */}
-        <div id="hardware-cards-grid" style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))',
-          gap: '2rem',
-          marginBottom: '4rem',
-          marginTop: '2.5rem',
-          scrollMarginTop: '6rem'
-        }}>
+        <div id="hardware-cards-grid" className="hw-cards-grid">
           {filteredHardware.map(hw => (
             <div
               key={hw.id}
@@ -716,16 +817,12 @@ export const HardwareView = () => {
 
               <div>
                 {/* Product Image Frame */}
-                <div style={{
-                  height: '240px',
-                  width: '100%',
-                  backgroundColor: hw.image.startsWith('http') ? '#ffffff' : '#0a1628',
-                  position: 'relative',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  overflow: 'hidden'
-                }}>
+                <div 
+                  className="hw-card-img-frame"
+                  style={{
+                    backgroundColor: hw.image.startsWith('http') ? '#ffffff' : '#0a1628'
+                  }}
+                >
                   {/* Real Product Image */}
                   <img 
                     src={hw.image} 
@@ -737,7 +834,7 @@ export const HardwareView = () => {
                       height: '100%',
                       objectFit: hw.image.startsWith('http') ? 'contain' : 'cover',
                       objectPosition: 'center',
-                      padding: hw.image.startsWith('http') ? '1.25rem' : '0',
+                      padding: hw.image.startsWith('http') ? '1rem' : '0',
                       transition: 'transform 0.4s ease',
                       position: 'relative',
                       zIndex: 2,
@@ -808,76 +905,85 @@ export const HardwareView = () => {
 
                   {/* Top Left OEM Authenticity Badge */}
                   {hw.oem && (
-                    <div style={{
-                      position: 'absolute',
-                      top: '12px',
-                      left: '12px',
-                      backgroundColor: 'rgba(11, 21, 40, 0.88)',
-                      backdropFilter: 'blur(8px)',
-                      border: '1px solid rgba(255, 255, 255, 0.18)',
-                      color: '#ffffff',
-                      borderRadius: '6px',
-                      padding: '0.25rem 0.65rem',
-                      fontSize: '0.7rem',
-                      fontWeight: 700,
-                      letterSpacing: '0.04em',
-                      zIndex: 4,
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.35rem',
-                      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.4)'
-                    }}>
+                    <div 
+                      className="hw-oem-badge"
+                      style={{
+                        position: 'absolute',
+                        top: '12px',
+                        left: '12px',
+                        backgroundColor: 'rgba(11, 21, 40, 0.88)',
+                        backdropFilter: 'blur(8px)',
+                        border: '1px solid rgba(255, 255, 255, 0.18)',
+                        color: '#ffffff',
+                        borderRadius: '6px',
+                        padding: '0.25rem 0.65rem',
+                        fontSize: '0.7rem',
+                        fontWeight: 700,
+                        letterSpacing: '0.04em',
+                        zIndex: 4,
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.35rem',
+                        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.4)'
+                      }}
+                    >
                       <CheckCircle2 size={12} color="#00a651" />
                       <span>OEM DIRECT • {hw.oem.toUpperCase()}</span>
                     </div>
                   )}
 
                   {/* Top Right Spec Badge */}
-                  <div style={{
-                    position: 'absolute',
-                    top: '12px',
-                    right: '12px',
-                    backgroundColor: 'rgba(15, 23, 42, 0.92)',
-                    backdropFilter: 'blur(8px)',
-                    color: '#ffffff',
-                    border: `1px solid ${hw.color}`,
-                    borderRadius: '6px',
-                    padding: '0.3rem 0.75rem',
-                    fontSize: '0.75rem',
-                    fontWeight: 700,
-                    zIndex: 4,
-                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.4)'
-                  }}>
+                  <div 
+                    className="hw-spec-badge"
+                    style={{
+                      position: 'absolute',
+                      top: '12px',
+                      right: '12px',
+                      backgroundColor: 'rgba(15, 23, 42, 0.92)',
+                      backdropFilter: 'blur(8px)',
+                      color: '#ffffff',
+                      border: `1px solid ${hw.color}`,
+                      borderRadius: '6px',
+                      padding: '0.3rem 0.75rem',
+                      fontSize: '0.75rem',
+                      fontWeight: 700,
+                      zIndex: 4,
+                      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.4)'
+                    }}
+                  >
                     {hw.badge}
                   </div>
 
                   {/* Category Indicator Tag at bottom left of image */}
-                  <div style={{
-                    position: 'absolute',
-                    bottom: '12px',
-                    left: '12px',
-                    backgroundColor: 'rgba(11, 21, 40, 0.88)',
-                    backdropFilter: 'blur(6px)',
-                    color: hw.color,
-                    border: '1px solid rgba(255, 255, 255, 0.15)',
-                    borderRadius: '6px',
-                    padding: '0.25rem 0.65rem',
-                    fontSize: '0.72rem',
-                    fontWeight: 700,
-                    letterSpacing: '0.04em',
-                    textTransform: 'uppercase',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.4rem',
-                    zIndex: 4
-                  }}>
+                  <div 
+                    className="hw-cat-tag"
+                    style={{
+                      position: 'absolute',
+                      bottom: '12px',
+                      left: '12px',
+                      backgroundColor: 'rgba(11, 21, 40, 0.88)',
+                      backdropFilter: 'blur(6px)',
+                      color: hw.color,
+                      border: '1px solid rgba(255, 255, 255, 0.15)',
+                      borderRadius: '6px',
+                      padding: '0.25rem 0.65rem',
+                      fontSize: '0.72rem',
+                      fontWeight: 700,
+                      letterSpacing: '0.04em',
+                      textTransform: 'uppercase',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.4rem',
+                      zIndex: 4
+                    }}
+                  >
                     {renderHardwareIcon(hw.category, 13, hw.color)}
                     <span>{hw.categoryName}</span>
                   </div>
                 </div>
 
                 {/* Content Section */}
-                <div style={{ padding: '1.75rem' }}>
+                <div className="hw-card-body">
                   <div style={{
                     display: 'flex',
                     alignItems: 'center',
@@ -891,7 +997,10 @@ export const HardwareView = () => {
                       fontFamily: 'var(--font-mono)',
                       fontWeight: 700,
                       textTransform: 'uppercase',
-                      letterSpacing: '0.04em'
+                      letterSpacing: '0.04em',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      whiteSpace: 'nowrap'
                     }}>
                       {hw.categoryName} • {hw.model}
                     </span>
@@ -903,7 +1012,8 @@ export const HardwareView = () => {
                       padding: '0.15rem 0.5rem',
                       borderRadius: '4px',
                       fontWeight: 600,
-                      whiteSpace: 'nowrap'
+                      whiteSpace: 'nowrap',
+                      flexShrink: 0
                     }}>
                       {hw.oem}
                     </span>
@@ -913,13 +1023,13 @@ export const HardwareView = () => {
                     {hw.name}
                   </h3>
 
-                  <p style={{ color: '#94a3b8', fontSize: '0.86rem', lineHeight: 1.55, marginBottom: '1.25rem' }}>
+                  <p className="hw-card-desc" style={{ color: '#94a3b8', fontSize: '0.86rem', lineHeight: 1.55, marginBottom: '1.25rem' }}>
                     {hw.desc}
                   </p>
 
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.55rem', marginBottom: '1.5rem' }}>
+                  <div className="hw-card-specs" style={{ display: 'flex', flexDirection: 'column', gap: '0.55rem', marginBottom: '1.5rem' }}>
                     {hw.specs.map((spec, idx) => (
-                      <div key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem', fontSize: '0.82rem', color: '#cbd5e1', lineHeight: 1.4 }}>
+                      <div key={idx} className="hw-card-specs-item" style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem', fontSize: '0.82rem', color: '#cbd5e1', lineHeight: 1.4 }}>
                         <CheckCircle2 size={14} color={hw.color} style={{ flexShrink: 0, marginTop: '2px' }} />
                         <span>{spec}</span>
                       </div>
@@ -928,9 +1038,10 @@ export const HardwareView = () => {
                 </div>
               </div>
 
-              {/* Bottom Action */}
-              <div style={{ padding: '0 1.75rem 1.75rem 1.75rem' }}>
+              {/* Bottom Action (Min 44x44px Tap Target) */}
+              <div className="hw-card-footer">
                 <button
+                  className="hw-card-btn"
                   onClick={() => openDemoModal({ solution: `${hw.name} (${hw.model})`, notes: `Hardware RFQ and sample evaluation request for ${hw.model}` })}
                   style={{
                     width: '100%',
@@ -941,6 +1052,7 @@ export const HardwareView = () => {
                     borderRadius: '8px',
                     fontWeight: 700,
                     fontSize: '0.88rem',
+                    minHeight: '44px',
                     cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center',

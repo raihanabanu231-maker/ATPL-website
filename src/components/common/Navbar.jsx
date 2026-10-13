@@ -1032,7 +1032,7 @@ export const Navbar = ({ onOpenSearch }) => {
               <span>Request Demo</span>
             </button>
 
-            {/* Mobile Hamburger Button */}
+            {/* Mobile Hamburger Button (Strict 44x44px minimum tap target) */}
             <button
               className="mobile-toggle-btn"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -1042,324 +1042,531 @@ export const Navbar = ({ onOpenSearch }) => {
                 background: '#f1f5f9',
                 border: 'none',
                 borderRadius: '8px',
-                padding: '0.5rem',
+                width: '44px',
+                height: '44px',
+                minWidth: '44px',
+                minHeight: '44px',
+                padding: 0,
                 color: '#0f172a',
                 cursor: 'pointer',
                 display: 'flex',
-                alignItems: 'center'
+                alignItems: 'center',
+                justifyContent: 'center',
+                boxShadow: '0 1px 3px rgba(0, 0, 0, 0.08)',
+                transition: 'background 0.15s ease'
               }}
             >
-              {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+              {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
             </button>
 
           </div>
 
         </div>
 
-        {/* Mobile Full-Screen Slide Drawer Menu */}
+        {/* Mobile Clean Full-Screen Navigation Drawer */}
         {mobileMenuOpen && (
           <div style={{
             position: 'fixed',
-            top: '72px',
+            top: 0,
             left: 0,
             right: 0,
             bottom: 0,
             width: '100vw',
-            height: 'calc(100dvh - 72px)',
+            height: '100dvh',
             backgroundColor: '#ffffff',
-            borderTop: '1px solid #f1f5f9',
-            padding: '1.25rem 1.25rem 5rem 1.25rem',
             display: 'flex',
             flexDirection: 'column',
-            gap: '0.75rem',
-            boxShadow: '0 20px 40px rgba(0, 0, 0, 0.15)',
-            overflowY: 'auto',
-            WebkitOverflowScrolling: 'touch',
-            zIndex: 1050,
+            zIndex: 99999,
+            overflow: 'hidden',
             boxSizing: 'border-box'
           }}>
-            {/* Hardware Accordion */}
-            <div>
-              <button
-                onClick={() => setMobileExpandedSection(mobileExpandedSection === 'hardware' ? null : 'hardware')}
-                style={{
-                  width: '100%',
-                  background: '#f8fafc',
-                  border: '1px solid #e2e8f0',
-                  borderRadius: '8px',
-                  padding: '0.75rem 1rem',
-                  fontSize: '0.96rem',
-                  fontWeight: 700,
-                  color: '#0f172a',
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  cursor: 'pointer'
-                }}
-              >
-                <span>Hardware</span>
-                <ChevronDown size={16} style={{ transform: mobileExpandedSection === 'hardware' ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s ease' }} />
-              </button>
-              {mobileExpandedSection === 'hardware' && (
-                <div style={{ padding: '0.5rem 0.5rem 0.5rem 1rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                  <button onClick={() => handleNavClick('hardware')} style={{ background: 'none', border: 'none', textAlign: 'left', padding: '0.4rem', color: '#0071ba', fontWeight: 600, fontSize: '0.9rem' }}>• Fixed UHF RFID Portals & Antennas</button>
-                  <button onClick={() => handleNavClick('hardware')} style={{ background: 'none', border: 'none', textAlign: 'left', padding: '0.4rem', color: '#f59e0b', fontWeight: 600, fontSize: '0.9rem' }}>• Industrial 2D & DPM Barcode Scanners</button>
-                  <button onClick={() => handleNavClick('hardware')} style={{ background: 'none', border: 'none', textAlign: 'left', padding: '0.4rem', color: '#10b981', fontWeight: 600, fontSize: '0.9rem' }}>• Industrial Barcode & RFID Printers</button>
-                  <button onClick={() => handleNavClick('hardware')} style={{ background: 'none', border: 'none', textAlign: 'left', padding: '0.4rem', color: '#0284c7', fontWeight: 600, fontSize: '0.9rem' }}>• Rugged Handheld Computers & PDAs</button>
-                  <button onClick={() => handleNavClick('hardware')} style={{ background: 'none', border: 'none', textAlign: 'left', padding: '0.4rem', color: '#E85874', fontWeight: 600, fontSize: '0.9rem' }}>• Robotics, Sorting & Conveyor Systems</button>
-                </div>
-              )}
-            </div>
-
-            {/* Software Accordion */}
-            <div>
-              <button
-                onClick={() => setMobileExpandedSection(mobileExpandedSection === 'software' ? null : 'software')}
-                style={{
-                  width: '100%',
-                  background: '#f8fafc',
-                  border: '1px solid #e2e8f0',
-                  borderRadius: '8px',
-                  padding: '0.75rem 1rem',
-                  fontSize: '0.96rem',
-                  fontWeight: 700,
-                  color: '#0f172a',
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  cursor: 'pointer'
-                }}
-              >
-                <span>Software</span>
-                <ChevronDown size={16} style={{ transform: mobileExpandedSection === 'software' ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s ease' }} />
-              </button>
-              {mobileExpandedSection === 'software' && (
-                <div style={{ padding: '0.5rem 0.5rem 0.5rem 1rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                  <button onClick={() => handleNavClick('software')} style={{ background: 'none', border: 'none', textAlign: 'left', padding: '0.4rem', color: '#0071ba', fontWeight: 600, fontSize: '0.9rem' }}>• Perfect Store™ (Warehouse WMS)</button>
-                  <button onClick={() => handleNavClick('software')} style={{ background: 'none', border: 'none', textAlign: 'left', padding: '0.4rem', color: '#009a44', fontWeight: 600, fontSize: '0.9rem' }}>• Perfect Trace™ (Serialization & Aggregation)</button>
-                  <button onClick={() => handleNavClick('software')} style={{ background: 'none', border: 'none', textAlign: 'left', padding: '0.4rem', color: '#8b5cf6', fontWeight: 600, fontSize: '0.9rem' }}>• Perfect AI Vision™ (Defect Inspection)</button>
-                  <button onClick={() => handleNavClick('software')} style={{ background: 'none', border: 'none', textAlign: 'left', padding: '0.4rem', color: '#f59e0b', fontWeight: 600, fontSize: '0.9rem' }}>• Perfect PMS™ (Production Management)</button>
-                  <button onClick={() => handleNavClick('software')} style={{ background: 'none', border: 'none', textAlign: 'left', padding: '0.4rem', color: '#10b981', fontWeight: 600, fontSize: '0.9rem' }}>• Perfect Audit™ (Digital Compliance)</button>
-                  <button onClick={() => handleNavClick('factory-3d')} style={{ background: 'none', border: 'none', textAlign: 'left', padding: '0.4rem', color: '#E85874', fontWeight: 700, fontSize: '0.9rem' }}>• ✨ 3D Digital Twin Simulator</button>
-                </div>
-              )}
-            </div>
-
-            {/* Customers */}
-            <button
-              onClick={() => handleNavClick('about')}
-              style={{
-                width: '100%',
-                background: '#f8fafc',
-                border: '1px solid #e2e8f0',
-                borderRadius: '8px',
-                padding: '0.75rem 1rem',
-                textAlign: 'left',
-                fontSize: '0.96rem',
-                fontWeight: 700,
-                color: '#0f172a',
-                cursor: 'pointer'
-              }}
-            >
-              Customers & Case Studies
-            </button>
-
-            {/* Partners */}
-            <button
-              onClick={() => handleNavClick('partners')}
-              style={{
-                width: '100%',
-                background: '#f8fafc',
-                border: '1px solid #e2e8f0',
-                borderRadius: '8px',
-                padding: '0.75rem 1rem',
-                textAlign: 'left',
-                fontSize: '0.96rem',
-                fontWeight: 700,
-                color: '#0f172a',
-                cursor: 'pointer'
-              }}
-            >
-              Partners (GS1, Zebra, Honeywell, SAP)
-            </button>
-
-            {/* Resources */}
-            <div>
-              <button
-                onClick={() => setMobileExpandedSection(mobileExpandedSection === 'resources' ? null : 'resources')}
-                style={{
-                  width: '100%',
-                  background: '#f8fafc',
-                  border: '1px solid #e2e8f0',
-                  borderRadius: '8px',
-                  padding: '0.75rem 1rem',
-                  fontSize: '0.96rem',
-                  fontWeight: 700,
-                  color: '#0f172a',
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  cursor: 'pointer'
-                }}
-              >
-                <span>Resources & Downloads</span>
-                <ChevronDown size={16} style={{ transform: mobileExpandedSection === 'resources' ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s ease' }} />
-              </button>
-              {mobileExpandedSection === 'resources' && (
-                <div style={{ padding: '0.5rem 0.5rem 0.5rem 1rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                  <button onClick={() => handleNavClick('resources')} style={{ background: 'none', border: 'none', textAlign: 'left', padding: '0.4rem', color: '#0071ba', fontWeight: 700, fontSize: '0.9rem' }}>• 📄 Technical Whitepapers & Datasheets</button>
-                  <button onClick={() => handleNavClick('resources')} style={{ background: 'none', border: 'none', textAlign: 'left', padding: '0.4rem', color: '#009a44', fontWeight: 600, fontSize: '0.9rem' }}>• 📊 ATPL Capability Pitch Deck (2026)</button>
-                  <button onClick={() => handleNavClick('factory-3d')} style={{ background: 'none', border: 'none', textAlign: 'left', padding: '0.4rem', color: '#E85874', fontWeight: 600, fontSize: '0.9rem' }}>• ✨ 3D Virtual Plant Tour</button>
-                  <button onClick={() => handleNavClick('services')} style={{ background: 'none', border: 'none', textAlign: 'left', padding: '0.4rem', color: '#334155', fontSize: '0.9rem' }}>• 24/7 AMC Maintenance Contracts</button>
-                  <button onClick={() => handleNavClick('contact')} style={{ background: 'none', border: 'none', textAlign: 'left', padding: '0.4rem', color: '#334155', fontSize: '0.9rem' }}>• Helpdesk & Contact Sales</button>
-                </div>
-              )}
-            </div>
-
-            {/* Mobile Language Selector Accordion */}
-            <div>
-              <button
-                onClick={() => setMobileExpandedSection(mobileExpandedSection === 'language' ? null : 'language')}
-                style={{
-                  width: '100%',
-                  background: '#f8fafc',
-                  border: '1px solid #e2e8f0',
-                  borderRadius: '8px',
-                  padding: '0.75rem 1rem',
-                  fontSize: '0.96rem',
-                  fontWeight: 700,
-                  color: '#0f172a',
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  cursor: 'pointer'
-                }}
-              >
-                <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <Globe size={18} color="#0071ba" />
-                  <span>Language / மொழி: <strong style={{ color: '#0071ba' }}>{selectedLang.split(' ')[0]}</strong></span>
-                </span>
-                <ChevronDown size={16} style={{ transform: mobileExpandedSection === 'language' ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s ease' }} />
-              </button>
-              {mobileExpandedSection === 'language' && (
-                <div style={{ 
-                  padding: '0.5rem', 
-                  display: 'grid', 
-                  gridTemplateColumns: 'repeat(2, 1fr)', 
-                  gap: '0.4rem',
-                  backgroundColor: '#f8fafc',
-                  borderRadius: '8px',
-                  marginTop: '0.4rem'
-                }}>
-                  {ATPL_LANGUAGES.map(lang => {
-                    const isSelected = selectedLang === lang.native || selectedLang === lang.name;
-                    return (
-                      <button
-                        key={lang.code}
-                        onClick={() => {
-                          handleLanguageChange(lang);
-                          setMobileMenuOpen(false);
-                        }}
-                        style={{
-                          background: isSelected ? '#0071ba' : '#ffffff',
-                          color: isSelected ? '#ffffff' : '#334155',
-                          border: '1px solid #e2e8f0',
-                          borderRadius: '6px',
-                          padding: '0.5rem',
-                          fontSize: '0.82rem',
-                          fontWeight: isSelected ? 700 : 500,
-                          textAlign: 'left',
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '0.4rem',
-                          cursor: 'pointer'
-                        }}
-                      >
-                        <span>{lang.flag}</span>
-                        <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{lang.native}</span>
-                      </button>
-                    );
-                  })}
-                </div>
-              )}
-            </div>
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', marginTop: '0.75rem', paddingTop: '0.75rem', borderTop: '1px solid #f1f5f9' }}>
-              <button
+            {/* Drawer Top Bar with Brand Logo and 44x44px Close Button */}
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              padding: '0.75rem 1.25rem',
+              borderBottom: '1px solid #e2e8f0',
+              backgroundColor: '#ffffff',
+              flexShrink: 0
+            }}>
+              <AtplLogo 
+                size={34} 
+                showText={true} 
                 onClick={() => {
+                  handleNavClick('home');
                   setMobileMenuOpen(false);
-                  openCoPilot();
-                }}
+                }} 
+              />
+              <button
+                onClick={() => setMobileMenuOpen(false)}
+                aria-label="Close navigation menu"
                 style={{
-                  background: 'linear-gradient(135deg, #0071ba 0%, #005a96 100%)',
-                  color: '#ffffff',
+                  width: '44px',
+                  height: '44px',
+                  minWidth: '44px',
+                  minHeight: '44px',
+                  borderRadius: '50%',
+                  background: '#f1f5f9',
                   border: 'none',
-                  borderRadius: '8px',
-                  padding: '0.85rem',
-                  fontWeight: 700,
-                  fontSize: '0.95rem',
-                  cursor: 'pointer',
+                  color: '#0f172a',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  gap: '0.6rem',
-                  boxShadow: '0 4px 12px rgba(0, 113, 186, 0.3)'
+                  cursor: 'pointer',
+                  transition: 'background 0.15s ease'
                 }}
               >
-                <AtplRobotAvatar size={22} glow={false} />
-                <span>Ask Archie AI (Robot Guide)</span>
-                <span style={{
-                  fontSize: '0.65rem',
-                  backgroundColor: '#E85874',
-                  color: '#ffffff',
-                  padding: '0.1rem 0.4rem',
-                  borderRadius: '999px',
-                  fontWeight: 800
-                }}>AI</span>
+                <X size={22} />
               </button>
+            </div>
 
+            {/* Scrollable Navigation Body */}
+            <div style={{
+              flex: 1,
+              overflowY: 'auto',
+              WebkitOverflowScrolling: 'touch',
+              padding: '1rem 1.25rem 3.5rem 1.25rem',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '0.65rem'
+            }}>
+              {/* 1. Hardware Accordion */}
+              <div>
+                <button
+                  onClick={() => setMobileExpandedSection(mobileExpandedSection === 'hardware' ? null : 'hardware')}
+                  style={{
+                    width: '100%',
+                    minHeight: '44px',
+                    background: '#f8fafc',
+                    border: '1px solid #e2e8f0',
+                    borderRadius: '8px',
+                    padding: '0.7rem 1rem',
+                    fontSize: '0.96rem',
+                    fontWeight: 700,
+                    color: '#0f172a',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    cursor: 'pointer'
+                  }}
+                >
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '0.55rem' }}>
+                    <span style={{ color: '#0071ba' }}>📦</span>
+                    <span>Hardware Solutions</span>
+                  </span>
+                  <ChevronDown size={18} style={{ transform: mobileExpandedSection === 'hardware' ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s ease' }} />
+                </button>
+                {mobileExpandedSection === 'hardware' && (
+                  <div style={{ padding: '0.5rem 0.5rem 0.5rem 0.85rem', display: 'flex', flexDirection: 'column', gap: '0.4rem', borderLeft: '2px solid #0071ba', marginLeft: '0.5rem', marginTop: '0.35rem' }}>
+                    <button onClick={() => handleNavClick('hardware')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0071ba', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>• Fixed UHF RFID Portals & Antennas</button>
+                    <button onClick={() => handleNavClick('hardware')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#f59e0b', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>• Industrial 2D & DPM Barcode Scanners</button>
+                    <button onClick={() => handleNavClick('hardware')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#10b981', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>• Industrial Barcode & RFID Printers</button>
+                    <button onClick={() => handleNavClick('hardware')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0284c7', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>• Rugged Handheld Computers & PDAs</button>
+                    <button onClick={() => handleNavClick('hardware')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#E85874', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>• Robotics, Sorting & Conveyor Systems</button>
+                    <button onClick={() => handleNavClick('hardware')} style={{ minHeight: '44px', background: 'rgba(0, 113, 186, 0.08)', borderRadius: '6px', border: 'none', textAlign: 'left', padding: '0.5rem 0.75rem', color: '#0071ba', fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                      <span>Explore All Hardware Catalog</span>
+                      <span>➔</span>
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              {/* 2. Software Accordion */}
+              <div>
+                <button
+                  onClick={() => setMobileExpandedSection(mobileExpandedSection === 'software' ? null : 'software')}
+                  style={{
+                    width: '100%',
+                    minHeight: '44px',
+                    background: '#f8fafc',
+                    border: '1px solid #e2e8f0',
+                    borderRadius: '8px',
+                    padding: '0.7rem 1rem',
+                    fontSize: '0.96rem',
+                    fontWeight: 700,
+                    color: '#0f172a',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    cursor: 'pointer'
+                  }}
+                >
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '0.55rem' }}>
+                    <span style={{ color: '#009a44' }}>💻</span>
+                    <span>Software Suites (ATPL One™)</span>
+                  </span>
+                  <ChevronDown size={18} style={{ transform: mobileExpandedSection === 'software' ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s ease' }} />
+                </button>
+                {mobileExpandedSection === 'software' && (
+                  <div style={{ padding: '0.5rem 0.5rem 0.5rem 0.85rem', display: 'flex', flexDirection: 'column', gap: '0.4rem', borderLeft: '2px solid #009a44', marginLeft: '0.5rem', marginTop: '0.35rem' }}>
+                    <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0071ba', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>• Perfect Store™ (Warehouse WMS)</button>
+                    <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#009a44', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>• Perfect Trace™ (Serialization & Aggregation)</button>
+                    <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#8b5cf6', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>• Perfect AI Vision™ (Defect Inspection)</button>
+                    <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#f59e0b', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>• Perfect PMS™ (Production Management)</button>
+                    <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#10b981', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>• Perfect Audit™ (Digital Compliance)</button>
+                    <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: 'rgba(0, 154, 68, 0.08)', borderRadius: '6px', border: 'none', textAlign: 'left', padding: '0.5rem 0.75rem', color: '#009a44', fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                      <span>Explore All Software Suites</span>
+                      <span>➔</span>
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              {/* 3. Industry Solutions (Direct Link) */}
               <button
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  openDemoModal({ mode: 'engineer', solution: 'Engineering Consultation', notes: 'Mobile drawer Talk to an Engineer click' });
-                }}
+                onClick={() => handleNavClick('solutions')}
                 style={{
-                  backgroundColor: '#f1f5f9',
-                  color: '#0071ba',
-                  border: '1.5px solid #0071ba',
-                  borderRadius: '8px',
-                  padding: '0.85rem',
-                  fontWeight: 700,
-                  fontSize: '0.95rem',
-                  display: 'block',
                   width: '100%',
-                  cursor: 'pointer',
-                  textAlign: 'center'
+                  minHeight: '44px',
+                  background: '#f8fafc',
+                  border: '1px solid #e2e8f0',
+                  borderRadius: '8px',
+                  padding: '0.7rem 1rem',
+                  textAlign: 'left',
+                  fontSize: '0.96rem',
+                  fontWeight: 700,
+                  color: '#0f172a',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  cursor: 'pointer'
                 }}
               >
-                Talk to an Engineer
+                <span style={{ display: 'flex', alignItems: 'center', gap: '0.55rem' }}>
+                  <span style={{ color: '#6366f1' }}>🏭</span>
+                  <span>Industry Solutions</span>
+                </span>
+                <span style={{ color: '#94a3b8', fontSize: '0.85rem' }}>➔</span>
               </button>
 
+              {/* 4. 3D Factory Tour (Highlighted) */}
               <button
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  openDemoModal({ mode: 'demo', solution: 'Enterprise Suite Demo', notes: 'Mobile drawer Request Demo click' });
-                }}
+                onClick={() => handleNavClick('factory-3d')}
                 style={{
-                  backgroundColor: '#E85874',
-                  color: '#ffffff',
-                  border: 'none',
+                  width: '100%',
+                  minHeight: '44px',
+                  background: 'linear-gradient(135deg, rgba(232, 88, 116, 0.08) 0%, rgba(0, 113, 186, 0.08) 100%)',
+                  border: '1.5px solid rgba(232, 88, 116, 0.35)',
                   borderRadius: '8px',
-                  padding: '0.85rem',
+                  padding: '0.7rem 1rem',
+                  textAlign: 'left',
+                  fontSize: '0.96rem',
                   fontWeight: 700,
-                  fontSize: '0.95rem',
-                  cursor: 'pointer',
-                  boxShadow: '0 4px 14px rgba(232, 88, 116, 0.4)',
-                  textAlign: 'center'
+                  color: '#E85874',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  cursor: 'pointer'
                 }}
               >
-                Request Live Demo ➔
+                <span style={{ display: 'flex', alignItems: 'center', gap: '0.55rem' }}>
+                  <span>✨</span>
+                  <span>3D Digital Twin Factory Tour</span>
+                </span>
+                <span style={{ backgroundColor: '#E85874', color: '#ffffff', fontSize: '0.65rem', padding: '0.15rem 0.45rem', borderRadius: '999px', fontWeight: 800 }}>LIVE</span>
               </button>
+
+              {/* 5. Services & AMC Maintenance */}
+              <button
+                onClick={() => handleNavClick('services')}
+                style={{
+                  width: '100%',
+                  minHeight: '44px',
+                  background: '#f8fafc',
+                  border: '1px solid #e2e8f0',
+                  borderRadius: '8px',
+                  padding: '0.7rem 1rem',
+                  textAlign: 'left',
+                  fontSize: '0.96rem',
+                  fontWeight: 700,
+                  color: '#0f172a',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  cursor: 'pointer'
+                }}
+              >
+                <span style={{ display: 'flex', alignItems: 'center', gap: '0.55rem' }}>
+                  <span style={{ color: '#f59e0b' }}>🛠️</span>
+                  <span>Services & 24/7 AMC</span>
+                </span>
+                <span style={{ color: '#94a3b8', fontSize: '0.85rem' }}>➔</span>
+              </button>
+
+              {/* 6. Customers & Case Studies */}
+              <button
+                onClick={() => handleNavClick('about')}
+                style={{
+                  width: '100%',
+                  minHeight: '44px',
+                  background: '#f8fafc',
+                  border: '1px solid #e2e8f0',
+                  borderRadius: '8px',
+                  padding: '0.7rem 1rem',
+                  textAlign: 'left',
+                  fontSize: '0.96rem',
+                  fontWeight: 700,
+                  color: '#0f172a',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  cursor: 'pointer'
+                }}
+              >
+                <span style={{ display: 'flex', alignItems: 'center', gap: '0.55rem' }}>
+                  <span style={{ color: '#10b981' }}>🏆</span>
+                  <span>Customers & Case Studies</span>
+                </span>
+                <span style={{ color: '#94a3b8', fontSize: '0.85rem' }}>➔</span>
+              </button>
+
+              {/* 7. Partners (GS1, Zebra, Honeywell, SAP) */}
+              <button
+                onClick={() => handleNavClick('partners')}
+                style={{
+                  width: '100%',
+                  minHeight: '44px',
+                  background: '#f8fafc',
+                  border: '1px solid #e2e8f0',
+                  borderRadius: '8px',
+                  padding: '0.7rem 1rem',
+                  textAlign: 'left',
+                  fontSize: '0.96rem',
+                  fontWeight: 700,
+                  color: '#0f172a',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  cursor: 'pointer'
+                }}
+              >
+                <span style={{ display: 'flex', alignItems: 'center', gap: '0.55rem' }}>
+                  <span style={{ color: '#0284c7' }}>🤝</span>
+                  <span>Partners (GS1, Honeywell, Zebra)</span>
+                </span>
+                <span style={{ color: '#94a3b8', fontSize: '0.85rem' }}>➔</span>
+              </button>
+
+              {/* 8. Resources & Downloads */}
+              <div>
+                <button
+                  onClick={() => setMobileExpandedSection(mobileExpandedSection === 'resources' ? null : 'resources')}
+                  style={{
+                    width: '100%',
+                    minHeight: '44px',
+                    background: '#f8fafc',
+                    border: '1px solid #e2e8f0',
+                    borderRadius: '8px',
+                    padding: '0.7rem 1rem',
+                    fontSize: '0.96rem',
+                    fontWeight: 700,
+                    color: '#0f172a',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    cursor: 'pointer'
+                  }}
+                >
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '0.55rem' }}>
+                    <span style={{ color: '#8b5cf6' }}>📚</span>
+                    <span>Resources & Whitepapers</span>
+                  </span>
+                  <ChevronDown size={18} style={{ transform: mobileExpandedSection === 'resources' ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s ease' }} />
+                </button>
+                {mobileExpandedSection === 'resources' && (
+                  <div style={{ padding: '0.5rem 0.5rem 0.5rem 0.85rem', display: 'flex', flexDirection: 'column', gap: '0.4rem', borderLeft: '2px solid #8b5cf6', marginLeft: '0.5rem', marginTop: '0.35rem' }}>
+                    <button onClick={() => handleNavClick('resources')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0071ba', fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>• 📄 Technical Whitepapers & Datasheets</button>
+                    <button onClick={() => handleNavClick('resources')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#009a44', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>• 📊 ATPL Capability Pitch Deck (2026)</button>
+                    <button onClick={() => handleNavClick('services')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#334155', fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>• 24/7 AMC Maintenance Contracts</button>
+                    <button onClick={() => handleNavClick('contact')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#334155', fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>• Helpdesk & Contact Sales</button>
+                  </div>
+                )}
+              </div>
+
+              {/* 9. Contact Sales & Helplines */}
+              <button
+                onClick={() => handleNavClick('contact')}
+                style={{
+                  width: '100%',
+                  minHeight: '44px',
+                  background: '#f8fafc',
+                  border: '1px solid #e2e8f0',
+                  borderRadius: '8px',
+                  padding: '0.7rem 1rem',
+                  textAlign: 'left',
+                  fontSize: '0.96rem',
+                  fontWeight: 700,
+                  color: '#0f172a',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  cursor: 'pointer'
+                }}
+              >
+                <span style={{ display: 'flex', alignItems: 'center', gap: '0.55rem' }}>
+                  <span style={{ color: '#0071ba' }}>📍</span>
+                  <span>Contact Sales & Support (TIDEL Park HQ)</span>
+                </span>
+                <span style={{ color: '#94a3b8', fontSize: '0.85rem' }}>➔</span>
+              </button>
+
+              {/* 10. Mobile Language Selector Accordion */}
+              <div>
+                <button
+                  onClick={() => setMobileExpandedSection(mobileExpandedSection === 'language' ? null : 'language')}
+                  style={{
+                    width: '100%',
+                    minHeight: '44px',
+                    background: '#f8fafc',
+                    border: '1px solid #e2e8f0',
+                    borderRadius: '8px',
+                    padding: '0.7rem 1rem',
+                    fontSize: '0.96rem',
+                    fontWeight: 700,
+                    color: '#0f172a',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    cursor: 'pointer'
+                  }}
+                >
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    <Globe size={18} color="#0071ba" />
+                    <span>Language / மொழி: <strong style={{ color: '#0071ba' }}>{selectedLang.split(' ')[0]}</strong></span>
+                  </span>
+                  <ChevronDown size={18} style={{ transform: mobileExpandedSection === 'language' ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s ease' }} />
+                </button>
+                {mobileExpandedSection === 'language' && (
+                  <div style={{ 
+                    padding: '0.5rem', 
+                    display: 'grid', 
+                    gridTemplateColumns: 'repeat(2, 1fr)', 
+                    gap: '0.5rem',
+                    backgroundColor: '#f8fafc',
+                    borderRadius: '8px',
+                    marginTop: '0.4rem'
+                  }}>
+                    {ATPL_LANGUAGES.map(lang => {
+                      const isSelected = selectedLang === lang.native || selectedLang === lang.name;
+                      return (
+                        <button
+                          key={lang.code}
+                          onClick={() => {
+                            handleLanguageChange(lang);
+                            setMobileMenuOpen(false);
+                          }}
+                          style={{
+                            minHeight: '44px',
+                            background: isSelected ? '#0071ba' : '#ffffff',
+                            color: isSelected ? '#ffffff' : '#334155',
+                            border: '1px solid #e2e8f0',
+                            borderRadius: '6px',
+                            padding: '0.5rem 0.65rem',
+                            fontSize: '0.82rem',
+                            fontWeight: isSelected ? 700 : 500,
+                            textAlign: 'left',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '0.4rem',
+                            cursor: 'pointer'
+                          }}
+                        >
+                          <span>{lang.flag}</span>
+                          <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{lang.native}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+
+              {/* Bottom Sticky Action Buttons with min 44x44px touch targets */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem', marginTop: '0.85rem', paddingTop: '0.85rem', borderTop: '1px solid #f1f5f9' }}>
+                <button
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    openCoPilot();
+                  }}
+                  style={{
+                    minHeight: '46px',
+                    background: 'linear-gradient(135deg, #0071ba 0%, #005a96 100%)',
+                    color: '#ffffff',
+                    border: 'none',
+                    borderRadius: '8px',
+                    padding: '0.75rem 1rem',
+                    fontWeight: 700,
+                    fontSize: '0.95rem',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '0.6rem',
+                    boxShadow: '0 4px 12px rgba(0, 113, 186, 0.3)'
+                  }}
+                >
+                  <AtplRobotAvatar size={22} glow={false} />
+                  <span>Ask Archie AI (Robot Guide)</span>
+                  <span style={{
+                    fontSize: '0.65rem',
+                    backgroundColor: '#E85874',
+                    color: '#ffffff',
+                    padding: '0.1rem 0.4rem',
+                    borderRadius: '999px',
+                    fontWeight: 800
+                  }}>AI</span>
+                </button>
+
+                <button
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    openDemoModal({ mode: 'engineer', solution: 'Engineering Consultation', notes: 'Mobile drawer Talk to an Engineer click' });
+                  }}
+                  style={{
+                    minHeight: '46px',
+                    backgroundColor: '#f1f5f9',
+                    color: '#0071ba',
+                    border: '1.5px solid #0071ba',
+                    borderRadius: '8px',
+                    padding: '0.75rem 1rem',
+                    fontWeight: 700,
+                    fontSize: '0.95rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: '100%',
+                    cursor: 'pointer',
+                    textAlign: 'center'
+                  }}
+                >
+                  Talk to an Engineer
+                </button>
+
+                <button
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    openDemoModal({ mode: 'demo', solution: 'Enterprise Suite Demo', notes: 'Mobile drawer Request Demo click' });
+                  }}
+                  style={{
+                    minHeight: '46px',
+                    backgroundColor: '#E85874',
+                    color: '#ffffff',
+                    border: 'none',
+                    borderRadius: '8px',
+                    padding: '0.75rem 1rem',
+                    fontWeight: 700,
+                    fontSize: '0.95rem',
+                    cursor: 'pointer',
+                    boxShadow: '0 4px 14px rgba(232, 88, 116, 0.4)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    textAlign: 'center'
+                  }}
+                >
+                  Request Live Demo ➔
+                </button>
+              </div>
             </div>
           </div>
         )}
