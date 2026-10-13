@@ -451,31 +451,54 @@ export const HomeView = () => {
                         display: 'flex',
                         alignItems: 'flex-start',
                         gap: '0.95rem',
-                        padding: '0.85rem 0.75rem',
-                        borderRadius: '10px',
+                        padding: '0.9rem 0.85rem',
+                        borderRadius: '12px',
                         cursor: 'pointer',
-                        transition: 'all 0.15s ease'
+                        border: '1px solid transparent',
+                        transition: 'all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1)'
                       }}
                       onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor = '#f8fafc';
-                        e.currentTarget.style.transform = 'translateX(4px)';
+                        e.currentTarget.style.backgroundColor = sol.bgColor;
+                        e.currentTarget.style.borderColor = `${sol.color}35`;
+                        e.currentTarget.style.transform = 'translateX(6px)';
+                        e.currentTarget.style.boxShadow = `0 10px 25px -5px ${sol.color}20`;
+                        const iconContainer = e.currentTarget.querySelector('.app-icon-container');
+                        if (iconContainer) {
+                          iconContainer.style.transform = 'scale(1.12)';
+                          iconContainer.style.boxShadow = `0 6px 16px ${sol.color}35`;
+                        }
+                        const title = e.currentTarget.querySelector('h4');
+                        if (title) title.style.color = sol.color;
                       }}
                       onMouseLeave={(e) => {
                         e.currentTarget.style.backgroundColor = 'transparent';
+                        e.currentTarget.style.borderColor = 'transparent';
                         e.currentTarget.style.transform = 'translateX(0)';
+                        e.currentTarget.style.boxShadow = 'none';
+                        const iconContainer = e.currentTarget.querySelector('.app-icon-container');
+                        if (iconContainer) {
+                          iconContainer.style.transform = 'scale(1)';
+                          iconContainer.style.boxShadow = 'none';
+                        }
+                        const title = e.currentTarget.querySelector('h4');
+                        if (title) title.style.color = '#0f172a';
                       }}
                     >
-                      <div style={{
-                        width: '44px',
-                        height: '44px',
-                        borderRadius: '10px',
-                        backgroundColor: sol.bgColor,
-                        color: sol.color,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        flexShrink: 0
-                      }}>
+                      <div 
+                        className="app-icon-container"
+                        style={{
+                          width: '44px',
+                          height: '44px',
+                          borderRadius: '10px',
+                          backgroundColor: sol.bgColor,
+                          color: sol.color,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          flexShrink: 0,
+                          transition: 'all 0.25s ease'
+                        }}
+                      >
                         <Icon size={23} strokeWidth={2} />
                       </div>
 

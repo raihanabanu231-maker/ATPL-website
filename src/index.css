@@ -255,7 +255,7 @@ h1, h2, h3, h4, h5, h6 {
   -webkit-text-fill-color: transparent;
 }
 
-/* Glass Card */
+/* Glass Card with Interactive Luminous Hover Highlight */
 .glass-card {
   background: var(--bg-card);
   backdrop-filter: blur(16px);
@@ -265,12 +265,34 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: var(--shadow-md);
   position: relative;
   overflow: hidden;
-  transition: all var(--transition-normal);
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), 
+              border-color 0.3s ease, 
+              box-shadow 0.35s ease,
+              background-color 0.3s ease;
+}
+
+.glass-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, rgba(56, 189, 248, 0.9) 50%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 10;
 }
 
 .glass-card:hover {
-  border-color: var(--border-glass-strong);
-  box-shadow: var(--shadow-lg), var(--shadow-glow-cyan);
+  transform: translateY(-5px);
+  border-color: rgba(56, 189, 248, 0.45);
+  box-shadow: 0 20px 42px -10px rgba(0, 0, 0, 0.7), 0 0 25px rgba(0, 113, 186, 0.3);
+}
+
+.glass-card:hover::before {
+  opacity: 1;
 }
 
 .glass-panel {

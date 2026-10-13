@@ -655,16 +655,41 @@ export const HardwareView = () => {
                 transition: 'all 0.3s ease'
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-4px)';
+                e.currentTarget.style.transform = 'translateY(-6px)';
                 e.currentTarget.style.borderColor = hw.color;
-                e.currentTarget.style.boxShadow = `0 15px 35px ${hw.color}25`;
+                e.currentTarget.style.boxShadow = `0 22px 50px -10px ${hw.color}50, 0 0 30px ${hw.color}35`;
+                const img = e.currentTarget.querySelector('img');
+                if (img) img.style.transform = 'scale(1.08)';
+                const topBar = e.currentTarget.querySelector('.hw-card-top-glow');
+                if (topBar) topBar.style.opacity = '1';
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.transform = 'translateY(0)';
                 e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
                 e.currentTarget.style.boxShadow = 'none';
+                const img = e.currentTarget.querySelector('img');
+                if (img) img.style.transform = 'scale(1)';
+                const topBar = e.currentTarget.querySelector('.hw-card-top-glow');
+                if (topBar) topBar.style.opacity = '0';
               }}
             >
+              {/* Vibrant Top Luminous Highlight Beam */}
+              <div 
+                className="hw-card-top-glow"
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  height: '3px',
+                  background: `linear-gradient(90deg, transparent 0%, ${hw.color} 50%, transparent 100%)`,
+                  opacity: 0,
+                  transition: 'opacity 0.35s ease',
+                  zIndex: 10,
+                  boxShadow: `0 0 16px ${hw.color}`
+                }}
+              />
+
               <div>
                 {/* Product Image Frame */}
                 <div style={{
