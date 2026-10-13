@@ -149,18 +149,26 @@ export const Footer = () => {
                 </button>
               </li>
               <li>
-                <span style={{ color: '#94a3b8', fontSize: '0.86rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                  <MapPin size={14} color="#38bdf8" /> TIDEL Park Chennai HQ
-                </span>
+                <address itemScope itemType="https://schema.org/PostalAddress" style={{ fontStyle: 'normal', color: '#94a3b8', fontSize: '0.84rem', lineHeight: 1.55 }}>
+                  <div style={{ color: '#ffffff', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '0.4rem', marginBottom: '0.2rem' }}>
+                    <MapPin size={14} color="#38bdf8" /> TIDEL Park Chennai HQ
+                  </div>
+                  <span itemProp="streetAddress">G11 Ground Floor, No.4 Canal Bank Rd, Taramani</span>,<br />
+                  <span itemProp="addressLocality">Chennai</span>, <span itemProp="addressRegion">Tamil Nadu</span> <span itemProp="postalCode">600113</span>, <span itemProp="addressCountry">India</span>
+                </address>
               </li>
               <li>
-                <span style={{ color: '#94a3b8', fontSize: '0.86rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                  <Building2 size={14} color="#38bdf8" /> TCE-TBI Madurai R&D
-                </span>
+                <address itemScope itemType="https://schema.org/PostalAddress" style={{ fontStyle: 'normal', color: '#94a3b8', fontSize: '0.84rem', lineHeight: 1.55 }}>
+                  <div style={{ color: '#ffffff', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '0.4rem', marginBottom: '0.2rem' }}>
+                    <Building2 size={14} color="#38bdf8" /> TCE-TBI Madurai R&amp;D
+                  </div>
+                  <span itemProp="streetAddress">Thiagarajar College of Engineering Campus</span>,<br />
+                  <span itemProp="addressLocality">Madurai</span>, <span itemProp="addressRegion">Tamil Nadu</span> <span itemProp="postalCode">625015</span>, <span itemProp="addressCountry">India</span>
+                </address>
               </li>
               <li>
-                <span style={{ color: '#94a3b8', fontSize: '0.86rem' }}>
-                  Hosur & Bengaluru Field Corridors
+                <span style={{ color: '#94a3b8', fontSize: '0.84rem' }}>
+                  Regional Hubs: Hosur &amp; Bengaluru
                 </span>
               </li>
               <li>
@@ -178,17 +186,17 @@ export const Footer = () => {
             </div>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
               <li>
-                <a href="tel:04435537618" style={{ color: '#cbd5e1', textDecoration: 'none', fontSize: '0.86rem', display: 'flex', alignItems: 'center', gap: '0.45rem', transition: 'color 0.15s' }} onMouseEnter={(e) => e.currentTarget.style.color = '#38bdf8'} onMouseLeave={(e) => e.currentTarget.style.color = '#cbd5e1'}>
+                <a href="tel:04435537618" itemProp="telephone" style={{ color: '#cbd5e1', textDecoration: 'none', fontSize: '0.86rem', display: 'flex', alignItems: 'center', gap: '0.45rem', transition: 'color 0.15s' }} onMouseEnter={(e) => e.currentTarget.style.color = '#38bdf8'} onMouseLeave={(e) => e.currentTarget.style.color = '#cbd5e1'}>
                   <Phone size={14} color="#38bdf8" /> 044 3553 7618 (Chennai Desk)
                 </a>
               </li>
               <li>
-                <a href="tel:1800120774777" style={{ color: '#cbd5e1', textDecoration: 'none', fontSize: '0.86rem', display: 'flex', alignItems: 'center', gap: '0.45rem', transition: 'color 0.15s' }} onMouseEnter={(e) => e.currentTarget.style.color = '#38bdf8'} onMouseLeave={(e) => e.currentTarget.style.color = '#cbd5e1'}>
+                <a href="tel:1800120774777" itemProp="telephone" style={{ color: '#cbd5e1', textDecoration: 'none', fontSize: '0.86rem', display: 'flex', alignItems: 'center', gap: '0.45rem', transition: 'color 0.15s' }} onMouseEnter={(e) => e.currentTarget.style.color = '#38bdf8'} onMouseLeave={(e) => e.currentTarget.style.color = '#cbd5e1'}>
                   <Phone size={14} color="#38bdf8" /> 1800-120-774777 (Toll Free)
                 </a>
               </li>
               <li>
-                <a href="mailto:info@atplgroup.com" style={{ color: '#cbd5e1', textDecoration: 'none', fontSize: '0.86rem', display: 'flex', alignItems: 'center', gap: '0.45rem', transition: 'color 0.15s' }} onMouseEnter={(e) => e.currentTarget.style.color = '#38bdf8'} onMouseLeave={(e) => e.currentTarget.style.color = '#cbd5e1'}>
+                <a href="mailto:info@atplgroup.com" itemProp="email" style={{ color: '#cbd5e1', textDecoration: 'none', fontSize: '0.86rem', display: 'flex', alignItems: 'center', gap: '0.45rem', transition: 'color 0.15s' }} onMouseEnter={(e) => e.currentTarget.style.color = '#38bdf8'} onMouseLeave={(e) => e.currentTarget.style.color = '#cbd5e1'}>
                   <Mail size={14} color="#38bdf8" /> info@atplgroup.com
                 </a>
               </li>

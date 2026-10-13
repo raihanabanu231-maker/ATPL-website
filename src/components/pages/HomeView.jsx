@@ -710,25 +710,41 @@ export const HomeView = () => {
             fontSize: '0.85rem',
             color: '#94a3b8'
           }}>
-            <div>
+            <address
+              itemScope
+              itemType="https://schema.org/PostalAddress"
+              style={{ fontStyle: 'normal' }}
+            >
               <strong style={{ color: '#ffffff', display: 'block', marginBottom: '0.35rem' }}>Chennai Head Office</strong>
-              <div>TIDEL Park, G11 Ground Floor</div>
-              <div>No. 4 Canal Bank Rd, Taramani</div>
-              <div>Chennai – 600 113</div>
-            </div>
+              <div itemProp="streetAddress">TIDEL Park, G11 Ground Floor, No. 4 Canal Bank Rd, Taramani</div>
+              <div>
+                <span itemProp="addressLocality">Chennai</span>,{' '}
+                <span itemProp="addressRegion">Tamil Nadu</span> –{' '}
+                <span itemProp="postalCode">600113</span>
+              </div>
+              <div itemProp="addressCountry">India</div>
+            </address>
 
-            <div>
+            <address
+              itemScope
+              itemType="https://schema.org/PostalAddress"
+              style={{ fontStyle: 'normal' }}
+            >
               <strong style={{ color: '#ffffff', display: 'block', marginBottom: '0.35rem' }}>Madurai R&D Labs</strong>
-              <div>TCE-TBI, Thiagarajar College of Engineering</div>
-              <div>Madurai – 625 015</div>
-              <div style={{ marginTop: '0.25rem', color: '#38bdf8' }}>Regional Hub: Hosur & Bengaluru</div>
-            </div>
+              <div itemProp="streetAddress">TCE-TBI, Thiagarajar College of Engineering Campus</div>
+              <div>
+                <span itemProp="addressLocality">Madurai</span>,{' '}
+                <span itemProp="addressRegion">Tamil Nadu</span> –{' '}
+                <span itemProp="postalCode">625015</span>
+              </div>
+              <div style={{ marginTop: '0.25rem', color: '#38bdf8' }}>Regional Hub: Hosur &amp; Bengaluru</div>
+            </address>
 
             <div>
               <strong style={{ color: '#ffffff', display: 'block', marginBottom: '0.35rem' }}>Direct Helplines</strong>
-              <div>Sales: +91 63808 59963</div>
-              <div>Support: +91 72001 57626</div>
-              <div>Toll-Free: 1800-120-774777</div>
+              <div>Sales: <a href="tel:+916380859963" style={{ color: '#cbd5e1', textDecoration: 'none' }}>+91 63808 59963</a></div>
+              <div>Support: <a href="tel:+917200157626" style={{ color: '#cbd5e1', textDecoration: 'none' }}>+91 72001 57626</a></div>
+              <div>Toll-Free: <a href="tel:1800120774777" style={{ color: '#38bdf8', textDecoration: 'none', fontWeight: 600 }}>1800-120-774777</a></div>
             </div>
           </div>
 
