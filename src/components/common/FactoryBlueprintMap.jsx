@@ -1,29 +1,24 @@
 import React, { useState, useEffect, useRef } from 'react';
 import blueprintImg from '../../../assets/images/atpl_isometric_factory.webp';
-import atplQrCodeImg from '../../../assets/images/atpl_qr_code.webp';
 import { AtplRobotAvatar } from './AtplRobotAvatar';
 import { 
-  Bot, 
   ChevronLeft, 
   ChevronRight, 
   Sparkles, 
-  CheckCircle2, 
-  ArrowRight,
-  Play,
-  Pause,
-  Activity,
-  Zap,
-  Radio,
-  X,
-  QrCode,
-  Download,
-  PhoneCall,
-  Calendar,
-  RotateCcw,
-  ExternalLink,
-  ShieldCheck,
-  Check,
-  Video
+  Play, 
+  Pause, 
+  Activity, 
+  Zap, 
+  Radio, 
+  X, 
+  Download, 
+  PhoneCall, 
+  RotateCcw, 
+  ShieldCheck, 
+  Check, 
+  Scan,
+  Layers,
+  ArrowRight
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 
@@ -38,10 +33,8 @@ export const ATPL_FACTORY_NODES = [
     y: 77,
     image: '/assets/images/stations/trace.webp',
     tagline: 'GS1 Serialization & Anti-Counterfeit Packaging',
-    lesson: 'Step 1: Here is PERFECT TRACE! Our software assigns parent-child serialization (Item -> Pack -> Case -> Pallet) with cryptographic QR verification for 100% DGFT/DSCSA regulatory compliance.',
-    specs: ['Multi-level Parent-Child aggregation', '1-Click recall traceability', 'DGFT & EU-FMD compliant'],
-    keyBenefits: ['Parent-Child Aggregation', '1-Click Recall Isolation', '100% DGFT / DSCSA Certified'],
-    roiMetric: '100% Regulatory Compliance',
+    highlight: 'Parent-child aggregation with cryptographic QR verification for 100% DGFT/DSCSA regulatory compliance.',
+    roiMetric: '100% DGFT Compliant',
     targetView: 'software'
   },
   {
@@ -54,25 +47,21 @@ export const ATPL_FACTORY_NODES = [
     y: 48,
     image: '/assets/images/stations/pms.webp',
     tagline: 'Paperless Digital Audits & Non-Conformance Logs',
-    lesson: 'Step 2: Welcome to PERFECT AUDIT! This digital audit platform eliminates paper checklists. Quality inspectors record photo evidence, execute automated CAPA workflows, and sign with 21 CFR Part 11 compliant digital signatures.',
-    specs: ['100% paperless digital checklists', 'Photo evidence capture', '21 CFR Part 11 compliance'],
-    keyBenefits: ['Zero Paper Checklists', 'Photo Evidence & CAPA', '21 CFR Part 11 e-Signatures'],
-    roiMetric: '75% Faster Audit Cycles',
+    highlight: 'Digital checklist platform with photo evidence, automated CAPA, and 21 CFR Part 11 compliant digital signatures.',
+    roiMetric: '75% Faster Audits',
     targetView: 'software'
   },
   {
     id: 'node-warehouse',
     stepNumber: 3,
     name: 'PERFECT WAREHOUSE™',
-    category: 'WAREHOUSE MANAGEMENT SYSTEM (WMS)',
+    category: 'WAREHOUSE MANAGEMENT (WMS)',
     icon: '📦',
     x: 74,
     y: 24,
     image: '/assets/images/stations/warehouse.webp',
     tagline: 'Autonomous WMS with 3D Bin Mapping & RFID',
-    lesson: 'Step 3: Visiting PERFECT WAREHOUSE! This enterprise WMS manages automated 3D bin allocation, dynamic slotting, FIFO/FEFO picking optimization, and synchronizes bi-directionally with SAP and Oracle.',
-    specs: ['3D bin & rack heatmap mapping', 'Automated pallet & carton tagging', 'Native SAP/Oracle ERP sync'],
-    keyBenefits: ['3D Bin Heatmap Slotting', 'FIFO/FEFO Picking AI', 'Sub-second SAP/Oracle Sync'],
+    highlight: 'Enterprise WMS managing automated 3D bin allocation, dynamic slotting, and sub-second SAP/Oracle ERP sync.',
     roiMetric: '99.98% Inventory Accuracy',
     targetView: 'software'
   },
@@ -86,25 +75,21 @@ export const ATPL_FACTORY_NODES = [
     y: 19,
     image: '/assets/images/stations/rfid.webp',
     tagline: 'Long-Range UHF Portal & High-Temp Tags',
-    lesson: 'Step 4: At the RFID ANTENNA station! Fixed multi-directional UHF portals capture 1,200+ pallet and carton tags in milliseconds as forklifts drive through warehouse bay doors with 99.98% inventory accuracy.',
-    specs: ['1,200+ tags/sec dense read rate', 'Up to 15m capture range', 'Directional dock-door sensing'],
-    keyBenefits: ['1,200+ Tags/Sec Capture', '15m High-Throughput Range', 'Directional Dock Sensing'],
-    roiMetric: '10x Faster Inbound/Outbound',
+    highlight: 'Fixed multi-directional UHF portals capturing 1,200+ pallet tags/sec as forklifts transit dock bays.',
+    roiMetric: '1,200+ Tags/Sec Capture',
     targetView: 'hardware'
   },
   {
     id: 'node-pms',
     stepNumber: 5,
     name: 'PERFECT PMS™',
-    category: 'PRODUCTION MANAGEMENT SYSTEM',
+    category: 'PRODUCTION MANAGEMENT (MES)',
     icon: '⚙️',
     x: 58,
     y: 80,
     image: '/assets/images/stations/pms.webp',
-    tagline: 'Real-time Shop-Floor OEE & Machine Monitoring',
-    lesson: 'Step 5: Here is PERFECT PMS! It directly connects with assembly lines to track Overall Equipment Effectiveness (OEE), monitor machine cycle times, analyze downtime pareto root causes, and trigger real-time Andon alerts.',
-    specs: ['Real-time OEE dashboards', 'Machine cycle monitoring', 'Automated Andon alerts'],
-    keyBenefits: ['Live OEE Dashboards', 'Sub-Second Machine Telemetry', 'Automated Andon Alerts'],
+    tagline: 'Real-time Shop-Floor OEE & Machine Telemetry',
+    highlight: 'Direct assembly line telemetry tracking OEE, machine cycle times, downtime root-causes, and Andon alerts.',
     roiMetric: '+18% Average OEE Uplift',
     targetView: 'software'
   },
@@ -117,11 +102,9 @@ export const ATPL_FACTORY_NODES = [
     x: 82,
     y: 52,
     image: '/assets/images/stations/robot_arm.webp',
-    tagline: '6-Axis Multi-Joint Robotic Assembly Cells',
-    lesson: 'Step 6: Here are the INDUSTRIAL ROBOTS! Multi-axis articulated robotic arms execute precision welding, pick-and-place, and synchronized conveyor transfers with 0.05mm repeatability alongside PLC automation.',
-    specs: ['6-Axis articulated motion', '0.05mm repeatability precision', 'Direct PLC/SCADA integration'],
-    keyBenefits: ['6-Axis Articulated Motion', '0.05mm Repeatability Precision', 'PLC & SCADA Interlocked'],
-    roiMetric: 'Zero Assembly Variance',
+    tagline: '6-Axis Multi-Joint Articulated Robot Cells',
+    highlight: 'Multi-axis articulated arms executing precision welding, pick-and-place, and synchronized conveyor transfers with 0.05mm repeatability.',
+    roiMetric: '0.05mm Repeatability',
     targetView: 'hardware'
   },
   {
@@ -134,10 +117,8 @@ export const ATPL_FACTORY_NODES = [
     y: 19,
     image: '/assets/images/stations/scanners.webp',
     tagline: 'Ultra-Rugged 1D/2D, DPM & Handsfree Scanners',
-    lesson: 'Step 7: Check out our SCANNING SOLUTIONS! ATPL deploys high-speed DPM (Direct Part Mark) scanners decoding laser-etched and dot-peen codes on curved reflective automotive metals and pharmaceutical packaging.',
-    specs: ['Sub-10ms multi-code decode', 'MIL-STD-810H ultra-rugged drop', 'Multi-illumination liquid lens'],
-    keyBenefits: ['Sub-10ms DPM Decode Rate', 'Curved Metal & Dot-Peen Ready', 'MIL-STD-810H Drop Proof'],
-    roiMetric: '99.99% First-Pass Read Rate',
+    highlight: 'High-speed DPM scanners decoding laser-etched and dot-peen DataMatrix marks on curved reflective automotive metals.',
+    roiMetric: '99.99% First-Pass Read',
     targetView: 'hardware'
   },
   {
@@ -150,10 +131,8 @@ export const ATPL_FACTORY_NODES = [
     y: 76,
     image: '/assets/images/stations/printers.webp',
     tagline: 'All-Metal 24/7 Chassis & In-Line Verifiers',
-    lesson: 'Step 8: Welcome to INDUSTRIAL PRINTING! Heavy-duty industrial printers with all-metal mechanisms, dual-sensor calibration, and inline ODV barcode verifiers ensuring 100% scan-ready GS1 shipping labels.',
-    specs: ['Continuous 24/7 multi-shift uptime', '600 DPI ultra-fine micro-labels', 'Integrated inline barcode verifier'],
-    keyBenefits: ['Continuous 24/7 Multi-Shift Uptime', 'Inline Barcode ODV Verifier', '600 DPI Ultra-Fine Labels'],
-    roiMetric: 'Zero Bad-Barcode Chargebacks',
+    highlight: 'Heavy-duty industrial thermal printers with inline ODV barcode verifiers guaranteeing zero bad-barcode chargebacks.',
+    roiMetric: 'Zero Chargeback Guarantee',
     targetView: 'hardware'
   },
   {
@@ -166,10 +145,8 @@ export const ATPL_FACTORY_NODES = [
     y: 24,
     image: '/assets/images/stations/drones.webp',
     tagline: 'Autonomous Indoor Optical SLAM Inventory Drones',
-    lesson: 'Step 9: Look up at DRONES & REMOTE CONTROL! Autonomous inspection drones navigate high-bay 15-meter racking aisles without GPS, auditing thousands of pallet barcodes in minutes safely without scissor lifts.',
-    specs: ['Optical SLAM indoor navigation', 'Zero-fall hazard stocktaking', 'Instant ERP discrepancy alerts'],
-    keyBenefits: ['Optical SLAM Indoor Navigation', 'Zero Scissor Lift Fall Hazards', 'Instant ERP Discrepancy Flags'],
-    roiMetric: '15x Faster High-Bay Audits',
+    highlight: 'Optical SLAM drones navigating 15m high-bay racking aisles without GPS, auditing pallet barcodes safely without scissor lifts.',
+    roiMetric: '15x Faster Stocktaking',
     targetView: 'hardware'
   },
   {
@@ -182,9 +159,7 @@ export const ATPL_FACTORY_NODES = [
     y: 20,
     image: '/assets/images/stations/software_lab.webp',
     tagline: 'Cloud SaaS, Embedded IIoT Firmware & Mobile Apps',
-    lesson: 'Step 10: Here is ATPL SOFTWARE DEVELOPMENT! Our in-house engineering team crafts cloud-native MES/WMS platforms, high-speed OPC-UA middleware, embedded sensor firmware, and mobile enterprise applications.',
-    specs: ['35+ years combined domain mastery', 'REST, MQTT & OPC-UA native stacks', 'Custom ERP bi-directional sync'],
-    keyBenefits: ['35+ Years Domain Engineering', 'REST, MQTT & OPC-UA Native', '100% In-House Architecture'],
+    highlight: 'In-house engineering team crafting cloud-native MES/WMS platforms, OPC-UA middleware, and industrial mobile apps.',
     roiMetric: 'Sub-Second Middleware Sync',
     targetView: 'software'
   },
@@ -198,10 +173,8 @@ export const ATPL_FACTORY_NODES = [
     y: 75,
     image: '/assets/images/stations/vision_ai.webp',
     tagline: 'Sub-8ms Optical Defect Detection & Neural Inference',
-    lesson: 'Step 11: At the SUPER COMPUTER AI & ML hub! GPU-accelerated neural networks analyze gigapixel inspection images in sub-8ms, classifying microscopic surface flaws, solder bridge defects, and dimensional variances.',
-    specs: ['Sub-8ms neural inference latency', '99.99% defect catch accuracy', 'Automated Pareto root-cause analytics'],
-    keyBenefits: ['Sub-8ms Neural Inference Latency', 'Gigapixel Surface Flaw Detection', 'Automated Root-Cause Analytics'],
-    roiMetric: '99.99% Flaw Detection Catch',
+    highlight: 'GPU-accelerated neural networks analyzing gigapixel inspection feeds in sub-8ms to catch microscopic surface flaws.',
+    roiMetric: 'Sub-8ms Defect Catch',
     targetView: 'software'
   },
   {
@@ -214,879 +187,312 @@ export const ATPL_FACTORY_NODES = [
     y: 46,
     image: '/assets/images/stations/erp_sync.webp',
     tagline: 'Bi-directional Real-Time Sync with SAP, Oracle & MS',
-    lesson: 'Step 12: Completing our tour at ERP SOLUTIONS! ATPL ERP Sync certified connectors translate shopfloor machine PLC events and barcode scans into real-time SAP IDocs and Oracle BAPIs with zero data latency.',
-    specs: ['Certified SAP S/4HANA & Oracle BAPIs', 'Zero-data-loss buffering memory', 'Instant shopfloor-to-boardroom visibility'],
-    keyBenefits: ['Certified SAP S/4HANA & Oracle Connectors', 'Zero Data Loss Buffering', 'Shopfloor-to-Boardroom Visibility'],
-    roiMetric: 'Real-time ERP Data Flow',
+    highlight: 'Certified SAP S/4HANA & Oracle connectors translating shopfloor sensor events into ERP transactions with zero data loss.',
+    roiMetric: 'Real-time ERP Flow',
     targetView: 'solutions'
   }
 ];
 
 export const FactoryBlueprintMap = () => {
-  const { openDemoModal, setCurrentView, addToast } = useApp();
+  const { openDemoModal, setCurrentView } = useApp();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoTour, setIsAutoTour] = useState(true);
-  const [showCompletionCta, setShowCompletionCta] = useState(false);
-  const [isTourOpen, setIsTourOpen] = useState(true);
-  const userClosedRef = useRef(false);
-  const closingLockRef = useRef(false);
-
-  const closeTour = (e) => {
-    if (e) {
-      if (e.preventDefault) e.preventDefault();
-      if (e.stopPropagation) e.stopPropagation();
-    }
-    userClosedRef.current = true;
-    closingLockRef.current = true;
-    setIsTourOpen(false);
-    setIsAutoTour(false);
-    setTimeout(() => {
-      closingLockRef.current = false;
-    }, 450);
-  };
-
-  const openTour = (e) => {
-    if (closingLockRef.current) return;
-    if (e) {
-      if (e.preventDefault) e.preventDefault();
-      if (e.stopPropagation) e.stopPropagation();
-    }
-    userClosedRef.current = false;
-    setIsTourOpen(true);
-  };
+  const [hoveredStation, setHoveredStation] = useState(null);
 
   const currentNode = ATPL_FACTORY_NODES[currentIndex];
-  const isLastStation = currentIndex === ATPL_FACTORY_NODES.length - 1;
 
-  // Auto-tour timer (moves automatically every 5.5s)
+  // Auto-tour timer (moves automatically every 5.0 seconds)
   useEffect(() => {
     if (!isAutoTour) return;
     const timer = setInterval(() => {
-      if (userClosedRef.current) return;
-      setCurrentIndex(prev => {
-        const next = (prev + 1) % ATPL_FACTORY_NODES.length;
-        if (next === ATPL_FACTORY_NODES.length - 1) {
-          setShowCompletionCta(true);
-        }
-        return next;
-      });
-    }, 5500);
+      setCurrentIndex(prev => (prev + 1) % ATPL_FACTORY_NODES.length);
+    }, 5000);
     return () => clearInterval(timer);
   }, [isAutoTour]);
 
-  // When user reaches station 12 (last station), enable completion CTA
+  // Keyboard navigation
   useEffect(() => {
-    if (isLastStation) {
-      setShowCompletionCta(true);
-    }
-  }, [isLastStation]);
+    const handleKeyDown = (e) => {
+      if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement?.tagName)) return;
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        setCurrentIndex(prev => (prev + 1) % ATPL_FACTORY_NODES.length);
+      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        setCurrentIndex(prev => (prev - 1 + ATPL_FACTORY_NODES.length) % ATPL_FACTORY_NODES.length);
+      } else if (e.key === ' ') {
+        e.preventDefault();
+        setIsAutoTour(prev => !prev);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   const handleNext = () => {
-    setCurrentIndex(prev => {
-      const next = (prev + 1) % ATPL_FACTORY_NODES.length;
-      if (next === ATPL_FACTORY_NODES.length - 1) {
-        setShowCompletionCta(true);
-      }
-      return next;
-    });
+    setCurrentIndex(prev => (prev + 1) % ATPL_FACTORY_NODES.length);
   };
 
   const handlePrev = () => {
     setCurrentIndex(prev => (prev - 1 + ATPL_FACTORY_NODES.length) % ATPL_FACTORY_NODES.length);
   };
 
-  const [mobileViewMode, setMobileViewMode] = useState(() => 
-    typeof window !== 'undefined' && window.innerWidth < 900 ? 'cards' : 'map'
-  );
-  const [isVideoTourOpen, setIsVideoTourOpen] = useState(false);
-  const [isVideoPlaying, setIsVideoPlaying] = useState(true);
-  const [videoProgress, setVideoProgress] = useState(0);
-
-  // Video Tour auto-play timer with progress ticker (6s per station)
-  useEffect(() => {
-    if (!isVideoTourOpen || !isVideoPlaying) return;
-    const interval = 50;
-    const timer = setInterval(() => {
-      setVideoProgress(prev => {
-        if (prev >= 100) {
-          setCurrentIndex(curr => (curr + 1) % ATPL_FACTORY_NODES.length);
-          return 0;
-        }
-        return prev + (50 / 6000) * 100;
-      });
-    }, interval);
-    return () => clearInterval(timer);
-  }, [isVideoTourOpen, isVideoPlaying]);
-
-  // WCAG 2.2 AA Keyboard Navigation (Arrow Keys + Escape)
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement?.tagName)) return;
-
-      if (e.key === 'Escape') {
-        if (isVideoTourOpen) setIsVideoTourOpen(false);
-      } else if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-        handleNext();
-        setVideoProgress(0);
-      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-        handlePrev();
-        setVideoProgress(0);
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isVideoTourOpen]);
-
   const handleStationClick = (index) => {
-    if (closingLockRef.current) return;
     setCurrentIndex(index);
     setIsAutoTour(false);
-    userClosedRef.current = false;
-    setIsTourOpen(true);
-    if (index === ATPL_FACTORY_NODES.length - 1) {
-      setShowCompletionCta(true);
-    }
-  };
-
-  const handleDownloadBrochure = () => {
-    if (addToast) {
-      addToast('Brochure Download', 'Downloading ATPL Smart Factory 4.0 Corporate Overview (2026)...', 'success');
-    }
-    const link = document.createElement('a');
-    link.href = '/ATPL_Smart_Factory_Overview_2026.pdf';
-    link.setAttribute('download', 'ATPL_Smart_Factory_Overview_2026.pdf');
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
   };
 
   return (
     <section 
       id="factory-blueprint-section" 
-      aria-label="ATPL Smart Factory Interactive 12-Station Tour"
-      className="factory-blueprint-section-root"
+      aria-label="ATPL Smart Factory Autonomous Robot Tour"
       style={{ 
-        backgroundColor: '#050c1a', 
+        backgroundColor: '#040914', 
         color: '#ffffff',
-        display: 'flex',
-        flexDirection: 'column',
-        boxSizing: 'border-box'
+        paddingTop: '2.5rem',
+        paddingBottom: '3rem',
+        position: 'relative',
+        overflow: 'hidden'
       }}
     >
-      <div 
-        className="factory-blueprint-main-wrapper" 
-        style={{ 
-          maxWidth: '1440px', 
-          width: '100%', 
-          margin: '0 auto', 
-          display: 'flex', 
-          flexDirection: 'column' 
-        }}
-      >
+      {/* Background Decorative Ambient Radial Glow */}
+      <div style={{
+        position: 'absolute',
+        top: '20%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: '800px',
+        height: '400px',
+        background: 'radial-gradient(ellipse at center, rgba(0, 240, 255, 0.08) 0%, rgba(232, 88, 116, 0.04) 50%, transparent 80%)',
+        pointerEvents: 'none',
+        zIndex: 0
+      }} />
+
+      <div className="container" style={{ maxWidth: '1400px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
         
         {/* =====================================================================
-            1. SECTION INTRO HEADER: High-impact & Single-Screen Proportion
+            1. MINIMALIST, HIGH-IMPACT HEADER (Clean & Uncluttered)
            ===================================================================== */}
-        <div className="factory-tour-header" style={{ textAlign: 'center', marginBottom: '0.35rem' }}>
+        <div style={{ textAlign: 'center', marginBottom: '1.25rem' }}>
           <div style={{
             display: 'inline-flex',
             alignItems: 'center',
-            gap: '0.4rem',
+            gap: '0.45rem',
             background: 'rgba(0, 240, 255, 0.08)',
             border: '1px solid rgba(0, 240, 255, 0.35)',
             borderRadius: '999px',
-            padding: '0.15rem 0.65rem',
-            marginBottom: '0.18rem',
-            boxShadow: '0 2px 10px rgba(0, 240, 255, 0.15)'
+            padding: '0.22rem 0.85rem',
+            marginBottom: '0.55rem',
+            boxShadow: '0 0 16px rgba(0, 240, 255, 0.2)'
           }}>
             <span style={{
-              width: '6px',
-              height: '6px',
+              width: '7px',
+              height: '7px',
               borderRadius: '50%',
               backgroundColor: '#00f0ff',
               boxShadow: '0 0 8px #00f0ff',
               display: 'inline-block',
-              animation: 'pulseCyanDot 1.8s infinite'
+              animation: 'sonarPingDot 1.6s infinite'
             }} />
             <span style={{
               fontFamily: 'var(--font-mono)',
-              fontSize: '0.72rem',
+              fontSize: '0.74rem',
               fontWeight: 800,
               color: '#00f0ff',
-              letterSpacing: '0.06em',
+              letterSpacing: '0.08em',
               textTransform: 'uppercase'
             }}>
-              Industry 4.0 Digital Twin • 12-Station Interactive Tour
+              ARCHIE AI • AUTONOMOUS FACTORY TOUR
             </span>
           </div>
 
           <h2 style={{
             fontFamily: 'var(--font-display)',
-            fontSize: 'clamp(1.1rem, 1.8vw, 1.55rem)',
-            fontWeight: 900,
+            fontSize: 'clamp(1.6rem, 3.2vw, 2.4rem)',
+            fontWeight: 800,
             color: '#ffffff',
             letterSpacing: '-0.02em',
-            margin: '0 0 0.12rem 0',
+            margin: '0 0 0.4rem 0',
             lineHeight: 1.2
           }}>
-            Explore ATPL Smart Factory – 12 Station Interactive Tour
+            Watch Archie AI Tour the <span className="gradient-text">Connected Smart Factory</span>
           </h2>
 
-          <p className="factory-tour-header-desc" style={{
+          <p style={{
             color: '#94a3b8',
-            fontSize: 'clamp(0.74rem, 0.88vw, 0.82rem)',
-            maxWidth: '780px',
+            fontSize: '0.92rem',
+            maxWidth: '680px',
             margin: '0 auto',
-            lineHeight: 1.35
+            lineHeight: 1.5
           }}>
-            Click directly on any station pin or let Archie AI guide you through our turnkey manufacturing, warehouse automation, RFID portals, and sub-8ms machine vision ecosystem.
+            Archie navigates through all 12 manufacturing, WMS, RFID, and AI machine vision stations. Click any station beacon to fly Archie there instantly.
           </p>
         </div>
 
         {/* =====================================================================
-            2. INTERACTIVE STAGE BOX
+            2. INTERACTIVE ANIMATION STAGE (The Star of the Show!)
            ===================================================================== */}
         <div 
-          className={`factory-blueprint-stage-box ${mobileViewMode === 'cards' ? 'cards-mode' : ''}`}
           style={{
             position: 'relative',
             width: '100%',
-            backgroundColor: '#040b18',
-            borderRadius: '12px',
+            backgroundColor: '#030816',
+            borderRadius: '16px',
             overflow: 'hidden',
-            border: '1.5px solid rgba(0, 240, 255, 0.4)',
-            boxShadow: '0 16px 40px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 240, 255, 0.15)'
+            border: '1.5px solid rgba(0, 240, 255, 0.35)',
+            boxShadow: '0 25px 60px rgba(0, 0, 0, 0.9), 0 0 40px rgba(0, 240, 255, 0.15)'
           }}
         >
-          {/* Visual & Responsive Styles */}
+          {/* Keyframe Animations */}
           <style>{`
-            @keyframes pulseCyanDot {
-              0%, 100% { opacity: 1; transform: scale(1); }
-              50% { opacity: 0.5; transform: scale(1.3); }
+            @keyframes archieFloating {
+              0%, 100% {
+                transform: translate(-50%, -50%) translateY(0) rotate(0deg);
+              }
+              50% {
+                transform: translate(-50%, -50%) translateY(-9px) rotate(1.2deg);
+              }
             }
-            @keyframes pulseCoralDot {
-              0%, 100% { opacity: 1; transform: scale(1); }
-              50% { opacity: 0.6; transform: scale(1.25); }
+            @keyframes thrusterGlow {
+              0% {
+                opacity: 0.6;
+                transform: scale(0.9);
+                box-shadow: 0 0 10px #00f0ff;
+              }
+              100% {
+                opacity: 1;
+                transform: scale(1.3);
+                box-shadow: 0 0 25px #00f0ff, 0 0 35px #E85874;
+              }
             }
-            @keyframes radarPulse {
-              0% { transform: scale(0.9); opacity: 0.9; }
-              70% { transform: scale(2.4); opacity: 0; }
+            @keyframes scanSweep {
+              0% { opacity: 0.25; transform: scaleY(0.4); }
+              50% { opacity: 0.85; transform: scaleY(1); }
+              100% { opacity: 0.25; transform: scaleY(0.4); }
+            }
+            @keyframes reticleRotate {
+              0% { transform: rotate(0deg); }
+              100% { transform: rotate(360deg); }
+            }
+            @keyframes sonarPulseWave {
+              0% { transform: scale(0.6); opacity: 0.9; }
+              70% { transform: scale(2.2); opacity: 0.2; }
               100% { transform: scale(2.6); opacity: 0; }
             }
-            .station-pin-container {
+            @keyframes sonarPingDot {
+              0%, 100% { transform: scale(1); opacity: 1; }
+              50% { transform: scale(1.4); opacity: 0.6; }
+            }
+            .hud-station-pin {
               position: absolute;
               transform: translate(-50%, -50%);
               cursor: pointer;
-              z-index: 20;
-              transition: all 0.25s cubic-bezier(0.25, 1, 0.5, 1);
+              z-index: 25;
+              transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
             }
-            .station-pin-circle {
-              width: 26px;
-              height: 26px;
+            .hud-station-pin:hover {
+              transform: translate(-50%, -50%) scale(1.25);
+            }
+            .hud-pin-disc {
+              width: 32px;
+              height: 32px;
               border-radius: 50%;
               display: flex;
               align-items: center;
               justify-content: center;
               font-family: var(--font-display, sans-serif);
-              font-size: 0.74rem;
+              font-size: 0.82rem;
               font-weight: 900;
               color: #ffffff;
-              background: linear-gradient(135deg, #0071ba 0%, #004b7c 100%);
-              border: 1.5px solid rgba(0, 240, 255, 0.65);
-              box-shadow: 0 4px 12px rgba(0, 0, 0, 0.65), 0 0 10px rgba(0, 240, 255, 0.35);
-              transition: all 0.25s ease;
-              position: relative;
+              background: rgba(4, 13, 29, 0.88);
+              border: 1.5px solid rgba(0, 240, 255, 0.6);
+              box-shadow: 0 4px 14px rgba(0, 0, 0, 0.8), 0 0 12px rgba(0, 240, 255, 0.35);
+              transition: all 0.3s ease;
             }
-            .station-pin-container:hover .station-pin-circle {
-              transform: scale(1.15);
+            .hud-station-pin.active .hud-pin-disc {
               background: #E85874;
               border-color: #ffffff;
-              box-shadow: 0 0 20px #E85874;
-            }
-            .station-pin-container.active .station-pin-circle {
-              background: #E85874;
-              border-color: #ffffff;
-              box-shadow: 0 0 22px #E85874;
-              transform: scale(1.12);
-            }
-            .station-pin-radar {
-              position: absolute;
-              top: -4px;
-              left: -4px;
-              right: -4px;
-              bottom: -4px;
-              border-radius: 50%;
-              border: 2px solid #E85874;
-              animation: radarPulse 2s infinite ease-out;
-              pointer-events: none;
-            }
-            .station-pill-label {
-              position: absolute;
-              top: calc(100% + 3px);
-              left: 50%;
-              transform: translateX(-50%);
-              background: rgba(4, 11, 24, 0.94);
-              backdrop-filter: blur(8px);
-              -webkit-backdrop-filter: blur(8px);
-              border: 1px solid rgba(0, 240, 255, 0.45);
-              color: #f1f5f9;
-              padding: 0.16rem 0.5rem;
-              border-radius: 4px;
-              font-size: 0.62rem;
-              font-weight: 800;
-              white-space: nowrap;
-              letter-spacing: 0.02em;
-              text-transform: uppercase;
-              box-shadow: 0 4px 14px rgba(0, 0, 0, 0.75);
-              pointer-events: none;
-              transition: all 0.25s ease;
-              z-index: 25;
-            }
-            .station-pin-container.active .station-pill-label {
-              border-color: #E85874;
+              box-shadow: 0 0 25px #E85874, 0 0 35px rgba(232, 88, 116, 0.6);
               color: #ffffff;
-              background: rgba(232, 88, 116, 0.4);
-              box-shadow: 0 0 16px rgba(232, 88, 116, 0.65);
-              font-weight: 900;
-              transform: translateX(-50%) scale(1.04);
             }
-            .station-pin-container:hover .station-pill-label {
+            .hud-station-pin:hover .hud-pin-disc {
               border-color: #00f0ff;
-              color: #ffffff;
-              box-shadow: 0 0 14px rgba(0, 240, 255, 0.65);
+              box-shadow: 0 0 20px #00f0ff;
             }
-            .station-pin-container:focus-visible {
-              outline: 2px solid #00f0ff;
-              outline-offset: 4px;
-              border-radius: 50%;
+            .hud-chip-btn {
+              transition: all 0.2s ease;
             }
-            .tour-chip-btn:focus-visible {
-              outline: 2px solid #00f0ff;
-              outline-offset: 2px;
-            }
-            @media (min-width: 900px) {
-              .mobile-mode-toggle-btn {
-                display: none !important;
-              }
-              .factory-mobile-cards-view {
-                display: none !important;
-              }
-            }
-            @media (max-width: 899px) {
-              .mobile-mode-toggle-btn {
-                display: inline-flex !important;
-              }
-              .factory-blueprint-stage-box.cards-mode .factory-map-viewport,
-              .factory-blueprint-stage-box.cards-mode .factory-hud-bottom-overlay,
-              .factory-blueprint-stage-box.cards-mode .factory-hud-toggle-pill {
-                display: none !important;
-              }
-            }
-
-            /* =========================================================
-               Desktop Layout: Fits cleanly within Single Screen (One Scroll)
-               ========================================================= */
-            @media (min-width: 900px) {
-              #factory-blueprint-section {
-                height: calc(100vh - 102px) !important;
-                max-height: calc(100vh - 102px) !important;
-                min-height: 480px !important;
-                padding: 0.25rem 1rem 0.45rem 1rem !important;
-                overflow: hidden !important;
-                box-sizing: border-box !important;
-              }
-              .factory-blueprint-main-wrapper {
-                height: 100% !important;
-                flex: 1 1 0 !important;
-                min-height: 0 !important;
-              }
-              .factory-tour-header {
-                flex-shrink: 0 !important;
-                margin-bottom: 0.25rem !important;
-              }
-              .factory-blueprint-stage-box {
-                flex: 1 1 0 !important;
-                min-height: 0 !important;
-                height: 100% !important;
-                position: relative !important;
-                display: flex !important;
-                align-items: center !important;
-                justify-content: center !important;
-                overflow: hidden !important;
-              }
-              .factory-map-viewport {
-                position: relative !important;
-                height: 100% !important;
-                aspect-ratio: 1376 / 768 !important;
-                max-width: 100% !important;
-                max-height: 100% !important;
-                margin: 0 auto !important;
-                overflow: hidden !important;
-                z-index: 1 !important;
-              }
-              .factory-map-viewport img.factory-blueprint-bg-img {
-                position: absolute !important;
-                inset: 0 !important;
-                width: 100% !important;
-                height: 100% !important;
-                object-fit: fill !important;
-              }
-              .factory-blueprint-qr-box {
-                position: absolute !important;
-                left: 50% !important;
-                top: 50% !important;
-                transform: translate(-50%, -50%) !important;
-                z-index: 25 !important;
-                background: rgba(4, 11, 24, 0.94) !important;
-                backdrop-filter: blur(12px) !important;
-                -webkit-backdrop-filter: blur(12px) !important;
-                padding: 4px !important;
-                border-radius: 12px !important;
-                border: 1.5px solid rgba(0, 240, 255, 0.65) !important;
-                box-shadow: 0 12px 35px rgba(0, 0, 0, 0.9), 0 0 25px rgba(0, 240, 255, 0.4) !important;
-                display: flex !important;
-                align-items: center !important;
-                justify-content: center !important;
-                cursor: pointer !important;
-                transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
-                pointer-events: auto !important;
-              }
-              .factory-blueprint-qr-box:hover {
-                transform: translate(-50%, -50%) scale(1.1) !important;
-                border-color: #E85874 !important;
-                box-shadow: 0 16px 45px rgba(0, 0, 0, 0.95), 0 0 35px rgba(232, 88, 116, 0.7) !important;
-              }
-              .factory-blueprint-qr-img {
-                width: 52px !important;
-                height: 52px !important;
-                min-width: 52px !important;
-                min-height: 52px !important;
-                display: block !important;
-                border-radius: 6px !important;
-                object-fit: contain !important;
-                position: static !important;
-                inset: auto !important;
-              }
-              .factory-blueprint-top-hud {
-                position: absolute !important;
-                top: 8px !important;
-                left: 10px !important;
-                right: 10px !important;
-                z-index: 35 !important;
-                padding: 0.25rem 0.75rem !important;
-              }
-              .factory-hud-bottom-overlay {
-                position: absolute !important;
-                bottom: 8px !important;
-                left: 10px !important;
-                right: 10px !important;
-                z-index: 45 !important;
-                padding: 0.38rem 2.2rem 0.38rem 0.85rem !important;
-              }
-            }
-
-            .factory-top-title-wrap {
-              display: flex;
-              align-items: center;
-              gap: 0.65rem;
-            }
-            .factory-top-controls-wrap {
-              display: flex;
-              align-items: center;
-              gap: 0.65rem;
-            }
-            .hud-station-header-row {
-              display: flex;
-              align-items: center;
-              gap: 0.65rem;
-            }
-
-            /* =========================================================
-               Mobile & Tablet Adaptive Layout: Fits in 1 Clean Screen Fold
-               ========================================================= */
-            @media (max-width: 899px) {
-              #factory-blueprint-section {
-                padding: 0.35rem 0.5rem 0.65rem 0.5rem !important;
-                height: auto !important;
-                min-height: auto !important;
-                max-height: none !important;
-              }
-              .factory-tour-header {
-                margin-bottom: 0.25rem !important;
-              }
-              .factory-tour-header h2 {
-                font-size: clamp(1.05rem, 4.2vw, 1.25rem) !important;
-                margin: 0 0 0.12rem 0 !important;
-                line-height: 1.2 !important;
-              }
-              .factory-tour-header-desc {
-                font-size: 0.72rem !important;
-                line-height: 1.3 !important;
-                color: #94a3b8 !important;
-                max-width: 96% !important;
-                margin: 0 auto !important;
-              }
-
-              /* The stage container on mobile */
-              .factory-blueprint-stage-box {
-                position: relative !important;
-                width: 100% !important;
-                height: auto !important;
-                min-height: auto !important;
-                max-height: none !important;
-                background: #040b18 !important;
-                border: 1.5px solid rgba(0, 240, 255, 0.4) !important;
-                border-radius: 12px !important;
-                overflow: hidden !important;
-                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 240, 255, 0.12) !important;
-                display: flex !important;
-                flex-direction: column !important;
-                gap: 0 !important;
-              }
-
-              /* 1. Sleek Top Bar on Mobile */
-              .factory-blueprint-top-hud {
-                position: relative !important;
-                top: auto !important;
-                left: auto !important;
-                right: auto !important;
-                width: 100% !important;
-                z-index: 25 !important;
-                background: rgba(4, 11, 24, 0.96) !important;
-                border: none !important;
-                border-bottom: 1px solid rgba(0, 240, 255, 0.22) !important;
-                border-radius: 0 !important;
-                padding: 0.32rem 0.55rem !important;
-                box-shadow: none !important;
-                display: flex !important;
-                align-items: center !important;
-                justify-content: space-between !important;
-                gap: 6px !important;
-                box-sizing: border-box !important;
-              }
-              .factory-top-title-wrap {
-                display: none !important;
-              }
-              .tour-chips-bar {
-                order: 2 !important;
-                flex: 1 !important;
-                min-width: 0 !important;
-                display: flex !important;
-                overflow-x: auto !important;
-                -webkit-overflow-scrolling: touch !important;
-                gap: 4px !important;
-                padding: 1px 2px !important;
-                scrollbar-width: none !important;
-                justify-content: flex-start !important;
-              }
-              .tour-chips-bar::-webkit-scrollbar {
-                display: none !important;
-              }
-              .tour-chip-btn {
-                width: 24px !important;
-                height: 24px !important;
-                min-width: 24px !important;
-                min-height: 24px !important;
-                font-size: 0.72rem !important;
-                flex-shrink: 0 !important;
-                border-radius: 50% !important;
-                touch-action: manipulation !important;
-              }
-              .factory-top-controls-wrap {
-                order: 3 !important;
-                gap: 0.4rem !important;
-                flex-shrink: 0 !important;
-              }
-              .tour-counter-text {
-                order: 1 !important;
-                font-size: 0.72rem !important;
-                font-weight: 800 !important;
-                color: #00f0ff !important;
-                padding: 0.2rem 0.45rem !important;
-                background: rgba(0, 240, 255, 0.08) !important;
-                border: 1px solid rgba(0, 240, 255, 0.25) !important;
-                border-radius: 5px !important;
-                white-space: nowrap !important;
-                flex-shrink: 0 !important;
-              }
-              .tour-auto-btn {
-                min-height: 28px !important;
-                padding: 0.22rem 0.55rem !important;
-                font-size: 0.72rem !important;
-                border-radius: 6px !important;
-                touch-action: manipulation !important;
-              }
-
-              /* 2. Responsive Map Viewport on Mobile */
-              .factory-map-viewport {
-                position: relative !important;
-                width: 100% !important;
-                aspect-ratio: 1376 / 768 !important;
-                height: auto !important;
-                min-height: auto !important;
-                max-height: none !important;
-                border-radius: 0 !important;
-                overflow: hidden !important;
-                background: #040b18 !important;
-                border: none !important;
-                box-shadow: none !important;
-              }
-
-              /* Touch-friendly Hotspot Pins on Mobile */
-              .station-pin-container {
-                padding: 8px !important;
-                margin-top: -8px !important;
-                margin-left: -8px !important;
-                touch-action: manipulation !important;
-              }
-              .station-pin-circle {
-                width: 23px !important;
-                height: 23px !important;
-                font-size: 0.7rem !important;
-              }
-              .station-pill-label {
-                display: none !important;
-              }
-              .station-pin-container.active .station-pill-label {
-                display: block !important;
-                font-size: 0.62rem !important;
-                padding: 0.15rem 0.45rem !important;
-                top: calc(100% + 2px) !important;
-                z-index: 35 !important;
-                max-width: 120px !important;
-                overflow: hidden !important;
-                text-overflow: ellipsis !important;
-              }
-
-              /* Robot Avatar on Mobile */
-              .factory-robot-avatar-marker {
-                width: 36px !important;
-                height: 36px !important;
-              }
-
-              /* QR Badge on Mobile */
-              .factory-blueprint-qr-box {
-                padding: 2.5px !important;
-                border-radius: 7px !important;
-              }
-              .factory-blueprint-qr-img {
-                width: 32px !important;
-                height: 32px !important;
-                border-radius: 4px !important;
-              }
-
-              /* 3. Docked Archie AI Briefing Console on Mobile */
-              .factory-hud-bottom-overlay {
-                position: relative !important;
-                bottom: auto !important;
-                left: auto !important;
-                right: auto !important;
-                width: 100% !important;
-                border-radius: 0 !important;
-                background: rgba(4, 11, 24, 0.98) !important;
-                border: none !important;
-                border-top: 1px solid rgba(0, 240, 255, 0.28) !important;
-                padding: 0.45rem 0.65rem 0.55rem 0.65rem !important;
-                box-shadow: none !important;
-                display: flex !important;
-                flex-direction: column !important;
-                gap: 0.3rem !important;
-                max-height: none !important;
-                z-index: 20 !important;
-                box-sizing: border-box !important;
-              }
-              .hud-corner-close-btn {
-                position: absolute !important;
-                top: 6px !important;
-                right: 6px !important;
-                width: 28px !important;
-                height: 28px !important;
-                min-width: 28px !important;
-                min-height: 28px !important;
-                border-radius: 50% !important;
-                z-index: 70 !important;
-                touch-action: manipulation !important;
-              }
-              .hud-station-header-row {
-                display: flex !important;
-                align-items: center !important;
-                gap: 0.5rem !important;
-                padding-right: 32px !important;
-              }
-              .hud-speech-paragraph {
-                font-size: 0.74rem !important;
-                line-height: 1.35 !important;
-                color: #cbd5e1 !important;
-                display: -webkit-box !important;
-                -webkit-line-clamp: 2 !important;
-                -webkit-box-orient: vertical !important;
-                max-height: 2.8em !important;
-                overflow: hidden !important;
-                margin: 0 !important;
-              }
-              .hud-benefits-row {
-                display: none !important;
-              }
-              .hud-actions-container {
-                display: flex !important;
-                width: 100% !important;
-                gap: 6px !important;
-                margin-top: 0.15rem !important;
-              }
-              .hud-btn-prev, .hud-btn-next {
-                flex: 1 1 0 !important;
-                min-height: 38px !important;
-                padding: 0.35rem 0.5rem !important;
-                font-size: 0.78rem !important;
-                font-weight: 800 !important;
-                border-radius: 6px !important;
-                justify-content: center !important;
-                touch-action: manipulation !important;
-              }
-              .hud-btn-demo {
-                flex: 1.2 1 0 !important;
-                min-height: 38px !important;
-                padding: 0.35rem 0.5rem !important;
-                font-size: 0.78rem !important;
-                font-weight: 800 !important;
-                border-radius: 6px !important;
-                justify-content: center !important;
-                touch-action: manipulation !important;
-              }
-
-              /* Toggle pill when closed on Mobile */
-              .factory-hud-toggle-pill {
-                position: relative !important;
-                bottom: auto !important;
-                right: auto !important;
-                width: 100% !important;
-                min-height: 40px !important;
-                border-radius: 0 !important;
-                border: none !important;
-                border-top: 1px solid rgba(0, 240, 255, 0.28) !important;
-                display: flex !important;
-                align-items: center !important;
-                justify-content: center !important;
-                font-size: 0.78rem !important;
-                font-weight: 800 !important;
-                box-sizing: border-box !important;
-                padding: 0.45rem 0.75rem !important;
-                touch-action: manipulation !important;
-              }
-
-              /* Completion Overlay on Mobile */
-              .factory-completion-overlay {
-                position: absolute !important;
-                inset: 6px !important;
-                transform: none !important;
-                width: auto !important;
-                max-width: none !important;
-                padding: 0.75rem !important;
-                border-radius: 10px !important;
-                overflow-y: auto !important;
-                z-index: 50 !important;
-              }
-              .factory-completion-overlay h3 {
-                font-size: 1rem !important;
-                line-height: 1.25 !important;
-              }
-              .factory-completion-overlay p {
-                font-size: 0.74rem !important;
-                margin-bottom: 0.6rem !important;
-              }
-              .factory-completion-btns {
-                display: flex !important;
-                flex-direction: column !important;
-                gap: 6px !important;
-                width: 100% !important;
-              }
-              .factory-completion-btns button {
-                min-height: 38px !important;
-                width: 100% !important;
-                justify-content: center !important;
-                font-size: 0.78rem !important;
-              }
+            .hud-chip-btn:hover {
+              transform: translateY(-2px);
             }
           `}</style>
 
-          {/* 1. TOP HUD HEADER (Inside Stage on Desktop, Clean Top Card on Mobile) */}
-          <div 
-            className="factory-blueprint-top-hud"
-            style={{
-              position: 'absolute',
-              top: '10px',
-              left: '12px',
-              right: '12px',
-              zIndex: 35,
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              flexWrap: 'wrap',
-              gap: '0.5rem',
-              background: 'rgba(4, 11, 24, 0.90)',
-              backdropFilter: 'blur(16px)',
-              WebkitBackdropFilter: 'blur(16px)',
-              border: '1px solid rgba(0, 240, 255, 0.35)',
-              borderRadius: '10px',
-              padding: '0.4rem 0.85rem',
-              boxShadow: '0 8px 25px rgba(0, 0, 0, 0.6)'
-            }}
-          >
-            {/* Title / Badge */}
-            <div className="factory-top-title-wrap" style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
-              <span className="pulse-dot"></span>
-              <div>
-                <span className="factory-top-title-span" style={{
-                  fontFamily: 'var(--font-display)',
-                  fontWeight: 800,
-                  fontSize: '0.85rem',
-                  color: '#ffffff',
-                  letterSpacing: '0.02em',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.4rem'
-                }}>
-                  <Activity size={14} color="#00f0ff" />
-                  <span className="desktop-only-inline">ATPL CONNECTED SMART FACTORY • 12-STATION ARCHIE AI TOUR</span>
-                  <span className="mobile-only-inline">SMART FACTORY TOUR</span>
-                </span>
-              </div>
+          {/* Top HUD Control Strip (Sleek, Translucent & Compact) */}
+          <div style={{
+            position: 'absolute',
+            top: '12px',
+            left: '14px',
+            right: '14px',
+            zIndex: 40,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '0.75rem',
+            flexWrap: 'wrap',
+            background: 'rgba(3, 10, 24, 0.82)',
+            backdropFilter: 'blur(16px)',
+            WebkitBackdropFilter: 'blur(16px)',
+            border: '1px solid rgba(0, 240, 255, 0.28)',
+            borderRadius: '12px',
+            padding: '0.45rem 0.9rem',
+            boxShadow: '0 8px 30px rgba(0, 0, 0, 0.7)'
+          }}>
+            {/* Active Station Counter */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.55rem' }}>
+              <span style={{
+                backgroundColor: 'rgba(232, 88, 116, 0.2)',
+                border: '1px solid #E85874',
+                color: '#ffffff',
+                padding: '0.2rem 0.55rem',
+                borderRadius: '6px',
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.72rem',
+                fontWeight: 800,
+                letterSpacing: '0.04em'
+              }}>
+                STATION {currentIndex + 1} OF 12
+              </span>
+              <span style={{ fontSize: '0.85rem', color: '#ffffff', fontWeight: 700 }}>
+                {currentNode.name}
+              </span>
             </div>
 
-            {/* Quick 12 Station Number Chips - Clickable on Desktop & Mobile */}
-            <div 
-              className="tour-chips-bar" 
-              role="tablist" 
-              aria-label="12 Factory Stations"
-              style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}
-            >
+            {/* 12 Interactive Station Quick-Jump Chips */}
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.3rem',
+              overflowX: 'auto',
+              scrollbarWidth: 'none'
+            }}>
               {ATPL_FACTORY_NODES.map((node, i) => (
                 <button
                   key={node.id}
-                  type="button"
-                  role="tab"
-                  aria-selected={currentIndex === i}
-                  aria-controls="factory-station-briefing"
-                  aria-label={`Station ${node.stepNumber}: ${node.name}`}
                   onClick={() => handleStationClick(i)}
-                  className="tour-chip-btn"
+                  className="hud-chip-btn"
                   title={`${node.stepNumber}. ${node.name}`}
                   style={{
-                    width: '25px',
-                    height: '25px',
+                    width: '26px',
+                    height: '26px',
                     borderRadius: '50%',
-                    background: currentIndex === i ? '#E85874' : 'rgba(255, 255, 255, 0.08)',
-                    border: currentIndex === i ? '1.5px solid #ffffff' : '1px solid rgba(255, 255, 255, 0.18)',
+                    backgroundColor: currentIndex === i ? '#E85874' : 'rgba(255, 255, 255, 0.08)',
+                    border: currentIndex === i ? '1.5px solid #ffffff' : '1px solid rgba(255, 255, 255, 0.15)',
                     color: '#ffffff',
-                    fontSize: '0.72rem',
+                    fontSize: '0.74rem',
                     fontWeight: 800,
                     cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    boxShadow: currentIndex === i ? '0 0 12px #E85874' : 'none',
-                    transition: 'all 0.15s ease'
+                    boxShadow: currentIndex === i ? '0 0 14px #E85874' : 'none'
                   }}
                 >
                   {node.stepNumber}
@@ -1094,1618 +500,497 @@ export const FactoryBlueprintMap = () => {
               ))}
             </div>
 
-            {/* Controls */}
-            <div className="factory-top-controls-wrap" style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+            {/* Play/Pause & 3D Tour CTA */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <button
-                type="button"
-                onClick={() => {
-                  setIsAutoTour(false);
-                  setVideoProgress(0);
-                  setIsVideoTourOpen(true);
-                }}
-                className="tour-auto-btn"
-                aria-label="Watch full 12-station guided factory tour"
-                title="Watch full 12-station guided tour"
+                onClick={() => setIsAutoTour(!isAutoTour)}
                 style={{
-                  background: 'linear-gradient(135deg, rgba(232, 88, 116, 0.28) 0%, rgba(0, 113, 186, 0.32) 100%)',
-                  border: '1.2px solid #E85874',
+                  backgroundColor: isAutoTour ? 'rgba(232, 88, 116, 0.25)' : 'rgba(0, 240, 255, 0.18)',
+                  border: isAutoTour ? '1px solid #E85874' : '1px solid #00f0ff',
                   color: '#ffffff',
                   borderRadius: '6px',
-                  padding: '0.28rem 0.65rem',
-                  fontSize: '0.74rem',
+                  padding: '0.32rem 0.75rem',
+                  fontSize: '0.75rem',
                   fontWeight: 800,
                   cursor: 'pointer',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '0.35rem',
-                  boxShadow: '0 0 12px rgba(232, 88, 116, 0.4)'
+                  boxShadow: isAutoTour ? '0 0 14px rgba(232, 88, 116, 0.4)' : 'none'
                 }}
               >
-                <Video size={13} color="#E85874" />
-                <span>🎬 Watch Tour</span>
+                {isAutoTour ? <Pause size={12} color="#E85874" /> : <Play size={12} color="#00f0ff" />}
+                <span>{isAutoTour ? 'Pause Tour' : 'Auto Play'}</span>
               </button>
 
               <button
-                type="button"
-                onClick={() => setMobileViewMode(prev => prev === 'map' ? 'cards' : 'map')}
-                className="tour-auto-btn mobile-mode-toggle-btn"
-                aria-label={`Switch to ${mobileViewMode === 'map' ? 'Guided Cards Tour' : 'Blueprint Map'}`}
-                title="Switch Mobile View: Blueprint Map or Guided Cards"
+                onClick={() => setCurrentView('factory-3d')}
                 style={{
-                  background: 'rgba(0, 240, 255, 0.15)',
-                  border: '1px solid #00f0ff',
+                  backgroundColor: 'rgba(0, 113, 186, 0.3)',
+                  border: '1px solid rgba(0, 240, 255, 0.6)',
                   color: '#00f0ff',
                   borderRadius: '6px',
-                  padding: '0.28rem 0.55rem',
-                  fontSize: '0.72rem',
-                  fontWeight: 700,
-                  cursor: 'pointer',
-                  alignItems: 'center',
-                  gap: '0.3rem'
-                }}
-              >
-                {mobileViewMode === 'map' ? '📱 Cards' : '🗺️ Map'}
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setIsAutoTour(!isAutoTour)}
-                className="tour-auto-btn"
-                aria-label={isAutoTour ? 'Pause automatic station rotation' : 'Start automatic station rotation'}
-                style={{
-                  background: isAutoTour ? 'rgba(232, 88, 116, 0.2)' : 'rgba(0, 240, 255, 0.15)',
-                  border: isAutoTour ? '1px solid #E85874' : '1px solid #00f0ff',
-                  color: isAutoTour ? '#E85874' : '#00f0ff',
-                  borderRadius: '6px',
-                  padding: '0.28rem 0.65rem',
-                  fontSize: '0.74rem',
-                  fontWeight: 700,
+                  padding: '0.32rem 0.75rem',
+                  fontSize: '0.75rem',
+                  fontWeight: 800,
                   cursor: 'pointer',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '0.35rem',
-                  boxShadow: isAutoTour ? '0 0 12px rgba(232, 88, 116, 0.4)' : 'none'
+                  gap: '0.35rem'
                 }}
               >
-                {isAutoTour ? <Pause size={12} /> : <Play size={12} />}
-                <span>{isAutoTour ? 'Pause' : 'Auto'}</span>
+                <Layers size={13} />
+                <span>3D Mode</span>
               </button>
-
-              <div className="tour-counter-text" style={{ fontFamily: 'var(--font-mono)', fontSize: '0.76rem', color: '#00f0ff', fontWeight: 800 }}>
-                STATION {currentIndex + 1}/12
-              </div>
             </div>
           </div>
 
-          {/* 2. DEDICATED MAP VIEWPORT (Clean, Uncrowded & Crisp Graphic on All Devices) */}
-          <div className="factory-map-viewport">
-            {/* Background Isometric Graphic with modern formats and srcset */}
-            <picture style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 1 }}>
-              <source type="image/avif" srcSet="/assets/images/atpl_isometric_factory.avif" sizes="(max-width: 900px) 100vw, 1440px" />
-              <source type="image/webp" srcSet="/assets/images/atpl_isometric_factory.webp" sizes="(max-width: 900px) 100vw, 1440px" />
+          {/* =====================================================================
+              MAIN FACTORY VIEWPORT: 100% OPEN & UNOBSTRUCTED BLUEPRINT CANVAS
+             ===================================================================== */}
+          <div style={{
+            position: 'relative',
+            width: '100%',
+            aspectRatio: '1376 / 768',
+            maxHeight: 'min(76vh, 760px)',
+            overflow: 'hidden',
+            backgroundColor: '#030816'
+          }}>
+            {/* The Isometric Factory Floor Graphic */}
+            <picture style={{ width: '100%', height: '100%', display: 'block' }}>
+              <source type="image/avif" srcSet="/assets/images/atpl_isometric_factory.avif" />
+              <source type="image/webp" srcSet="/assets/images/atpl_isometric_factory.webp" />
               <img 
-                src={blueprintImg} 
-                srcSet="/assets/images/atpl_isometric_factory.webp 1440w, /assets/images/atpl_isometric_factory.webp 720w"
-                sizes="(max-width: 900px) 100vw, 1440px"
-                loading="lazy"
-                decoding="async"
-                alt="ATPL Isometric Factory Blueprint"
-                className="factory-blueprint-bg-img"
+                src={blueprintImg}
+                alt="ATPL Smart Factory Floor"
                 style={{
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
                   width: '100%',
                   height: '100%',
-                  objectFit: 'contain',
-                  backgroundColor: '#040b18',
+                  objectFit: 'cover',
+                  display: 'block',
                   pointerEvents: 'none'
                 }}
               />
             </picture>
 
-            {/* Dynamic Laser Line from Robot to Current Station */}
+            {/* Subtle Industrial Laser Grid Overlay */}
+            <div style={{
+              position: 'absolute',
+              inset: 0,
+              backgroundImage: 'linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px)',
+              backgroundSize: '40px 40px',
+              pointerEvents: 'none',
+              zIndex: 5
+            }} />
+
+            {/* =================================================================
+                DYNAMIC HOLOGRAPHIC SCAN BEAM & GROUND TARGET (SVG)
+               ================================================================= */}
             <svg
               viewBox="0 0 100 100"
               preserveAspectRatio="none"
               style={{
                 position: 'absolute',
-                top: 0,
-                left: 0,
+                inset: 0,
                 width: '100%',
                 height: '100%',
-                zIndex: 10,
+                zIndex: 15,
                 pointerEvents: 'none'
               }}
             >
-              {/* Dynamic Scanning Laser Beam */}
-              <line
-                x1={`${currentNode.x}`}
-                y1={`${currentNode.y - 6}`}
-                x2={`${currentNode.x}`}
-                y2={`${currentNode.y}`}
-                stroke="#00f0ff"
-                strokeWidth="1.6"
-                strokeDasharray="2, 2"
+              <defs>
+                {/* Conical Holographic Light Beam Gradient */}
+                <linearGradient id="scanHoloCone" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stopColor="#00f0ff" stopOpacity="0.75" />
+                  <stop offset="50%" stopColor="#0071ba" stopOpacity="0.3" />
+                  <stop offset="100%" stopColor="#E85874" stopOpacity="0.08" />
+                </linearGradient>
+
+                <radialGradient id="targetGroundAura" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stopColor="#00f0ff" stopOpacity="0.5" />
+                  <stop offset="60%" stopColor="#E85874" stopOpacity="0.25" />
+                  <stop offset="100%" stopColor="#00f0ff" stopOpacity="0" />
+                </radialGradient>
+
+                <filter id="beamLaserGlow" x="-20%" y="-20%" width="140%" height="140%">
+                  <feGaussianBlur stdDeviation="1.5" result="glow" />
+                  <feMerge>
+                    <feMergeNode in="glow" />
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
+              </defs>
+
+              {/* 1. Holographic Scan Cone from Archie down to Ground Footprint */}
+              <polygon
+                points={`
+                  ${currentNode.x},${currentNode.y - 7}
+                  ${currentNode.x - 4.5},${currentNode.y}
+                  ${currentNode.x + 4.5},${currentNode.y}
+                `}
+                fill="url(#scanHoloCone)"
+                style={{
+                  transition: 'all 1.1s cubic-bezier(0.34, 1.25, 0.64, 1)'
+                }}
               />
-              {/* Pulsating Target Circle at Station Footprint */}
+
+              {/* 2. Precision Laser Alignment Center Track */}
+              <line
+                x1={currentNode.x}
+                y1={currentNode.y - 6.5}
+                x2={currentNode.x}
+                y2={currentNode.y}
+                stroke="#00f0ff"
+                strokeWidth="1.2"
+                strokeDasharray="2, 1.5"
+                filter="url(#beamLaserGlow)"
+                style={{
+                  transition: 'all 1.1s cubic-bezier(0.34, 1.25, 0.64, 1)'
+                }}
+              />
+
+              {/* 3. Sweeping Horizontal Scanline Beam */}
+              <line
+                x1={currentNode.x - 3.8}
+                y1={currentNode.y - 0.5}
+                x2={currentNode.x + 3.8}
+                y2={currentNode.y - 0.5}
+                stroke="#00f0ff"
+                strokeWidth="1.8"
+                filter="url(#beamLaserGlow)"
+                style={{
+                  animation: 'scanSweep 1.8s infinite ease-in-out',
+                  transition: 'all 1.1s cubic-bezier(0.34, 1.25, 0.64, 1)'
+                }}
+              />
+
+              {/* 4. Ground Target Holographic Aura Footprint */}
               <circle
-                cx={`${currentNode.x}`}
-                cy={`${currentNode.y}`}
-                r="2.8"
-                fill="rgba(232, 88, 116, 0.28)"
+                cx={currentNode.x}
+                cy={currentNode.y}
+                r="4.2"
+                fill="url(#targetGroundAura)"
+                style={{
+                  transition: 'all 1.1s cubic-bezier(0.34, 1.25, 0.64, 1)'
+                }}
+              />
+
+              {/* 5. Rotating Holographic Reticle Ring */}
+              <circle
+                cx={currentNode.x}
+                cy={currentNode.y}
+                r="3.2"
+                fill="none"
+                stroke="#00f0ff"
+                strokeWidth="0.8"
+                strokeDasharray="2.5, 1.5"
+                style={{
+                  animation: 'reticleRotate 8s linear infinite',
+                  transformOrigin: `${currentNode.x}px ${currentNode.y}px`,
+                  transition: 'all 1.1s cubic-bezier(0.34, 1.25, 0.64, 1)'
+                }}
+              />
+
+              {/* 6. Active Sonar Radar Wave Pulse */}
+              <circle
+                cx={currentNode.x}
+                cy={currentNode.y}
+                r="2.2"
+                fill="none"
                 stroke="#E85874"
-                strokeWidth="0.9"
+                strokeWidth="1.2"
+                style={{
+                  animation: 'sonarPulseWave 2s infinite ease-out',
+                  transformOrigin: `${currentNode.x}px ${currentNode.y}px`,
+                  transition: 'all 1.1s cubic-bezier(0.34, 1.25, 0.64, 1)'
+                }}
               />
             </svg>
 
-            {/* 12 Crisp Numbered Hotspot Target Beacons */}
+            {/* =================================================================
+                ANIMATED TRAVELING ARCHIE ROBOT AVATAR (Smooth Gliding & Hovering)
+               ================================================================= */}
+            <div 
+              style={{
+                position: 'absolute',
+                left: `${currentNode.x}%`,
+                top: `${currentNode.y - 8}%`,
+                transform: 'translate(-50%, -50%)',
+                zIndex: 35,
+                pointerEvents: 'none',
+                transition: 'left 1.1s cubic-bezier(0.34, 1.25, 0.64, 1), top 1.1s cubic-bezier(0.34, 1.25, 0.64, 1)'
+              }}
+            >
+              {/* Archie Container with Smooth Bobbing Float */}
+              <div style={{
+                position: 'relative',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                animation: 'archieFloating 2.6s ease-in-out infinite'
+              }}>
+                {/* Floating Telemetry Speech Pill Attached to Archie */}
+                <div style={{
+                  position: 'absolute',
+                  bottom: '100%',
+                  marginBottom: '10px',
+                  backgroundColor: 'rgba(3, 10, 24, 0.94)',
+                  backdropFilter: 'blur(12px)',
+                  border: '1px solid #00f0ff',
+                  borderRadius: '999px',
+                  padding: '0.22rem 0.75rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.4rem',
+                  boxShadow: '0 8px 25px rgba(0, 0, 0, 0.8), 0 0 15px rgba(0, 240, 255, 0.45)',
+                  whiteSpace: 'nowrap',
+                  zIndex: 36
+                }}>
+                  <span style={{
+                    width: '6px',
+                    height: '6px',
+                    borderRadius: '50%',
+                    backgroundColor: '#10b981',
+                    boxShadow: '0 0 8px #10b981'
+                  }} />
+                  <span style={{
+                    fontFamily: 'var(--font-mono)',
+                    fontSize: '0.72rem',
+                    fontWeight: 800,
+                    color: '#ffffff',
+                    letterSpacing: '0.04em'
+                  }}>
+                    SCANNING STATION {currentNode.stepNumber}: <span style={{ color: '#00f0ff' }}>{currentNode.name.replace('™', '')}</span>
+                  </span>
+                </div>
+
+                {/* Archie Mascot Character Avatar Body */}
+                <div style={{
+                  width: '62px',
+                  height: '62px',
+                  borderRadius: '50%',
+                  background: 'radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.98) 0%, rgba(224, 242, 254, 0.92) 60%, rgba(0, 240, 255, 0.5) 100%)',
+                  border: '2.5px solid #00f0ff',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  boxShadow: '0 0 35px #00f0ff, 0 0 25px rgba(232, 88, 116, 0.65)'
+                }}>
+                  <AtplRobotAvatar size={46} glow={true} />
+                </div>
+
+                {/* Holographic Propulsion Thruster Aura Under Archie */}
+                <div style={{
+                  width: '32px',
+                  height: '7px',
+                  borderRadius: '50%',
+                  background: 'radial-gradient(ellipse, #00f0ff 0%, #E85874 55%, transparent 75%)',
+                  marginTop: '-3px',
+                  animation: 'thrusterGlow 1.2s infinite alternate ease-in-out'
+                }} />
+              </div>
+            </div>
+
+            {/* =================================================================
+                12 MINIMALIST HOLOGRAPHIC STATION BEACONS (Numbered Pins)
+               ================================================================= */}
             {ATPL_FACTORY_NODES.map((node, index) => {
               const isActive = currentIndex === index;
-              const isNearLeft = node.x < 24;
-              const isNearRight = node.x > 76;
-              const labelPositionStyle = isNearLeft 
-                ? { left: '0%', transform: 'translateX(0%)' } 
-                : isNearRight 
-                  ? { left: 'auto', right: '0%', transform: 'none' } 
-                  : { left: '50%', transform: 'translateX(-50%)' };
+              const isHovered = hoveredStation === index;
+
               return (
                 <div
                   key={node.id}
-                  className={`station-pin-container ${isActive ? 'active' : ''}`}
+                  className={`hud-station-pin ${isActive ? 'active' : ''}`}
                   onClick={() => handleStationClick(index)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      e.preventDefault();
-                      handleStationClick(index);
-                    }
-                  }}
-                  tabIndex={0}
-                  role="button"
-                  aria-label={`Station ${node.stepNumber}: ${node.name}. Press Enter or click to inspect.`}
+                  onMouseEnter={() => setHoveredStation(index)}
+                  onMouseLeave={() => setHoveredStation(null)}
                   style={{
                     left: `${node.x}%`,
                     top: `${node.y}%`
                   }}
                   title={`Station ${node.stepNumber}: ${node.name}`}
+                  role="button"
+                  tabIndex={0}
                 >
-                  {isActive && <div className="station-pin-radar" />}
-                  <div className="station-pin-circle">
+                  {/* Glowing Numeric Disc */}
+                  <div className="hud-pin-disc">
                     {node.stepNumber}
                   </div>
-                  <div className="station-pill-label" style={labelPositionStyle}>
-                    {node.name}
-                  </div>
+
+                  {/* Clean Tooltip on Hover / Active */}
+                  {(isActive || isHovered) && (
+                    <div style={{
+                      position: 'absolute',
+                      top: 'calc(100% + 4px)',
+                      left: '50%',
+                      transform: 'translateX(-50%)',
+                      backgroundColor: 'rgba(3, 10, 24, 0.95)',
+                      backdropFilter: 'blur(10px)',
+                      border: isActive ? '1px solid #E85874' : '1px solid #00f0ff',
+                      color: '#ffffff',
+                      padding: '0.2rem 0.55rem',
+                      borderRadius: '5px',
+                      fontSize: '0.68rem',
+                      fontWeight: 800,
+                      whiteSpace: 'nowrap',
+                      boxShadow: isActive ? '0 0 16px rgba(232, 88, 116, 0.6)' : '0 0 12px rgba(0, 240, 255, 0.4)',
+                      zIndex: 30,
+                      pointerEvents: 'none'
+                    }}>
+                      {node.name}
+                    </div>
+                  )}
                 </div>
               );
             })}
 
-            {/* HIGH-VISIBILITY 3D TOUR LAUNCH BADGE WITH QR CODE */}
-            <div 
-              className="factory-blueprint-qr-box"
-              onClick={() => setCurrentView('factory-3d')}
-              title="Click to launch 3D Factory Tour"
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  setCurrentView('factory-3d');
-                }
-              }}
-              aria-label="Launch 3D Digital Twin Factory Tour"
-              style={{
-                position: 'absolute',
-                left: '50%',
-                top: '50%',
-                transform: 'translate(-50%, -50%)',
-                zIndex: 26,
-                background: 'rgba(4, 11, 24, 0.95)',
-                backdropFilter: 'blur(16px)',
-                WebkitBackdropFilter: 'blur(16px)',
-                padding: '4px',
-                borderRadius: '12px',
-                border: '1.5px solid rgba(0, 240, 255, 0.75)',
-                boxShadow: '0 12px 35px rgba(0, 0, 0, 0.9), 0 0 25px rgba(0, 240, 255, 0.45)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                cursor: 'pointer',
-                transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
-                pointerEvents: 'auto'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translate(-50%, -50%) scale(1.12)';
-                e.currentTarget.style.borderColor = '#E85874';
-                e.currentTarget.style.boxShadow = '0 16px 45px rgba(0, 0, 0, 0.95), 0 0 35px rgba(232, 88, 116, 0.75), 0 0 0 2px #00f0ff';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translate(-50%, -50%) scale(1)';
-                e.currentTarget.style.borderColor = 'rgba(0, 240, 255, 0.75)';
-                e.currentTarget.style.boxShadow = '0 12px 35px rgba(0, 0, 0, 0.9), 0 0 25px rgba(0, 240, 255, 0.45)';
-              }}
-            >
-              {/* QR Image with white high-contrast wrapper */}
-              <div style={{
-                background: '#ffffff',
-                padding: '3px',
-                borderRadius: '8px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                boxShadow: '0 2px 10px rgba(0, 0, 0, 0.35)'
-              }}>
-                <picture>
-                  <source type="image/avif" srcSet="/assets/images/atpl_qr_code.avif" sizes="54px" />
-                  <source type="image/webp" srcSet="/assets/images/atpl_qr_code.webp" sizes="54px" />
-                  <img 
-                    src={atplQrCodeImg || "/assets/images/atpl_qr_code.webp"} 
-                    srcSet="/assets/images/atpl_qr_code.webp 1x, /assets/images/atpl_qr_code.webp 2x"
-                    sizes="54px"
-                    loading="lazy"
-                    decoding="async"
-                    onError={(e) => {
-                      e.currentTarget.src = "/assets/images/atpl_qr_code.png";
-                    }}
-                    alt="ATPL 3D Factory Tour QR Code" 
-                    className="factory-blueprint-qr-img"
-                    width="54"
-                    height="54"
-                    style={{
-                      width: '54px',
-                      height: '54px',
-                      minWidth: '54px',
-                      minHeight: '54px',
-                      display: 'block',
-                      borderRadius: '5px',
-                      objectFit: 'contain'
-                    }}
-                  />
-                </picture>
-              </div>
-            </div>
-
-            {/* Animated Traveling Robot Avatar with Spotlight Glow */}
-            <div 
-              className="factory-robot-avatar-marker"
-              style={{
-                position: 'absolute',
-                left: `${currentNode.x}%`,
-                top: `${currentNode.y - 7}%`,
-                transform: 'translate(-50%, -50%)',
-                width: '54px',
-                height: '54px',
-                borderRadius: '50%',
-                background: 'radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.98) 0%, rgba(224, 242, 254, 0.92) 60%, rgba(0, 240, 255, 0.5) 100%)',
-                border: '2px solid #00f0ff',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                boxShadow: '0 0 35px #00f0ff, 0 0 20px rgba(232, 88, 116, 0.6)',
-                zIndex: 30,
-                pointerEvents: 'none',
-                transition: 'all 0.9s cubic-bezier(0.25, 1, 0.5, 1)'
-              }}
-            >
-              <AtplRobotAvatar size={40} />
-              <div style={{
-                position: 'absolute',
-                bottom: '-4px',
-                width: '12px',
-                height: '12px',
-                background: '#E85874',
-                borderRadius: '50%',
-                boxShadow: '0 0 15px #E85874',
-                animation: 'pulseCoralDot 1.5s infinite ease-in-out'
-              }}></div>
-            </div>
-
-            {/* STATION 12/12 ENDING EXPERIENCE OVERLAY */}
-            {showCompletionCta && isLastStation && (
-              <div 
-                className="factory-completion-overlay"
-                style={{
-                  position: 'absolute',
-                  top: '52px',
-                  left: '50%',
-                  transform: 'translateX(-50%)',
-                  zIndex: 36,
-                  width: 'min(94%, 580px)',
-                  background: 'rgba(4, 11, 24, 0.96)',
-                  backdropFilter: 'blur(20px)',
-                  WebkitBackdropFilter: 'blur(20px)',
-                  border: '1.5px solid #00f0ff',
-                  borderRadius: '14px',
-                  padding: '1.1rem 1.4rem',
-                  boxShadow: '0 20px 60px rgba(0, 0, 0, 0.9), 0 0 40px rgba(0, 240, 255, 0.3)',
-                  textAlign: 'center',
-                  animation: 'fadeInUp 0.3s ease-out'
-                }}
-              >
-                {/* Close Button */}
-                <button
-                  type="button"
-                  onClick={() => setShowCompletionCta(false)}
-                  style={{
-                    position: 'absolute',
-                    top: '10px',
-                    right: '10px',
-                    background: 'rgba(255, 255, 255, 0.08)',
-                    border: '1px solid rgba(255, 255, 255, 0.2)',
-                    color: '#94a3b8',
-                    borderRadius: '50%',
-                    width: '26px',
-                    height: '26px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    cursor: 'pointer'
-                  }}
-                  title="Dismiss"
-                >
-                  <X size={14} />
-                </button>
-
-                <div style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '0.4rem',
-                  background: 'rgba(232, 88, 116, 0.15)',
-                  border: '1px solid #E85874',
-                  color: '#E85874',
-                  padding: '0.2rem 0.75rem',
-                  borderRadius: '999px',
-                  fontSize: '0.72rem',
-                  fontWeight: 800,
-                  textTransform: 'uppercase',
-                  marginBottom: '0.5rem'
-                }}>
-                  <Sparkles size={12} />
-                  <span>Tour Complete • 12 Stations Explored</span>
-                </div>
-
-                <h3 style={{
-                  fontSize: 'clamp(1.15rem, 2vw, 1.45rem)',
-                  fontWeight: 900,
-                  color: '#ffffff',
-                  margin: '0.1rem 0 0.4rem 0',
-                  letterSpacing: '-0.02em',
-                  fontFamily: 'var(--font-display)'
-                }}>
-                  Ready to bring this Smart Factory to your plant?
-                </h3>
-
-                <p style={{
-                  fontSize: '0.82rem',
-                  color: '#cbd5e1',
-                  lineHeight: 1.4,
-                  margin: '0 auto 1rem auto',
-                  maxWidth: '480px'
-                }}>
-                  ATPL delivers turnkey Industry 4.0 automation, RFID portals, and sub-8ms AI vision with seamless ERP integration across 500+ manufacturing plants.
-                </p>
-
-                {/* 3 Strong CTA Buttons */}
-                <div 
-                  className="factory-completion-btns"
-                  style={{
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    gap: '0.6rem',
-                    justifyContent: 'center',
-                    alignItems: 'center'
-                  }}
-                >
-                  <button
-                    type="button"
-                    onClick={() => openDemoModal({ solution: 'Turnkey Smart Factory 4.0', notes: 'Inquiry after completing 12-Station Factory Blueprint Tour' })}
-                    style={{
-                      background: 'linear-gradient(135deg, #E85874 0%, #c43854 100%)',
-                      border: 'none',
-                      color: '#ffffff',
-                      borderRadius: '8px',
-                      padding: '0.55rem 1.1rem',
-                      fontSize: '0.82rem',
-                      fontWeight: 800,
-                      cursor: 'pointer',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.4rem',
-                      boxShadow: '0 4px 18px rgba(232, 88, 116, 0.5)'
-                    }}
-                  >
-                    <Sparkles size={14} />
-                    <span>Request Live Demo</span>
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => setCurrentView('contact')}
-                    style={{
-                      background: 'rgba(0, 113, 186, 0.25)',
-                      border: '1.5px solid #00f0ff',
-                      color: '#ffffff',
-                      borderRadius: '8px',
-                      padding: '0.55rem 1.1rem',
-                      fontSize: '0.82rem',
-                      fontWeight: 800,
-                      cursor: 'pointer',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.4rem'
-                    }}
-                  >
-                    <PhoneCall size={14} color="#00f0ff" />
-                    <span>Talk to Expert</span>
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={handleDownloadBrochure}
-                    style={{
-                      background: 'rgba(255, 255, 255, 0.08)',
-                      border: '1px solid rgba(255, 255, 255, 0.2)',
-                      color: '#f1f5f9',
-                      borderRadius: '8px',
-                      padding: '0.55rem 1.05rem',
-                      fontSize: '0.82rem',
-                      fontWeight: 700,
-                      cursor: 'pointer',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.4rem'
-                    }}
-                  >
-                    <Download size={14} />
-                    <span>Download Brochure</span>
-                  </button>
-                </div>
-
-                {/* Replay option */}
-                <div style={{ marginTop: '0.65rem' }}>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setCurrentIndex(0);
-                      setIsAutoTour(true);
-                      setShowCompletionCta(false);
-                    }}
-                    style={{
-                      background: 'transparent',
-                      border: 'none',
-                      color: '#94a3b8',
-                      fontSize: '0.72rem',
-                      cursor: 'pointer',
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '0.3rem',
-                      textDecoration: 'underline'
-                    }}
-                  >
-                    <RotateCcw size={11} />
-                    <span>Replay 12-Station Tour from Station 1</span>
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* =====================================================================
-              2B. MOBILE GUIDED CARDS TOUR (Sleek, Production-Grade Thumb-Friendly Experience)
-             ===================================================================== */}
-          {mobileViewMode === 'cards' && (
-            <div 
-              className="factory-mobile-cards-view"
-              role="region"
-              aria-label={`Mobile Station Card ${currentIndex + 1} of 12: ${currentNode.name}`}
-              style={{
-                padding: '0.75rem 0.65rem 2.5rem 0.65rem',
-                backgroundColor: '#050d1e',
-                borderRadius: '12px',
-                margin: '0.4rem',
-                border: '1.5px solid rgba(0, 240, 255, 0.35)',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '0.75rem',
-                boxShadow: '0 8px 30px rgba(0,0,0,0.6)'
-              }}
-            >
-              {/* 1. Thumb-Friendly Horizontal Station Scrubber (12 Stations) */}
-              <div style={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '0.35rem',
-                borderBottom: '1px solid rgba(0, 240, 255, 0.2)',
-                paddingBottom: '0.65rem'
-              }}>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 0.2rem' }}>
-                  <span style={{ fontSize: '0.7rem', color: '#94a3b8', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                    👆 Tap Any Station (1 to 12)
-                  </span>
-                  <span style={{ fontSize: '0.72rem', color: '#00f0ff', fontWeight: 900, fontFamily: 'var(--font-mono)' }}>
-                    STATION {currentIndex + 1}/12
-                  </span>
-                </div>
-                
-                <div 
-                  className="mobile-station-scrubber"
-                  role="tablist"
-                  aria-label="Thumb selectable 12 factory stations"
-                  style={{
-                    display: 'flex',
-                    gap: '0.4rem',
-                    overflowX: 'auto',
-                    WebkitOverflowScrolling: 'touch',
-                    scrollbarWidth: 'none',
-                    padding: '0.2rem 0'
-                  }}
-                >
-                  {ATPL_FACTORY_NODES.map((node, i) => {
-                    const isSelected = currentIndex === i;
-                    return (
-                      <button
-                        key={node.id}
-                        type="button"
-                        role="tab"
-                        aria-selected={isSelected}
-                        aria-label={`Station ${node.stepNumber}: ${node.name}`}
-                        onClick={() => handleStationClick(i)}
-                        style={{
-                          minHeight: '44px',
-                          padding: '0.4rem 0.75rem',
-                          borderRadius: '8px',
-                          flexShrink: 0,
-                          backgroundColor: isSelected ? '#E85874' : 'rgba(255, 255, 255, 0.06)',
-                          border: isSelected ? '1.5px solid #ffffff' : '1px solid rgba(0, 240, 255, 0.25)',
-                          color: '#ffffff',
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '0.4rem',
-                          cursor: 'pointer',
-                          touchAction: 'manipulation',
-                          boxShadow: isSelected ? '0 0 14px rgba(232, 88, 116, 0.6)' : 'none',
-                          transition: 'all 0.2s ease'
-                        }}
-                      >
-                        <span style={{
-                          width: '22px',
-                          height: '22px',
-                          borderRadius: '50%',
-                          backgroundColor: isSelected ? '#ffffff' : 'rgba(0, 240, 255, 0.2)',
-                          color: isSelected ? '#E85874' : '#00f0ff',
-                          fontSize: '0.68rem',
-                          fontWeight: 900,
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center'
-                        }}>
-                          {node.stepNumber}
-                        </span>
-                        <span style={{ fontSize: '0.74rem', fontWeight: 800, whiteSpace: 'nowrap' }}>
-                          {node.name.replace('™', '')}
-                        </span>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* 2. Active Station Header & Key ROI Metric */}
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.5rem', flexWrap: 'wrap' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.55rem' }}>
-                  <div style={{
-                    width: '32px',
-                    height: '32px',
-                    borderRadius: '8px',
-                    backgroundColor: 'rgba(232, 88, 116, 0.2)',
-                    border: '1.5px solid #E85874',
-                    color: '#ffffff',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontWeight: 900,
-                    fontSize: '0.86rem',
-                    flexShrink: 0
-                  }}>
-                    {currentNode.stepNumber}
-                  </div>
-                  <div>
-                    <h3 style={{ margin: 0, fontSize: '1.02rem', fontWeight: 900, color: '#ffffff', letterSpacing: '-0.01em' }}>
-                      {currentNode.name}
-                    </h3>
-                    <span style={{ fontSize: '0.68rem', color: '#00f0ff', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                      {currentNode.category}
-                    </span>
-                  </div>
-                </div>
-
-                {currentNode.roiMetric && (
+            {/* =================================================================
+                3. SLEEK FLOATING GLASSMORPHISM TELEMETRY DOCK (At Bottom of Stage)
+               ================================================================= */}
+            <div style={{
+              position: 'absolute',
+              bottom: '12px',
+              left: '14px',
+              right: '14px',
+              zIndex: 40,
+              backgroundColor: 'rgba(3, 10, 24, 0.88)',
+              backdropFilter: 'blur(20px)',
+              WebkitBackdropFilter: 'blur(20px)',
+              border: '1.2px solid rgba(0, 240, 255, 0.35)',
+              borderRadius: '14px',
+              padding: '0.65rem 1.15rem',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: '1rem',
+              boxShadow: '0 12px 40px rgba(0, 0, 0, 0.85), 0 0 25px rgba(0, 240, 255, 0.2)'
+            }}>
+              {/* Left: Station Telemetry Info */}
+              <div style={{ minWidth: 0, flex: 1 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.15rem', flexWrap: 'wrap' }}>
                   <span style={{
-                    backgroundColor: 'rgba(16, 185, 129, 0.2)',
-                    border: '1px solid #10b981',
+                    color: '#00f0ff',
+                    fontFamily: 'var(--font-mono)',
+                    fontSize: '0.75rem',
+                    fontWeight: 900
+                  }}>
+                    [{String(currentIndex + 1).padStart(2, '0')} / 12]
+                  </span>
+                  <strong style={{ color: '#ffffff', fontSize: '0.92rem', letterSpacing: '0.02em' }}>
+                    {currentNode.name}
+                  </strong>
+                  <span style={{
+                    backgroundColor: 'rgba(16, 185, 129, 0.15)',
+                    border: '1px solid rgba(16, 185, 129, 0.4)',
                     color: '#34d399',
-                    fontSize: '0.72rem',
+                    fontSize: '0.68rem',
                     fontWeight: 800,
-                    padding: '0.25rem 0.55rem',
-                    borderRadius: '6px',
-                    boxShadow: '0 0 12px rgba(16, 185, 129, 0.25)'
+                    padding: '0.1rem 0.45rem',
+                    borderRadius: '4px'
                   }}>
                     ⚡ {currentNode.roiMetric}
                   </span>
-                )}
-              </div>
+                </div>
 
-              {/* 3. Station Photo with WebP & AVIF Picture Element */}
-              {currentNode.image && (
-                <div style={{
-                  position: 'relative',
-                  width: '100%',
-                  aspectRatio: '16 / 9',
-                  maxHeight: '220px',
-                  borderRadius: '10px',
+                <p style={{
+                  margin: 0,
+                  fontSize: '0.8rem',
+                  color: '#cbd5e1',
+                  lineHeight: 1.4,
+                  whiteSpace: 'nowrap',
                   overflow: 'hidden',
-                  border: '1px solid rgba(0, 240, 255, 0.3)',
-                  backgroundColor: '#020611'
+                  textOverflow: 'ellipsis'
                 }}>
-                  <picture>
-                    <source type="image/avif" srcSet={currentNode.image.replace(/\.(webp|jpg|png)$/, '.avif')} sizes="(max-width: 768px) 100vw, 480px" />
-                    <source type="image/webp" srcSet={currentNode.image.replace(/\.(avif|jpg|png)$/, '.webp')} sizes="(max-width: 768px) 100vw, 480px" />
-                    <img 
-                      src={currentNode.image} 
-                      srcSet={`${currentNode.image} 1x, ${currentNode.image} 2x`}
-                      sizes="(max-width: 768px) 100vw, 480px"
-                      alt={currentNode.name} 
-                      loading="lazy"
-                      decoding="async"
-                      style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-                    />
-                  </picture>
-
-                  <div style={{
-                    position: 'absolute',
-                    bottom: '8px',
-                    left: '8px',
-                    right: '8px',
-                    backgroundColor: 'rgba(4, 11, 24, 0.88)',
-                    backdropFilter: 'blur(8px)',
-                    padding: '0.3rem 0.6rem',
-                    borderRadius: '6px',
-                    fontSize: '0.72rem',
-                    color: '#e2e8f0',
-                    border: '1px solid rgba(255, 255, 255, 0.15)'
-                  }}>
-                    {currentNode.tagline}
-                  </div>
-                </div>
-              )}
-
-              {/* 4. Archie AI Interactive Shopfloor Guide */}
-              <div style={{
-                backgroundColor: 'rgba(0, 240, 255, 0.08)',
-                border: '1.2px solid rgba(0, 240, 255, 0.35)',
-                borderRadius: '10px',
-                padding: '0.75rem',
-                display: 'flex',
-                gap: '0.65rem',
-                alignItems: 'flex-start'
-              }}>
-                <div style={{
-                  width: '36px',
-                  height: '36px',
-                  borderRadius: '50%',
-                  backgroundColor: 'radial-gradient(circle, #ffffff 0%, #00f0ff 100%)',
-                  border: '1.5px solid #00f0ff',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  flexShrink: 0,
-                  boxShadow: '0 0 14px rgba(0, 240, 255, 0.5)'
-                }}>
-                  <AtplRobotAvatar size={26} />
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
-                    <span style={{ fontSize: '0.76rem', fontWeight: 900, color: '#00f0ff' }}>
-                      Archie AI Industrial Guide
-                    </span>
-                    <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#10b981', display: 'inline-block' }}></span>
-                  </div>
-                  <p style={{ margin: 0, fontSize: '0.78rem', color: '#e2e8f0', lineHeight: 1.45 }}>
-                    {currentNode.lesson}
-                  </p>
-                </div>
-              </div>
-
-              {/* 5. Key Verified Industrial Benefits */}
-              {currentNode.keyBenefits && (
-                <div style={{
-                  display: 'grid',
-                  gridTemplateColumns: '1fr',
-                  gap: '0.35rem',
-                  backgroundColor: 'rgba(255, 255, 255, 0.03)',
-                  padding: '0.6rem 0.75rem',
-                  borderRadius: '8px',
-                  border: '1px solid rgba(255, 255, 255, 0.07)'
-                }}>
-                  <span style={{ fontSize: '0.68rem', fontWeight: 800, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                    Key Plant Capabilities:
-                  </span>
-                  {currentNode.keyBenefits.map((benefit, bIdx) => (
-                    <div key={bIdx} style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', fontSize: '0.74rem', color: '#cbd5e1' }}>
-                      <Check size={13} color="#00f0ff" strokeWidth={2.5} style={{ flexShrink: 0 }} />
-                      <span>{benefit}</span>
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              {/* 6. Ergonomic Thumb Navigation Bar (Min 46px Touch Targets for Easy One-Handed Use) */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginTop: '0.3rem' }}>
-                <div style={{ display: 'flex', gap: '0.45rem' }}>
-                  <button
-                    type="button"
-                    onClick={handlePrev}
-                    aria-label="Previous factory station"
-                    style={{
-                      flex: 1,
-                      minHeight: '48px',
-                      padding: '0.55rem',
-                      borderRadius: '8px',
-                      background: 'rgba(255, 255, 255, 0.08)',
-                      border: '1.2px solid rgba(255, 255, 255, 0.22)',
-                      color: '#ffffff',
-                      fontWeight: 800,
-                      fontSize: '0.82rem',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      gap: '0.35rem',
-                      cursor: 'pointer',
-                      touchAction: 'manipulation'
-                    }}
-                  >
-                    <ChevronLeft size={16} />
-                    <span>Station {(currentIndex + 11) % 12 + 1}</span>
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={handleNext}
-                    aria-label="Next factory station"
-                    style={{
-                      flex: 1,
-                      minHeight: '48px',
-                      padding: '0.55rem',
-                      borderRadius: '8px',
-                      background: 'rgba(0, 240, 255, 0.2)',
-                      border: '1.5px solid #00f0ff',
-                      color: '#00f0ff',
-                      fontWeight: 900,
-                      fontSize: '0.82rem',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      gap: '0.35rem',
-                      cursor: 'pointer',
-                      touchAction: 'manipulation',
-                      boxShadow: '0 0 14px rgba(0, 240, 255, 0.25)'
-                    }}
-                  >
-                    <span>Station {(currentIndex + 1) % 12 + 1}</span>
-                    <ChevronRight size={16} />
-                  </button>
-                </div>
-
-                {/* Primary Station Call-to-Action */}
-                <button
-                  type="button"
-                  onClick={() => openDemoModal({ solution: currentNode.name, notes: `Inquiry from Mobile Tour - Station ${currentNode.stepNumber}: ${currentNode.name}` })}
-                  style={{
-                    width: '100%',
-                    minHeight: '48px',
-                    padding: '0.65rem 1rem',
-                    borderRadius: '8px',
-                    background: 'linear-gradient(135deg, #E85874 0%, #c43854 100%)',
-                    border: 'none',
-                    color: '#ffffff',
-                    fontWeight: 900,
-                    fontSize: '0.84rem',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '0.45rem',
-                    boxShadow: '0 4px 18px rgba(232, 88, 116, 0.45)',
-                    cursor: 'pointer',
-                    touchAction: 'manipulation'
-                  }}
-                >
-                  <Sparkles size={15} />
-                  <span>Enquire {currentNode.name} • Live Plant Demo</span>
-                </button>
-
-                {/* Secondary Toggles: 2D Blueprint Map & Auto Tour */}
-                <div style={{ display: 'flex', gap: '0.45rem' }}>
-                  <button
-                    type="button"
-                    onClick={() => setMobileViewMode('map')}
-                    style={{
-                      flex: 1,
-                      minHeight: '40px',
-                      padding: '0.4rem',
-                      borderRadius: '6px',
-                      background: 'rgba(255, 255, 255, 0.05)',
-                      border: '1px solid rgba(0, 240, 255, 0.3)',
-                      color: '#94a3b8',
-                      fontSize: '0.74rem',
-                      fontWeight: 700,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      gap: '0.3rem',
-                      cursor: 'pointer'
-                    }}
-                  >
-                    <span>🗺️ Switch to 2D Map</span>
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => setIsAutoTour(!isAutoTour)}
-                    style={{
-                      flex: 1,
-                      minHeight: '40px',
-                      padding: '0.4rem',
-                      borderRadius: '6px',
-                      background: isAutoTour ? 'rgba(232, 88, 116, 0.2)' : 'rgba(255, 255, 255, 0.05)',
-                      border: isAutoTour ? '1px solid #E85874' : '1px solid rgba(255, 255, 255, 0.15)',
-                      color: isAutoTour ? '#E85874' : '#94a3b8',
-                      fontSize: '0.74rem',
-                      fontWeight: 700,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      gap: '0.3rem',
-                      cursor: 'pointer'
-                    }}
-                  >
-                    {isAutoTour ? <Pause size={12} /> : <Play size={12} />}
-                    <span>{isAutoTour ? 'Pause Auto Tour' : '▶ Auto Tour'}</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* =====================================================================
-              3. BOTTOM HUD DIALOGUE CONSOLE: Richer Active Station Info & Archie AI
-             ===================================================================== */}
-          {isTourOpen ? (
-            <div 
-              id="factory-station-briefing"
-              className="factory-hud-bottom-overlay"
-              role="region"
-              aria-label={`Archie AI Tour Guide: Station ${currentIndex + 1} of 12 - ${currentNode.name}`}
-              aria-live="polite"
-              style={{
-                position: 'absolute',
-                bottom: '8px',
-                left: '10px',
-                right: '10px',
-                zIndex: 45,
-                background: 'rgba(4, 11, 24, 0.95)',
-                backdropFilter: 'blur(20px)',
-                WebkitBackdropFilter: 'blur(20px)',
-                border: '1.5px solid rgba(0, 240, 255, 0.45)',
-                borderRadius: '12px',
-                padding: '0.55rem 2.5rem 0.55rem 1rem',
-                boxShadow: '0 12px 35px rgba(0, 0, 0, 0.85), 0 0 25px rgba(0, 240, 255, 0.2)',
-                display: 'grid',
-                gridTemplateColumns: 'auto 1fr auto',
-                gap: '0.9rem',
-                alignItems: 'center',
-                animation: 'fadeInUp 0.25s ease-out'
-              }}
-            >
-              
-              {/* Prominent Corner Exit / Close (X) Button */}
-              <button
-                type="button"
-                onClick={closeTour}
-                onTouchEnd={(e) => {
-                  e.stopPropagation();
-                  closeTour(e);
-                }}
-                className="hud-corner-close-btn"
-                aria-label="Close Archie AI Tour panel"
-                title="Close Archie AI Tour panel (✕)"
-                style={{
-                  position: 'absolute',
-                  top: '8px',
-                  right: '8px',
-                  width: '32px',
-                  height: '32px',
-                  borderRadius: '50%',
-                  background: 'rgba(232, 88, 116, 0.22)',
-                  border: '1.5px solid #E85874',
-                  color: '#ff4d6d',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  cursor: 'pointer',
-                  zIndex: 70,
-                  pointerEvents: 'auto',
-                  transition: 'all 0.2s ease',
-                  boxShadow: '0 2px 10px rgba(0, 0, 0, 0.7)'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = '#E85874';
-                  e.currentTarget.style.color = '#ffffff';
-                  e.currentTarget.style.transform = 'scale(1.12)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = 'rgba(232, 88, 116, 0.22)';
-                  e.currentTarget.style.color = '#ff4d6d';
-                  e.currentTarget.style.transform = 'scale(1)';
-                }}
-              >
-                <X size={16} strokeWidth={2.5} style={{ pointerEvents: 'none' }} />
-              </button>
-
-              {/* Robot Avatar Info */}
-              <div className="hud-station-header-row" style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
-                <div style={{
-                  width: '38px',
-                  height: '38px',
-                  borderRadius: '50%',
-                  background: 'radial-gradient(circle, #ffffff 0%, #e0f2fe 70%, #0071ba 100%)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  border: '2px solid #00f0ff',
-                  boxShadow: '0 0 16px rgba(0, 240, 255, 0.6), 0 0 8px rgba(232, 88, 116, 0.4)',
-                  flexShrink: 0
-                }}>
-                  <AtplRobotAvatar size={28} />
-                </div>
-                <div style={{ whiteSpace: 'nowrap' }}>
-                  <strong style={{ color: '#ffffff', fontSize: '0.82rem', display: 'block', letterSpacing: '0.01em' }}>
-                    Archie AI Guide:
-                  </strong>
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', color: '#00f0ff', fontWeight: 800, textTransform: 'uppercase' }}>
-                    STOP {currentIndex + 1}/12 • {currentNode.category}
-                  </span>
-                </div>
-              </div>
-
-              {/* Station Speech + Rich Benefits Chips */}
-              <div style={{ minWidth: 0, paddingRight: '0.25rem' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', marginBottom: '0.15rem', flexWrap: 'wrap' }}>
-                  <h3 style={{ fontSize: '0.88rem', color: '#ffffff', margin: 0, fontWeight: 900, letterSpacing: '0.02em' }}>
-                    {currentNode.name}
-                  </h3>
-                  <span style={{ color: '#E85874', fontSize: '0.72rem', fontWeight: 700 }}>
-                    • {currentNode.tagline}
-                  </span>
-                  {currentNode.roiMetric && (
-                    <span style={{
-                      background: 'rgba(16, 185, 129, 0.15)',
-                      border: '1px solid rgba(16, 185, 129, 0.4)',
-                      color: '#34d399',
-                      fontSize: '0.66rem',
-                      fontWeight: 800,
-                      padding: '0.1rem 0.45rem',
-                      borderRadius: '4px',
-                      marginLeft: '0.2rem'
-                    }}>
-                      ⚡ {currentNode.roiMetric}
-                    </span>
-                  )}
-                </div>
-
-                <p className="hud-speech-paragraph" style={{ 
-                  fontSize: '0.8rem', 
-                  color: '#e2e8f0', 
-                  lineHeight: 1.35, 
-                  margin: '0 0 0.3rem 0'
-                }}>
-                  {currentNode.lesson}
+                  {currentNode.highlight}
                 </p>
-
-                {/* Rich Key Benefits Pills (Desktop & Tablet) */}
-                {currentNode.keyBenefits && (
-                  <div className="hud-benefits-row" style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
-                    {currentNode.keyBenefits.map((benefit, bIdx) => (
-                      <span key={bIdx} style={{
-                        background: 'rgba(0, 240, 255, 0.08)',
-                        border: '1px solid rgba(0, 240, 255, 0.25)',
-                        color: '#bae6fd',
-                        fontSize: '0.66rem',
-                        fontWeight: 700,
-                        padding: '0.12rem 0.45rem',
-                        borderRadius: '4px',
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: '0.25rem'
-                      }}>
-                        <Check size={10} color="#00f0ff" />
-                        <span>{benefit}</span>
-                      </span>
-                    ))}
-                  </div>
-                )}
               </div>
 
-              {/* Action Navigation Controls + Station Demo + Close (X) */}
-              <div className="hud-actions-container" style={{ display: 'flex', gap: '0.35rem', alignItems: 'center', flexShrink: 0 }}>
+              {/* Right: Sleek Action Controls */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', flexShrink: 0 }}>
+                {/* Prev Button */}
                 <button
-                  type="button"
                   onClick={handlePrev}
-                  className="hud-btn-prev"
+                  aria-label="Previous station"
                   style={{
-                    background: 'rgba(255, 255, 255, 0.08)',
-                    border: '1px solid rgba(255, 255, 255, 0.25)',
+                    backgroundColor: 'rgba(255, 255, 255, 0.08)',
+                    border: '1px solid rgba(255, 255, 255, 0.2)',
                     color: '#ffffff',
-                    borderRadius: '6px',
-                    padding: '0.34rem 0.65rem',
-                    fontSize: '0.75rem',
-                    fontWeight: 700,
+                    borderRadius: '8px',
+                    padding: '0.45rem 0.8rem',
+                    fontSize: '0.78rem',
+                    fontWeight: 800,
                     cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '0.2rem',
+                    gap: '0.25rem',
                     transition: 'all 0.15s ease'
                   }}
                   onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.18)'}
                   onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.08)'}
-                  title="Previous Station"
                 >
-                  <ChevronLeft size={13} />
-                  <span>Prev</span>
+                  <ChevronLeft size={15} />
+                  <span className="desktop-only-inline">Prev</span>
                 </button>
 
+                {/* Next Button */}
                 <button
-                  type="button"
                   onClick={handleNext}
-                  className="hud-btn-next"
+                  aria-label="Next station"
                   style={{
-                    background: '#0071ba',
-                    border: '1px solid #00f0ff',
+                    backgroundColor: 'rgba(0, 113, 186, 0.4)',
+                    border: '1.2px solid #00f0ff',
                     color: '#ffffff',
-                    borderRadius: '6px',
-                    padding: '0.34rem 0.75rem',
-                    fontSize: '0.75rem',
-                    fontWeight: 700,
+                    borderRadius: '8px',
+                    padding: '0.45rem 0.85rem',
+                    fontSize: '0.78rem',
+                    fontWeight: 800,
                     cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '0.2rem',
+                    gap: '0.25rem',
                     transition: 'all 0.15s ease',
-                    boxShadow: '0 2px 10px rgba(0, 113, 186, 0.4)'
+                    boxShadow: '0 0 12px rgba(0, 113, 186, 0.5)'
                   }}
-                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#005a96'}
-                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#0071ba'}
-                  title="Next Station"
+                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(0, 113, 186, 0.7)'}
+                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'rgba(0, 113, 186, 0.4)'}
                 >
-                  <span>Next</span>
-                  <ChevronRight size={13} />
+                  <span className="desktop-only-inline">Next</span>
+                  <ChevronRight size={15} />
                 </button>
 
+                {/* Request Live Demo CTA */}
                 <button
-                  type="button"
-                  onClick={() => openDemoModal({ solution: currentNode.name, notes: `Inquiry for ${currentNode.name} from Factory Blueprint map.` })}
-                  className="hud-btn-demo"
+                  onClick={() => openDemoModal({ solution: currentNode.name, notes: `Inquiry from Robot Tour - Station ${currentNode.stepNumber}: ${currentNode.name}` })}
                   style={{
                     backgroundColor: '#E85874',
                     border: 'none',
                     color: '#ffffff',
-                    borderRadius: '6px',
-                    padding: '0.34rem 0.75rem',
-                    fontSize: '0.75rem',
+                    borderRadius: '8px',
+                    padding: '0.48rem 1rem',
+                    fontSize: '0.8rem',
                     fontWeight: 800,
                     cursor: 'pointer',
-                    boxShadow: '0 4px 14px rgba(232, 88, 116, 0.4)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.35rem',
+                    boxShadow: '0 4px 18px rgba(232, 88, 116, 0.5)',
                     whiteSpace: 'nowrap',
                     transition: 'all 0.15s ease'
                   }}
                   onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#d44360'}
                   onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#E85874'}
-                  title={`Request Live Demo for ${currentNode.name}`}
                 >
-                  Demo
+                  <Sparkles size={14} />
+                  <span>Explore Demo</span>
                 </button>
               </div>
-
             </div>
-          ) : (
-            /* Re-open Pill when closed */
-            <button
-              type="button"
-              onClick={openTour}
-              className="factory-hud-toggle-pill"
-              aria-label="Reopen Archie AI Tour panel"
-              title="Click to reopen Archie AI Guide Tour"
-              style={{
-                position: 'absolute',
-                bottom: '12px',
-                right: '12px',
-                zIndex: 45,
-                background: 'linear-gradient(135deg, rgba(4, 11, 24, 0.96) 0%, rgba(0, 113, 186, 0.88) 100%)',
-                backdropFilter: 'blur(16px)',
-                WebkitBackdropFilter: 'blur(16px)',
-                border: '1.5px solid #00f0ff',
-                color: '#ffffff',
-                borderRadius: '999px',
-                padding: '0.45rem 1.1rem',
-                fontSize: '0.8rem',
-                fontWeight: 800,
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.55rem',
-                boxShadow: '0 8px 30px rgba(0, 0, 0, 0.85), 0 0 20px rgba(0, 240, 255, 0.4)',
-                transition: 'all 0.2s ease',
-                animation: 'fadeInUp 0.25s ease-out',
-                pointerEvents: 'auto'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-2px)';
-                e.currentTarget.style.borderColor = '#00f0ff';
-                e.currentTarget.style.boxShadow = '0 12px 35px rgba(0,0,0,0.8), 0 0 25px rgba(0,240,255,0.5)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.borderColor = 'rgba(0, 240, 255, 0.6)';
-                e.currentTarget.style.boxShadow = '0 8px 30px rgba(0,0,0,0.7), 0 0 20px rgba(0,240,255,0.3)';
-              }}
-            >
-              <AtplRobotAvatar size={22} />
-              <span>Archie AI Tour ({currentIndex + 1}/12) ▶</span>
-            </button>
-          )}
 
+          </div>
         </div>
 
       </div>
-
-      {/* =====================================================================
-          3. FULLSCREEN INTERACTIVE 12-STATION VIDEO TOUR THEATER MODAL
-         ===================================================================== */}
-      {isVideoTourOpen && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          aria-label="ATPL Smart Factory 12-Station Video Tour"
-          style={{
-            position: 'fixed',
-            inset: 0,
-            zIndex: 99999,
-            backgroundColor: 'rgba(2, 6, 20, 0.94)',
-            backdropFilter: 'blur(20px)',
-            WebkitBackdropFilter: 'blur(20px)',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-            padding: 'clamp(0.75rem, 2vw, 1.5rem)',
-            color: '#ffffff',
-            boxSizing: 'border-box',
-            animation: 'fadeIn 0.25s ease-out'
-          }}
-          onClick={(e) => {
-            if (e.target === e.currentTarget) setIsVideoTourOpen(false);
-          }}
-        >
-          {/* Top Broadcast Bar */}
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            padding: '0.65rem 1rem',
-            backgroundColor: 'rgba(5, 12, 26, 0.9)',
-            border: '1px solid rgba(0, 240, 255, 0.35)',
-            borderRadius: '12px',
-            marginBottom: '0.75rem',
-            gap: '0.75rem',
-            flexWrap: 'wrap'
-          }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-              <span style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.4rem',
-                backgroundColor: 'rgba(232, 88, 116, 0.2)',
-                border: '1px solid #E85874',
-                color: '#ffffff',
-                padding: '0.2rem 0.6rem',
-                borderRadius: '999px',
-                fontSize: '0.72rem',
-                fontWeight: 900,
-                letterSpacing: '0.06em'
-              }}>
-                <span style={{ width: 8, height: 8, borderRadius: '50%', backgroundColor: '#E85874', animation: 'pulseCoralDot 1.4s infinite' }} />
-                LIVE TOUR FEED
-              </span>
-
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.82rem', color: '#00f0ff', fontWeight: 800 }}>
-                STATION {currentIndex + 1}/12: <span style={{ color: '#ffffff' }}>{currentNode.name}</span>
-              </div>
-            </div>
-
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
-              <span className="desktop-only-inline" style={{ fontFamily: 'var(--font-mono)', fontSize: '0.74rem', color: '#94a3b8' }}>
-                1080P 60FPS • 4.8ms LATENCY • SAP S/4HANA SYNCED
-              </span>
-              <button
-                type="button"
-                onClick={() => setIsVideoTourOpen(false)}
-                aria-label="Close Video Tour"
-                title="Close Video Tour (Esc)"
-                style={{
-                  background: 'rgba(255, 255, 255, 0.1)',
-                  border: '1px solid rgba(255, 255, 255, 0.2)',
-                  color: '#ffffff',
-                  borderRadius: '50%',
-                  width: '34px',
-                  height: '34px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  cursor: 'pointer',
-                  transition: 'all 0.15s'
-                }}
-                onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#E85874'; e.currentTarget.style.borderColor = '#E85874'; }}
-                onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)'; e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)'; }}
-              >
-                <X size={18} />
-              </button>
-            </div>
-          </div>
-
-          {/* Main Stage: CCTV Inspection Canvas & Archie AI Commentary */}
-          <div style={{
-            flex: '1 1 0',
-            minHeight: 0,
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 360px), 1fr))',
-            gap: '1rem',
-            overflowY: 'auto',
-            marginBottom: '0.75rem'
-          }}>
-            {/* Visual Feed Screen */}
-            <div style={{
-              position: 'relative',
-              backgroundColor: '#030814',
-              borderRadius: '16px',
-              border: '1.5px solid rgba(0, 240, 255, 0.4)',
-              overflow: 'hidden',
-              boxShadow: '0 12px 40px rgba(0, 0, 0, 0.9), 0 0 30px rgba(0, 240, 255, 0.2)',
-              minHeight: '260px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}>
-              <picture style={{ width: '100%', height: '100%', display: 'block' }}>
-                <source type="image/avif" srcSet={currentNode.image.replace(/\.(webp|jpg|png)$/, '.avif')} sizes="(max-width: 768px) 100vw, 800px" />
-                <source type="image/webp" srcSet={currentNode.image.replace(/\.(avif|jpg|png)$/, '.webp')} sizes="(max-width: 768px) 100vw, 800px" />
-                <img
-                  src={currentNode.image}
-                  srcSet={`${currentNode.image} 1x, ${currentNode.image} 2x`}
-                  sizes="(max-width: 768px) 100vw, 800px"
-                  loading="lazy"
-                  decoding="async"
-                  alt={currentNode.name}
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                    filter: 'contrast(1.08) brightness(0.95)',
-                    display: 'block'
-                  }}
-                />
-              </picture>
-
-              {/* CCTV Corner Reticles */}
-              <div style={{ position: 'absolute', top: 12, left: 12, borderTop: '2px solid #00f0ff', borderLeft: '2px solid #00f0ff', width: 20, height: 20 }} />
-              <div style={{ position: 'absolute', top: 12, right: 12, borderTop: '2px solid #00f0ff', borderRight: '2px solid #00f0ff', width: 20, height: 20 }} />
-              <div style={{ position: 'absolute', bottom: 12, left: 12, borderBottom: '2px solid #00f0ff', borderLeft: '2px solid #00f0ff', width: 20, height: 20 }} />
-              <div style={{ position: 'absolute', bottom: 12, right: 12, borderBottom: '2px solid #00f0ff', borderRight: '2px solid #00f0ff', width: 20, height: 20 }} />
-
-              {/* Watermark Tag */}
-              <div style={{
-                position: 'absolute',
-                top: 14,
-                left: 14,
-                fontFamily: 'var(--font-mono)',
-                fontSize: '0.72rem',
-                color: '#00f0ff',
-                backgroundColor: 'rgba(3, 8, 20, 0.8)',
-                padding: '0.2rem 0.5rem',
-                borderRadius: '4px',
-                border: '1px solid rgba(0, 240, 255, 0.3)'
-              }}>
-                FEED: CAM-0{currentIndex + 1} // {currentNode.category}
-              </div>
-
-              {/* Telemetry HUD Bottom Overlay */}
-              <div style={{
-                position: 'absolute',
-                bottom: 14,
-                left: 14,
-                right: 14,
-                backgroundColor: 'rgba(3, 8, 20, 0.88)',
-                backdropFilter: 'blur(10px)',
-                borderRadius: '8px',
-                padding: '0.5rem 0.75rem',
-                border: '1px solid rgba(0, 240, 255, 0.25)',
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                flexWrap: 'wrap',
-                gap: '0.5rem'
-              }}>
-                <div style={{ fontSize: '0.75rem', color: '#e2e8f0' }}>
-                  <strong>BENCHMARK:</strong> <span style={{ color: '#00f0ff' }}>{currentNode.roiMetric}</span>
-                </div>
-                <div style={{ fontSize: '0.72rem', color: '#10b981', fontFamily: 'var(--font-mono)', fontWeight: 700 }}>
-                  ● CALIBRATED & OPERATIONAL
-                </div>
-              </div>
-            </div>
-
-            {/* Archie AI Co-Pilot Briefing Card */}
-            <div style={{
-              backgroundColor: 'rgba(5, 12, 26, 0.92)',
-              borderRadius: '16px',
-              border: '1.5px solid rgba(0, 240, 255, 0.35)',
-              padding: '1.25rem',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-              boxShadow: '0 8px 30px rgba(0, 0, 0, 0.7)'
-            }}>
-              <div>
-                {/* Header */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.85rem' }}>
-                  <AtplRobotAvatar size={36} />
-                  <div>
-                    <div style={{ fontSize: '0.72rem', fontWeight: 800, textTransform: 'uppercase', color: '#00f0ff', letterSpacing: '0.06em' }}>
-                      ARCHIE AI STATION BRIEFING
-                    </div>
-                    <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#ffffff', margin: '0.15rem 0 0 0' }}>
-                      {currentNode.name}
-                    </h3>
-                  </div>
-                </div>
-
-                <p style={{ color: '#38bdf8', fontSize: '0.82rem', fontWeight: 700, margin: '0 0 0.65rem 0' }}>
-                  {currentNode.tagline}
-                </p>
-
-                {/* Narration Transcript */}
-                <div style={{
-                  backgroundColor: 'rgba(0, 240, 255, 0.05)',
-                  border: '1px solid rgba(0, 240, 255, 0.2)',
-                  borderRadius: '10px',
-                  padding: '0.85rem',
-                  fontSize: '0.86rem',
-                  color: '#e2e8f0',
-                  lineHeight: 1.55,
-                  marginBottom: '1rem'
-                }}>
-                  {currentNode.lesson}
-                </div>
-
-                {/* Key Capabilities */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem' }}>
-                  {currentNode.keyBenefits.map((benefit, bIdx) => (
-                    <div key={bIdx} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.82rem', color: '#cbd5e1' }}>
-                      <Check size={14} color="#00f0ff" strokeWidth={3} />
-                      <span>{benefit}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Action Buttons */}
-              <div style={{ display: 'flex', gap: '0.65rem', marginTop: '1.25rem', flexWrap: 'wrap' }}>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setIsVideoTourOpen(false);
-                    openDemoModal({ solution: `Smart Factory Tour: ${currentNode.name}`, notes: `Lead requested demo during 12-station video tour for ${currentNode.name}` });
-                  }}
-                  style={{
-                    flex: '1 1 auto',
-                    backgroundColor: '#E85874',
-                    color: '#ffffff',
-                    border: 'none',
-                    borderRadius: '8px',
-                    padding: '0.75rem 1rem',
-                    fontSize: '0.86rem',
-                    fontWeight: 800,
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '0.4rem',
-                    boxShadow: '0 4px 15px rgba(232, 88, 116, 0.4)'
-                  }}
-                >
-                  <span>Request Turnkey Demo</span>
-                  <ArrowRight size={15} />
-                </button>
-
-                <button
-                  type="button"
-                  onClick={handleDownloadBrochure}
-                  style={{
-                    backgroundColor: 'rgba(255, 255, 255, 0.08)',
-                    color: '#ffffff',
-                    border: '1px solid rgba(255, 255, 255, 0.25)',
-                    borderRadius: '8px',
-                    padding: '0.75rem 1rem',
-                    fontSize: '0.82rem',
-                    fontWeight: 700,
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.4rem'
-                  }}
-                >
-                  <Download size={14} />
-                  <span>Brochure</span>
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {/* Bottom Timeline, Playback Controls & 12 Station Scrubber */}
-          <div style={{
-            backgroundColor: 'rgba(5, 12, 26, 0.95)',
-            border: '1px solid rgba(0, 240, 255, 0.35)',
-            borderRadius: '14px',
-            padding: '0.75rem 1rem',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '0.65rem'
-          }}>
-            {/* Smooth Progress Bar */}
-            <div style={{
-              width: '100%',
-              height: '4px',
-              backgroundColor: 'rgba(255, 255, 255, 0.12)',
-              borderRadius: '999px',
-              overflow: 'hidden'
-            }}>
-              <div style={{
-                height: '100%',
-                width: `${videoProgress}%`,
-                backgroundColor: '#00f0ff',
-                boxShadow: '0 0 10px #00f0ff',
-                transition: 'width 0.05s linear'
-              }} />
-            </div>
-
-            {/* Scrubber Chips + Controls */}
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              gap: '0.75rem',
-              flexWrap: 'wrap'
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                <button
-                  type="button"
-                  onClick={() => {
-                    handlePrev();
-                    setVideoProgress(0);
-                  }}
-                  aria-label="Previous Station"
-                  style={{
-                    background: 'rgba(255, 255, 255, 0.1)',
-                    border: '1px solid rgba(255, 255, 255, 0.2)',
-                    color: '#ffffff',
-                    borderRadius: '8px',
-                    padding: '0.4rem 0.75rem',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.3rem',
-                    fontSize: '0.78rem',
-                    fontWeight: 700
-                  }}
-                >
-                  <ChevronLeft size={16} />
-                  <span>Prev</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => setIsVideoPlaying(!isVideoPlaying)}
-                  aria-label={isVideoPlaying ? 'Pause video tour' : 'Play video tour'}
-                  style={{
-                    background: isVideoPlaying ? 'rgba(232, 88, 116, 0.3)' : 'rgba(0, 240, 255, 0.2)',
-                    border: isVideoPlaying ? '1px solid #E85874' : '1px solid #00f0ff',
-                    color: '#ffffff',
-                    borderRadius: '8px',
-                    padding: '0.4rem 0.85rem',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.35rem',
-                    fontSize: '0.78rem',
-                    fontWeight: 800
-                  }}
-                >
-                  {isVideoPlaying ? <Pause size={14} /> : <Play size={14} />}
-                  <span>{isVideoPlaying ? 'Pause' : 'Auto Play'}</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => {
-                    handleNext();
-                    setVideoProgress(0);
-                  }}
-                  aria-label="Next Station"
-                  style={{
-                    background: 'rgba(255, 255, 255, 0.1)',
-                    border: '1px solid rgba(255, 255, 255, 0.2)',
-                    color: '#ffffff',
-                    borderRadius: '8px',
-                    padding: '0.4rem 0.75rem',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.3rem',
-                    fontSize: '0.78rem',
-                    fontWeight: 700
-                  }}
-                >
-                  <span>Next</span>
-                  <ChevronRight size={16} />
-                </button>
-              </div>
-
-              {/* 12 Station Thumb Chips */}
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.35rem',
-                overflowX: 'auto',
-                maxWidth: '100%',
-                padding: '0.2rem 0'
-              }}>
-                {ATPL_FACTORY_NODES.map((node, nIdx) => (
-                  <button
-                    key={node.id}
-                    type="button"
-                    onClick={() => {
-                      setCurrentIndex(nIdx);
-                      setVideoProgress(0);
-                    }}
-                    aria-label={`Jump to station ${node.stepNumber}: ${node.name}`}
-                    style={{
-                      padding: '0.3rem 0.65rem',
-                      borderRadius: '6px',
-                      background: currentIndex === nIdx ? '#E85874' : 'rgba(255, 255, 255, 0.08)',
-                      border: currentIndex === nIdx ? '1px solid #ffffff' : '1px solid rgba(255, 255, 255, 0.15)',
-                      color: '#ffffff',
-                      fontSize: '0.74rem',
-                      fontWeight: 800,
-                      cursor: 'pointer',
-                      whiteSpace: 'nowrap',
-                      transition: 'all 0.15s ease'
-                    }}
-                  >
-                    {node.stepNumber}. {node.name.replace('™', '').replace('PERFECT ', '')}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </section>
   );
 };
