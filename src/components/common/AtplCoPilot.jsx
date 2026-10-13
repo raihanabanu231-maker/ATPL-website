@@ -101,12 +101,13 @@ export const AtplCoPilot = () => {
     {
       id: 1,
       sender: 'bot',
-      text: "Hello. Welcome to the **ATPL Engineering Desk**. How can we assist with your plant, warehouse, or packaging line today? You can ask technical questions or connect directly with our application engineers in Chennai and Madurai.",
+      text: "Hello! 👋 I'm **Archie AI**, your official ATPL smart factory robot guide & automation advisor. How can I help power your factory today?",
       quickReplies: [
-        '📞 Direct Phone & WhatsApp Numbers',
-        '📦 Warehouse Management (WMS)',
-        '🏷️ RFID Dock Portals',
-        '🏭 Schedule a Plant Feasibility Visit'
+        '💡 Find the right solution for my plant',
+        '💰 Calculate factory ROI',
+        '✨ Explore 3D Digital Twin',
+        '📞 Sales & Support Numbers',
+        '📦 WMS vs Traceability comparison'
       ]
     }
   ]);
@@ -611,7 +612,7 @@ export const AtplCoPilot = () => {
               onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
               onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
             >
-              <span>Need help? Talk to an engineer</span>
+              <span>Ask Archie AI 👋</span>
               <button
                 onClick={(e) => {
                   e.stopPropagation();
@@ -649,7 +650,7 @@ export const AtplCoPilot = () => {
             </div>
           )}
 
-          {/* Floating Engineering Help Desk Button (Min 44x44px Touch Target) */}
+          {/* Circular Floating Robot Button (Min 44x44px Touch Target) */}
           <button
             onClick={() => {
               recordInteraction();
@@ -657,35 +658,36 @@ export const AtplCoPilot = () => {
             }}
             className="copilot-launcher-btn"
             style={{
-              width: '52px',
-              height: '52px',
+              width: '56px',
+              height: '56px',
               minWidth: '44px',
               minHeight: '44px',
               borderRadius: '50%',
-              backgroundColor: '#0071ba',
-              border: '2px solid #ffffff',
-              boxShadow: '0 8px 24px rgba(0, 113, 186, 0.4)',
+              background: 'linear-gradient(135deg, #0b1e36 0%, #030a16 100%)',
+              border: '2px solid rgba(0, 240, 255, 0.7)',
+              boxShadow: '0 8px 25px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 240, 255, 0.35)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              color: '#ffffff',
               cursor: 'pointer',
-              transition: 'all 0.2s ease',
+              transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
               position: 'relative',
               flexShrink: 0
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'scale(1.06)';
-              e.currentTarget.style.backgroundColor = '#005a96';
+              e.currentTarget.style.transform = 'scale(1.08)';
+              e.currentTarget.style.borderColor = '#E85874';
+              e.currentTarget.style.boxShadow = '0 12px 30px rgba(232, 88, 116, 0.5), 0 0 25px rgba(0, 240, 255, 0.5)';
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.transform = 'scale(1)';
-              e.currentTarget.style.backgroundColor = '#0071ba';
+              e.currentTarget.style.borderColor = 'rgba(0, 240, 255, 0.7)';
+              e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 240, 255, 0.35)';
             }}
-            aria-label="Talk to an Automation Engineer"
-            title="ATPL Engineering Support Desk"
+            aria-label="Open Archie AI Assistant"
+            title="Chat with Archie AI"
           >
-            <Headphones size={24} />
+            <AtplRobotAvatar size={34} glow={true} />
             <span style={{
               position: 'absolute',
               top: 2,
@@ -694,8 +696,8 @@ export const AtplCoPilot = () => {
               height: 10,
               borderRadius: '50%',
               backgroundColor: '#10b981',
-              border: '2px solid #ffffff',
-              boxShadow: '0 0 6px #10b981'
+              border: '2px solid #030a16',
+              boxShadow: '0 0 8px #10b981'
             }} />
           </button>
         </div>
@@ -724,39 +726,40 @@ export const AtplCoPilot = () => {
         >
           {/* Header */}
           <div style={{
-            background: 'linear-gradient(135deg, #0071ba 0%, #005a96 100%)',
+            background: 'linear-gradient(135deg, #06152d 0%, #002855 100%)',
             padding: '1rem 1.25rem',
             color: '#ffffff',
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'space-between'
+            justifyContent: 'space-between',
+            borderBottom: '1px solid rgba(0, 240, 255, 0.25)'
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
               <div style={{
-                width: 36,
-                height: 36,
+                width: 38,
+                height: 38,
                 borderRadius: '50%',
-                backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                backgroundColor: '#ffffff',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                color: '#ffffff'
+                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.25)'
               }}>
-                <Headphones size={20} />
+                <AtplRobotAvatar size={32} glow={false} />
               </div>
               <div>
                 <div style={{ fontWeight: 700, fontSize: '0.95rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                  ATPL Engineering Desk
+                  Archie AI
                   <span style={{
                     fontSize: '0.65rem',
                     backgroundColor: '#10b981',
                     color: '#ffffff',
-                    padding: '0.1rem 0.4rem',
+                    padding: '0.1rem 0.45rem',
                     borderRadius: '999px',
-                    fontWeight: 600
+                    fontWeight: 700
                   }}>Online</span>
                 </div>
-                <div style={{ fontSize: '0.75rem', opacity: 0.85 }}>Direct Plant Automation & Support</div>
+                <div style={{ fontSize: '0.75rem', color: '#38bdf8' }}>ATPL Robot Guide & Automation Advisor</div>
               </div>
             </div>
 
@@ -816,7 +819,7 @@ export const AtplCoPilot = () => {
                   {
                     id: Date.now(),
                     sender: 'bot',
-                    text: "Conversation reset. How can I assist your plant today?",
+                    text: "Conversation reset. I'm Archie AI — how can I assist your plant today?",
                     quickReplies: [
                       '💡 Find the right solution for my plant',
                       '💰 Calculate factory ROI',
@@ -961,11 +964,12 @@ export const AtplCoPilot = () => {
             ))}
 
             {isTyping && (
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', padding: '0.5rem 0.75rem', backgroundColor: '#ffffff', borderRadius: '1rem', width: 'fit-content', border: '1px solid #e2e8f0' }}>
-                <span style={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: '#0071ba', animation: 'pulse 1s infinite' }} />
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', padding: '0.5rem 0.75rem', backgroundColor: '#ffffff', borderRadius: '1rem', width: 'fit-content', border: '1px solid #e2e8f0', boxShadow: '0 2px 6px rgba(0,0,0,0.04)' }}>
+                <AtplRobotAvatar size={18} glow={false} />
+                <span style={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: '#00f0ff', animation: 'pulse 1s infinite' }} />
                 <span style={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: '#0071ba', animation: 'pulse 1s infinite 0.2s' }} />
-                <span style={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: '#0071ba', animation: 'pulse 1s infinite 0.4s' }} />
-                <span style={{ fontSize: '0.75rem', color: '#64748b', marginLeft: '0.25rem' }}>Analyzing query...</span>
+                <span style={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: '#E85874', animation: 'pulse 1s infinite 0.4s' }} />
+                <span style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: 600, marginLeft: '0.2rem' }}>Archie AI is thinking...</span>
               </div>
             )}
             <div ref={messagesEndRef} />
