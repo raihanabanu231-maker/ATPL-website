@@ -18,6 +18,7 @@ export function HeroFilterPill({
   return (
     <button
       type="button"
+      className="page-hero-pill-btn"
       onClick={onClick}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -325,6 +326,22 @@ export function PageHeroBackdrop({
           100% {
             transform: scale(0.9);
             opacity: 0.8;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .page-hero-backdrop-container {
+            padding: 2rem 1rem 1.6rem 1rem !important;
+            margin-bottom: 2rem !important;
+            border-radius: 18px !important;
+          }
+          .page-hero-backdrop-container h1 {
+            font-size: clamp(1.75rem, 6vw, 2.35rem) !important;
+            line-height: 1.22 !important;
+          }
+          .page-hero-pill-btn {
+            padding: 0.48rem 0.92rem !important;
+            font-size: 0.8rem !important;
           }
         }
       `}</style>

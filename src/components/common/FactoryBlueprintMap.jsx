@@ -423,10 +423,73 @@ export const FactoryBlueprintMap = () => {
             .hud-chip-btn:hover {
               transform: translateY(-2px);
             }
+            @media (max-width: 768px) {
+              .hud-factory-viewport {
+                aspect-ratio: auto !important;
+                height: 520px !important;
+                min-height: 490px !important;
+              }
+              .hud-top-strip {
+                top: 8px !important;
+                left: 8px !important;
+                right: 8px !important;
+                padding: 0.35rem 0.65rem !important;
+              }
+              .hud-top-chips-strip {
+                display: none !important;
+              }
+              .hud-bottom-dock {
+                left: 8px !important;
+                right: 8px !important;
+                bottom: 8px !important;
+                padding: 0.65rem 0.85rem !important;
+                flex-direction: column !important;
+                align-items: stretch !important;
+                gap: 0.45rem !important;
+                background-color: rgba(3, 10, 24, 0.95) !important;
+              }
+              .hud-dock-desc {
+                white-space: normal !important;
+                display: -webkit-box !important;
+                -webkit-line-clamp: 2 !important;
+                -webkit-box-orient: vertical !important;
+                overflow: hidden !important;
+                font-size: 0.76rem !important;
+                line-height: 1.35 !important;
+                color: #94a3b8 !important;
+              }
+              .hud-dock-controls {
+                width: 100% !important;
+                display: flex !important;
+                align-items: center !important;
+                gap: 0.45rem !important;
+              }
+              .hud-dock-demo-btn {
+                flex: 1 !important;
+                justify-content: center !important;
+                padding: 0.52rem 0.85rem !important;
+              }
+              .desktop-only-inline {
+                display: none !important;
+              }
+              .hud-pin-disc {
+                width: 28px !important;
+                height: 28px !important;
+                font-size: 0.76rem !important;
+              }
+              @keyframes archieFloating {
+                0%, 100% {
+                  transform: translate(-50%, -50%) scale(0.82) translateY(0) rotate(0deg);
+                }
+                50% {
+                  transform: translate(-50%, -50%) scale(0.82) translateY(-7px) rotate(1deg);
+                }
+              }
+            }
           `}</style>
 
           {/* Top HUD Control Strip (Sleek, Translucent & Compact) */}
-          <div style={{
+          <div className="hud-top-strip" style={{
             position: 'absolute',
             top: '12px',
             left: '14px',
@@ -466,7 +529,7 @@ export const FactoryBlueprintMap = () => {
             </div>
 
             {/* 12 Interactive Station Quick-Jump Chips */}
-            <div style={{
+            <div className="hud-top-chips-strip" style={{
               display: 'flex',
               alignItems: 'center',
               gap: '0.3rem',
@@ -548,14 +611,17 @@ export const FactoryBlueprintMap = () => {
           {/* =====================================================================
               MAIN FACTORY VIEWPORT: 100% OPEN & UNOBSTRUCTED BLUEPRINT CANVAS
              ===================================================================== */}
-          <div style={{
-            position: 'relative',
-            width: '100%',
-            aspectRatio: '1376 / 768',
-            maxHeight: 'min(76vh, 760px)',
-            overflow: 'hidden',
-            backgroundColor: '#030816'
-          }}>
+          <div 
+            className="hud-factory-viewport"
+            style={{
+              position: 'relative',
+              width: '100%',
+              aspectRatio: '1376 / 768',
+              maxHeight: 'min(76vh, 760px)',
+              overflow: 'hidden',
+              backgroundColor: '#030816'
+            }}
+          >
             {/* The Isometric Factory Floor Graphic */}
             <picture style={{ width: '100%', height: '100%', display: 'block' }}>
               <source type="image/avif" srcSet="/assets/images/atpl_isometric_factory.avif" />
@@ -848,26 +914,29 @@ export const FactoryBlueprintMap = () => {
             {/* =================================================================
                 3. SLEEK FLOATING GLASSMORPHISM TELEMETRY DOCK (At Bottom of Stage)
                ================================================================= */}
-            <div style={{
-              position: 'absolute',
-              bottom: '12px',
-              left: '14px',
-              right: '14px',
-              zIndex: 40,
-              backgroundColor: 'rgba(3, 10, 24, 0.88)',
-              backdropFilter: 'blur(20px)',
-              WebkitBackdropFilter: 'blur(20px)',
-              border: '1.2px solid rgba(0, 240, 255, 0.35)',
-              borderRadius: '14px',
-              padding: '0.65rem 1.15rem',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              gap: '1rem',
-              boxShadow: '0 12px 40px rgba(0, 0, 0, 0.85), 0 0 25px rgba(0, 240, 255, 0.2)'
-            }}>
+            <div 
+              className="hud-bottom-dock"
+              style={{
+                position: 'absolute',
+                bottom: '12px',
+                left: '14px',
+                right: '14px',
+                zIndex: 40,
+                backgroundColor: 'rgba(3, 10, 24, 0.88)',
+                backdropFilter: 'blur(20px)',
+                WebkitBackdropFilter: 'blur(20px)',
+                border: '1.2px solid rgba(0, 240, 255, 0.35)',
+                borderRadius: '14px',
+                padding: '0.65rem 1.15rem',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                gap: '1rem',
+                boxShadow: '0 12px 40px rgba(0, 0, 0, 0.85), 0 0 25px rgba(0, 240, 255, 0.2)'
+              }}
+            >
               {/* Left: Station Telemetry Info */}
-              <div style={{ minWidth: 0, flex: 1 }}>
+              <div className="hud-dock-info" style={{ minWidth: 0, flex: 1 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.15rem', flexWrap: 'wrap' }}>
                   <span style={{
                     color: '#00f0ff',
@@ -893,21 +962,24 @@ export const FactoryBlueprintMap = () => {
                   </span>
                 </div>
 
-                <p style={{
-                  margin: 0,
-                  fontSize: '0.8rem',
-                  color: '#cbd5e1',
-                  lineHeight: 1.4,
-                  whiteSpace: 'nowrap',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis'
-                }}>
+                <p 
+                  className="hud-dock-desc"
+                  style={{
+                    margin: 0,
+                    fontSize: '0.8rem',
+                    color: '#cbd5e1',
+                    lineHeight: 1.4,
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis'
+                  }}
+                >
                   {currentNode.highlight}
                 </p>
               </div>
 
               {/* Right: Sleek Action Controls */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', flexShrink: 0 }}>
+              <div className="hud-dock-controls" style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', flexShrink: 0 }}>
                 {/* Prev Button */}
                 <button
                   onClick={handlePrev}
@@ -961,6 +1033,7 @@ export const FactoryBlueprintMap = () => {
 
                 {/* Request Live Demo CTA */}
                 <button
+                  className="hud-dock-demo-btn"
                   onClick={() => openDemoModal({ solution: currentNode.name, notes: `Inquiry from Robot Tour - Station ${currentNode.stepNumber}: ${currentNode.name}` })}
                   style={{
                     backgroundColor: '#E85874',

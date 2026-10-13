@@ -148,9 +148,10 @@ export function AtplCommunitySection() {
       >
         {/* Main Grid: Left Column Text & Metrics, Right Column Team Photo Montage */}
         <div 
+          className="atpl-community-grid"
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
             gap: '3.5rem 4.5rem',
             alignItems: 'center',
             marginBottom: '3.5rem'
@@ -197,7 +198,7 @@ export function AtplCommunitySection() {
             {/* Main Headline */}
             <h2 
               style={{
-                fontSize: 'clamp(2.4rem, 4.4vw, 3.8rem)',
+                fontSize: 'clamp(2.2rem, 4.4vw, 3.8rem)',
                 fontWeight: 900,
                 color: '#0f172a',
                 lineHeight: 1.14,
@@ -211,7 +212,7 @@ export function AtplCommunitySection() {
             {/* Subtitle / Value Proposition */}
             <p 
               style={{
-                fontSize: 'clamp(1.05rem, 1.6vw, 1.22rem)',
+                fontSize: 'clamp(1rem, 1.6vw, 1.22rem)',
                 lineHeight: 1.65,
                 color: '#475569',
                 marginBottom: '2rem',
@@ -260,6 +261,7 @@ export function AtplCommunitySection() {
 
             {/* Social Proof Laurel Wreath Metrics (Exact Zoho Community Style) */}
             <div 
+              className="atpl-laurel-metrics"
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -271,12 +273,12 @@ export function AtplCommunitySection() {
               <LaurelWreath number="250+" label="Enterprise Clients" />
               
               {/* Vertical divider */}
-              <div style={{ width: '1px', height: '42px', backgroundColor: '#cbd5e1' }} />
+              <div className="atpl-laurel-divider" style={{ width: '1px', height: '42px', backgroundColor: '#cbd5e1' }} />
               
               <LaurelWreath number="35+ Years" label="Domain Legacy" />
 
               {/* Vertical divider */}
-              <div style={{ width: '1px', height: '42px', backgroundColor: '#cbd5e1' }} />
+              <div className="atpl-laurel-divider" style={{ width: '1px', height: '42px', backgroundColor: '#cbd5e1' }} />
 
               <LaurelWreath number="6 Hubs" label="Pan-India Branches" />
             </div>
@@ -463,6 +465,7 @@ export function AtplCommunitySection() {
 
             {/* Floating Tag Card Top-Right */}
             <div 
+              className="atpl-community-tag-tr"
               style={{
                 position: 'absolute',
                 top: '45px',
@@ -493,6 +496,7 @@ export function AtplCommunitySection() {
 
             {/* Floating Tag Card Bottom-Left */}
             <div 
+              className="atpl-community-tag-bl"
               style={{
                 position: 'absolute',
                 bottom: '15px',
@@ -531,6 +535,7 @@ export function AtplCommunitySection() {
         >
           <form 
             onSubmit={handleSearchSubmit}
+            className="atpl-search-form"
             style={{
               display: 'flex',
               alignItems: 'center',
@@ -549,6 +554,7 @@ export function AtplCommunitySection() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search solutions, AIDC hardware, WMS modules, or client case studies..."
+              className="atpl-search-input"
               style={{
                 flex: 1,
                 border: 'none',
@@ -562,6 +568,7 @@ export function AtplCommunitySection() {
 
             <button
               type="submit"
+              className="atpl-search-btn"
               style={{
                 backgroundColor: '#0071ba',
                 color: '#ffffff',
@@ -653,6 +660,39 @@ export function AtplCommunitySection() {
           }
           100% {
             transform: translateY(-8px);
+          }
+        }
+        @media (max-width: 768px) {
+          .atpl-community-grid {
+            grid-template-columns: 1fr !important;
+            gap: 2.5rem !important;
+          }
+          .atpl-laurel-metrics {
+            gap: 1.25rem !important;
+            justify-content: center !important;
+          }
+          .atpl-laurel-divider {
+            display: none !important;
+          }
+          .atpl-community-tag-tr {
+            right: 8px !important;
+            top: 12px !important;
+            padding: 0.4rem 0.7rem !important;
+          }
+          .atpl-community-tag-bl {
+            left: 8px !important;
+            bottom: 12px !important;
+            padding: 0.4rem 0.7rem !important;
+          }
+          .atpl-search-form {
+            padding: 0.35rem 0.5rem 0.35rem 1rem !important;
+          }
+          .atpl-search-input {
+            font-size: 0.88rem !important;
+          }
+          .atpl-search-btn {
+            padding: 0.55rem 1.1rem !important;
+            font-size: 0.84rem !important;
           }
         }
       `}</style>
