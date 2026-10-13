@@ -247,10 +247,11 @@ export const FactoryBlueprintMap = () => {
       style={{ 
         backgroundColor: '#040914', 
         color: '#ffffff',
-        paddingTop: '2.5rem',
-        paddingBottom: '3rem',
+        paddingTop: 'clamp(0.35rem, 0.8vh, 0.65rem)',
+        paddingBottom: 'clamp(0.35rem, 0.8vh, 0.65rem)',
         position: 'relative',
-        overflow: 'hidden'
+        overflow: 'hidden',
+        boxSizing: 'border-box'
       }}
     >
       {/* Background Decorative Ambient Radial Glow */}
@@ -266,114 +267,173 @@ export const FactoryBlueprintMap = () => {
         zIndex: 0
       }} />
 
-      <div className="container" style={{ maxWidth: '1400px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
+      <div className="container" style={{ maxWidth: '1440px', margin: '0 auto', position: 'relative', zIndex: 1, padding: '0 0.85rem' }}>
         
         {/* =====================================================================
-            1. MINIMALIST, HIGH-IMPACT HEADER (Clean & Uncluttered)
+            1. COMPACT 1-FOLD HEADER (Fits Entire Tour in One Screen View)
            ===================================================================== */}
-        <div style={{ textAlign: 'center', marginBottom: '1.25rem' }}>
-          <div style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '0.45rem',
-            background: 'rgba(0, 240, 255, 0.08)',
-            border: '1px solid rgba(0, 240, 255, 0.35)',
-            borderRadius: '999px',
-            padding: '0.22rem 0.85rem',
-            marginBottom: '0.55rem',
-            boxShadow: '0 0 16px rgba(0, 240, 255, 0.2)'
-          }}>
-            <span style={{
-              width: '7px',
-              height: '7px',
-              borderRadius: '50%',
-              backgroundColor: '#00f0ff',
-              boxShadow: '0 0 8px #00f0ff',
-              display: 'inline-block',
-              animation: 'sonarPingDot 1.6s infinite'
-            }} />
-            <span style={{
-              fontFamily: 'var(--font-mono)',
-              fontSize: '0.74rem',
-              fontWeight: 800,
-              color: '#00f0ff',
-              letterSpacing: '0.08em',
-              textTransform: 'uppercase'
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: '0.5rem',
+          marginBottom: '0.45rem',
+          flexShrink: 0
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', flexWrap: 'wrap' }}>
+            <div style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.4rem',
+              background: 'rgba(0, 240, 255, 0.08)',
+              border: '1px solid rgba(0, 240, 255, 0.35)',
+              borderRadius: '999px',
+              padding: '0.15rem 0.6rem',
+              boxShadow: '0 0 12px rgba(0, 240, 255, 0.2)'
             }}>
-              ARCHIE AI • AUTONOMOUS FACTORY TOUR
-            </span>
+              <span style={{
+                width: '6px',
+                height: '6px',
+                borderRadius: '50%',
+                backgroundColor: '#00f0ff',
+                boxShadow: '0 0 6px #00f0ff',
+                display: 'inline-block',
+                animation: 'sonarPingDot 1.6s infinite'
+              }} />
+              <span style={{
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.68rem',
+                fontWeight: 800,
+                color: '#00f0ff',
+                letterSpacing: '0.06em',
+                textTransform: 'uppercase'
+              }}>
+                ARCHIE AI • SMART FACTORY TOUR
+              </span>
+            </div>
+
+            <h2 style={{
+              fontFamily: 'var(--font-display)',
+              fontSize: 'clamp(1.05rem, 1.8vw, 1.35rem)',
+              fontWeight: 800,
+              color: '#ffffff',
+              letterSpacing: '-0.02em',
+              margin: 0,
+              lineHeight: 1.2
+            }}>
+              12-Station Autonomous <span className="gradient-text">Robot Flight Inspection</span>
+            </h2>
           </div>
 
-          <h2 style={{
-            fontFamily: 'var(--font-display)',
-            fontSize: 'clamp(1.6rem, 3.2vw, 2.4rem)',
-            fontWeight: 800,
-            color: '#ffffff',
-            letterSpacing: '-0.02em',
-            margin: '0 0 0.4rem 0',
-            lineHeight: 1.2
-          }}>
-            Watch Archie AI Tour the <span className="gradient-text">Connected Smart Factory</span>
-          </h2>
-
-          <p style={{
+          <div style={{
+            fontSize: '0.76rem',
             color: '#94a3b8',
-            fontSize: '0.92rem',
-            maxWidth: '680px',
-            margin: '0 auto',
-            lineHeight: 1.5
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.5rem',
+            flexShrink: 0
           }}>
-            Archie navigates through all 12 manufacturing, WMS, RFID, and AI machine vision stations. Click any station beacon to fly Archie there instantly.
-          </p>
+            <span style={{ display: 'inline-block' }}>Click beacon (1–12) to fly Archie</span>
+            <span style={{ color: '#00f0ff' }}>•</span>
+            <span style={{ color: '#00f0ff', fontFamily: 'var(--font-mono)', fontSize: '0.72rem', fontWeight: 800 }}>
+              STATION {currentIndex + 1}/12
+            </span>
+          </div>
         </div>
 
         {/* =====================================================================
-            2. INTERACTIVE ANIMATION STAGE & SIDE TELEMETRY COMMAND PANEL
+            2. INTERACTIVE ANIMATION STAGE & SIDE TELEMETRY COMMAND PANEL (Single Fold)
            ===================================================================== */}
         <div className="hud-tour-grid">
           {/* Keyframe Animations & Responsive Layout Styles */}
           <style>{`
+            #factory-blueprint-section {
+              box-sizing: border-box;
+            }
             .hud-tour-grid {
               display: grid;
               grid-template-columns: 1fr;
-              gap: 1.25rem;
+              gap: 1rem;
               align-items: stretch;
             }
             @media (min-width: 1024px) {
+              #factory-blueprint-section {
+                height: calc(100vh - 100px);
+                min-height: 520px;
+                max-height: 700px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+              }
+              #factory-blueprint-section > .container {
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+              }
               .hud-tour-grid {
-                grid-template-columns: minmax(0, 1.75fr) minmax(320px, 360px);
-                gap: 1.5rem;
+                grid-template-columns: minmax(0, 1.85fr) minmax(320px, 355px);
+                gap: 1rem;
+                flex: 1;
+                min-height: 0;
+                height: 100%;
+              }
+              .hud-factory-viewport {
+                position: relative;
+                width: 100%;
+                height: 100%;
+                min-height: 0;
+                overflow: hidden;
+                background-color: #030816;
+                border-radius: 14px;
+                border: 1.5px solid rgba(0, 240, 255, 0.35);
+                box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85), 0 0 30px rgba(0, 240, 255, 0.12);
+              }
+              .hud-side-panel {
+                height: 100%;
+                min-height: 0;
+                max-height: 100%;
               }
             }
-            .hud-factory-viewport {
-              position: relative;
-              width: 100%;
-              aspect-ratio: 1376 / 768;
-              overflow: hidden;
-              background-color: #030816;
-              border-radius: 16px;
-              border: 1.5px solid rgba(0, 240, 255, 0.35);
-              box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9), 0 0 35px rgba(0, 240, 255, 0.15);
-            }
-            @media (max-width: 768px) {
+            @media (max-width: 1023px) {
               .hud-factory-viewport {
+                position: relative;
+                width: 100%;
                 aspect-ratio: 16 / 9.5 !important;
-                min-height: 270px !important;
+                max-height: 48vh !important;
+                min-height: 230px !important;
+                overflow: hidden;
+                background-color: #030816;
+                border-radius: 12px;
+                border: 1.5px solid rgba(0, 240, 255, 0.35);
               }
             }
             .hud-side-panel {
               background-color: #050b18;
               border: 1.5px solid rgba(0, 240, 255, 0.3);
-              border-radius: 16px;
-              padding: 1.25rem;
+              border-radius: 14px;
+              padding: 0.75rem 0.85rem;
               display: flex;
               flex-direction: column;
-              justifyContent: space-between;
-              gap: 1rem;
-              box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 25px rgba(0, 240, 255, 0.1);
+              justify-content: space-between;
+              gap: 0.45rem;
+              box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7), 0 0 20px rgba(0, 240, 255, 0.08);
               position: relative;
-              overflow: hidden;
+              overflow-y: auto;
               box-sizing: border-box;
+            }
+            .hud-side-panel::-webkit-scrollbar {
+              width: 4px;
+            }
+            .hud-side-panel::-webkit-scrollbar-track {
+              background: rgba(3, 10, 24, 0.4);
+            }
+            .hud-side-panel::-webkit-scrollbar-thumb {
+              background: rgba(0, 240, 255, 0.35);
+              border-radius: 4px;
+            }
+            .hud-side-panel::-webkit-scrollbar-thumb:hover {
+              background: #00f0ff;
             }
             @keyframes archieFloating {
               0%, 100% {
@@ -424,14 +484,14 @@ export const FactoryBlueprintMap = () => {
               transform: translate(-50%, -50%) scale(1.25);
             }
             .hud-pin-disc {
-              width: 32px;
-              height: 32px;
+              width: 30px;
+              height: 30px;
               border-radius: 50%;
               display: flex;
               align-items: center;
-              justify-content: center;
+              justifyContent: center;
               font-family: var(--font-display, sans-serif);
-              font-size: 0.82rem;
+              font-size: 0.8rem;
               font-weight: 900;
               color: #ffffff;
               background: rgba(4, 13, 29, 0.88);
@@ -654,7 +714,7 @@ export const FactoryBlueprintMap = () => {
                   style={{
                     position: 'absolute',
                     bottom: '100%',
-                    marginBottom: '10px',
+                    marginBottom: '8px',
                     left: currentNode.x > 68 ? 'auto' : currentNode.x < 32 ? '0' : '50%',
                     right: currentNode.x > 68 ? '0' : 'auto',
                     transform: currentNode.x > 68 || currentNode.x < 32 ? 'none' : 'translateX(-50%)',
@@ -662,10 +722,10 @@ export const FactoryBlueprintMap = () => {
                     backdropFilter: 'blur(12px)',
                     border: '1px solid #00f0ff',
                     borderRadius: '999px',
-                    padding: '0.22rem 0.75rem',
+                    padding: '0.2rem 0.65rem',
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '0.4rem',
+                    gap: '0.35rem',
                     boxShadow: '0 8px 25px rgba(0, 0, 0, 0.8), 0 0 15px rgba(0, 240, 255, 0.45)',
                     whiteSpace: 'nowrap',
                     zIndex: 36
@@ -680,7 +740,7 @@ export const FactoryBlueprintMap = () => {
                   }} />
                   <span style={{
                     fontFamily: 'var(--font-mono)',
-                    fontSize: '0.72rem',
+                    fontSize: '0.7rem',
                     fontWeight: 800,
                     color: '#ffffff',
                     letterSpacing: '0.04em'
@@ -691,23 +751,23 @@ export const FactoryBlueprintMap = () => {
 
                 {/* Archie Mascot Character Avatar Body */}
                 <div style={{
-                  width: '62px',
-                  height: '62px',
+                  width: '56px',
+                  height: '56px',
                   borderRadius: '50%',
                   background: 'radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.98) 0%, rgba(224, 242, 254, 0.92) 60%, rgba(0, 240, 255, 0.5) 100%)',
                   border: '2.5px solid #00f0ff',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  boxShadow: '0 0 35px #00f0ff, 0 0 25px rgba(232, 88, 116, 0.65)'
+                  boxShadow: '0 0 30px #00f0ff, 0 0 20px rgba(232, 88, 116, 0.6)'
                 }}>
-                  <AtplRobotAvatar size={46} glow={true} />
+                  <AtplRobotAvatar size={40} glow={true} />
                 </div>
 
                 {/* Holographic Propulsion Thruster Aura Under Archie */}
                 <div style={{
-                  width: '32px',
-                  height: '7px',
+                  width: '28px',
+                  height: '6px',
                   borderRadius: '50%',
                   background: 'radial-gradient(ellipse, #00f0ff 0%, #E85874 55%, transparent 75%)',
                   marginTop: '-3px',
@@ -772,8 +832,7 @@ export const FactoryBlueprintMap = () => {
           </div>
 
           {/* ===================================================================
-              2. DEDICATED SIDE TELEMETRY & DESCRIPTION CONTROL PANEL
-                 (Cleanly placed on the side - zero obstruction of factory floor)
+              2. DEDICATED SIDE TELEMETRY & DESCRIPTION CONTROL PANEL (Compact Single Fold)
              =================================================================== */}
           <div className="hud-side-panel">
             {/* Ambient cyber gradient in panel */}
@@ -781,8 +840,8 @@ export const FactoryBlueprintMap = () => {
               position: 'absolute',
               top: 0,
               right: 0,
-              width: '180px',
-              height: '180px',
+              width: '160px',
+              height: '160px',
               background: 'radial-gradient(circle at top right, rgba(0, 240, 255, 0.12) 0%, transparent 70%)',
               pointerEvents: 'none'
             }} />
@@ -793,51 +852,51 @@ export const FactoryBlueprintMap = () => {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
-                marginBottom: '0.85rem',
-                paddingBottom: '0.75rem',
+                marginBottom: '0.55rem',
+                paddingBottom: '0.5rem',
                 borderBottom: '1px solid rgba(255, 255, 255, 0.08)'
               }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
                   <span style={{
-                    width: '8px',
-                    height: '8px',
+                    width: '7px',
+                    height: '7px',
                     borderRadius: '50%',
                     backgroundColor: isAutoTour ? '#10b981' : '#f59e0b',
-                    boxShadow: isAutoTour ? '0 0 8px #10b981' : '0 0 8px #f59e0b',
+                    boxShadow: isAutoTour ? '0 0 7px #10b981' : '0 0 7px #f59e0b',
                     animation: isAutoTour ? 'sonarPingDot 1.6s infinite' : 'none'
                   }} />
                   <span style={{
                     fontFamily: 'var(--font-mono)',
-                    fontSize: '0.72rem',
+                    fontSize: '0.68rem',
                     fontWeight: 800,
                     color: '#00f0ff',
-                    letterSpacing: '0.06em'
+                    letterSpacing: '0.05em'
                   }}>
-                    {isAutoTour ? 'AUTO TOUR ACTIVE' : 'MANUAL MODE'}
+                    {isAutoTour ? 'AUTO TOUR' : 'MANUAL'}
                   </span>
                 </div>
 
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
                   <button
                     onClick={() => setIsAutoTour(!isAutoTour)}
                     style={{
                       backgroundColor: isAutoTour ? 'rgba(232, 88, 116, 0.2)' : 'rgba(0, 240, 255, 0.15)',
                       border: isAutoTour ? '1px solid #E85874' : '1px solid #00f0ff',
                       color: '#ffffff',
-                      borderRadius: '6px',
-                      padding: '0.25rem 0.6rem',
-                      fontSize: '0.72rem',
+                      borderRadius: '5px',
+                      padding: '0.2rem 0.55rem',
+                      fontSize: '0.7rem',
                       fontWeight: 800,
                       cursor: 'pointer',
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '0.3rem',
-                      minHeight: '32px',
+                      gap: '0.25rem',
+                      minHeight: '28px',
                       transition: 'all 0.15s ease'
                     }}
                     title={isAutoTour ? "Pause automated tour" : "Resume automated tour"}
                   >
-                    {isAutoTour ? <Pause size={11} color="#E85874" /> : <Play size={11} color="#00f0ff" />}
+                    {isAutoTour ? <Pause size={10} color="#E85874" /> : <Play size={10} color="#00f0ff" />}
                     <span>{isAutoTour ? 'Pause' : 'Play'}</span>
                   </button>
 
@@ -847,49 +906,49 @@ export const FactoryBlueprintMap = () => {
                       backgroundColor: 'rgba(0, 113, 186, 0.25)',
                       border: '1px solid rgba(0, 240, 255, 0.5)',
                       color: '#00f0ff',
-                      borderRadius: '6px',
-                      padding: '0.25rem 0.6rem',
-                      fontSize: '0.72rem',
+                      borderRadius: '5px',
+                      padding: '0.2rem 0.55rem',
+                      fontSize: '0.7rem',
                       fontWeight: 800,
                       cursor: 'pointer',
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '0.3rem',
-                      minHeight: '32px',
+                      gap: '0.25rem',
+                      minHeight: '28px',
                       transition: 'all 0.15s ease'
                     }}
                     title="Switch to 3D Digital Twin View"
                   >
-                    <Layers size={11} />
-                    <span>3D Mode</span>
+                    <Layers size={10} />
+                    <span>3D</span>
                   </button>
                 </div>
               </div>
 
               {/* Station Identity & Badges */}
-              <div style={{ marginBottom: '0.75rem' }}>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.5rem', marginBottom: '0.35rem' }}>
+              <div style={{ marginBottom: '0.35rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.4rem', marginBottom: '0.2rem' }}>
                   <span style={{
                     backgroundColor: 'rgba(232, 88, 116, 0.2)',
                     border: '1px solid #E85874',
                     color: '#ffffff',
-                    padding: '0.18rem 0.55rem',
-                    borderRadius: '6px',
+                    padding: '0.12rem 0.4rem',
+                    borderRadius: '4px',
                     fontFamily: 'var(--font-mono)',
-                    fontSize: '0.72rem',
+                    fontSize: '0.65rem',
                     fontWeight: 800,
                     letterSpacing: '0.04em'
                   }}>
-                    STATION {currentIndex + 1} OF 12
+                    STATION {currentIndex + 1} / 12
                   </span>
 
                   <span style={{
                     backgroundColor: 'rgba(16, 185, 129, 0.15)',
                     border: '1px solid rgba(16, 185, 129, 0.4)',
                     color: '#34d399',
-                    fontSize: '0.68rem',
+                    fontSize: '0.62rem',
                     fontWeight: 800,
-                    padding: '0.15rem 0.5rem',
+                    padding: '0.10rem 0.4rem',
                     borderRadius: '4px'
                   }}>
                     ⚡ {currentNode.roiMetric}
@@ -897,26 +956,26 @@ export const FactoryBlueprintMap = () => {
                 </div>
 
                 <h3 style={{
-                  margin: '0 0 0.2rem 0',
-                  fontSize: '1.15rem',
+                  margin: '0 0 0.1rem 0',
+                  fontSize: '0.96rem',
                   fontWeight: 800,
                   color: '#ffffff',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '0.45rem',
+                  gap: '0.35rem',
                   fontFamily: 'var(--font-display, sans-serif)',
-                  letterSpacing: '0.01em'
+                  lineHeight: 1.15
                 }}>
                   <span>{currentNode.icon}</span>
                   <span>{currentNode.name}</span>
                 </h3>
 
                 <div style={{
-                  fontSize: '0.72rem',
+                  fontSize: '0.65rem',
                   color: '#00f0ff',
                   fontWeight: 700,
                   textTransform: 'uppercase',
-                  letterSpacing: '0.05em'
+                  letterSpacing: '0.04em'
                 }}>
                   {currentNode.category}
                 </div>
@@ -925,12 +984,13 @@ export const FactoryBlueprintMap = () => {
               {/* Station Image Thumbnail & Tagline */}
               <div style={{
                 position: 'relative',
-                borderRadius: '10px',
+                borderRadius: '8px',
                 overflow: 'hidden',
-                height: '115px',
+                height: 'clamp(56px, 8vh, 70px)',
                 backgroundColor: '#020617',
                 border: '1px solid rgba(0, 240, 255, 0.25)',
-                marginBottom: '0.75rem'
+                marginBottom: '0.35rem',
+                flexShrink: 0
               }}>
                 <img
                   src={currentNode.image}
@@ -950,54 +1010,54 @@ export const FactoryBlueprintMap = () => {
                 <div style={{
                   position: 'absolute',
                   inset: 0,
-                  background: 'linear-gradient(180deg, transparent 35%, rgba(3, 10, 24, 0.94) 100%)',
+                  background: 'linear-gradient(180deg, transparent 25%, rgba(3, 10, 24, 0.94) 100%)',
                   pointerEvents: 'none'
                 }} />
                 <div style={{
                   position: 'absolute',
-                  bottom: '7px',
-                  left: '10px',
-                  right: '10px',
-                  fontSize: '0.72rem',
+                  bottom: '4px',
+                  left: '6px',
+                  right: '6px',
+                  fontSize: '0.65rem',
                   fontWeight: 700,
                   color: '#ffffff',
-                  lineHeight: 1.3,
+                  lineHeight: 1.2,
                   textShadow: '0 2px 8px rgba(0,0,0,0.95)'
                 }}>
                   {currentNode.tagline}
                 </div>
               </div>
 
-              {/* Full Uncramped Description Box */}
+              {/* Full Description Box */}
               <div style={{
                 backgroundColor: 'rgba(255, 255, 255, 0.03)',
                 border: '1px solid rgba(255, 255, 255, 0.07)',
-                borderRadius: '10px',
-                padding: '0.65rem 0.8rem',
-                marginBottom: '0.85rem'
+                borderRadius: '7px',
+                padding: '0.35rem 0.55rem',
+                marginBottom: '0.35rem'
               }}>
-                <div style={{ fontSize: '0.66rem', fontWeight: 800, textTransform: 'uppercase', color: '#94a3b8', letterSpacing: '0.05em', marginBottom: '0.2rem' }}>
-                  OPERATIONAL TELEMETRY &amp; IMPACT
+                <div style={{ fontSize: '0.58rem', fontWeight: 800, textTransform: 'uppercase', color: '#94a3b8', letterSpacing: '0.05em', marginBottom: '0.1rem' }}>
+                  OPERATIONAL IMPACT
                 </div>
                 <p style={{
                   margin: 0,
-                  fontSize: '0.8rem',
+                  fontSize: '0.72rem',
                   color: '#e2e8f0',
-                  lineHeight: 1.45
+                  lineHeight: 1.34
                 }}>
                   {currentNode.highlight}
                 </p>
               </div>
 
               {/* 12 Stations Quick-Selector Grid */}
-              <div style={{ marginBottom: '0.5rem' }}>
-                <div style={{ fontSize: '0.66rem', fontWeight: 800, textTransform: 'uppercase', color: '#94a3b8', letterSpacing: '0.05em', marginBottom: '0.35rem' }}>
+              <div style={{ marginBottom: '0.25rem' }}>
+                <div style={{ fontSize: '0.58rem', fontWeight: 800, textTransform: 'uppercase', color: '#94a3b8', letterSpacing: '0.05em', marginBottom: '0.15rem' }}>
                   JUMP TO STATION (1–12)
                 </div>
                 <div style={{
                   display: 'grid',
                   gridTemplateColumns: 'repeat(6, 1fr)',
-                  gap: '0.35rem'
+                  gap: '0.22rem'
                 }}>
                   {ATPL_FACTORY_NODES.map((node, i) => (
                     <button
@@ -1005,19 +1065,19 @@ export const FactoryBlueprintMap = () => {
                       onClick={() => handleStationClick(i)}
                       title={`${node.stepNumber}. ${node.name}`}
                       style={{
-                        height: '32px',
-                        borderRadius: '6px',
+                        height: '25px',
+                        borderRadius: '4px',
                         backgroundColor: currentIndex === i ? '#E85874' : 'rgba(255, 255, 255, 0.06)',
                         border: currentIndex === i ? '1.5px solid #ffffff' : '1px solid rgba(255, 255, 255, 0.12)',
                         color: '#ffffff',
-                        fontSize: '0.74rem',
+                        fontSize: '0.68rem',
                         fontWeight: 800,
                         cursor: 'pointer',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
                         transition: 'all 0.15s ease',
-                        boxShadow: currentIndex === i ? '0 0 12px #E85874' : 'none'
+                        boxShadow: currentIndex === i ? '0 0 10px #E85874' : 'none'
                       }}
                     >
                       {node.stepNumber}
@@ -1031,11 +1091,12 @@ export const FactoryBlueprintMap = () => {
             <div style={{
               display: 'flex',
               flexDirection: 'column',
-              gap: '0.5rem',
-              paddingTop: '0.65rem',
-              borderTop: '1px solid rgba(255, 255, 255, 0.08)'
+              gap: '0.3rem',
+              paddingTop: '0.35rem',
+              borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+              flexShrink: 0
             }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.3rem' }}>
                 <button
                   onClick={handlePrev}
                   aria-label="Previous station"
@@ -1043,22 +1104,22 @@ export const FactoryBlueprintMap = () => {
                     backgroundColor: 'rgba(255, 255, 255, 0.08)',
                     border: '1px solid rgba(255, 255, 255, 0.2)',
                     color: '#ffffff',
-                    borderRadius: '8px',
-                    padding: '0.55rem',
-                    fontSize: '0.82rem',
+                    borderRadius: '6px',
+                    padding: '0.35rem',
+                    fontSize: '0.74rem',
                     fontWeight: 800,
                     cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    gap: '0.3rem',
-                    minHeight: '44px',
+                    gap: '0.25rem',
+                    minHeight: '36px',
                     transition: 'all 0.15s ease'
                   }}
                   onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.18)'}
                   onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.08)'}
                 >
-                  <ChevronLeft size={16} />
+                  <ChevronLeft size={14} />
                   <span>Prev</span>
                 </button>
 
@@ -1069,24 +1130,24 @@ export const FactoryBlueprintMap = () => {
                     backgroundColor: 'rgba(0, 113, 186, 0.4)',
                     border: '1.2px solid #00f0ff',
                     color: '#ffffff',
-                    borderRadius: '8px',
-                    padding: '0.55rem',
-                    fontSize: '0.82rem',
+                    borderRadius: '6px',
+                    padding: '0.35rem',
+                    fontSize: '0.74rem',
                     fontWeight: 800,
                     cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    gap: '0.3rem',
-                    minHeight: '44px',
+                    gap: '0.25rem',
+                    minHeight: '36px',
                     transition: 'all 0.15s ease',
-                    boxShadow: '0 0 12px rgba(0, 113, 186, 0.4)'
+                    boxShadow: '0 0 10px rgba(0, 113, 186, 0.4)'
                   }}
                   onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(0, 113, 186, 0.7)'}
                   onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'rgba(0, 113, 186, 0.4)'}
                 >
                   <span>Next</span>
-                  <ChevronRight size={16} />
+                  <ChevronRight size={14} />
                 </button>
               </div>
 
@@ -1096,24 +1157,24 @@ export const FactoryBlueprintMap = () => {
                   backgroundColor: '#E85874',
                   border: 'none',
                   color: '#ffffff',
-                  borderRadius: '8px',
-                  padding: '0.65rem 1rem',
-                  fontSize: '0.86rem',
+                  borderRadius: '6px',
+                  padding: '0.45rem 0.75rem',
+                  fontSize: '0.78rem',
                   fontWeight: 800,
                   cursor: 'pointer',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  gap: '0.45rem',
-                  minHeight: '44px',
-                  boxShadow: '0 4px 18px rgba(232, 88, 116, 0.5)',
+                  gap: '0.35rem',
+                  minHeight: '36px',
+                  boxShadow: '0 4px 16px rgba(232, 88, 116, 0.45)',
                   transition: 'all 0.15s ease',
                   width: '100%'
                 }}
                 onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#d44360'}
                 onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#E85874'}
               >
-                <Sparkles size={16} />
+                <Sparkles size={14} />
                 <span>Explore Live Station Demo</span>
               </button>
             </div>
