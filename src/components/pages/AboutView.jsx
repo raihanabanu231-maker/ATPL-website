@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import { ATPL_COMPANY_INFO, ATPL_CLIENTS } from '../../data/initialAdminData';
 import { ClientLogo, REAL_CLIENTS_DATA } from '../common/ClientBrandLogos';
+import { PageHeroBackdrop, HeroFilterPill } from '../common/PageHeroBackdrop';
 
 export const AboutView = () => {
   const { openDemoModal, setCurrentView } = useApp();
@@ -94,66 +95,31 @@ export const AboutView = () => {
   ];
 
   return (
-    <div className="section" style={{ paddingTop: '4rem', paddingBottom: '5rem' }}>
+    <div className="section" style={{ paddingTop: '4rem', paddingBottom: '5rem', backgroundColor: 'transparent' }}>
       <div className="container">
         
-        {/* Header */}
-        <div style={{ textAlign: 'center', maxWidth: '850px', margin: '0 auto 3.5rem auto' }}>
-          <div style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '0.4rem',
-            backgroundColor: 'rgba(232, 88, 116, 0.1)',
-            border: '1px solid rgba(232, 88, 116, 0.35)',
-            color: '#E85874',
-            padding: '0.35rem 0.9rem',
-            borderRadius: '999px',
-            fontSize: '0.78rem',
-            fontWeight: 700,
-            letterSpacing: '0.05em',
-            marginBottom: '0.75rem'
-          }}>
-            <Sparkles size={14} color="#E85874" />
-            <span>ARCHERY TECHNOCRATS PRIVATE LIMITED</span>
-          </div>
-          <h1 style={{ fontSize: '2.6rem', color: '#ffffff', marginBottom: '1rem', fontWeight: 800 }}>
-            Target Perfection. <span className="gradient-text">Powering Digital Transformation.</span>
-          </h1>
-          <p style={{ color: '#94a3b8', fontSize: '1.05rem', lineHeight: 1.65, marginBottom: '2.25rem' }}>
-            Founded by industry veterans with 35+ years of combined experience in AIDC, IIoT, and enterprise software. Operating 6 branches across India with 7+ years of consistent, bootstrapped corporate growth.
-          </p>
-
-          {/* Submenu Topic Pills */}
-          <div style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            gap: '0.65rem',
-            justifyContent: 'center',
-            maxWidth: '900px',
-            margin: '0 auto'
-          }}>
-            {topics.map(t => (
-              <button
-                key={t.id}
-                onClick={() => scrollToSection(t.id)}
-                style={{
-                  backgroundColor: activeTopic === t.id ? '#E85874' : 'rgba(255, 255, 255, 0.05)',
-                  border: activeTopic === t.id ? '2px solid #E85874' : '1px solid rgba(255, 255, 255, 0.15)',
-                  color: '#ffffff',
-                  padding: '0.55rem 1.15rem',
-                  borderRadius: '10px',
-                  fontSize: '0.88rem',
-                  fontWeight: activeTopic === t.id ? 700 : 500,
-                  cursor: 'pointer',
-                  transition: 'all 0.2s ease',
-                  boxShadow: activeTopic === t.id ? '0 4px 15px rgba(232, 88, 116, 0.45)' : 'none'
-                }}
-              >
-                {t.label}
-              </button>
-            ))}
-          </div>
-        </div>
+        {/* Dynamic Radiant Page Hero Backdrop */}
+        <PageHeroBackdrop
+          badgeIcon={Sparkles}
+          badgeText="ARCHERY TECHNOCRATS PRIVATE LIMITED"
+          badgeColor="#8b5cf6"
+          accentColor="#8b5cf6"
+          secondaryGlow="#E85874"
+          systemTag="[ 35+ YRS COMBINED LEADERSHIP // 6 HUBS ]"
+          title="Target Perfection."
+          highlightText="Powering Digital Transformation."
+          description="Founded by industry veterans with 35+ years of combined experience in AIDC, IIoT, and enterprise software. Operating 6 branches across India with 7+ years of consistent, bootstrapped corporate growth."
+        >
+          {topics.map(t => (
+            <HeroFilterPill
+              key={t.id}
+              active={activeTopic === t.id}
+              onClick={() => scrollToSection(t.id)}
+              label={t.label}
+              accentColor="#8b5cf6"
+            />
+          ))}
+        </PageHeroBackdrop>
 
         {/* Vision & Mission Grid (Official from Pitch Deck) */}
         <div id="vision-mission" className="grid-2" style={{ gap: '2rem', marginBottom: '4rem', marginTop: '2.5rem', scrollMarginTop: '6rem' }}>

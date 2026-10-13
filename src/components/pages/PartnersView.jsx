@@ -33,6 +33,7 @@ import {
   CipherLabLogo,
   NewlandLogo
 } from '../common/PartnerLogos';
+import { PageHeroBackdrop, HeroFilterPill } from '../common/PageHeroBackdrop';
 
 export const PartnersView = () => {
   const { openDemoModal, setCurrentView } = useApp();
@@ -231,93 +232,39 @@ export const PartnersView = () => {
     : partnerCategories.filter(c => c.id === activeCategory);
 
   return (
-    <div style={{ backgroundColor: '#060b14', color: '#ffffff', minHeight: '100vh', paddingBottom: '6rem' }}>
+    <div style={{ backgroundColor: 'transparent', color: '#ffffff', minHeight: '100vh', paddingBottom: '6rem', paddingTop: '4rem' }}>
       
-      {/* Hero Header */}
-      <section style={{
-        padding: '5rem 0 3.5rem 0',
-        background: 'radial-gradient(circle at 50% 20%, rgba(0, 113, 186, 0.25) 0%, rgba(6, 11, 20, 1) 75%)',
-        borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
-        textAlign: 'center'
-      }}>
-        <div className="container">
-          <div style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '0.4rem',
-            backgroundColor: 'rgba(232, 88, 116, 0.12)',
-            border: '1px solid rgba(232, 88, 116, 0.35)',
-            color: '#E85874',
-            padding: '0.4rem 1.1rem',
-            borderRadius: '999px',
-            fontSize: '0.82rem',
-            fontWeight: 800,
-            marginBottom: '1.25rem',
-            letterSpacing: '0.05em'
-          }}>
-            <Handshake size={15} />
-            <span>OFFICIAL OEM ALLIANCES & CERTIFIED PARTNERS</span>
-          </div>
+      {/* Dynamic Radiant Page Hero Backdrop */}
+      <div className="container">
+        <PageHeroBackdrop
+          badgeIcon={Handshake}
+          badgeText="OFFICIAL OEM ALLIANCES & CERTIFIED PARTNERS"
+          badgeColor="#f59e0b"
+          accentColor="#0071ba"
+          secondaryGlow="#f59e0b"
+          systemTag="[ GLOBAL TIER-1 OEMS // GS1 STANDARDS ]"
+          title="Our Global"
+          highlightText="Partner Ecosystem"
+          description="Partnering with world-class industrial hardware OEMs, GS1 international standards bodies, and Tier-1 ERP platforms to deliver certified end-to-end automation."
+        >
+          {categories.map(cat => (
+            <HeroFilterPill
+              key={cat.id}
+              active={activeCategory === cat.id}
+              onClick={() => setActiveCategory(cat.id)}
+              label={cat.label}
+              accentColor="#f59e0b"
+            />
+          ))}
 
-          <h1 style={{
-            fontSize: 'clamp(2.4rem, 5vw, 3.6rem)',
-            fontWeight: 900,
-            letterSpacing: '-0.03em',
-            marginBottom: '1.25rem',
-            lineHeight: 1.15
-          }}>
-            Our Global <span className="gradient-text">Partner Ecosystem</span>
-          </h1>
-
-          <p style={{
-            color: '#94a3b8',
-            fontSize: 'clamp(1.05rem, 2vw, 1.25rem)',
-            maxWidth: '820px',
-            margin: '0 auto 2.25rem auto',
-            lineHeight: 1.6
-          }}>
-            Partnering with world-class industrial hardware OEMs, GS1 international standards bodies, and Tier-1 ERP platforms to deliver certified end-to-end automation.
-          </p>
-
-          {/* Submenu Topic Pills */}
-          <div style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            gap: '0.65rem',
-            justifyContent: 'center',
-            maxWidth: '860px',
-            margin: '0 auto 2.25rem auto'
-          }}>
-            {categories.map(cat => (
-              <button
-                key={cat.id}
-                onClick={() => setActiveCategory(cat.id)}
-                style={{
-                  backgroundColor: activeCategory === cat.id ? '#E85874' : 'rgba(255, 255, 255, 0.05)',
-                  border: activeCategory === cat.id ? '2px solid #E85874' : '1px solid rgba(255, 255, 255, 0.15)',
-                  color: '#ffffff',
-                  padding: '0.55rem 1.15rem',
-                  borderRadius: '10px',
-                  fontSize: '0.88rem',
-                  fontWeight: activeCategory === cat.id ? 700 : 500,
-                  cursor: 'pointer',
-                  transition: 'all 0.2s ease',
-                  boxShadow: activeCategory === cat.id ? '0 4px 15px rgba(232, 88, 116, 0.45)' : 'none'
-                }}
-              >
-                {cat.label}
-              </button>
-            ))}
-          </div>
-
-          <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+          <div style={{ width: '100%', marginTop: '1.25rem', display: 'flex', justifyContent: 'center' }}>
             <button
               onClick={() => openDemoModal({ mode: 'partner', solution: 'Partner Program Application', notes: 'Inquiry from Partners page' })}
               style={{
                 backgroundColor: '#E85874',
                 color: '#ffffff',
                 border: 'none',
-                borderRadius: '10px',
+                borderRadius: '12px',
                 padding: '0.85rem 1.8rem',
                 fontSize: '0.95rem',
                 fontWeight: 700,
@@ -325,26 +272,26 @@ export const PartnersView = () => {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '0.5rem',
-                boxShadow: '0 8px 25px rgba(232, 88, 116, 0.4)',
-                transition: 'all 0.2s ease'
+                boxShadow: '0 8px 25px rgba(232, 88, 116, 0.45)',
+                transition: 'all 0.25s ease'
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.backgroundColor = '#d44360';
                 e.currentTarget.style.transform = 'translateY(-2px)';
-                e.currentTarget.style.boxShadow = '0 12px 30px rgba(232, 88, 116, 0.55)';
+                e.currentTarget.style.boxShadow = '0 12px 30px rgba(232, 88, 116, 0.6)';
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.backgroundColor = '#E85874';
                 e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = '0 8px 25px rgba(232, 88, 116, 0.4)';
+                e.currentTarget.style.boxShadow = '0 8px 25px rgba(232, 88, 116, 0.45)';
               }}
             >
               <Handshake size={18} />
               <span>Apply for OEM / Reseller Partnership</span>
             </button>
           </div>
-        </div>
-      </section>
+        </PageHeroBackdrop>
+      </div>
 
       {/* Official Partner Logos Showcase Carousel / Grid */}
       <section style={{ padding: '3.5rem 0 1.5rem 0' }}>

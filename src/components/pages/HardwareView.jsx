@@ -18,6 +18,7 @@ import {
   ExternalLink,
   Target
 } from 'lucide-react';
+import { PageHeroBackdrop, HeroFilterPill } from '../common/PageHeroBackdrop';
 
 export const HardwareView = () => {
   const { openDemoModal } = useApp();
@@ -622,72 +623,37 @@ export const HardwareView = () => {
   };
 
   return (
-    <div className="section" style={{ paddingTop: '4rem', paddingBottom: '5rem', backgroundColor: '#060b14' }}>
+    <div className="section" style={{ paddingTop: '4rem', paddingBottom: '5rem', backgroundColor: 'transparent' }}>
       <div className="container">
         
-        {/* Header */}
-        <div style={{ textAlign: 'center', maxWidth: '850px', margin: '0 auto 2.5rem auto' }}>
-          <div style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '0.4rem',
-            backgroundColor: 'rgba(232, 88, 116, 0.1)',
-            border: '1px solid rgba(232, 88, 116, 0.35)',
-            color: '#E85874',
-            padding: '0.35rem 0.9rem',
-            borderRadius: '999px',
-            fontSize: '0.78rem',
-            fontWeight: 700,
-            letterSpacing: '0.05em',
-            marginBottom: '0.75rem'
-          }}>
-            <Sparkles size={14} color="#E85874" />
-            <span>AUTHENTIC ATPL AIDC & SENSOR HARDWARE</span>
-          </div>
-          <h1 style={{ fontSize: '2.6rem', color: '#ffffff', marginBottom: '1rem', fontWeight: 800 }}>
-            Enterprise Hardware Built for <span className="gradient-text">Demanding Factory Floors</span>
-          </h1>
-          <p style={{ color: '#94a3b8', fontSize: '1.02rem', lineHeight: 1.65, marginBottom: '2.25rem' }}>
-            Archery Technocrats designs, sources, and commissions enterprise-grade AIDC hardware engineered for 24/7 reliability in automotive foundries, sterile pharmaceutical cleanrooms, and high-velocity fulfillment centers.
-          </p>
-
-          {/* Submenu Topic Pills */}
-          <div style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            gap: '0.65rem',
-            justifyContent: 'center',
-            maxWidth: '920px',
-            margin: '0 auto'
-          }}>
-            {categories.map(cat => (
-              <button
-                key={cat.id}
-                onClick={() => {
-                  setActiveCategory(cat.id);
-                  setTimeout(() => {
-                    const el = document.getElementById('hardware-cards-grid');
-                    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                  }, 50);
-                }}
-                style={{
-                  backgroundColor: activeCategory === cat.id ? '#E85874' : 'rgba(255, 255, 255, 0.05)',
-                  border: activeCategory === cat.id ? '2px solid #E85874' : '1px solid rgba(255, 255, 255, 0.15)',
-                  color: '#ffffff',
-                  padding: '0.55rem 1.15rem',
-                  borderRadius: '10px',
-                  fontSize: '0.88rem',
-                  fontWeight: activeCategory === cat.id ? 700 : 500,
-                  cursor: 'pointer',
-                  transition: 'all 0.2s ease',
-                  boxShadow: activeCategory === cat.id ? '0 4px 15px rgba(232, 88, 116, 0.45)' : 'none'
-                }}
-              >
-                {cat.label}
-              </button>
-            ))}
-          </div>
-        </div>
+        {/* Dynamic Radiant Page Hero Backdrop */}
+        <PageHeroBackdrop
+          badgeIcon={Sparkles}
+          badgeText="AUTHENTIC ATPL AIDC & SENSOR HARDWARE"
+          badgeColor="#E85874"
+          accentColor="#E85874"
+          secondaryGlow="#00f0ff"
+          systemTag="[ SHOPFLOOR RIGS // 24/7 FACTORY TOUGH ]"
+          title="Enterprise Hardware Built for"
+          highlightText="Demanding Factory Floors"
+          description="Archery Technocrats designs, sources, and commissions enterprise-grade AIDC hardware engineered for 24/7 reliability in automotive foundries, sterile pharmaceutical cleanrooms, and high-velocity fulfillment centers."
+        >
+          {categories.map(cat => (
+            <HeroFilterPill
+              key={cat.id}
+              active={activeCategory === cat.id}
+              onClick={() => {
+                setActiveCategory(cat.id);
+                setTimeout(() => {
+                  const el = document.getElementById('hardware-cards-grid');
+                  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 50);
+              }}
+              label={cat.label}
+              accentColor="#E85874"
+            />
+          ))}
+        </PageHeroBackdrop>
 
         {/* Hardware Grid with Real Images */}
         <div id="hardware-cards-grid" style={{

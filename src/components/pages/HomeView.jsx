@@ -7,6 +7,7 @@ import { MadeInIndiaSection } from '../common/MadeInIndiaSection';
 import { CustomerStoriesCarousel } from '../common/CustomerStoriesCarousel';
 import { CoreValuesSection } from '../common/CoreValuesSection';
 import EnterpriseLeaderSection from '../common/EnterpriseLeaderSection';
+import { AtplCommunitySection } from '../common/AtplCommunitySection';
 import { 
   Boxes, 
   Radio, 
@@ -570,9 +571,9 @@ export const HomeView = () => {
       </section>
 
       {/* =========================================================================
-          5. ATPL FOR ENTERPRISE & LEADERSHIP VISION (Zoho-Style Split Section)
+          5. ATPL COMMUNITY & ENGINEERING FORCE (Exact Zoho Community Layout)
          ========================================================================= */}
-      <EnterpriseLeaderSection setCurrentView={setCurrentView} />
+      <AtplCommunitySection />
 
       {/* =========================================================================
           6. REAL CUSTOMER STORIES (Zoho-Style Cinematic Carousel Banner)

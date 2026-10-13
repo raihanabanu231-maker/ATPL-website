@@ -18,6 +18,7 @@ import {
   Smartphone,
   Printer
 } from 'lucide-react';
+import { PageHeroBackdrop, HeroFilterPill } from '../common/PageHeroBackdrop';
 
 export const SoftwareView = () => {
   const { openDemoModal } = useApp();
@@ -157,56 +158,34 @@ export const SoftwareView = () => {
     <div className="section" style={{ paddingTop: '4rem' }}>
       <div className="container">
         
-        {/* Page Header */}
-        <div style={{ textAlign: 'center', maxWidth: '820px', margin: '0 auto 2.5rem auto' }}>
-          <div className="badge badge-cyan" style={{ marginBottom: '0.75rem' }}>
-            <Sparkles size={14} />
-            <span>PROPRIETARY INDUSTRIAL SOFTWARE SUITE</span>
-          </div>
-          <h1 style={{ fontSize: '2.6rem', color: '#ffffff', marginBottom: '1rem', fontWeight: 800 }}>
-            Enterprise Software for <span className="gradient-text">Connected Smart Factories</span>
-          </h1>
-          <p style={{ color: '#94a3b8', fontSize: '1.02rem', lineHeight: 1.65, marginBottom: '2.25rem' }}>
-            Archery Technocrats builds robust, deterministic software suites bridging physical factory machinery with enterprise ERP clouds to deliver 100% data fidelity and audit compliance.
-          </p>
-
-          {/* Submenu Topic Pills */}
-          <div style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            gap: '0.65rem',
-            justifyContent: 'center',
-            maxWidth: '960px',
-            margin: '0 auto'
-          }}>
-            {categories.map(cat => (
-              <button
-                key={cat.id}
-                onClick={() => {
-                  setActiveCategory(cat.id);
-                  setTimeout(() => {
-                    const el = document.getElementById('software-cards-grid');
-                    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                  }, 50);
-                }}
-                style={{
-                  backgroundColor: activeCategory === cat.id ? '#0071ba' : 'rgba(255, 255, 255, 0.05)',
-                  border: activeCategory === cat.id ? '2px solid #0071ba' : '1px solid rgba(255, 255, 255, 0.15)',
-                  color: '#ffffff',
-                  padding: '0.55rem 1.15rem',
-                  borderRadius: '10px',
-                  fontSize: '0.88rem',
-                  fontWeight: activeCategory === cat.id ? 700 : 500,
-                  cursor: 'pointer',
-                  transition: 'all 0.2s ease',
-                  boxShadow: activeCategory === cat.id ? '0 4px 15px rgba(0, 113, 186, 0.4)' : 'none'
-                }}
-              >
-                {cat.label}
-              </button>
-            ))}
-          </div>
-        </div>
+        {/* Dynamic Radiant Page Hero Backdrop */}
+        <PageHeroBackdrop
+          badgeIcon={Sparkles}
+          badgeText="PROPRIETARY INDUSTRIAL SOFTWARE SUITE"
+          badgeColor="#00f0ff"
+          accentColor="#0071ba"
+          secondaryGlow="#00f0ff"
+          systemTag="[ SUITE ARCHITECTURE // IIoT v5.4 ]"
+          title="Enterprise Software for"
+          highlightText="Connected Smart Factories"
+          description="Archery Technocrats builds robust, deterministic software suites bridging physical factory machinery with enterprise ERP clouds to deliver 100% data fidelity and audit compliance."
+        >
+          {categories.map(cat => (
+            <HeroFilterPill
+              key={cat.id}
+              active={activeCategory === cat.id}
+              onClick={() => {
+                setActiveCategory(cat.id);
+                setTimeout(() => {
+                  const el = document.getElementById('software-cards-grid');
+                  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 50);
+              }}
+              label={cat.label}
+              accentColor="#0071ba"
+            />
+          ))}
+        </PageHeroBackdrop>
 
         {/* Software Cards */}
         <div id="software-cards-grid" style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem', marginBottom: '4rem', marginTop: '2.5rem', scrollMarginTop: '6rem' }}>
