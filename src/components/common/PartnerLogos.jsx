@@ -223,6 +223,49 @@ export const NewlandLogo = ({ height = 40 }) => (
   </svg>
 );
 
+export const Gs1Logo = ({ height = 34 }) => (
+  <svg height={height} viewBox="0 0 170 48" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ maxHeight: height, width: 'auto' }}>
+    {/* Orange GS1 Barcode Arc / Sunburst */}
+    <path d="M12 10 A 14 14 0 0 1 24 24 A 14 14 0 0 1 12 38" fill="none" stroke="#F26334" strokeWidth="4.5" strokeLinecap="round" />
+    <path d="M18 16 A 8 8 0 0 1 24 24 A 8 8 0 0 1 18 32" fill="none" stroke="#F26334" strokeWidth="3.5" strokeLinecap="round" />
+    <text x="34" y="32" fill="#002C6C" fontFamily="'Arial Black', 'Helvetica Neue', sans-serif" fontSize="28" fontWeight="900" letterSpacing="-0.5px">
+      GS1
+    </text>
+    <text x="96" y="32" fill="#F26334" fontFamily="'Arial', sans-serif" fontSize="16" fontWeight="800">
+      India
+    </text>
+  </svg>
+);
+
+export const IsoLogo = ({ height = 34 }) => (
+  <svg height={height} viewBox="0 0 180 48" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ maxHeight: height, width: 'auto' }}>
+    <rect x="2" y="4" width="40" height="40" rx="8" fill="#0071ba" />
+    <text x="22" y="31" fill="#ffffff" fontFamily="'Arial Black', sans-serif" fontSize="18" fontWeight="900" textAnchor="middle">
+      ISO
+    </text>
+    <text x="50" y="24" fill="#0f172a" fontFamily="'Arial', sans-serif" fontSize="15" fontWeight="900">
+      9001:2015
+    </text>
+    <text x="50" y="38" fill="#0071ba" fontFamily="'Arial', sans-serif" fontSize="10.5" fontWeight="700">
+      Certified QMS
+    </text>
+  </svg>
+);
+
+export const StartupIndiaLogo = ({ height = 34 }) => (
+  <svg height={height} viewBox="0 0 190 48" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ maxHeight: height, width: 'auto' }}>
+    <text x="4" y="31" fill="#E85874" fontFamily="'Arial Black', sans-serif" fontSize="21" fontWeight="900">
+      #startup
+    </text>
+    <text x="105" y="31" fill="#002855" fontFamily="'Arial Black', sans-serif" fontSize="21" fontWeight="900">
+      india
+    </text>
+    <text x="5" y="43" fill="#64748b" fontFamily="Arial, sans-serif" fontSize="8.5" fontWeight="800" letterSpacing="0.5px">
+      DPIIT GOVT. RECOGNIZED
+    </text>
+  </svg>
+);
+
 /**
  * Map of partner identifiers to components
  */
@@ -241,25 +284,38 @@ export const PARTNER_LOGOS_MAP = {
   kendo: KendoLogo,
   datalogic: DatalogicLogo,
   cipherlab: CipherLabLogo,
-  newland: NewlandLogo
+  newland: NewlandLogo,
+  gs1: Gs1Logo,
+  iso: IsoLogo,
+  startupindia: StartupIndiaLogo
 };
 
 export const ALL_PARTNER_LOGOS = [
-  { id: 'honeywell', name: 'Honeywell', component: HoneywellLogo, height: 32 },
-  { id: 'zebra', name: 'Zebra Technologies', component: ZebraLogo, height: 30 },
-  { id: 'nilfisk', name: 'Nilfisk', component: NilfiskLogo, height: 32 },
-  { id: 'soti', name: 'SOTI', component: SotiLogo, height: 30 },
-  { id: 'telesis', name: 'Telesis', component: TelesisLogo, height: 28 },
-  { id: 'bradma', name: 'Bradma', component: BradmaLogo, height: 32 },
-  { id: 'axis', name: 'Axis Communications', component: AxisLogo, height: 32 },
-  { id: 'forbesmacsa', name: 'Forbes Macsa id', component: ForbesMacsaLogo, height: 34 },
-  { id: 'tscprintronix', name: 'TSC Printronix Auto ID', component: TscPrintronixLogo, height: 30 },
-  { id: 'advantech', name: 'Advantech', component: AdvantechLogo, height: 28 },
-  { id: 'raiser', name: 'Raiser', component: RaiserLogo, height: 28 },
-  { id: 'kendo', name: 'Kendo', component: KendoLogo, height: 34 },
-  { id: 'datalogic', name: 'Datalogic', component: DatalogicLogo, height: 30 },
-  { id: 'cipherlab', name: 'CipherLab', component: CipherLabLogo, height: 28 },
-  { id: 'newland', name: 'Newland AIDC', component: NewlandLogo, height: 32 }
+  // AIDC & RFID OEMs (6)
+  { id: 'honeywell', name: 'Honeywell Scanning', component: HoneywellLogo, height: 32, category: 'aidc', categoryName: 'AIDC & RFID OEMs' },
+  { id: 'zebra', name: 'Zebra Technologies', component: ZebraLogo, height: 30, category: 'aidc', categoryName: 'AIDC & RFID OEMs' },
+  { id: 'tscprintronix', name: 'TSC Printronix Auto ID', component: TscPrintronixLogo, height: 30, category: 'aidc', categoryName: 'AIDC & RFID OEMs' },
+  { id: 'datalogic', name: 'Datalogic Scanning', component: DatalogicLogo, height: 30, category: 'aidc', categoryName: 'AIDC & RFID OEMs' },
+  { id: 'newland', name: 'Newland AIDC', component: NewlandLogo, height: 32, category: 'aidc', categoryName: 'AIDC & RFID OEMs' },
+  { id: 'cipherlab', name: 'CipherLab Mobile', component: CipherLabLogo, height: 28, category: 'aidc', categoryName: 'AIDC & RFID OEMs' },
+
+  // Robotics & Laser Traceability (5)
+  { id: 'telesis', name: 'Telesis Technologies', component: TelesisLogo, height: 28, category: 'automation', categoryName: 'Robotics & Laser Traceability' },
+  { id: 'nilfisk', name: 'Nilfisk Industrial', component: NilfiskLogo, height: 32, category: 'automation', categoryName: 'Robotics & Laser Traceability' },
+  { id: 'forbesmacsa', name: 'Forbes Macsa id', component: ForbesMacsaLogo, height: 34, category: 'automation', categoryName: 'Robotics & Laser Traceability' },
+  { id: 'bradma', name: 'Bradma Marking', component: BradmaLogo, height: 32, category: 'automation', categoryName: 'Robotics & Laser Traceability' },
+  { id: 'axis', name: 'Axis Communications', component: AxisLogo, height: 32, category: 'automation', categoryName: 'Robotics & Laser Traceability' },
+
+  // Enterprise MDM & Software (4)
+  { id: 'soti', name: 'SOTI MobiControl', component: SotiLogo, height: 30, category: 'mdm', categoryName: 'Enterprise MDM & Software' },
+  { id: 'advantech', name: 'Advantech IIoT', component: AdvantechLogo, height: 28, category: 'mdm', categoryName: 'Enterprise MDM & Software' },
+  { id: 'raiser', name: 'Raiser Robotics', component: RaiserLogo, height: 28, category: 'mdm', categoryName: 'Enterprise MDM & Software' },
+  { id: 'kendo', name: 'Kendo UI Systems', component: KendoLogo, height: 34, category: 'mdm', categoryName: 'Enterprise MDM & Software' },
+
+  // Standards & Regulatory Certifications (3)
+  { id: 'gs1', name: 'GS1 India (GS1 Global)', component: Gs1Logo, height: 32, category: 'cert', categoryName: 'Government & GS1 Standards' },
+  { id: 'iso', name: 'ISO 9001:2015 QMS', component: IsoLogo, height: 32, category: 'cert', categoryName: 'Government & GS1 Standards' },
+  { id: 'startupindia', name: 'Startup India DPIIT', component: StartupIndiaLogo, height: 30, category: 'cert', categoryName: 'Government & GS1 Standards' }
 ];
 
 export const PartnerLogo = ({ name, height = 32, className = '' }) => {
@@ -276,23 +332,55 @@ export const PartnerLogo = ({ name, height = 32, className = '' }) => {
 
 /**
  * Interactive / Responsive Logo Marquee / Showcase Grid
+ * Dynamically adapts to the selected category on the Partners page.
  */
-export const OfficialPartnersShowcase = ({ theme = 'dark' }) => {
+export const OfficialPartnersShowcase = ({ 
+  theme = 'dark', 
+  category = 'all', 
+  onSelectCategory = null 
+}) => {
   const isDark = theme === 'dark';
+
+  const displayedLogos = category === 'all'
+    ? ALL_PARTNER_LOGOS
+    : ALL_PARTNER_LOGOS.filter(p => p.category === category);
+
+  const categoryTitles = {
+    all: 'Our Official Global OEM & Standards Partners',
+    aidc: 'AIDC, Barcode & RFID OEM Alliances',
+    automation: 'Robotics, Laser Marking & Traceability Alliances',
+    mdm: 'Enterprise MDM & Industrial Software Alliances',
+    cert: 'Accredited Standards & Government Certifications'
+  };
+
+  const categoryBadgeColors = {
+    all: '#f59e0b',
+    aidc: '#0071ba',
+    automation: '#E85874',
+    mdm: '#00f0ff',
+    cert: '#009a44'
+  };
+
+  const badgeColor = categoryBadgeColors[category] || '#f59e0b';
+  const sectionTitle = categoryTitles[category] || 'Our Official Global Partners';
+
   return (
     <div style={{
       backgroundColor: isDark ? '#0a1324' : '#ffffff',
-      border: isDark ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid #e2e8f0',
+      border: isDark ? `1px solid ${badgeColor}30` : '1px solid #e2e8f0',
       borderRadius: '20px',
       padding: '2.5rem 2rem',
-      boxShadow: isDark ? '0 20px 50px rgba(0, 0, 0, 0.5)' : '0 10px 30px rgba(0, 0, 0, 0.04)'
+      boxShadow: isDark ? `0 20px 50px rgba(0, 0, 0, 0.5), 0 0 30px ${badgeColor}15` : '0 10px 30px rgba(0, 0, 0, 0.04)',
+      transition: 'border-color 0.3s ease, box-shadow 0.3s ease'
     }}>
       <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
         <span style={{
-          display: 'inline-block',
-          backgroundColor: isDark ? 'rgba(232, 88, 116, 0.15)' : 'rgba(232, 88, 116, 0.1)',
-          color: '#E85874',
-          border: '1px solid rgba(232, 88, 116, 0.3)',
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: '0.45rem',
+          backgroundColor: isDark ? `${badgeColor}20` : 'rgba(232, 88, 116, 0.1)',
+          color: badgeColor,
+          border: `1px solid ${badgeColor}50`,
           padding: '0.35rem 1rem',
           borderRadius: '999px',
           fontSize: '0.8rem',
@@ -301,7 +389,14 @@ export const OfficialPartnersShowcase = ({ theme = 'dark' }) => {
           textTransform: 'uppercase',
           marginBottom: '0.75rem'
         }}>
-          Authorized OEM Alliances & Integrations
+          <span style={{
+            width: '6px',
+            height: '6px',
+            borderRadius: '50%',
+            backgroundColor: badgeColor,
+            boxShadow: `0 0 6px ${badgeColor}`
+          }} />
+          {category === 'all' ? 'All 18 Official Brand Alliances' : `Showing ${displayedLogos.length} Verified Alliances`}
         </span>
         <h3 style={{
           fontSize: '1.8rem',
@@ -310,17 +405,25 @@ export const OfficialPartnersShowcase = ({ theme = 'dark' }) => {
           margin: 0,
           fontFamily: 'var(--font-display, sans-serif)'
         }}>
-          Our Official Global Partners
+          {sectionTitle}
         </h3>
+        <p style={{
+          color: isDark ? '#94a3b8' : '#64748b',
+          fontSize: '0.92rem',
+          marginTop: '0.5rem',
+          marginBottom: 0
+        }}>
+          Certified Tier-1 equipment integrations, direct factory hardware distribution, and SLA warranties.
+        </p>
       </div>
 
       <div style={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(170px, 1fr))',
         gap: '1.25rem',
         alignItems: 'center'
       }}>
-        {ALL_PARTNER_LOGOS.map((partner) => {
+        {displayedLogos.map((partner) => {
           const LogoComp = partner.component;
           return (
             <div
@@ -340,8 +443,8 @@ export const OfficialPartnersShowcase = ({ theme = 'dark' }) => {
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.transform = 'translateY(-4px) scale(1.03)';
-                e.currentTarget.style.boxShadow = '0 12px 25px rgba(0, 113, 186, 0.25)';
-                e.currentTarget.style.borderColor = '#0071ba';
+                e.currentTarget.style.boxShadow = `0 12px 25px ${badgeColor}35`;
+                e.currentTarget.style.borderColor = badgeColor;
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.transform = 'translateY(0) scale(1)';

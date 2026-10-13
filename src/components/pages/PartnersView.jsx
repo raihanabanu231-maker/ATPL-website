@@ -31,13 +31,39 @@ import {
   KendoLogo,
   DatalogicLogo,
   CipherLabLogo,
-  NewlandLogo
+  NewlandLogo,
+  Gs1Logo,
+  IsoLogo,
+  StartupIndiaLogo
 } from '../common/PartnerLogos';
 import { PageHeroBackdrop, HeroFilterPill } from '../common/PageHeroBackdrop';
 
 export const PartnersView = () => {
   const { openDemoModal, setCurrentView } = useApp();
-  const [activeCategory, setActiveCategory] = useState('all');
+
+  // Parse initial category from URL hash if provided
+  const getInitialCategory = () => {
+    try {
+      const hash = window.location.hash.toLowerCase();
+      if (hash.includes('aidc') || hash.includes('rfid')) return 'aidc';
+      if (hash.includes('automation') || hash.includes('robotics') || hash.includes('laser')) return 'automation';
+      if (hash.includes('mdm') || hash.includes('software')) return 'mdm';
+      if (hash.includes('cert') || hash.includes('gs1') || hash.includes('standards')) return 'cert';
+    } catch (e) {}
+    return 'all';
+  };
+
+  const [activeCategory, setActiveCategory] = useState(getInitialCategory);
+
+  const handleCategorySelect = (catId) => {
+    setActiveCategory(catId);
+    setTimeout(() => {
+      const el = document.getElementById('partner-catalog');
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 60);
+  };
 
   const categories = [
     { id: 'all', label: 'All Alliances' },
@@ -207,21 +233,24 @@ export const PartnersView = () => {
           name: 'GS1 India (GS1 Global Standard)',
           tier: 'Authorized GS1 Solution Partner',
           focus: 'Global 1D/2D Barcode Verification, GS1 EPCIS Serialization, Item-to-Pallet Aggregation',
-          badge: 'GS1 Certified'
+          badge: 'GS1 Certified',
+          logoComp: Gs1Logo
         },
         {
           id: 'iso',
           name: 'ISO 9001:2015 Quality Management',
           tier: 'BMQR Certified QMS Standards',
           focus: 'Zero-defect software development, industrial hardware calibration, on-site SLA delivery',
-          badge: 'ISO 9001 Certified'
+          badge: 'ISO 9001 Certified',
+          logoComp: IsoLogo
         },
         {
           id: 'startupindia',
           name: '#startupindia & DPIIT Recognition',
           tier: 'Govt. of India Section 80-IAC Certified',
           focus: 'Patented industrial automation research, IoT robotics, and AI manufacturing incubation',
-          badge: 'Govt. Recognized'
+          badge: 'Govt. Recognized',
+          logoComp: StartupIndiaLogo
         }
       ]
     }
@@ -234,6 +263,32 @@ export const PartnersView = () => {
   return (
     <div style={{ backgroundColor: 'transparent', color: '#ffffff', minHeight: '100vh', paddingBottom: '6rem', paddingTop: '4rem' }}>
       
+      {/* Responsive Styles */}
+      <style>{`
+        .partner-cat-box {
+          background-color: #0a1324;
+          border-radius: 24px;
+          padding: 2.5rem;
+          box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+          transition: all 0.3s ease;
+        }
+        .partner-cards-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+          gap: 1.5rem;
+        }
+        @media (max-width: 768px) {
+          .partner-cat-box {
+            padding: 1.25rem !important;
+            border-radius: 16px !important;
+          }
+          .partner-cards-grid {
+            grid-template-columns: 1fr !important;
+            gap: 1.25rem !important;
+          }
+        }
+      `}</style>
+
       {/* Dynamic Radiant Page Hero Backdrop */}
       <div className="container">
         <PageHeroBackdrop
@@ -251,7 +306,7 @@ export const PartnersView = () => {
             <HeroFilterPill
               key={cat.id}
               active={activeCategory === cat.id}
-              onClick={() => setActiveCategory(cat.id)}
+              onClick={() => handleCategorySelect(cat.id)}
               label={cat.label}
               accentColor="#f59e0b"
             />
@@ -293,32 +348,104 @@ export const PartnersView = () => {
         </PageHeroBackdrop>
       </div>
 
-      {/* Official Partner Logos Showcase Carousel / Grid */}
-      <section style={{ padding: '3.5rem 0 1.5rem 0' }}>
+      {/* Official Partner Logos Showcase & Filtered Catalog */}
+      <section id="partner-catalog" style={{ padding: '3.5rem 0 1.5rem 0', scrollMarginTop: '5.5rem' }}>
         <div className="container">
-          <OfficialPartnersShowcase theme="dark" />
+          
+          {/* Quick Category Filter Bar */}
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexWrap: 'wrap',
+            gap: '0.65rem',
+            marginBottom: '2rem',
+            padding: '0.85rem 1.25rem',
+            backgroundColor: '#0a1324',
+            borderRadius: '16px',
+            border: '1px solid rgba(255, 255, 255, 0.08)',
+            boxShadow: '0 10px 25px rgba(0, 0, 0, 0.4)'
+          }}>
+            <span style={{ fontSize: '0.8rem', fontWeight: 800, color: '#94a3b8', marginRight: '0.35rem', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+              Category Filter:
+            </span>
+            {categories.map(cat => {
+              const isActive = activeCategory === cat.id;
+              const count = cat.id === 'all' 
+                ? 18 
+                : partnerCategories.find(c => c.id === cat.id)?.partners.length || 0;
+              return (
+                <button
+                  key={cat.id}
+                  onClick={() => setActiveCategory(cat.id)}
+                  style={{
+                    backgroundColor: isActive ? '#f59e0b' : 'rgba(255, 255, 255, 0.05)',
+                    color: isActive ? '#000000' : '#e2e8f0',
+                    border: isActive ? '1px solid #f59e0b' : '1px solid rgba(255, 255, 255, 0.1)',
+                    borderRadius: '999px',
+                    padding: '0.45rem 1.1rem',
+                    fontSize: '0.85rem',
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.45rem',
+                    transition: 'all 0.2s ease',
+                    minHeight: '38px',
+                    boxShadow: isActive ? '0 0 15px rgba(245, 158, 11, 0.4)' : 'none'
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!isActive) {
+                      e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.12)';
+                      e.currentTarget.style.borderColor = 'rgba(245, 158, 11, 0.4)';
+                      e.currentTarget.style.transform = 'translateY(-1px)';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!isActive) {
+                      e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.05)';
+                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                      e.currentTarget.style.transform = 'translateY(0)';
+                    }
+                  }}
+                >
+                  <span>{cat.label}</span>
+                  <span style={{
+                    fontSize: '0.72rem',
+                    backgroundColor: isActive ? 'rgba(0, 0, 0, 0.25)' : 'rgba(255, 255, 255, 0.12)',
+                    color: isActive ? '#000000' : '#94a3b8',
+                    padding: '0.1rem 0.45rem',
+                    borderRadius: '999px',
+                    fontWeight: 800
+                  }}>
+                    {count}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Dynamic Category-Synchronized Logo Showcase */}
+          <OfficialPartnersShowcase theme="dark" category={activeCategory} />
         </div>
       </section>
 
       {/* Partner Categories Detailed Grid */}
-      <section style={{ padding: '3rem 0' }}>
+      <section style={{ padding: '2rem 0 3rem 0' }}>
         <div className="container">
           
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '3.5rem' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '3rem' }}>
             {filteredCategories.map((cat, cIdx) => {
               const IconComp = cat.icon;
               return (
                 <div 
                   key={cIdx}
+                  className="partner-cat-box"
                   style={{
-                    backgroundColor: '#0a1324',
                     border: `1.5px solid ${cat.color}35`,
-                    borderRadius: '24px',
-                    padding: '2.5rem',
-                    boxShadow: '0 20px 50px rgba(0, 0, 0, 0.6)'
                   }}
                 >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '0.75rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '0.75rem', flexWrap: 'wrap' }}>
                     <div style={{
                       width: '48px',
                       height: '48px',
@@ -333,7 +460,7 @@ export const PartnersView = () => {
                       <IconComp size={24} />
                     </div>
                     <div>
-                      <h2 style={{ fontSize: '1.6rem', fontWeight: 800, color: '#ffffff', margin: 0 }}>
+                      <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#ffffff', margin: 0 }}>
                         {cat.category}
                       </h2>
                     </div>
@@ -343,7 +470,7 @@ export const PartnersView = () => {
                     {cat.desc}
                   </p>
 
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.5rem' }}>
+                  <div className="partner-cards-grid">
                     {cat.partners.map((partner, pIdx) => {
                       const LogoComp = partner.logoComp;
                       return (
@@ -357,15 +484,17 @@ export const PartnersView = () => {
                             display: 'flex',
                             flexDirection: 'column',
                             justifyContent: 'space-between',
-                            transition: 'transform 0.2s ease, border-color 0.2s ease'
+                            transition: 'transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease'
                           }}
                           onMouseEnter={(e) => {
-                            e.currentTarget.style.transform = 'translateY(-2px)';
+                            e.currentTarget.style.transform = 'translateY(-3px)';
                             e.currentTarget.style.borderColor = cat.color;
+                            e.currentTarget.style.boxShadow = `0 12px 25px ${cat.color}20`;
                           }}
                           onMouseLeave={(e) => {
                             e.currentTarget.style.transform = 'translateY(0)';
                             e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.08)';
+                            e.currentTarget.style.boxShadow = 'none';
                           }}
                         >
                           <div>
@@ -375,7 +504,8 @@ export const PartnersView = () => {
                               justifyContent: 'space-between', 
                               alignItems: 'center', 
                               gap: '0.75rem', 
-                              marginBottom: '1.25rem' 
+                              marginBottom: '1.25rem',
+                              flexWrap: 'wrap'
                             }}>
                               <div style={{
                                 backgroundColor: '#ffffff',
@@ -420,6 +550,42 @@ export const PartnersView = () => {
                             <p style={{ fontSize: '0.88rem', color: '#94a3b8', lineHeight: 1.55, margin: 0 }}>
                               {partner.focus}
                             </p>
+                          </div>
+
+                          {/* CTA action button */}
+                          <div style={{ marginTop: '1.5rem', paddingTop: '1rem', borderTop: '1px solid rgba(255, 255, 255, 0.06)' }}>
+                            <button
+                              onClick={() => openDemoModal({ mode: 'partner', solution: `${partner.name} Alliance`, notes: `Inquiry regarding ${partner.name} (${partner.tier})` })}
+                              style={{
+                                background: 'rgba(255, 255, 255, 0.05)',
+                                border: '1px solid rgba(255, 255, 255, 0.12)',
+                                borderRadius: '8px',
+                                color: '#e2e8f0',
+                                padding: '0.5rem 0.9rem',
+                                fontSize: '0.8rem',
+                                fontWeight: 700,
+                                cursor: 'pointer',
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '0.45rem',
+                                transition: 'all 0.2s ease',
+                                width: '100%',
+                                justifyContent: 'center'
+                              }}
+                              onMouseEnter={(e) => {
+                                e.currentTarget.style.background = `${cat.color}25`;
+                                e.currentTarget.style.borderColor = cat.color;
+                                e.currentTarget.style.color = '#ffffff';
+                              }}
+                              onMouseLeave={(e) => {
+                                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+                                e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.12)';
+                                e.currentTarget.style.color = '#e2e8f0';
+                              }}
+                            >
+                              <Handshake size={14} color={cat.color} />
+                              <span>Consult Integration Engineer</span>
+                            </button>
                           </div>
                         </div>
                       );
