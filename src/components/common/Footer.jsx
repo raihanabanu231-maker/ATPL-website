@@ -1,10 +1,39 @@
 import React from 'react';
 import { useApp } from '../../context/AppContext';
 import { AtplLogo } from './AtplLogo';
-import { ShieldCheck, Mail, Phone, MapPin, LayoutDashboard, Sparkles, ArrowRight, Building2 } from 'lucide-react';
+import { MapPin, Building2, Mail, Phone, ExternalLink } from 'lucide-react';
+
+// Clean SVG Social Icons
+const SocialIcons = {
+  X: () => (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+    </svg>
+  ),
+  Facebook: () => (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+    </svg>
+  ),
+  YouTube: () => (
+    <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+    </svg>
+  ),
+  LinkedIn: () => (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+    </svg>
+  ),
+  Instagram: () => (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+    </svg>
+  )
+};
 
 export const Footer = () => {
-  const { setCurrentView, openDemoModal } = useApp();
+  const { setCurrentView } = useApp();
 
   const handleNav = (view) => {
     setCurrentView(view);
@@ -13,374 +42,292 @@ export const Footer = () => {
 
   return (
     <footer 
-      className="atpl-footer-main"
       style={{
-        backgroundColor: '#090e1a',
+        backgroundColor: '#0a0f1d',
         color: '#94a3b8',
         borderTop: '1px solid #1e293b',
-        padding: '5rem 0 3.5rem 0',
+        padding: '4.5rem 0 0 0',
         position: 'relative',
-        zIndex: 10
+        zIndex: 10,
+        fontSize: '0.88rem'
       }}
     >
-      <div className="container">
+      <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
         
-        {/* Main 4-Column Grid */}
+        {/* =========================================================================
+            1. TOP DIRECTORY NAVIGATION COLUMNS
+           ========================================================================= */}
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-          gap: '3rem',
-          marginBottom: '4rem'
+          gridTemplateColumns: 'repeat(auto-fit, minmax(210px, 1fr))',
+          gap: '2.5rem 3rem',
+          paddingBottom: '3.5rem'
         }}>
           
-          {/* Col 1: Brand & Bio */}
+          {/* Col 1: Software Products */}
           <div>
-            <div style={{ marginBottom: '1.25rem' }}>
-              <AtplLogo size={38} showText={true} lightText={true} onClick={() => handleNav('home')} />
-            </div>
-
-            <p style={{ color: '#94a3b8', fontSize: '0.88rem', lineHeight: 1.65, marginBottom: '1.5rem' }}>
-              Archery Technocrats Private Limited — Empowering global industrial enterprises with Industry 4.0 digital transformation, autonomous WMS, GS1 serialization, and AI vision inspection.
-            </p>
-
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
-              <span style={{
-                backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
-                padding: '0.25rem 0.6rem',
-                borderRadius: '6px',
-                fontSize: '0.72rem',
-                color: '#e2e8f0',
-                fontWeight: 600
-              }}>
-                ISO 9001:2015
-              </span>
-              <span style={{
-                backgroundColor: 'rgba(0, 154, 68, 0.15)',
-                border: '1px solid rgba(0, 154, 68, 0.3)',
-                padding: '0.25rem 0.6rem',
-                borderRadius: '6px',
-                fontSize: '0.72rem',
-                color: '#34d399',
-                fontWeight: 600
-              }}>
-                GS1 Partner
-              </span>
-              <span style={{
-                backgroundColor: 'rgba(0, 113, 186, 0.15)',
-                border: '1px solid rgba(0, 113, 186, 0.3)',
-                padding: '0.25rem 0.6rem',
-                borderRadius: '6px',
-                fontSize: '0.72rem',
-                color: '#38bdf8',
-                fontWeight: 600
-              }}>
-                21 CFR Part 11
-              </span>
-            </div>
-          </div>
-
-          {/* Col 2: Software Suites */}
-          <div>
-            <h4 style={{ color: '#ffffff', fontSize: '0.92rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '1.25rem' }}>
-              Software Suites
+            <h4 style={{ color: '#ffffff', fontSize: '0.9rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '1.2rem' }}>
+              Software Products
             </h4>
-            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.75rem', padding: 0 }}>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
               <li>
-                <button onClick={() => handleNav('software')} style={{ background: 'none', border: 'none', color: '#00f0ff', fontWeight: 600, cursor: 'pointer', fontSize: '0.88rem', textAlign: 'left', padding: 0 }}>
-                  💻 Explore All Software ➔
+                <button onClick={() => handleNav('software')} style={{ background: 'none', border: 'none', color: '#cbd5e1', cursor: 'pointer', padding: 0, fontSize: '0.86rem', textAlign: 'left', transition: 'color 0.15s' }} onMouseEnter={(e) => e.currentTarget.style.color = '#38bdf8'} onMouseLeave={(e) => e.currentTarget.style.color = '#cbd5e1'}>
+                  PerfectEdge MDM (Fleet Kiosk)
                 </button>
               </li>
               <li>
-                <button onClick={() => handleNav('software')} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', fontSize: '0.88rem', textAlign: 'left', padding: 0 }}>
-                  Perfect Store™ (Warehouse WMS)
+                <button onClick={() => handleNav('software')} style={{ background: 'none', border: 'none', color: '#cbd5e1', cursor: 'pointer', padding: 0, fontSize: '0.86rem', textAlign: 'left', transition: 'color 0.15s' }} onMouseEnter={(e) => e.currentTarget.style.color = '#38bdf8'} onMouseLeave={(e) => e.currentTarget.style.color = '#cbd5e1'}>
+                  Perfect Labeler (Cloud Print)
                 </button>
               </li>
               <li>
-                <button onClick={() => handleNav('software')} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', fontSize: '0.88rem', textAlign: 'left', padding: 0 }}>
-                  Perfect Trace™ (GS1 Serialization)
+                <button onClick={() => handleNav('software')} style={{ background: 'none', border: 'none', color: '#cbd5e1', cursor: 'pointer', padding: 0, fontSize: '0.86rem', textAlign: 'left', transition: 'color 0.15s' }} onMouseEnter={(e) => e.currentTarget.style.color = '#38bdf8'} onMouseLeave={(e) => e.currentTarget.style.color = '#cbd5e1'}>
+                  Perfect Audit (Digital ISO SaaS)
                 </button>
               </li>
               <li>
-                <button onClick={() => handleNav('software')} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', fontSize: '0.88rem', textAlign: 'left', padding: 0 }}>
-                  Perfect PMS™ (Production Management)
+                <button onClick={() => handleNav('software')} style={{ background: 'none', border: 'none', color: '#cbd5e1', cursor: 'pointer', padding: 0, fontSize: '0.86rem', textAlign: 'left', transition: 'color 0.15s' }} onMouseEnter={(e) => e.currentTarget.style.color = '#38bdf8'} onMouseLeave={(e) => e.currentTarget.style.color = '#cbd5e1'}>
+                  Perfect Store (Enterprise WMS)
                 </button>
               </li>
               <li>
-                <button onClick={() => handleNav('software')} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', fontSize: '0.88rem', textAlign: 'left', padding: 0 }}>
-                  Perfect AI Vision™ (Defect QC)
+                <button onClick={() => handleNav('software')} style={{ background: 'none', border: 'none', color: '#cbd5e1', cursor: 'pointer', padding: 0, fontSize: '0.86rem', textAlign: 'left', transition: 'color 0.15s' }} onMouseEnter={(e) => e.currentTarget.style.color = '#38bdf8'} onMouseLeave={(e) => e.currentTarget.style.color = '#cbd5e1'}>
+                  Perfect Trace (Packaging GS1)
                 </button>
               </li>
               <li>
-                <button onClick={() => handleNav('software')} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', fontSize: '0.88rem', textAlign: 'left', padding: 0 }}>
-                  Perfect Audit™ (Digital Compliance)
-                </button>
-              </li>
-              <li>
-                <button onClick={() => handleNav('factory-3d')} style={{ background: 'none', border: 'none', color: '#E85874', fontWeight: 700, cursor: 'pointer', fontSize: '0.88rem', textAlign: 'left', padding: 0 }}>
-                  ✨ 3D Digital Twin Simulator
+                <button onClick={() => handleNav('software')} style={{ background: 'none', border: 'none', color: '#cbd5e1', cursor: 'pointer', padding: 0, fontSize: '0.86rem', textAlign: 'left', transition: 'color 0.15s' }} onMouseEnter={(e) => e.currentTarget.style.color = '#38bdf8'} onMouseLeave={(e) => e.currentTarget.style.color = '#cbd5e1'}>
+                  Perfect Vision AI (Defect QC)
                 </button>
               </li>
             </ul>
           </div>
 
-          {/* Col 3: Hardware Solutions */}
+          {/* Col 2: Shopfloor Hardware */}
           <div>
-            <h4 style={{ color: '#ffffff', fontSize: '0.92rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '1.25rem' }}>
-              Hardware Solutions
+            <h4 style={{ color: '#ffffff', fontSize: '0.9rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '1.2rem' }}>
+              Shopfloor Hardware
             </h4>
-            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.75rem', padding: 0 }}>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
               <li>
-                <button onClick={() => handleNav('hardware')} style={{ background: 'none', border: 'none', color: '#38bdf8', fontWeight: 600, cursor: 'pointer', fontSize: '0.88rem', textAlign: 'left', padding: 0 }}>
-                  ⚡ Explore All Hardware ➔
+                <button onClick={() => handleNav('hardware')} style={{ background: 'none', border: 'none', color: '#cbd5e1', cursor: 'pointer', padding: 0, fontSize: '0.86rem', textAlign: 'left', transition: 'color 0.15s' }} onMouseEnter={(e) => e.currentTarget.style.color = '#38bdf8'} onMouseLeave={(e) => e.currentTarget.style.color = '#cbd5e1'}>
+                  Fixed UHF RFID Dock Portals
                 </button>
               </li>
               <li>
-                <button onClick={() => handleNav('hardware')} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', fontSize: '0.88rem', textAlign: 'left', padding: 0 }}>
-                  Fixed UHF RFID Portals & Gates
+                <button onClick={() => handleNav('hardware')} style={{ background: 'none', border: 'none', color: '#cbd5e1', cursor: 'pointer', padding: 0, fontSize: '0.86rem', textAlign: 'left', transition: 'color 0.15s' }} onMouseEnter={(e) => e.currentTarget.style.color = '#38bdf8'} onMouseLeave={(e) => e.currentTarget.style.color = '#cbd5e1'}>
+                  Industrial 2D Barcode Scanners
                 </button>
               </li>
               <li>
-                <button onClick={() => handleNav('hardware')} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', fontSize: '0.88rem', textAlign: 'left', padding: 0 }}>
-                  Industrial 2D & DPM Barcode Scanners
-                </button>
-              </li>
-              <li>
-                <button onClick={() => handleNav('hardware')} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', fontSize: '0.88rem', textAlign: 'left', padding: 0 }}>
+                <button onClick={() => handleNav('hardware')} style={{ background: 'none', border: 'none', color: '#cbd5e1', cursor: 'pointer', padding: 0, fontSize: '0.86rem', textAlign: 'left', transition: 'color 0.15s' }} onMouseEnter={(e) => e.currentTarget.style.color = '#38bdf8'} onMouseLeave={(e) => e.currentTarget.style.color = '#cbd5e1'}>
                   Thermal Barcode & RFID Printers
                 </button>
               </li>
               <li>
-                <button onClick={() => handleNav('hardware')} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', fontSize: '0.88rem', textAlign: 'left', padding: 0 }}>
-                  Rugged Mobile Computers (PDA/EDA)
+                <button onClick={() => handleNav('hardware')} style={{ background: 'none', border: 'none', color: '#cbd5e1', cursor: 'pointer', padding: 0, fontSize: '0.86rem', textAlign: 'left', transition: 'color 0.15s' }} onMouseEnter={(e) => e.currentTarget.style.color = '#38bdf8'} onMouseLeave={(e) => e.currentTarget.style.color = '#cbd5e1'}>
+                  Rugged Forklift & Handheld Terminals
                 </button>
               </li>
               <li>
-                <button onClick={() => handleNav('hardware')} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', fontSize: '0.88rem', textAlign: 'left', padding: 0 }}>
-                  Robotics, Sorting & Conveyor Systems
-                </button>
-              </li>
-              <li>
-                <button onClick={() => handleNav('partners')} style={{ background: 'none', border: 'none', color: '#34d399', fontWeight: 700, cursor: 'pointer', fontSize: '0.88rem', textAlign: 'left', padding: 0 }}>
-                  🤝 Official OEM Partners (Honeywell, Zebra)
+                <button onClick={() => handleNav('partners')} style={{ background: 'none', border: 'none', color: '#cbd5e1', cursor: 'pointer', padding: 0, fontSize: '0.86rem', textAlign: 'left', transition: 'color 0.15s' }} onMouseEnter={(e) => e.currentTarget.style.color = '#38bdf8'} onMouseLeave={(e) => e.currentTarget.style.color = '#cbd5e1'}>
+                  Strategic Alliances (Honeywell, Zebra, TSC)
                 </button>
               </li>
             </ul>
           </div>
 
-          {/* Col 4: Contact & Operations */}
+          {/* Col 3: Company & Facilities */}
           <div>
-            <h4 style={{ color: '#ffffff', fontSize: '0.92rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '1.25rem' }}>
-              Headquarters & Offices
+            <h4 style={{ color: '#ffffff', fontSize: '0.9rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '1.2rem' }}>
+              Company & Hubs
             </h4>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem', fontSize: '0.88rem', marginBottom: '1.5rem' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#e2e8f0' }}>
-                <MapPin size={16} color="#E85874" />
-                <span>TIDEL Park, Taramani, Chennai</span>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#cbd5e1' }}>
-                <Building2 size={16} color="var(--cyan-primary)" />
-                <span>TCE-TBI, Madurai (R&D Center)</span>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                <Mail size={16} color="#0071ba" />
-                <span>info@atplgroup.com</span>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                <Phone size={16} color="#009a44" />
-                <span>1800-120-774777 (Toll Free)</span>
-              </div>
-            </div>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+              <li>
+                <button onClick={() => handleNav('about')} style={{ background: 'none', border: 'none', color: '#cbd5e1', cursor: 'pointer', padding: 0, fontSize: '0.86rem', textAlign: 'left', transition: 'color 0.15s' }} onMouseEnter={(e) => e.currentTarget.style.color = '#38bdf8'} onMouseLeave={(e) => e.currentTarget.style.color = '#cbd5e1'}>
+                  About Archery Technocrats
+                </button>
+              </li>
+              <li>
+                <span style={{ color: '#94a3b8', fontSize: '0.86rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                  <MapPin size={14} color="#38bdf8" /> TIDEL Park Chennai HQ
+                </span>
+              </li>
+              <li>
+                <span style={{ color: '#94a3b8', fontSize: '0.86rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                  <Building2 size={14} color="#38bdf8" /> TCE-TBI Madurai R&D
+                </span>
+              </li>
+              <li>
+                <span style={{ color: '#94a3b8', fontSize: '0.86rem' }}>
+                  Hosur & Bengaluru Field Corridors
+                </span>
+              </li>
+              <li>
+                <button onClick={() => handleNav('resources')} style={{ background: 'none', border: 'none', color: '#cbd5e1', cursor: 'pointer', padding: 0, fontSize: '0.86rem', textAlign: 'left', transition: 'color 0.15s' }} onMouseEnter={(e) => e.currentTarget.style.color = '#38bdf8'} onMouseLeave={(e) => e.currentTarget.style.color = '#cbd5e1'}>
+                  Documentation & Datasheets
+                </button>
+              </li>
+            </ul>
+          </div>
 
-            {/* Direct WhatsApp Quick Hub */}
-            <div style={{
-              backgroundColor: 'rgba(37, 211, 102, 0.08)',
-              border: '1px solid rgba(37, 211, 102, 0.3)',
-              borderRadius: '10px',
-              padding: '1rem',
-              marginBottom: '1.25rem'
-            }}>
-              <div style={{ fontSize: '0.78rem', color: '#25D366', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '0.65rem' }}>
-                💬 Direct WhatsApp Support
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem' }}>
-                <a
-                  href="https://wa.me/916380859963?text=Hello%20ATPL%20Sales%20Team%2C%20I%20would%20like%20to%20inquire%20about%20Industry%204.0%20solutions."
-                  target="_blank"
-                  rel="noreferrer"
-                  style={{ color: '#ffffff', textDecoration: 'none', fontSize: '0.84rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0.45rem 0.65rem', borderRadius: '6px', backgroundColor: 'rgba(255, 255, 255, 0.06)', transition: 'background 0.2s ease' }}
-                >
-                  <span style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
-                    <span>🟢</span> <strong>Sales Support</strong>
-                  </span>
-                  <span style={{ color: '#25D366', fontWeight: 700 }}>➔</span>
+          {/* Col 4: Quick Helplines */}
+          <div>
+            <h4 style={{ color: '#ffffff', fontSize: '0.9rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '1.2rem' }}>
+              Direct Helplines
+            </h4>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+              <li>
+                <a href="tel:04435537618" style={{ color: '#cbd5e1', textDecoration: 'none', fontSize: '0.86rem', display: 'flex', alignItems: 'center', gap: '0.45rem', transition: 'color 0.15s' }} onMouseEnter={(e) => e.currentTarget.style.color = '#38bdf8'} onMouseLeave={(e) => e.currentTarget.style.color = '#cbd5e1'}>
+                  <Phone size={14} color="#38bdf8" /> 044 3553 7618 (Chennai Desk)
                 </a>
-                <a
-                  href="https://wa.me/919342173484?text=Hello%20ATPL%20Software%20Support%2C%20I%20need%20assistance%20with%20WMS%20%2F%20Traceability%20software."
-                  target="_blank"
-                  rel="noreferrer"
-                  style={{ color: '#ffffff', textDecoration: 'none', fontSize: '0.84rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0.45rem 0.65rem', borderRadius: '6px', backgroundColor: 'rgba(255, 255, 255, 0.06)', transition: 'background 0.2s ease' }}
-                >
-                  <span style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
-                    <span>💻</span> <strong>Software Support</strong>
-                  </span>
-                  <span style={{ color: '#25D366', fontWeight: 700 }}>➔</span>
+              </li>
+              <li>
+                <a href="tel:1800120774777" style={{ color: '#cbd5e1', textDecoration: 'none', fontSize: '0.86rem', display: 'flex', alignItems: 'center', gap: '0.45rem', transition: 'color 0.15s' }} onMouseEnter={(e) => e.currentTarget.style.color = '#38bdf8'} onMouseLeave={(e) => e.currentTarget.style.color = '#cbd5e1'}>
+                  <Phone size={14} color="#38bdf8" /> 1800-120-774777 (Toll Free)
                 </a>
-                <a
-                  href="https://wa.me/917200157626?text=Hello%20ATPL%20Field%20Service%2C%20I%20need%20urgent%20AMC%20maintenance%20%2F%20service%20dispatch."
-                  target="_blank"
-                  rel="noreferrer"
-                  style={{ color: '#ffffff', textDecoration: 'none', fontSize: '0.84rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0.45rem 0.65rem', borderRadius: '6px', backgroundColor: 'rgba(255, 255, 255, 0.06)', transition: 'background 0.2s ease' }}
-                >
-                  <span style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
-                    <span>🔧</span> <strong>Service & AMC Support</strong>
-                  </span>
-                  <span style={{ color: '#25D366', fontWeight: 700 }}>➔</span>
+              </li>
+              <li>
+                <a href="mailto:info@atplgroup.com" style={{ color: '#cbd5e1', textDecoration: 'none', fontSize: '0.86rem', display: 'flex', alignItems: 'center', gap: '0.45rem', transition: 'color 0.15s' }} onMouseEnter={(e) => e.currentTarget.style.color = '#38bdf8'} onMouseLeave={(e) => e.currentTarget.style.color = '#cbd5e1'}>
+                  <Mail size={14} color="#38bdf8" /> info@atplgroup.com
                 </a>
-              </div>
-            </div>
-
-            <a
-              href="https://perfectflow360.atplgroup.org"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                width: '100%',
-                backgroundColor: 'rgba(232, 88, 116, 0.12)',
-                border: '1px solid rgba(232, 88, 116, 0.35)',
-                color: '#ffffff',
-                borderRadius: '8px',
-                padding: '0.65rem',
-                fontSize: '0.85rem',
-                fontWeight: 600,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '0.45rem',
-                textDecoration: 'none',
-                transition: 'all 0.15s ease'
-              }}
-              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(232, 88, 116, 0.25)'}
-              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'rgba(232, 88, 116, 0.12)'}
-            >
-              <LayoutDashboard size={15} color="#E85874" />
-              <span>Perfectflow 360 CRM Portal ↗</span>
-            </a>
+              </li>
+              <li style={{ marginTop: '0.5rem' }}>
+                <a
+                  href="https://perfectflow360.atplgroup.org"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.4rem',
+                    color: '#38bdf8',
+                    fontSize: '0.84rem',
+                    fontWeight: 700,
+                    textDecoration: 'none'
+                  }}
+                >
+                  <span>Perfectflow 360 Portal</span>
+                  <ExternalLink size={13} />
+                </a>
+              </li>
+            </ul>
           </div>
 
         </div>
 
-        {/* Corporate Trust, Registration & Legal Bar */}
+        {/* =========================================================================
+            2. CENTERED SOCIAL MEDIA ICONS (Zoho Screenshot 2 Style)
+           ========================================================================= */}
         <div style={{
-          borderTop: '1px solid rgba(255, 255, 255, 0.08)',
-          paddingTop: '2rem',
           display: 'flex',
-          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
           gap: '1.25rem',
-          fontSize: '0.82rem',
-          color: '#64748b'
+          padding: '2rem 0 1.5rem 0',
+          borderTop: '1px solid rgba(255, 255, 255, 0.08)'
         }}>
-          <div style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: '1rem'
-          }}>
-            <div style={{ lineHeight: 1.6 }}>
-              <div><strong>Archery Technocrats Private Limited</strong> (CIN: U72900TN2022PTC155410 • GSTIN: 33AAHCA8492C1Z4)</div>
-              <div style={{ color: '#475569', fontSize: '0.78rem' }}>
-                Registered Office: 275/11, Gandhi Road, West Tambaram, Chennai, Tamil Nadu 600045, India | HQ: TIDEL Park, Taramani, Chennai
-              </div>
-            </div>
-            
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', flexWrap: 'wrap' }}>
-              <span style={{ backgroundColor: 'rgba(0, 113, 186, 0.12)', color: '#38bdf8', padding: '0.2rem 0.55rem', borderRadius: '4px', fontSize: '0.75rem', border: '1px solid rgba(56, 189, 248, 0.3)', fontWeight: 700 }}>
-                ISO 9001:2015 (BMQR)
-              </span>
-              <span style={{ backgroundColor: 'rgba(255, 255, 255, 0.04)', padding: '0.2rem 0.55rem', borderRadius: '4px', fontSize: '0.75rem', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
-                DPIIT Reg #DIPP105822
-              </span>
-              <span style={{ backgroundColor: 'rgba(255, 255, 255, 0.04)', padding: '0.2rem 0.55rem', borderRadius: '4px', fontSize: '0.75rem', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
-                MSME UDYAM-TN-02-0084921
-              </span>
-              <span style={{ backgroundColor: 'rgba(0, 154, 68, 0.1)', color: '#10b981', padding: '0.2rem 0.55rem', borderRadius: '4px', fontSize: '0.75rem', border: '1px solid rgba(16, 185, 129, 0.25)', fontWeight: 700 }}>
-                GS1 Global Partner & EPCIS 1.2
-              </span>
-              <span style={{ backgroundColor: 'rgba(255, 255, 255, 0.04)', color: '#cbd5e1', padding: '0.2rem 0.55rem', borderRadius: '4px', fontSize: '0.75rem', border: '1px solid rgba(255, 255, 255, 0.08)', fontWeight: 700 }}>
-                CE Mark & 21 CFR Part 11
-              </span>
-            </div>
-          </div>
-
-          <div style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: '1rem',
-            borderTop: '1px solid rgba(255, 255, 255, 0.05)',
-            paddingTop: '1rem'
-          }}>
-            <div>
-              © 2026 Archery Technocrats Private Limited (ATPL Group). All Rights Reserved. Built for 35+ years of mission-critical uptime.
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem', flexWrap: 'wrap' }}>
-              <span style={{ color: '#009a44', display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
-                <span style={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: '#009a44', display: 'inline-block' }} />
-                System Operational (99.98% SLA)
-              </span>
-              <a 
-                href="/privacy"
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleNav('privacy');
-                  window.history.pushState(null, '', '/privacy');
-                }}
-                style={{ color: '#94a3b8', textDecoration: 'underline', transition: 'color 0.15s ease' }}
-                onMouseEnter={(e) => e.currentTarget.style.color = '#ffffff'}
-                onMouseLeave={(e) => e.currentTarget.style.color = '#94a3b8'}
-              >
-                Privacy Policy
-              </a>
-              <a 
-                href="/terms"
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleNav('terms');
-                  window.history.pushState(null, '', '/terms');
-                }}
-                style={{ color: '#94a3b8', textDecoration: 'underline', transition: 'color 0.15s ease' }}
-                onMouseEnter={(e) => e.currentTarget.style.color = '#ffffff'}
-                onMouseLeave={(e) => e.currentTarget.style.color = '#94a3b8'}
-              >
-                Terms of Service
-              </a>
-              <button
-                onClick={() => handleNav('login')}
+          {[
+            { name: 'X', icon: SocialIcons.X, href: 'https://x.com/atplgroup' },
+            { name: 'Facebook', icon: SocialIcons.Facebook, href: 'https://facebook.com/atplgroup' },
+            { name: 'YouTube', icon: SocialIcons.YouTube, href: 'https://youtube.com/@atplgroup' },
+            { name: 'LinkedIn', icon: SocialIcons.LinkedIn, href: 'https://linkedin.com/company/atplgroup' },
+            { name: 'Instagram', icon: SocialIcons.Instagram, href: 'https://instagram.com/atplgroup' }
+          ].map((soc) => {
+            const Icon = soc.icon;
+            return (
+              <a
+                key={soc.name}
+                href={soc.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={soc.name}
                 style={{
-                  background: 'none',
-                  border: 'none',
-                  color: '#475569',
-                  cursor: 'pointer',
-                  fontSize: '0.78rem',
+                  width: '38px',
+                  height: '38px',
+                  borderRadius: '50%',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '0.35rem',
-                  padding: 0,
-                  transition: 'color 0.2s'
+                  justifyContent: 'center',
+                  color: '#94a3b8',
+                  backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                  transition: 'all 0.15s ease',
+                  textDecoration: 'none'
                 }}
-                onMouseEnter={(e) => e.currentTarget.style.color = '#38bdf8'}
-                onMouseLeave={(e) => e.currentTarget.style.color = '#475569'}
-                title="Authorized ATPL Staff & CRM Login"
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.color = '#ffffff';
+                  e.currentTarget.style.backgroundColor = '#0071ba';
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.color = '#94a3b8';
+                  e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.05)';
+                  e.currentTarget.style.transform = 'translateY(0)';
+                }}
               >
-                <span>🔒 Staff / CRM Login</span>
-              </button>
-            </div>
-          </div>
+                <Icon />
+              </a>
+            );
+          })}
+        </div>
+
+        {/* =========================================================================
+            3. CENTERED LEGAL LINKS ROW (Zoho Screenshot 2 Style)
+           ========================================================================= */}
+        <div style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '0.5rem 1.25rem',
+          fontSize: '0.82rem',
+          color: '#64748b',
+          paddingBottom: '2.5rem'
+        }}>
+          <button onClick={() => handleNav('contact')} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', padding: 0, fontSize: '0.82rem' }}>
+            Contact Us
+          </button>
+          <span>•</span>
+          <span style={{ color: '#94a3b8' }}>Security & 21 CFR Part 11</span>
+          <span>•</span>
+          <span style={{ color: '#94a3b8' }}>ISO 9001:2015 Compliance</span>
+          <span>•</span>
+          <button onClick={() => handleNav('terms')} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', padding: 0, fontSize: '0.82rem' }}>
+            Terms of Service
+          </button>
+          <span>•</span>
+          <button onClick={() => handleNav('privacy')} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', padding: 0, fontSize: '0.82rem' }}>
+            Privacy Policy
+          </button>
+          <span>•</span>
+          <button onClick={() => handleNav('login')} style={{ background: 'none', border: 'none', color: '#64748b', cursor: 'pointer', padding: 0, fontSize: '0.82rem' }}>
+            Staff Portal Login
+          </button>
         </div>
 
       </div>
+
+      {/* =========================================================================
+          4. BOTTOM DARK COPYRIGHT BAR (Zoho Screenshot 2 Style)
+         ========================================================================= */}
+      <div style={{
+        backgroundColor: '#060a14',
+        borderTop: '1px solid rgba(255, 255, 255, 0.06)',
+        padding: '2rem 1.5rem',
+        textAlign: 'center'
+      }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '0.75rem' }}>
+          <AtplLogo size={32} showText={true} lightText={true} onClick={() => handleNav('home')} />
+          
+          <div style={{ fontSize: '0.82rem', color: '#64748b', lineHeight: 1.5 }}>
+            © 2026 Archery Technocrats Private Limited. All Rights Reserved.<br />
+            <span style={{ fontSize: '0.76rem', color: '#475569' }}>
+              Headquartered at TIDEL Park Chennai & R&D at TCE-TBI Madurai, Tamil Nadu, India.
+            </span>
+          </div>
+        </div>
+      </div>
+
     </footer>
   );
 };

@@ -91,13 +91,12 @@ export const AtplCoPilot = () => {
     {
       id: 1,
       sender: 'bot',
-      text: "Hello! 👋 I'm **Archie AI**, your official ATPL smart factory robot guide & automation advisor. How can I help power your factory today?",
+      text: "Hello. Welcome to the **ATPL Engineering Desk**. How can we assist with your plant, warehouse, or packaging line today? You can ask technical questions or connect directly with our application engineers in Chennai and Madurai.",
       quickReplies: [
-        '💡 Find the right solution for my plant',
-        '💰 Calculate factory ROI',
-        '✨ Explore 3D Digital Twin',
-        '📞 Sales & Support Numbers',
-        '📦 WMS vs Traceability comparison'
+        '📞 Direct Phone & WhatsApp Numbers',
+        '📦 Warehouse Management (WMS)',
+        '🏷️ RFID Dock Portals',
+        '🏭 Schedule a Plant Feasibility Visit'
       ]
     }
   ]);
@@ -597,7 +596,7 @@ export const AtplCoPilot = () => {
               onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
               onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
             >
-              <span>Hey buddy, need any help? 👋</span>
+              <span>Need help? Talk to an engineer</span>
               <button
                 onClick={(e) => {
                   e.stopPropagation();
@@ -633,7 +632,7 @@ export const AtplCoPilot = () => {
             </div>
           )}
 
-          {/* Circular Floating Robot Button */}
+          {/* Floating Engineering Help Desk Button */}
           <button
             onClick={() => setIsOpen(true)}
             className="copilot-launcher-btn"
@@ -641,31 +640,30 @@ export const AtplCoPilot = () => {
               width: '54px',
               height: '54px',
               borderRadius: '50%',
-              background: 'linear-gradient(135deg, #0b1e36 0%, #030a16 100%)',
-              border: '2px solid rgba(0, 240, 255, 0.7)',
-              boxShadow: '0 8px 25px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 240, 255, 0.35)',
+              backgroundColor: '#0071ba',
+              border: '2px solid #ffffff',
+              boxShadow: '0 8px 24px rgba(0, 113, 186, 0.4)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
+              color: '#ffffff',
               cursor: 'pointer',
-              transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
+              transition: 'all 0.2s ease',
               position: 'relative',
               flexShrink: 0
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'scale(1.08)';
-              e.currentTarget.style.borderColor = '#E85874';
-              e.currentTarget.style.boxShadow = '0 12px 30px rgba(232, 88, 116, 0.5), 0 0 25px rgba(0, 240, 255, 0.5)';
+              e.currentTarget.style.transform = 'scale(1.06)';
+              e.currentTarget.style.backgroundColor = '#005a96';
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.transform = 'scale(1)';
-              e.currentTarget.style.borderColor = 'rgba(0, 240, 255, 0.7)';
-              e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 240, 255, 0.35)';
+              e.currentTarget.style.backgroundColor = '#0071ba';
             }}
-            aria-label="Open Archie AI Assistant"
-            title="Chat with Archie AI"
+            aria-label="Talk to an Automation Engineer"
+            title="ATPL Engineering Support Desk"
           >
-            <AtplRobotAvatar size={32} glow={false} />
+            <Headphones size={24} />
             <span style={{
               position: 'absolute',
               top: 2,
@@ -674,8 +672,8 @@ export const AtplCoPilot = () => {
               height: 10,
               borderRadius: '50%',
               backgroundColor: '#10b981',
-              border: '2px solid #030a16',
-              boxShadow: '0 0 8px #10b981'
+              border: '2px solid #ffffff',
+              boxShadow: '0 0 6px #10b981'
             }} />
           </button>
         </div>
@@ -716,17 +714,17 @@ export const AtplCoPilot = () => {
                 width: 36,
                 height: 36,
                 borderRadius: '50%',
-                backgroundColor: '#ffffff',
+                backgroundColor: 'rgba(255, 255, 255, 0.2)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)'
+                color: '#ffffff'
               }}>
-                <AtplRobotAvatar size={30} glow={false} />
+                <Headphones size={20} />
               </div>
               <div>
                 <div style={{ fontWeight: 700, fontSize: '0.95rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                  Archie AI
+                  ATPL Engineering Desk
                   <span style={{
                     fontSize: '0.65rem',
                     backgroundColor: '#10b981',
@@ -736,7 +734,7 @@ export const AtplCoPilot = () => {
                     fontWeight: 600
                   }}>Online</span>
                 </div>
-                <div style={{ fontSize: '0.75rem', opacity: 0.85 }}>ATPL Robot & Automation Guide</div>
+                <div style={{ fontSize: '0.75rem', opacity: 0.85 }}>Direct Plant Automation & Support</div>
               </div>
             </div>
 

@@ -1,190 +1,120 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
 import { useApp } from '../../context/AppContext';
 import { FactoryBlueprintMap } from '../common/FactoryBlueprintMap';
 import { OfficialPartnersShowcase } from '../common/PartnerLogos';
-import { CLIENT_LOGOS_LIST, CERTIFICATION_BADGES_LIST, AuthenticClientsMarquee, ClientLogo } from '../common/ClientBrandLogos';
-import { AtplDifferentiation } from '../common/AtplDifferentiation';
-import { EnterpriseCaseStudiesSection } from '../common/EnterpriseCaseStudiesSection';
-import { AtplResourcesSection } from '../common/AtplResourcesSection';
+import { AuthenticClientsMarquee } from '../common/ClientBrandLogos';
+import { MadeInIndiaSection } from '../common/MadeInIndiaSection';
+import { CustomerStoriesCarousel } from '../common/CustomerStoriesCarousel';
+import { CoreValuesSection } from '../common/CoreValuesSection';
+import EnterpriseLeaderSection from '../common/EnterpriseLeaderSection';
 import { 
   Boxes, 
-  Cpu, 
-  Layers, 
-  ShieldCheck, 
-  Sparkles, 
-  ArrowRight, 
-  CheckCircle2, 
-  Eye, 
-  FileCheck, 
-  Wrench, 
   Radio, 
   Printer, 
-  Smartphone, 
-  Zap, 
-  TrendingUp, 
-  Building2, 
-  Award, 
+  Eye, 
   Headphones, 
-  ChevronRight,
-  ExternalLink,
-  Lock,
-  Globe,
-  Database,
-  BarChart3,
-  Server,
-  Play,
-  Pause,
-  ChevronLeft,
-  Bot,
-  Volume2,
-  Star,
-  Quote,
+  CheckCircle2, 
+  ArrowRight, 
+  PhoneCall, 
+  MapPin, 
+  Building2, 
+  ShieldCheck, 
+  Factory, 
+  Sparkles,
   Download,
-  PhoneCall,
-  Factory,
-  FileText,
+  Clock,
+  Layers,
   Check,
-  MapPin
+  Smartphone,
+  FileCheck,
+  ChevronRight
 } from 'lucide-react';
 
-const ENTERPRISE_CASE_STUDIES = [
-  {
-    id: 'cs-automotive',
-    industry: 'Automotive & EV Component OEM',
-    client: 'Global Automotive Tier-1 Powertrain Manufacturer',
-    logoText: 'Tier-1 Auto OEM',
-    solution: 'Perfect Trace™ 4-Tier GS1 Serialization & SAP S/4HANA Sync',
-    challenge: 'Manual lot allocation caused 2-hour production bottlenecks and high counterfeit/recall liability.',
-    solutionDesc: 'Deployed high-speed parent-child packaging serialization (Unit -> Bundle -> Case -> Pallet) with inline 2D verification at 450 packs/min, synced to SAP IDocs in real-time.',
-    metricValue: '-98%',
-    metricLabel: 'Allocation Time Cut (2 hrs ➔ 2 mins)',
-    secondaryMetric: '100% Serialization Traceability',
-    tags: ['GS1 Serialization', 'SAP S/4HANA', 'EV Powertrain'],
-    targetView: 'software'
-  },
-  {
-    id: 'cs-rubber',
-    industry: 'Tyre & Heavy Rubber Discrete Manufacturing',
-    client: 'Leading National Tyre & Rubber Manufacturer',
-    logoText: 'Top Rubber OEM',
-    solution: 'High-Speed Conveyor DPM Barcode Verification & Automated Ejection',
-    challenge: 'Curved, low-contrast dot-peen tyre bead codes caused 12% read failures and erroneous customer dispatches.',
-    solutionDesc: 'Installed patented liquid-lens high-speed optical imagers reading curved dot-peen and laser-etched codes at 6.0 m/s conveyor speeds with instant pneumatic rejection.',
-    metricValue: '+50%',
-    metricLabel: 'Shipping & Dispatch Accuracy Boost',
-    secondaryMetric: 'Zero Barcode Escape Rate',
-    tags: ['DPM Barcode Verification', 'Conveyor Automation', 'Liquid-Lens Optics'],
-    targetView: 'hardware'
-  },
-  {
-    id: 'cs-fmcg',
-    industry: 'FMCG, Dairy & Process Packaging',
-    client: 'Top Indian FMCG & Dairy Conglomerate (14 Plants)',
-    logoText: 'FMCG / Dairy Conglomerate',
-    solution: 'Perfect Audit™ 100% Paperless Digital Compliance Platform',
-    challenge: 'Paper-based clipboards led to delayed non-conformance logs and 4-week ISO audit prep backlogs.',
-    solutionDesc: 'Rolled out digital inspection checklists with timestamped photo/video audit trails and automated CAPA workflows across 14 multi-state manufacturing facilities.',
-    metricValue: '-70%',
-    metricLabel: 'Audit Preparation Time Reduced',
-    secondaryMetric: '100% Paperless ISO 9001:2015',
-    tags: ['ISO 9001:2015', 'CAPA Workflows', 'Multi-Plant Cloud'],
-    targetView: 'software'
-  },
-  {
-    id: 'cs-electronics',
-    industry: 'Electronics EMS & Discrete Assembly',
-    client: 'Global Electronics & Consumer Appliance OEM',
-    logoText: 'Electronics EMS Hub',
-    solution: 'Fixed Multi-Directional UHF RFID Dock Portals & Handheld Fleet MDM',
-    challenge: 'Manual handheld scanning at shipping dock doors created multi-hour forklift congestion and shipping queues.',
-    solutionDesc: 'Architected fixed UHF dock-door portals with beam-steered phased antenna arrays reading 1,400+ pallet tags in milliseconds with zero forklift stoppage.',
-    metricValue: '1,400+',
-    metricLabel: 'Tags/Sec Dock Read Rate',
-    secondaryMetric: '99.98% Shipping Verification Accuracy',
-    tags: ['UHF RFID Gates', 'Zero Forklift Stoppage', 'PerfectEdge MDM'],
-    targetView: 'hardware'
-  },
-  {
-    id: 'cs-pharma',
-    industry: 'Pharmaceuticals & Regulated Packaging',
-    client: 'Pharmaceutical & Specialty Packaging Facility',
-    logoText: 'Pharma Packaging OEM',
-    solution: 'Perfect Labeler™ Cloud & Universal Industrial Printer Architecture',
-    challenge: 'Disjointed label printers across 6 manufacturing units led to template version drift and regulatory fines.',
-    solutionDesc: 'Unified 200+ Zebra, TSC, and Honeywell printers onto a multi-tenant cloud platform with 21 CFR Part 11 compliant cryptographic change audit trails.',
-    metricValue: '200+',
-    metricLabel: 'Industrial Printers Unified Across 6 Plants',
-    secondaryMetric: '-90% Template Authoring Time',
-    tags: ['21 CFR Part 11', 'Cloud Labeling', 'Universal ZPL/TSC'],
-    targetView: 'hardware'
-  },
-  {
-    id: 'cs-casting',
-    industry: 'Automotive Precision Machining & Transmission Die-Casting',
-    client: 'Major Automotive Transmission & Die-Casting Plant',
-    logoText: 'Powertrain Casting',
-    solution: 'Perfect AI Vision™ Edge Neural Defect Inspection (NVIDIA TensorRT)',
-    challenge: 'Microscopic casting porosity and surface hairline cracks escaped manual visual checks, causing warranty claims.',
-    solutionDesc: 'Deployed TensorRT deep learning neural inference running automated real-time PASS/FAIL grading with sub-millimeter telecentric optics at 6.2ms decision latency.',
-    metricValue: '6.2ms',
-    metricLabel: 'Neural Flaw Classification Latency',
-    secondaryMetric: '<0.01% False Rejects · Zero Escape',
-    tags: ['NVIDIA TensorRT', 'Sub-8ms AI Vision', 'Automated Rejection'],
-    targetView: 'software'
-  }
-];
-
-const CUSTOMER_TESTIMONIALS = [
-  {
-    id: 't-1',
-    name: 'R. Sundararaman',
-    role: 'VP of Manufacturing Operations',
-    company: 'TVS Sensing & Automotive Technologies',
-    sector: 'Automotive Powertrain',
-    quote: 'ATPL\'s Perfect Trace slashed our traceability lot allocation cycle from two hours to under two minutes. Their bidirectional SAP S/4HANA connector delivered instant board-level visibility with zero data loss.',
-    rating: 5,
-    highlight: '-98% Allocation Cycle'
-  },
-  {
-    id: 't-2',
-    name: 'Karthik Narayanan',
-    role: 'Head of Supply Chain & Quality',
-    company: 'Hatsun Agro / Leading FMCG Conglomerate',
-    sector: 'FMCG & Cold Chain',
-    quote: 'Deploying Perfect Audit across our facilities eliminated paper clipboards and cut audit prep time by 70%. The automated photo evidence and CAPA workflows keep us audit-ready 365 days a year.',
-    rating: 5,
-    highlight: '-70% Audit Prep Time'
-  },
-  {
-    id: 't-3',
-    name: 'Vikramaditya Bose',
-    role: 'Plant Automation Director',
-    company: 'National Logistics & 3PL Hub (120,000 sq.ft)',
-    sector: 'Supply Chain & Warehousing',
-    quote: 'The fixed UHF RFID dock portals verify 1,200 pallet tags per second with zero forklift stoppage. Our dock-to-stock speed increased by 38% and shipping dispatch errors dropped to absolute zero.',
-    rating: 5,
-    highlight: '99.98% Inventory Accuracy'
-  },
-  {
-    id: 't-4',
-    name: 'Dr. Meenakshi S.',
-    role: 'General Manager – Regulatory Quality',
-    company: 'Caplin Point Laboratories (US-FDA Approved)',
-    sector: 'Pharmaceutical Serialization',
-    quote: 'For pharmaceutical parent-child serialization compliant with US-FDA DSCSA & DGFT mandates, ATPL is the gold standard. Their 21 CFR Part 11 electronic records provide rock-solid audit peace of mind.',
-    rating: 5,
-    highlight: '100% US-FDA Compliance'
-  }
-];
-
 export const HomeView = () => {
-  const { setCurrentView, openDemoModal, addToast } = useApp();
-  const [activeCategory, setActiveCategory] = useState('all');
+  const { setCurrentView, openDemoModal } = useApp();
+
+  const coreSolutions = [
+    {
+      id: 'mdm',
+      name: 'PerfectEdge MDM',
+      badge: 'Handheld Fleet Management',
+      icon: Smartphone,
+      color: '#0284c7',
+      bgColor: '#f0f9ff',
+      shortDesc: 'Centralized mobile fleet management and kiosk lockdown for rugged handhelds.',
+      summary: 'Centralized mobile device management for rugged handhelds and forklift terminals.',
+      description: 'Gives plant IT teams full control over rugged Android barcode scanners, mobile computers, and forklift tablets. Provision devices in bulk via single barcode scan and lock them down into tamper-proof kiosk mode.',
+      features: ['Zero-touch barcode enrollment for Zebra, Honeywell & Newland scanners', 'Single-app kiosk lockdown prevents operator tampering and gaming', 'Remote screen control, battery health alerts, and silent APK updates'],
+      view: 'software'
+    },
+    {
+      id: 'labeler',
+      name: 'Perfect Labeler',
+      badge: 'Cloud Labeling Platform',
+      icon: Printer,
+      color: '#10b981',
+      bgColor: '#ecfdf5',
+      shortDesc: 'Cloud-native label design with live ERP sync and industrial print-and-apply.',
+      summary: 'Centralized cloud label designer with automated industrial print-and-apply.',
+      description: 'Replaces fragmented desktop label design files with a single browser-based label hub. Connects live ERP data directly to Zebra, TSC, and Honeywell barcode printers across all your plant units.',
+      features: ['Browser-based label designer linked directly to live ERP database', 'Universal printer support (Zebra ZPL, TSC TSPL, Honeywell DPL)', '100% inline barcode grading and audit logging to eliminate mislabeling'],
+      view: 'software'
+    },
+    {
+      id: 'audit',
+      name: 'Perfect Audit',
+      badge: 'Internal Audit & Compliance',
+      icon: ShieldCheck,
+      color: '#e11d48',
+      bgColor: '#fff1f2',
+      shortDesc: 'Paperless ISO & IATF digital checklists with photo proof and automated CAPA.',
+      summary: '100% paperless ISO internal audit and compliance management SaaS.',
+      description: 'Replaces paper clipboards and Excel sheets across multi-plant facilities. Shopfloor inspectors capture photo proof, geo-timestamps, and automated CAPA corrective actions directly on mobile devices.',
+      features: ['Digital mobile inspection checklists with mandatory photo proof', 'Automated corrective action (CAPA) tracking and escalation rules', 'Cuts ISO 9001:2015 and IATF 16949 audit preparation time by 70%'],
+      view: 'software'
+    },
+    {
+      id: 'store',
+      name: 'Perfect Store (WMS)',
+      badge: 'Warehouse Management',
+      icon: Boxes,
+      color: '#0071ba',
+      bgColor: '#eff6ff',
+      shortDesc: 'Warehouse management with bin slotting, FIFO control, and direct ERP sync.',
+      summary: 'Bin-level inventory tracking, FIFO enforcement, and direct ERP sync.',
+      description: 'Connects warehouse operators on rugged handhelds straight into SAP S/4HANA and Oracle. Automatically directs put-away, stock picking, and dock dispatch without discrepancies.',
+      features: ['Real-time two-way SAP & Oracle ERP sync', 'Dynamic bin slotting and aisle picking paths', 'Automated FIFO, FEFO, and quarantine rules'],
+      view: 'software'
+    },
+    {
+      id: 'trace',
+      name: 'Perfect Trace',
+      badge: 'Track & Trace Serialization',
+      icon: Layers,
+      color: '#009a44',
+      bgColor: '#f0fdf4',
+      shortDesc: 'Parent-child packaging serialization meeting DGFT and US-FDA export standards.',
+      summary: 'Multi-tier parent-child packaging serialization and aggregation.',
+      description: 'Connects packaging lines for automotive OEMs and pharmaceutical exporters. Generates cryptographic serials and verifies 2D barcodes at production line speed to eliminate recall liability.',
+      features: ['4-tier aggregation (Item → Carton → Shipper → Pallet)', 'DGFT, US-FDA DSCSA & 21 CFR Part 11 compliant', 'Batch recall genealogy lookup in under 2 minutes'],
+      view: 'software'
+    },
+    {
+      id: 'vision',
+      name: 'Perfect Vision AI',
+      badge: 'Machine Vision Inspection',
+      icon: Eye,
+      color: '#7c3aed',
+      bgColor: '#f5f3ff',
+      shortDesc: 'High-speed conveyor optical inspection for automated defect classification.',
+      summary: 'High-speed conveyor optical inspection for automated defect detection.',
+      description: 'Industrial optical cameras running real-time Pass/Fail defect analysis on high-speed lines. Classifies microscopic surface flaws, label alignment, and solder cracks with automated reject gates.',
+      features: ['Real-time automated Pass/Fail quality classification', 'Catches surface scratches, label misalignment, and print flaws', 'Direct pneumatic diverter and reject chute triggering'],
+      view: 'software'
+    }
+  ];
 
   const handleDownloadBrochure = () => {
-    if (addToast) {
-      addToast('Brochure Download', 'Downloading ATPL Smart Factory 4.0 Overview (2026)...', 'success');
-    }
     const link = document.createElement('a');
     link.href = '/ATPL_Smart_Factory_Overview_2026.pdf';
     link.setAttribute('download', 'ATPL_Smart_Factory_Overview_2026.pdf');
@@ -193,1549 +123,420 @@ export const HomeView = () => {
     document.body.removeChild(link);
   };
 
-  // ATPL Proprietary Product Suite Apps
-  const suiteApps = [
-    {
-      id: 'store',
-      name: 'Perfect Store™ (WMS)',
-      shortName: 'Store WMS',
-      category: 'software',
-      color: '#0071ba',
-      bgLight: '#eff6ff',
-      icon: Boxes,
-      tagline: 'ERP, PLC & SPM Integration',
-      desc: 'Industrial warehouse management & middleware connecting standard SAP ERP, PLCs, HMIs, and SPM testing machines with barcode & RFID.',
-      features: ['SAP / Oracle Middleware Sync', '3D Bin Slotting AI', 'FIFO / Expiry Lot Rules', 'Automated Pallet Gate RFID'],
-      statHighlight: 'Seamless ERP & PLC Middleware',
-      view: 'software'
-    },
-    {
-      id: 'trace',
-      name: 'Perfect Trace™ Serialization',
-      shortName: 'Trace',
-      category: 'software',
-      color: '#009a44',
-      bgLight: '#f0fdf4',
-      icon: FileCheck,
-      tagline: 'Item-to-Pallet GS1 Aggregation',
-      desc: 'High-speed parent-child packaging serialization compliant with DGFT, US-FDA DSCSA, and 21 CFR Part 11 standards.',
-      features: ['Cryptographic Serial Generation', '450 packs/min Line Speed', 'Multi-tier Aggregation', 'Anti-Counterfeit Portal'],
-      statHighlight: '450 Packs/Min Line Speed',
-      view: 'software'
-    },
-    {
-      id: 'vision',
-      name: 'Perfect AI Vision System™',
-      shortName: 'AI Vision',
-      category: 'ai',
-      color: '#8b5cf6',
-      bgLight: '#f5f3ff',
-      icon: Eye,
-      tagline: 'Deep Learning Defect Detection',
-      desc: 'Industrial optical neural inspection detecting micro-scratches, connector flaws, label misprints, and real-time Pass/Fail defect analysis.',
-      features: ['Real-Time Pass/Fail Edge AI', 'Microscopic Surface Crack Inspection', 'ISO/IEC 15415 Quality Grading', 'Pneumatic Reject Triggering'],
-      statHighlight: '<8ms Defect Decision',
-      view: 'software'
-    },
-    {
-      id: 'mdm',
-      name: 'PerfectEdge MDM™',
-      shortName: 'Edge MDM',
-      category: 'software',
-      color: '#0284c7',
-      bgLight: '#f0f9ff',
-      icon: Smartphone,
-      tagline: 'Rugged Mobile Device Management',
-      desc: 'Centralized control over thousands of rugged handhelds, forklift vehicle terminals, and tablets with zero-touch enrollment and kiosk lockdown.',
-      features: ['Zero-Touch QR Barcode Enrollment', 'Lockdown Kiosk Launcher Mode', 'Remote Screen Control & OTA Updates', 'Push-to-Talk Frontline Comms'],
-      statHighlight: 'Zero-Touch Fleet Provisioning',
-      view: 'software'
-    },
-    {
-      id: 'labeler',
-      name: 'Perfect Labeler™',
-      shortName: 'Labeler',
-      category: 'hardware',
-      color: '#10b981',
-      bgLight: '#ecfdf5',
-      icon: Printer,
-      tagline: 'Cloud Labelling & Print & Apply',
-      desc: 'Cloud-native intelligent label operations platform connecting enterprise data, label workflows, and automated 120 packs/min print & apply hardware.',
-      features: ['Visual Cloud Label Designer', 'Live Database Integration', '120 Packs/Min Print & Apply', 'In-Line Barcode Grade Verification'],
-      statHighlight: '120 Units/Min Synchronized',
-      view: 'hardware'
-    },
-    {
-      id: 'audit',
-      name: 'Perfect Audit™',
-      shortName: 'Audit SaaS',
-      category: 'software',
-      color: '#E85874',
-      bgLight: 'rgba(232, 88, 116, 0.08)',
-      icon: Cpu,
-      tagline: 'SaaS ISO Internal Audit Mgmt',
-      desc: 'Cloud-based ISO internal audit management solution that streamlines audits, eliminates paperwork, and ensures regulatory compliance.',
-      features: ['Digital Audit Checklists', 'Automated Non-Conformance Tracking', 'Regulatory Policy Lookup', '70% Audit Prep Time Cut'],
-      statHighlight: '-70% Audit Prep Time',
-      view: 'software'
-    },
-    {
-      id: 'rfid',
-      name: 'Fixed UHF RFID Portals',
-      shortName: 'RFID Portals',
-      category: 'hardware',
-      color: '#fbb03b',
-      bgLight: '#fffbeb',
-      icon: Radio,
-      tagline: 'Automated Gate Scanners',
-      desc: 'Heavy-duty multi-directional UHF RFID portals scanning 1,200+ pallet and carton tags per second through high-speed conveyor dock gates.',
-      features: ['Multi-antenna Circular Array', 'Direct Forklift Rugged Enclosure', 'MQTT & REST Output', 'Anti-Collision Filtering'],
-      statHighlight: '1,200+ Tags/Sec Capture',
-      view: 'hardware'
-    },
-    {
-      id: 'twin',
-      name: '3D Digital Twin Simulator',
-      shortName: 'DigitalTwin',
-      category: 'ai',
-      color: '#06b6d4',
-      bgLight: '#ecfeff',
-      icon: Sparkles,
-      tagline: 'Interactive 3D Virtual Plant',
-      desc: 'Full 3D WebGL digital twin of your shopfloor with live station telemetry, conveyor simulation, and failure drill testbeds.',
-      features: ['Photorealistic 3D Shopfloor', 'Live Station Temperature & OEE', 'Interactive Traveling AI Guide', 'Fault Injection Testing'],
-      statHighlight: '12-Station 3D Simulator',
-      view: 'factory-3d'
-    },
-    {
-      id: 'fieldcare',
-      name: 'ATPL FieldCare™ AMC',
-      shortName: 'FieldCare',
-      category: 'services',
-      color: '#0d9488',
-      bgLight: '#f0fdfa',
-      icon: Headphones,
-      tagline: '24/7 SLA & Resident Engineers',
-      desc: 'Guaranteed 4-hour on-site dispatch SLA, quarterly preventive maintenance, and consignment hot-swap spare vaults.',
-      features: ['Guaranteed 4h On-Site SLA', 'Dedicated Hotline & Telemetry', 'Consignment Hot-Swap Vaults', 'Quarterly Calibration'],
-      statHighlight: '4-Hour On-Site Dispatch SLA',
-      view: 'services'
-    }
-  ];
-
-  const filteredApps = activeCategory === 'all' 
-    ? suiteApps 
-    : suiteApps.filter(app => app.category === activeCategory);
-
-  const categories = [
-    { id: 'all', label: 'All Offerings' },
-    { id: 'hardware', label: 'Hardware (RFID, Scanners & Printers)' },
-    { id: 'software', label: 'Software (WMS, PMS, Trace & Audit)' },
-    { id: 'ai', label: 'AI Vision & 3D Twin' },
-    { id: 'services', label: 'Engineering & 24/7 AMC' }
-  ];
-
   return (
     <div style={{ backgroundColor: '#ffffff', color: '#1e293b' }}>
 
       {/* =========================================================================
-          1. VISUAL FACTORY BLUEPRINT MAP & 12-STATION SMART FACTORY ROUTE
+          1. 12-STATION INTERACTIVE SMART FACTORY ROBOT TOUR
          ========================================================================= */}
       <FactoryBlueprintMap />
 
       {/* =========================================================================
-          3. ATPL HERO SECTION
+          2. HERO SECTION (Clean, Grounded, Confident)
          ========================================================================= */}
       <section 
         style={{
           position: 'relative',
           paddingTop: '4.5rem',
-          paddingBottom: '5rem',
-          textAlign: 'center',
-          overflow: 'hidden',
-          background: 'linear-gradient(180deg, #fbfcfe 0%, #f8fafc 100%)'
+          paddingBottom: '4.5rem',
+          borderBottom: '1px solid #e2e8f0',
+          background: 'linear-gradient(180deg, #f8fafc 0%, #ffffff 100%)'
         }}
       >
-        <div style={{
-          position: 'absolute',
-          top: '-150px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          width: 'min(1200px, 95vw)',
-          maxWidth: '100%',
-          height: '600px',
-          background: 'radial-gradient(ellipse at center, rgba(0, 113, 186, 0.1) 0%, rgba(0, 240, 255, 0.08) 40%, rgba(16, 185, 129, 0.05) 70%, transparent 100%)',
-          filter: 'blur(70px)',
-          pointerEvents: 'none',
-          zIndex: 0
-        }}></div>
-
-        <div className="container" style={{ position: 'relative', zIndex: 1, maxWidth: '980px', margin: '0 auto' }}>
+        <div className="container" style={{ maxWidth: '960px', margin: '0 auto', textAlign: 'center' }}>
           
-          {/* ATPL Brand Identity Pill Badge & 35+ Years Trust Badge */}
-          <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', gap: '0.65rem', marginBottom: '1.5rem' }}>
-            <div style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '0.5rem',
-              backgroundColor: 'rgba(232, 88, 116, 0.08)',
-              border: '1px solid rgba(232, 88, 116, 0.3)',
-              padding: '0.4rem 1.1rem',
-              borderRadius: '999px',
-              boxShadow: '0 2px 10px rgba(232, 88, 116, 0.1)'
-            }}>
-              <span style={{
-                display: 'inline-block',
-                width: '7px',
-                height: '7px',
-                borderRadius: '50%',
-                backgroundColor: '#E85874',
-                animation: 'pulseCoralDot 2s infinite'
-              }} />
-              <span style={{
-                fontSize: '0.78rem',
-                fontWeight: 700,
-                letterSpacing: '0.06em',
-                color: '#E85874',
-                textTransform: 'uppercase'
-              }}>
-                Next-Gen Industry 4.0 Platform
-              </span>
-              <span style={{ color: '#cbd5e1' }}>|</span>
-              <span style={{ fontSize: '0.78rem', color: '#475569', fontWeight: 600 }}>
-                ATPL Autonomous Ecosystem
-              </span>
-            </div>
-
-            {/* Built for 35+ years mission-critical uptime trust badge */}
-            <div style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '0.45rem',
-              backgroundColor: 'rgba(0, 113, 186, 0.08)',
-              border: '1px solid rgba(0, 113, 186, 0.3)',
-              padding: '0.4rem 1.05rem',
-              borderRadius: '999px',
-              fontSize: '0.78rem',
-              fontWeight: 800,
-              color: '#0071ba'
-            }}>
-              <ShieldCheck size={14} color="#0071ba" />
-              <span>Built for 35+ years of mission-critical uptime</span>
-            </div>
+          {/* Trust badge */}
+          <div style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '0.5rem',
+            backgroundColor: '#eff6ff',
+            border: '1px solid #bfdbfe',
+            padding: '0.4rem 1rem',
+            borderRadius: '999px',
+            fontSize: '0.82rem',
+            fontWeight: 700,
+            color: '#0071ba',
+            marginBottom: '1.5rem'
+          }}>
+            <ShieldCheck size={16} color="#0071ba" />
+            <span>Archery Technocrats • 35+ Years Combined Industrial Experience • ISO 9001:2015</span>
           </div>
 
+          {/* Main Headline */}
           <h1 style={{
-            fontSize: 'clamp(2.2rem, 5vw, 3.8rem)',
+            fontSize: 'clamp(2.1rem, 4.5vw, 3.4rem)',
             fontWeight: 800,
-            lineHeight: 1.18,
-            letterSpacing: '-0.03em',
+            lineHeight: 1.2,
+            letterSpacing: '-0.025em',
             color: '#0f172a',
             marginBottom: '1.25rem',
             fontFamily: 'var(--font-display)'
           }}>
-            Architecting the Future of{' '}
-            <span style={{
-              background: 'linear-gradient(135deg, #0071ba 0%, #E85874 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              display: 'inline-block'
-            }}>
-              Smart Factories, WMS & Traceability.
-            </span>
+            Factory Automation That Actually Works on the Shop Floor.
           </h1>
 
-          <div style={{
-            width: '64px',
-            height: '4px',
-            background: 'linear-gradient(90deg, #0071ba 0%, #E85874 100%)',
-            borderRadius: '2px',
-            margin: '0 auto 1.5rem auto'
-          }}></div>
-
+          {/* Sub-headline */}
           <p style={{
-            fontSize: 'clamp(1.05rem, 2.2vw, 1.25rem)',
+            fontSize: 'clamp(1.05rem, 2vw, 1.2rem)',
             color: '#475569',
             lineHeight: 1.65,
             maxWidth: '820px',
-            margin: '0 auto 2.6rem auto',
-            fontWeight: 400
+            margin: '0 auto 2.25rem auto'
           }}>
-            Archery Technocrats Private Limited (ATPL Group) engineers end-to-end Industry 4.0 automation: proprietary WMS, GS1 serialization, sub-millimeter vision AI, UHF RFID gates, and rugged mobility — built for 35+ years of mission-critical factory uptime.
+            We build warehouse management software, RFID tracking portals, and inline vision systems that connect straight to your SAP or Oracle ERP. Built, installed, and supported by engineers who understand Indian plant realities.
           </p>
 
-          {/* Primary & Secondary High-Conversion CTA Cluster */}
-          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center', gap: '0.85rem' }}>
-            {/* Primary: Request Demo */}
+          {/* Action CTAs */}
+          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center', gap: '1rem' }}>
             <button
-              onClick={() => openDemoModal({ mode: 'demo', solution: 'Enterprise Suite Demo', notes: 'Initiated from Hero Request Live Demo button' })}
-              style={{
-                backgroundColor: '#E85874',
-                color: '#ffffff',
-                border: 'none',
-                padding: '1.05rem 2.2rem',
-                fontSize: '1rem',
-                fontWeight: 800,
-                letterSpacing: '0.02em',
-                borderRadius: '8px',
-                cursor: 'pointer',
-                boxShadow: '0 8px 25px rgba(232, 88, 116, 0.4)',
-                transition: 'all 0.2s ease',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                fontFamily: 'var(--font-display)'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#d44360';
-                e.currentTarget.style.transform = 'translateY(-2px)';
-                e.currentTarget.style.boxShadow = '0 12px 30px rgba(232, 88, 116, 0.55)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = '#E85874';
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = '0 8px 25px rgba(232, 88, 116, 0.4)';
-              }}
-            >
-              <span>Request Live Demo</span>
-              <ArrowRight size={18} />
-            </button>
-
-            {/* Primary: Talk to an Engineer */}
-            <button
-              onClick={() => openDemoModal({ mode: 'engineer', solution: 'Engineering Architecture Consultation', notes: 'Initiated from Hero Talk to an Engineer button' })}
+              onClick={() => openDemoModal({ mode: 'engineer', solution: 'Plant Engineering Consultation', notes: 'Initiated from Homepage Hero' })}
               style={{
                 backgroundColor: '#0071ba',
                 color: '#ffffff',
                 border: 'none',
-                padding: '1.05rem 2.2rem',
-                fontSize: '1rem',
+                padding: '0.95rem 2rem',
+                fontSize: '0.98rem',
                 fontWeight: 700,
-                letterSpacing: '0.02em',
                 borderRadius: '8px',
                 cursor: 'pointer',
-                boxShadow: '0 8px 25px rgba(0, 113, 186, 0.35)',
-                transition: 'all 0.2s ease',
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '0.5rem',
-                fontFamily: 'var(--font-display)'
+                boxShadow: '0 4px 14px rgba(0, 113, 186, 0.3)',
+                transition: 'all 0.15s ease'
               }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#005a96';
-                e.currentTarget.style.transform = 'translateY(-2px)';
-                e.currentTarget.style.boxShadow = '0 12px 30px rgba(0, 113, 186, 0.45)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = '#0071ba';
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 113, 186, 0.35)';
-              }}
+              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#005a96'}
+              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#0071ba'}
             >
               <PhoneCall size={18} />
-              <span>Talk to an Engineer</span>
+              <span>Talk to an Automation Engineer</span>
             </button>
 
-            {/* Secondary: Download ROI Calculator */}
             <button
-              onClick={() => openDemoModal({ mode: 'roi', solution: 'Warehouse & RFID ROI Model 2026', notes: 'Initiated from Hero Download ROI Calculator button' })}
+              onClick={() => openDemoModal({ mode: 'demo', solution: 'Plant Feasibility Walkthrough', notes: 'Initiated from Hero secondary button' })}
               style={{
                 backgroundColor: '#ffffff',
                 color: '#0f172a',
                 border: '1.5px solid #cbd5e1',
-                padding: '1.05rem 1.8rem',
-                fontSize: '0.96rem',
+                padding: '0.95rem 1.8rem',
+                fontSize: '0.98rem',
                 fontWeight: 700,
-                letterSpacing: '0.02em',
                 borderRadius: '8px',
                 cursor: 'pointer',
-                transition: 'all 0.2s ease',
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '0.5rem',
-                fontFamily: 'var(--font-display)'
+                transition: 'all 0.15s ease'
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.borderColor = '#0071ba';
                 e.currentTarget.style.color = '#0071ba';
-                e.currentTarget.style.transform = 'translateY(-2px)';
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.borderColor = '#cbd5e1';
                 e.currentTarget.style.color = '#0f172a';
-                e.currentTarget.style.transform = 'translateY(0)';
               }}
             >
-              <Download size={17} color="#0071ba" />
-              <span>Download ROI Calculator</span>
+              <span>Schedule Plant Walkthrough</span>
+              <ArrowRight size={17} />
             </button>
 
-            {/* Secondary: 3D Plant */}
             <button
               onClick={() => setCurrentView('factory-3d')}
               style={{
-                backgroundColor: 'rgba(24, 224, 255, 0.08)',
+                backgroundColor: 'rgba(2, 132, 199, 0.08)',
                 color: '#0284c7',
-                border: '1.5px solid rgba(2, 132, 199, 0.3)',
-                padding: '1.05rem 1.8rem',
-                fontSize: '0.96rem',
+                border: '1px solid rgba(2, 132, 199, 0.25)',
+                padding: '0.95rem 1.4rem',
+                fontSize: '0.92rem',
                 fontWeight: 700,
-                letterSpacing: '0.02em',
                 borderRadius: '8px',
                 cursor: 'pointer',
-                transition: 'all 0.2s ease',
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: '0.5rem',
-                fontFamily: 'var(--font-display)'
+                gap: '0.45rem',
+                transition: 'all 0.15s ease'
               }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = '#0284c7';
-                e.currentTarget.style.backgroundColor = 'rgba(24, 224, 255, 0.16)';
-                e.currentTarget.style.transform = 'translateY(-2px)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = 'rgba(2, 132, 199, 0.3)';
-                e.currentTarget.style.backgroundColor = 'rgba(24, 224, 255, 0.08)';
-                e.currentTarget.style.transform = 'translateY(0)';
-              }}
+              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(2, 132, 199, 0.15)'}
+              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'rgba(2, 132, 199, 0.08)'}
             >
-              <Sparkles size={17} color="#0284c7" />
-              <span>✨ 3D Digital Twin</span>
+              <Sparkles size={16} />
+              <span>✨ 3D Factory Tour</span>
             </button>
           </div>
 
+          {/* Key practical facts strip */}
           <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', gap: '1.5rem', fontSize: '0.86rem', color: '#64748b', marginTop: '2.25rem' }}>
             <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
-              <CheckCircle2 size={16} color="#009a44" /> 35+ Years Proven Reliability
+              <CheckCircle2 size={16} color="#009a44" /> Live Two-Way SAP & Oracle Sync
             </span>
             <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
-              <CheckCircle2 size={16} color="#009a44" /> ISO 9001:2015 & GS1 Certified
+              <CheckCircle2 size={16} color="#009a44" /> Rollouts in 2 to 4 Weeks
             </span>
             <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
-              <CheckCircle2 size={16} color="#009a44" /> Sub-Second SAP & Oracle Sync
+              <CheckCircle2 size={16} color="#009a44" /> 4-Hour On-Site Support SLA in South India
             </span>
           </div>
+
         </div>
       </section>
 
       {/* =========================================================================
-          AUTHENTIC ENTERPRISE CLIENTS & PARTNERS REAL LOGO MARQUEE
+          2. AUTHENTIC ENTERPRISE CLIENT LOGOS STRIP
          ========================================================================= */}
-      <section style={{ backgroundColor: '#f8fafc', padding: '2.5rem 0', borderTop: '1px solid #e2e8f0', borderBottom: '1px solid #e2e8f0' }}>
+      <section style={{ backgroundColor: '#f8fafc', padding: '2.5rem 0', borderBottom: '1px solid #e2e8f0' }}>
         <div className="container" style={{ textAlign: 'center', marginBottom: '1.25rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
-            <span style={{ fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#0071ba', backgroundColor: '#eff6ff', padding: '0.25rem 0.75rem', borderRadius: '999px', border: '1px solid #bfdbfe' }}>
-              TRUSTED BY 200+ TIER-1 CLIENTS & OEM ALLIANCES
-            </span>
-            <span style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: 600 }}>
-              Automotive • Heavy Metals • Pharmaceuticals • FMCG • Electronics EMS
-            </span>
+          <div style={{ fontSize: '0.76rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#64748b' }}>
+            TRUSTED BY 250+ ENTERPRISE MANUFACTURING PLANTS & SUPPLY CHAIN HUBS
           </div>
         </div>
 
-        {/* Row 1 - Left Scrolling Authentic Brand Logos */}
-        <AuthenticClientsMarquee direction="left" speed={45} />
+        {/* Client Logos Marquee */}
+        <AuthenticClientsMarquee direction="left" speed={40} />
+      </section>
 
-        {/* Row 2 - Right Scrolling Authentic Brand Logos */}
-        <div style={{ marginTop: '0.85rem' }}>
-          <AuthenticClientsMarquee direction="right" speed={50} />
+      {/* =========================================================================
+          MADE IN INDIA. MADE FOR THE WORLD. (Zoho-Style Pride & Scale Section)
+         ========================================================================= */}
+      <MadeInIndiaSection />
+
+      {/* =========================================================================
+          3. WHAT WE DO (Ultra-compact, punchy 1-liner)
+         ========================================================================= */}
+      <section style={{ padding: '2.5rem 0', backgroundColor: '#ffffff', borderBottom: '1px solid #f1f5f9' }}>
+        <div className="container" style={{ maxWidth: '780px', margin: '0 auto', textAlign: 'center', padding: '0 1.25rem' }}>
+          <span style={{
+            fontSize: '0.72rem',
+            fontWeight: 800,
+            textTransform: 'uppercase',
+            letterSpacing: '0.1em',
+            color: '#0071ba',
+            backgroundColor: '#eff6ff',
+            padding: '0.2rem 0.75rem',
+            borderRadius: '999px',
+            display: 'inline-block',
+            marginBottom: '0.6rem'
+          }}>
+            WHAT WE DO
+          </span>
+          <h2 style={{ fontSize: 'clamp(1.4rem, 2.4vw, 1.85rem)', fontWeight: 800, color: '#0f172a', letterSpacing: '-0.02em', marginBottom: '0.5rem', lineHeight: 1.3, cursor: 'default', caretColor: 'transparent' }}>
+            Eliminating Manual Friction Across Warehouse, Line & Dock.
+          </h2>
+          <p style={{ color: '#64748b', fontSize: '0.98rem', lineHeight: 1.55, margin: 0, maxWidth: '640px', marginLeft: 'auto', marginRight: 'auto' }}>
+            We pair rugged barcode, RFID, and machine vision hardware with in-house software to connect your shop floor directly to SAP and Oracle.
+          </p>
         </div>
       </section>
 
       {/* =========================================================================
-          3. ATPL COMPLETE PRODUCT ECOSYSTEM APPS GRID
+          4. PROPRIETARY SOFTWARE SUITE (Zoho-Style Split Featured Apps Layout)
          ========================================================================= */}
-      <section id="atpl-products-grid" style={{ padding: '4.5rem 0', backgroundColor: '#ffffff', borderTop: '1px solid #f1f5f9' }}>
-        <div className="container">
+      <section style={{ padding: '5.5rem 0', backgroundColor: '#ffffff', borderBottom: '1px solid #e2e8f0' }}>
+        <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
           
-          <div style={{ textAlign: 'center', maxWidth: '780px', margin: '0 auto 2.5rem auto' }}>
-            <span style={{
-              fontSize: '0.78rem',
-              fontWeight: 800,
-              textTransform: 'uppercase',
-              letterSpacing: '0.08em',
-              color: '#0071ba',
-              backgroundColor: '#eff6ff',
-              padding: '0.3rem 0.8rem',
-              borderRadius: '999px',
-              display: 'inline-block',
-              marginBottom: '0.85rem'
-            }}>
-              ATPL TARGET SUITE™
-            </span>
-            <h2 style={{ fontSize: '2.4rem', fontWeight: 800, color: '#0f172a', letterSpacing: '-0.02em', marginBottom: '0.85rem' }}>
-              Integrated Industrial Automation & Data Systems
-            </h2>
-            <p style={{ color: '#64748b', fontSize: '1.05rem', lineHeight: 1.6 }}>
-              Click any solution below to summon our AI RoboGuide or explore detailed technical specifications.
-            </p>
-          </div>
-
-          {/* ATPL Category Filter Pills */}
           <div style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'center',
-            gap: '0.5rem',
-            marginBottom: '3rem'
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
+            gap: '3.5rem 4.5rem',
+            alignItems: 'center'
           }}>
-            {categories.map(cat => {
-              const isActive = activeCategory === cat.id;
-              return (
-                <button
-                  key={cat.id}
-                  onClick={() => setActiveCategory(cat.id)}
-                  style={{
-                    backgroundColor: isActive ? '#0f172a' : '#f8fafc',
-                    color: isActive ? '#ffffff' : '#475569',
-                    border: '1px solid ' + (isActive ? '#0f172a' : '#e2e8f0'),
-                    padding: '0.55rem 1.15rem',
-                    borderRadius: '999px',
-                    fontSize: '0.9rem',
-                    fontWeight: 600,
-                    cursor: 'pointer',
-                    transition: 'all 0.15s ease'
-                  }}
-                  onMouseEnter={(e) => {
-                    if (!isActive) {
-                      e.currentTarget.style.backgroundColor = '#f1f5f9';
-                      e.currentTarget.style.color = '#0f172a';
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (!isActive) {
-                      e.currentTarget.style.backgroundColor = '#f8fafc';
-                      e.currentTarget.style.color = '#475569';
-                    }
-                  }}
-                >
-                  {cat.label}
-                </button>
-              );
-            })}
-          </div>
+            
+            {/* LEFT COLUMN: Punchy Editorial Headline & Value Proposition */}
+            <div>
+              <h2 style={{
+                fontSize: 'clamp(2.3rem, 4.2vw, 3.4rem)',
+                fontWeight: 800,
+                color: '#0f172a',
+                lineHeight: 1.18,
+                letterSpacing: '-0.03em',
+                marginBottom: '1.25rem'
+              }}>
+                Your factory floor,<br />
+                powered by our software
+              </h2>
 
-          {/* 3x3 Balanced Apps Grid (3 rows x 3 columns = 9 cards) */}
-          <style>{`
-            .atpl-suite-grid-3x3 {
-              display: grid;
-              grid-template-columns: repeat(3, minmax(0, 1fr));
-              gap: 1.5rem;
-              align-items: stretch;
-            }
-            .atpl-product-card {
-              height: 100% !important;
-              display: flex !important;
-              flex-direction: column !important;
-              justify-content: space-between !important;
-            }
-            @media (max-width: 1024px) {
-              .atpl-suite-grid-3x3 {
-                grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-                gap: 1.25rem !important;
-              }
-            }
-            @media (max-width: 640px) {
-              .atpl-suite-grid-3x3 {
-                grid-template-columns: 1fr !important;
-                gap: 1.15rem !important;
-              }
-              .atpl-product-card {
-                padding: 1.15rem !important;
-              }
-            }
-          `}</style>
-          <div className="atpl-suite-grid-3x3">
-            {filteredApps.map((app) => {
-              const Icon = app.icon;
+              {/* Red accent line (Signature Zoho-style accent) */}
+              <div style={{
+                width: '42px',
+                height: '3.5px',
+                backgroundColor: '#e11d48',
+                borderRadius: '999px',
+                marginBottom: '1.75rem'
+              }} />
 
-              return (
-                <div
-                  key={app.id}
-                  onClick={() => {
-                    setCurrentView(app.view);
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
-                  style={{
-                    backgroundColor: '#ffffff',
-                    border: '1.5px solid #e2e8f0',
-                    borderRadius: '14px',
-                    padding: '1.25rem',
-                    boxShadow: '0 4px 15px rgba(0, 0, 0, 0.03)',
-                    transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
-                    position: 'relative',
-                    cursor: 'pointer'
-                  }}
-                  className="atpl-product-card"
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = 'translateY(-4px)';
-                    e.currentTarget.style.boxShadow = `0 14px 28px -8px ${app.color}25, 0 0 0 1px ${app.color}40`;
-                    e.currentTarget.style.borderColor = app.color;
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = 'translateY(0)';
-                    e.currentTarget.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.03)';
-                    e.currentTarget.style.borderColor = '#e2e8f0';
-                  }}
-                >
+              <p style={{
+                fontSize: '1.08rem',
+                color: '#475569',
+                lineHeight: 1.7,
+                marginBottom: '2.5rem',
+                maxWidth: '480px'
+              }}>
+                A unified suite of industrial applications designed to eliminate manual clipboards, inventory discrepancies, and mislabeling across your plants. Built in-house by automation engineers who live on the shop floor.
+              </p>
 
-                  <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
-                    {/* App Icon Header */}
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.85rem' }}>
-                      <div style={{
-                        width: '38px',
-                        height: '38px',
-                        borderRadius: '10px',
-                        backgroundColor: app.bgLight,
-                        border: `1px solid ${app.color}30`,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        color: app.color,
-                        flexShrink: 0
-                      }}>
-                        <Icon size={20} />
-                      </div>
+              <button
+                onClick={() => openDemoModal({ solution: 'ATPL Software Suite', notes: 'Requesting PoC for ATPL Enterprise Software Suite' })}
+                style={{
+                  backgroundColor: '#e11d48',
+                  color: '#ffffff',
+                  border: 'none',
+                  padding: '1rem 2rem',
+                  fontSize: '0.88rem',
+                  fontWeight: 800,
+                  letterSpacing: '0.06em',
+                  textTransform: 'uppercase',
+                  borderRadius: '4px',
+                  cursor: 'pointer',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.55rem',
+                  transition: 'all 0.15s ease',
+                  boxShadow: '0 4px 14px rgba(225, 29, 72, 0.25)'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = '#be123c';
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.boxShadow = '0 8px 20px rgba(225, 29, 72, 0.35)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = '#e11d48';
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = '0 4px 14px rgba(225, 29, 72, 0.25)';
+                }}
+              >
+                <span>REQUEST A POC</span>
+                <ChevronRight size={16} strokeWidth={2.8} />
+              </button>
+            </div>
 
-                      <span style={{
-                        fontSize: '0.68rem',
-                        fontWeight: 700,
-                        color: app.color,
-                        backgroundColor: app.bgLight,
-                        padding: '0.2rem 0.55rem',
-                        borderRadius: '6px',
-                        textAlign: 'right'
-                      }}>
-                        {app.tagline}
-                      </span>
-                    </div>
+            {/* RIGHT COLUMN: 2-Column x 3-Row Grid of ATPL Featured Software */}
+            <div>
+              {/* Featured Header */}
+              <div style={{ marginBottom: '1.75rem', paddingLeft: '0.75rem' }}>
+                <div style={{
+                  fontSize: '0.78rem',
+                  fontWeight: 800,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.08em',
+                  color: '#64748b',
+                  marginBottom: '0.45rem'
+                }}>
+                  FEATURED APPS
+                </div>
+                <div style={{
+                  width: '36px',
+                  height: '2.5px',
+                  backgroundColor: '#e11d48',
+                  borderRadius: '999px'
+                }} />
+              </div>
 
-                    {/* App Title & Description */}
-                    <h3 style={{ 
-                      fontSize: '1.08rem', 
-                      fontWeight: 800, 
-                      color: '#0f172a', 
-                      marginBottom: '0.35rem', 
-                      lineHeight: 1.3,
-                      minHeight: '2.8rem',
-                      display: 'flex',
-                      alignItems: 'flex-start'
-                    }}>
-                      {app.name}
-                    </h3>
-                    <p style={{
-                      fontSize: '0.83rem',
-                      color: '#64748b',
-                      lineHeight: 1.5,
-                      marginBottom: '0.95rem',
-                      display: '-webkit-box',
-                      WebkitLineClamp: 3,
-                      WebkitBoxOrient: 'vertical',
-                      overflow: 'hidden',
-                      minHeight: '56px'
-                    }}>
-                      {app.desc}
-                    </p>
-
-                    {/* Feature Checkpoints */}
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', marginBottom: '1.1rem', marginTop: 'auto' }}>
-                      {app.features.slice(0, 3).map((feat, i) => (
-                        <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', fontSize: '0.78rem', color: '#334155' }}>
-                          <CheckCircle2 size={13} color={app.color} style={{ flexShrink: 0 }} />
-                          <span style={{ lineHeight: 1.3 }}>{feat}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Actions Footer */}
-                  <div style={{ paddingTop: '0.85rem', borderTop: '1px solid #f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 'auto' }}>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setCurrentView(app.view);
+              {/* 2x3 Grid */}
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))',
+                gap: '1.5rem 1.75rem'
+              }}>
+                {coreSolutions.map((sol) => {
+                  const Icon = sol.icon;
+                  return (
+                    <div
+                      key={sol.id}
+                      onClick={() => {
+                        setCurrentView(sol.view);
                         window.scrollTo({ top: 0, behavior: 'smooth' });
                       }}
                       style={{
-                        background: 'none',
-                        border: 'none',
-                        color: app.color,
-                        fontWeight: 700,
-                        fontSize: '0.82rem',
-                        cursor: 'pointer',
                         display: 'flex',
-                        alignItems: 'center',
-                        gap: '0.3rem',
-                        padding: '0.2rem 0'
-                      }}
-                    >
-                      <span>Explore specs</span>
-                      <ArrowRight size={13} />
-                    </button>
-
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        openDemoModal({ solution: app.name, notes: `Inquiry for ${app.name}` });
-                      }}
-                      style={{
-                        backgroundColor: '#f8fafc',
-                        border: '1px solid #e2e8f0',
-                        color: '#0f172a',
-                        fontWeight: 600,
-                        fontSize: '0.76rem',
-                        padding: '0.3rem 0.75rem',
-                        borderRadius: '6px',
+                        alignItems: 'flex-start',
+                        gap: '0.95rem',
+                        padding: '0.85rem 0.75rem',
+                        borderRadius: '10px',
                         cursor: 'pointer',
                         transition: 'all 0.15s ease'
                       }}
                       onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor = app.bgLight;
-                        e.currentTarget.style.borderColor = app.color;
-                        e.currentTarget.style.color = app.color;
+                        e.currentTarget.style.backgroundColor = '#f8fafc';
+                        e.currentTarget.style.transform = 'translateX(4px)';
                       }}
                       onMouseLeave={(e) => {
-                        e.currentTarget.style.backgroundColor = '#f8fafc';
-                        e.currentTarget.style.borderColor = '#e2e8f0';
-                        e.currentTarget.style.color = '#0f172a';
+                        e.currentTarget.style.backgroundColor = 'transparent';
+                        e.currentTarget.style.transform = 'translateX(0)';
                       }}
                     >
-                      Try Demo
-                    </button>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-        </div>
-      </section>
-
-      {/* Zoho One Style Section: "The Operating System for Manufacturing & Logistics" */}
-      <section style={{ padding: '5.5rem 0', backgroundColor: '#060b14', color: '#ffffff', position: 'relative' }}>
-        <div className="container">
-          
-          <div style={{ textAlign: 'center', maxWidth: '820px', margin: '0 auto 3.5rem auto' }}>
-            <div style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '0.4rem',
-              backgroundColor: 'rgba(228, 37, 40, 0.15)',
-              border: '1px solid rgba(228, 37, 40, 0.35)',
-              color: '#f87171',
-              padding: '0.35rem 0.9rem',
-              borderRadius: '999px',
-              fontSize: '0.78rem',
-              fontWeight: 700,
-              marginBottom: '1rem'
-            }}>
-              <Sparkles size={14} />
-              <span>THE OPERATING SYSTEM FOR SMART FACTORIES</span>
-            </div>
-
-            <h2 style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 800, color: '#ffffff', letterSpacing: '-0.02em', marginBottom: '1.2rem', lineHeight: 1.2 }}>
-              One integrated platform to run your entire shopfloor and supply chain.
-            </h2>
-            <p style={{ color: '#94a3b8', fontSize: '1.1rem', lineHeight: 1.65 }}>
-              Say goodbye to fragmented point solutions. ATPL brings your ERP, WMS, optical AI cameras, RFID gates, and engineering maintenance into a single connected operational ecosystem.
-            </p>
-          </div>
-
-          {/* 3 Pillar Cards */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
-            
-            <div style={{
-              backgroundColor: 'rgba(14, 26, 49, 0.8)',
-              border: '1px solid rgba(0, 113, 186, 0.4)',
-              borderRadius: '16px',
-              padding: '2.5rem',
-              boxShadow: '0 10px 30px rgba(0, 113, 186, 0.1)'
-            }}>
-              <div style={{
-                width: '52px',
-                height: '52px',
-                borderRadius: '12px',
-                backgroundColor: 'rgba(0, 113, 186, 0.2)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: '#38bdf8',
-                marginBottom: '1.5rem'
-              }}>
-                <Boxes size={28} />
-              </div>
-              <h3 style={{ fontSize: '1.4rem', fontWeight: 800, color: '#ffffff', marginBottom: '0.75rem' }}>
-                End-to-End Software Suite
-              </h3>
-              <p style={{ color: '#94a3b8', fontSize: '0.94rem', lineHeight: 1.65, marginBottom: '1.25rem' }}>
-                Native bi-directional connectors for SAP S/4HANA, Oracle, and Microsoft Dynamics with sub-second synchronization.
-              </p>
-              <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.6rem', color: '#cbd5e1', fontSize: '0.88rem' }}>
-                <li style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <CheckCircle2 size={16} color="#38bdf8" /> 99.98% Inventory accuracy guarantee
-                </li>
-                <li style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <CheckCircle2 size={16} color="#38bdf8" /> Full 21 CFR Part 11 electronic audit trail
-                </li>
-                <li style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <CheckCircle2 size={16} color="#38bdf8" /> Zero-code workflow customization
-                </li>
-              </ul>
-            </div>
-
-            <div style={{
-              backgroundColor: 'rgba(14, 26, 49, 0.8)',
-              border: '1px solid rgba(0, 154, 68, 0.4)',
-              borderRadius: '16px',
-              padding: '2.5rem',
-              boxShadow: '0 10px 30px rgba(0, 154, 68, 0.1)'
-            }}>
-              <div style={{
-                width: '52px',
-                height: '52px',
-                borderRadius: '12px',
-                backgroundColor: 'rgba(0, 154, 68, 0.2)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: '#34d399',
-                marginBottom: '1.5rem'
-              }}>
-                <Radio size={28} />
-              </div>
-              <h3 style={{ fontSize: '1.4rem', fontWeight: 800, color: '#ffffff', marginBottom: '0.75rem' }}>
-                Rugged Shopfloor Hardware
-              </h3>
-              <p style={{ color: '#94a3b8', fontSize: '0.94rem', lineHeight: 1.65, marginBottom: '1.25rem' }}>
-                Turnkey procurement, custom optical calibration, and heavy-duty field deployment tailored to your specific plant conditions.
-              </p>
-              <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.6rem', color: '#cbd5e1', fontSize: '0.88rem' }}>
-                <li style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <CheckCircle2 size={16} color="#34d399" /> Fixed UHF RFID portals & antenna arrays
-                </li>
-                <li style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <CheckCircle2 size={16} color="#34d399" /> Industrial DPM & 2D barcode scanners
-                </li>
-                <li style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <CheckCircle2 size={16} color="#34d399" /> High-speed TIJ & thermal packaging coders
-                </li>
-              </ul>
-            </div>
-
-            <div style={{
-              backgroundColor: 'rgba(14, 26, 49, 0.8)',
-              border: '1px solid rgba(228, 37, 40, 0.4)',
-              borderRadius: '16px',
-              padding: '2.5rem',
-              boxShadow: '0 10px 30px rgba(228, 37, 40, 0.1)'
-            }}>
-              <div style={{
-                width: '52px',
-                height: '52px',
-                borderRadius: '12px',
-                backgroundColor: 'rgba(228, 37, 40, 0.2)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: '#f87171',
-                marginBottom: '1.5rem'
-              }}>
-                <Headphones size={28} />
-              </div>
-              <h3 style={{ fontSize: '1.4rem', fontWeight: 800, color: '#ffffff', marginBottom: '0.75rem' }}>
-                24/7 FieldCare™ SLA
-              </h3>
-              <p style={{ color: '#94a3b8', fontSize: '0.94rem', lineHeight: 1.65, marginBottom: '1.25rem' }}>
-                Keep your lines operating 24/7 with our guaranteed response SLAs, quarterly preventive audits, and consignment spare vaults.
-              </p>
-              <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.6rem', color: '#cbd5e1', fontSize: '0.88rem' }}>
-                <li style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <CheckCircle2 size={16} color="#f87171" /> Guaranteed 4-hour on-site engineer dispatch
-                </li>
-                <li style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <CheckCircle2 size={16} color="#f87171" /> Pre-provisioned hot-swap hardware buffer
-                </li>
-                <li style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <CheckCircle2 size={16} color="#f87171" /> Direct access to senior automation engineers
-                </li>
-              </ul>
-            </div>
-
-          </div>
-
-        </div>
-      </section>
-
-      {/* =========================================================================
-          ENTERPRISE CASE STUDIES & PROVEN RESULTS (6 Detailed Success Stories)
-         ========================================================================= */}
-      <section id="atpl-case-studies" style={{ padding: '5.5rem 0', backgroundColor: '#f8fafc', borderTop: '1px solid #e2e8f0' }}>
-        <div className="container">
-          
-          <div style={{ textAlign: 'center', maxWidth: '840px', margin: '0 auto 3.5rem auto' }}>
-            <span style={{
-              fontSize: '0.78rem',
-              fontWeight: 800,
-              textTransform: 'uppercase',
-              letterSpacing: '0.08em',
-              color: '#0071ba',
-              backgroundColor: '#eff6ff',
-              border: '1px solid #bfdbfe',
-              padding: '0.35rem 0.9rem',
-              borderRadius: '999px',
-              display: 'inline-block',
-              marginBottom: '1rem'
-            }}>
-              MEASURABLE ROI & ENTERPRISE BENCHMARKS
-            </span>
-            <h2 style={{ fontSize: 'clamp(2.1rem, 4vw, 3rem)', fontWeight: 800, color: '#0f172a', letterSpacing: '-0.025em', marginBottom: '1rem', lineHeight: 1.2 }}>
-              Proven Success Across 250+ Manufacturing Plants
-            </h2>
-            <p style={{ color: '#64748b', fontSize: '1.05rem', lineHeight: 1.65 }}>
-              From tier-1 automotive suppliers to high-throughput FMCG lines and pharmaceutical packaging facilities, explore how ATPL software, RFID portals, and sub-8ms vision AI deliver tangible bottom-line impact.
-            </p>
-          </div>
-
-          <style>{`
-            .case-studies-grid {
-              display: grid;
-              grid-template-columns: repeat(3, minmax(0, 1fr));
-              gap: 1.75rem;
-              align-items: stretch;
-            }
-            .case-study-card {
-              height: 100% !important;
-              display: flex !important;
-              flex-direction: column !important;
-              justify-content: space-between !important;
-              background-color: #ffffff;
-              border: 1.5px solid #e2e8f0;
-              border-radius: 16px;
-              padding: 1.75rem;
-              box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
-              transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            }
-            .case-study-card:hover {
-              transform: translateY(-4px);
-              border-color: #0071ba;
-              box-shadow: 0 16px 36px rgba(0, 113, 186, 0.12);
-            }
-            @media (max-width: 1024px) {
-              .case-studies-grid {
-                grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-                gap: 1.25rem !important;
-              }
-            }
-            @media (max-width: 640px) {
-              .case-studies-grid {
-                grid-template-columns: 1fr !important;
-                gap: 1.25rem !important;
-              }
-              .case-study-card {
-                padding: 1.25rem !important;
-              }
-            }
-          `}</style>
-
-          <div className="case-studies-grid">
-            {ENTERPRISE_CASE_STUDIES.map((cs) => (
-              <div key={cs.id} className="case-study-card">
-                
-                {/* Top Header & Industry Badge */}
-                <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem', gap: '0.5rem' }}>
-                    <span style={{
-                      fontSize: '0.7rem',
-                      fontWeight: 800,
-                      color: '#0071ba',
-                      backgroundColor: '#eff6ff',
-                      border: '1px solid #bfdbfe',
-                      padding: '0.25rem 0.65rem',
-                      borderRadius: '999px',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.04em'
-                    }}>
-                      {cs.industry}
-                    </span>
-                    <span style={{ fontSize: '0.72rem', color: '#94a3b8', fontWeight: 600 }}>
-                      ★ Enterprise Case
-                    </span>
-                  </div>
-
-                  {/* Impact Metric Callout */}
-                  <div style={{
-                    backgroundColor: 'rgba(0, 113, 186, 0.06)',
-                    border: '1px solid rgba(0, 113, 186, 0.2)',
-                    borderRadius: '12px',
-                    padding: '0.9rem 1.1rem',
-                    marginBottom: '1.25rem'
-                  }}>
-                    <div style={{
-                      fontFamily: 'var(--font-display)',
-                      fontSize: '2rem',
-                      fontWeight: 900,
-                      color: '#0071ba',
-                      lineHeight: 1.1,
-                      letterSpacing: '-0.02em',
-                      marginBottom: '0.2rem'
-                    }}>
-                      {cs.metricValue}
-                    </div>
-                    <div style={{ fontSize: '0.82rem', fontWeight: 800, color: '#0f172a', lineHeight: 1.3 }}>
-                      {cs.metricLabel}
-                    </div>
-                    <div style={{ fontSize: '0.74rem', color: '#10b981', fontWeight: 700, marginTop: '0.25rem' }}>
-                      ✓ {cs.secondaryMetric}
-                    </div>
-                  </div>
-
-                  {/* Client & Solution Titles */}
-                  <h3 style={{ fontSize: '1.15rem', fontWeight: 800, color: '#0f172a', lineHeight: 1.35, marginBottom: '0.5rem' }}>
-                    {cs.solution}
-                  </h3>
-                  <div style={{ fontSize: '0.78rem', color: '#64748b', fontWeight: 600, marginBottom: '0.85rem' }}>
-                    Deployment: <strong style={{ color: '#334155' }}>{cs.client}</strong>
-                  </div>
-
-                  {/* Problem & Solution Narrative */}
-                  <div style={{ marginBottom: '1.1rem' }}>
-                    <p style={{ fontSize: '0.82rem', color: '#475569', lineHeight: 1.55, marginBottom: '0.5rem' }}>
-                      <strong>Challenge:</strong> {cs.challenge}
-                    </p>
-                    <p style={{ fontSize: '0.82rem', color: '#475569', lineHeight: 1.55 }}>
-                      <strong>ATPL Implementation:</strong> {cs.solutionDesc}
-                    </p>
-                  </div>
-
-                  {/* Tags */}
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.35rem', marginTop: 'auto', marginBottom: '1.25rem' }}>
-                    {cs.tags.map((tag, tIdx) => (
-                      <span key={tIdx} style={{
-                        fontSize: '0.68rem',
-                        fontWeight: 700,
-                        color: '#475569',
-                        backgroundColor: '#f1f5f9',
-                        padding: '0.2rem 0.5rem',
-                        borderRadius: '4px'
+                      <div style={{
+                        width: '44px',
+                        height: '44px',
+                        borderRadius: '10px',
+                        backgroundColor: sol.bgColor,
+                        color: sol.color,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        flexShrink: 0
                       }}>
-                        #{tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
+                        <Icon size={23} strokeWidth={2} />
+                      </div>
 
-                {/* Card Action Footer */}
-                <div style={{ borderTop: '1px solid #f1f5f9', paddingTop: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.5rem' }}>
-                  <button
-                    onClick={() => {
-                      setCurrentView(cs.targetView);
-                      window.scrollTo({ top: 0, behavior: 'smooth' });
-                    }}
-                    style={{
-                      background: 'none',
-                      border: 'none',
-                      color: '#0071ba',
-                      fontWeight: 700,
-                      fontSize: '0.82rem',
-                      cursor: 'pointer',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.3rem',
-                      padding: '0.2rem 0'
-                    }}
-                  >
-                    <span>View Architecture</span>
-                    <ArrowRight size={13} />
-                  </button>
-
-                  <button
-                    onClick={() => openDemoModal({ solution: cs.solution, notes: `Case study inquiry regarding ${cs.industry}: ${cs.metricLabel}` })}
-                    style={{
-                      backgroundColor: '#0071ba',
-                      border: 'none',
-                      color: '#ffffff',
-                      fontWeight: 700,
-                      fontSize: '0.78rem',
-                      padding: '0.4rem 0.85rem',
-                      borderRadius: '6px',
-                      cursor: 'pointer',
-                      transition: 'all 0.15s ease'
-                    }}
-                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#005a96'}
-                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#0071ba'}
-                  >
-                    Request Case PoC
-                  </button>
-                </div>
-
-              </div>
-            ))}
-          </div>
-
-          {/* Brochure & Feasibility Callout Bar */}
-          <div style={{
-            marginTop: '3.5rem',
-            background: 'linear-gradient(135deg, #0b1a30 0%, #06101e 100%)',
-            border: '1.5px solid rgba(0, 240, 255, 0.35)',
-            borderRadius: '16px',
-            padding: '2rem 2.5rem',
-            display: 'flex',
-            flexWrap: 'wrap',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: '1.5rem',
-            boxShadow: '0 16px 40px rgba(0, 0, 0, 0.25)'
-          }}>
-            <div>
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', color: '#00f0ff', fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '0.35rem' }}>
-                <FileText size={14} />
-                <span>OFFICIAL CORPORATE REPORT • 2026 EDITION</span>
-              </div>
-              <h3 style={{ fontSize: '1.35rem', fontWeight: 800, color: '#ffffff', margin: '0 0 0.35rem 0' }}>
-                Download ATPL Smart Factory 4.0 Corporate Overview
-              </h3>
-              <p style={{ color: '#94a3b8', fontSize: '0.88rem', margin: 0, maxWidth: '620px' }}>
-                Includes comprehensive engineering diagrams, product datasheets, RFID read speed benchmarks, and SAP/Oracle connector specifications.
-              </p>
-            </div>
-
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
-              <button
-                onClick={handleDownloadBrochure}
-                style={{
-                  backgroundColor: '#00f0ff',
-                  border: 'none',
-                  color: '#030a16',
-                  padding: '0.75rem 1.4rem',
-                  borderRadius: '8px',
-                  fontWeight: 800,
-                  fontSize: '0.88rem',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.45rem',
-                  boxShadow: '0 4px 18px rgba(0, 240, 255, 0.4)',
-                  transition: 'all 0.15s ease'
-                }}
-                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#38bdf8'}
-                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#00f0ff'}
-              >
-                <Download size={16} />
-                <span>Download Brochure (PDF)</span>
-              </button>
-
-              <button
-                onClick={() => openDemoModal({ solution: 'Plant Feasibility Study', notes: 'Brochure bar inquiry' })}
-                style={{
-                  backgroundColor: 'rgba(255, 255, 255, 0.08)',
-                  border: '1px solid rgba(255, 255, 255, 0.2)',
-                  color: '#ffffff',
-                  padding: '0.75rem 1.3rem',
-                  borderRadius: '8px',
-                  fontWeight: 700,
-                  fontSize: '0.88rem',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.45rem',
-                  transition: 'all 0.15s ease'
-                }}
-                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.15)'}
-                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.08)'}
-              >
-                <PhoneCall size={15} />
-                <span>Talk to Automation Architect</span>
-              </button>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      {/* =========================================================================
-          PROVEN ENTERPRISE CASE STUDIES & QUANTIFIED RESULTS
-         ========================================================================= */}
-      <EnterpriseCaseStudiesSection />
-
-      {/* =========================================================================
-          WHY ATPL VS TRADITIONAL SYSTEM INTEGRATORS & GLOBAL VENDORS
-         ========================================================================= */}
-      <AtplDifferentiation />
-
-      {/* =========================================================================
-          VERIFIED CUSTOMER TESTIMONIALS (Executive Quotes & Verified Plants)
-         ========================================================================= */}
-      <section style={{ padding: '5.5rem 0', backgroundColor: '#050c18', color: '#ffffff', position: 'relative' }}>
-        <div className="container">
-          
-          <div style={{ textAlign: 'center', maxWidth: '820px', margin: '0 auto 3.5rem auto' }}>
-            <span style={{
-              fontSize: '0.78rem',
-              fontWeight: 800,
-              textTransform: 'uppercase',
-              letterSpacing: '0.08em',
-              color: '#fbb03b',
-              backgroundColor: 'rgba(251, 176, 59, 0.12)',
-              border: '1px solid rgba(251, 176, 59, 0.3)',
-              padding: '0.35rem 0.9rem',
-              borderRadius: '999px',
-              display: 'inline-block',
-              marginBottom: '1rem'
-            }}>
-              VOICES FROM THE FRONTLINE
-            </span>
-            <h2 style={{ fontSize: 'clamp(2.1rem, 4vw, 3rem)', fontWeight: 800, color: '#ffffff', letterSpacing: '-0.025em', marginBottom: '1rem', lineHeight: 1.2 }}>
-              Trusted by Industrial Leaders & Plant Directors
-            </h2>
-            <p style={{ color: '#94a3b8', fontSize: '1.05rem', lineHeight: 1.65 }}>
-              Hear how manufacturing executives, supply chain heads, and quality leaders achieve zero-defect assembly and sub-second traceability with ATPL.
-            </p>
-          </div>
-
-          <style>{`
-            .testimonials-grid {
-              display: grid;
-              grid-template-columns: repeat(4, minmax(0, 1fr));
-              gap: 1.5rem;
-              align-items: stretch;
-            }
-            .testimonial-card {
-              height: 100% !important;
-              display: flex !important;
-              flex-direction: column !important;
-              justify-content: space-between !important;
-              background: rgba(14, 26, 49, 0.85);
-              backdrop-filter: blur(16px);
-              -webkit-backdrop-filter: blur(16px);
-              border: 1px solid rgba(0, 240, 255, 0.25);
-              border-radius: 16px;
-              padding: 1.6rem;
-              box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-              transition: all 0.25s ease;
-            }
-            .testimonial-card:hover {
-              transform: translateY(-4px);
-              border-color: #00f0ff;
-              box-shadow: 0 16px 40px rgba(0, 240, 255, 0.15);
-            }
-            @media (max-width: 1100px) {
-              .testimonials-grid {
-                grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-                gap: 1.25rem !important;
-              }
-            }
-            @media (max-width: 640px) {
-              .testimonials-grid {
-                grid-template-columns: 1fr !important;
-                gap: 1.15rem !important;
-              }
-              .testimonial-card {
-                padding: 1.25rem !important;
-              }
-            }
-          `}</style>
-
-          <div className="testimonials-grid">
-            {CUSTOMER_TESTIMONIALS.map((t) => (
-              <div key={t.id} className="testimonial-card">
-                <div>
-                  
-                  {/* Star Rating & Highlight Pill */}
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem', gap: '0.4rem' }}>
-                    <div style={{ display: 'flex', gap: '2px' }}>
-                      {[...Array(t.rating)].map((_, i) => (
-                        <Star key={i} size={15} color="#fbb03b" fill="#fbb03b" />
-                      ))}
+                      <div>
+                        <h4 style={{
+                          fontSize: '1.08rem',
+                          fontWeight: 700,
+                          color: '#0f172a',
+                          margin: '0 0 0.3rem 0',
+                          lineHeight: 1.3
+                        }}>
+                          {sol.name}
+                        </h4>
+                        <p style={{
+                          fontSize: '0.86rem',
+                          color: '#64748b',
+                          lineHeight: 1.48,
+                          margin: 0
+                        }}>
+                          {sol.shortDesc || sol.summary}
+                        </p>
+                      </div>
                     </div>
-                    <span style={{
-                      fontSize: '0.66rem',
-                      fontWeight: 800,
-                      color: '#34d399',
-                      backgroundColor: 'rgba(16, 185, 129, 0.15)',
-                      border: '1px solid rgba(16, 185, 129, 0.35)',
-                      padding: '0.15rem 0.5rem',
-                      borderRadius: '4px'
-                    }}>
-                      {t.highlight}
-                    </span>
-                  </div>
-
-                  {/* Quote Text */}
-                  <p style={{
-                    fontSize: '0.86rem',
-                    color: '#e2e8f0',
-                    lineHeight: 1.6,
-                    fontStyle: 'italic',
-                    marginBottom: '1.25rem',
-                    position: 'relative'
-                  }}>
-                    "{t.quote}"
-                  </p>
-                </div>
-
-                {/* Author Info */}
-                <div style={{ borderTop: '1px solid rgba(255, 255, 255, 0.1)', paddingTop: '1rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                  <div style={{
-                    width: '38px',
-                    height: '38px',
-                    borderRadius: '50%',
-                    background: 'linear-gradient(135deg, #0071ba 0%, #E85874 100%)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: '#ffffff',
-                    fontWeight: 800,
-                    fontSize: '0.82rem',
-                    flexShrink: 0
-                  }}>
-                    {t.name.split(' ').map(w => w[0]).join('').slice(0, 2)}
-                  </div>
-                  <div style={{ minWidth: 0 }}>
-                    <div style={{ fontWeight: 800, fontSize: '0.88rem', color: '#ffffff', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                      {t.name}
-                    </div>
-                    <div style={{ fontSize: '0.74rem', color: '#38bdf8', fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                      {t.role}
-                    </div>
-                    <div style={{ fontSize: '0.7rem', color: '#94a3b8', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                      {t.company}
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-            ))}
-          </div>
-
-        </div>
-      </section>
-
-      {/* =========================================================================
-          ABOUT ARCHERY TECHNOCRATS SHOWCASE (Heritage, Leadership & Certifications)
-         ========================================================================= */}
-      <section id="atpl-about-overview" style={{ padding: '5.5rem 0', backgroundColor: '#ffffff', borderTop: '1px solid #e2e8f0' }}>
-        <div className="container">
-          
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '3.5rem', alignItems: 'center' }}>
-            
-            {/* Left Column: Mission, Vision, Heritage */}
-            <div>
-              <span style={{
-                fontSize: '0.78rem',
-                fontWeight: 800,
-                textTransform: 'uppercase',
-                letterSpacing: '0.08em',
-                color: '#E85874',
-                backgroundColor: 'rgba(232, 88, 116, 0.08)',
-                border: '1px solid rgba(232, 88, 116, 0.3)',
-                padding: '0.35rem 0.9rem',
-                borderRadius: '999px',
-                display: 'inline-block',
-                marginBottom: '1rem'
-              }}>
-                ARCHERY TECHNOCRATS PRIVATE LIMITED (ATPL)
-              </span>
-
-              <h2 style={{ fontSize: 'clamp(2rem, 3.8vw, 2.8rem)', fontWeight: 800, color: '#0f172a', letterSpacing: '-0.025em', marginBottom: '1.25rem', lineHeight: 1.2 }}>
-                Engineering Target Perfection for 35+ Combined Years.
-              </h2>
-
-              <p style={{ color: '#475569', fontSize: '1rem', lineHeight: 1.65, marginBottom: '1.25rem' }}>
-                Headquartered at <strong>TIDEL Park, Chennai</strong> with dedicated AI/ML and embedded IIoT research labs at <strong>TCE-TBI, Thiagarajar College of Engineering, Madurai</strong>, ATPL architects zero-defect smart manufacturing ecosystems.
-              </p>
-
-              <p style={{ color: '#475569', fontSize: '0.94rem', lineHeight: 1.65, marginBottom: '2rem' }}>
-                Under the executive leadership of <strong>Amarnath Paramasivam</strong> (Managing Director, 15+ yrs automation domain leader) and <strong>Anusuya Paramasivam</strong> (Director, ME VLSI Design), ATPL unites hardware reliability with cloud-native intelligence.
-              </p>
-
-              {/* 4 Key Institutional Milestones */}
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem', marginBottom: '2.25rem' }}>
-                <div style={{ padding: '0.85rem', backgroundColor: '#f8fafc', borderRadius: '10px', border: '1px solid #e2e8f0' }}>
-                  <div style={{ fontSize: '1.4rem', fontWeight: 900, color: '#0071ba' }}>35+ Yrs</div>
-                  <div style={{ fontSize: '0.78rem', color: '#64748b', fontWeight: 600 }}>Combined Engineering Mastery</div>
-                </div>
-                <div style={{ padding: '0.85rem', backgroundColor: '#f8fafc', borderRadius: '10px', border: '1px solid #e2e8f0' }}>
-                  <div style={{ fontSize: '1.4rem', fontWeight: 900, color: '#10b981' }}>250+</div>
-                  <div style={{ fontSize: '0.78rem', color: '#64748b', fontWeight: 600 }}>Manufacturing Plants Powered</div>
-                </div>
-                <div style={{ padding: '0.85rem', backgroundColor: '#f8fafc', borderRadius: '10px', border: '1px solid #e2e8f0' }}>
-                  <div style={{ fontSize: '1.4rem', fontWeight: 900, color: '#E85874' }}>ISO 9001</div>
-                  <div style={{ fontSize: '0.78rem', color: '#64748b', fontWeight: 600 }}>BMQR Certified Quality Mgmt</div>
-                </div>
-                <div style={{ padding: '0.85rem', backgroundColor: '#f8fafc', borderRadius: '10px', border: '1px solid #e2e8f0' }}>
-                  <div style={{ fontSize: '1.4rem', fontWeight: 900, color: '#8b5cf6' }}>DPIIT</div>
-                  <div style={{ fontSize: '0.78rem', color: '#64748b', fontWeight: 600 }}>Govt. Recognized #StartupIndia</div>
-                </div>
+                  );
+                })}
               </div>
 
-              {/* Action Buttons */}
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.85rem' }}>
+              {/* Bottom Explore Link */}
+              <div style={{ marginTop: '2rem', paddingLeft: '0.75rem' }}>
                 <button
                   onClick={() => {
-                    setCurrentView('about');
+                    setCurrentView('software');
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                   }}
                   style={{
-                    backgroundColor: '#0071ba',
-                    color: '#ffffff',
+                    background: 'none',
                     border: 'none',
-                    padding: '0.85rem 1.6rem',
-                    fontSize: '0.92rem',
-                    fontWeight: 700,
-                    borderRadius: '8px',
-                    cursor: 'pointer',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '0.45rem',
-                    boxShadow: '0 4px 18px rgba(0, 113, 186, 0.3)',
-                    transition: 'all 0.15s ease'
-                  }}
-                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#005a96'}
-                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#0071ba'}
-                >
-                  <span>Explore Full About Us Page</span>
-                  <ArrowRight size={16} />
-                </button>
-
-                <button
-                  onClick={handleDownloadBrochure}
-                  style={{
-                    backgroundColor: '#ffffff',
-                    color: '#0f172a',
-                    border: '1.5px solid #cbd5e1',
-                    padding: '0.85rem 1.4rem',
-                    fontSize: '0.92rem',
-                    fontWeight: 700,
-                    borderRadius: '8px',
-                    cursor: 'pointer',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '0.45rem',
-                    transition: 'all 0.15s ease'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.borderColor = '#0071ba';
-                    e.currentTarget.style.color = '#0071ba';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.borderColor = '#cbd5e1';
-                    e.currentTarget.style.color = '#0f172a';
-                  }}
-                >
-                  <Download size={15} />
-                  <span>Download Overview PDF</span>
-                </button>
-              </div>
-
-            </div>
-
-            {/* Right Column: Physical Facilities & Innovation Hubs Cards */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-              
-              <div style={{
-                backgroundColor: '#f8fafc',
-                border: '1.5px solid #e2e8f0',
-                borderRadius: '14px',
-                padding: '1.5rem',
-                boxShadow: '0 4px 14px rgba(0, 0, 0, 0.03)'
-              }}>
-                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.85rem' }}>
-                  <div style={{
-                    width: '42px',
-                    height: '42px',
-                    borderRadius: '10px',
-                    backgroundColor: 'rgba(0, 113, 186, 0.1)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
                     color: '#0071ba',
-                    flexShrink: 0
-                  }}>
-                    <Building2 size={22} />
-                  </div>
-                  <div>
-                    <h4 style={{ fontSize: '1.05rem', fontWeight: 800, color: '#0f172a', margin: '0 0 0.25rem 0' }}>
-                      Sales Office & Demo Center (Chennai HQ)
-                    </h4>
-                    <p style={{ fontSize: '0.82rem', color: '#64748b', lineHeight: 1.5, margin: '0 0 0.5rem 0' }}>
-                      TIDEL Park, G11 Ground Floor, No.4 Canal Bank Rd, Taramani, Chennai - 600113
-                    </p>
-                    <span style={{ fontSize: '0.74rem', color: '#0071ba', fontWeight: 700 }}>
-                      Live Hardware Demos • Solution Architecture • Client Briefings
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <div style={{
-                backgroundColor: '#f8fafc',
-                border: '1.5px solid #e2e8f0',
-                borderRadius: '14px',
-                padding: '1.5rem',
-                boxShadow: '0 4px 14px rgba(0, 0, 0, 0.03)'
-              }}>
-                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.85rem' }}>
-                  <div style={{
-                    width: '42px',
-                    height: '42px',
-                    borderRadius: '10px',
-                    backgroundColor: 'rgba(232, 88, 116, 0.1)',
-                    display: 'flex',
+                    fontSize: '0.88rem',
+                    fontWeight: 800,
+                    letterSpacing: '0.06em',
+                    textTransform: 'uppercase',
+                    cursor: 'pointer',
+                    display: 'inline-flex',
                     alignItems: 'center',
-                    justifyContent: 'center',
-                    color: '#E85874',
-                    flexShrink: 0
-                  }}>
-                    <Cpu size={22} />
-                  </div>
-                  <div>
-                    <h4 style={{ fontSize: '1.05rem', fontWeight: 800, color: '#0f172a', margin: '0 0 0.25rem 0' }}>
-                      R&D Innovation Labs (Madurai)
-                    </h4>
-                    <p style={{ fontSize: '0.82rem', color: '#64748b', lineHeight: 1.5, margin: '0 0 0.5rem 0' }}>
-                      Technology Business Incubator (TCE-TBI), Thiagarajar College of Engineering, Madurai - 625015
-                    </p>
-                    <span style={{ fontSize: '0.74rem', color: '#E85874', fontWeight: 700 }}>
-                      Edge AI Neural Vision • IIoT Sensor Firmware • Cloud SaaS MES
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <div style={{
-                backgroundColor: '#f8fafc',
-                border: '1.5px solid #e2e8f0',
-                borderRadius: '14px',
-                padding: '1.5rem',
-                boxShadow: '0 4px 14px rgba(0, 0, 0, 0.03)'
-              }}>
-                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.85rem' }}>
-                  <div style={{
-                    width: '42px',
-                    height: '42px',
-                    borderRadius: '10px',
-                    backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: '#10b981',
-                    flexShrink: 0
-                  }}>
-                    <Factory size={22} />
-                  </div>
-                  <div>
-                    <h4 style={{ fontSize: '1.05rem', fontWeight: 800, color: '#0f172a', margin: '0 0 0.25rem 0' }}>
-                      Industrial Support Corridor (Hosur & Bangalore)
-                    </h4>
-                    <p style={{ fontSize: '0.82rem', color: '#64748b', lineHeight: 1.5, margin: '0 0 0.5rem 0' }}>
-                      Industrial Area, Hosur & Bangalore Automotive Manufacturing Corridor
-                    </p>
-                    <span style={{ fontSize: '0.74rem', color: '#10b981', fontWeight: 700 }}>
-                      24/7 FieldCare™ AMC • Rapid Dispatch • Spare Part Vaults
-                    </span>
-                  </div>
-                </div>
+                    gap: '0.4rem',
+                    padding: 0,
+                    transition: 'all 0.15s ease'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.color = '#005288';
+                    e.currentTarget.style.transform = 'translateX(3px)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.color = '#0071ba';
+                    e.currentTarget.style.transform = 'translateX(0)';
+                  }}
+                >
+                  <span>EXPLORE ALL PRODUCTS</span>
+                  <ChevronRight size={16} strokeWidth={2.8} />
+                </button>
               </div>
 
             </div>
@@ -1746,292 +547,39 @@ export const HomeView = () => {
       </section>
 
       {/* =========================================================================
-          INDUSTRY 4.0 RESOURCES, WHITEPAPERS & ROI TOOLS SECTION
+          5. ATPL FOR ENTERPRISE & LEADERSHIP VISION (Zoho-Style Split Section)
          ========================================================================= */}
-      <AtplResourcesSection />
-
-      {/* Trust, Clients & OEM Partners Strip */}
-      <section style={{ padding: '5rem 0', backgroundColor: '#ffffff', borderTop: '1px solid #f1f5f9' }}>
-        <div className="container" style={{ textAlign: 'center' }}>
-          
-          <div style={{
-            display: 'inline-block',
-            backgroundColor: '#eff6ff',
-            color: '#0071ba',
-            border: '1px solid #bfdbfe',
-            padding: '0.35rem 1rem',
-            borderRadius: '999px',
-            fontSize: '0.78rem',
-            fontWeight: 800,
-            textTransform: 'uppercase',
-            letterSpacing: '0.08em',
-            marginBottom: '1rem'
-          }}>
-            TRUSTED BY 250+ ENTERPRISE MANUFACTURING LEADERS
-          </div>
-
-          <h3 style={{
-            fontSize: '1.8rem',
-            fontWeight: 800,
-            color: '#0f172a',
-            marginBottom: '2.5rem',
-            letterSpacing: '-0.02em'
-          }}>
-            Powering Shopfloors Across Global Giants & Indian Conglomerates
-          </h3>
-
-          {/* Client Logos Section: Responsive Desktop Grid & Mobile Auto-scrolling Carousels */}
-          <style>{`
-            .client-logos-desktop-grid {
-              display: grid;
-              grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
-              gap: 1.25rem;
-              align-items: center;
-              justify-content: center;
-              max-width: 1180px;
-              margin: 0 auto 4rem auto;
-            }
-            .client-logos-mobile-carousel {
-              display: none;
-            }
-            @media (max-width: 768px) {
-              .client-logos-desktop-grid {
-                display: none !important;
-              }
-              .client-logos-mobile-carousel {
-                display: block !important;
-                width: 100vw;
-                margin-left: calc(-50vw + 50%);
-                overflow: hidden;
-                padding: 0.5rem 0 2rem 0;
-                mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
-                -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
-              }
-            }
-          `}</style>
-
-          {/* Desktop Grid */}
-          <div className="client-logos-desktop-grid">
-            {CLIENT_LOGOS_LIST.map((client) => {
-              const LogoComp = client.component;
-              return (
-                <div 
-                  key={client.id}
-                  style={{
-                    backgroundColor: '#ffffff',
-                    border: '1.5px solid #e2e8f0',
-                    borderRadius: '12px',
-                    padding: '0.6rem 1.25rem',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    height: '88px',
-                    boxShadow: '0 3px 10px rgba(0, 0, 0, 0.05)',
-                    transition: 'all 0.25s ease',
-                    cursor: 'default'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = 'translateY(-3px)';
-                    e.currentTarget.style.boxShadow = '0 12px 24px rgba(0, 113, 186, 0.2)';
-                    e.currentTarget.style.borderColor = '#0071ba';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = 'translateY(0)';
-                    e.currentTarget.style.boxShadow = '0 3px 10px rgba(0, 0, 0, 0.05)';
-                    e.currentTarget.style.borderColor = '#e2e8f0';
-                  }}
-                  title={client.name}
-                >
-                  <LogoComp height={56} />
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Mobile Horizontal Auto-scrolling Carousels */}
-          <div className="client-logos-mobile-carousel">
-            {/* Row 1 - Smooth Leftward Scroll */}
-            <div style={{ overflow: 'hidden', width: '100%', marginBottom: '0.85rem' }}>
-              <div 
-                style={{
-                  display: 'flex',
-                  gap: '0.75rem',
-                  width: 'max-content',
-                  animation: 'marqueeScroll 26s linear infinite'
-                }}
-                onTouchStart={(e) => { e.currentTarget.style.animationPlayState = 'paused'; }}
-                onTouchEnd={(e) => { e.currentTarget.style.animationPlayState = 'running'; }}
-              >
-                {[...CLIENT_LOGOS_LIST.slice(0, 16), ...CLIENT_LOGOS_LIST.slice(0, 16)].map((client, idx) => {
-                  const LogoComp = client.component;
-                  return (
-                    <div 
-                      key={`mob-row1-${client.id}-${idx}`}
-                      style={{
-                        backgroundColor: '#ffffff',
-                        border: '1.5px solid #e2e8f0',
-                        borderRadius: '10px',
-                        padding: '0.45rem 0.9rem',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        width: '140px',
-                        height: '72px',
-                        flexShrink: 0,
-                        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)'
-                      }}
-                      title={client.name}
-                    >
-                      <LogoComp height={42} />
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Row 2 - Smooth Rightward Scroll */}
-            <div style={{ overflow: 'hidden', width: '100%', marginBottom: '1.5rem' }}>
-              <div 
-                style={{
-                  display: 'flex',
-                  gap: '0.75rem',
-                  width: 'max-content',
-                  animation: 'marqueeScrollReverse 26s linear infinite'
-                }}
-                onTouchStart={(e) => { e.currentTarget.style.animationPlayState = 'paused'; }}
-                onTouchEnd={(e) => { e.currentTarget.style.animationPlayState = 'running'; }}
-              >
-                {[...CLIENT_LOGOS_LIST.slice(16), ...CLIENT_LOGOS_LIST.slice(16)].map((client, idx) => {
-                  const LogoComp = client.component;
-                  return (
-                    <div 
-                      key={`mob-row2-${client.id}-${idx}`}
-                      style={{
-                        backgroundColor: '#ffffff',
-                        border: '1.5px solid #e2e8f0',
-                        borderRadius: '10px',
-                        padding: '0.45rem 0.9rem',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        width: '140px',
-                        height: '72px',
-                        flexShrink: 0,
-                        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)'
-                      }}
-                      title={client.name}
-                    >
-                      <LogoComp height={42} />
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-
-          <div style={{
-            display: 'inline-block',
-            backgroundColor: '#f8fafc',
-            color: '#475569',
-            border: '1px solid #cbd5e1',
-            padding: '0.35rem 1rem',
-            borderRadius: '999px',
-            fontSize: '0.78rem',
-            fontWeight: 800,
-            textTransform: 'uppercase',
-            letterSpacing: '0.08em',
-            marginBottom: '1rem'
-          }}>
-            STANDARDS, CERTIFICATIONS & OEM ALLIANCES
-          </div>
-
-          <h3 style={{
-            fontSize: '1.6rem',
-            fontWeight: 800,
-            color: '#0f172a',
-            marginBottom: '2rem',
-            letterSpacing: '-0.02em'
-          }}>
-            Government & Global Regulatory Compliance
-          </h3>
-
-          {/* Certification Badges */}
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(210px, 1fr))',
-            gap: '1.25rem',
-            maxWidth: '1140px',
-            margin: '0 auto'
-          }}>
-            {CERTIFICATION_BADGES_LIST.map((cert) => {
-              const CertComp = cert.component;
-              return (
-                <div 
-                  key={cert.id}
-                  style={{
-                    backgroundColor: '#ffffff',
-                    border: '1.5px solid #e2e8f0',
-                    borderRadius: '14px',
-                    padding: '1.15rem 1.25rem',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    minHeight: '75px',
-                    boxShadow: '0 4px 14px rgba(0, 0, 0, 0.04)',
-                    transition: 'all 0.25s ease'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = 'translateY(-3px)';
-                    e.currentTarget.style.boxShadow = '0 10px 22px rgba(0, 0, 0, 0.08)';
-                    e.currentTarget.style.borderColor = '#0071ba';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = 'translateY(0)';
-                    e.currentTarget.style.boxShadow = '0 4px 14px rgba(0, 0, 0, 0.04)';
-                    e.currentTarget.style.borderColor = '#e2e8f0';
-                  }}
-                  title={cert.name}
-                >
-                  <CertComp height={34} />
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
+      <EnterpriseLeaderSection setCurrentView={setCurrentView} />
 
       {/* =========================================================================
-          OFFICIAL OEM & STRATEGIC PARTNERS SHOWCASE
+          6. REAL CUSTOMER STORIES (Zoho-Style Cinematic Carousel Banner)
          ========================================================================= */}
-      <section style={{ padding: '4.5rem 0', backgroundColor: '#f8fafc', borderTop: '1px solid #e2e8f0', borderBottom: '1px solid #e2e8f0' }}>
+      <CustomerStoriesCarousel />
+
+      {/* =========================================================================
+          6. CORE VALUES & PRINCIPLES (Zoho-Style Editorial Principles Section)
+         ========================================================================= */}
+      <CoreValuesSection />
+
+      {/* =========================================================================
+          7. STRATEGIC OEM HARDWARE PARTNERS SHOWCASE
+         ========================================================================= */}
+      <section style={{ padding: '3.5rem 0', backgroundColor: '#ffffff', borderBottom: '1px solid #e2e8f0' }}>
         <div className="container">
           <OfficialPartnersShowcase theme="light" />
         </div>
       </section>
 
-      {/* ATPL Bottom CTA Banner */}
+      {/* =========================================================================
+          8. FINAL CALL TO ACTION (Direct, Human, Grounded)
+         ========================================================================= */}
       <section style={{
         backgroundColor: '#0f172a',
-        padding: '5.5rem 0',
-        textAlign: 'center',
-        position: 'relative',
-        overflow: 'hidden'
+        padding: '5rem 0',
+        color: '#ffffff',
+        textAlign: 'center'
       }}>
-        {/* Subtle accent glow */}
-        <div style={{
-          position: 'absolute',
-          bottom: '-100px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          width: 'min(800px, 95vw)',
-          maxWidth: '100%',
-          height: '300px',
-          background: 'radial-gradient(ellipse at center, rgba(0, 113, 186, 0.3) 0%, transparent 70%)',
-          filter: 'blur(50px)',
-          pointerEvents: 'none'
-        }}></div>
-
-        <div className="container" style={{ position: 'relative', zIndex: 1, maxWidth: '820px', margin: '0 auto' }}>
+        <div className="container" style={{ maxWidth: '820px', margin: '0 auto' }}>
           
           <span style={{
             fontSize: '0.78rem',
@@ -2039,87 +587,106 @@ export const HomeView = () => {
             textTransform: 'uppercase',
             letterSpacing: '0.08em',
             color: '#38bdf8',
-            backgroundColor: 'rgba(0, 113, 186, 0.2)',
-            border: '1px solid rgba(0, 113, 186, 0.4)',
+            backgroundColor: 'rgba(56, 189, 248, 0.12)',
+            border: '1px solid rgba(56, 189, 248, 0.3)',
             padding: '0.35rem 0.9rem',
             borderRadius: '999px',
             display: 'inline-block',
             marginBottom: '1.25rem'
           }}>
-            READY TO TRANSFORM YOUR SHOPFLOOR?
+            TALK TO AN ENGINEER
           </span>
 
-          <h2 style={{ fontSize: 'clamp(2.2rem, 4.5vw, 3.4rem)', fontWeight: 800, color: '#ffffff', letterSpacing: '-0.025em', marginBottom: '1.25rem', lineHeight: 1.15 }}>
-            Accelerate Your Factory with Archery Technocrats.
+          <h2 style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 800, color: '#ffffff', letterSpacing: '-0.025em', marginBottom: '1.25rem', lineHeight: 1.2 }}>
+            Have a Bottleneck on Your Line? Let’s Walk Your Floor.
           </h2>
 
-          <p style={{ color: '#94a3b8', fontSize: '1.15rem', lineHeight: 1.6, marginBottom: '2.5rem' }}>
-            Schedule an on-site facility audit with our senior automation architects or test drive our 3D Digital Twin right in your browser.
+          <p style={{ color: '#94a3b8', fontSize: '1.1rem', lineHeight: 1.65, marginBottom: '2.5rem' }}>
+            Invite an ATPL systems engineer to review your dispatch dock, packing line, or warehouse layout. We will give you a practical assessment of where automation makes sense — and where it doesn't.
           </p>
 
-          <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', gap: '1rem' }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', gap: '1rem', marginBottom: '3rem' }}>
             <button
-              onClick={() => openDemoModal({ solution: 'Plant Audit Consultation', notes: 'Lead initiated from bottom banner CTA' })}
+              onClick={() => openDemoModal({ mode: 'engineer', solution: 'Plant Walkthrough Audit', notes: 'Initiated from Final CTA' })}
               style={{
                 backgroundColor: '#0071ba',
                 color: '#ffffff',
                 border: 'none',
-                padding: '1.05rem 2.4rem',
+                padding: '1rem 2.2rem',
                 fontSize: '1rem',
                 fontWeight: 700,
                 borderRadius: '8px',
                 cursor: 'pointer',
-                boxShadow: '0 8px 25px rgba(0, 113, 186, 0.4)',
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '0.5rem',
-                transition: 'all 0.2s ease'
+                boxShadow: '0 6px 20px rgba(0, 113, 186, 0.4)',
+                transition: 'all 0.15s ease'
               }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#005a96';
-                e.currentTarget.style.transform = 'translateY(-2px)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = '#0071ba';
-                e.currentTarget.style.transform = 'translateY(0)';
-              }}
+              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#005a96'}
+              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#0071ba'}
             >
-              <span>Schedule Plant Feasibility Audit</span>
+              <span>Schedule a Plant Visit</span>
               <ArrowRight size={18} />
             </button>
 
-            <button
-              onClick={() => setCurrentView('factory-3d')}
+            <a
+              href="tel:04435537618"
               style={{
                 backgroundColor: 'rgba(255, 255, 255, 0.08)',
                 color: '#ffffff',
-                border: '1px solid rgba(255, 255, 255, 0.2)',
-                padding: '1.05rem 2.2rem',
+                border: '1px solid rgba(255, 255, 255, 0.25)',
+                padding: '1rem 2rem',
                 fontSize: '1rem',
                 fontWeight: 600,
                 borderRadius: '8px',
-                cursor: 'pointer',
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '0.5rem',
-                backdropFilter: 'blur(10px)',
-                transition: 'all 0.2s ease'
+                textDecoration: 'none',
+                transition: 'all 0.15s ease'
               }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.15)';
-                e.currentTarget.style.borderColor = '#00f0ff';
-                e.currentTarget.style.transform = 'translateY(-2px)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.08)';
-                e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)';
-                e.currentTarget.style.transform = 'translateY(0)';
-              }}
+              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.15)'}
+              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.08)'}
             >
-              <Sparkles size={18} color="#00f0ff" />
-              <span>✨ Launch 3D Factory Tour</span>
-            </button>
+              <PhoneCall size={17} />
+              <span>Call Chennai HQ: 044 3553 7618</span>
+            </a>
           </div>
+
+          {/* Plant & Contact Information Grid */}
+          <div style={{
+            borderTop: '1px solid rgba(255, 255, 255, 0.1)',
+            paddingTop: '2.5rem',
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+            gap: '1.5rem',
+            textAlign: 'left',
+            fontSize: '0.85rem',
+            color: '#94a3b8'
+          }}>
+            <div>
+              <strong style={{ color: '#ffffff', display: 'block', marginBottom: '0.35rem' }}>Chennai Head Office</strong>
+              <div>TIDEL Park, G11 Ground Floor</div>
+              <div>No. 4 Canal Bank Rd, Taramani</div>
+              <div>Chennai – 600 113</div>
+            </div>
+
+            <div>
+              <strong style={{ color: '#ffffff', display: 'block', marginBottom: '0.35rem' }}>Madurai R&D Labs</strong>
+              <div>TCE-TBI, Thiagarajar College of Engineering</div>
+              <div>Madurai – 625 015</div>
+              <div style={{ marginTop: '0.25rem', color: '#38bdf8' }}>Regional Hub: Hosur & Bengaluru</div>
+            </div>
+
+            <div>
+              <strong style={{ color: '#ffffff', display: 'block', marginBottom: '0.35rem' }}>Direct Helplines</strong>
+              <div>Sales: +91 63808 59963</div>
+              <div>Support: +91 72001 57626</div>
+              <div>Toll-Free: 1800-120-774777</div>
+            </div>
+          </div>
+
         </div>
       </section>
 
