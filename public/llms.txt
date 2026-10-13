@@ -1,0 +1,29 @@
+# Archery Technocrats Private Limited (ATPL Group)
+
+> Archery Technocrats (ATPL Group) is a premier Indian Industry 4.0 automation and system integration engineering firm delivering warehouse management software (WMS), industrial RFID tracking, GS1 barcode serialization, machine vision AI, and shop floor automation hardware.
+
+## Core Capabilities & Platforms
+- **Warehouse Management Software (WMS)**: Perfect Store™ enterprise warehouse management with real-time SAP/Oracle ERP integration and 3D bin slotting.
+- **Packaging Serialization & Traceability**: Perfect Trace™ 4-tier aggregation (Item -> Shipper -> Pallet) compliant with US-FDA DSCSA, DGFT, and 21 CFR Part 11.
+- **Machine Vision & Optical Inspection**: Sub-8ms automated Pass/Fail quality inspection and high-speed pneumatic defect diverters.
+- **AIDC Hardware & Systems**: Strategic alliance distributor for Honeywell, Zebra, and TSC Auto ID (industrial barcode scanners, RFID dock portals, rugged mobile computers).
+- **Mobile Device Management (MDM)**: PerfectEdge MDM for zero-touch provisioning and kiosk lockdown on Android shopfloor terminals.
+
+## Official Links & Resources
+- Website: https://atplgroup.com/
+- Software Suites: https://atplgroup.com/software
+- Shopfloor Hardware: https://atplgroup.com/hardware
+- Industry Solutions: https://atplgroup.com/solutions
+- 3D Smart Factory Digital Twin: https://atplgroup.com/factory-tour
+- Client Stories & Brand Partners: https://atplgroup.com/partners
+- Contact & Engineering Consultations: https://atplgroup.com/contact
+
+## Corporate Information
+- Full Legal Name: Archery Technocrats Private Limited
+- Brand Name: ATPL Group
+- Founded: 1989
+- Managing Director: Amarnath Paramasivam
+- Headquarters: TIDEL Park, G11 Ground Floor, No.4, Canal Bank Rd, Taramani, Chennai, Tamil Nadu 600113, India
+- Madurai R&D Hub: TCE-TBI, Thiagarajar College of Engineering Campus, Madurai 625015
+- Central Helplines: +91 44 3553 7618 | Toll-Free: 1800-120-774777
+- Corporate Email: info@atplgroup.com

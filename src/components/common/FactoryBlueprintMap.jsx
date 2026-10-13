@@ -315,7 +315,7 @@ export const FactoryBlueprintMap = () => {
               </span>
             </div>
 
-            <h2 className="hud-header-title" style={{
+            <div className="hud-header-title" style={{
               fontFamily: 'var(--font-display)',
               fontSize: 'clamp(1.05rem, 1.8vw, 1.35rem)',
               fontWeight: 800,
@@ -325,7 +325,7 @@ export const FactoryBlueprintMap = () => {
               lineHeight: 1.2
             }}>
               12-Station Autonomous <span className="gradient-text">Robot Flight Inspection</span>
-            </h2>
+            </div>
           </div>
 
           <div className="hud-header-right" style={{
@@ -652,6 +652,10 @@ export const FactoryBlueprintMap = () => {
               <img 
                 src={blueprintImg}
                 alt="ATPL Smart Factory Floor"
+                width="1920"
+                height="1080"
+                loading="eager"
+                fetchPriority="high"
                 style={{
                   width: '100%',
                   height: '100%',
@@ -1172,7 +1176,7 @@ export const FactoryBlueprintMap = () => {
                 </span>
               </div>
 
-              <h3 style={{
+              <div style={{
                 margin: '0 0 0.15rem 0',
                 fontSize: '1.20rem',
                 fontWeight: 800,
@@ -1185,7 +1189,7 @@ export const FactoryBlueprintMap = () => {
               }}>
                 <span>{currentNode.icon}</span>
                 <span>{currentNode.name}</span>
-              </h3>
+              </div>
 
               <div style={{
                 fontSize: '0.74rem',
@@ -1211,6 +1215,9 @@ export const FactoryBlueprintMap = () => {
               <img
                 src={currentNode.image}
                 alt={currentNode.name}
+                width="320"
+                height="82"
+                loading="lazy"
                 onError={(e) => {
                   if (e.currentTarget.src.endsWith('.webp')) {
                     e.currentTarget.src = e.currentTarget.src.replace('.webp', '.jpg');

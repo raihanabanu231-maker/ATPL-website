@@ -326,6 +326,9 @@ export function AtplCommunitySection() {
                   <img 
                     src="/assets/images/atpl_team_full_group.png"
                     alt="Archery Technocrats Private Limited - Authentic Engineering Team at Industrial Expo"
+                    width="800"
+                    height="440"
+                    loading="lazy"
                     style={{
                       width: '100%',
                       height: 'auto',
@@ -381,6 +384,9 @@ export function AtplCommunitySection() {
                   <img 
                     src="/assets/images/amarnath_paramasivam.jpg"
                     alt="Amarnath Paramasivam - Founder & Managing Director, Archery Technocrats"
+                    width="800"
+                    height="440"
+                    loading="lazy"
                     style={{
                       width: '100%',
                       height: 'auto',

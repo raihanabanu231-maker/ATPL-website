@@ -398,7 +398,7 @@ export const OfficialPartnersShowcase = ({
           }} />
           {category === 'all' ? 'All 18 Official Brand Alliances' : `Showing ${displayedLogos.length} Verified Alliances`}
         </span>
-        <h3 style={{
+        <h2 style={{
           fontSize: '1.8rem',
           fontWeight: 900,
           color: isDark ? '#ffffff' : '#0f172a',
@@ -406,7 +406,7 @@ export const OfficialPartnersShowcase = ({
           fontFamily: 'var(--font-display, sans-serif)'
         }}>
           {sectionTitle}
-        </h3>
+        </h2>
         <p style={{
           color: isDark ? '#94a3b8' : '#64748b',
           fontSize: '0.92rem',

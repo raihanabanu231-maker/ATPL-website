@@ -263,7 +263,7 @@ export const CustomerStoriesCarousel = () => {
               </div>
 
               {/* Bold Serif / Display Headline */}
-              <h3 style={{
+              <h2 style={{
                 fontSize: 'clamp(1.9rem, 3.4vw, 2.7rem)',
                 fontFamily: '"Georgia", "Cambria", "Times New Roman", serif',
                 fontWeight: 700,
@@ -274,7 +274,7 @@ export const CustomerStoriesCarousel = () => {
               }}>
                 {current.headlineFirst}<br />
                 {current.headlineSecond}
-              </h3>
+              </h2>
 
               {/* Subtext description */}
               <p style={{
@@ -332,7 +332,10 @@ export const CustomerStoriesCarousel = () => {
             >
               <img
                 src={current.image}
-                alt={current.headlineFirst}
+                alt={`${current.company || 'Client'} - ${current.headlineFirst}`}
+                width="540"
+                height="380"
+                loading="lazy"
                 style={{
                   width: '100%',
                   height: '100%',
@@ -548,10 +551,10 @@ export const CustomerStoriesCarousel = () => {
 
               {/* The Challenge */}
               <div style={{ marginBottom: '1.5rem' }}>
-                <h4 style={{ fontSize: '0.95rem', fontWeight: 800, color: '#0f172a', marginBottom: '0.45rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                <div style={{ fontSize: '0.95rem', fontWeight: 800, color: '#0f172a', marginBottom: '0.45rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
                   <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#ef4444' }} />
                   The Plant Bottleneck
-                </h4>
+                </div>
                 <p style={{ fontSize: '0.92rem', color: '#475569', lineHeight: 1.6, margin: 0 }}>
                   {selectedStory.fullStory.challenge}
                 </p>
@@ -559,10 +562,10 @@ export const CustomerStoriesCarousel = () => {
 
               {/* What We Deployed */}
               <div style={{ marginBottom: '1.5rem' }}>
-                <h4 style={{ fontSize: '0.95rem', fontWeight: 800, color: '#0f172a', marginBottom: '0.45rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                <div style={{ fontSize: '0.95rem', fontWeight: 800, color: '#0f172a', marginBottom: '0.45rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
                   <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#0071ba' }} />
                   What ATPL Implemented
-                </h4>
+                </div>
                 <p style={{ fontSize: '0.92rem', color: '#475569', lineHeight: 1.6, margin: 0 }}>
                   {selectedStory.fullStory.solution}
                 </p>
@@ -576,10 +579,10 @@ export const CustomerStoriesCarousel = () => {
                 padding: '1rem 1.25rem',
                 marginBottom: '1.75rem'
               }}>
-                <h4 style={{ fontSize: '0.95rem', fontWeight: 800, color: '#166534', marginBottom: '0.35rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                <div style={{ fontSize: '0.95rem', fontWeight: 800, color: '#166534', marginBottom: '0.35rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
                   <CheckCircle2 size={16} color="#166534" />
                   Verified Plant Result
-                </h4>
+                </div>
                 <p style={{ fontSize: '0.9rem', color: '#14532d', lineHeight: 1.55, margin: 0 }}>
                   {selectedStory.fullStory.outcome}
                 </p>

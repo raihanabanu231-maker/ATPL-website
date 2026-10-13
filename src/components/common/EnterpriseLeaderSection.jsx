@@ -150,7 +150,10 @@ export default function EnterpriseLeaderSection({ setCurrentView }) {
             >
               <img 
                 src="/assets/images/amarnath_headshot.jpg"
-                alt="Amarnath Paramasivam"
+                alt="Amarnath Paramasivam - Founder & Managing Director, Archery Technocrats"
+                width="92"
+                height="92"
+                loading="lazy"
                 style={{
                   width: '92px',
                   height: '92px',

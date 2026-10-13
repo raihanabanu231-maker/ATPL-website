@@ -168,7 +168,7 @@ export const HomeView = () => {
             <span style={{ lineHeight: 1.35 }}>Archery Technocrats • 35+ Years Combined Industrial Experience • ISO 9001:2015</span>
           </div>
 
-          {/* Main Headline */}
+          {/* Main Headline (Optimized H1 for SEO with Archery Technocrats brand & target keywords) */}
           <h1 style={{
             fontSize: 'clamp(1.9rem, 4.5vw, 3.4rem)',
             fontWeight: 800,
@@ -178,6 +178,17 @@ export const HomeView = () => {
             marginBottom: '1.25rem',
             fontFamily: 'var(--font-display)'
           }}>
+            <span style={{
+              display: 'block',
+              fontSize: 'clamp(0.92rem, 1.8vw, 1.22rem)',
+              fontWeight: 800,
+              color: '#0071ba',
+              textTransform: 'uppercase',
+              letterSpacing: '0.08em',
+              marginBottom: '0.45rem'
+            }}>
+              Archery Technocrats
+            </span>
             Factory Automation That Actually Works on the Shop Floor.
           </h1>
 
@@ -514,7 +525,7 @@ export const HomeView = () => {
                       </div>
 
                       <div>
-                        <h4 style={{
+                        <h3 style={{
                           fontSize: '1.08rem',
                           fontWeight: 700,
                           color: '#0f172a',
@@ -522,7 +533,7 @@ export const HomeView = () => {
                           lineHeight: 1.3
                         }}>
                           {sol.name}
-                        </h4>
+                        </h3>
                         <p style={{
                           fontSize: '0.86rem',
                           color: '#64748b',

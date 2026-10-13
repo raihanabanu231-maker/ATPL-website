@@ -66,9 +66,9 @@ export const Footer = () => {
           
           {/* Col 1: Software Products */}
           <div>
-            <h4 style={{ color: '#ffffff', fontSize: '0.9rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '1.2rem' }}>
+            <div style={{ color: '#ffffff', fontSize: '0.9rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '1.2rem' }}>
               Software Products
-            </h4>
+            </div>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
               <li>
                 <button onClick={() => handleNav('software')} style={{ background: 'none', border: 'none', color: '#cbd5e1', cursor: 'pointer', padding: 0, fontSize: '0.86rem', textAlign: 'left', transition: 'color 0.15s' }} onMouseEnter={(e) => e.currentTarget.style.color = '#38bdf8'} onMouseLeave={(e) => e.currentTarget.style.color = '#cbd5e1'}>
@@ -105,9 +105,9 @@ export const Footer = () => {
 
           {/* Col 2: Shopfloor Hardware */}
           <div>
-            <h4 style={{ color: '#ffffff', fontSize: '0.9rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '1.2rem' }}>
+            <div style={{ color: '#ffffff', fontSize: '0.9rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '1.2rem' }}>
               Shopfloor Hardware
-            </h4>
+            </div>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
               <li>
                 <button onClick={() => handleNav('hardware')} style={{ background: 'none', border: 'none', color: '#cbd5e1', cursor: 'pointer', padding: 0, fontSize: '0.86rem', textAlign: 'left', transition: 'color 0.15s' }} onMouseEnter={(e) => e.currentTarget.style.color = '#38bdf8'} onMouseLeave={(e) => e.currentTarget.style.color = '#cbd5e1'}>
@@ -139,9 +139,9 @@ export const Footer = () => {
 
           {/* Col 3: Company & Facilities */}
           <div>
-            <h4 style={{ color: '#ffffff', fontSize: '0.9rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '1.2rem' }}>
+            <div style={{ color: '#ffffff', fontSize: '0.9rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '1.2rem' }}>
               Company & Hubs
-            </h4>
+            </div>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
               <li>
                 <button onClick={() => handleNav('about')} style={{ background: 'none', border: 'none', color: '#cbd5e1', cursor: 'pointer', padding: 0, fontSize: '0.86rem', textAlign: 'left', transition: 'color 0.15s' }} onMouseEnter={(e) => e.currentTarget.style.color = '#38bdf8'} onMouseLeave={(e) => e.currentTarget.style.color = '#cbd5e1'}>
@@ -173,9 +173,9 @@ export const Footer = () => {
 
           {/* Col 4: Quick Helplines */}
           <div>
-            <h4 style={{ color: '#ffffff', fontSize: '0.9rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '1.2rem' }}>
+            <div style={{ color: '#ffffff', fontSize: '0.9rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '1.2rem' }}>
               Direct Helplines
-            </h4>
+            </div>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
               <li>
                 <a href="tel:04435537618" style={{ color: '#cbd5e1', textDecoration: 'none', fontSize: '0.86rem', display: 'flex', alignItems: 'center', gap: '0.45rem', transition: 'color 0.15s' }} onMouseEnter={(e) => e.currentTarget.style.color = '#38bdf8'} onMouseLeave={(e) => e.currentTarget.style.color = '#cbd5e1'}>

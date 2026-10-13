@@ -373,9 +373,9 @@ export const AuthenticClientsMarquee = ({ direction = 'left', speed = 35 }) => {
                 <span style={{ fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', color: '#0071ba', letterSpacing: '0.06em' }}>
                   {selectedClient.category || 'Enterprise Manufacturing'}
                 </span>
-                <h3 id="client-modal-title" style={{ fontSize: '1.35rem', fontWeight: 800, color: '#0f172a', margin: '0.2rem 0 0 0' }}>
+                <div id="client-modal-title" style={{ fontSize: '1.35rem', fontWeight: 800, color: '#0f172a', margin: '0.2rem 0 0 0' }}>
                   {selectedClient.name}
-                </h3>
+                </div>
               </div>
             </div>
 
