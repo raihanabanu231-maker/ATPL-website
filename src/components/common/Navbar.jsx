@@ -1267,124 +1267,7 @@ export const Navbar = ({ onOpenSearch }) => {
                 <span style={{ backgroundColor: '#E85874', color: '#ffffff', fontSize: '0.65rem', padding: '0.15rem 0.45rem', borderRadius: '999px', fontWeight: 800 }}>LIVE</span>
               </button>
 
-              {/* 5. Services & AMC Maintenance */}
-              <button
-                onClick={() => handleNavClick('services')}
-                style={{
-                  width: '100%',
-                  minHeight: '44px',
-                  background: '#f8fafc',
-                  border: '1px solid #e2e8f0',
-                  borderRadius: '8px',
-                  padding: '0.7rem 1rem',
-                  textAlign: 'left',
-                  fontSize: '0.96rem',
-                  fontWeight: 700,
-                  color: '#0f172a',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  cursor: 'pointer'
-                }}
-              >
-                <span style={{ display: 'flex', alignItems: 'center', gap: '0.55rem' }}>
-                  <span style={{ color: '#f59e0b' }}>🛠️</span>
-                  <span>Services & 24/7 AMC</span>
-                </span>
-                <span style={{ color: '#94a3b8', fontSize: '0.85rem' }}>➔</span>
-              </button>
-
-              {/* 6. Customers & Case Studies */}
-              <button
-                onClick={() => handleNavClick('about')}
-                style={{
-                  width: '100%',
-                  minHeight: '44px',
-                  background: '#f8fafc',
-                  border: '1px solid #e2e8f0',
-                  borderRadius: '8px',
-                  padding: '0.7rem 1rem',
-                  textAlign: 'left',
-                  fontSize: '0.96rem',
-                  fontWeight: 700,
-                  color: '#0f172a',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  cursor: 'pointer'
-                }}
-              >
-                <span style={{ display: 'flex', alignItems: 'center', gap: '0.55rem' }}>
-                  <span style={{ color: '#10b981' }}>🏆</span>
-                  <span>Customers & Case Studies</span>
-                </span>
-                <span style={{ color: '#94a3b8', fontSize: '0.85rem' }}>➔</span>
-              </button>
-
-              {/* 7. Partners (GS1, Zebra, Honeywell, SAP) */}
-              <button
-                onClick={() => handleNavClick('partners')}
-                style={{
-                  width: '100%',
-                  minHeight: '44px',
-                  background: '#f8fafc',
-                  border: '1px solid #e2e8f0',
-                  borderRadius: '8px',
-                  padding: '0.7rem 1rem',
-                  textAlign: 'left',
-                  fontSize: '0.96rem',
-                  fontWeight: 700,
-                  color: '#0f172a',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  cursor: 'pointer'
-                }}
-              >
-                <span style={{ display: 'flex', alignItems: 'center', gap: '0.55rem' }}>
-                  <span style={{ color: '#0284c7' }}>🤝</span>
-                  <span>Partners (GS1, Honeywell, Zebra)</span>
-                </span>
-                <span style={{ color: '#94a3b8', fontSize: '0.85rem' }}>➔</span>
-              </button>
-
-              {/* 8. Resources & Downloads */}
-              <div>
-                <button
-                  onClick={() => setMobileExpandedSection(mobileExpandedSection === 'resources' ? null : 'resources')}
-                  style={{
-                    width: '100%',
-                    minHeight: '44px',
-                    background: '#f8fafc',
-                    border: '1px solid #e2e8f0',
-                    borderRadius: '8px',
-                    padding: '0.7rem 1rem',
-                    fontSize: '0.96rem',
-                    fontWeight: 700,
-                    color: '#0f172a',
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    cursor: 'pointer'
-                  }}
-                >
-                  <span style={{ display: 'flex', alignItems: 'center', gap: '0.55rem' }}>
-                    <span style={{ color: '#8b5cf6' }}>📚</span>
-                    <span>Resources & Whitepapers</span>
-                  </span>
-                  <ChevronDown size={18} style={{ transform: mobileExpandedSection === 'resources' ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s ease' }} />
-                </button>
-                {mobileExpandedSection === 'resources' && (
-                  <div style={{ padding: '0.5rem 0.5rem 0.5rem 0.85rem', display: 'flex', flexDirection: 'column', gap: '0.4rem', borderLeft: '2px solid #8b5cf6', marginLeft: '0.5rem', marginTop: '0.35rem' }}>
-                    <button onClick={() => handleNavClick('resources')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0071ba', fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>• 📄 Technical Whitepapers & Datasheets</button>
-                    <button onClick={() => handleNavClick('resources')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#009a44', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>• 📊 ATPL Capability Pitch Deck (2026)</button>
-                    <button onClick={() => handleNavClick('services')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#334155', fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>• 24/7 AMC Maintenance Contracts</button>
-                    <button onClick={() => handleNavClick('contact')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#334155', fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>• Helpdesk & Contact Sales</button>
-                  </div>
-                )}
-              </div>
-
-              {/* 9. Contact Sales & Helplines */}
+              {/* 5. Contact Sales & Support (Direct Link) */}
               <button
                 onClick={() => handleNavClick('contact')}
                 style={{
@@ -1411,41 +1294,61 @@ export const Navbar = ({ onOpenSearch }) => {
                 <span style={{ color: '#94a3b8', fontSize: '0.85rem' }}>➔</span>
               </button>
 
-              {/* 10. Mobile Language Selector Accordion */}
+              {/* Secondary Navigation Quick-Links */}
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexWrap: 'wrap',
+                gap: '0.5rem',
+                padding: '0.65rem 0.25rem 0.2rem 0.25rem',
+                fontSize: '0.82rem',
+                color: '#64748b'
+              }}>
+                <button onClick={() => handleNavClick('partners')} style={{ background: 'none', border: 'none', color: '#0071ba', fontWeight: 600, fontSize: '0.82rem', cursor: 'pointer', padding: '0.2rem 0.4rem' }}>Partners</button>
+                <span>•</span>
+                <button onClick={() => handleNavClick('about')} style={{ background: 'none', border: 'none', color: '#0071ba', fontWeight: 600, fontSize: '0.82rem', cursor: 'pointer', padding: '0.2rem 0.4rem' }}>Case Studies</button>
+                <span>•</span>
+                <button onClick={() => handleNavClick('services')} style={{ background: 'none', border: 'none', color: '#0071ba', fontWeight: 600, fontSize: '0.82rem', cursor: 'pointer', padding: '0.2rem 0.4rem' }}>24/7 AMC</button>
+                <span>•</span>
+                <button onClick={() => handleNavClick('resources')} style={{ background: 'none', border: 'none', color: '#0071ba', fontWeight: 600, fontSize: '0.82rem', cursor: 'pointer', padding: '0.2rem 0.4rem' }}>Whitepapers</button>
+              </div>
+
+              {/* Compact Language Selector Bar */}
               <div>
                 <button
                   onClick={() => setMobileExpandedSection(mobileExpandedSection === 'language' ? null : 'language')}
                   style={{
                     width: '100%',
-                    minHeight: '44px',
-                    background: '#f8fafc',
+                    minHeight: '38px',
+                    background: 'transparent',
                     border: '1px solid #e2e8f0',
                     borderRadius: '8px',
-                    padding: '0.7rem 1rem',
-                    fontSize: '0.96rem',
-                    fontWeight: 700,
-                    color: '#0f172a',
+                    padding: '0.45rem 0.75rem',
+                    fontSize: '0.85rem',
+                    fontWeight: 600,
+                    color: '#64748b',
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
                     cursor: 'pointer'
                   }}
                 >
-                  <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                    <Globe size={18} color="#0071ba" />
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
+                    <Globe size={16} color="#0071ba" />
                     <span>Language / மொழி: <strong style={{ color: '#0071ba' }}>{selectedLang.split(' ')[0]}</strong></span>
                   </span>
-                  <ChevronDown size={18} style={{ transform: mobileExpandedSection === 'language' ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s ease' }} />
+                  <ChevronDown size={15} style={{ transform: mobileExpandedSection === 'language' ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s ease' }} />
                 </button>
                 {mobileExpandedSection === 'language' && (
                   <div style={{ 
-                    padding: '0.5rem', 
+                    padding: '0.4rem', 
                     display: 'grid', 
                     gridTemplateColumns: 'repeat(2, 1fr)', 
-                    gap: '0.5rem',
+                    gap: '0.4rem',
                     backgroundColor: '#f8fafc',
                     borderRadius: '8px',
-                    marginTop: '0.4rem'
+                    marginTop: '0.35rem'
                   }}>
                     {ATPL_LANGUAGES.map(lang => {
                       const isSelected = selectedLang === lang.native || selectedLang === lang.name;
@@ -1457,18 +1360,18 @@ export const Navbar = ({ onOpenSearch }) => {
                             setMobileMenuOpen(false);
                           }}
                           style={{
-                            minHeight: '44px',
+                            minHeight: '38px',
                             background: isSelected ? '#0071ba' : '#ffffff',
                             color: isSelected ? '#ffffff' : '#334155',
                             border: '1px solid #e2e8f0',
                             borderRadius: '6px',
-                            padding: '0.5rem 0.65rem',
-                            fontSize: '0.82rem',
+                            padding: '0.4rem 0.55rem',
+                            fontSize: '0.8rem',
                             fontWeight: isSelected ? 700 : 500,
                             textAlign: 'left',
                             display: 'flex',
                             alignItems: 'center',
-                            gap: '0.4rem',
+                            gap: '0.35rem',
                             cursor: 'pointer'
                           }}
                         >
