@@ -1,8 +1,12 @@
 # robots.txt for ATPL Group (Archery Technocrats Private Limited)
 User-agent: *
 Allow: /
+Allow: /llms.txt
 Disallow: /admin
 Disallow: /login
+
+# Generative Engine Optimization (GEO) Knowledge File
+# https://atplgroup.com/llms.txt
 
 # Sitemaps
 Sitemap: https://atplgroup.com/sitemap.xml
