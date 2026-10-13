@@ -328,27 +328,59 @@ export const FactoryBlueprintMap = () => {
         </div>
 
         {/* =====================================================================
-            2. INTERACTIVE ANIMATION STAGE (The Star of the Show!)
+            2. INTERACTIVE ANIMATION STAGE & SIDE TELEMETRY COMMAND PANEL
            ===================================================================== */}
-        <div 
-          style={{
-            position: 'relative',
-            width: '100%',
-            backgroundColor: '#030816',
-            borderRadius: '16px',
-            overflow: 'hidden',
-            border: '1.5px solid rgba(0, 240, 255, 0.35)',
-            boxShadow: '0 25px 60px rgba(0, 0, 0, 0.9), 0 0 40px rgba(0, 240, 255, 0.15)'
-          }}
-        >
-          {/* Keyframe Animations */}
+        <div className="hud-tour-grid">
+          {/* Keyframe Animations & Responsive Layout Styles */}
           <style>{`
+            .hud-tour-grid {
+              display: grid;
+              grid-template-columns: 1fr;
+              gap: 1.25rem;
+              align-items: stretch;
+            }
+            @media (min-width: 1024px) {
+              .hud-tour-grid {
+                grid-template-columns: minmax(0, 1.75fr) minmax(320px, 360px);
+                gap: 1.5rem;
+              }
+            }
+            .hud-factory-viewport {
+              position: relative;
+              width: 100%;
+              aspect-ratio: 1376 / 768;
+              overflow: hidden;
+              background-color: #030816;
+              border-radius: 16px;
+              border: 1.5px solid rgba(0, 240, 255, 0.35);
+              box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9), 0 0 35px rgba(0, 240, 255, 0.15);
+            }
+            @media (max-width: 768px) {
+              .hud-factory-viewport {
+                aspect-ratio: 16 / 9.5 !important;
+                min-height: 270px !important;
+              }
+            }
+            .hud-side-panel {
+              background-color: #050b18;
+              border: 1.5px solid rgba(0, 240, 255, 0.3);
+              border-radius: 16px;
+              padding: 1.25rem;
+              display: flex;
+              flex-direction: column;
+              justifyContent: space-between;
+              gap: 1rem;
+              box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 25px rgba(0, 240, 255, 0.1);
+              position: relative;
+              overflow: hidden;
+              box-sizing: border-box;
+            }
             @keyframes archieFloating {
               0%, 100% {
                 transform: translate(-50%, -50%) translateY(0) rotate(0deg);
               }
               50% {
-                transform: translate(-50%, -50%) translateY(-9px) rotate(1.2deg);
+                transform: translate(-50%, -50%) translateY(-8px) rotate(1.2deg);
               }
             }
             @keyframes thrusterGlow {
@@ -417,74 +449,18 @@ export const FactoryBlueprintMap = () => {
               border-color: #00f0ff;
               box-shadow: 0 0 20px #00f0ff;
             }
-            .hud-chip-btn {
-              transition: all 0.2s ease;
-            }
-            .hud-chip-btn:hover {
-              transform: translateY(-2px);
-            }
             @media (max-width: 768px) {
-              .hud-factory-viewport {
-                aspect-ratio: auto !important;
-                height: clamp(390px, 60vh, 470px) !important;
-                min-height: 390px !important;
-              }
-              .hud-top-strip {
-                top: 8px !important;
-                left: 8px !important;
-                right: 8px !important;
-                padding: 0.35rem 0.65rem !important;
-              }
-              .hud-top-chips-strip {
-                display: none !important;
-              }
-              .hud-bottom-dock {
-                left: 8px !important;
-                right: 8px !important;
-                bottom: 8px !important;
-                padding: 0.65rem 0.85rem !important;
-                flex-direction: column !important;
-                align-items: stretch !important;
-                gap: 0.45rem !important;
-                background-color: rgba(3, 10, 24, 0.96) !important;
-              }
-              .hud-dock-desc {
-                white-space: normal !important;
-                display: -webkit-box !important;
-                -webkit-line-clamp: 2 !important;
-                -webkit-box-orient: vertical !important;
-                overflow: hidden !important;
-                font-size: 0.78rem !important;
-                line-height: 1.38 !important;
-                color: #e2e8f0 !important;
-                text-overflow: ellipsis !important;
-              }
-              .hud-dock-controls {
-                width: 100% !important;
-                display: flex !important;
-                align-items: center !important;
-                gap: 0.45rem !important;
-              }
-              .hud-dock-demo-btn {
-                flex: 1 !important;
-                justify-content: center !important;
-                padding: 0.52rem 0.85rem !important;
-                min-height: 44px !important;
-              }
-              .desktop-only-inline {
-                display: none !important;
-              }
               .hud-station-pin {
-                width: 44px !important;
-                height: 44px !important;
+                width: 38px !important;
+                height: 38px !important;
                 display: flex !important;
                 align-items: center !important;
                 justify-content: center !important;
               }
               .hud-pin-disc {
-                width: 28px !important;
-                height: 28px !important;
-                font-size: 0.76rem !important;
+                width: 26px !important;
+                height: 26px !important;
+                font-size: 0.72rem !important;
               }
               .hud-archie-speech-badge {
                 padding: 0.18rem 0.55rem !important;
@@ -492,151 +468,14 @@ export const FactoryBlueprintMap = () => {
                 white-space: nowrap !important;
                 max-width: calc(100vw - 36px) !important;
               }
-              @keyframes archieFloating {
-                0%, 100% {
-                  transform: translate(-50%, -50%) scale(0.82) translateY(0) rotate(0deg);
-                }
-                50% {
-                  transform: translate(-50%, -50%) scale(0.82) translateY(-7px) rotate(1deg);
-                }
-              }
             }
           `}</style>
 
-          {/* Top HUD Control Strip (Sleek, Translucent & Compact) */}
-          <div className="hud-top-strip" style={{
-            position: 'absolute',
-            top: '12px',
-            left: '14px',
-            right: '14px',
-            zIndex: 40,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: '0.75rem',
-            flexWrap: 'wrap',
-            background: 'rgba(3, 10, 24, 0.82)',
-            backdropFilter: 'blur(16px)',
-            WebkitBackdropFilter: 'blur(16px)',
-            border: '1px solid rgba(0, 240, 255, 0.28)',
-            borderRadius: '12px',
-            padding: '0.45rem 0.9rem',
-            boxShadow: '0 8px 30px rgba(0, 0, 0, 0.7)'
-          }}>
-            {/* Active Station Counter */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.55rem' }}>
-              <span style={{
-                backgroundColor: 'rgba(232, 88, 116, 0.2)',
-                border: '1px solid #E85874',
-                color: '#ffffff',
-                padding: '0.2rem 0.55rem',
-                borderRadius: '6px',
-                fontFamily: 'var(--font-mono)',
-                fontSize: '0.72rem',
-                fontWeight: 800,
-                letterSpacing: '0.04em'
-              }}>
-                STATION {currentIndex + 1} OF 12
-              </span>
-              <span style={{ fontSize: '0.85rem', color: '#ffffff', fontWeight: 700 }}>
-                {currentNode.name}
-              </span>
-            </div>
-
-            {/* 12 Interactive Station Quick-Jump Chips */}
-            <div className="hud-top-chips-strip" style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.3rem',
-              overflowX: 'auto',
-              scrollbarWidth: 'none'
-            }}>
-              {ATPL_FACTORY_NODES.map((node, i) => (
-                <button
-                  key={node.id}
-                  onClick={() => handleStationClick(i)}
-                  className="hud-chip-btn"
-                  title={`${node.stepNumber}. ${node.name}`}
-                  style={{
-                    width: '26px',
-                    height: '26px',
-                    borderRadius: '50%',
-                    backgroundColor: currentIndex === i ? '#E85874' : 'rgba(255, 255, 255, 0.08)',
-                    border: currentIndex === i ? '1.5px solid #ffffff' : '1px solid rgba(255, 255, 255, 0.15)',
-                    color: '#ffffff',
-                    fontSize: '0.74rem',
-                    fontWeight: 800,
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    boxShadow: currentIndex === i ? '0 0 14px #E85874' : 'none'
-                  }}
-                >
-                  {node.stepNumber}
-                </button>
-              ))}
-            </div>
-
-            {/* Play/Pause & 3D Tour CTA */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <button
-                onClick={() => setIsAutoTour(!isAutoTour)}
-                style={{
-                  backgroundColor: isAutoTour ? 'rgba(232, 88, 116, 0.25)' : 'rgba(0, 240, 255, 0.18)',
-                  border: isAutoTour ? '1px solid #E85874' : '1px solid #00f0ff',
-                  color: '#ffffff',
-                  borderRadius: '6px',
-                  padding: '0.32rem 0.75rem',
-                  fontSize: '0.75rem',
-                  fontWeight: 800,
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.35rem',
-                  boxShadow: isAutoTour ? '0 0 14px rgba(232, 88, 116, 0.4)' : 'none'
-                }}
-              >
-                {isAutoTour ? <Pause size={12} color="#E85874" /> : <Play size={12} color="#00f0ff" />}
-                <span>{isAutoTour ? 'Pause Tour' : 'Auto Play'}</span>
-              </button>
-
-              <button
-                onClick={() => setCurrentView('factory-3d')}
-                style={{
-                  backgroundColor: 'rgba(0, 113, 186, 0.3)',
-                  border: '1px solid rgba(0, 240, 255, 0.6)',
-                  color: '#00f0ff',
-                  borderRadius: '6px',
-                  padding: '0.32rem 0.75rem',
-                  fontSize: '0.75rem',
-                  fontWeight: 800,
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.35rem'
-                }}
-              >
-                <Layers size={13} />
-                <span>3D Mode</span>
-              </button>
-            </div>
-          </div>
-
-          {/* =====================================================================
-              MAIN FACTORY VIEWPORT: 100% OPEN & UNOBSTRUCTED BLUEPRINT CANVAS
-             ===================================================================== */}
-          <div 
-            className="hud-factory-viewport"
-            style={{
-              position: 'relative',
-              width: '100%',
-              aspectRatio: '1376 / 768',
-              maxHeight: 'min(76vh, 760px)',
-              overflow: 'hidden',
-              backgroundColor: '#030816'
-            }}
-          >
+          {/* ===================================================================
+              1. 100% UNOBSTRUCTED FULL-VIEW BLUEPRINT CANVAS
+                 (No CRT top bar, No CRT bottom dock - pure view of robot flight!)
+             =================================================================== */}
+          <div className="hud-factory-viewport">
             {/* The Isometric Factory Floor Graphic */}
             <picture style={{ width: '100%', height: '100%', display: 'block' }}>
               <source type="image/avif" srcSet="/assets/images/atpl_isometric_factory.avif" />
@@ -680,7 +519,6 @@ export const FactoryBlueprintMap = () => {
               }}
             >
               <defs>
-                {/* Conical Holographic Light Beam Gradient */}
                 <linearGradient id="scanHoloCone" x1="0%" y1="0%" x2="0%" y2="100%">
                   <stop offset="0%" stopColor="#00f0ff" stopOpacity="0.75" />
                   <stop offset="50%" stopColor="#0071ba" stopOpacity="0.3" />
@@ -810,7 +648,7 @@ export const FactoryBlueprintMap = () => {
                 alignItems: 'center',
                 animation: 'archieFloating 2.6s ease-in-out infinite'
               }}>
-                {/* Floating Telemetry Speech Pill Attached to Archie (Edge-safe so text is never cut off) */}
+                {/* Floating Telemetry Speech Pill Attached to Archie */}
                 <div 
                   className="hud-archie-speech-badge"
                   style={{
@@ -931,77 +769,273 @@ export const FactoryBlueprintMap = () => {
                 </div>
               );
             })}
+          </div>
 
-            {/* =================================================================
-                3. SLEEK FLOATING GLASSMORPHISM TELEMETRY DOCK (At Bottom of Stage)
-               ================================================================= */}
-            <div 
-              className="hud-bottom-dock"
-              style={{
-                position: 'absolute',
-                bottom: '12px',
-                left: '14px',
-                right: '14px',
-                zIndex: 40,
-                backgroundColor: 'rgba(3, 10, 24, 0.88)',
-                backdropFilter: 'blur(20px)',
-                WebkitBackdropFilter: 'blur(20px)',
-                border: '1.2px solid rgba(0, 240, 255, 0.35)',
-                borderRadius: '14px',
-                padding: '0.65rem 1.15rem',
+          {/* ===================================================================
+              2. DEDICATED SIDE TELEMETRY & DESCRIPTION CONTROL PANEL
+                 (Cleanly placed on the side - zero obstruction of factory floor)
+             =================================================================== */}
+          <div className="hud-side-panel">
+            {/* Ambient cyber gradient in panel */}
+            <div style={{
+              position: 'absolute',
+              top: 0,
+              right: 0,
+              width: '180px',
+              height: '180px',
+              background: 'radial-gradient(circle at top right, rgba(0, 240, 255, 0.12) 0%, transparent 70%)',
+              pointerEvents: 'none'
+            }} />
+
+            {/* Top Section: Header & Live Tour Mode Controls */}
+            <div>
+              <div style={{
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
-                gap: '1rem',
-                boxShadow: '0 12px 40px rgba(0, 0, 0, 0.85), 0 0 25px rgba(0, 240, 255, 0.2)'
-              }}
-            >
-              {/* Left: Station Telemetry Info */}
-              <div className="hud-dock-info" style={{ minWidth: 0, flex: 1 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.15rem', flexWrap: 'wrap' }}>
+                marginBottom: '0.85rem',
+                paddingBottom: '0.75rem',
+                borderBottom: '1px solid rgba(255, 255, 255, 0.08)'
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
                   <span style={{
-                    color: '#00f0ff',
+                    width: '8px',
+                    height: '8px',
+                    borderRadius: '50%',
+                    backgroundColor: isAutoTour ? '#10b981' : '#f59e0b',
+                    boxShadow: isAutoTour ? '0 0 8px #10b981' : '0 0 8px #f59e0b',
+                    animation: isAutoTour ? 'sonarPingDot 1.6s infinite' : 'none'
+                  }} />
+                  <span style={{
                     fontFamily: 'var(--font-mono)',
-                    fontSize: '0.75rem',
-                    fontWeight: 900
+                    fontSize: '0.72rem',
+                    fontWeight: 800,
+                    color: '#00f0ff',
+                    letterSpacing: '0.06em'
                   }}>
-                    [{String(currentIndex + 1).padStart(2, '0')} / 12]
+                    {isAutoTour ? 'AUTO TOUR ACTIVE' : 'MANUAL MODE'}
                   </span>
-                  <strong style={{ color: '#ffffff', fontSize: '0.92rem', letterSpacing: '0.02em' }}>
-                    {currentNode.name}
-                  </strong>
+                </div>
+
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                  <button
+                    onClick={() => setIsAutoTour(!isAutoTour)}
+                    style={{
+                      backgroundColor: isAutoTour ? 'rgba(232, 88, 116, 0.2)' : 'rgba(0, 240, 255, 0.15)',
+                      border: isAutoTour ? '1px solid #E85874' : '1px solid #00f0ff',
+                      color: '#ffffff',
+                      borderRadius: '6px',
+                      padding: '0.25rem 0.6rem',
+                      fontSize: '0.72rem',
+                      fontWeight: 800,
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.3rem',
+                      minHeight: '32px',
+                      transition: 'all 0.15s ease'
+                    }}
+                    title={isAutoTour ? "Pause automated tour" : "Resume automated tour"}
+                  >
+                    {isAutoTour ? <Pause size={11} color="#E85874" /> : <Play size={11} color="#00f0ff" />}
+                    <span>{isAutoTour ? 'Pause' : 'Play'}</span>
+                  </button>
+
+                  <button
+                    onClick={() => setCurrentView('factory-3d')}
+                    style={{
+                      backgroundColor: 'rgba(0, 113, 186, 0.25)',
+                      border: '1px solid rgba(0, 240, 255, 0.5)',
+                      color: '#00f0ff',
+                      borderRadius: '6px',
+                      padding: '0.25rem 0.6rem',
+                      fontSize: '0.72rem',
+                      fontWeight: 800,
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.3rem',
+                      minHeight: '32px',
+                      transition: 'all 0.15s ease'
+                    }}
+                    title="Switch to 3D Digital Twin View"
+                  >
+                    <Layers size={11} />
+                    <span>3D Mode</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Station Identity & Badges */}
+              <div style={{ marginBottom: '0.75rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.5rem', marginBottom: '0.35rem' }}>
+                  <span style={{
+                    backgroundColor: 'rgba(232, 88, 116, 0.2)',
+                    border: '1px solid #E85874',
+                    color: '#ffffff',
+                    padding: '0.18rem 0.55rem',
+                    borderRadius: '6px',
+                    fontFamily: 'var(--font-mono)',
+                    fontSize: '0.72rem',
+                    fontWeight: 800,
+                    letterSpacing: '0.04em'
+                  }}>
+                    STATION {currentIndex + 1} OF 12
+                  </span>
+
                   <span style={{
                     backgroundColor: 'rgba(16, 185, 129, 0.15)',
                     border: '1px solid rgba(16, 185, 129, 0.4)',
                     color: '#34d399',
                     fontSize: '0.68rem',
                     fontWeight: 800,
-                    padding: '0.1rem 0.45rem',
+                    padding: '0.15rem 0.5rem',
                     borderRadius: '4px'
                   }}>
                     ⚡ {currentNode.roiMetric}
                   </span>
                 </div>
 
-                <p 
-                  className="hud-dock-desc"
-                  style={{
-                    margin: 0,
-                    fontSize: '0.8rem',
-                    color: '#cbd5e1',
-                    lineHeight: 1.4,
-                    whiteSpace: 'nowrap',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis'
+                <h3 style={{
+                  margin: '0 0 0.2rem 0',
+                  fontSize: '1.15rem',
+                  fontWeight: 800,
+                  color: '#ffffff',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.45rem',
+                  fontFamily: 'var(--font-display, sans-serif)',
+                  letterSpacing: '0.01em'
+                }}>
+                  <span>{currentNode.icon}</span>
+                  <span>{currentNode.name}</span>
+                </h3>
+
+                <div style={{
+                  fontSize: '0.72rem',
+                  color: '#00f0ff',
+                  fontWeight: 700,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.05em'
+                }}>
+                  {currentNode.category}
+                </div>
+              </div>
+
+              {/* Station Image Thumbnail & Tagline */}
+              <div style={{
+                position: 'relative',
+                borderRadius: '10px',
+                overflow: 'hidden',
+                height: '115px',
+                backgroundColor: '#020617',
+                border: '1px solid rgba(0, 240, 255, 0.25)',
+                marginBottom: '0.75rem'
+              }}>
+                <img
+                  src={currentNode.image}
+                  alt={currentNode.name}
+                  onError={(e) => {
+                    if (e.currentTarget.src.endsWith('.webp')) {
+                      e.currentTarget.src = e.currentTarget.src.replace('.webp', '.jpg');
+                    }
                   }}
-                >
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    display: 'block'
+                  }}
+                />
+                <div style={{
+                  position: 'absolute',
+                  inset: 0,
+                  background: 'linear-gradient(180deg, transparent 35%, rgba(3, 10, 24, 0.94) 100%)',
+                  pointerEvents: 'none'
+                }} />
+                <div style={{
+                  position: 'absolute',
+                  bottom: '7px',
+                  left: '10px',
+                  right: '10px',
+                  fontSize: '0.72rem',
+                  fontWeight: 700,
+                  color: '#ffffff',
+                  lineHeight: 1.3,
+                  textShadow: '0 2px 8px rgba(0,0,0,0.95)'
+                }}>
+                  {currentNode.tagline}
+                </div>
+              </div>
+
+              {/* Full Uncramped Description Box */}
+              <div style={{
+                backgroundColor: 'rgba(255, 255, 255, 0.03)',
+                border: '1px solid rgba(255, 255, 255, 0.07)',
+                borderRadius: '10px',
+                padding: '0.65rem 0.8rem',
+                marginBottom: '0.85rem'
+              }}>
+                <div style={{ fontSize: '0.66rem', fontWeight: 800, textTransform: 'uppercase', color: '#94a3b8', letterSpacing: '0.05em', marginBottom: '0.2rem' }}>
+                  OPERATIONAL TELEMETRY &amp; IMPACT
+                </div>
+                <p style={{
+                  margin: 0,
+                  fontSize: '0.8rem',
+                  color: '#e2e8f0',
+                  lineHeight: 1.45
+                }}>
                   {currentNode.highlight}
                 </p>
               </div>
 
-              {/* Right: Sleek Action Controls */}
-              <div className="hud-dock-controls" style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', flexShrink: 0 }}>
-                {/* Prev Button */}
+              {/* 12 Stations Quick-Selector Grid */}
+              <div style={{ marginBottom: '0.5rem' }}>
+                <div style={{ fontSize: '0.66rem', fontWeight: 800, textTransform: 'uppercase', color: '#94a3b8', letterSpacing: '0.05em', marginBottom: '0.35rem' }}>
+                  JUMP TO STATION (1–12)
+                </div>
+                <div style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(6, 1fr)',
+                  gap: '0.35rem'
+                }}>
+                  {ATPL_FACTORY_NODES.map((node, i) => (
+                    <button
+                      key={node.id}
+                      onClick={() => handleStationClick(i)}
+                      title={`${node.stepNumber}. ${node.name}`}
+                      style={{
+                        height: '32px',
+                        borderRadius: '6px',
+                        backgroundColor: currentIndex === i ? '#E85874' : 'rgba(255, 255, 255, 0.06)',
+                        border: currentIndex === i ? '1.5px solid #ffffff' : '1px solid rgba(255, 255, 255, 0.12)',
+                        color: '#ffffff',
+                        fontSize: '0.74rem',
+                        fontWeight: 800,
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        transition: 'all 0.15s ease',
+                        boxShadow: currentIndex === i ? '0 0 12px #E85874' : 'none'
+                      }}
+                    >
+                      {node.stepNumber}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Bottom Actions: Navigation & Live Demo CTA */}
+            <div style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '0.5rem',
+              paddingTop: '0.65rem',
+              borderTop: '1px solid rgba(255, 255, 255, 0.08)'
+            }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem' }}>
                 <button
                   onClick={handlePrev}
                   aria-label="Previous station"
@@ -1010,26 +1044,24 @@ export const FactoryBlueprintMap = () => {
                     border: '1px solid rgba(255, 255, 255, 0.2)',
                     color: '#ffffff',
                     borderRadius: '8px',
-                    padding: '0.45rem 0.8rem',
-                    fontSize: '0.78rem',
+                    padding: '0.55rem',
+                    fontSize: '0.82rem',
                     fontWeight: 800,
                     cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    minWidth: '44px',
+                    gap: '0.3rem',
                     minHeight: '44px',
-                    gap: '0.25rem',
                     transition: 'all 0.15s ease'
                   }}
                   onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.18)'}
                   onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.08)'}
                 >
                   <ChevronLeft size={16} />
-                  <span className="desktop-only-inline">Prev</span>
+                  <span>Prev</span>
                 </button>
 
-                {/* Next Button */}
                 <button
                   onClick={handleNext}
                   aria-label="Next station"
@@ -1038,59 +1070,59 @@ export const FactoryBlueprintMap = () => {
                     border: '1.2px solid #00f0ff',
                     color: '#ffffff',
                     borderRadius: '8px',
-                    padding: '0.45rem 0.85rem',
-                    fontSize: '0.78rem',
+                    padding: '0.55rem',
+                    fontSize: '0.82rem',
                     fontWeight: 800,
                     cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    minWidth: '44px',
+                    gap: '0.3rem',
                     minHeight: '44px',
-                    gap: '0.25rem',
                     transition: 'all 0.15s ease',
-                    boxShadow: '0 0 12px rgba(0, 113, 186, 0.5)'
+                    boxShadow: '0 0 12px rgba(0, 113, 186, 0.4)'
                   }}
                   onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(0, 113, 186, 0.7)'}
                   onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'rgba(0, 113, 186, 0.4)'}
                 >
-                  <span className="desktop-only-inline">Next</span>
+                  <span>Next</span>
                   <ChevronRight size={16} />
                 </button>
-
-                {/* Request Live Demo CTA */}
-                <button
-                  className="hud-dock-demo-btn"
-                  onClick={() => openDemoModal({ solution: currentNode.name, notes: `Inquiry from Robot Tour - Station ${currentNode.stepNumber}: ${currentNode.name}` })}
-                  style={{
-                    backgroundColor: '#E85874',
-                    border: 'none',
-                    color: '#ffffff',
-                    borderRadius: '8px',
-                    padding: '0.48rem 1rem',
-                    fontSize: '0.8rem',
-                    fontWeight: 800,
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.35rem',
-                    boxShadow: '0 4px 18px rgba(232, 88, 116, 0.5)',
-                    whiteSpace: 'nowrap',
-                    transition: 'all 0.15s ease'
-                  }}
-                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#d44360'}
-                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#E85874'}
-                >
-                  <Sparkles size={14} />
-                  <span>Explore Demo</span>
-                </button>
               </div>
-            </div>
 
+              <button
+                onClick={() => openDemoModal({ solution: currentNode.name, notes: `Inquiry from Robot Tour - Station ${currentNode.stepNumber}: ${currentNode.name}` })}
+                style={{
+                  backgroundColor: '#E85874',
+                  border: 'none',
+                  color: '#ffffff',
+                  borderRadius: '8px',
+                  padding: '0.65rem 1rem',
+                  fontSize: '0.86rem',
+                  fontWeight: 800,
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '0.45rem',
+                  minHeight: '44px',
+                  boxShadow: '0 4px 18px rgba(232, 88, 116, 0.5)',
+                  transition: 'all 0.15s ease',
+                  width: '100%'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#d44360'}
+                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#E85874'}
+              >
+                <Sparkles size={16} />
+                <span>Explore Live Station Demo</span>
+              </button>
+            </div>
           </div>
+
         </div>
 
       </div>
     </section>
   );
 };
+
