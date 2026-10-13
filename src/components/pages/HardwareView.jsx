@@ -41,7 +41,9 @@ export const HardwareView = () => {
       categoryName: 'Scanning Solutions',
       name: 'Wired Barcode Scanner 1D / 2D',
       model: 'Honeywell Xenon XP 1950g',
-      image: '/assets/images/hw_handheld_scanner.jpg',
+      oem: 'Honeywell',
+      image: 'https://s7d1.scene7.com/is/image/Honeywell65/sps-ppr-1950g-barcode-scanner',
+      fallbackImage: '/assets/images/hw_handheld_scanner.jpg',
       badge: 'High-Accuracy 1D/2D',
       color: '#0071ba',
       desc: 'Superior wired scanning for retail, dispatch, and workstation environments. Captures even difficult-to-read, smudged, or damaged barcodes in milliseconds.',
@@ -58,7 +60,9 @@ export const HardwareView = () => {
       categoryName: 'Scanning Solutions',
       name: 'Wireless Cordless Scanner 1D / 2D',
       model: 'Honeywell Xenon XP 1952g',
-      image: '/assets/images/hw_handheld_scanner.jpg',
+      oem: 'Honeywell',
+      image: 'https://s7d1.scene7.com/is/image/Honeywell65/sps-ppr-1952g-barcode-scanner',
+      fallbackImage: '/assets/images/hw_cordless_scanner.jpg',
       badge: 'Cordless Mobility',
       color: '#E85874',
       desc: 'Freedom of movement around POS terminals, conveyor lines, warehouse dispatch bays, and manufacturing assembly cells with ultra-long battery life.',
@@ -75,7 +79,9 @@ export const HardwareView = () => {
       categoryName: 'Scanning Solutions',
       name: 'Industrial High Performance Scanner',
       model: 'Granit XP 1991i Ultra-Rugged',
-      image: '/assets/images/hw_handheld_scanner.jpg',
+      oem: 'Honeywell',
+      image: 'https://honeywell.scene7.com/is/image/Honeywell65/granit-xp-1991i-xlr-and-cordless-base-left',
+      fallbackImage: '/assets/images/hw_handheld_scanner.jpg',
       badge: '3.0m Drop Spec (IP67)',
       color: '#00a651',
       desc: 'Rock-solid durability engineered to withstand harsh punishment from loading docks, fork trucks, freezing environments, and outdoor chemical exposure.',
@@ -92,7 +98,9 @@ export const HardwareView = () => {
       categoryName: 'Scanning Solutions',
       name: 'Handsfree Presentation Scanner',
       model: 'Honeywell HF680 2D Imager',
-      image: '/assets/images/hw_handheld_scanner.jpg',
+      oem: 'Honeywell',
+      image: 'https://s7d1.scene7.com/is/image/Honeywell65/sps-ppr-hf680-primary-image',
+      fallbackImage: '/assets/images/hw_presentation_scanner.jpg',
       badge: 'Handsfree POS & QC',
       color: '#0071ba',
       desc: 'Point-of-sale hands-free presentation scanner delivering rapid throughput for retail checkouts, supermarket counters, and inspection stations.',
@@ -109,7 +117,9 @@ export const HardwareView = () => {
       categoryName: 'Scanning Solutions',
       name: 'Wearable Hands-Free Ring Scanner',
       model: 'Honeywell 8680i Smart Wearable',
-      image: '/assets/images/hw_handheld_scanner.jpg',
+      oem: 'Honeywell',
+      image: 'https://s7d1.scene7.com/is/image/Honeywell65/sps-ppr-8680i-mobile-computer',
+      fallbackImage: '/assets/images/hw_voice_headset.jpg',
       badge: 'Ergonomic Wearable',
       color: '#E85874',
       desc: 'Compact, high-performance wearable scanner that eliminates wasted motion of picking up and putting down handheld devices, boosting pick speed by 30%.',
@@ -126,7 +136,9 @@ export const HardwareView = () => {
       categoryName: 'Scanning Solutions',
       name: 'Direct Part Mark (DPM) Scanner',
       model: 'Honeywell 1920i Industrial DPM',
-      image: '/assets/images/hw_laser_marking.jpg',
+      oem: 'Honeywell',
+      image: 'https://honeywell.scene7.com/is/image/Honeywell65/granit-xp-1991i-xlr-and-cordless-base-left',
+      fallbackImage: '/assets/images/hw_laser_marking.jpg',
       badge: 'DPM & Dot-Peen',
       color: '#f59e0b',
       desc: 'Decodes Direct Part Marks (DPM) on curved metal, cast iron, engine blocks, aerospace components, and pharmaceutical medical implants.',
@@ -143,7 +155,9 @@ export const HardwareView = () => {
       categoryName: 'Scanning Solutions',
       name: 'Vision & Fixed Conveyor Scanner',
       model: 'Fixed Mount Conveyor Scanner',
+      oem: 'Cognex / ATPL',
       image: '/assets/images/hw_fixed_conveyor.jpg',
+      fallbackImage: '/assets/images/atpl_ai_vision_inspection.jpg',
       badge: 'High-Speed Conveyor',
       color: '#00a651',
       desc: 'Lightweight, durable fixed-mount scanning unit designed for automated carton sortation, packaging conveyor lines, and smart kiosk integration.',
@@ -161,8 +175,10 @@ export const HardwareView = () => {
       category: 'printers',
       categoryName: 'Printing Solutions',
       name: 'Desktop Barcode & Label Printer',
-      model: 'TSC TX200 Series',
-      image: '/assets/images/hw_desktop_printer.jpg',
+      model: 'TSC TX200 / TX210 Series',
+      oem: 'TSC Auto ID',
+      image: 'https://in.tscprinters.com/sites/in.tscprinters.com/files/styles/product_slider/public/2021-03/tx210_0.png',
+      fallbackImage: '/assets/images/hw_desktop_printer.jpg',
       badge: 'Precision Desktop',
       color: '#0071ba',
       desc: 'High-performance desktop thermal transfer printer engineered for shipping labels, product identification, compliance barcodes, and asset tags.',
@@ -179,7 +195,9 @@ export const HardwareView = () => {
       categoryName: 'Printing Solutions',
       name: 'Rugged Mobile Label Printer',
       model: 'Honeywell RP4 / RP2 Series',
-      image: '/assets/images/hw_mobile_printer.jpg',
+      oem: 'Honeywell',
+      image: 'https://honeywell.scene7.com/is/image/Honeywell65/rp2f-primary',
+      fallbackImage: '/assets/images/hw_mobile_printer.jpg',
       badge: 'Portable On-Demand',
       color: '#E85874',
       desc: 'Ultra-rugged mobile receipt and label printer designed for route delivery, warehouse cross-docking, and roadside enforcement labeling.',
@@ -196,7 +214,9 @@ export const HardwareView = () => {
       categoryName: 'Printing Solutions',
       name: 'Industrial Mid-Range Printer',
       model: 'Honeywell PD4500B Industrial',
-      image: '/assets/images/hw_desktop_printer.jpg',
+      oem: 'Honeywell',
+      image: 'https://honeywell.scene7.com/is/image/Honeywell65/sps-ppr-pm45a-primary',
+      fallbackImage: '/assets/images/hw_desktop_printer.jpg',
       badge: 'All-Metal 24/7 Chassis',
       color: '#00a651',
       desc: 'Ergonomic all-metal chassis engineered for manufacturing, logistics, and healthcare label printing with anti-wrinkle ribbon sensors.',
@@ -213,7 +233,9 @@ export const HardwareView = () => {
       categoryName: 'Printing Solutions',
       name: 'Industrial High-Speed RFID Printer',
       model: 'Printronix T6000e Enterprise RFID',
-      image: '/assets/images/hw_desktop_printer.jpg',
+      oem: 'Printronix Auto ID',
+      image: 'https://usca.tscprinters.com/sites/usca.tscprinters.com/files/styles/product_slider/public/2024-03/tsc-auto-id-rfid-label-printer-enterprise-industrial-t6000e.png',
+      fallbackImage: '/assets/images/atpl_labeler_hardware.jpg',
       badge: 'UHF RFID & ODV Verifier',
       color: '#f59e0b',
       desc: 'Enterprise RFID encoding printer capable of high-speed UHF tag encoding for standard paper carton labels and thick on-metal asset tracking tags.',
@@ -230,7 +252,9 @@ export const HardwareView = () => {
       categoryName: 'Printing Solutions',
       name: 'High-Performance Data Visualization Printer',
       model: 'Honeywell PM45 / PM45C Industrial',
-      image: '/assets/images/hw_desktop_printer.jpg',
+      oem: 'Honeywell',
+      image: 'https://honeywell.scene7.com/is/image/Honeywell65/sps-ppr-pm45a-primary',
+      fallbackImage: '/assets/images/hw_desktop_printer.jpg',
       badge: 'Precision Calibration',
       color: '#0071ba',
       desc: 'Precision industrial printer built with smart diagnostics, predictive maintenance telemetry, and zero-defect barcode label generation.',
@@ -247,7 +271,9 @@ export const HardwareView = () => {
       categoryName: 'Printing Solutions',
       name: 'Secure ID Card Personalization Printer',
       model: 'Fargo HDP6600xe High Definition',
-      image: '/assets/images/hw_desktop_printer.jpg',
+      oem: 'HID Global Fargo',
+      image: '/assets/images/atpl_labeler_hardware.jpg',
+      fallbackImage: '/assets/images/hw_desktop_printer.jpg',
       badge: 'Re-Transfer High-Res',
       color: '#8b5cf6',
       desc: 'High-definition re-transfer card printer producing crisp, edge-to-edge employee badges, access control RFID smart cards, and visitor passes.',
@@ -266,7 +292,9 @@ export const HardwareView = () => {
       categoryName: 'Mobility Edge & Tablets',
       name: 'Rugged Field Mobility Computer',
       model: 'Honeywell CT45 / CT45 XP',
-      image: '/assets/images/hw_rugged_handheld.jpg',
+      oem: 'Honeywell',
+      image: 'https://s7d1.scene7.com/is/image/Honeywell65/sps-ppr-ct45-ct45xp-mobile-computer-image-3',
+      fallbackImage: '/assets/images/hw_rugged_handheld.jpg',
       badge: 'Mobility Edge Platform',
       color: '#0071ba',
       desc: 'Built on the unified Mobility Edge platform with FlexRange scan engine, providing extreme reliability for field logistics and frontline shopfloor teams.',
@@ -283,7 +311,9 @@ export const HardwareView = () => {
       categoryName: 'Mobility Edge & Tablets',
       name: 'Enterprise Keypad Mobile Computer',
       model: 'Honeywell EDA61K Handheld',
-      image: '/assets/images/hw_rugged_handheld.jpg',
+      oem: 'Honeywell',
+      image: 'https://honeywell.scene7.com/is/image/Honeywell65/hon-ia-pss-ck65-cs-primary',
+      fallbackImage: '/assets/images/hw_rugged_handheld.jpg',
       badge: 'Physical Keypad & Touch',
       color: '#E85874',
       desc: 'Ergonomically balanced mobile computer with physical numeric/alphanumeric keypad, ideal for fast warehouse inventory data entry with gloved hands.',
@@ -300,7 +330,9 @@ export const HardwareView = () => {
       categoryName: 'Mobility Edge & Tablets',
       name: 'Ultra-Rugged Warehouse Handheld',
       model: 'Honeywell CK65 Mobile Computer',
-      image: '/assets/images/hw_rugged_handheld.jpg',
+      oem: 'Honeywell',
+      image: 'https://honeywell.scene7.com/is/image/Honeywell65/hon-ia-pss-ck65-cs-primary',
+      fallbackImage: '/assets/images/hw_rugged_handheld.jpg',
       badge: '3.0m Drop / IP68 Rated',
       color: '#00a651',
       desc: 'The industry-standard ultra-rugged computer designed for the most demanding warehouse distribution centers and automated factory operations.',
@@ -317,7 +349,9 @@ export const HardwareView = () => {
       categoryName: 'Mobility Edge & Tablets',
       name: 'Cold Storage Freezer Handheld',
       model: 'Honeywell CK65 Cold Storage',
-      image: '/assets/images/hw_rugged_handheld.jpg',
+      oem: 'Honeywell',
+      image: 'https://honeywell.scene7.com/is/image/Honeywell65/hon-ia-pss-ck65-cs-primary',
+      fallbackImage: '/assets/images/hw_rugged_handheld.jpg',
       badge: '-30°C Cold Chain',
       color: '#00f0ff',
       desc: 'Equipped with internal heating elements and specialized low-temperature battery chemistry for seamless transitions between freezers and ambient docks.',
@@ -334,7 +368,9 @@ export const HardwareView = () => {
       categoryName: 'Mobility Edge & Tablets',
       name: 'Industrial Rugged Vehicle Tablet',
       model: 'Honeywell RT10A / RT10W Rugged Tablet',
-      image: '/assets/images/hw_rugged_handheld.jpg',
+      oem: 'Honeywell',
+      image: 'https://honeywell.scene7.com/is/image/Honeywell65/sps-ppr-rt10w-mobile-computer',
+      fallbackImage: '/assets/images/hw_rugged_handheld.jpg',
       badge: '10.1" Rugged Screen',
       color: '#f59e0b',
       desc: 'Rugged 10.1-inch tablet for forklift vehicle mounting, supervisor plant audits, and mobile field engineering with near/far barcode scanning.',
@@ -353,7 +389,9 @@ export const HardwareView = () => {
       categoryName: 'RFID Systems & Gates',
       name: 'Mobile UHF RFID Sled Reader',
       model: 'Honeywell IH45 / IH40 RFID Gun',
-      image: '/assets/images/hw_rugged_handheld.jpg',
+      oem: 'Honeywell',
+      image: 'https://honeywell.scene7.com/is/image/Honeywell65/sps-pss-IH45-primary-1200x798',
+      fallbackImage: '/assets/images/hw_rfid_portal.jpg',
       badge: '1,000+ Tags/Sec Sled',
       color: '#E85874',
       desc: 'Ergonomic RFID pistol sled pairing seamlessly with mobile computers, reading up to 1,000 RFID tags per second for fast inventory cycle counts.',
@@ -369,8 +407,10 @@ export const HardwareView = () => {
       category: 'rfid',
       categoryName: 'RFID Systems & Gates',
       name: 'Heavy-Duty RFID Forklift & Portal Antenna',
-      model: 'AN4x Ultra-Rugged UHF Antenna Array',
-      image: '/assets/images/hw_rfid_portal.jpg',
+      model: 'Zebra AN480 Ultra-Rugged UHF Antenna Array',
+      oem: 'Zebra Technologies',
+      image: 'https://www.zebra.com/content/dam/zebra_dam/global/zcom-web-production/web-production-photography/web005/an480-antenna-photography-website-product-facing-front-3x2-3600x2400.jpg',
+      fallbackImage: '/assets/images/hw_rfid_portal.jpg',
       badge: 'IP67 Portal Array',
       color: '#0071ba',
       desc: 'High-gain circular polarized antenna engineered specifically for high-vibration forklift mounting and warehouse dock door portal enclosures.',
@@ -386,8 +426,10 @@ export const HardwareView = () => {
       category: 'rfid',
       categoryName: 'RFID Systems & Gates',
       name: 'Fixed Multi-Port UHF RFID Reader',
-      model: 'Honeywell IF2 Enterprise RFID Controller',
-      image: '/assets/images/hw_rfid_portal.jpg',
+      model: 'Zebra FX9600 Enterprise RFID Controller',
+      oem: 'Zebra Technologies',
+      image: 'https://www.zebra.com/content/dam/zebra_dam/global/zcom-web-production/web-production-photography/product-cards/model/fx9600-3x2-3600.jpg',
+      fallbackImage: '/assets/images/atpl_rfid_portal_showcase.jpg',
       badge: 'Fixed Gate Controller',
       color: '#00a651',
       desc: 'Compact, cost-effective network-ready fixed RFID reader for dock doors, conveyor choke points, assembly work cells, and automated tool cribs.',
@@ -404,7 +446,9 @@ export const HardwareView = () => {
       categoryName: 'RFID Systems & Gates',
       name: 'Industrial On-Metal & High-Temp RFID Tags',
       model: 'Max Rigid Engineered Tags',
-      image: '/assets/images/hw_rfid_portal.jpg',
+      oem: 'Omni-ID / Confidex',
+      image: '/assets/images/atpl_rfid_portal_showcase.jpg',
+      fallbackImage: '/assets/images/hw_rfid_portal.jpg',
       badge: 'On-Metal & 250°C Rated',
       color: '#f59e0b',
       desc: 'Rugged encapsulated RFID tags engineered to withstand direct metal mounting, automotive paint shop ovens, acid washdown, and harsh outdoor storage.',
@@ -423,7 +467,9 @@ export const HardwareView = () => {
       categoryName: 'Direct Part Marking & Laser',
       name: 'Industrial Fiber Laser Marking Machine',
       model: 'Forbes Macsa BMFD Fiber Laser',
+      oem: 'Macsa ID / Forbes',
       image: '/assets/images/hw_laser_marking.jpg',
+      fallbackImage: '/assets/images/atpl_labeler_hardware.jpg',
       badge: 'Zero-Consumable Laser',
       color: '#0071ba',
       desc: 'Chiller-free high-speed fiber laser marking system for permanent engraving, annealing, and high-contrast DataMatrix etching on metals and engineered plastics.',
@@ -440,7 +486,9 @@ export const HardwareView = () => {
       categoryName: 'Direct Part Marking & Laser',
       name: 'Industrial CO2 Packaging Laser Coder',
       model: 'Forbes Macsa iCON-30 CO2 Laser',
-      image: '/assets/images/hw_laser_marking.jpg',
+      oem: 'Macsa ID / Forbes',
+      image: '/assets/images/atpl_ai_vision_inspection.jpg',
+      fallbackImage: '/assets/images/hw_laser_marking.jpg',
       badge: 'Fly-Marking for Packaging',
       color: '#E85874',
       desc: 'Designed for high-duty cycle Fly-Marking-Applications (FMA) on high-speed bottling, pharmaceutical cartons, PVC pipes, and food packaging lines.',
@@ -457,7 +505,9 @@ export const HardwareView = () => {
       categoryName: 'Direct Part Marking & Laser',
       name: 'Hyperfine UV Laser Marking Machine',
       model: 'Industrial UV Laser Cold Marker',
+      oem: 'Macsa ID',
       image: '/assets/images/hw_vision_camera.jpg',
+      fallbackImage: '/assets/images/hw_laser_marking.jpg',
       badge: 'Hyperfine Cold Marking',
       color: '#00a651',
       desc: 'Ultra-small focal spot with minimal thermal heat-affected zone, delivering damage-free cold marking on sensitive electronics, silicone, and thin medical plastics.',
@@ -474,7 +524,9 @@ export const HardwareView = () => {
       categoryName: 'Direct Part Marking & Laser',
       name: 'Pneumatic Dot Peen Pin Marker',
       model: 'Telesis TMP1000 Pinstamp Marker',
-      image: '/assets/images/hw_laser_marking.jpg',
+      oem: 'Telesis Technologies',
+      image: '/assets/images/story_automotive.jpg',
+      fallbackImage: '/assets/images/hw_laser_marking.jpg',
       badge: 'Pneumatic Heavy Impact',
       color: '#f59e0b',
       desc: 'Indents deep, permanent characters and 2D DataMatrix dots into steel, cast alloys, and aluminum automotive chassis that remain legible even after painting.',
@@ -493,7 +545,9 @@ export const HardwareView = () => {
       categoryName: 'Voice, Touch & Automation',
       name: 'Industrial Voice Directed Picking Headset',
       model: 'Honeywell SRX3 Wireless Headset',
-      image: '/assets/images/hw_voice_headset.jpg',
+      oem: 'Honeywell Voice',
+      image: 'https://honeywell.scene7.com/is/image/Honeywell65/A730-SRX3-Shadow',
+      fallbackImage: '/assets/images/hw_voice_headset.jpg',
       badge: 'Hands-Free Voice DC',
       color: '#0071ba',
       desc: 'Hands-free, eyes-free voice recognition headset directing warehouse picking and sorting in high-noise distribution centers with multi-lingual AI.',
@@ -510,7 +564,9 @@ export const HardwareView = () => {
       categoryName: 'Voice, Touch & Automation',
       name: 'Smart Interactive Self-Service Kiosk',
       model: 'Agilysys Enterprise Kiosk Terminal',
-      image: '/assets/images/hw_fixed_conveyor.jpg',
+      oem: 'Agilysys / ATPL',
+      image: '/assets/images/atpl_connected_3d_twin.jpg',
+      fallbackImage: '/assets/images/hw_fixed_conveyor.jpg',
       badge: 'Touch Kiosk & Scanner',
       color: '#E85874',
       desc: 'Heavy-duty self-service kiosk with integrated PCAP touch monitor, barcode scanner, RFID card reader, and thermal receipt printer for check-in and dispatch.',
@@ -527,7 +583,9 @@ export const HardwareView = () => {
       categoryName: 'Voice, Touch & Automation',
       name: 'Shopfloor PLC Automation & In-Line Reject Gates',
       model: 'ATPL Industrial PLC Control Unit',
+      oem: 'Archery Technocrats',
       image: '/assets/images/hw_fixed_conveyor.jpg',
+      fallbackImage: '/assets/images/atpl_factory_3d_interior.jpg',
       badge: 'PLC / HMI Integration',
       color: '#00a651',
       desc: 'Automates industrial shopfloor processes, synchronizing barcode scanners, RFID readers, vision inspection cameras, and pneumatic reject diverters.',
@@ -695,7 +753,7 @@ export const HardwareView = () => {
                 <div style={{
                   height: '240px',
                   width: '100%',
-                  backgroundColor: '#0a1628',
+                  backgroundColor: hw.image.startsWith('http') ? '#ffffff' : '#0a1628',
                   position: 'relative',
                   display: 'flex',
                   alignItems: 'center',
@@ -705,31 +763,44 @@ export const HardwareView = () => {
                   {/* Real Product Image */}
                   <img 
                     src={hw.image} 
-                    alt={hw.name || 'ATPL Industrial Hardware'}
+                    alt={hw.model || hw.name || 'ATPL Industrial Hardware'}
                     loading="lazy"
                     decoding="async"
                     style={{
                       width: '100%',
                       height: '100%',
-                      objectFit: 'cover',
+                      objectFit: hw.image.startsWith('http') ? 'contain' : 'cover',
                       objectPosition: 'center',
+                      padding: hw.image.startsWith('http') ? '1.25rem' : '0',
                       transition: 'transform 0.4s ease',
                       position: 'relative',
-                      zIndex: 2
+                      zIndex: 2,
+                      filter: hw.image.startsWith('http') ? 'drop-shadow(0 8px 16px rgba(0, 0, 0, 0.18))' : 'none'
                     }}
                     onError={(e) => {
-                      e.currentTarget.style.display = 'none';
+                      if (hw.fallbackImage && e.currentTarget.src !== hw.fallbackImage && !e.currentTarget.dataset.fallbackTried) {
+                        e.currentTarget.dataset.fallbackTried = 'true';
+                        e.currentTarget.src = hw.fallbackImage;
+                        e.currentTarget.style.objectFit = 'cover';
+                        e.currentTarget.style.padding = '0';
+                        e.currentTarget.style.filter = 'none';
+                        e.currentTarget.parentElement.style.backgroundColor = '#0a1628';
+                      } else {
+                        e.currentTarget.style.display = 'none';
+                      }
                     }}
                   />
 
-                  {/* Gradient vignette on image to blend into card */}
-                  <div style={{
-                    position: 'absolute',
-                    inset: 0,
-                    background: 'linear-gradient(to top, rgba(11, 21, 40, 0.95) 0%, rgba(11, 21, 40, 0.25) 45%, rgba(11, 21, 40, 0) 100%)',
-                    zIndex: 2,
-                    pointerEvents: 'none'
-                  }} />
+                  {/* Gradient vignette on local dark factory images */}
+                  {!hw.image.startsWith('http') && (
+                    <div style={{
+                      position: 'absolute',
+                      inset: 0,
+                      background: 'linear-gradient(to top, rgba(11, 21, 40, 0.95) 0%, rgba(11, 21, 40, 0.25) 45%, rgba(11, 21, 40, 0) 100%)',
+                      zIndex: 2,
+                      pointerEvents: 'none'
+                    }} />
+                  )}
 
                   {/* High-Tech Fallback Visual (Big, Relevant, Fills Space) */}
                   <div style={{
@@ -769,12 +840,38 @@ export const HardwareView = () => {
                     </div>
                   </div>
 
+                  {/* Top Left OEM Authenticity Badge */}
+                  {hw.oem && (
+                    <div style={{
+                      position: 'absolute',
+                      top: '12px',
+                      left: '12px',
+                      backgroundColor: 'rgba(11, 21, 40, 0.88)',
+                      backdropFilter: 'blur(8px)',
+                      border: '1px solid rgba(255, 255, 255, 0.18)',
+                      color: '#ffffff',
+                      borderRadius: '6px',
+                      padding: '0.25rem 0.65rem',
+                      fontSize: '0.7rem',
+                      fontWeight: 700,
+                      letterSpacing: '0.04em',
+                      zIndex: 4,
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.35rem',
+                      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.4)'
+                    }}>
+                      <CheckCircle2 size={12} color="#00a651" />
+                      <span>OEM DIRECT • {hw.oem.toUpperCase()}</span>
+                    </div>
+                  )}
+
                   {/* Top Right Spec Badge */}
                   <div style={{
                     position: 'absolute',
                     top: '12px',
                     right: '12px',
-                    backgroundColor: 'rgba(15, 23, 42, 0.88)',
+                    backgroundColor: 'rgba(15, 23, 42, 0.92)',
                     backdropFilter: 'blur(8px)',
                     color: '#ffffff',
                     border: `1px solid ${hw.color}`,
@@ -782,8 +879,8 @@ export const HardwareView = () => {
                     padding: '0.3rem 0.75rem',
                     fontSize: '0.75rem',
                     fontWeight: 700,
-                    zIndex: 3,
-                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)'
+                    zIndex: 4,
+                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.4)'
                   }}>
                     {hw.badge}
                   </div>
@@ -793,7 +890,7 @@ export const HardwareView = () => {
                     position: 'absolute',
                     bottom: '12px',
                     left: '12px',
-                    backgroundColor: 'rgba(11, 21, 40, 0.85)',
+                    backgroundColor: 'rgba(11, 21, 40, 0.88)',
                     backdropFilter: 'blur(6px)',
                     color: hw.color,
                     border: '1px solid rgba(255, 255, 255, 0.15)',
@@ -806,7 +903,7 @@ export const HardwareView = () => {
                     display: 'flex',
                     alignItems: 'center',
                     gap: '0.4rem',
-                    zIndex: 3
+                    zIndex: 4
                   }}>
                     {renderHardwareIcon(hw.category, 13, hw.color)}
                     <span>{hw.categoryName}</span>
@@ -816,15 +913,34 @@ export const HardwareView = () => {
                 {/* Content Section */}
                 <div style={{ padding: '1.75rem' }}>
                   <div style={{
-                    fontSize: '0.78rem',
-                    color: hw.color,
-                    fontFamily: 'var(--font-mono)',
-                    fontWeight: 700,
-                    textTransform: 'uppercase',
-                    marginBottom: '0.35rem',
-                    letterSpacing: '0.04em'
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    gap: '0.5rem',
+                    marginBottom: '0.35rem'
                   }}>
-                    {hw.categoryName} • {hw.model}
+                    <span style={{
+                      fontSize: '0.78rem',
+                      color: hw.color,
+                      fontFamily: 'var(--font-mono)',
+                      fontWeight: 700,
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.04em'
+                    }}>
+                      {hw.categoryName} • {hw.model}
+                    </span>
+                    <span style={{
+                      fontSize: '0.68rem',
+                      color: '#94a3b8',
+                      backgroundColor: 'rgba(255, 255, 255, 0.06)',
+                      border: '1px solid rgba(255, 255, 255, 0.1)',
+                      padding: '0.15rem 0.5rem',
+                      borderRadius: '4px',
+                      fontWeight: 600,
+                      whiteSpace: 'nowrap'
+                    }}>
+                      {hw.oem}
+                    </span>
                   </div>
 
                   <h3 style={{ fontSize: '1.25rem', color: '#ffffff', marginBottom: '0.65rem', fontWeight: 700 }}>
