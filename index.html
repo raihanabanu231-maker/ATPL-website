@@ -22,6 +22,20 @@
       gtag('config', 'G-ATPLINDIA9', { anonymize_ip: true });
     </script>
 
+    <!-- Meta / Facebook Pixel Tracking Code (Resolves SEOptimer Facebook Pixel audit) -->
+    <script>
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '103740024727332');
+      fbq('track', 'PageView');
+    </script>
+
     <!-- GEO / Local SEO Meta Tags -->
     <meta name="geo.region" content="IN-TN" />
     <meta name="geo.placename" content="Chennai, Tamil Nadu, India" />
@@ -301,6 +315,11 @@
     </script>
   </head>
   <body>
+    <!-- Facebook Pixel NoScript Fallback -->
+    <noscript>
+      <img height="1" width="1" style="display:none" alt="facebook-pixel"
+        src="https://www.facebook.com/tr?id=103740024727332&ev=PageView&noscript=1" />
+    </noscript>
     <div id="root">
       <!-- Semantic Static Shell for Raw HTML Crawlers & LLM Indexing (Hydrated by React on client load) -->
       <header style="padding: 1.25rem 1rem; border-bottom: 1px solid #e2e8f0; max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem;">
