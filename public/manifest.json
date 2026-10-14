@@ -1,0 +1,25 @@
+{
+  "name": "Archery Technocrats Private Limited",
+  "short_name": "ATPL Group",
+  "description": "Enterprise Smart Factory Automation, RFID Systems, and AIDC Shopfloor Solutions",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#040914",
+  "theme_color": "#0071ba",
+  "icons": [
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
