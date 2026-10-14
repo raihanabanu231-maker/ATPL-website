@@ -60,17 +60,6 @@ const ATPL_FACTORY_NODES = [
     specs: ['Real-time OEE gauge dashboards', 'Machine uptime & cycle monitoring', 'Automated Andon alerts', 'Operator shift productivity reports']
   },
   {
-    id: 'node-robots',
-    name: 'INDUSTRIAL ROBOTS',
-    category: 'ROBOTIC AUTOMATION & PLC',
-    icon: '🤖',
-    x: 83,
-    y: 52,
-    tagline: '6-Axis Multi-Joint Robotic Assembly Cells',
-    lesson: 'Here are the INDUSTRIAL ROBOTS! Multi-axis articulated robotic arms execute precision welding, pick-and-place, and synchronized conveyor transfers with 0.05mm repeatability alongside PLC automation.',
-    specs: ['6-Axis articulated motion', '0.05mm repeatability precision', 'Integrated safety light curtains', 'Direct PLC/SCADA integration']
-  },
-  {
     id: 'node-scanning',
     name: 'SCANNING SOLUTIONS',
     category: '1D/2D BARCODE IMAGERS',

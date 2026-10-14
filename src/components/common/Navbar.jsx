@@ -368,8 +368,8 @@ export const Navbar = ({ onOpenSearch }) => {
                     >
                       <Cpu size={20} color="#E85874" style={{ marginTop: '2px', flexShrink: 0 }} />
                       <div>
-                        <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#0f172a' }}>Robotics & Sorting Gates</div>
-                        <div style={{ fontSize: '0.78rem', color: '#64748b' }}>Articulated arms & pneumatic diverters</div>
+                        <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#0f172a' }}>Automation & Sorting Gates</div>
+                        <div style={{ fontSize: '0.78rem', color: '#64748b' }}>Pneumatic diverters & conveyor systems</div>
                       </div>
                     </div>
 
@@ -1199,7 +1199,7 @@ export const Navbar = ({ onOpenSearch }) => {
                     <button onClick={() => handleNavClick('hardware')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#E85874', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>• Industrial 2D & DPM Barcode Scanners</button>
                     <button onClick={() => handleNavClick('hardware')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0071ba', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>• Industrial Barcode & RFID Printers</button>
                     <button onClick={() => handleNavClick('hardware')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0284c7', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>• Rugged Handheld Computers & PDAs</button>
-                    <button onClick={() => handleNavClick('hardware')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#E85874', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>• Robotics, Sorting & Conveyor Systems</button>
+                    <button onClick={() => handleNavClick('hardware')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#E85874', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>• Automated Sorting & Conveyor Systems</button>
                     <button onClick={() => handleNavClick('hardware')} style={{ minHeight: '44px', background: 'rgba(0, 113, 186, 0.08)', borderRadius: '6px', border: 'none', textAlign: 'left', padding: '0.5rem 0.75rem', color: '#0071ba', fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                       <span>Explore All Hardware Catalog</span>
                       <span>➔</span>

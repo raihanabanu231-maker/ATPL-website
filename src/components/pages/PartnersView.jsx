@@ -68,7 +68,7 @@ export const PartnersView = () => {
   const categories = [
     { id: 'all', label: 'All Alliances' },
     { id: 'aidc', label: 'AIDC & RFID OEMs' },
-    { id: 'automation', label: 'Robotics & Laser Traceability' },
+    { id: 'automation', label: 'Automation & Laser Traceability' },
     { id: 'mdm', label: 'Enterprise MDM & Software' },
     { id: 'cert', label: 'Government & GS1 Standards' }
   ];
@@ -133,7 +133,7 @@ export const PartnersView = () => {
     },
     {
       id: 'automation',
-      category: 'Industrial Automation, Robotics & Traceability Alliances',
+      category: 'Industrial Automation, SPM & Traceability Alliances',
       icon: Cpu,
       color: '#E85874',
       desc: 'Tier-1 industrial equipment, laser marking, cleaning automation, and industrial IoT hardware partnerships.',
@@ -248,7 +248,7 @@ export const PartnersView = () => {
           id: 'startupindia',
           name: '#startupindia & DPIIT Recognition',
           tier: 'Govt. of India Section 80-IAC Certified',
-          focus: 'Patented industrial automation research, IoT robotics, and AI manufacturing incubation',
+          focus: 'Patented industrial automation research, IoT sensors, and AI manufacturing incubation',
           badge: 'Govt. Recognized',
           logoComp: StartupIndiaLogo
         }

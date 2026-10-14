@@ -96,22 +96,8 @@ export const ATPL_FACTORY_NODES = [
     targetView: 'software'
   },
   {
-    id: 'node-robots',
-    stepNumber: 6,
-    name: 'INDUSTRIAL ROBOTS',
-    category: 'ROBOTIC AUTOMATION & PLC',
-    icon: '🤖',
-    x: 82,
-    y: 52,
-    image: '/assets/images/stations/robot_arm.webp',
-    tagline: '6-Axis Multi-Joint Articulated Robot Cells',
-    highlight: 'Multi-axis articulated arms executing precision welding, pick-and-place, and synchronized conveyor transfers with 0.05mm repeatability.',
-    roiMetric: '0.05mm Repeatability',
-    targetView: 'hardware'
-  },
-  {
     id: 'node-scanners',
-    stepNumber: 7,
+    stepNumber: 6,
     name: 'SCANNING SOLUTIONS',
     category: 'AIDC HARDWARE',
     icon: '📱',
@@ -125,7 +111,7 @@ export const ATPL_FACTORY_NODES = [
   },
   {
     id: 'node-printers',
-    stepNumber: 8,
+    stepNumber: 7,
     name: 'INDUSTRIAL PRINTING',
     category: 'PRINTING SOLUTIONS',
     icon: '🖨️',
@@ -139,7 +125,7 @@ export const ATPL_FACTORY_NODES = [
   },
   {
     id: 'node-drones',
-    stepNumber: 9,
+    stepNumber: 8,
     name: 'DRONES & REMOTE CONTROL',
     category: 'AERIAL WAREHOUSE AUDIT',
     icon: '🛸',
@@ -153,7 +139,7 @@ export const ATPL_FACTORY_NODES = [
   },
   {
     id: 'node-dev',
-    stepNumber: 10,
+    stepNumber: 9,
     name: 'SOFTWARE DEVELOPMENT',
     category: 'R&D LABS (MADURAI & CHENNAI)',
     icon: '💻',
@@ -167,7 +153,7 @@ export const ATPL_FACTORY_NODES = [
   },
   {
     id: 'node-ai',
-    stepNumber: 11,
+    stepNumber: 10,
     name: 'SUPER COMPUTER AI & ML',
     category: 'EDGE AI & VISION INTELLIGENCE',
     icon: '🧠',
@@ -181,7 +167,7 @@ export const ATPL_FACTORY_NODES = [
   },
   {
     id: 'node-erp',
-    stepNumber: 12,
+    stepNumber: 11,
     name: 'ERP SOLUTIONS & SYNC',
     category: 'ENTERPRISE INTEGRATION',
     icon: '🔄',
@@ -324,7 +310,7 @@ export const FactoryBlueprintMap = () => {
               margin: 0,
               lineHeight: 1.2
             }}>
-              12-Station Autonomous <span className="gradient-text">Robot Flight Inspection</span>
+              11-Station Autonomous <span className="gradient-text">Factory Flight Inspection</span>
             </div>
           </div>
 
@@ -336,10 +322,10 @@ export const FactoryBlueprintMap = () => {
             gap: '0.5rem',
             flexShrink: 0
           }}>
-            <span className="hud-header-hint" style={{ display: 'inline-block' }}>Click beacon (1–12) to fly Archie</span>
+            <span className="hud-header-hint" style={{ display: 'inline-block' }}>Click beacon (1–11) to fly Archie</span>
             <span className="hud-header-sep" style={{ color: '#00f0ff' }}>•</span>
             <span style={{ color: '#00f0ff', fontFamily: 'var(--font-mono)', fontSize: '0.72rem', fontWeight: 800 }}>
-              STATION {currentIndex + 1}/12
+              STATION {currentIndex + 1}/{ATPL_FACTORY_NODES.length}
             </span>
           </div>
         </div>

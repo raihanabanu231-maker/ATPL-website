@@ -299,12 +299,12 @@ export const ALL_PARTNER_LOGOS = [
   { id: 'newland', name: 'Newland AIDC', component: NewlandLogo, height: 32, category: 'aidc', categoryName: 'AIDC & RFID OEMs' },
   { id: 'cipherlab', name: 'CipherLab Mobile', component: CipherLabLogo, height: 28, category: 'aidc', categoryName: 'AIDC & RFID OEMs' },
 
-  // Robotics & Laser Traceability (5)
-  { id: 'telesis', name: 'Telesis Technologies', component: TelesisLogo, height: 28, category: 'automation', categoryName: 'Robotics & Laser Traceability' },
-  { id: 'nilfisk', name: 'Nilfisk Industrial', component: NilfiskLogo, height: 32, category: 'automation', categoryName: 'Robotics & Laser Traceability' },
-  { id: 'forbesmacsa', name: 'Forbes Macsa id', component: ForbesMacsaLogo, height: 34, category: 'automation', categoryName: 'Robotics & Laser Traceability' },
-  { id: 'bradma', name: 'Bradma Marking', component: BradmaLogo, height: 32, category: 'automation', categoryName: 'Robotics & Laser Traceability' },
-  { id: 'axis', name: 'Axis Communications', component: AxisLogo, height: 32, category: 'automation', categoryName: 'Robotics & Laser Traceability' },
+  // Automation & Laser Traceability (5)
+  { id: 'telesis', name: 'Telesis Technologies', component: TelesisLogo, height: 28, category: 'automation', categoryName: 'Automation & Laser Traceability' },
+  { id: 'nilfisk', name: 'Nilfisk Industrial', component: NilfiskLogo, height: 32, category: 'automation', categoryName: 'Automation & Laser Traceability' },
+  { id: 'forbesmacsa', name: 'Forbes Macsa id', component: ForbesMacsaLogo, height: 34, category: 'automation', categoryName: 'Automation & Laser Traceability' },
+  { id: 'bradma', name: 'Bradma Marking', component: BradmaLogo, height: 32, category: 'automation', categoryName: 'Automation & Laser Traceability' },
+  { id: 'axis', name: 'Axis Communications', component: AxisLogo, height: 32, category: 'automation', categoryName: 'Automation & Laser Traceability' },
 
   // Enterprise MDM & Software (4)
   { id: 'soti', name: 'SOTI MobiControl', component: SotiLogo, height: 30, category: 'mdm', categoryName: 'Enterprise MDM & Software' },

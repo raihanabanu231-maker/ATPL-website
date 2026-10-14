@@ -320,7 +320,7 @@ export const AdminDashboard = () => {
 
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.82rem', marginBottom: '0.3rem' }}>
-                <span style={{ color: '#e2e8f0', fontWeight: 500 }}>Robotics & Direct Part Marking (DPM)</span>
+                <span style={{ color: '#e2e8f0', fontWeight: 500 }}>SPM Automation & Direct Part Marking (DPM)</span>
                 <span style={{ color: '#fbbf24', fontFamily: 'var(--font-mono)' }}>16% (8 Leads)</span>
               </div>
               <div style={{ width: '100%', height: '8px', background: 'rgba(255,255,255,0.06)', borderRadius: '4px', overflow: 'hidden' }}>

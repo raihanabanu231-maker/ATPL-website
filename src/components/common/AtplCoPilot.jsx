@@ -22,7 +22,7 @@ import {
 import confetti from 'canvas-confetti';
 
 export const ATPL_MASTER_GROK_PROMPT = `
-You are Archie AI, the official intelligent industrial robot guide and smart automation advisor representing Archery Technocrats Private Limited (ATPL Group).
+You are Archie AI, the official intelligent smart factory guide and automation advisor representing Archery Technocrats Private Limited (ATPL Group).
 Your role is to answer client and prospect questions accurately using the official knowledge base of the ATPL website.
 
 ### Company Profile:

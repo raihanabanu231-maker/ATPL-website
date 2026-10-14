@@ -176,52 +176,9 @@ export const ATPL_FACTORY_NODES = {
     }
   },
 
-  industrialRobots: {
-    id: "industrialRobots",
-    number: "05",
-    name: "Industrial Robots",
-    title: "6-Axis Articulated Industrial Robotic Cells",
-    category: "ROBOTIC AUTOMATION & MATERIAL HANDLING",
-    icon: "🤖",
-    color: "#ec4899",
-    secondaryColor: "#3b82f6",
-    image: "/assets/images/stations/robot_arm.webp",
-    node: "station_industrial_robots",
-    position: [-1.8, 0, -2],
-    mapX: 42,
-    mapY: 64,
-    robotPosition: [-1.8, 3.2, 0],
-    cameraPosition: [0, 4.0, 6],
-    targetLookAt: [-1.8, 2.0, -2],
-    tagline: "High-precision pick-and-place & direct part marking robotics",
-    whatItDoes: "Executes continuous high-speed sorting, palletizing, laser direct part marking, and conveyor handover with 0.05mm repeatability.",
-    lesson: "Autonomous robotic cells eliminate repetitive ergonomic strain and operational variation. Synchronized via industrial PLCs and optical cameras, our multi-axis robotic arms perform precision laser etching and sorting alongside active conveyor belts.",
-    specs: [
-      "6-Axis articulated motion with 0.05mm repeatability",
-      "Synchronized conveyor tracking & dynamic pick-and-place",
-      "Integrated safety light curtains & collaborative torque sensing",
-      "Direct Siemens S7 & Rockwell PLC fieldbus integration"
-    ],
-    realProject: {
-      clientType: "Automotive Precision Machining & EV Assembly",
-      headline: "Automated robotic sorting & 0.05mm laser DPM engraving",
-      description: "Deployed articulated robotic arms along high-speed assembly conveyor for direct part marking and precision binning.",
-      metrics: ["2.1s cycle time", "±0.035mm accuracy", "35% higher throughput"],
-      tags: ["Robotics", "EV Assembly", "Conveyor Tracking"]
-    },
-    demo: "robots",
-    demoActionName: "Execute Robotic Arm Cycle",
-    telemetry: {
-      cycleTime: "2.1 sec / item",
-      repeatability: "±0.035 mm",
-      motorTemperature: "42.8°C (Normal)",
-      oeeAvailability: "99.8%"
-    }
-  },
-
   visionAi: {
     id: "visionAi",
-    number: "06",
+    number: "05",
     name: "Vision AI",
     title: "Deep Learning Optical AI Vision Suite",
     category: "EDGE AI COMPUTER VISION & DEFECT INSPECTION",
@@ -264,7 +221,7 @@ export const ATPL_FACTORY_NODES = {
 
   erpSync: {
     id: "erpSync",
-    number: "07",
+    number: "06",
     name: "ERP Sync",
     title: "Bi-Directional Enterprise ERP Connectors",
     category: "CLOUD DATA BRIDGING & INTEGRATION",
@@ -307,7 +264,7 @@ export const ATPL_FACTORY_NODES = {
 
   inspectionDrones: {
     id: "inspectionDrones",
-    number: "08",
+    number: "07",
     name: "Inspection Drones",
     title: "Autonomous High-Bay Inventory Drones",
     category: "AERIAL WAREHOUSE TELEMETRY",
@@ -350,7 +307,7 @@ export const ATPL_FACTORY_NODES = {
 
   scanners: {
     id: "scanners",
-    number: "09",
+    number: "08",
     name: "Scanners",
     title: "Industrial 2D & Direct Part Marking (DPM) Imagers",
     category: "OPTICAL BARCODE CAPTURE & VERIFICATION",
@@ -393,7 +350,7 @@ export const ATPL_FACTORY_NODES = {
 
   printers: {
     id: "printers",
-    number: "10",
+    number: "09",
     name: "Printers",
     title: "Industrial High-Speed Barcode & RFID Encoders",
     category: "PACKAGING MARKING & RFID ENCODING",
@@ -436,7 +393,7 @@ export const ATPL_FACTORY_NODES = {
 
   software: {
     id: "software",
-    number: "11",
+    number: "10",
     name: "Software",
     title: "ATPL Industrial Cloud Software Architecture",
     category: "ENTERPRISE MICROSERVICES & APIS",
@@ -479,7 +436,7 @@ export const ATPL_FACTORY_NODES = {
 
   pms: {
     id: "pms",
-    number: "12",
+    number: "11",
     name: "PMS",
     title: "PERFECT PMS™ (Production Management & OEE)",
     category: "SHOPFLOOR MES & MACHINE MONITORING",

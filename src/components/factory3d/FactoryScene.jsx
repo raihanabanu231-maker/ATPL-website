@@ -217,65 +217,40 @@ const ModelRfidPortals = () => {
   );
 };
 
-// 05. PLC / HMI / SPM INTEGRATION & ROBOTS (Yellow 6-Axis Robotic Arms Along Conveyor)
-const ModelRobots = () => {
-  const arm1Ref = useRef();
-  const arm2Ref = useRef();
-
-  useFrame((state) => {
-    const t = state.clock.getElapsedTime();
-    if (arm1Ref.current) {
-      arm1Ref.current.rotation.y = Math.sin(t * 1.5) * 0.45;
-    }
-    if (arm2Ref.current) {
-      arm2Ref.current.rotation.y = Math.sin(t * 1.5 + Math.PI) * 0.45;
-    }
-  });
-
+// 05. PLC / HMI / SPM INTEGRATION (Automated Inspection Cabinet & Conveyor Diverter)
+const ModelPlcSpm = () => {
   return (
     <>
-      {/* Robot 1 */}
+      {/* SPM Station 1 */}
       <group position={[-1.8, 0, 0]}>
-        <mesh position={[0, 0.4, 0]} castShadow>
-          <cylinderGeometry args={[0.65, 0.75, 0.8, 24]} />
-          <meshStandardMaterial color="#02101C" metalness={0.8} />
+        <mesh position={[0, 1.4, 0]} castShadow>
+          <boxGeometry args={[1.4, 2.8, 1.4]} />
+          <meshStandardMaterial color="#0b172a" metalness={0.8} roughness={0.3} />
         </mesh>
-        <group ref={arm1Ref} position={[0, 0.8, 0]}>
-          <mesh position={[0, 0.35, 0]} castShadow>
-            <cylinderGeometry args={[0.5, 0.5, 0.7, 24]} />
-            <meshStandardMaterial color="#FFC93C" metalness={0.8} />
-          </mesh>
-          <mesh position={[0, 1.2, 0.4]} rotation={[0.4, 0, 0]} castShadow>
-            <boxGeometry args={[0.3, 1.6, 0.3]} />
-            <meshStandardMaterial color="#FFC93C" metalness={0.8} />
-          </mesh>
-          <mesh position={[0, 2.2, 0.8]} rotation={[-0.7, 0, 0]} castShadow>
-            <boxGeometry args={[0.25, 1.2, 0.25]} />
-            <meshStandardMaterial color="#02101C" metalness={0.8} />
-          </mesh>
-        </group>
+        <mesh position={[0.72, 1.8, 0]}>
+          <boxGeometry args={[0.05, 0.9, 0.9]} />
+          <meshStandardMaterial color="#0071ba" emissive="#00f0ff" emissiveIntensity={0.6} />
+        </mesh>
+        <mesh position={[0, 2.9, 0]}>
+          <cylinderGeometry args={[0.08, 0.08, 0.3, 16]} />
+          <meshStandardMaterial color="#10b981" emissive="#10b981" emissiveIntensity={0.8} />
+        </mesh>
       </group>
 
-      {/* Robot 2 */}
+      {/* SPM Station 2 */}
       <group position={[-1.8, 0, -10]}>
-        <mesh position={[0, 0.4, 0]} castShadow>
-          <cylinderGeometry args={[0.65, 0.75, 0.8, 24]} />
-          <meshStandardMaterial color="#02101C" metalness={0.8} />
+        <mesh position={[0, 1.4, 0]} castShadow>
+          <boxGeometry args={[1.4, 2.8, 1.4]} />
+          <meshStandardMaterial color="#0b172a" metalness={0.8} roughness={0.3} />
         </mesh>
-        <group ref={arm2Ref} position={[0, 0.8, 0]}>
-          <mesh position={[0, 0.35, 0]} castShadow>
-            <cylinderGeometry args={[0.5, 0.5, 0.7, 24]} />
-            <meshStandardMaterial color="#FFC93C" metalness={0.8} />
-          </mesh>
-          <mesh position={[0, 1.2, 0.4]} rotation={[0.4, 0, 0]} castShadow>
-            <boxGeometry args={[0.3, 1.6, 0.3]} />
-            <meshStandardMaterial color="#FFC93C" metalness={0.8} />
-          </mesh>
-          <mesh position={[0, 2.2, 0.8]} rotation={[-0.7, 0, 0]} castShadow>
-            <boxGeometry args={[0.25, 1.2, 0.25]} />
-            <meshStandardMaterial color="#02101C" metalness={0.8} />
-          </mesh>
-        </group>
+        <mesh position={[0.72, 1.8, 0]}>
+          <boxGeometry args={[0.05, 0.9, 0.9]} />
+          <meshStandardMaterial color="#0071ba" emissive="#00f0ff" emissiveIntensity={0.6} />
+        </mesh>
+        <mesh position={[0, 2.9, 0]}>
+          <cylinderGeometry args={[0.08, 0.08, 0.3, 16]} />
+          <meshStandardMaterial color="#38bdf8" emissive="#38bdf8" emissiveIntensity={0.8} />
+        </mesh>
       </group>
     </>
   );
@@ -604,7 +579,7 @@ export const FactoryScene = ({
       <ModelPerfectTrace isSelected={selectedStation === 'perfectTrace'} />
       <ModelWarehouse isSelected={selectedStation === 'perfectStore'} />
       <ModelRfidPortals />
-      <ModelRobots />
+      <ModelPlcSpm />
       <ModelVisionAi />
       <ModelErpSync />
       <ModelDrones />

@@ -223,35 +223,35 @@ export const ATPL_STATIONS: Record<string, StationData> = {
     number: '05',
     name: 'PLC / HMI / SPM Integration',
     title: 'Industrial Automation, PLC & SPM Testing Integration',
-    category: 'SHOPFLOOR AUTOMATION & ROBOTICS',
+    category: 'SHOPFLOOR AUTOMATION & SPM INTEGRATION',
     tagline: 'Connects Special Purpose Machines & PLCs with IIoT Edge Middleware',
-    description: 'Unlocks the power of ERP, PLC, HMI, and Special Purpose Machine (SPM) integration with IIoT/Edge devices, robotic sorting cells, and automated test benches.',
-    icon: '🤖',
+    description: 'Unlocks the power of ERP, PLC, HMI, and Special Purpose Machine (SPM) integration with IIoT/Edge devices, automated testing stations, and conveyor diverter gates.',
+    icon: '⚙️',
     color: '#EC4899',
     accentColor: '#FFC93C',
     position: [-1.8, 0, -2],
     cameraPosition: [0, 4.0, 6],
     targetLookAt: [-1.8, 2.0, -2],
-    photoUrl: '/assets/images/stations/robot_arm.webp',
+    photoUrl: '/assets/images/stations/pms.webp',
     latencyBadge: '10ms Fieldbus Cycle',
-    archieLesson: 'ATPL custom middleware bridges machine controllers (Siemens, Rockwell, Mitsubishi) and automated SPM testing machines with enterprise software, ensuring deterministic telemetry and 0.05mm robotic handling.',
+    archieLesson: 'ATPL custom middleware bridges machine controllers (Siemens, Rockwell, Mitsubishi) and automated SPM testing machines with enterprise software, ensuring deterministic telemetry and automated sorting.',
     specs: [
-      '6-Axis articulated robotic cells with 0.05mm repeatability',
+      'Deterministic PLC fieldbus cycle times (10ms)',
       'Direct Siemens S7, Rockwell & Mitsubishi PLC integration',
       'Integrated SPM testing machine data acquisition',
       'Real-time conveyor tracking & automated diverter gates'
     ],
     clientProject: {
       clientType: 'Automotive Precision Machining & EV Assembly',
-      headline: 'Automated robotic sorting & 0.05mm laser DPM engraving',
+      headline: 'Automated SPM testing & 0.05mm laser DPM engraving',
       challenge: 'Manual sorting and part handling created ergonomic strain and inconsistent takt-time across the machining line.',
-      solution: 'Deployed articulated robotic arms along high-speed assembly conveyor for direct part marking and precision binning.',
+      solution: 'Deployed automated SPM testing and conveyor tracking for direct part marking and precision binning.',
       impact: [
         '2.1s cycle time per item',
         '±0.035mm repeatability',
         '35% higher line throughput'
       ],
-      tags: ['Robotics', 'EV Assembly', 'PLC Integration']
+      tags: ['Automation', 'EV Assembly', 'PLC Integration']
     },
     telemetry: {
       cycleTime: '2.1 sec / item',
@@ -259,7 +259,7 @@ export const ATPL_STATIONS: Record<string, StationData> = {
       motorTemperature: '42.8°C (Normal)',
       oeeAvailability: '99.8%'
     },
-    demoActionName: 'Execute Robotic Arm Cycle'
+    demoActionName: 'Trigger Conveyor Sorting Cycle'
   },
 
   visionAi: {

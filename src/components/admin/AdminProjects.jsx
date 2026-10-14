@@ -56,13 +56,13 @@ export const AdminProjects = () => {
 
   const quickPresets = [
     {
-      title: 'Automated Robotic Vision QC & Laser DPM Cell',
+      title: 'Automated Vision QC & Laser DPM Marking Station',
       client: 'Tata Motors Powertrain Division',
       industry: 'Automotive OEM',
-      solution: 'AI Optical Inspection + Robotic Laser Marking',
+      solution: 'AI Optical Inspection + Laser DPM Marking',
       metric: '99.98% Inspection Accuracy (<8ms latency)',
       year: '2026',
-      description: 'Deployed multi-axis robotic handling with sub-millimeter AI defect detection and GS1-compliant laser etching on high-velocity production lines.'
+      description: 'Deployed high-speed automated part inspection with sub-millimeter AI defect detection and GS1-compliant laser etching on high-velocity production lines.'
     },
     {
       title: 'Real-Time UHF RFID Warehouse & Dock Portal Sync',
@@ -336,7 +336,7 @@ export const AdminProjects = () => {
                   type="text"
                   className="form-control"
                   required
-                  placeholder="e.g. Autonomous Robotic Assembly Cell & DPM Laser Marking"
+                  placeholder="e.g. Autonomous Assembly Line & DPM Laser Marking"
                   value={formData.title}
                   onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                 />

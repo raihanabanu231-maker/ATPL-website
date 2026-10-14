@@ -37,7 +37,7 @@ export const SolutionsView = () => {
       color: '#0071ba',
       bgLight: '#eff6ff',
       tagline: 'High-Precision DPM Traceability, Battery Pack Serialization & Pokayoke Verification',
-      overview: 'End-to-end Direct Part Marking (DPM) barcode scanning, robotic laser marking verification, and EV battery cell-to-pack serialization compliant with global OEM audit standards.',
+      overview: 'End-to-end Direct Part Marking (DPM) barcode scanning, inline laser marking verification, and EV battery cell-to-pack serialization compliant with global OEM audit standards.',
       challenges: [
         'Harsh metal reflection & curved surfaces causing barcode read failures on laser-etched VINs.',
         'High-speed assembly line pokayoke error-proofing to prevent wrong part fitment.',

@@ -549,7 +549,7 @@ export const AdminLeadsCRM = () => {
                     <option value="PERFECT WAREHOUSE (WMS) & RFID Integration">PERFECT WAREHOUSE (WMS) & RFID Integration</option>
                     <option value="PERFECT TRACE (Track & Trace Serialization)">PERFECT TRACE (Track & Trace Serialization)</option>
                     <option value="Computer Vision AI Defect Inspection">Computer Vision AI Defect Inspection</option>
-                    <option value="Autonomous Robotics & Assembly Line">Autonomous Robotics & Assembly Line</option>
+                    <option value="Automated Assembly Line & DPM Marking">Automated Assembly Line & DPM Marking</option>
                     <option value="Industrial Hardware RFQ (Printers, Scanners, Tablets)">Industrial Hardware RFQ</option>
                     <option value="Annual Maintenance Contract (AMC) & Service Support">AMC Support</option>
                   </select>

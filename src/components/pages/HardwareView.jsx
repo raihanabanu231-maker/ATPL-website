@@ -534,7 +534,7 @@ export const HardwareView = () => {
       specs: [
         'Floating pin technology automatically contours over uneven and curved surfaces',
         'Deep indentations withstand shot blasting, galvanizing, and thick powder coating',
-        'Compact footprint easily mounted on robotic arms or benchtop stands',
+        'Compact footprint easily mounted on production fixtures, gantries, or benchtop stands',
         'Integrated controller with pre-loaded automotive VIN marking algorithms'
       ]
     },

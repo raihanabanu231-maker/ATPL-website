@@ -118,9 +118,9 @@ const CLIENT_CASE_SUMMARIES = {
     detail: 'Industrial 24/7 all-metal barcode printers generating ultra-durable heat-resistant steel coil identifiers.'
   },
   'abb': {
-    solution: 'Robotic Pick-and-Place & Vision Interlocking',
-    metric: '0.05mm Repeatability',
-    detail: 'PLC interlocked robotic cells with sub-8ms optical flaw detection on automated electronics lines.'
+    solution: 'Automated Conveyor Sorting & Vision Interlocking',
+    metric: 'Sub-8ms Inspection',
+    detail: 'PLC interlocked automated stations with sub-8ms optical flaw detection on automated electronics lines.'
   }
 };
 

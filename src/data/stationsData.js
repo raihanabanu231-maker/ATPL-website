@@ -59,10 +59,10 @@ export const FACTORY_STATIONS = [
   },
   {
     id: 'station-assembly',
-    name: 'Autonomous Robotics & Assembly Line',
-    tagline: 'Multi-Axis Robotic Arms, PLC Automation & Direct Part Marking',
+    name: 'Automated Assembly Line & DPM Marking',
+    tagline: 'Automated Conveyors, PLC Logic & Direct Part Marking',
     zone: 'Zone B - Manufacturing Core',
-    robotGreeting: "Step into our Autonomous Assembly Line! Our high-speed industrial robotic arms collaborate with PLC automation and Direct Part Marking (DPM) laser heads to precision-assemble components with zero human error.",
+    robotGreeting: "Step into our Automated Assembly Line! Our high-speed automation systems collaborate with PLC logic and Direct Part Marking (DPM) laser heads to precision-mark components with zero human error.",
     cameraPosition: { x: -5, y: 18, z: 35 },
     cameraTarget: { x: 0, y: 5, z: 0 },
     robotPosition: { x: -3, y: 6, z: 8 },
@@ -90,18 +90,18 @@ export const FACTORY_STATIONS = [
     ],
     hardware: [
       {
-        name: 'Industrial Multi-Axis Robotic Arms',
-        tag: 'Robotics',
-        desc: 'Precision robotic arms for automated pick-and-place, welding, assembly, and synchronized material transfer.'
-      },
-      {
         name: 'Direct Part Marking (DPM) Lasers',
         tag: 'Marking & Engraving',
         desc: 'Fiber and CO2 laser marking systems etching indelible 2D DataMatrix codes onto metal, plastic, and electronic components.'
+      },
+      {
+        name: 'Conveyor Gates & Diverter Systems',
+        tag: 'Sorting Automation',
+        desc: 'Pneumatic sorting gates and automated conveyor diverters directing parts based on real-time verification scans.'
       }
     ],
     deepDive: {
-      overview: "Our autonomous assembly line merges robotic speed with deterministic PLC logic. By combining ATPL's PMS software with Direct Part Marking, every single sub-assembly is laser-etched with a unique cryptographic identity for lifelong traceability.",
+      overview: "Our autonomous assembly line merges automated sorting with deterministic PLC logic. By combining ATPL's PMS software with Direct Part Marking, every single sub-assembly is laser-etched with a unique cryptographic identity for lifelong traceability.",
       keyFeatures: [
         'Direct Part Marking (DPM) legible after heat treatment & painting',
         'High-speed synchronized dual-conveyor flow control',

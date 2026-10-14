@@ -11,7 +11,7 @@ export const REAL_CLIENTS_DATA = [
     "id": "client-abb",
     "slug": "abb",
     "name": "ABB",
-    "category": "Heavy Industry & Robotics",
+    "category": "Heavy Industry & Automation",
     "logoUrl": "/assets/images/clients/abb.webp"
   },
   {
@@ -340,7 +340,7 @@ export const REAL_CLIENTS_DATA = [
     "id": "client-codentrix",
     "slug": "codentrix",
     "name": "Codentrix Automation",
-    "category": "Robotics & Automation",
+    "category": "Industrial Automation",
     "logoUrl": "/assets/images/clients/codentrix.webp"
   },
   {
@@ -1061,7 +1061,7 @@ export const REAL_CLIENTS_DATA = [
     "id": "client-macro-automation",
     "slug": "macro-automation",
     "name": "Macro Automation Solutions",
-    "category": "Factory Robotics",
+    "category": "Factory Automation",
     "logoUrl": "/assets/images/clients/macro-automation.webp"
   },
   {
@@ -1306,7 +1306,7 @@ export const REAL_CLIENTS_DATA = [
     "id": "client-power-automate",
     "slug": "power-automate",
     "name": "Power Automate",
-    "category": "Robotic Process Automation",
+    "category": "Process Automation",
     "logoUrl": "/assets/images/clients/power-automate.webp"
   },
   {

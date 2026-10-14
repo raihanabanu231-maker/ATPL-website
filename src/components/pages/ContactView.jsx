@@ -8,7 +8,7 @@ export const ContactView = () => {
   const [activeTopic, setActiveTopic] = useState('demo');
 
   const topics = [
-    { id: 'demo', label: '✨ 3D Plant Demo', solution: '3D Smart Factory & Robotics Tour' },
+    { id: 'demo', label: '✨ 3D Plant Demo', solution: '3D Smart Factory & Automation Tour' },
     { id: 'hardware', label: '🏷️ Hardware & RFID RFQ', solution: 'UHF RFID Portals & Scanners' },
     { id: 'software', label: '💻 Software & WMS Suite', solution: 'Perfect Store™ WMS & Serialization' },
     { id: 'amc', label: '🔧 24/7 AMC Support Desk', solution: 'Emergency Field AMC & Service' },
@@ -36,7 +36,7 @@ export const ContactView = () => {
     company: '',
     email: '',
     phone: '',
-    solution: '3D Smart Factory & Robotics Tour',
+    solution: '3D Smart Factory & Automation Tour',
     budget: '$100,000 - $250,000',
     notes: ''
   });
@@ -119,7 +119,7 @@ export const ContactView = () => {
         company: '',
         email: '',
         phone: '',
-        solution: '3D Smart Factory & Robotics Tour',
+        solution: '3D Smart Factory & Automation Tour',
         budget: '$100,000 - $250,000',
         notes: ''
       });
