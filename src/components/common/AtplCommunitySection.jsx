@@ -275,15 +275,15 @@ export function AtplCommunitySection() {
                 type="button"
                 onClick={() => setActivePhotoTab('team')}
                 style={{
-                  backgroundColor: activePhotoTab === 'team' ? '#0071ba' : 'rgba(14, 26, 49, 0.75)',
-                  color: activePhotoTab === 'team' ? '#ffffff' : '#94a3b8',
-                  border: activePhotoTab === 'team' ? '1.5px solid #299fe0' : '1px solid rgba(255, 255, 255, 0.12)',
+                  backgroundColor: activePhotoTab === 'team' ? '#0071ba' : 'rgba(15, 26, 48, 0.85)',
+                  color: activePhotoTab === 'team' ? '#ffffff' : '#cbd5e1',
+                  border: activePhotoTab === 'team' ? '1.5px solid #38bdf8' : '1px solid rgba(255, 255, 255, 0.18)',
                   borderRadius: '999px',
-                  padding: '0.4rem 1rem',
-                  fontSize: '0.82rem',
+                  padding: '0.45rem 1.15rem',
+                  fontSize: '0.84rem',
                   fontWeight: 700,
                   cursor: 'pointer',
-                  boxShadow: activePhotoTab === 'team' ? '0 4px 14px rgba(0, 113, 186, 0.4)' : 'none',
+                  boxShadow: activePhotoTab === 'team' ? '0 4px 16px rgba(0, 113, 186, 0.45)' : 'none',
                   transition: 'all 0.2s ease'
                 }}
               >
@@ -293,15 +293,15 @@ export function AtplCommunitySection() {
                 type="button"
                 onClick={() => setActivePhotoTab('founder')}
                 style={{
-                  backgroundColor: activePhotoTab === 'founder' ? '#0071ba' : 'rgba(14, 26, 49, 0.75)',
-                  color: activePhotoTab === 'founder' ? '#ffffff' : '#94a3b8',
-                  border: activePhotoTab === 'founder' ? '1.5px solid #299fe0' : '1px solid rgba(255, 255, 255, 0.12)',
+                  backgroundColor: activePhotoTab === 'founder' ? '#0071ba' : 'rgba(15, 26, 48, 0.85)',
+                  color: activePhotoTab === 'founder' ? '#ffffff' : '#cbd5e1',
+                  border: activePhotoTab === 'founder' ? '1.5px solid #38bdf8' : '1px solid rgba(255, 255, 255, 0.18)',
                   borderRadius: '999px',
-                  padding: '0.4rem 1rem',
-                  fontSize: '0.82rem',
+                  padding: '0.45rem 1.15rem',
+                  fontSize: '0.84rem',
                   fontWeight: 700,
                   cursor: 'pointer',
-                  boxShadow: activePhotoTab === 'founder' ? '0 4px 14px rgba(0, 113, 186, 0.4)' : 'none',
+                  boxShadow: activePhotoTab === 'founder' ? '0 4px 16px rgba(0, 113, 186, 0.45)' : 'none',
                   transition: 'all 0.2s ease'
                 }}
               >
@@ -321,141 +321,125 @@ export function AtplCommunitySection() {
                 transition: 'all 0.35s ease'
               }}
             >
-              {activePhotoTab === 'team' ? (
-                <div style={{ position: 'relative' }}>
-                  <img 
-                    src="/assets/images/atpl_team_full_group.png"
-                    alt="Archery Technocrats Private Limited - Authentic Engineering Team at Industrial Expo"
-                    width="800"
-                    height="440"
-                    loading="lazy"
-                    style={{
-                      width: '100%',
-                      height: 'auto',
-                      maxHeight: '440px',
-                      aspectRatio: '800 / 440',
-                      objectFit: 'cover',
-                      display: 'block'
-                    }}
-                  />
-                  {/* Subtle Gradient Overlay at bottom for clean caption integration */}
-                  <div 
-                    style={{
-                      position: 'absolute',
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      background: 'linear-gradient(to top, rgba(6, 11, 20, 0.95) 0%, rgba(6, 11, 20, 0.4) 65%, transparent 100%)',
-                      padding: '1.75rem 1.25rem 1rem 1.25rem',
-                      color: '#ffffff'
-                    }}
-                  >
-                    <div style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      flexWrap: 'wrap',
-                      gap: '0.5rem'
+              {/* Photo Display */}
+              <div style={{ position: 'relative', overflow: 'hidden' }}>
+                <img 
+                  src={activePhotoTab === 'team' ? "/assets/images/atpl_team_full_group.png" : "/assets/images/amarnath_paramasivam.jpg"}
+                  alt={activePhotoTab === 'team' 
+                    ? "Archery Technocrats Private Limited - Authentic Engineering Team at Industrial Expo" 
+                    : "Amarnath Paramasivam - Founder & Managing Director, Archery Technocrats"}
+                  width="800"
+                  height="440"
+                  loading="lazy"
+                  style={{
+                    width: '100%',
+                    height: 'auto',
+                    maxHeight: '400px',
+                    aspectRatio: '800 / 440',
+                    objectFit: 'cover',
+                    display: 'block'
+                  }}
+                />
+              </div>
+
+              {/* Dedicated Caption Bar: Fully visible, clean alignment, zero overlap */}
+              <div 
+                style={{
+                  background: 'linear-gradient(180deg, #091325 0%, #060c18 100%)',
+                  borderTop: '1px solid rgba(0, 113, 186, 0.25)',
+                  padding: '1.25rem 1.6rem',
+                  color: '#ffffff'
+                }}
+              >
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  flexWrap: 'wrap',
+                  gap: '0.75rem'
+                }}>
+                  <div>
+                    <div style={{ 
+                      fontSize: '1.15rem', 
+                      fontWeight: 800, 
+                      color: '#ffffff', 
+                      letterSpacing: '-0.015em',
+                      lineHeight: 1.25
                     }}>
-                      <div>
-                        <div style={{ fontSize: '0.98rem', fontWeight: 800, letterSpacing: '0.02em', color: '#ffffff' }}>
-                          Archery Technocrats Engineering Force
-                        </div>
-                        <div style={{ fontSize: '0.8rem', color: '#94a3b8' }}>
-                          In-House Software Engineers, AIDC Integrators &amp; Leadership
-                        </div>
-                      </div>
-                      <span style={{
-                        backgroundColor: 'rgba(0, 240, 255, 0.2)',
-                        border: '1px solid rgba(0, 240, 255, 0.5)',
-                        color: '#00f0ff',
-                        fontSize: '0.74rem',
-                        fontWeight: 700,
-                        padding: '0.2rem 0.65rem',
-                        borderRadius: '999px',
-                        backdropFilter: 'blur(8px)'
-                      }}>
-                        ● EXPO BOOTH 2026
-                      </span>
+                      {activePhotoTab === 'team' ? 'Archery Technocrats Engineering Force' : 'Amarnath Paramasivam'}
+                    </div>
+                    <div style={{ 
+                      fontSize: '0.86rem', 
+                      color: activePhotoTab === 'team' ? '#94a3b8' : '#38bdf8', 
+                      fontWeight: 600,
+                      marginTop: '0.3rem',
+                      lineHeight: 1.4
+                    }}>
+                      {activePhotoTab === 'team' 
+                        ? 'In-House Software Engineers, AIDC Integrators & Leadership' 
+                        : 'Founder & Managing Director • 15+ Yrs Industry 4.0 Vision'}
                     </div>
                   </div>
+
+                  <span style={{
+                    backgroundColor: activePhotoTab === 'team' ? 'rgba(0, 240, 255, 0.18)' : 'rgba(232, 88, 116, 0.22)',
+                    border: activePhotoTab === 'team' ? '1px solid rgba(0, 240, 255, 0.5)' : '1px solid rgba(232, 88, 116, 0.5)',
+                    color: activePhotoTab === 'team' ? '#00f0ff' : '#fda4af',
+                    fontSize: '0.75rem',
+                    fontWeight: 700,
+                    padding: '0.35rem 0.85rem',
+                    borderRadius: '999px',
+                    letterSpacing: '0.04em',
+                    backdropFilter: 'blur(8px)',
+                    whiteSpace: 'nowrap'
+                  }}>
+                    {activePhotoTab === 'team' ? '● EXPO BOOTH 2026' : '👔 EXECUTIVE LEADERSHIP'}
+                  </span>
                 </div>
-              ) : (
-                <div style={{ position: 'relative' }}>
-                  <img 
-                    src="/assets/images/amarnath_paramasivam.jpg"
-                    alt="Amarnath Paramasivam - Founder & Managing Director, Archery Technocrats"
-                    width="800"
-                    height="440"
-                    loading="lazy"
-                    style={{
-                      width: '100%',
-                      height: 'auto',
-                      maxHeight: '440px',
-                      aspectRatio: '800 / 440',
-                      objectFit: 'cover',
-                      display: 'block'
-                    }}
-                  />
-                  {/* Bottom Caption for Founder */}
-                  <div 
-                    style={{
-                      position: 'absolute',
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      background: 'linear-gradient(to top, rgba(6, 11, 20, 0.95) 0%, rgba(6, 11, 20, 0.4) 65%, transparent 100%)',
-                      padding: '1.75rem 1.25rem 1rem 1.25rem',
-                      color: '#ffffff'
-                    }}
-                  >
-                    <div style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      flexWrap: 'wrap',
-                      gap: '0.5rem'
-                    }}>
-                      <div>
-                        <div style={{ fontSize: '1.05rem', fontWeight: 800, color: '#ffffff' }}>
-                          Amarnath Paramasivam
-                        </div>
-                        <div style={{ fontSize: '0.82rem', color: '#94a3b8' }}>
-                          Founder &amp; Managing Director • 15+ Yrs Industry 4.0 Vision
-                        </div>
-                      </div>
-                      <span style={{
-                        backgroundColor: 'rgba(232, 88, 116, 0.25)',
-                        border: '1px solid rgba(232, 88, 116, 0.5)',
-                        color: '#fda4af',
-                        fontSize: '0.74rem',
-                        fontWeight: 700,
-                        padding: '0.2rem 0.65rem',
-                        borderRadius: '999px',
-                        backdropFilter: 'blur(8px)'
-                      }}>
-                        EXECUTIVE LEADERSHIP
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              )}
+              </div>
             </div>
 
-            {/* Floating Tag Card Top-Right */}
+            {/* Floating Tag Card Top-Left: ISO Certification (Cleanly framed in top corner, away from text) */}
+            <div 
+              className="atpl-community-tag-tl"
+              style={{
+                position: 'absolute',
+                top: '65px',
+                left: '-14px',
+                backgroundColor: 'rgba(11, 21, 40, 0.94)',
+                backdropFilter: 'blur(10px)',
+                WebkitBackdropFilter: 'blur(10px)',
+                border: '1px solid rgba(232, 88, 116, 0.45)',
+                borderRadius: '12px',
+                padding: '0.65rem 0.95rem',
+                boxShadow: '0 10px 25px rgba(0, 0, 0, 0.45)',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                zIndex: 4,
+                animation: 'atplFloatTag 7s ease-in-out infinite alternate-reverse'
+              }}
+            >
+              <Sparkles size={14} color="#E85874" />
+              <div style={{ fontSize: '0.78rem', fontWeight: 700, color: '#ffffff' }}>
+                ISO 9001:2015 Certified
+              </div>
+            </div>
+
+            {/* Floating Tag Card Top-Right: 100% In-House R&D */}
             <div 
               className="atpl-community-tag-tr"
               style={{
                 position: 'absolute',
-                top: '45px',
-                right: '-12px',
-                backgroundColor: 'rgba(11, 21, 40, 0.92)',
+                top: '65px',
+                right: '-14px',
+                backgroundColor: 'rgba(11, 21, 40, 0.94)',
                 backdropFilter: 'blur(10px)',
                 WebkitBackdropFilter: 'blur(10px)',
                 border: '1px solid rgba(0, 113, 186, 0.45)',
                 borderRadius: '12px',
                 padding: '0.65rem 0.95rem',
-                boxShadow: '0 10px 25px rgba(0, 0, 0, 0.4)',
+                boxShadow: '0 10px 25px rgba(0, 0, 0, 0.45)',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '0.5rem',
@@ -472,33 +456,6 @@ export function AtplCommunitySection() {
               }} />
               <div style={{ fontSize: '0.78rem', fontWeight: 700, color: '#ffffff' }}>
                 100% In-House R&amp;D
-              </div>
-            </div>
-
-            {/* Floating Tag Card Bottom-Left */}
-            <div 
-              className="atpl-community-tag-bl"
-              style={{
-                position: 'absolute',
-                bottom: '15px',
-                left: '-15px',
-                backgroundColor: 'rgba(11, 21, 40, 0.92)',
-                backdropFilter: 'blur(10px)',
-                WebkitBackdropFilter: 'blur(10px)',
-                border: '1px solid rgba(232, 88, 116, 0.45)',
-                borderRadius: '12px',
-                padding: '0.65rem 0.95rem',
-                boxShadow: '0 10px 25px rgba(0, 0, 0, 0.4)',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                zIndex: 4,
-                animation: 'atplFloatTag 7s ease-in-out infinite alternate-reverse'
-              }}
-            >
-              <Sparkles size={14} color="#E85874" />
-              <div style={{ fontSize: '0.78rem', fontWeight: 700, color: '#ffffff' }}>
-                ISO 9001:2015 Certified
               </div>
             </div>
 
@@ -530,12 +487,12 @@ export function AtplCommunitySection() {
           }
           .atpl-community-tag-tr {
             right: 8px !important;
-            top: 12px !important;
+            top: 55px !important;
             padding: 0.4rem 0.7rem !important;
           }
-          .atpl-community-tag-bl {
+          .atpl-community-tag-tl {
             left: 8px !important;
-            bottom: 12px !important;
+            top: 55px !important;
             padding: 0.4rem 0.7rem !important;
           }
           .atpl-search-form {
