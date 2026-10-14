@@ -123,6 +123,7 @@ export const HomeView = () => {
     link.click();
     document.body.removeChild(link);
   };
+  const handleDownloadPdf = handleDownloadBrochure;
 
   return (
     <div style={{ backgroundColor: '#ffffff', color: '#1e293b' }}>
@@ -321,7 +322,7 @@ export const HomeView = () => {
                 </button>
 
                 <button
-                  onClick={handleDownloadPdf}
+                  onClick={handleDownloadBrochure}
                   className="hero-cta-btn-download"
                   title="Download ATPL Smart Factory Product & Engineering Overview PDF"
                 >
