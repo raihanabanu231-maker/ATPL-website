@@ -58,6 +58,7 @@ export const LeadModal = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [successMode, setSuccessMode] = useState('demo');
+  const [waUrl, setWaUrl] = useState('');
 
   // Resolve initial mode from prefill
   useEffect(() => {
@@ -211,6 +212,72 @@ Book an On-Site RFID/Vision AI Feasibility Study:
 
       addLead(leadPayload);
 
+      // Option B: Generate structured WhatsApp notification for ATPL Sales Desk (+91 63808 59963)
+      const modeTitles = {
+        demo: '🚀 NEW LIVE DEMO & POC REQUEST',
+        engineer: '🛠️ TALK TO AN ENGINEER (URGENT CALL)',
+        roi: '📊 ROI MODEL & FINANCIAL BRIEF REQUEST',
+        partner: '🤝 OEM & PARTNER ALLIANCE APPLICATION',
+        service: '🚨 EMERGENCY AMC FIELD SERVICE TICKET'
+      };
+
+      const title = modeTitles[activeMode] || '🔔 NEW ENTERPRISE INQUIRY';
+
+      const waLines = [
+        `*${title}*`,
+        `━━━━━━━━━━━━━━━━━━━━━━`,
+        `👤 *Name:* ${leadPayload.name || 'Not provided'}`,
+        `🏢 *Company:* ${leadPayload.company || 'Not provided'}`,
+        `📞 *Phone / WhatsApp:* ${leadPayload.phone || 'Not provided'}`,
+        `📧 *Email:* ${leadPayload.email || 'Not provided'}`,
+        `⚙️ *Solution:* ${leadPayload.solution || 'ATPL Automation Platform'}`
+      ];
+
+      if (activeMode === 'demo') {
+        waLines.push(
+          `🖥️ *Demo Format:* ${formData.demoFormat?.toUpperCase() || 'VIRTUAL'}`,
+          `📅 *Preferred Slot:* ${formData.preferredDate || 'Earliest slot'} (${formData.preferredTime})`,
+          `🏭 *Plant Scale:* ${formData.plantScale || 'Standard'}`,
+          `💰 *Budget Range:* ${formData.budget || 'Standard'}`
+        );
+      } else if (activeMode === 'engineer') {
+        waLines.push(
+          `💻 *ERP System:* ${formData.erpSystem || 'SAP / Oracle'}`,
+          `⏱️ *Callback Window:* ${formData.callbackWindow || 'Urgent'}`,
+          `📍 *Plant Location:* ${formData.plantLocation || 'Not specified'}`
+        );
+      } else if (activeMode === 'service') {
+        waLines.push(
+          `⚠️ *Severity:* ${formData.severity || 'Standard'}`,
+          `🔧 *Equipment:* ${formData.equipmentType || 'Factory Equipment'}`,
+          `📍 *Plant Location:* ${formData.plantLocation || 'Not specified'}`
+        );
+      } else if (activeMode === 'partner') {
+        waLines.push(
+          `🌐 *Partner Type:* ${formData.partnerType?.toUpperCase() || 'SI / OEM'}`,
+          `🗺️ *Territory:* ${formData.partnerTerritory || 'Pan-India'}`,
+          `📈 *Revenue Scale:* ${formData.partnerRevenue || 'Standard'}`
+        );
+      }
+
+      if (formData.notes) {
+        waLines.push(`📝 *Requirements:* ${formData.notes}`);
+      }
+
+      waLines.push(
+        `━━━━━━━━━━━━━━━━━━━━━━`,
+        `🌐 *Source:* ATPL Enterprise Portal`,
+        `🕒 *Submitted At:* ${new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}`
+      );
+
+      const generatedWaUrl = `https://wa.me/916380859963?text=${encodeURIComponent(waLines.join('\n'))}`;
+      setWaUrl(generatedWaUrl);
+
+      // Instant WhatsApp popup/redirect
+      try {
+        window.open(generatedWaUrl, '_blank');
+      } catch (err) {}
+
       try {
         confetti({
           particleCount: 85,
@@ -221,11 +288,6 @@ Book an On-Site RFID/Vision AI Feasibility Study:
 
       setIsSubmitting(false);
       setIsSuccess(true);
-
-      setTimeout(() => {
-        setIsSuccess(false);
-        closeDemoModal();
-      }, 3500);
     }, 850);
   };
 
@@ -456,6 +518,68 @@ Book an On-Site RFID/Vision AI Feasibility Study:
                 <>Your FieldCare™ emergency maintenance ticket has been registered with priority SLA. A resident technician has been alerted for plant <strong style={{ color: '#f59e0b' }}>{formData.plantLocation || formData.company}</strong>.</>
               )}
             </p>
+
+            {/* WhatsApp Direct Dispatch Notification Card (Option B) */}
+            <div style={{
+              background: 'linear-gradient(135deg, rgba(37, 211, 102, 0.15) 0%, rgba(18, 140, 126, 0.22) 100%)',
+              border: '1.5px solid #25D366',
+              borderRadius: '12px',
+              padding: '1.35rem 1.25rem',
+              margin: '1.5rem auto 1.5rem auto',
+              textAlign: 'center',
+              maxWidth: '520px',
+              boxShadow: '0 8px 24px rgba(37, 211, 102, 0.25)'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', color: '#25D366', fontWeight: 800, fontSize: '1rem', marginBottom: '0.45rem' }}>
+                <MessageSquare size={19} />
+                <span>Instant WhatsApp Sales Desk Ping</span>
+              </div>
+              <p style={{ color: '#cbd5e1', fontSize: '0.86rem', margin: '0 0 1.1rem 0', lineHeight: 1.55 }}>
+                A pre-formatted copy of your request is ready to send directly to our Senior Automation Engineers at <strong>+91 63808 59963</strong>.
+              </p>
+              <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+                <a
+                  href={waUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                    background: '#25D366',
+                    color: '#060b14',
+                    fontWeight: 800,
+                    padding: '0.75rem 1.4rem',
+                    borderRadius: '30px',
+                    textDecoration: 'none',
+                    boxShadow: '0 4px 20px rgba(37, 211, 102, 0.45)',
+                    fontSize: '0.9rem',
+                    transition: 'transform 0.2s'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.03)'}
+                  onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                >
+                  <MessageSquare size={17} />
+                  <span>Send via WhatsApp (+91 63808 59963) ➔</span>
+                </a>
+                <button
+                  type="button"
+                  onClick={closeDemoModal}
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.08)',
+                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                    color: '#ffffff',
+                    fontWeight: 600,
+                    padding: '0.75rem 1.25rem',
+                    borderRadius: '30px',
+                    cursor: 'pointer',
+                    fontSize: '0.88rem'
+                  }}
+                >
+                  Done / Close
+                </button>
+              </div>
+            </div>
 
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(255,255,255,0.05)', padding: '0.5rem 1.2rem', borderRadius: '30px', fontSize: '0.82rem', color: '#94a3b8' }}>
               <ShieldCheck size={16} color="#10b981" />

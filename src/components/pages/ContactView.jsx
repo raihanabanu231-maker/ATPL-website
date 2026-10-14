@@ -43,6 +43,7 @@ export const ContactView = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [submittedWaUrl, setSubmittedWaUrl] = useState('');
   const [isOnline, setIsOnline] = useState(typeof navigator !== 'undefined' ? navigator.onLine : true);
   const [isOfflineSaved, setIsOfflineSaved] = useState(false);
 
@@ -102,6 +103,29 @@ export const ContactView = () => {
         // Online Direct Dispatch
         addLead(leadPayload);
         setIsOfflineSaved(false);
+
+        // Option B: Generate structured WhatsApp notification for ATPL Sales Desk (+91 63808 59963)
+        const waLines = [
+          `*🔔 NEW ATPL SHOPFLOOR INQUIRY*`,
+          `━━━━━━━━━━━━━━━━━━━━━━`,
+          `👤 *Name:* ${leadPayload.name || 'Not provided'}`,
+          `🏢 *Company:* ${leadPayload.company || 'Not provided'}`,
+          `📞 *Phone / WhatsApp:* ${leadPayload.phone || 'Not provided'}`,
+          `📧 *Email:* ${leadPayload.email || 'Not provided'}`,
+          `⚙️ *Solution:* ${leadPayload.solution || 'Factory Automation'}`,
+          leadPayload.budget ? `💰 *Project Scale:* ${leadPayload.budget}` : '',
+          leadPayload.notes ? `📝 *Requirements:* ${leadPayload.notes}` : '',
+          `━━━━━━━━━━━━━━━━━━━━━━`,
+          `🌐 *Source:* ATPL Contact Page`,
+          `🕒 *Submitted At:* ${new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}`
+        ].filter(Boolean);
+
+        const generatedWaUrl = `https://wa.me/916380859963?text=${encodeURIComponent(waLines.join('\n'))}`;
+        setSubmittedWaUrl(generatedWaUrl);
+
+        try {
+          window.open(generatedWaUrl, '_blank');
+        } catch (err) {}
       }
 
       try {
@@ -427,6 +451,51 @@ export const ContactView = () => {
                     ? 'Your inquiry is stored safely in local storage. As soon as your device reconnects to the network, it will automatically transmit to ATPL automation specialists.'
                     : 'Your request has been logged into the ATPL Admin Lead Queue. An automation specialist will get in touch with you shortly.'}
                 </p>
+
+                {/* Option B: WhatsApp Fast-Track Notification */}
+                {submittedWaUrl && (
+                  <div style={{
+                    background: 'linear-gradient(135deg, rgba(37, 211, 102, 0.15) 0%, rgba(18, 140, 126, 0.22) 100%)',
+                    border: '1.5px solid #25D366',
+                    borderRadius: '12px',
+                    padding: '1.25rem',
+                    margin: '0 auto 1.5rem auto',
+                    maxWidth: '460px',
+                    textAlign: 'center',
+                    boxShadow: '0 8px 24px rgba(37, 211, 102, 0.2)'
+                  }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.45rem', color: '#25D366', fontWeight: 800, fontSize: '0.98rem', marginBottom: '0.35rem' }}>
+                      <MessageSquare size={18} />
+                      <span>Instant WhatsApp Sales Desk Ping</span>
+                    </div>
+                    <p style={{ color: '#cbd5e1', fontSize: '0.84rem', margin: '0 0 1rem 0', lineHeight: 1.5 }}>
+                      A formatted copy of your inquiry is ready to send directly to our Senior Engineering Desk on WhatsApp at <strong>+91 63808 59963</strong>.
+                    </p>
+                    <a
+                      href={submittedWaUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn"
+                      style={{
+                        background: '#25D366',
+                        color: '#060b14',
+                        fontWeight: 800,
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '0.5rem',
+                        padding: '0.7rem 1.4rem',
+                        borderRadius: '30px',
+                        textDecoration: 'none',
+                        boxShadow: '0 4px 18px rgba(37, 211, 102, 0.45)',
+                        fontSize: '0.88rem'
+                      }}
+                    >
+                      <MessageSquare size={16} />
+                      <span>Send via WhatsApp (+91 63808 59963) ➔</span>
+                    </a>
+                  </div>
+                )}
+
                 <button
                   onClick={() => setIsSuccess(false)}
                   className="btn btn-secondary btn-sm"
