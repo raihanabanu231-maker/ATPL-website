@@ -1374,52 +1374,6 @@ export const FactoryBlueprintMap = ({ embedded = false }) => {
                 {currentNode.tagline}
               </div>
             </div>
-
-            {/* Operational Impact & Telemetry Description Box (Prominent & Readable) */}
-            <div className="hud-desc-box" style={{
-              flex: 1,
-              minHeight: '85px',
-              backgroundColor: 'rgba(2, 8, 22, 0.7)',
-              border: '1px solid rgba(0, 240, 255, 0.22)',
-              borderLeft: '3.5px solid #00f0ff',
-              borderRadius: '8px',
-              padding: '0.65rem 0.85rem',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              boxShadow: 'inset 0 1px 12px rgba(0, 240, 255, 0.05)'
-            }}>
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.4rem',
-                fontSize: '0.70rem',
-                fontWeight: 800,
-                textTransform: 'uppercase',
-                color: '#00f0ff',
-                letterSpacing: '0.06em',
-                marginBottom: '0.35rem'
-              }}>
-                <span style={{
-                  width: '6px',
-                  height: '6px',
-                  borderRadius: '50%',
-                  backgroundColor: '#00f0ff',
-                  boxShadow: '0 0 6px #00f0ff'
-                }} />
-                <span>OPERATIONAL IMPACT & VALUE</span>
-              </div>
-              <p className="hud-desc-text" style={{
-                margin: 0,
-                fontSize: '0.88rem',
-                fontWeight: 500,
-                color: '#f8fafc',
-                lineHeight: 1.52,
-                letterSpacing: '-0.01em'
-              }}>
-                {currentNode.highlight}
-              </p>
-            </div>
           </div>
 
           {/* Station Controls & Actions Column */}
