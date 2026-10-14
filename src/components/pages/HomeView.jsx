@@ -128,179 +128,227 @@ export const HomeView = () => {
     <div style={{ backgroundColor: '#ffffff', color: '#1e293b' }}>
 
       {/* =========================================================================
-          1. 12-STATION INTERACTIVE SMART FACTORY ROBOT TOUR
-         ========================================================================= */}
-      <FactoryBlueprintMap />
-
-      {/* =========================================================================
-          2. HERO SECTION (Clean, Grounded, Confident)
+          1. SPLIT HERO SECTION: HERO HEADLINE & CTAS (LEFT) + FACTORY BLUEPRINT TOUR (RIGHT)
          ========================================================================= */}
       <section 
+        id="hero-split-master"
+        aria-label="Archery Technocrats Smart Factory Automation and Interactive Shopfloor Tour"
         style={{
           position: 'relative',
-          paddingTop: '4.5rem',
-          paddingBottom: '4.5rem',
-          borderBottom: '1px solid #e2e8f0',
-          background: 'linear-gradient(180deg, #f8fafc 0%, #ffffff 100%)'
+          backgroundColor: '#040914',
+          color: '#ffffff',
+          paddingTop: 'clamp(1.75rem, 3.2vh, 3rem)',
+          paddingBottom: 'clamp(2rem, 3.6vh, 3.25rem)',
+          borderBottom: '1px solid rgba(0, 240, 255, 0.15)',
+          overflow: 'hidden'
         }}
       >
-        <div className="container" style={{ maxWidth: '960px', margin: '0 auto', textAlign: 'center' }}>
-          
-          {/* Trust badge */}
-          <div style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '0.5rem',
-            backgroundColor: '#eff6ff',
-            border: '1px solid #bfdbfe',
-            padding: '0.45rem 1rem',
-            borderRadius: '999px',
-            fontSize: 'clamp(0.74rem, 2.5vw, 0.82rem)',
-            fontWeight: 700,
-            color: '#0071ba',
-            marginBottom: '1.5rem',
-            maxWidth: '100%',
-            boxSizing: 'border-box',
-            textAlign: 'center'
-          }}>
-            <ShieldCheck size={16} color="#0071ba" style={{ flexShrink: 0 }} />
-            <span style={{ lineHeight: 1.35 }}>Archery Technocrats • 35+ Years Combined Industrial Experience • ISO 9001:2015</span>
-          </div>
+        {/* Cockpit Ambient Lighting Glows */}
+        <div style={{
+          position: 'absolute',
+          top: '20%',
+          left: '5%',
+          width: '650px',
+          height: '450px',
+          background: 'radial-gradient(ellipse at center, rgba(0, 113, 186, 0.18) 0%, transparent 70%)',
+          pointerEvents: 'none',
+          zIndex: 0
+        }} />
+        <div style={{
+          position: 'absolute',
+          top: '30%',
+          right: '5%',
+          width: '750px',
+          height: '500px',
+          background: 'radial-gradient(ellipse at center, rgba(0, 240, 255, 0.12) 0%, rgba(232, 88, 116, 0.05) 50%, transparent 70%)',
+          pointerEvents: 'none',
+          zIndex: 0
+        }} />
 
-          {/* Main Headline (Optimized H1 for SEO with Archery Technocrats brand & target keywords) */}
-          <h1 style={{
-            fontSize: 'clamp(1.9rem, 4.5vw, 3.4rem)',
-            fontWeight: 800,
-            lineHeight: 1.2,
-            letterSpacing: '-0.025em',
-            color: '#0f172a',
-            marginBottom: '1.25rem',
-            fontFamily: 'var(--font-display)'
-          }}>
-            <span style={{
-              display: 'block',
-              fontSize: 'clamp(0.92rem, 1.8vw, 1.22rem)',
-              fontWeight: 800,
-              color: '#0071ba',
-              textTransform: 'uppercase',
-              letterSpacing: '0.08em',
-              marginBottom: '0.45rem'
-            }}>
-              Archery Technocrats
-            </span>
-            Factory Automation That Actually Works on the Shop Floor.
-          </h1>
+        <div className="container" style={{ maxWidth: '1600px', margin: '0 auto', position: 'relative', zIndex: 1, padding: '0 clamp(1rem, 2vw, 2rem)' }}>
+          <style>{`
+            .hero-master-split-grid {
+              display: grid;
+              grid-template-columns: 1fr;
+              gap: 2rem;
+              align-items: center;
+            }
+            @media (min-width: 1080px) {
+              .hero-master-split-grid {
+                grid-template-columns: minmax(460px, 0.95fr) minmax(560px, 1.25fr);
+                gap: 2.25rem;
+              }
+            }
+            .hero-cta-btn-primary {
+              background-color: #0071ba;
+              color: #ffffff;
+              border: 1px solid rgba(0, 240, 255, 0.4);
+              padding: 0.85rem 1.65rem;
+              font-size: 0.96rem;
+              font-weight: 700;
+              border-radius: 8px;
+              cursor: pointer;
+              display: inline-flex;
+              align-items: center;
+              justify-content: center;
+              gap: 0.5rem;
+              min-height: 48px;
+              box-shadow: 0 4px 20px rgba(0, 113, 186, 0.45);
+              transition: all 0.15s ease;
+            }
+            .hero-cta-btn-primary:hover {
+              background-color: #005a96;
+              box-shadow: 0 6px 24px rgba(0, 240, 255, 0.4);
+              transform: translateY(-1px);
+            }
+            .hero-cta-btn-secondary {
+              background-color: rgba(255, 255, 255, 0.05);
+              color: #ffffff;
+              border: 1.5px solid rgba(255, 255, 255, 0.22);
+              padding: 0.85rem 1.45rem;
+              font-size: 0.96rem;
+              font-weight: 700;
+              border-radius: 8px;
+              cursor: pointer;
+              display: inline-flex;
+              align-items: center;
+              justify-content: center;
+              gap: 0.5rem;
+              min-height: 48px;
+              transition: all 0.15s ease;
+            }
+            .hero-cta-btn-secondary:hover {
+              border-color: #00f0ff;
+              color: #00f0ff;
+              background-color: rgba(0, 240, 255, 0.08);
+              transform: translateY(-1px);
+            }
+            .hero-cta-btn-download {
+              background-color: rgba(232, 88, 116, 0.12);
+              color: #ff758f;
+              border: 1px solid rgba(232, 88, 116, 0.35);
+              padding: 0.85rem 1.25rem;
+              font-size: 0.92rem;
+              font-weight: 700;
+              border-radius: 8px;
+              cursor: pointer;
+              display: inline-flex;
+              align-items: center;
+              justify-content: center;
+              gap: 0.45rem;
+              min-height: 48px;
+              transition: all 0.15s ease;
+            }
+            .hero-cta-btn-download:hover {
+              background-color: rgba(232, 88, 116, 0.22);
+              transform: translateY(-1px);
+            }
+          `}</style>
 
-          {/* Sub-headline */}
-          <p style={{
-            fontSize: 'clamp(0.95rem, 2vw, 1.2rem)',
-            color: '#475569',
-            lineHeight: 1.65,
-            maxWidth: '820px',
-            margin: '0 auto 2.25rem auto'
-          }}>
-            We build warehouse management software, RFID tracking portals, and inline vision systems that connect straight to your SAP or Oracle ERP. Built, installed, and supported by engineers who understand Indian plant realities.
-          </p>
+          <div className="hero-master-split-grid">
+            {/* Left Column: Hero Headline, Subhead, CTAs & Proof Points */}
+            <div className="hero-split-left-panel">
+              {/* Trust badge */}
+              <div style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                backgroundColor: 'rgba(0, 113, 186, 0.15)',
+                border: '1px solid rgba(0, 240, 255, 0.4)',
+                padding: '0.38rem 0.95rem',
+                borderRadius: '999px',
+                fontSize: 'clamp(0.72rem, 1.1vw, 0.82rem)',
+                fontWeight: 700,
+                color: '#00f0ff',
+                marginBottom: '1.2rem',
+                boxShadow: '0 0 15px rgba(0, 240, 255, 0.15)'
+              }}>
+                <ShieldCheck size={16} color="#00f0ff" style={{ flexShrink: 0 }} />
+                <span>Archery Technocrats • 35+ Years Combined Industrial Experience • ISO 9001:2015</span>
+              </div>
 
-          {/* Action CTAs */}
-          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center', gap: '1rem' }}>
-            <button
-              onClick={() => openDemoModal({ mode: 'engineer', solution: 'Plant Engineering Consultation', notes: 'Initiated from Homepage Hero' })}
-              style={{
-                backgroundColor: '#0071ba',
+              {/* Main Headline (Optimized H1 for SEO with Archery Technocrats brand & target keywords) */}
+              <h1 style={{
+                fontSize: 'clamp(1.95rem, 3.2vw, 3.2rem)',
+                fontWeight: 800,
+                lineHeight: 1.18,
+                letterSpacing: '-0.025em',
                 color: '#ffffff',
-                border: 'none',
-                padding: '0.85rem 1.75rem',
-                fontSize: '0.98rem',
-                fontWeight: 700,
-                borderRadius: '8px',
-                cursor: 'pointer',
-                display: 'inline-flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '0.5rem',
-                minHeight: '48px',
-                minWidth: '44px',
-                boxShadow: '0 4px 14px rgba(0, 113, 186, 0.3)',
-                transition: 'all 0.15s ease'
-              }}
-              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#005a96'}
-              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#0071ba'}
-            >
-              <PhoneCall size={18} />
-              <span>Talk to an Automation Engineer</span>
-            </button>
+                marginBottom: '1.1rem',
+                fontFamily: 'var(--font-display)'
+              }}>
+                <span style={{
+                  display: 'block',
+                  fontSize: 'clamp(0.85rem, 1.3vw, 1.05rem)',
+                  fontWeight: 800,
+                  color: '#00f0ff',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.08em',
+                  marginBottom: '0.35rem'
+                }}>
+                  Archery Technocrats
+                </span>
+                Factory Automation That Actually Works on the Shop Floor.
+              </h1>
 
-            <button
-              onClick={() => openDemoModal({ mode: 'demo', solution: 'Plant Feasibility Walkthrough', notes: 'Initiated from Hero secondary button' })}
-              style={{
-                backgroundColor: '#ffffff',
-                color: '#0f172a',
-                border: '1.5px solid #cbd5e1',
-                padding: '0.85rem 1.65rem',
-                fontSize: '0.98rem',
-                fontWeight: 700,
-                borderRadius: '8px',
-                cursor: 'pointer',
-                display: 'inline-flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '0.5rem',
-                minHeight: '48px',
-                minWidth: '44px',
-                transition: 'all 0.15s ease'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = '#0071ba';
-                e.currentTarget.style.color = '#0071ba';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = '#cbd5e1';
-                e.currentTarget.style.color = '#0f172a';
-              }}
-            >
-              <span>Schedule Plant Walkthrough</span>
-              <ArrowRight size={17} />
-            </button>
+              {/* Sub-headline */}
+              <p style={{
+                fontSize: 'clamp(0.92rem, 1.15vw, 1.08rem)',
+                color: '#94a3b8',
+                lineHeight: 1.62,
+                maxWidth: '680px',
+                marginBottom: '1.75rem'
+              }}>
+                We build warehouse management software, RFID tracking portals, and inline vision systems that connect straight to your SAP or Oracle ERP. Built, installed, and supported by engineers who understand Indian plant realities.
+              </p>
 
-            <button
-              onClick={() => setCurrentView('factory-3d')}
-              style={{
-                backgroundColor: 'rgba(2, 132, 199, 0.08)',
-                color: '#0284c7',
-                border: '1px solid rgba(2, 132, 199, 0.25)',
-                padding: '0.95rem 1.4rem',
-                fontSize: '0.92rem',
-                fontWeight: 700,
-                borderRadius: '8px',
-                cursor: 'pointer',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.45rem',
-                transition: 'all 0.15s ease'
-              }}
-              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(2, 132, 199, 0.15)'}
-              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'rgba(2, 132, 199, 0.08)'}
-            >
-              <Sparkles size={16} />
-              <span>✨ 3D Factory Tour</span>
-            </button>
+              {/* Action CTAs */}
+              <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '0.85rem', marginBottom: '1.85rem' }}>
+                <button
+                  onClick={() => openDemoModal({ mode: 'engineer', solution: 'Plant Engineering Consultation', notes: 'Initiated from Homepage Hero' })}
+                  className="hero-cta-btn-primary"
+                >
+                  <PhoneCall size={18} />
+                  <span>Talk to an Automation Engineer</span>
+                </button>
+
+                <button
+                  onClick={() => openDemoModal({ mode: 'demo', solution: 'Plant Feasibility Walkthrough', notes: 'Initiated from Hero secondary button' })}
+                  className="hero-cta-btn-secondary"
+                >
+                  <span>Schedule Plant Walkthrough</span>
+                  <ArrowRight size={17} />
+                </button>
+
+                <button
+                  onClick={handleDownloadPdf}
+                  className="hero-cta-btn-download"
+                  title="Download ATPL Smart Factory Product & Engineering Overview PDF"
+                >
+                  <Download size={16} />
+                  <span>Overview PDF</span>
+                </button>
+              </div>
+
+              {/* Key practical facts strip */}
+              <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '1.35rem', fontSize: '0.84rem', color: '#cbd5e1' }}>
+                <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                  <CheckCircle2 size={16} color="#00f0ff" /> Live Two-Way SAP & Oracle Sync
+                </span>
+                <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                  <CheckCircle2 size={16} color="#00f0ff" /> Rollouts in 2 to 4 Weeks
+                </span>
+                <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                  <CheckCircle2 size={16} color="#00f0ff" /> 4-Hour On-Site Support SLA in South India
+                </span>
+              </div>
+            </div>
+
+            {/* Right Column: Interactive Factory Blueprint Tour */}
+            <div className="hero-split-right-panel" style={{ width: '100%', minWidth: 0 }}>
+              <FactoryBlueprintMap embedded={true} />
+            </div>
           </div>
-
-          {/* Key practical facts strip */}
-          <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', gap: '1.5rem', fontSize: '0.86rem', color: '#64748b', marginTop: '2.25rem' }}>
-            <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
-              <CheckCircle2 size={16} color="#009a44" /> Live Two-Way SAP & Oracle Sync
-            </span>
-            <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
-              <CheckCircle2 size={16} color="#009a44" /> Rollouts in 2 to 4 Weeks
-            </span>
-            <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
-              <CheckCircle2 size={16} color="#009a44" /> 4-Hour On-Site Support SLA in South India
-            </span>
-          </div>
-
         </div>
       </section>
 

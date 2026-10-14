@@ -181,7 +181,7 @@ export const ATPL_FACTORY_NODES = [
   }
 ];
 
-export const FactoryBlueprintMap = () => {
+export const FactoryBlueprintMap = ({ embedded = false }) => {
   const { openDemoModal, setCurrentView } = useApp();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoTour, setIsAutoTour] = useState(true);
@@ -231,31 +231,41 @@ export const FactoryBlueprintMap = () => {
   return (
     <section 
       id="factory-blueprint-section" 
+      className={`hud-blueprint-master ${embedded ? 'is-embedded' : 'is-standalone'}`}
       aria-label="ATPL Smart Factory Autonomous Robot Tour"
       style={{ 
-        backgroundColor: '#040914', 
+        backgroundColor: embedded ? 'transparent' : '#040914', 
         color: '#ffffff',
-        paddingTop: 'clamp(0.35rem, 0.8vh, 0.65rem)',
-        paddingBottom: 'clamp(0.35rem, 0.8vh, 0.65rem)',
+        paddingTop: embedded ? 0 : 'clamp(0.35rem, 0.8vh, 0.65rem)',
+        paddingBottom: embedded ? 0 : 'clamp(0.35rem, 0.8vh, 0.65rem)',
         position: 'relative',
         overflow: 'hidden',
-        boxSizing: 'border-box'
+        boxSizing: 'border-box',
+        width: '100%'
       }}
     >
       {/* Background Decorative Ambient Radial Glow */}
-      <div style={{
-        position: 'absolute',
-        top: '20%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: '800px',
-        height: '400px',
-        background: 'radial-gradient(ellipse at center, rgba(0, 240, 255, 0.08) 0%, rgba(232, 88, 116, 0.04) 50%, transparent 80%)',
-        pointerEvents: 'none',
-        zIndex: 0
-      }} />
+      {!embedded && (
+        <div style={{
+          position: 'absolute',
+          top: '20%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: '800px',
+          height: '400px',
+          background: 'radial-gradient(ellipse at center, rgba(0, 240, 255, 0.08) 0%, rgba(232, 88, 116, 0.04) 50%, transparent 80%)',
+          pointerEvents: 'none',
+          zIndex: 0
+        }} />
+      )}
 
-      <div className="container" style={{ maxWidth: '1440px', margin: '0 auto', position: 'relative', zIndex: 1, padding: '0 0.85rem' }}>
+      <div className={embedded ? 'hud-embedded-wrap' : 'container'} style={{
+        maxWidth: embedded ? '100%' : '1440px',
+        margin: '0 auto',
+        position: 'relative',
+        zIndex: 1,
+        padding: embedded ? 0 : '0 0.85rem'
+      }}>
         
         {/* =====================================================================
             1. COMPACT 1-FOLD HEADER (Fits Entire Tour in One Screen View)
@@ -319,14 +329,68 @@ export const FactoryBlueprintMap = () => {
             color: '#94a3b8',
             display: 'flex',
             alignItems: 'center',
-            gap: '0.5rem',
+            gap: '0.45rem',
             flexShrink: 0
           }}>
-            <span className="hud-header-hint" style={{ display: 'inline-block' }}>Click beacon (1–11) to fly Archie</span>
-            <span className="hud-header-sep" style={{ color: '#00f0ff' }}>•</span>
+            {!embedded && (
+              <>
+                <span className="hud-header-hint" style={{ display: 'inline-block' }}>Click beacon (1–11) to fly Archie</span>
+                <span className="hud-header-sep" style={{ color: '#00f0ff' }}>•</span>
+              </>
+            )}
             <span style={{ color: '#00f0ff', fontFamily: 'var(--font-mono)', fontSize: '0.72rem', fontWeight: 800 }}>
               STATION {currentIndex + 1}/{ATPL_FACTORY_NODES.length}
             </span>
+
+            {embedded && (
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', marginLeft: '0.25rem' }}>
+                <button
+                  onClick={() => setIsAutoTour(!isAutoTour)}
+                  style={{
+                    backgroundColor: isAutoTour ? 'rgba(232, 88, 116, 0.2)' : 'rgba(0, 240, 255, 0.15)',
+                    border: isAutoTour ? '1px solid #E85874' : '1px solid #00f0ff',
+                    color: '#ffffff',
+                    borderRadius: '5px',
+                    padding: '0.2rem 0.55rem',
+                    fontSize: '0.70rem',
+                    fontWeight: 800,
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.25rem',
+                    minHeight: '26px',
+                    transition: 'all 0.15s ease'
+                  }}
+                  title={isAutoTour ? "Pause automated tour" : "Resume automated tour"}
+                >
+                  {isAutoTour ? <Pause size={10} color="#E85874" /> : <Play size={10} color="#00f0ff" />}
+                  <span>{isAutoTour ? 'Pause' : 'Play'}</span>
+                </button>
+
+                <button
+                  onClick={() => setCurrentView('factory-3d')}
+                  style={{
+                    backgroundColor: 'rgba(0, 113, 186, 0.25)',
+                    border: '1px solid rgba(0, 240, 255, 0.5)',
+                    color: '#00f0ff',
+                    borderRadius: '5px',
+                    padding: '0.2rem 0.55rem',
+                    fontSize: '0.70rem',
+                    fontWeight: 800,
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.25rem',
+                    minHeight: '26px',
+                    transition: 'all 0.15s ease'
+                  }}
+                  title="Switch to 3D Digital Twin View"
+                >
+                  <Layers size={10} />
+                  <span>3D</span>
+                </button>
+              </div>
+            )}
           </div>
         </div>
 
@@ -346,7 +410,7 @@ export const FactoryBlueprintMap = () => {
               align-items: stretch;
             }
             @media (min-width: 1024px) {
-              #factory-blueprint-section {
+              #factory-blueprint-section.is-standalone {
                 height: calc(100vh - 100px);
                 min-height: 520px;
                 max-height: 700px;
@@ -354,20 +418,20 @@ export const FactoryBlueprintMap = () => {
                 flex-direction: column;
                 justify-content: center;
               }
-              #factory-blueprint-section > .container {
+              #factory-blueprint-section.is-standalone > .container {
                 height: 100%;
                 display: flex;
                 flex-direction: column;
                 justify-content: space-between;
               }
-              .hud-tour-grid {
+              #factory-blueprint-section.is-standalone .hud-tour-grid {
                 grid-template-columns: minmax(0, 1.65fr) minmax(360px, 415px);
                 gap: 1.15rem;
                 flex: 1;
                 min-height: 0;
                 height: 100%;
               }
-              .hud-factory-viewport {
+              #factory-blueprint-section.is-standalone .hud-factory-viewport {
                 position: relative;
                 width: 100%;
                 height: 100%;
@@ -378,11 +442,77 @@ export const FactoryBlueprintMap = () => {
                 border: 1.5px solid rgba(0, 240, 255, 0.35);
                 box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85), 0 0 30px rgba(0, 240, 255, 0.12);
               }
-              .hud-side-panel {
+              #factory-blueprint-section.is-standalone .hud-side-panel {
                 height: 100%;
                 min-height: 0;
                 max-height: 100%;
               }
+            }
+            #factory-blueprint-section.is-embedded {
+              height: auto !important;
+              min-height: auto !important;
+              max-height: none !important;
+              padding: 0 !important;
+            }
+            #factory-blueprint-section.is-embedded .hud-header-title,
+            #factory-blueprint-section.is-embedded .hud-header-hint,
+            #factory-blueprint-section.is-embedded .hud-header-sep {
+              display: none !important;
+            }
+            #factory-blueprint-section.is-embedded .hud-tour-grid {
+              display: flex !important;
+              flex-direction: column !important;
+              gap: 0.65rem !important;
+              height: auto !important;
+            }
+            #factory-blueprint-section.is-embedded .hud-factory-viewport {
+              position: relative !important;
+              width: 100% !important;
+              aspect-ratio: 16 / 9 !important;
+              height: auto !important;
+              max-height: 330px !important;
+              min-height: 220px !important;
+              overflow: hidden !important;
+              background-color: #030816 !important;
+              border-radius: 12px !important;
+              border: 1.5px solid rgba(0, 240, 255, 0.35) !important;
+              box-shadow: 0 16px 40px rgba(0, 0, 0, 0.8), 0 0 25px rgba(0, 240, 255, 0.12) !important;
+            }
+            #factory-blueprint-section.is-embedded .hud-side-panel {
+              height: auto !important;
+              min-height: auto !important;
+              max-height: none !important;
+              border-radius: 12px !important;
+              padding: 0.75rem 0.95rem !important;
+              gap: 0.5rem !important;
+              background-color: #050b18 !important;
+              border: 1.5px solid rgba(0, 240, 255, 0.3) !important;
+            }
+            #factory-blueprint-section.is-embedded .hud-panel-top-bar {
+              display: none !important;
+            }
+            #factory-blueprint-section.is-embedded .hud-station-thumb {
+              display: none !important;
+            }
+            @media (min-width: 640px) {
+              #factory-blueprint-section.is-embedded .hud-embedded-subgrid {
+                display: grid !important;
+                grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr) !important;
+                gap: 0.95rem !important;
+                align-items: center !important;
+              }
+            }
+            @media (max-width: 639px) {
+              #factory-blueprint-section.is-embedded .hud-embedded-subgrid {
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 0.55rem !important;
+              }
+            }
+            #factory-blueprint-section.is-standalone .hud-embedded-subgrid,
+            #factory-blueprint-section.is-standalone .hud-embedded-col-left,
+            #factory-blueprint-section.is-standalone .hud-embedded-col-right {
+              display: contents !important;
             }
             @media (max-width: 1023px) {
               #factory-blueprint-section {
@@ -1059,7 +1189,7 @@ export const FactoryBlueprintMap = () => {
             }} />
 
             {/* Top Bar: Mode Status & Quick Toggles */}
-            <div style={{
+            <div className="hud-panel-top-bar" style={{
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
@@ -1136,7 +1266,9 @@ export const FactoryBlueprintMap = () => {
             </div>
 
             {/* Station Identity & Impact Metrics */}
-            <div>
+            <div className="hud-embedded-subgrid">
+              <div className="hud-embedded-col-left">
+                <div>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.5rem', marginBottom: '0.35rem' }}>
                 <span style={{
                   backgroundColor: 'rgba(232, 88, 116, 0.2)',
@@ -1149,7 +1281,7 @@ export const FactoryBlueprintMap = () => {
                   fontWeight: 800,
                   letterSpacing: '0.04em'
                 }}>
-                  STATION {currentIndex + 1} / 12
+                  STATION {currentIndex + 1} / {ATPL_FACTORY_NODES.length}
                 </span>
 
                 <span style={{
@@ -1288,7 +1420,10 @@ export const FactoryBlueprintMap = () => {
                 {currentNode.highlight}
               </p>
             </div>
+          </div>
 
+          {/* Station Controls & Actions Column */}
+          <div className="hud-embedded-col-right" style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem' }}>
             {/* 12 Stations Quick-Selector Grid */}
             <div>
               <div style={{
@@ -1299,7 +1434,7 @@ export const FactoryBlueprintMap = () => {
                 letterSpacing: '0.05em',
                 marginBottom: '0.25rem'
               }}>
-                JUMP TO STATION (1–12)
+                JUMP TO STATION (1–{ATPL_FACTORY_NODES.length})
               </div>
               <div className="hud-quick-buttons-grid" style={{
                 display: 'grid',
@@ -1429,6 +1564,8 @@ export const FactoryBlueprintMap = () => {
               </button>
             </div>
           </div>
+        </div>
+      </div>
 
         </div>
 
