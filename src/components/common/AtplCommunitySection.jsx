@@ -283,11 +283,15 @@ export function AtplCommunitySection() {
                   fontSize: '0.84rem',
                   fontWeight: 700,
                   cursor: 'pointer',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.45rem',
                   boxShadow: activePhotoTab === 'team' ? '0 4px 16px rgba(0, 113, 186, 0.45)' : 'none',
                   transition: 'all 0.2s ease'
                 }}
               >
-                👥 ATPL Engineering Team
+                <Users size={15} color={activePhotoTab === 'team' ? '#ffffff' : '#94a3b8'} />
+                <span>ATPL Engineering Team</span>
               </button>
               <button
                 type="button"
@@ -301,11 +305,15 @@ export function AtplCommunitySection() {
                   fontSize: '0.84rem',
                   fontWeight: 700,
                   cursor: 'pointer',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.45rem',
                   boxShadow: activePhotoTab === 'founder' ? '0 4px 16px rgba(0, 113, 186, 0.45)' : 'none',
                   transition: 'all 0.2s ease'
                 }}
               >
-                👔 Leadership & Founder
+                <ShieldCheck size={15} color={activePhotoTab === 'founder' ? '#ffffff' : '#94a3b8'} />
+                <span>Leadership & Founder</span>
               </button>
             </div>
 
@@ -342,7 +350,7 @@ export function AtplCommunitySection() {
                 />
               </div>
 
-              {/* Dedicated Caption Bar: Fully visible, clean alignment, zero overlap */}
+              {/* Dedicated Caption Bar: Clean, professional name & title without confusing buttons */}
               <div 
                 style={{
                   background: 'linear-gradient(180deg, #091325 0%, #060c18 100%)',
@@ -351,50 +359,25 @@ export function AtplCommunitySection() {
                   color: '#ffffff'
                 }}
               >
-                <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  flexWrap: 'wrap',
-                  gap: '0.75rem'
+                <div style={{ 
+                  fontSize: '1.18rem', 
+                  fontWeight: 800, 
+                  color: '#ffffff', 
+                  letterSpacing: '-0.015em',
+                  lineHeight: 1.25
                 }}>
-                  <div>
-                    <div style={{ 
-                      fontSize: '1.15rem', 
-                      fontWeight: 800, 
-                      color: '#ffffff', 
-                      letterSpacing: '-0.015em',
-                      lineHeight: 1.25
-                    }}>
-                      {activePhotoTab === 'team' ? 'Archery Technocrats Engineering Force' : 'Amarnath Paramasivam'}
-                    </div>
-                    <div style={{ 
-                      fontSize: '0.86rem', 
-                      color: activePhotoTab === 'team' ? '#94a3b8' : '#38bdf8', 
-                      fontWeight: 600,
-                      marginTop: '0.3rem',
-                      lineHeight: 1.4
-                    }}>
-                      {activePhotoTab === 'team' 
-                        ? 'In-House Software Engineers, AIDC Integrators & Leadership' 
-                        : 'Founder & Managing Director • 15+ Yrs Industry 4.0 Vision'}
-                    </div>
-                  </div>
-
-                  <span style={{
-                    backgroundColor: activePhotoTab === 'team' ? 'rgba(0, 240, 255, 0.18)' : 'rgba(232, 88, 116, 0.22)',
-                    border: activePhotoTab === 'team' ? '1px solid rgba(0, 240, 255, 0.5)' : '1px solid rgba(232, 88, 116, 0.5)',
-                    color: activePhotoTab === 'team' ? '#00f0ff' : '#fda4af',
-                    fontSize: '0.75rem',
-                    fontWeight: 700,
-                    padding: '0.35rem 0.85rem',
-                    borderRadius: '999px',
-                    letterSpacing: '0.04em',
-                    backdropFilter: 'blur(8px)',
-                    whiteSpace: 'nowrap'
-                  }}>
-                    {activePhotoTab === 'team' ? '● EXPO BOOTH 2026' : '👔 EXECUTIVE LEADERSHIP'}
-                  </span>
+                  {activePhotoTab === 'team' ? 'Archery Technocrats Engineering Force' : 'Amarnath Paramasivam'}
+                </div>
+                <div style={{ 
+                  fontSize: '0.88rem', 
+                  color: activePhotoTab === 'team' ? '#94a3b8' : '#38bdf8', 
+                  fontWeight: 600,
+                  marginTop: '0.3rem',
+                  lineHeight: 1.4
+                }}>
+                  {activePhotoTab === 'team' 
+                    ? 'In-House Software Engineers, AIDC Integrators & Leadership' 
+                    : 'Founder & Managing Director • 15+ Yrs Industry 4.0 Vision'}
                 </div>
               </div>
             </div>
