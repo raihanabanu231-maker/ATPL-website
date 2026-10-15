@@ -8,7 +8,49 @@
 <meta http-equiv="Expires" content="0">
 <title>ATPL Group | Archery Technocrats – 3D Digital Twin & Project Showcase</title>
 <link rel="icon" href="https://atplgroup.com/wp-content/uploads/2024/01/cropped-logo_original-32x32.png">
+<script>
+  (function(){
+    try {
+      if (window.location.search.indexOf('embedded=true') !== -1 || window.self !== window.top) {
+        document.documentElement.classList.add('is-embedded');
+      }
+    } catch(e) {}
+  })();
+</script>
 <style>
+/* =====================================================================
+   EMBEDDED MODE FOR HOMEPAGE HERO PARTITION
+   ===================================================================== */
+html.is-embedded, html.is-embedded body {
+  height: 100% !important;
+  width: 100% !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  background: #020b14 !important;
+  overflow: hidden !important;
+}
+html.is-embedded #ann,
+html.is-embedded #nav,
+html.is-embedded #mobNavDrawer,
+html.is-embedded #tabs,
+html.is-embedded #openPanelBtn,
+html.is-embedded #ctl .b.red {
+  display: none !important;
+}
+html.is-embedded #stage {
+  height: 100% !important;
+  width: 100% !important;
+  flex: 1 1 100% !important;
+}
+html.is-embedded #hud {
+  top: 10px !important;
+  left: 10px !important;
+}
+html.is-embedded #ctl {
+  top: 10px !important;
+  right: 10px !important;
+}
+
 /* =====================================================================
    ATPL RESPONSIVE DESIGN SYSTEM (Mobile, Tablet, Laptop, 4K UHD)
    ===================================================================== */
@@ -576,7 +618,9 @@ ul.s li:before{content:"✓";position:absolute;left:0;top:2px;width:16px;height:
     <div class="hb">
       <span class="dot"></span>
       <div>
-        <h1>SMART FACTORY DIGITAL TWIN</h1>
+        <h1>SMART FACTORY DIGITAL T
+          
+          WIN</h1>
         <small class="mono">ATPL ARCHERY TECHNOCRATS • ARCHERY ROBOT COPILOT ACTIVE</small>
       </div>
       <span class="tel mono">∿ TELEMETRY ACTIVE (60 FPS)</span>

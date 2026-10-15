@@ -1378,50 +1378,52 @@ export const FactoryBlueprintMap = ({ embedded = false }) => {
 
           {/* Station Controls & Actions Column */}
           <div className="hud-embedded-col-right" style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem' }}>
-            {/* 12 Stations Quick-Selector Grid */}
-            <div>
-              <div style={{
-                fontSize: '0.68rem',
-                fontWeight: 800,
-                textTransform: 'uppercase',
-                color: '#94a3b8',
-                letterSpacing: '0.05em',
-                marginBottom: '0.25rem'
-              }}>
-                JUMP TO STATION (1–{ATPL_FACTORY_NODES.length})
+            {/* 12 Stations Quick-Selector Grid (Hidden in embedded hero partition mode) */}
+            {!embedded && (
+              <div>
+                <div style={{
+                  fontSize: '0.68rem',
+                  fontWeight: 800,
+                  textTransform: 'uppercase',
+                  color: '#94a3b8',
+                  letterSpacing: '0.05em',
+                  marginBottom: '0.25rem'
+                }}>
+                  JUMP TO STATION (1–{ATPL_FACTORY_NODES.length})
+                </div>
+                <div className="hud-quick-buttons-grid" style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(6, 1fr)',
+                  gap: '0.25rem'
+                }}>
+                  {ATPL_FACTORY_NODES.map((node, i) => (
+                    <button
+                      key={node.id}
+                      onClick={() => handleStationClick(i)}
+                      title={`${node.stepNumber}. ${node.name}`}
+                      className="hud-quick-btn"
+                      style={{
+                        height: '28px',
+                        borderRadius: '5px',
+                        backgroundColor: currentIndex === i ? '#E85874' : 'rgba(255, 255, 255, 0.06)',
+                        border: currentIndex === i ? '1.5px solid #ffffff' : '1px solid rgba(255, 255, 255, 0.14)',
+                        color: '#ffffff',
+                        fontSize: '0.78rem',
+                        fontWeight: 800,
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        transition: 'all 0.15s ease',
+                        boxShadow: currentIndex === i ? '0 0 10px #E85874' : 'none'
+                      }}
+                    >
+                      {node.stepNumber}
+                    </button>
+                  ))}
+                </div>
               </div>
-              <div className="hud-quick-buttons-grid" style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(6, 1fr)',
-                gap: '0.25rem'
-              }}>
-                {ATPL_FACTORY_NODES.map((node, i) => (
-                  <button
-                    key={node.id}
-                    onClick={() => handleStationClick(i)}
-                    title={`${node.stepNumber}. ${node.name}`}
-                    className="hud-quick-btn"
-                    style={{
-                      height: '28px',
-                      borderRadius: '5px',
-                      backgroundColor: currentIndex === i ? '#E85874' : 'rgba(255, 255, 255, 0.06)',
-                      border: currentIndex === i ? '1.5px solid #ffffff' : '1px solid rgba(255, 255, 255, 0.14)',
-                      color: '#ffffff',
-                      fontSize: '0.78rem',
-                      fontWeight: 800,
-                      cursor: 'pointer',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      transition: 'all 0.15s ease',
-                      boxShadow: currentIndex === i ? '0 0 10px #E85874' : 'none'
-                    }}
-                  >
-                    {node.stepNumber}
-                  </button>
-                ))}
-              </div>
-            </div>
+            )}
 
             {/* Bottom Actions: Navigation & Live Demo CTA */}
             <div style={{

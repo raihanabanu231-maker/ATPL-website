@@ -1,6 +1,5 @@
 import React from 'react';
 import { useApp } from '../../context/AppContext';
-import { FactoryBlueprintMap } from '../common/FactoryBlueprintMap';
 import { OfficialPartnersShowcase } from '../common/PartnerLogos';
 import { AuthenticClientsMarquee } from '../common/ClientBrandLogos';
 import { MadeInIndiaSection } from '../common/MadeInIndiaSection';
@@ -28,7 +27,8 @@ import {
   Check,
   Smartphone,
   FileCheck,
-  ChevronRight
+  ChevronRight,
+  Maximize2
 } from 'lucide-react';
 
 export const HomeView = () => {
@@ -244,6 +244,13 @@ export const HomeView = () => {
               background-color: rgba(232, 88, 116, 0.22);
               transform: translateY(-1px);
             }
+            .hero-3d-fullscreen-btn:hover {
+              background-color: rgba(0, 240, 255, 0.25) !important;
+              border-color: #00f0ff !important;
+              color: #ffffff !important;
+              box-shadow: 0 0 14px rgba(0, 240, 255, 0.5) !important;
+              transform: translateY(-1px);
+            }
           `}</style>
 
           <div className="hero-master-split-grid">
@@ -345,9 +352,95 @@ export const HomeView = () => {
               </div>
             </div>
 
-            {/* Right Column: Interactive Factory Blueprint Tour */}
+            {/* Right Column: Interactive 3D Digital Twin Factory Tour (Pure 3D Viewport Only) */}
             <div className="hero-split-right-panel" style={{ width: '100%', minWidth: 0 }}>
-              <FactoryBlueprintMap embedded={true} />
+              <div style={{
+                position: 'relative',
+                width: '100%',
+                height: 'clamp(460px, 56vh, 580px)',
+                backgroundColor: '#020b14',
+                borderRadius: '16px',
+                border: '1.5px solid rgba(0, 240, 255, 0.45)',
+                boxShadow: '0 20px 50px rgba(0, 0, 0, 0.85), 0 0 35px rgba(0, 240, 255, 0.16)',
+                overflow: 'hidden',
+                display: 'flex',
+                flexDirection: 'column'
+              }}>
+                {/* High-Tech Industrial HUD Header Strip */}
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  padding: '0.6rem 1rem',
+                  backgroundColor: 'rgba(5, 15, 28, 0.96)',
+                  borderBottom: '1px solid rgba(0, 240, 255, 0.25)',
+                  zIndex: 2,
+                  flexShrink: 0
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.55rem' }}>
+                    <span style={{
+                      width: '7px',
+                      height: '7px',
+                      borderRadius: '50%',
+                      backgroundColor: '#10b981',
+                      boxShadow: '0 0 8px #10b981',
+                      display: 'inline-block'
+                    }} />
+                    <span style={{
+                      fontFamily: 'var(--font-mono, monospace)',
+                      fontSize: '0.74rem',
+                      fontWeight: 800,
+                      color: '#00f0ff',
+                      letterSpacing: '0.08em',
+                      textTransform: 'uppercase'
+                    }}>
+                      LIVE 3D DIGITAL TWIN • FACTORY TOUR
+                    </span>
+                  </div>
+
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    <button
+                      onClick={() => setCurrentView('factory-3d')}
+                      className="hero-3d-fullscreen-btn"
+                      title="Open Fullscreen 3D Factory Tour"
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '0.35rem',
+                        background: 'rgba(0, 240, 255, 0.12)',
+                        border: '1px solid rgba(0, 240, 255, 0.5)',
+                        color: '#00f0ff',
+                        borderRadius: '6px',
+                        padding: '0.28rem 0.65rem',
+                        fontSize: '0.72rem',
+                        fontWeight: 800,
+                        cursor: 'pointer',
+                        transition: 'all 0.15s ease',
+                        fontFamily: 'var(--font-mono, monospace)',
+                        letterSpacing: '0.04em'
+                      }}
+                    >
+                      <Maximize2 size={13} />
+                      <span>FULLSCREEN 3D ↗</span>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Pure 3D Interactive Viewport (No stage numbers bar, pure 3D tour) */}
+                <div style={{ flex: 1, position: 'relative', width: '100%', minHeight: 0 }}>
+                  <iframe
+                    src="/factory-map.html?embedded=true"
+                    title="ATPL Smart Factory 3D Digital Twin Tour"
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      border: 'none',
+                      display: 'block'
+                    }}
+                    allow="autoplay; fullscreen"
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>
