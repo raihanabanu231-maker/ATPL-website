@@ -63,7 +63,7 @@ export const Archie3DRobotSection = () => {
 
   // =========================================================================
   // The ATPL Way - Vertically Staggered Interlocking Stack (Dribbble 25966614)
-  // Each pill has its own row + alternating left/right anchor: NEVER collides!
+  // Centered within safe 43%-57% horizontal corridor: NEVER CLIPS OR OVERFLOWS!
   // =========================================================================
   const atplPills = [
     {
@@ -72,7 +72,7 @@ export const Archie3DRobotSection = () => {
       bg: '#ffffff',
       color: '#0f172a',
       border: '1px solid rgba(0, 0, 0, 0.08)',
-      top: '11%',
+      top: '10%',
       left: '50%',
       rot: 0,
       floatY: [-4, 4, -4],
@@ -86,11 +86,11 @@ export const Archie3DRobotSection = () => {
       bg: '#0f172a', // dark slate
       color: '#ffffff',
       border: '1px solid rgba(0, 0, 0, 0.1)',
-      top: '21%',
-      left: '34%',
+      top: '20%',
+      left: '46%',
       rot: -3,
       floatY: [-5, 5, -5],
-      floatX: [-3, 3, -3],
+      floatX: [-2, 2, -2],
       dur: 3.8,
       delay: 0.15
     },
@@ -100,11 +100,11 @@ export const Archie3DRobotSection = () => {
       bg: '#0071ba', // royal electric blue
       color: '#ffffff',
       border: '1px solid rgba(0, 113, 186, 0.3)',
-      top: '31%',
-      left: '66%',
-      rot: 4,
-      floatY: [-6, 5, -6],
-      floatX: [3, -2, 3],
+      top: '30%',
+      left: '54%',
+      rot: 3,
+      floatY: [-5, 5, -5],
+      floatX: [2, -2, 2],
       dur: 4.2,
       delay: 0.3
     },
@@ -114,11 +114,11 @@ export const Archie3DRobotSection = () => {
       bg: '#111827', // dark slate
       color: '#ffffff',
       border: '1px solid rgba(0, 0, 0, 0.1)',
-      top: '41%',
-      left: '35%',
+      top: '40%',
+      left: '45%',
       rot: -2,
-      floatY: [-7, 4, -7],
-      floatX: [2, -3, 2],
+      floatY: [-6, 4, -6],
+      floatX: [2, -2, 2],
       dur: 4.5,
       delay: 0.25
     },
@@ -128,11 +128,11 @@ export const Archie3DRobotSection = () => {
       bg: '#ffffff', // clean white
       color: '#0f172a',
       border: '1px solid rgba(0, 0, 0, 0.08)',
-      top: '51%',
-      left: '68%',
+      top: '50%',
+      left: '55%',
       rot: 3,
-      floatY: [-4, 6, -4],
-      floatX: [-2, 3, -2],
+      floatY: [-4, 5, -4],
+      floatX: [-2, 2, -2],
       dur: 3.5,
       delay: 0.45
     },
@@ -142,11 +142,11 @@ export const Archie3DRobotSection = () => {
       bg: '#0284c7', // vibrant cyan/sky blue
       color: '#ffffff',
       border: '1px solid rgba(2, 132, 199, 0.3)',
-      top: '61%',
-      left: '33%',
+      top: '60%',
+      left: '46%',
       rot: -3,
       floatY: [-4, 5, -4],
-      floatX: [-3, 2, -3],
+      floatX: [-2, 2, -2],
       dur: 3.6,
       delay: 0.4
     },
@@ -156,11 +156,11 @@ export const Archie3DRobotSection = () => {
       bg: '#0f172a', // dark slate
       color: '#ffffff',
       border: '1px solid rgba(0, 0, 0, 0.1)',
-      top: '71%',
-      left: '67%',
-      rot: 4,
+      top: '70%',
+      left: '54%',
+      rot: 3,
       floatY: [-5, 5, -5],
-      floatX: [-2, 3, -2],
+      floatX: [-2, 2, -2],
       dur: 3.9,
       delay: 0.35
     },
@@ -170,10 +170,10 @@ export const Archie3DRobotSection = () => {
       bg: '#ffffff', // clean white
       color: '#0f172a',
       border: '1px solid rgba(0, 0, 0, 0.08)',
-      top: '81%',
-      left: '36%',
+      top: '80%',
+      left: '46%',
       rot: -2,
-      floatY: [-5, 5, -5],
+      floatY: [-4, 4, -4],
       floatX: [2, -2, 2],
       dur: 4.0,
       delay: 0.5
@@ -184,37 +184,37 @@ export const Archie3DRobotSection = () => {
       bg: '#0071ba', // royal electric blue
       color: '#ffffff',
       border: '1px solid rgba(0, 113, 186, 0.3)',
-      top: '91%',
+      top: '90%',
       left: '52%',
       rot: 2,
-      floatY: [-6, 4, -6],
-      floatX: [2, -3, 2],
+      floatY: [-5, 4, -5],
+      floatX: [2, -2, 2],
       dur: 4.3,
       delay: 0.2
     }
   ];
 
   // =========================================================================
-  // Without ATPL - Continuous Heavy Rain of Chaotic Problem Boxes (Top to Bottom)
-  // 16 staggered particles cascading down like an endless waterfall video!
+  // Without ATPL - Continuous Heavy Rain of Problem Boxes (Top to Bottom)
+  // Safely constrained between 26% and 66% so no box ever clips against edges!
   // =========================================================================
   const rainingPills = [
-    { id: 'r0', label: 'Delayed Reports', bg: '#e2e8f0', color: '#1e293b', border: '1px solid #cbd5e1', left: '22%', rot: -7, dur: 3.4, delay: 0.0, depth: 1 },
-    { id: 'r1', label: 'Random Firmware', bg: '#f1f5f9', color: '#64748b', border: '1px solid #e2e8f0', left: '56%', rot: 8, dur: 4.1, delay: 0.25, depth: 0 },
-    { id: 'r2', label: 'Unorganized IT', bg: '#e2e8f0', color: '#1e293b', border: '1px solid #cbd5e1', left: '38%', rot: -6, dur: 3.5, delay: 0.5, depth: 1 },
-    { id: 'r3', label: 'Overwhelming Bugs', bg: '#f1f5f9', color: '#64748b', border: '1px solid #e2e8f0', left: '76%', rot: 5, dur: 4.2, delay: 0.75, depth: 0 },
-    { id: 'r4', label: 'Vendor Spam', bg: '#e2e8f0', color: '#1e293b', border: '1px solid #cbd5e1', left: '18%', rot: -9, dur: 3.6, delay: 1.0, depth: 1 },
-    { id: 'r5', label: '3 to 7 Days Delay', bg: '#fee2e2', color: '#991b1b', border: '1px solid #fecaca', left: '68%', rot: 7, dur: 3.9, delay: 1.25, depth: 1 },
-    { id: 'r6', label: 'Broken CSV Drops', bg: '#f1f5f9', color: '#64748b', border: '1px solid #e2e8f0', left: '44%', rot: -11, dur: 4.4, delay: 1.5, depth: 0 },
-    { id: 'r7', label: 'Costly Lock-In', bg: '#e2e8f0', color: '#1e293b', border: '1px solid #cbd5e1', left: '82%', rot: -4, dur: 3.7, delay: 1.75, depth: 1 },
-    { id: 'r8', label: 'Hardware Burnout', bg: '#fee2e2', color: '#991b1b', border: '1px solid #fecaca', left: '26%', rot: 6, dur: 4.0, delay: 2.0, depth: 0 },
-    { id: 'r9', label: 'Line Standstills', bg: '#fee2e2', color: '#991b1b', border: '1px solid #fecaca', left: '62%', rot: 4, dur: 3.5, delay: 2.25, depth: 1 },
-    { id: 'r10', label: 'Drop-Ship Boxes', bg: '#f1f5f9', color: '#64748b', border: '1px solid #e2e8f0', left: '32%', rot: -8, dur: 4.3, delay: 2.5, depth: 0 },
-    { id: 'r11', label: 'Zero SLA Support', bg: '#fee2e2', color: '#991b1b', border: '1px solid #fecaca', left: '74%', rot: 6, dur: 3.8, delay: 2.75, depth: 1 },
-    { id: 'r12', label: 'Manual Scans', bg: '#e2e8f0', color: '#1e293b', border: '1px solid #cbd5e1', left: '20%', rot: -5, dur: 4.1, delay: 3.0, depth: 1 },
-    { id: 'r13', label: 'Uncertified Cables', bg: '#f1f5f9', color: '#64748b', border: '1px solid #e2e8f0', left: '50%', rot: 10, dur: 3.6, delay: 3.25, depth: 0 },
-    { id: 'r14', label: 'Inventory Drift', bg: '#fee2e2', color: '#991b1b', border: '1px solid #fecaca', left: '80%', rot: -6, dur: 4.2, delay: 3.5, depth: 1 },
-    { id: 'r15', label: 'Disjointed Middleware', bg: '#f1f5f9', color: '#64748b', border: '1px solid #e2e8f0', left: '35%', rot: 5, dur: 3.7, delay: 3.75, depth: 0 }
+    { id: 'r0', label: 'Delayed Reports', bg: '#e2e8f0', color: '#1e293b', border: '1px solid #cbd5e1', left: '26%', rot: -7, dur: 3.4, delay: 0.0, depth: 1 },
+    { id: 'r1', label: 'Random Firmware', bg: '#f1f5f9', color: '#64748b', border: '1px solid #e2e8f0', left: '50%', rot: 8, dur: 4.1, delay: 0.25, depth: 0 },
+    { id: 'r2', label: 'Unorganized IT', bg: '#e2e8f0', color: '#1e293b', border: '1px solid #cbd5e1', left: '36%', rot: -6, dur: 3.5, delay: 0.5, depth: 1 },
+    { id: 'r3', label: 'Overwhelming Bugs', bg: '#f1f5f9', color: '#64748b', border: '1px solid #e2e8f0', left: '64%', rot: 5, dur: 4.2, delay: 0.75, depth: 0 },
+    { id: 'r4', label: 'Vendor Spam', bg: '#e2e8f0', color: '#1e293b', border: '1px solid #cbd5e1', left: '24%', rot: -9, dur: 3.6, delay: 1.0, depth: 1 },
+    { id: 'r5', label: '3 to 7 Days Delay', bg: '#fee2e2', color: '#991b1b', border: '1px solid #fecaca', left: '58%', rot: 7, dur: 3.9, delay: 1.25, depth: 1 },
+    { id: 'r6', label: 'Broken CSV Drops', bg: '#f1f5f9', color: '#64748b', border: '1px solid #e2e8f0', left: '40%', rot: -11, dur: 4.4, delay: 1.5, depth: 0 },
+    { id: 'r7', label: 'Costly Lock-In', bg: '#e2e8f0', color: '#1e293b', border: '1px solid #cbd5e1', left: '66%', rot: -4, dur: 3.7, delay: 1.75, depth: 1 },
+    { id: 'r8', label: 'Hardware Burnout', bg: '#fee2e2', color: '#991b1b', border: '1px solid #fecaca', left: '30%', rot: 6, dur: 4.0, delay: 2.0, depth: 0 },
+    { id: 'r9', label: 'Line Standstills', bg: '#fee2e2', color: '#991b1b', border: '1px solid #fecaca', left: '54%', rot: 4, dur: 3.5, delay: 2.25, depth: 1 },
+    { id: 'r10', label: 'Drop-Ship Boxes', bg: '#f1f5f9', color: '#64748b', border: '1px solid #e2e8f0', left: '34%', rot: -8, dur: 4.3, delay: 2.5, depth: 0 },
+    { id: 'r11', label: 'Zero SLA Support', bg: '#fee2e2', color: '#991b1b', border: '1px solid #fecaca', left: '62%', rot: 6, dur: 3.8, delay: 2.75, depth: 1 },
+    { id: 'r12', label: 'Manual Scans', bg: '#e2e8f0', color: '#1e293b', border: '1px solid #cbd5e1', left: '26%', rot: -5, dur: 4.1, delay: 3.0, depth: 1 },
+    { id: 'r13', label: 'Uncertified Cables', bg: '#f1f5f9', color: '#64748b', border: '1px solid #e2e8f0', left: '46%', rot: 10, dur: 3.6, delay: 3.25, depth: 0 },
+    { id: 'r14', label: 'Inventory Drift', bg: '#fee2e2', color: '#991b1b', border: '1px solid #fecaca', left: '65%', rot: -6, dur: 4.2, delay: 3.5, depth: 1 },
+    { id: 'r15', label: 'Disjointed Middleware', bg: '#f1f5f9', color: '#64748b', border: '1px solid #e2e8f0', left: '38%', rot: 5, dur: 3.7, delay: 3.75, depth: 0 }
   ];
 
   // =========================================================================
@@ -258,46 +258,94 @@ export const Archie3DRobotSection = () => {
     scene.environmentIntensity = 0.95;
 
     // Lights
-    const hemiLight = new THREE.HemisphereLight(0xfff6ee, 0xd9d2c8, 0.75);
+    const hemiLight = new THREE.HemisphereLight(0xffffff, 0x0f172a, 0.85);
     scene.add(hemiLight);
 
-    const keyLight = new THREE.DirectionalLight(0xfff3e6, 1.7);
+    const keyLight = new THREE.DirectionalLight(0x00f0ff, 1.5);
     keyLight.position.set(-3, 5, 4);
     keyLight.castShadow = true;
     keyLight.shadow.mapSize.width = 1024;
     keyLight.shadow.mapSize.height = 1024;
-    keyLight.shadow.radius = 6;
-    keyLight.shadow.bias = -0.0005;
     scene.add(keyLight);
 
-    const rimLight = new THREE.DirectionalLight(0xfff0e6, 1.25);
-    rimLight.position.set(4, 2, -4);
+    const rimLight = new THREE.DirectionalLight(0xffffff, 1.6);
+    rimLight.position.set(4, 2, -3);
     scene.add(rimLight);
 
-    const fillLight = new THREE.PointLight(0xff9a6a, 2.2, 7);
-    fillLight.position.set(-3.2, 1.2, 0.6);
+    const fillLight = new THREE.PointLight(0x0071ba, 2.2, 8);
+    fillLight.position.set(0, -0.8, 3.5);
     scene.add(fillLight);
 
-    // Conic Gradient Ring Texture for face frame
-    const ringCanvas = document.createElement('canvas');
-    ringCanvas.width = 512;
-    ringCanvas.height = 512;
-    const ringCtx = ringCanvas.getContext('2d');
-    const conic = ringCtx.createConicGradient(Math.PI * (200 / 180), 256, 256);
-    conic.addColorStop(0, '#ffb347');
-    conic.addColorStop(0.18, '#ff8a3d');
-    conic.addColorStop(0.34, '#ff5a5f');
-    conic.addColorStop(0.50, '#ff3d8b');
-    conic.addColorStop(0.66, '#ff5a5f');
-    conic.addColorStop(0.82, '#ff8a3d');
-    conic.addColorStop(1, '#ffb347');
-    ringCtx.fillStyle = conic;
-    ringCtx.fillRect(0, 0, 512, 512);
+    // =========================================================================
+    // Authentic ATPL Archery Chest Arc Reactor Canvas Texture
+    // =========================================================================
+    const arcCanvas = document.createElement('canvas');
+    arcCanvas.width = 512;
+    arcCanvas.height = 512;
+    const arcCtx = arcCanvas.getContext('2d');
 
-    const ringTexture = new THREE.CanvasTexture(ringCanvas);
-    ringTexture.colorSpace = THREE.SRGBColorSpace;
+    // Outer dark titanium base
+    arcCtx.fillStyle = '#0a0f1d';
+    arcCtx.beginPath();
+    arcCtx.arc(256, 256, 250, 0, Math.PI * 2);
+    arcCtx.fill();
 
-    // Screen Canvas for Face (Eyes / Quote)
+    // Glowing Cyan Core Ring
+    arcCtx.lineWidth = 26;
+    arcCtx.strokeStyle = '#00f0ff';
+    arcCtx.shadowColor = '#00f0ff';
+    arcCtx.shadowBlur = 32;
+    arcCtx.beginPath();
+    arcCtx.arc(256, 256, 205, 0, Math.PI * 2);
+    arcCtx.stroke();
+
+    // Segmented Power Cell notches around ring
+    arcCtx.shadowBlur = 0;
+    arcCtx.fillStyle = '#060a14';
+    for (let i = 0; i < 16; i++) {
+      const angle = (i * Math.PI * 2) / 16;
+      arcCtx.save();
+      arcCtx.translate(256, 256);
+      arcCtx.rotate(angle);
+      arcCtx.fillRect(185, -6, 44, 12);
+      arcCtx.restore();
+    }
+
+    // Inner Luminous White/Cyan Disc
+    arcCtx.shadowBlur = 24;
+    arcCtx.shadowColor = '#00f0ff';
+    arcCtx.fillStyle = '#ffffff';
+    arcCtx.beginPath();
+    arcCtx.arc(256, 256, 160, 0, Math.PI * 2);
+    arcCtx.fill();
+
+    // Official ATPL Archery Logo Arrowhead + Bow Emblem
+    arcCtx.shadowBlur = 0;
+    // Cyan Arrowhead
+    arcCtx.fillStyle = '#0071ba';
+    arcCtx.beginPath();
+    arcCtx.moveTo(256, 145);
+    arcCtx.lineTo(306, 238);
+    arcCtx.lineTo(265, 230);
+    arcCtx.lineTo(256, 355);
+    arcCtx.lineTo(247, 230);
+    arcCtx.lineTo(206, 238);
+    arcCtx.closePath();
+    arcCtx.fill();
+
+    // Red Bow Curve
+    arcCtx.lineWidth = 14;
+    arcCtx.strokeStyle = '#e11d48';
+    arcCtx.beginPath();
+    arcCtx.arc(256, 260, 78, -Math.PI * 0.78, Math.PI * 0.08);
+    arcCtx.stroke();
+
+    const arcTexture = new THREE.CanvasTexture(arcCanvas);
+    arcTexture.colorSpace = THREE.SRGBColorSpace;
+
+    // =========================================================================
+    // Screen Canvas for Face (Iconic Archie Glowing Circular Cyan Eyes)
+    // =========================================================================
     const faceCanvas = document.createElement('canvas');
     faceCanvas.width = 512;
     faceCanvas.height = 512;
@@ -305,307 +353,208 @@ export const Archie3DRobotSection = () => {
     const faceTexture = new THREE.CanvasTexture(faceCanvas);
     faceTexture.colorSpace = THREE.SRGBColorSpace;
 
-    // Materials
-    const shellMat = new THREE.MeshPhysicalMaterial({
-      color: 0xeeebe6,
-      roughness: 0.38,
-      metalness: 0.0,
-      clearcoat: 0.45,
-      clearcoatRoughness: 0.3
+    // Materials matching official ATPL Archie mascot
+    const pearlWhiteMat = new THREE.MeshPhysicalMaterial({
+      color: 0xffffff,
+      roughness: 0.18,
+      metalness: 0.05,
+      clearcoat: 0.95,
+      clearcoatRoughness: 0.1
     });
 
-    const shellLightMat = new THREE.MeshPhysicalMaterial({
-      color: 0xf8f6f2,
-      roughness: 0.34,
-      metalness: 0.0,
-      clearcoat: 0.45,
-      clearcoatRoughness: 0.3
-    });
-
-    const darkJointMat = new THREE.MeshStandardMaterial({
-      color: 0x1b1b1f,
-      roughness: 0.55,
-      metalness: 0.3
-    });
-
-    const deepDarkMat = new THREE.MeshBasicMaterial({ color: 0x0f0f12 });
-
-    const pedestalMat = new THREE.MeshStandardMaterial({
-      color: 0x222226,
-      roughness: 0.9,
-      metalness: 0.1
-    });
-
-    const ringMat = new THREE.MeshStandardMaterial({
-      map: ringTexture,
-      emissive: 0xffffff,
-      emissiveMap: ringTexture,
-      emissiveIntensity: 0.25,
-      roughness: 0.5,
-      metalness: 0.0
-    });
-
-    const screenMat = new THREE.MeshPhysicalMaterial({
-      color: 0x050508,
-      roughness: 0.1,
-      metalness: 0.1,
+    const darkVisorMat = new THREE.MeshPhysicalMaterial({
+      color: 0x05070e,
+      roughness: 0.08,
+      metalness: 0.15,
       clearcoat: 1.0,
-      clearcoatRoughness: 0.02,
+      clearcoatRoughness: 0.03,
       emissive: 0xffffff,
       emissiveMap: faceTexture,
-      emissiveIntensity: 1.6
+      emissiveIntensity: 1.85
     });
 
-    // Assemble Robot Hierarchy
+    const cyberJointMat = new THREE.MeshStandardMaterial({
+      color: 0x181c26,
+      roughness: 0.45,
+      metalness: 0.75
+    });
+
+    const cyanGlowMat = new THREE.MeshStandardMaterial({
+      color: 0x00f0ff,
+      emissive: 0x00f0ff,
+      emissiveIntensity: 3.2,
+      roughness: 0.2
+    });
+
+    const arcMat = new THREE.MeshStandardMaterial({
+      map: arcTexture,
+      emissive: 0xffffff,
+      emissiveMap: arcTexture,
+      emissiveIntensity: 0.85,
+      roughness: 0.3
+    });
+
+    const pedestalMat = new THREE.MeshStandardMaterial({
+      color: 0x0b1324,
+      roughness: 0.8,
+      metalness: 0.2
+    });
+
+    // =========================================================================
+    // Assemble Official Archie Mascot Robot Hierarchy
+    // =========================================================================
     const robotRoot = new THREE.Group();
     scene.add(robotRoot);
 
     const bodyGroup = new THREE.Group();
     robotRoot.add(bodyGroup);
 
-    // Torso
-    const torsoMesh = new THREE.Mesh(new RoundedBoxGeometry(1.22, 1.12, 0.92, 4, 0.24), shellMat);
-    torsoMesh.position.set(0, -0.6, 0);
+    // Torso (Smooth Aerodynamic Egg Body)
+    const torsoMesh = new THREE.Mesh(new THREE.SphereGeometry(1.18, 48, 36), pearlWhiteMat);
+    torsoMesh.scale.set(1.06, 1.25, 0.95);
+    torsoMesh.position.set(0, -0.72, 0);
     torsoMesh.castShadow = true;
     torsoMesh.receiveShadow = true;
     bodyGroup.add(torsoMesh);
 
-    // Chest slab
-    const chestSlab = new THREE.Mesh(new RoundedBoxGeometry(0.98, 0.36, 0.16, 3, 0.08), shellLightMat);
-    chestSlab.position.set(0, -0.32, 0.44);
-    chestSlab.castShadow = true;
-    bodyGroup.add(chestSlab);
+    // Chest Arc Reactor Bezel (Titanium Ring)
+    const arcBezel = new THREE.Mesh(new THREE.CylinderGeometry(0.44, 0.44, 0.06, 36), cyberJointMat);
+    arcBezel.rotation.x = Math.PI / 2 + 0.12;
+    arcBezel.position.set(0, -0.58, 0.92);
+    bodyGroup.add(arcBezel);
 
-    // 3 LEDs
-    const ledColors = [0xff8a3d, 0xff5a5f, 0xff3d8b];
-    const ledGeom = new THREE.SphereGeometry(0.032, 16, 16);
-    ledColors.forEach((col, i) => {
-      const ledMat = new THREE.MeshStandardMaterial({
-        color: col,
-        emissive: col,
-        emissiveIntensity: 2.2,
-        roughness: 0.2
-      });
-      const led = new THREE.Mesh(ledGeom, ledMat);
-      led.position.set(-0.16 + i * 0.16, -0.32, 0.53);
-      bodyGroup.add(led);
-    });
+    // Chest Arc Reactor Center Disc
+    const arcMedallion = new THREE.Mesh(new THREE.CylinderGeometry(0.40, 0.40, 0.08, 36), arcMat);
+    arcMedallion.rotation.x = Math.PI / 2 + 0.12;
+    arcMedallion.position.set(0, -0.58, 0.95);
+    bodyGroup.add(arcMedallion);
 
-    // Vertical Slots & Lips
-    const slotGeom = new THREE.BoxGeometry(0.045, 0.22, 0.05);
-    const lipGeom = new THREE.TorusGeometry(0.038, 0.015, 8, 16, Math.PI);
-    lipGeom.rotateZ(Math.PI);
-    [-0.18, 0.18].forEach(xPos => {
-      const slot = new THREE.Mesh(slotGeom, deepDarkMat);
-      slot.position.set(xPos, -0.68, 0.47);
-      bodyGroup.add(slot);
+    // Arc Reactor Light (Casting glowing cyan reflection onto body and arms)
+    const arcLight = new THREE.PointLight(0x00f0ff, 1.2, 3.5);
+    arcLight.position.set(0, -0.58, 1.15);
+    bodyGroup.add(arcLight);
 
-      const lip = new THREE.Mesh(lipGeom, deepDarkMat);
-      lip.position.set(xPos, -0.56, 0.48);
-      bodyGroup.add(lip);
-    });
+    // Lower Waist Cyber-Joint
+    const waistJoint = new THREE.Mesh(new THREE.SphereGeometry(0.72, 24, 24), cyberJointMat);
+    waistJoint.scale.set(1.0, 0.4, 1.0);
+    waistJoint.position.set(0, -1.35, 0);
+    bodyGroup.add(waistJoint);
 
-    // Pelvis
-    const pelvis = new THREE.Mesh(new RoundedBoxGeometry(0.85, 0.28, 0.72, 3, 0.1), darkJointMat);
-    pelvis.position.set(0, -1.22, 0);
-    bodyGroup.add(pelvis);
-
-    // Neck
-    const neck = new THREE.Mesh(new THREE.CylinderGeometry(0.24, 0.24, 0.28, 24), darkJointMat);
-    neck.position.set(0, 0.08, 0);
+    // Neck Cyber-Joint
+    const neck = new THREE.Mesh(new THREE.CylinderGeometry(0.24, 0.28, 0.28, 32), cyberJointMat);
+    neck.position.set(0, 0.06, 0);
     bodyGroup.add(neck);
 
-    // Head Pivot & Head
+    // Head Pivot & Head Group
     const headPivot = new THREE.Group();
     headPivot.position.set(0, 0.22, 0);
     bodyGroup.add(headPivot);
 
     const headGroup = new THREE.Group();
-    headGroup.position.set(0, 0.78, 0);
+    headGroup.position.set(0, 0.72, 0);
     headPivot.add(headGroup);
 
-    // Skull
-    const skull = new THREE.Mesh(new RoundedBoxGeometry(1.5, 1.42, 1.3, 5, 0.2), shellMat);
-    skull.castShadow = true;
-    skull.receiveShadow = true;
-    headGroup.add(skull);
+    // Helmet Shell (Sleek Glossy Pearl White Curved Helmet)
+    const helmet = new THREE.Mesh(new THREE.SphereGeometry(1.22, 48, 36), pearlWhiteMat);
+    helmet.scale.set(1.22, 0.96, 0.94);
+    helmet.castShadow = true;
+    helmet.receiveShadow = true;
+    headGroup.add(helmet);
 
-    // Dark Back Block
-    const darkBack = new THREE.Mesh(new RoundedBoxGeometry(1.28, 1.14, 0.9, 4, 0.12), deepDarkMat);
-    darkBack.position.set(0, 0, -0.32);
-    headGroup.add(darkBack);
+    // Front Inset Dark Glass Visor Screen
+    const visor = new THREE.Mesh(new THREE.SphereGeometry(1.02, 40, 28), darkVisorMat);
+    visor.scale.set(1.10, 0.78, 0.44);
+    visor.position.set(0, 0, 0.62);
+    headGroup.add(visor);
 
-    // Circuit bars on back
-    const barGeom = new THREE.BoxGeometry(0.12, 0.025, 0.04);
-    for (let b = 0; b < 24; b++) {
-      const bar = new THREE.Mesh(barGeom, darkJointMat);
-      if (b < 14) {
-        const row = Math.floor(b / 3);
-        const col = b % 3;
-        bar.position.set(-0.35 + col * 0.35, -0.35 + row * 0.18, -0.78);
-      } else {
-        const topIdx = b - 14;
-        bar.rotation.x = Math.PI / 2;
-        bar.position.set(-0.3 + (topIdx % 3) * 0.3, 0.58, -0.15 - Math.floor(topIdx / 3) * 0.16);
-      }
-      headGroup.add(bar);
-    }
-
-    // Extruded Face Ring
-    const shape = new THREE.Shape();
-    const w = 1.5, h = 1.44, r = 0.3;
-    shape.moveTo(-w / 2 + r, -h / 2);
-    shape.lineTo(w / 2 - r, -h / 2);
-    shape.quadraticCurveTo(w / 2, -h / 2, w / 2, -h / 2 + r);
-    shape.lineTo(w / 2, h / 2 - r);
-    shape.quadraticCurveTo(w / 2, h / 2, w / 2 - r, h / 2);
-    shape.lineTo(-w / 2 + r, h / 2);
-    shape.quadraticCurveTo(-w / 2, h / 2, -w / 2, h / 2 - r);
-    shape.lineTo(-w / 2, -h / 2 + r);
-    shape.quadraticCurveTo(-w / 2, -h / 2, -w / 2 + r, -h / 2);
-
-    const hole = new THREE.Path();
-    const iw = 1.08, ih = 1.02, ir = 0.2;
-    hole.moveTo(-iw / 2 + ir, -ih / 2);
-    hole.lineTo(iw / 2 - ir, -ih / 2);
-    hole.quadraticCurveTo(iw / 2, -ih / 2, iw / 2, -ih / 2 + ir);
-    hole.lineTo(iw / 2, ih / 2 - ir);
-    hole.quadraticCurveTo(iw / 2, ih / 2, iw / 2 - ir, ih / 2);
-    hole.lineTo(-iw / 2 + ir, ih / 2);
-    hole.quadraticCurveTo(-iw / 2, ih / 2, -iw / 2, ih / 2 - ir);
-    hole.lineTo(-iw / 2, -ih / 2 + ir);
-    hole.quadraticCurveTo(-iw / 2, -ih / 2, -iw / 2 + ir, -ih / 2);
-    shape.holes.push(hole);
-
-    const ringGeom = new THREE.ExtrudeGeometry(shape, {
-      depth: 0.1,
-      bevelEnabled: true,
-      bevelSegments: 4,
-      steps: 1,
-      bevelSize: 0.03,
-      bevelThickness: 0.03
-    });
-
-    const pos = ringGeom.attributes.position;
-    const uvs = [];
-    for (let i = 0; i < pos.count; i++) {
-      const px = pos.getX(i);
-      const py = pos.getY(i);
-      uvs.push((px + 0.8) / 1.6, (py + 0.8) / 1.6);
-    }
-    ringGeom.setAttribute('uv', new THREE.Float32BufferAttribute(uvs, 2));
-
-    const ringMesh = new THREE.Mesh(ringGeom, ringMat);
-    ringMesh.position.set(0, 0, 0.6);
-    ringMesh.castShadow = true;
-    headGroup.add(ringMesh);
-
-    // Bezel
-    const bezelMesh = new THREE.Mesh(new RoundedBoxGeometry(1.06, 1.00, 0.06, 3, 0.16), shellLightMat);
-    bezelMesh.position.set(0, 0, 0.62);
-    headGroup.add(bezelMesh);
-
-    // Screen
-    const screenMesh = new THREE.Mesh(new RoundedBoxGeometry(0.92, 0.86, 0.04, 3, 0.12), screenMat);
-    screenMesh.position.set(0, 0, 0.66);
-    headGroup.add(screenMesh);
-
-    // Ears
-    [-0.82, 0.82].forEach((xSide) => {
-      const earBase = new THREE.Mesh(new THREE.CylinderGeometry(0.24, 0.24, 0.12, 24), darkJointMat);
+    // Side Ear Pods with Glowing Cyan LED Rings
+    [-1.22, 1.22].forEach(xSide => {
+      const earBase = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.22, 0.10, 32), cyberJointMat);
       earBase.rotation.z = Math.PI / 2;
-      earBase.position.set(xSide, 0, -0.05);
+      earBase.position.set(xSide, 0, 0);
       headGroup.add(earBase);
 
-      const earRing = new THREE.Mesh(new THREE.TorusGeometry(0.24, 0.06, 16, 32), shellLightMat);
+      const earRing = new THREE.Mesh(new THREE.TorusGeometry(0.20, 0.035, 16, 32), cyanGlowMat);
       earRing.rotation.y = Math.PI / 2;
-      earRing.position.set(xSide + (xSide > 0 ? 0.08 : -0.08), 0, -0.05);
+      earRing.position.set(xSide + (xSide > 0 ? 0.06 : -0.06), 0, 0);
       headGroup.add(earRing);
-
-      if (xSide > 0) {
-        const cableGeom = new THREE.TorusGeometry(0.38, 0.03, 12, 32, Math.PI * 0.95);
-        cableGeom.rotateZ(Math.PI * 0.95);
-        const cable = new THREE.Mesh(cableGeom, deepDarkMat);
-        cable.position.set(xSide + 0.04, -0.15, 0);
-        headGroup.add(cable);
-      }
     });
 
-    // Arms
-    const shoulderBallGeom = new THREE.SphereGeometry(0.16, 20, 20);
-    const elbowBallGeom = new THREE.SphereGeometry(0.12, 16, 16);
+    // Articulated Arms (Matching Archie Mascot)
     const armSegments = [];
-
     [-1, 1].forEach(side => {
       const armRoot = new THREE.Group();
-      armRoot.position.set(side * 0.72, -0.28, 0);
+      armRoot.position.set(side * 0.94, -0.42, 0);
       bodyGroup.add(armRoot);
 
-      const shoulder = new THREE.Mesh(shoulderBallGeom, darkJointMat);
-      armRoot.add(shoulder);
-      armRoot.rotation.z = side * 0.16;
+      // White shoulder bell cap
+      const shoulderCap = new THREE.Mesh(new THREE.SphereGeometry(0.26, 24, 24), pearlWhiteMat);
+      shoulderCap.position.set(0, 0.04, 0);
+      armRoot.add(shoulderCap);
 
-      const upperArm = new THREE.Mesh(new RoundedBoxGeometry(0.22, 0.44, 0.22, 3, 0.06), shellMat);
-      upperArm.position.set(0, -0.26, 0);
+      // Cyber shoulder ball joint
+      const shoulderJoint = new THREE.Mesh(new THREE.SphereGeometry(0.16, 20, 20), cyberJointMat);
+      armRoot.add(shoulderJoint);
+      armRoot.rotation.z = side * 0.18;
+
+      // Upper arm pod
+      const upperArm = new THREE.Mesh(new RoundedBoxGeometry(0.24, 0.46, 0.24, 3, 0.08), pearlWhiteMat);
+      upperArm.position.set(0, -0.28, 0);
       armRoot.add(upperArm);
 
-      const elbow = new THREE.Mesh(elbowBallGeom, darkJointMat);
-      elbow.position.set(0, -0.52, 0);
+      // Elbow joint
+      const elbow = new THREE.Mesh(new THREE.SphereGeometry(0.13, 16, 16), cyberJointMat);
+      elbow.position.set(0, -0.56, 0);
       armRoot.add(elbow);
 
+      // Forearm group
       const forearmGroup = new THREE.Group();
-      forearmGroup.position.set(0, -0.52, 0);
-      forearmGroup.rotation.x = -0.35;
+      forearmGroup.position.set(0, -0.56, 0);
+      forearmGroup.rotation.x = -0.32;
       armRoot.add(forearmGroup);
 
-      const forearm = new THREE.Mesh(new RoundedBoxGeometry(0.20, 0.40, 0.20, 3, 0.05), shellMat);
-      forearm.position.set(0, -0.22, 0);
+      const forearm = new THREE.Mesh(new RoundedBoxGeometry(0.22, 0.42, 0.22, 3, 0.07), pearlWhiteMat);
+      forearm.position.set(0, -0.24, 0);
       forearmGroup.add(forearm);
 
-      const hand = new THREE.Mesh(new RoundedBoxGeometry(0.18, 0.18, 0.18, 3, 0.04), shellLightMat);
-      hand.position.set(0, -0.46, 0);
-      forearmGroup.add(hand);
+      // Dark mechanical articulated hands with curled fingers
+      const handBase = new THREE.Mesh(new THREE.SphereGeometry(0.14, 16, 16), cyberJointMat);
+      handBase.position.set(0, -0.48, 0);
+      forearmGroup.add(handBase);
+
+      // 3 Articulated robotic finger nodes
+      [-0.05, 0, 0.05].forEach((fX, idx) => {
+        const finger = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.02, 0.14, 12), cyberJointMat);
+        finger.position.set(fX, -0.56, 0.04);
+        finger.rotation.x = 0.4;
+        forearmGroup.add(finger);
+      });
 
       armSegments.push({ side, armRoot, forearmGroup });
     });
 
-    // Legs
-    const hipBallGeom = new THREE.SphereGeometry(0.14, 16, 16);
-    const legBlockGeom = new RoundedBoxGeometry(0.32, 0.62, 0.36, 3, 0.08);
-    const footGeom = new RoundedBoxGeometry(0.36, 0.20, 0.56, 3, 0.06);
-
-    [-0.32, 0.32].forEach(side => {
-      const hip = new THREE.Mesh(hipBallGeom, darkJointMat);
-      hip.position.set(side, -1.34, 0);
-      bodyGroup.add(hip);
-
-      const leg = new THREE.Mesh(legBlockGeom, shellMat);
-      leg.position.set(side, -1.72, 0);
-      leg.castShadow = true;
-      bodyGroup.add(leg);
-
-      const ankle = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.09, 0.12, 16), darkJointMat);
-      ankle.position.set(side, -2.06, 0);
-      bodyGroup.add(ankle);
-
-      const foot = new THREE.Mesh(footGeom, shellLightMat);
-      foot.position.set(side, -2.18, 0.08);
-      foot.castShadow = true;
-      bodyGroup.add(foot);
-    });
-
-    // Pedestal
-    const pedestal = new THREE.Mesh(new THREE.BoxGeometry(1.7, 1.6, 1.7), pedestalMat);
-    pedestal.position.set(0, -3.02, 0);
+    // High-Tech Cyber Pedestal with Glowing Concentric Circuit Rings
+    const pedestal = new THREE.Mesh(new THREE.CylinderGeometry(1.65, 1.8, 1.4, 48), pedestalMat);
+    pedestal.position.set(0, -2.55, 0);
     pedestal.receiveShadow = true;
     robotRoot.add(pedestal);
 
+    // Glowing Cyan Concentric Rings on Pedestal Top
+    const glowRing1 = new THREE.Mesh(new THREE.TorusGeometry(1.5, 0.035, 16, 48), cyanGlowMat);
+    glowRing1.rotation.x = Math.PI / 2;
+    glowRing1.position.set(0, -1.82, 0);
+    robotRoot.add(glowRing1);
+
+    const glowRing2 = new THREE.Mesh(new THREE.TorusGeometry(1.15, 0.025, 16, 48), cyanGlowMat);
+    glowRing2.rotation.x = Math.PI / 2;
+    glowRing2.position.set(0, -1.82, 0);
+    robotRoot.add(glowRing2);
+
     // Initial Body & Head Stance
-    bodyGroup.rotation.y = -0.25;
-    headPivot.rotation.set(0.12, -0.35, 0.14);
+    bodyGroup.rotation.y = -0.15;
+    headPivot.rotation.set(0.08, -0.22, 0.05);
 
     // Face rendering state
-    let quoteAlpha = 0.0;
     let nextBlinkTime = 2.0;
     let blinkProgress = 0.0;
     let isBlinking = false;
@@ -626,51 +575,63 @@ export const Archie3DRobotSection = () => {
         }
       }
 
-      const targetAlpha = faceMode === 'QUOTE' ? 1.0 : 0.0;
-      if (quoteAlpha < targetAlpha) {
-        quoteAlpha = Math.min(targetAlpha, quoteAlpha + 0.08);
-      } else if (quoteAlpha > targetAlpha) {
-        quoteAlpha = Math.max(targetAlpha, quoteAlpha - 0.08);
-      }
-
-      faceCtx.fillStyle = '#000000';
+      faceCtx.fillStyle = '#05070e';
       faceCtx.fillRect(0, 0, 512, 512);
 
-      if (quoteAlpha < 1.0) {
-        faceCtx.save();
-        faceCtx.globalAlpha = 1.0 - quoteAlpha;
-        faceCtx.shadowColor = '#ffffff';
-        faceCtx.shadowBlur = 18;
-        faceCtx.fillStyle = '#ffffff';
-
-        let vScale = 1.0;
-        if (isBlinking) {
-          vScale = 1.0 - 0.9 * Math.sin(blinkProgress * Math.PI);
-        }
-
-        faceCtx.beginPath();
-        faceCtx.ellipse(196, 262, 30, Math.max(3, 38 * vScale), 0, 0, Math.PI * 2);
-        faceCtx.fill();
-
-        faceCtx.beginPath();
-        faceCtx.ellipse(316, 252, 30, Math.max(3, 38 * vScale), 0, 0, Math.PI * 2);
-        faceCtx.fill();
-        faceCtx.restore();
+      let vScale = 1.0;
+      if (isBlinking) {
+        vScale = 1.0 - 0.92 * Math.sin(blinkProgress * Math.PI);
       }
 
-      if (quoteAlpha > 0.0) {
-        faceCtx.save();
-        faceCtx.globalAlpha = quoteAlpha;
-        faceCtx.shadowColor = '#ffffff';
-        faceCtx.shadowBlur = 18;
-        faceCtx.fillStyle = '#ffffff';
-        faceCtx.font = '900 560px "Arial Black", sans-serif';
+      // Smooth eye gaze tracking with cursor
+      const eyeOffsetX = curX * 28;
+      const eyeOffsetY = -curY * 18;
+
+      faceCtx.save();
+      faceCtx.shadowColor = '#00f0ff';
+      faceCtx.shadowBlur = 24;
+      faceCtx.fillStyle = '#00f0ff';
+
+      if (faceMode === 'HAPPY') {
+        // Happy crescent smile eyes ^ ^
+        faceCtx.lineWidth = 16;
+        faceCtx.strokeStyle = '#00f0ff';
+        faceCtx.beginPath();
+        faceCtx.arc(180 + eyeOffsetX, 260 + eyeOffsetY, 36, Math.PI * 1.15, Math.PI * 1.85);
+        faceCtx.stroke();
+        faceCtx.beginPath();
+        faceCtx.arc(332 + eyeOffsetX, 260 + eyeOffsetY, 36, Math.PI * 1.15, Math.PI * 1.85);
+        faceCtx.stroke();
+      } else if (faceMode === 'QUOTE') {
+        // Futuristic quote / shopfloor stats
+        faceCtx.fillStyle = '#00f0ff';
+        faceCtx.font = '700 32px "Courier New", monospace';
         faceCtx.textAlign = 'center';
-        faceCtx.textBaseline = 'middle';
-        faceCtx.fillText('“', 256, 360);
-        faceCtx.restore();
+        faceCtx.fillText('ATPL 24/7', 256, 230);
+        faceCtx.font = '600 24px sans-serif';
+        faceCtx.fillStyle = '#ffffff';
+        faceCtx.fillText('ZERO LINE DOWNTIME', 256, 275);
+      } else {
+        // Standard Archie Glowing Circular/Capsule Cyan Eyes (Matching official logo robot)
+        faceCtx.beginPath();
+        faceCtx.ellipse(182 + eyeOffsetX, 256 + eyeOffsetY, 40, Math.max(3, 40 * vScale), 0, 0, Math.PI * 2);
+        faceCtx.fill();
+
+        faceCtx.beginPath();
+        faceCtx.ellipse(330 + eyeOffsetX, 256 + eyeOffsetY, 40, Math.max(3, 40 * vScale), 0, 0, Math.PI * 2);
+        faceCtx.fill();
+
+        // Inner glowing core highlight
+        faceCtx.fillStyle = '#ffffff';
+        faceCtx.beginPath();
+        faceCtx.ellipse(182 + eyeOffsetX, 256 + eyeOffsetY, 20, Math.max(2, 20 * vScale), 0, 0, Math.PI * 2);
+        faceCtx.fill();
+        faceCtx.beginPath();
+        faceCtx.ellipse(330 + eyeOffsetX, 256 + eyeOffsetY, 20, Math.max(2, 20 * vScale), 0, 0, Math.PI * 2);
+        faceCtx.fill();
       }
 
+      faceCtx.restore();
       faceTexture.needsUpdate = true;
     }
 
@@ -718,25 +679,31 @@ export const Archie3DRobotSection = () => {
 
       renderFace(delta, t);
 
-      // Idle subtle breathing
-      const bob = Math.sin(1.4 * t) * 0.02;
-      bodyGroup.position.y = bob;
-      bodyGroup.rotation.y = -0.25 + curX * 0.22;
+      // Idle hovering bob
+      const bob = Math.sin(1.8 * t) * 0.04;
+      bodyGroup.position.y = -0.05 + bob;
+      bodyGroup.rotation.y = -0.15 + curX * 0.22;
 
-      headPivot.rotation.y = -0.35 + curX * 0.45;
-      headPivot.rotation.x = 0.12 - curY * 0.22 + Math.sin(0.9 * t) * 0.02;
-      headPivot.rotation.z = 0.14 + Math.sin(0.7 * t) * 0.015;
+      // Head cursor tracking
+      headPivot.rotation.y = -0.2 + curX * 0.45;
+      headPivot.rotation.x = 0.08 - curY * 0.28 + Math.sin(0.9 * t) * 0.02;
+      headPivot.rotation.z = 0.04 + Math.sin(0.7 * t) * 0.015;
 
       armSegments.forEach(({ side, armRoot, forearmGroup }) => {
-        armRoot.rotation.x = Math.sin(1.4 * t + side * 0.5) * 0.04;
-        forearmGroup.rotation.x = -0.35 + Math.sin(1.4 * t) * 0.05;
+        armRoot.rotation.x = Math.sin(1.8 * t + side * 0.5) * 0.04;
+        forearmGroup.rotation.x = -0.32 + Math.sin(1.8 * t) * 0.04;
       });
 
-      // Camera stays positioned to show the entire robot + pedestal perfectly centered!
-      camera.position.x = curX * 0.28;
-      camera.position.y = -0.9 - curY * 0.18;
-      camera.position.z = 9.8;
-      camera.lookAt(0, -0.9, 0);
+      // Arc reactor gentle pulse
+      if (arcMat) {
+        arcMat.emissiveIntensity = 0.8 + Math.sin(3.0 * t) * 0.2;
+      }
+
+      // Camera smoothly tracks to keep Archie centered
+      camera.position.x = curX * 0.22;
+      camera.position.y = -0.8 - curY * 0.15;
+      camera.position.z = 9.2;
+      camera.lookAt(0, -0.8, 0);
 
       renderer.render(scene, camera);
     };
@@ -788,8 +755,8 @@ export const Archie3DRobotSection = () => {
           }
           @media (min-width: 1024px) {
             .archie-master-grid {
-              grid-template-columns: 1.25fr 0.75fr;
-              gap: 2.5rem;
+              grid-template-columns: 1.35fr 0.65fr;
+              gap: 2.2rem;
             }
           }
           .archie-dual-cards {
@@ -1352,33 +1319,36 @@ export const Archie3DRobotSection = () => {
               }}>
                 <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#00f0ff', boxShadow: '0 0 6px #00f0ff' }}></span>
                 <Bot size={12} color="#00f0ff" />
-                <span>ARCHIE 3D • SHOPFLOOR AGENT</span>
+                <span>ARCHIE AI • ATPL MASCOT</span>
               </div>
 
               {/* Face Mode Switcher Button */}
               <button
                 type="button"
-                onClick={() => setFaceMode(m => m === 'EYES' ? 'QUOTE' : 'EYES')}
+                onClick={() => {
+                  setFaceMode(m => m === 'EYES' ? 'HAPPY' : m === 'HAPPY' ? 'QUOTE' : 'EYES');
+                  playChime(659.25);
+                }}
                 style={{
                   position: 'absolute',
                   top: '14px',
                   right: '14px',
                   backgroundColor: 'rgba(6, 11, 20, 0.88)',
                   backdropFilter: 'blur(8px)',
-                  border: '1px solid rgba(255, 255, 255, 0.22)',
+                  border: '1px solid rgba(0, 240, 255, 0.3)',
                   padding: '0.28rem 0.72rem',
                   borderRadius: '999px',
                   fontSize: '0.72rem',
-                  color: '#e2e8f0',
+                  color: '#00f0ff',
                   fontFamily: 'var(--font-mono, monospace)',
                   fontWeight: 700,
                   cursor: 'pointer',
                   zIndex: 2,
                   transition: 'all 0.15s ease'
                 }}
-                title="Toggle robot face between blinking eyes and quote mark"
+                title="Toggle robot face between blinking eyes, happy smile, and ATPL HUD"
               >
-                Face: {faceMode === 'EYES' ? 'Eyes ••' : 'Quote “'}
+                Face: {faceMode === 'EYES' ? 'Eyes ••' : faceMode === 'HAPPY' ? 'Happy ^^' : 'HUD 24/7'}
               </button>
 
               {/* Bottom Interactive Tracker Pill */}
