@@ -10,7 +10,12 @@ import {
   CheckCircle2, 
   Bot, 
   ExternalLink,
-  Sparkles
+  Sparkles,
+  Play,
+  Pause,
+  Volume2,
+  VolumeX,
+  RotateCcw
 } from 'lucide-react';
 import { ShineBadge } from '../ui/shine-badge';
 import { MagneticButton } from '../ui/magnetic-button';
@@ -21,21 +26,56 @@ export const Archie3DRobotSection = () => {
   const containerRef = useRef(null);
   const [faceMode, setFaceMode] = useState('EYES'); // 'EYES' | 'QUOTE'
   const [hoveredPill, setHoveredPill] = useState(null);
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [isMuted, setIsMuted] = useState(false);
+  const [progress, setProgress] = useState(18); // 0 to 100% video scrubber progress
+
+  // Video Scrubber Timeline Animation Loop
+  useEffect(() => {
+    if (!isPlaying) return;
+    const interval = setInterval(() => {
+      setProgress(prev => (prev >= 100 ? 0 : Number((prev + 0.4).toFixed(1))));
+    }, 80);
+    return () => clearInterval(interval);
+  }, [isPlaying]);
+
+  // Tactile sound effect for interactive controls & pill drag/hover
+  const playChime = (freq = 587.33) => {
+    try {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (!AudioCtx) return;
+      const ctx = new AudioCtx();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(freq * 1.5, ctx.currentTime + 0.12);
+      gain.gain.setValueAtTime(0.05, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.28);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start();
+      osc.stop(ctx.currentTime + 0.28);
+    } catch {
+      // AudioContext muted/unsupported
+    }
+  };
 
   // =========================================================================
-  // The ATPL Way - Floating Zero-Gravity Suspended Pills
+  // The ATPL Way - Vertically Staggered Interlocking Stack (Dribbble 25966614)
+  // Each pill has its own row + alternating left/right anchor: NEVER collides!
   // =========================================================================
   const atplPills = [
     {
       id: 'p0',
-      label: 'Live Data & Reports',
+      label: 'Live Real-Time Sync',
       bg: '#ffffff',
       color: '#0f172a',
       border: '1px solid rgba(0, 0, 0, 0.08)',
-      top: '12px',
-      left: '30%',
-      rot: 2,
-      floatY: [-4, 5, -4],
+      top: '11%',
+      left: '50%',
+      rot: 0,
+      floatY: [-4, 4, -4],
       floatX: [-2, 2, -2],
       dur: 3.4,
       delay: 0.05
@@ -43,13 +83,13 @@ export const Archie3DRobotSection = () => {
     {
       id: 'p1',
       label: 'Native SAP & Oracle',
-      bg: '#111827', // dark charcoal
+      bg: '#0f172a', // dark slate
       color: '#ffffff',
       border: '1px solid rgba(0, 0, 0, 0.1)',
-      top: '52px',
-      left: '12px',
-      rot: -5,
-      floatY: [-5, 6, -5],
+      top: '21%',
+      left: '34%',
+      rot: -3,
+      floatY: [-5, 5, -5],
       floatX: [-3, 3, -3],
       dur: 3.8,
       delay: 0.15
@@ -60,9 +100,9 @@ export const Archie3DRobotSection = () => {
       bg: '#0071ba', // royal electric blue
       color: '#ffffff',
       border: '1px solid rgba(0, 113, 186, 0.3)',
-      top: '54px',
-      right: '12px',
-      rot: 6,
+      top: '31%',
+      left: '66%',
+      rot: 4,
       floatY: [-6, 5, -6],
       floatX: [3, -2, 3],
       dur: 4.2,
@@ -70,83 +110,83 @@ export const Archie3DRobotSection = () => {
     },
     {
       id: 'p3',
-      label: 'Zero Scanner Tax',
-      bg: '#ffffff', // clean white with drop shadow
-      color: '#0f172a',
-      border: '1px solid rgba(0, 0, 0, 0.08)',
-      top: '110px',
-      left: '16px',
-      rot: 4,
-      floatY: [-4, 7, -4],
-      floatX: [-2, 3, -2],
-      dur: 3.5,
-      delay: 0.45
-    },
-    {
-      id: 'p4',
       label: '100% In-House WMS',
-      bg: '#1e293b',
+      bg: '#111827', // dark slate
       color: '#ffffff',
       border: '1px solid rgba(0, 0, 0, 0.1)',
-      top: '114px',
-      right: '14px',
-      rot: -6,
+      top: '41%',
+      left: '35%',
+      rot: -2,
       floatY: [-7, 4, -7],
       floatX: [2, -3, 2],
       dur: 4.5,
       delay: 0.25
     },
     {
+      id: 'p4',
+      label: 'Zero Scanner Tax',
+      bg: '#ffffff', // clean white
+      color: '#0f172a',
+      border: '1px solid rgba(0, 0, 0, 0.08)',
+      top: '51%',
+      left: '68%',
+      rot: 3,
+      floatY: [-4, 6, -4],
+      floatX: [-2, 3, -2],
+      dur: 3.5,
+      delay: 0.45
+    },
+    {
       id: 'p5',
       label: 'Resident Engineers',
-      bg: '#0284c7',
+      bg: '#0284c7', // vibrant cyan/sky blue
       color: '#ffffff',
       border: '1px solid rgba(2, 132, 199, 0.3)',
-      top: '172px',
-      left: '14px',
-      rot: -4,
-      floatY: [-4, 6, -4],
+      top: '61%',
+      left: '33%',
+      rot: -3,
+      floatY: [-4, 5, -4],
       floatX: [-3, 2, -3],
       dur: 3.6,
       delay: 0.4
     },
     {
       id: 'p6',
-      label: 'Lab Golden-Staged',
-      bg: '#ffffff',
-      color: '#0f172a',
-      border: '1px solid rgba(0, 0, 0, 0.08)',
-      top: '176px',
-      right: '16px',
-      rot: 5,
-      floatY: [-6, 5, -6],
-      floatX: [3, -2, 3],
-      dur: 4.0,
-      delay: 0.6
-    },
-    {
-      id: 'p7',
       label: 'IP67 Harsh Grade',
-      bg: '#111827',
+      bg: '#0f172a', // dark slate
       color: '#ffffff',
       border: '1px solid rgba(0, 0, 0, 0.1)',
-      top: '234px',
-      left: '18px',
+      top: '71%',
+      left: '67%',
       rot: 4,
-      floatY: [-5, 6, -5],
+      floatY: [-5, 5, -5],
       floatX: [-2, 3, -2],
       dur: 3.9,
       delay: 0.35
     },
     {
+      id: 'p7',
+      label: 'Lab Golden-Staged',
+      bg: '#ffffff', // clean white
+      color: '#0f172a',
+      border: '1px solid rgba(0, 0, 0, 0.08)',
+      top: '81%',
+      left: '36%',
+      rot: -2,
+      floatY: [-5, 5, -5],
+      floatX: [2, -2, 2],
+      dur: 4.0,
+      delay: 0.5
+    },
+    {
       id: 'p8',
       label: 'Zero Line Standstills',
-      bg: '#0071ba',
+      bg: '#0071ba', // royal electric blue
       color: '#ffffff',
       border: '1px solid rgba(0, 113, 186, 0.3)',
-      top: '238px',
-      right: '14px',
-      rot: -3,
+      top: '91%',
+      left: '52%',
+      rot: 2,
       floatY: [-6, 4, -6],
       floatX: [2, -3, 2],
       dur: 4.3,
@@ -155,130 +195,26 @@ export const Archie3DRobotSection = () => {
   ];
 
   // =========================================================================
-  // Without ATPL - Continuous Rain of Chaotic Problem Boxes (Top to Bottom!)
+  // Without ATPL - Continuous Heavy Rain of Chaotic Problem Boxes (Top to Bottom)
+  // 16 staggered particles cascading down like an endless waterfall video!
   // =========================================================================
   const rainingPills = [
-    {
-      id: 'r0',
-      label: 'Delayed Reports',
-      bg: '#f1f5f9',
-      color: '#94a3b8',
-      border: '1px solid #e2e8f0',
-      left: '14%',
-      rot: -6,
-      dur: 4.2,
-      delay: 0
-    },
-    {
-      id: 'r1',
-      label: 'Random Firmware',
-      bg: '#e2e8f0',
-      color: '#64748b',
-      border: '1px solid #cbd5e1',
-      left: '48%',
-      rot: 8,
-      dur: 4.6,
-      delay: 0.4
-    },
-    {
-      id: 'r2',
-      label: 'Unorganized IT',
-      bg: '#cbd5e1',
-      color: '#475569',
-      border: '1px solid #94a3b8',
-      left: '22%',
-      rot: -7,
-      dur: 4.0,
-      delay: 0.8
-    },
-    {
-      id: 'r3',
-      label: 'Overwhelming Bugs',
-      bg: '#f1f5f9',
-      color: '#94a3b8',
-      border: '1px solid #e2e8f0',
-      left: '52%',
-      rot: 5,
-      dur: 4.4,
-      delay: 1.2
-    },
-    {
-      id: 'r4',
-      label: 'Vendor Spam',
-      bg: '#e2e8f0',
-      color: '#64748b',
-      border: '1px solid #cbd5e1',
-      left: '10%',
-      rot: -11,
-      dur: 4.3,
-      delay: 1.6
-    },
-    {
-      id: 'r5',
-      label: '3 to 7 Days Delay',
-      bg: '#cbd5e1',
-      color: '#475569',
-      border: '1px solid #94a3b8',
-      left: '44%',
-      rot: 10,
-      dur: 4.8,
-      delay: 2.0
-    },
-    {
-      id: 'r6',
-      label: 'Costly License Lock-In',
-      bg: '#e2e8f0',
-      color: '#64748b',
-      border: '1px solid #cbd5e1',
-      left: '18%',
-      rot: -5,
-      dur: 4.1,
-      delay: 2.4
-    },
-    {
-      id: 'r7',
-      label: 'Broken CSV Drops',
-      bg: '#f1f5f9',
-      color: '#94a3b8',
-      border: '1px solid #e2e8f0',
-      left: '50%',
-      rot: -13,
-      dur: 4.7,
-      delay: 2.8
-    },
-    {
-      id: 'r8',
-      label: 'Hardware Burnout',
-      bg: '#e2e8f0',
-      color: '#64748b',
-      border: '1px solid #cbd5e1',
-      left: '15%',
-      rot: 7,
-      dur: 4.2,
-      delay: 3.2
-    },
-    {
-      id: 'r9',
-      label: 'Line Standstills',
-      bg: '#cbd5e1',
-      color: '#475569',
-      border: '1px solid #94a3b8',
-      left: '46%',
-      rot: 4,
-      dur: 4.5,
-      delay: 3.6
-    },
-    {
-      id: 'r10',
-      label: 'Drop-Ship Boxes',
-      bg: '#e2e8f0',
-      color: '#64748b',
-      border: '1px solid #cbd5e1',
-      left: '24%',
-      rot: -8,
-      dur: 4.3,
-      delay: 4.0
-    }
+    { id: 'r0', label: 'Delayed Reports', bg: '#e2e8f0', color: '#1e293b', border: '1px solid #cbd5e1', left: '22%', rot: -7, dur: 3.4, delay: 0.0, depth: 1 },
+    { id: 'r1', label: 'Random Firmware', bg: '#f1f5f9', color: '#64748b', border: '1px solid #e2e8f0', left: '56%', rot: 8, dur: 4.1, delay: 0.25, depth: 0 },
+    { id: 'r2', label: 'Unorganized IT', bg: '#e2e8f0', color: '#1e293b', border: '1px solid #cbd5e1', left: '38%', rot: -6, dur: 3.5, delay: 0.5, depth: 1 },
+    { id: 'r3', label: 'Overwhelming Bugs', bg: '#f1f5f9', color: '#64748b', border: '1px solid #e2e8f0', left: '76%', rot: 5, dur: 4.2, delay: 0.75, depth: 0 },
+    { id: 'r4', label: 'Vendor Spam', bg: '#e2e8f0', color: '#1e293b', border: '1px solid #cbd5e1', left: '18%', rot: -9, dur: 3.6, delay: 1.0, depth: 1 },
+    { id: 'r5', label: '3 to 7 Days Delay', bg: '#fee2e2', color: '#991b1b', border: '1px solid #fecaca', left: '68%', rot: 7, dur: 3.9, delay: 1.25, depth: 1 },
+    { id: 'r6', label: 'Broken CSV Drops', bg: '#f1f5f9', color: '#64748b', border: '1px solid #e2e8f0', left: '44%', rot: -11, dur: 4.4, delay: 1.5, depth: 0 },
+    { id: 'r7', label: 'Costly Lock-In', bg: '#e2e8f0', color: '#1e293b', border: '1px solid #cbd5e1', left: '82%', rot: -4, dur: 3.7, delay: 1.75, depth: 1 },
+    { id: 'r8', label: 'Hardware Burnout', bg: '#fee2e2', color: '#991b1b', border: '1px solid #fecaca', left: '26%', rot: 6, dur: 4.0, delay: 2.0, depth: 0 },
+    { id: 'r9', label: 'Line Standstills', bg: '#fee2e2', color: '#991b1b', border: '1px solid #fecaca', left: '62%', rot: 4, dur: 3.5, delay: 2.25, depth: 1 },
+    { id: 'r10', label: 'Drop-Ship Boxes', bg: '#f1f5f9', color: '#64748b', border: '1px solid #e2e8f0', left: '32%', rot: -8, dur: 4.3, delay: 2.5, depth: 0 },
+    { id: 'r11', label: 'Zero SLA Support', bg: '#fee2e2', color: '#991b1b', border: '1px solid #fecaca', left: '74%', rot: 6, dur: 3.8, delay: 2.75, depth: 1 },
+    { id: 'r12', label: 'Manual Scans', bg: '#e2e8f0', color: '#1e293b', border: '1px solid #cbd5e1', left: '20%', rot: -5, dur: 4.1, delay: 3.0, depth: 1 },
+    { id: 'r13', label: 'Uncertified Cables', bg: '#f1f5f9', color: '#64748b', border: '1px solid #e2e8f0', left: '50%', rot: 10, dur: 3.6, delay: 3.25, depth: 0 },
+    { id: 'r14', label: 'Inventory Drift', bg: '#fee2e2', color: '#991b1b', border: '1px solid #fecaca', left: '80%', rot: -6, dur: 4.2, delay: 3.5, depth: 1 },
+    { id: 'r15', label: 'Disjointed Middleware', bg: '#f1f5f9', color: '#64748b', border: '1px solid #e2e8f0', left: '35%', rot: 5, dur: 3.7, delay: 3.75, depth: 0 }
   ];
 
   // =========================================================================
@@ -842,12 +778,39 @@ export const Archie3DRobotSection = () => {
             SIDE 1: Animated Dribbble Comparison Video Canvas (Cards 1 & 2 + CTAs)
             SIDE 2: Archie 3D Autonomous Robot on Pedestal
            ========================================================================= */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
-          gap: '2rem 2.5rem',
-          alignItems: 'center'
-        }}>
+        {/* Embedded responsive grid stylesheet */}
+        <style>{`
+          .archie-master-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            align-items: center;
+          }
+          @media (min-width: 1024px) {
+            .archie-master-grid {
+              grid-template-columns: 1.25fr 0.75fr;
+              gap: 2.5rem;
+            }
+          }
+          .archie-dual-cards {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+          }
+          @media (min-width: 580px) {
+            .archie-dual-cards {
+              grid-template-columns: 1fr 1fr;
+              gap: 1.15rem;
+            }
+          }
+        `}</style>
+
+        {/* =========================================================================
+            SPLIT MASTER LAYOUT:
+            SIDE 1: Animated Dribbble Comparison Video Canvas (Cards 1 & 2 + CTAs)
+            SIDE 2: Archie 3D Autonomous Robot on Pedestal
+           ========================================================================= */}
+        <div className="archie-master-grid">
 
           {/* =======================================================================
               SIDE 1: THE ANIMATED COMPARISON (The ATPL Way vs Without ATPL)
@@ -882,23 +845,16 @@ export const Archie3DRobotSection = () => {
               A targeted engineering strategy using in-house software, guaranteed &lt;4-hr SLAs, and direct SAP/Oracle sync.
             </p>
 
-            {/* The Dual Animated Video Cards Side-by-Side */}
-            <div 
-              style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-                gap: '0.85rem',
-                marginBottom: '1.25rem'
-              }}
-            >
+            {/* The Dual Animated Video Cards Side-by-Side (Dribbble 25966614) */}
+            <div className="archie-dual-cards">
               
               {/* Card 1: "The ATPL way" (Soft Pastel Sky-Blue with Floating Zero-Gravity Pills) */}
               <div style={{
-                height: '350px',
+                height: '410px',
                 backgroundColor: '#ebf3fe',
-                borderRadius: '20px',
-                border: '1.5px solid rgba(0, 113, 186, 0.2)',
-                boxShadow: '0 12px 30px rgba(0, 113, 186, 0.08)',
+                borderRadius: '24px',
+                border: '1.5px solid rgba(0, 113, 186, 0.22)',
+                boxShadow: '0 16px 36px rgba(0, 113, 186, 0.09)',
                 position: 'relative',
                 overflow: 'hidden',
                 display: 'flex',
@@ -906,32 +862,33 @@ export const Archie3DRobotSection = () => {
               }}>
                 {/* Centered Top Pill Header */}
                 <div style={{
-                  paddingTop: '0.85rem',
+                  paddingTop: '0.95rem',
                   display: 'flex',
                   justifyContent: 'center',
                   position: 'relative',
-                  zIndex: 10
+                  zIndex: 25
                 }}>
                   <div style={{
                     backgroundColor: '#ffffff',
-                    border: '1px solid rgba(0, 0, 0, 0.06)',
-                    boxShadow: '0 2px 8px rgba(0, 113, 186, 0.1)',
+                    border: '1px solid rgba(0, 113, 186, 0.15)',
+                    boxShadow: '0 4px 12px rgba(0, 113, 186, 0.12)',
                     borderRadius: '999px',
-                    padding: '0.28rem 0.95rem',
+                    padding: '0.32rem 1.05rem',
                     display: 'inline-flex',
                     alignItems: 'center',
-                    gap: '0.35rem',
-                    fontSize: '0.78rem',
+                    gap: '0.4rem',
+                    fontSize: '0.80rem',
                     fontWeight: 800,
                     color: '#0f172a'
                   }}>
+                    <span style={{ width: '7px', height: '7px', borderRadius: '50%', backgroundColor: '#0071ba' }}></span>
                     <span>The</span>
                     <span style={{ color: '#0071ba' }}>ATPL</span>
                     <span>way</span>
                   </div>
                 </div>
 
-                {/* Zero-Gravity Floating Pills Canvas */}
+                {/* Zero-Gravity Floating Pills Canvas - Staggered Interlocking Stack */}
                 <div style={{
                   position: 'relative',
                   flex: 1,
@@ -944,66 +901,84 @@ export const Archie3DRobotSection = () => {
                       <motion.div
                         key={pill.id}
                         drag
-                        dragConstraints={{ left: -15, right: 15, top: -15, bottom: 15 }}
-                        dragElastic={0.2}
-                        onHoverStart={() => setHoveredPill(pill.id)}
+                        dragConstraints={{ left: -30, right: 30, top: -25, bottom: 25 }}
+                        dragElastic={0.25}
+                        whileDrag={{ scale: 1.12, cursor: 'grabbing', zIndex: 45 }}
+                        onHoverStart={() => {
+                          setHoveredPill(pill.id);
+                          if (!isMuted) playChime(587.33);
+                        }}
                         onHoverEnd={() => setHoveredPill(null)}
-                        initial={{ opacity: 0, scale: 0.85, y: 12 }}
-                        whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                        initial={{ opacity: 0, scale: 0.85 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true }}
-                        animate={{
+                        animate={isPlaying ? {
                           y: pill.floatY,
                           x: pill.floatX,
-                          rotate: [pill.rot, pill.rot + 1.5, pill.rot - 1.5, pill.rot]
+                          rotate: [pill.rot, pill.rot + 2, pill.rot - 2, pill.rot]
+                        } : {
+                          y: 0,
+                          x: 0,
+                          rotate: pill.rot
                         }}
                         transition={{
                           y: { duration: pill.dur, repeat: Infinity, ease: 'easeInOut', delay: pill.delay },
-                          x: { duration: pill.dur * 1.1, repeat: Infinity, ease: 'easeInOut', delay: pill.delay },
+                          x: { duration: pill.dur * 1.15, repeat: Infinity, ease: 'easeInOut', delay: pill.delay },
                           rotate: { duration: pill.dur * 1.3, repeat: Infinity, ease: 'easeInOut', delay: pill.delay },
                           opacity: { duration: 0.3 }
                         }}
                         whileHover={{
                           scale: 1.08,
-                          zIndex: 30,
-                          boxShadow: '0 10px 24px rgba(0, 113, 186, 0.3)'
+                          zIndex: 40,
+                          boxShadow: '0 12px 28px rgba(0, 113, 186, 0.35)'
                         }}
                         style={{
                           position: 'absolute',
                           top: pill.top,
                           left: pill.left,
-                          right: pill.right,
+                          transform: 'translate(-50%, -50%)',
                           backgroundColor: pill.bg,
                           color: pill.color,
                           border: pill.border,
                           borderRadius: '999px',
-                          padding: '0.32rem 0.72rem',
-                          fontSize: '0.73rem',
+                          padding: '0.38rem 0.86rem',
+                          fontSize: '0.74rem',
                           fontWeight: 700,
+                          letterSpacing: '-0.01em',
                           lineHeight: 1,
                           whiteSpace: 'nowrap',
                           boxShadow: isHovered 
-                            ? '0 10px 22px rgba(0, 113, 186, 0.3)' 
-                            : '0 3px 10px rgba(0, 0, 0, 0.06)',
+                            ? '0 12px 28px rgba(0, 113, 186, 0.35)' 
+                            : '0 4px 14px rgba(0, 113, 186, 0.1)',
                           cursor: 'grab',
                           userSelect: 'none',
-                          zIndex: isHovered ? 25 : 5,
+                          zIndex: isHovered ? 35 : 10,
                           transformOrigin: 'center center'
                         }}
                       >
-                        {pill.label}
+                        <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}>
+                          <span style={{ 
+                            width: '6px', 
+                            height: '6px', 
+                            borderRadius: '50%', 
+                            backgroundColor: pill.color === '#ffffff' ? '#38bdf8' : '#0071ba',
+                            boxShadow: `0 0 6px ${pill.color === '#ffffff' ? '#38bdf8' : '#0071ba'}`
+                          }}></span>
+                          <span>{pill.label}</span>
+                        </span>
                       </motion.div>
                     );
                   })}
                 </div>
               </div>
 
-              {/* Card 2: "Without ATPL" (CONTINUOUS RAIN OF TINY BOXES FROM TOP TO BOTTOM!) */}
+              {/* Card 2: "Without ATPL" (CONTINUOUS WATERFALL RAIN OF PROBLEM BOXES) */}
               <div style={{
-                height: '350px',
-                backgroundColor: '#f6f7f9',
-                borderRadius: '20px',
-                border: '1.5px solid rgba(0, 0, 0, 0.07)',
-                boxShadow: '0 8px 24px rgba(0, 0, 0, 0.03)',
+                height: '410px',
+                backgroundColor: '#f8fafc',
+                borderRadius: '24px',
+                border: '1.5px solid rgba(0, 0, 0, 0.08)',
+                boxShadow: '0 12px 28px rgba(0, 0, 0, 0.04)',
                 position: 'relative',
                 overflow: 'hidden',
                 display: 'flex',
@@ -1011,25 +986,26 @@ export const Archie3DRobotSection = () => {
               }}>
                 {/* Centered Top Pill Header */}
                 <div style={{
-                  paddingTop: '0.85rem',
+                  paddingTop: '0.95rem',
                   display: 'flex',
                   justifyContent: 'center',
                   position: 'relative',
-                  zIndex: 20
+                  zIndex: 25
                 }}>
                   <div style={{
                     backgroundColor: '#ffffff',
-                    border: '1px solid rgba(0, 0, 0, 0.06)',
-                    boxShadow: '0 2px 6px rgba(0, 0, 0, 0.03)',
+                    border: '1px solid rgba(0, 0, 0, 0.08)',
+                    boxShadow: '0 3px 8px rgba(0, 0, 0, 0.04)',
                     borderRadius: '999px',
-                    padding: '0.28rem 0.95rem',
+                    padding: '0.32rem 1.05rem',
                     display: 'inline-flex',
                     alignItems: 'center',
-                    gap: '0.35rem',
-                    fontSize: '0.78rem',
+                    gap: '0.4rem',
+                    fontSize: '0.80rem',
                     fontWeight: 700,
                     color: '#64748b'
                   }}>
+                    <span style={{ width: '7px', height: '7px', borderRadius: '50%', backgroundColor: '#ef4444' }}></span>
                     <span>Without ATPL</span>
                   </div>
                 </div>
@@ -1042,15 +1018,15 @@ export const Archie3DRobotSection = () => {
                   transform: 'translate(-50%, -50%)',
                   textAlign: 'center',
                   pointerEvents: 'none',
-                  opacity: 0.18,
+                  opacity: 0.22,
                   zIndex: 1
                 }}>
-                  <div style={{ fontSize: '0.72rem', fontWeight: 800, color: '#94a3b8', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                  <div style={{ fontSize: '0.74rem', fontWeight: 800, color: '#94a3b8', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
                     Non-Stop Issues • Raining Delays
                   </div>
                 </div>
 
-                {/* CONTINUOUS FALLING RAIN OF BOXES CANVAS */}
+                {/* CONTINUOUS FALLING RAIN OF BOXES CANVAS (Endless Waterfall) */}
                 <div style={{
                   position: 'relative',
                   flex: 1,
@@ -1061,10 +1037,13 @@ export const Archie3DRobotSection = () => {
                   {rainingPills.map((pill) => (
                     <motion.div
                       key={pill.id}
-                      animate={{
-                        y: [-50, 360],
-                        rotate: [pill.rot - 8, pill.rot + 12],
-                        opacity: [0, 0.92, 0.92, 0]
+                      animate={isPlaying ? {
+                        y: [-80, 440],
+                        rotate: [pill.rot - 6, pill.rot + 8],
+                        opacity: [0, pill.depth === 1 ? 0.95 : 0.65, pill.depth === 1 ? 0.95 : 0.65, 0]
+                      } : {
+                        y: 180,
+                        opacity: 0.8
                       }}
                       transition={{
                         y: { 
@@ -1082,7 +1061,7 @@ export const Archie3DRobotSection = () => {
                         opacity: { 
                           duration: pill.dur, 
                           repeat: Infinity, 
-                          times: [0, 0.12, 0.88, 1], 
+                          times: [0, 0.1, 0.9, 1], 
                           delay: pill.delay 
                         }
                       }}
@@ -1090,27 +1069,165 @@ export const Archie3DRobotSection = () => {
                         position: 'absolute',
                         top: 0,
                         left: pill.left,
+                        transform: 'translateX(-50%)',
                         backgroundColor: pill.bg,
                         color: pill.color,
                         border: pill.border,
                         borderRadius: '999px',
-                        padding: '0.32rem 0.72rem',
+                        padding: '0.34rem 0.76rem',
                         fontSize: '0.72rem',
                         fontWeight: 600,
                         lineHeight: 1,
                         whiteSpace: 'nowrap',
-                        boxShadow: '0 3px 8px rgba(0, 0, 0, 0.05)',
+                        boxShadow: '0 3px 10px rgba(0, 0, 0, 0.05)',
                         userSelect: 'none',
                         pointerEvents: 'none',
-                        willChange: 'transform, opacity'
+                        willChange: 'transform, opacity',
+                        filter: pill.depth === 0 ? 'blur(0.2px)' : 'none',
+                        zIndex: pill.depth === 1 ? 5 : 2
                       }}
                     >
-                      {pill.label}
+                      <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
+                        <span style={{ fontSize: '0.68rem', opacity: 0.65 }}>✕</span>
+                        <span>{pill.label}</span>
+                      </span>
                     </motion.div>
                   ))}
                 </div>
               </div>
 
+            </div>
+
+            {/* Dribbble Style Interactive Video Timeline & Player Controls */}
+            <div style={{
+              marginTop: '0.85rem',
+              marginBottom: '1.35rem',
+              padding: '0.55rem 0.95rem',
+              backgroundColor: '#ffffff',
+              borderRadius: '999px',
+              border: '1.5px solid rgba(0, 113, 186, 0.16)',
+              boxShadow: '0 8px 24px rgba(0, 113, 186, 0.06)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.75rem'
+            }}>
+              {/* Play / Pause Toggle Button */}
+              <button
+                type="button"
+                onClick={() => {
+                  setIsPlaying(!isPlaying);
+                  if (!isMuted) playChime(isPlaying ? 440 : 659.25);
+                }}
+                style={{
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '50%',
+                  backgroundColor: isPlaying ? '#0071ba' : '#0f172a',
+                  color: '#ffffff',
+                  border: 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  boxShadow: '0 2px 8px rgba(0, 113, 186, 0.3)',
+                  transition: 'all 0.15s ease',
+                  flexShrink: 0
+                }}
+                title={isPlaying ? 'Pause simulation animation' : 'Resume simulation animation'}
+              >
+                {isPlaying ? <Pause size={13} /> : <Play size={13} style={{ marginLeft: '1px' }} />}
+              </button>
+
+              {/* Sound Chime Toggle Button */}
+              <button
+                type="button"
+                onClick={() => {
+                  setIsMuted(!isMuted);
+                  if (isMuted) playChime(659.25);
+                }}
+                style={{
+                  width: '28px',
+                  height: '28px',
+                  borderRadius: '50%',
+                  backgroundColor: isMuted ? '#f1f5f9' : '#e0f2fe',
+                  color: isMuted ? '#94a3b8' : '#0071ba',
+                  border: '1px solid rgba(0, 113, 186, 0.15)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  transition: 'all 0.15s ease',
+                  flexShrink: 0
+                }}
+                title={isMuted ? 'Turn Sound ON' : 'Turn Sound OFF'}
+              >
+                {isMuted ? <VolumeX size={12} /> : <Volume2 size={12} />}
+              </button>
+
+              {/* Interactive Scrubber Track Bar */}
+              <div 
+                onClick={(e) => {
+                  const rect = e.currentTarget.getBoundingClientRect();
+                  const clickX = e.clientX - rect.left;
+                  const newProgress = Math.max(0, Math.min(100, (clickX / rect.width) * 100));
+                  setProgress(Number(newProgress.toFixed(1)));
+                  if (!isMuted) playChime(523.25 + (newProgress * 3));
+                }}
+                style={{
+                  flex: 1,
+                  height: '8px',
+                  backgroundColor: '#f1f5f9',
+                  borderRadius: '999px',
+                  overflow: 'hidden',
+                  position: 'relative',
+                  cursor: 'pointer',
+                  border: '1px solid rgba(0, 0, 0, 0.05)'
+                }}
+                title="Click or scrub along the simulation timeline"
+              >
+                <div 
+                  style={{
+                    height: '100%',
+                    width: `${progress}%`,
+                    background: 'linear-gradient(90deg, #0071ba 0%, #00f0ff 60%, #ec4899 100%)',
+                    borderRadius: '999px',
+                    transition: isPlaying ? 'width 0.1s linear' : 'none'
+                  }}
+                />
+              </div>
+
+              {/* Live Timecode & Rewind */}
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.45rem',
+                fontSize: '0.72rem',
+                fontFamily: 'var(--font-mono, monospace)',
+                fontWeight: 700,
+                color: '#64748b',
+                flexShrink: 0
+              }}>
+                <span>{`00:${String(Math.floor((progress / 100) * 20)).padStart(2, '0')}`} / 00:20</span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setProgress(0);
+                    if (!isMuted) playChime(523.25);
+                  }}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    color: '#94a3b8',
+                    cursor: 'pointer',
+                    padding: '2px',
+                    display: 'flex',
+                    alignItems: 'center'
+                  }}
+                  title="Rewind to 00:00"
+                >
+                  <RotateCcw size={11} />
+                </button>
+              </div>
             </div>
 
             {/* Conversion CTA Row & Trust Chips */}
