@@ -18,11 +18,11 @@ export const CustomerStoriesCarousel = () => {
       ctaText: 'READ OUR STORY',
       image: '/assets/images/atpl_team_expo.jpg',
       imagePosition: 'center 30%',
-      caption: 'ATPL Engineering Team • Industrial Expo',
+      caption: 'ATPL Engineering Team, Industrial Expo',
       badgeColor: '#E85874',
       accentColor: '#fb7185',
       client: 'Archery Technocrats Private Limited',
-      location: 'TIDEL Park Chennai HQ • R&D TCE-TBI Madurai',
+      location: 'TIDEL Park Chennai HQ, R&D TCE-TBI Madurai',
       metrics: [
         { label: 'Domain Heritage', value: '35+ Years', sub: 'Combined domain experience' },
         { label: 'Plants Powered', value: '250+ Plants', sub: 'Across Indian industry' },
@@ -31,7 +31,7 @@ export const CustomerStoriesCarousel = () => {
       fullStory: {
         challenge: "Modern plant managers are tired of endless vendor blame games between overseas software providers who don't understand shopfloor hardware, and local hardware resellers who cannot write custom ERP middleware.",
         solution: "Archery Technocrats (ATPL) was founded to unite shopfloor hardware integration with in-house proprietary software. Our engineers develop the software, mount the scanner gates, configure the RFID portals, and connect directly with SAP & Oracle.",
-        outcome: "From our R&D center at TCE-TBI Madurai to our headquarters at TIDEL Park Chennai, over 250 manufacturing plants and supply chain distribution hubs trust our team for 24/7 mission-critical uptime."
+        outcome: "From our R&D center at TCE-TBI Madurai to our headquarters at TIDEL Park Chennai, over 250 manufacturing plants and supply chain distribution hubs rely on our engineering teams for continuous 24/7 production uptime."
       }
     },
     {
@@ -43,7 +43,7 @@ export const CustomerStoriesCarousel = () => {
       ctaText: 'READ THE STORY',
       image: '/assets/images/story_automotive.jpg',
       imagePosition: 'center',
-      caption: 'Automotive Powertrain Line • Hosur Corridor',
+      caption: 'Automotive Powertrain Line, Hosur Corridor',
       badgeColor: '#0071ba',
       accentColor: '#38bdf8',
       client: 'Tier-1 Powertrain Supplier',
@@ -55,7 +55,7 @@ export const CustomerStoriesCarousel = () => {
       ],
       fullStory: {
         challenge: 'The plant manufactured critical automotive steering and powertrain assemblies. Handheld paper logs and manual batch records caused over 2 hours of delay whenever OEM quality auditors requested backward lot trace, risking full-shift shipment quarantine.',
-        solution: 'ATPL engineered an end-to-end 4-tier packaging serialization hierarchy (Item → Box → Shipper → Pallet). Rugged Honeywell handhelds running Perfect Trace now verify 2D Datamatrix codes directly against SAP production orders in real time.',
+        solution: 'ATPL engineered an end-to-end 4-tier packaging serialization hierarchy (Item to Box to Shipper to Pallet). Rugged Honeywell handhelds running Perfect Trace now verify 2D Datamatrix codes directly against SAP production orders in real time.',
         outcome: 'Auditors can trace any shipped part back to its exact raw material heat number and assembly timestamp in under 2 minutes. Zero unverified assemblies have reached the OEM since deployment.'
       }
     },
@@ -493,7 +493,7 @@ export const CustomerStoriesCarousel = () => {
                   display: 'block',
                   marginBottom: '0.35rem'
                 }}>
-                  {selectedStory.tag} • {selectedStory.location}
+                  {selectedStory.tag}, {selectedStory.location}
                 </span>
                 <h3 style={{
                   fontSize: '1.45rem',

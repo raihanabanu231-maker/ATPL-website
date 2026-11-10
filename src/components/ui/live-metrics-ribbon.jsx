@@ -122,7 +122,7 @@ export function LiveMetricsRibbon() {
             fontFamily: 'var(--font-mono, monospace)'
           }}>
             <Activity size={13} color="#10b981" />
-            <span>Telemetry Status: ACTIVE • Zero Latency</span>
+            <span>Telemetry Status: Active, Sub-Millisecond Latency</span>
           </div>
         </div>
 

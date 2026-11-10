@@ -230,10 +230,7 @@ export const Navbar = ({ onOpenSearch }) => {
                 }}
               >
                 <span>Explore</span>
-                <ArrowRight size={12} />
               </button>
-
-              <span style={{ color: '#cbd5e1' }}>•</span>
 
               <button
                 onClick={() => handleNavClick('admin')}
@@ -692,7 +689,7 @@ export const Navbar = ({ onOpenSearch }) => {
                   }}
                   style={{ padding: '0.65rem 0.85rem', borderRadius: '8px', cursor: 'pointer', background: 'rgba(232, 88, 116, 0.06)', border: '1px solid rgba(232, 88, 116, 0.25)' }}
                 >
-                  <div style={{ fontWeight: 700, fontSize: '0.86rem', color: '#E85874' }}>Request Industry Case Studies ➔</div>
+                  <div style={{ fontWeight: 700, fontSize: '0.86rem', color: '#E85874' }}>Request Industry Case Studies</div>
                 </div>
               </GsapDropdown>
             </div>
@@ -1361,14 +1358,13 @@ export const Navbar = ({ onOpenSearch }) => {
                 </button>
                 {mobileExpandedSection === 'hardware' && (
                   <div style={{ padding: '0.5rem 0.5rem 0.5rem 0.85rem', display: 'flex', flexDirection: 'column', gap: '0.4rem', borderLeft: '2px solid #0071ba', marginLeft: '0.5rem', marginTop: '0.35rem' }}>
-                    <button onClick={() => handleNavClick('hardware')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0071ba', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>• Fixed UHF RFID Portals & Antennas</button>
-                    <button onClick={() => handleNavClick('hardware')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#E85874', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>• Industrial 2D & DPM Barcode Scanners</button>
-                    <button onClick={() => handleNavClick('hardware')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0071ba', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>• Industrial Barcode & RFID Printers</button>
-                    <button onClick={() => handleNavClick('hardware')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0284c7', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>• Rugged Handheld Computers & PDAs</button>
-                    <button onClick={() => handleNavClick('hardware')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#E85874', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>• Automated Sorting & Conveyor Systems</button>
+                    <button onClick={() => handleNavClick('hardware')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0071ba', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Fixed UHF RFID Portals & Antennas</button>
+                    <button onClick={() => handleNavClick('hardware')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#E85874', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Industrial 2D & DPM Barcode Scanners</button>
+                    <button onClick={() => handleNavClick('hardware')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0071ba', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Industrial Barcode & RFID Printers</button>
+                    <button onClick={() => handleNavClick('hardware')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0284c7', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Rugged Handheld Computers & PDAs</button>
+                    <button onClick={() => handleNavClick('hardware')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#E85874', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Automated Sorting & Conveyor Systems</button>
                     <button onClick={() => handleNavClick('hardware')} style={{ minHeight: '44px', background: 'rgba(0, 113, 186, 0.08)', borderRadius: '6px', border: 'none', textAlign: 'left', padding: '0.5rem 0.75rem', color: '#0071ba', fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                       <span>Explore All Hardware Catalog</span>
-                      <span>➔</span>
                     </button>
                   </div>
                 )}
@@ -1402,14 +1398,13 @@ export const Navbar = ({ onOpenSearch }) => {
                 </button>
                 {mobileExpandedSection === 'software' && (
                   <div style={{ padding: '0.5rem 0.5rem 0.5rem 0.85rem', display: 'flex', flexDirection: 'column', gap: '0.4rem', borderLeft: '2px solid #0071ba', marginLeft: '0.5rem', marginTop: '0.35rem' }}>
-                    <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0071ba', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>• Perfect Store™ (Warehouse WMS)</button>
-                    <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#E85874', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>• Perfect Trace™ (Serialization & Aggregation)</button>
-                    <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0071ba', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>• Perfect AI Vision™ (Defect Inspection)</button>
-                    <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#E85874', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>• Perfect PMS™ (Production Management)</button>
-                    <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0071ba', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>• Perfect Audit™ (Digital Compliance)</button>
+                    <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0071ba', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Perfect Store™ (Warehouse WMS)</button>
+                    <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#E85874', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Perfect Trace™ (Serialization & Aggregation)</button>
+                    <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0071ba', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Perfect AI Vision™ (Defect Inspection)</button>
+                    <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#E85874', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Perfect PMS™ (Production Management)</button>
+                    <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0071ba', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Perfect Audit™ (Digital Compliance)</button>
                     <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: 'rgba(0, 113, 186, 0.08)', borderRadius: '6px', border: 'none', textAlign: 'left', padding: '0.5rem 0.75rem', color: '#0071ba', fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                       <span>Explore All Software Suites</span>
-                      <span>➔</span>
                     </button>
                   </div>
                 )}
@@ -1443,12 +1438,11 @@ export const Navbar = ({ onOpenSearch }) => {
                 </button>
                 {mobileExpandedSection === 'customers' && (
                   <div style={{ padding: '0.5rem 0.5rem 0.5rem 0.85rem', display: 'flex', flexDirection: 'column', gap: '0.4rem', borderLeft: '2px solid #0071ba', marginLeft: '0.5rem', marginTop: '0.35rem' }}>
-                    <button onClick={() => handleNavClick('customers')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0071ba', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>• Automotive & EV (Apollo, Ola, Bosch)</button>
-                    <button onClick={() => handleNavClick('customers')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#E85874', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>• Heavy Engg & Defense (L&T, ABB, BEL)</button>
-                    <button onClick={() => handleNavClick('customers')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0071ba', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>• FMCG & Packaging (HUL, Hatsun, ITC)</button>
+                    <button onClick={() => handleNavClick('customers')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0071ba', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Automotive & EV (Apollo, Ola, Bosch)</button>
+                    <button onClick={() => handleNavClick('customers')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#E85874', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Heavy Engg & Defense (L&T, ABB, BEL)</button>
+                    <button onClick={() => handleNavClick('customers')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0071ba', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>FMCG & Packaging (HUL, Hatsun, ITC)</button>
                     <button onClick={() => handleNavClick('customers')} style={{ minHeight: '44px', background: 'rgba(0, 113, 186, 0.08)', borderRadius: '6px', border: 'none', textAlign: 'left', padding: '0.5rem 0.75rem', color: '#0071ba', fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                       <span>Explore 200+ Enterprise Clients</span>
-                      <span>➔</span>
                     </button>
                   </div>
                 )}
@@ -1482,12 +1476,11 @@ export const Navbar = ({ onOpenSearch }) => {
                 </button>
                 {mobileExpandedSection === 'partners' && (
                   <div style={{ padding: '0.5rem 0.5rem 0.5rem 0.85rem', display: 'flex', flexDirection: 'column', gap: '0.4rem', borderLeft: '2px solid #0071ba', marginLeft: '0.5rem', marginTop: '0.35rem' }}>
-                    <button onClick={() => handleNavClick('partners')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0071ba', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>• Hardware OEMs (Honeywell, Zebra, TSC, Impinj)</button>
-                    <button onClick={() => handleNavClick('partners')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#E85874', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>• ERP Cloud Alliances (SAP S/4HANA, Oracle Cloud)</button>
-                    <button onClick={() => handleNavClick('partners')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0071ba', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>• Authorized GS1 Global Alliance Partner</button>
+                    <button onClick={() => handleNavClick('partners')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0071ba', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Hardware OEMs (Honeywell, Zebra, TSC, Impinj)</button>
+                    <button onClick={() => handleNavClick('partners')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#E85874', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>ERP Cloud Alliances (SAP S/4HANA, Oracle Cloud)</button>
+                    <button onClick={() => handleNavClick('partners')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0071ba', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Authorized GS1 Global Alliance Partner</button>
                     <button onClick={() => handleNavClick('partners')} style={{ minHeight: '44px', background: 'rgba(0, 113, 186, 0.08)', borderRadius: '6px', border: 'none', textAlign: 'left', padding: '0.5rem 0.75rem', color: '#0071ba', fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                       <span>Explore All Partner Programs</span>
-                      <span>➔</span>
                     </button>
                   </div>
                 )}
@@ -1544,7 +1537,6 @@ export const Navbar = ({ onOpenSearch }) => {
                   <span style={{ color: '#0071ba' }}>📍</span>
                   <span>Contact Sales & Support (TIDEL Park HQ)</span>
                 </span>
-                <span style={{ color: '#94a3b8', fontSize: '0.85rem' }}>➔</span>
               </button>
 
               {/* Secondary Navigation Quick-Links */}
@@ -1559,9 +1551,7 @@ export const Navbar = ({ onOpenSearch }) => {
                 color: '#64748b'
               }}>
                 <button onClick={() => handleNavClick('solutions')} style={{ background: 'none', border: 'none', color: '#0071ba', fontWeight: 600, fontSize: '0.82rem', cursor: 'pointer', padding: '0.2rem 0.4rem' }}>Industry Solutions</button>
-                <span>•</span>
                 <button onClick={() => handleNavClick('services')} style={{ background: 'none', border: 'none', color: '#0071ba', fontWeight: 600, fontSize: '0.82rem', cursor: 'pointer', padding: '0.2rem 0.4rem' }}>24/7 AMC</button>
-                <span>•</span>
                 <button onClick={() => handleNavClick('resources')} style={{ background: 'none', border: 'none', color: '#0071ba', fontWeight: 600, fontSize: '0.82rem', cursor: 'pointer', padding: '0.2rem 0.4rem' }}>Whitepapers</button>
               </div>
 
@@ -1720,7 +1710,7 @@ export const Navbar = ({ onOpenSearch }) => {
                     textAlign: 'center'
                   }}
                 >
-                  Request Live Demo ➔
+                  Request Live Demo
                 </button>
 
                 <button

@@ -503,7 +503,7 @@ export const AdminSEOManager = () => {
                 </button>
               </div>
               <span style={{ fontSize: '0.75rem', color: '#64748b', fontFamily: 'var(--font-mono)' }}>
-                Target Route: {activePage.route} • ID: {activePage.id}
+                Target Route: {activePage.route}, ID: {activePage.id}
               </span>
             </div>
 

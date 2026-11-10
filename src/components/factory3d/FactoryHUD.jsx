@@ -188,7 +188,7 @@ export const FactoryHUD = ({
                 SMART FACTORY DIGITAL TWIN
               </div>
               <div style={{ fontFamily: 'var(--font-mono, monospace)', fontSize: '0.66rem', color: '#00f0ff' }}>
-                ATPL GROUP • 12 3D IOT STATIONS
+                ATPL Group, 12 3D IoT Stations
               </div>
             </div>
           </div>

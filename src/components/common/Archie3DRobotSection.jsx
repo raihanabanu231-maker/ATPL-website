@@ -817,11 +817,9 @@ export const Archie3DRobotSection = () => {
              ======================================================================= */}
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             
-            {/* Top Badge & Header */}
-            <div style={{ marginBottom: '0.65rem' }}>
-              <ShineBadge variant="cyan">
-                ENTERPRISE COMPARISON • 250+ LIVE FACTORIES
-              </ShineBadge>
+            {/* Operational Accreditation Subhead */}
+            <div style={{ marginBottom: '0.45rem', fontSize: '0.82rem', color: 'var(--color-brand-blue, #0071ba)', fontWeight: 600 }}>
+              Operational benchmark verified across 250+ connected manufacturing plants
             </div>
 
             <h2 style={{
@@ -829,20 +827,20 @@ export const Archie3DRobotSection = () => {
               fontWeight: 800,
               lineHeight: 1.18,
               letterSpacing: '-0.03em',
-              color: '#0f172a',
+              color: 'var(--color-slate-900, #0f172a)',
               marginBottom: '0.45rem',
               fontFamily: 'var(--font-display, Inter, sans-serif)'
             }}>
-              Why ATPL for <span style={{ color: '#0071ba' }}>Factory Automation</span>
+              Why ATPL for <span style={{ color: 'var(--color-brand-blue, #0071ba)' }}>Factory Automation</span>
             </h2>
 
             <p style={{
               fontSize: 'clamp(0.86rem, 1.05vw, 0.96rem)',
-              color: '#64748b',
+              color: 'var(--color-slate-600, #475569)',
               lineHeight: 1.45,
               marginBottom: '1.25rem'
             }}>
-              A targeted engineering strategy using in-house software, guaranteed &lt;4-hr SLAs, and direct SAP/Oracle sync.
+              Direct engineering integration with in-house software, guaranteed &lt;4-hr SLAs, and native SAP/Oracle synchronization.
             </p>
 
             {/* The Dual Animated Video Cards Side-by-Side (Dribbble 25966614) */}
@@ -1021,8 +1019,8 @@ export const Archie3DRobotSection = () => {
                   opacity: 0.22,
                   zIndex: 1
                 }}>
-                  <div style={{ fontSize: '0.74rem', fontWeight: 800, color: '#94a3b8', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
-                    Non-Stop Issues • Raining Delays
+                  <div style={{ fontSize: '0.74rem', fontWeight: 700, color: '#94a3b8' }}>
+                    Non-Stop Issues, Production Delays
                   </div>
                 </div>
 
@@ -1235,8 +1233,8 @@ export const Archie3DRobotSection = () => {
               <MagneticButton
                 onClick={() => openDemoModal({ mode: 'engineer', solution: 'Vendor Feasibility & Architecture Audit', notes: 'Initiated from Comparison Section' })}
                 style={{
-                  backgroundColor: '#0071ba',
-                  color: '#ffffff',
+                  backgroundColor: 'var(--color-brand-blue, #0071ba)',
+                  color: 'var(--color-white, #ffffff)',
                   border: 'none',
                   borderRadius: '999px',
                   padding: '0.75rem 1.8rem',
@@ -1247,11 +1245,10 @@ export const Archie3DRobotSection = () => {
                   alignItems: 'center',
                   gap: '0.45rem',
                   boxShadow: '0 6px 18px rgba(0, 113, 186, 0.35)',
-                  transition: 'all 0.15s ease'
+                  transition: 'background-color 0.15s ease, transform 0.15s ease'
                 }}
               >
                 <span>Schedule Feasibility Audit</span>
-                <ArrowRight size={15} />
               </MagneticButton>
 
               <MagneticButton
@@ -1329,7 +1326,12 @@ export const Archie3DRobotSection = () => {
                 cursor: 'grab'
               }}
             >
-              <canvas ref={canvasRef} style={{ width: '100%', height: '100%', display: 'block' }} />
+              <canvas 
+                ref={canvasRef} 
+                aria-label="Interactive 3D Shopfloor Agent model" 
+                role="img" 
+                style={{ width: '100%', height: '100%', display: 'block' }} 
+              />
 
               {/* Status Header Badge */}
               <div style={{
@@ -1342,7 +1344,7 @@ export const Archie3DRobotSection = () => {
                 padding: '0.28rem 0.72rem',
                 borderRadius: '999px',
                 fontSize: '0.72rem',
-                color: '#00f0ff',
+                color: 'var(--color-brand-cyan, #00f0ff)',
                 fontFamily: 'var(--font-mono, monospace)',
                 fontWeight: 700,
                 display: 'flex',
@@ -1350,9 +1352,9 @@ export const Archie3DRobotSection = () => {
                 gap: '0.4rem',
                 zIndex: 2
               }}>
-                <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#00f0ff', boxShadow: '0 0 6px #00f0ff' }}></span>
+                <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: 'var(--color-brand-cyan, #00f0ff)', boxShadow: '0 0 6px #00f0ff' }}></span>
                 <Bot size={12} color="#00f0ff" />
-                <span>ARCHIE 3D • SHOPFLOOR AGENT</span>
+                <span>Archie 3D Shopfloor Agent</span>
               </div>
 
               {/* Face Mode Switcher Button */}
@@ -1369,12 +1371,12 @@ export const Archie3DRobotSection = () => {
                   padding: '0.28rem 0.72rem',
                   borderRadius: '999px',
                   fontSize: '0.72rem',
-                  color: '#e2e8f0',
+                  color: 'var(--color-slate-200, #e2e8f0)',
                   fontFamily: 'var(--font-mono, monospace)',
                   fontWeight: 700,
                   cursor: 'pointer',
                   zIndex: 2,
-                  transition: 'all 0.15s ease'
+                  transition: 'background-color 0.15s ease, border-color 0.15s ease'
                 }}
                 title="Toggle robot face between blinking eyes and quote mark"
               >
@@ -1392,7 +1394,7 @@ export const Archie3DRobotSection = () => {
                 padding: '0.28rem 0.72rem',
                 borderRadius: '999px',
                 fontSize: '0.70rem',
-                color: '#94a3b8',
+                color: 'var(--color-slate-400, #94a3b8)',
                 fontFamily: 'var(--font-mono, monospace)',
                 pointerEvents: 'none',
                 display: 'flex',
@@ -1402,7 +1404,7 @@ export const Archie3DRobotSection = () => {
                 zIndex: 2
               }}>
                 <Sparkles size={12} color="#00f0ff" />
-                <span>Tracking Cursor • Archie</span>
+                <span>Tracking Cursor</span>
               </div>
 
               {/* Fullscreen Nova Landing Page Shortcut */}

@@ -113,7 +113,7 @@ export const AdminLeadsCRM = () => {
 
   const handleAddNote = (leadId) => {
     if (!newNote.trim()) return;
-    const currentNotes = selectedLead.notes ? selectedLead.notes + `\n• [${new Date().toLocaleDateString()}] ${newNote}` : `• [${new Date().toLocaleDateString()}] ${newNote}`;
+    const currentNotes = selectedLead.notes ? selectedLead.notes + `\n- [${new Date().toLocaleDateString()}] ${newNote}` : `- [${new Date().toLocaleDateString()}] ${newNote}`;
     updateLead(leadId, { notes: currentNotes });
     setSelectedLead(prev => ({ ...prev, notes: currentNotes }));
     setNewNote('');
@@ -261,7 +261,7 @@ export const AdminLeadsCRM = () => {
                   </td>
                   <td>
                     <div style={{ fontWeight: 600, color: '#ffffff' }}>{lead.company}</div>
-                    <div style={{ fontSize: '0.78rem', color: '#94a3b8' }}>{lead.name} • {lead.email}</div>
+                    <div style={{ fontSize: '0.78rem', color: '#94a3b8' }}>{lead.name}, {lead.email}</div>
                   </td>
                   <td>
                     <div style={{ fontSize: '0.85rem', color: '#e2e8f0' }}>{lead.solution}</div>
@@ -460,7 +460,7 @@ export const AdminLeadsCRM = () => {
                 }}
               >
                 <Send size={15} />
-                <span>Send Enterprise Quotation ➔</span>
+                <span>Send Enterprise Quotation</span>
               </button>
             </div>
           </div>
@@ -587,7 +587,7 @@ export const AdminLeadsCRM = () => {
                   Cancel
                 </button>
                 <button type="submit" className="btn btn-primary" style={{ flex: 2 }}>
-                  Save Lead into CRM ➔
+                  Save Lead into CRM
                 </button>
               </div>
             </form>

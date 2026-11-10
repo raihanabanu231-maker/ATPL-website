@@ -111,15 +111,12 @@ export const MadeInIndiaSection = () => {
               border: '1px solid rgba(0, 240, 255, 0.28)',
               padding: '0.35rem 0.95rem',
               borderRadius: '999px',
-              fontSize: '0.76rem',
-              fontWeight: 800,
-              letterSpacing: '0.08em',
-              textTransform: 'uppercase',
-              color: '#38bdf8',
-              fontFamily: 'var(--font-mono, monospace)'
+              fontSize: '0.8rem',
+              fontWeight: 700,
+              color: 'var(--color-brand-cyan, #00f0ff)'
             }}>
               <Globe2 size={13} color="#00f0ff" />
-              <span>ATPL INDUSTRIAL PLATFORM • DOMESTIC R&amp;D • GLOBAL EXECUTION</span>
+              <span>ATPL Industrial Platform, Domestic R&amp;D, Global Execution</span>
             </span>
           </div>
 

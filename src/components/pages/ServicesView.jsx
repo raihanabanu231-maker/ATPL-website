@@ -54,7 +54,7 @@ export const ServicesView = () => {
     },
     {
       q: 'How fast is your emergency on-site engineer dispatch SLA?',
-      a: 'Under our Enterprise 24/7 AMC tier, we guarantee an on-site engineer response time of under 4 hours across major industrial corridors (Chennai, Bangalore, NCR, Pune, Ahmedabad). For plants with 24/7 mission-critical operations, we provide Resident On-Site Engineers.'
+      a: 'Under our Enterprise 24/7 AMC tier, we guarantee an on-site engineer response time of under 4 hours across major industrial corridors (Chennai, Bangalore, NCR, Pune, Ahmedabad). For plants running continuous 24/7 manufacturing operations, we provide Resident On-Site Engineers.'
     },
     {
       q: 'Do you support multi-vendor barcode and RFID hardware?',
@@ -254,7 +254,7 @@ export const ServicesView = () => {
               style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}
             >
               <Wrench size={16} />
-              <span>Raise Service Ticket ➔</span>
+              <span>Raise Service Ticket</span>
             </button>
             <a
               href="https://wa.me/917200157626?text=Hello%20ATPL%20Field%20Service%20Desk%2C%20I%20need%20urgent%20AMC%20maintenance%20%2F%20service%20dispatch."
@@ -288,7 +288,7 @@ export const ServicesView = () => {
             style={{ padding: '2.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}
           >
             <div>
-              <div className="badge badge-cyan" style={{ marginBottom: '1rem' }}>TIER 1 • STANDARD</div>
+              <div className="badge badge-cyan" style={{ marginBottom: '1rem' }}>Tier 1: Standard</div>
               <h3 style={{ fontSize: '1.5rem', color: '#ffffff', marginBottom: '0.5rem', fontWeight: 800 }}>Standard Business AMC</h3>
               <p style={{ color: '#94a3b8', fontSize: '0.85rem', marginBottom: '1.5rem' }}>
                 Ideal for single-shift distribution centers, standard warehouse hubs, and non-continuous packaging lines.
@@ -361,7 +361,7 @@ export const ServicesView = () => {
             </div>
 
             <div>
-              <div className="badge badge-emerald" style={{ marginBottom: '1rem', marginTop: '0.5rem' }}>TIER 2 • 24/7 ENTERPRISE</div>
+              <div className="badge badge-emerald" style={{ marginBottom: '1rem', marginTop: '0.5rem' }}>Tier 2: 24/7 Enterprise</div>
               <h3 style={{ fontSize: '1.5rem', color: '#ffffff', marginBottom: '0.5rem', fontWeight: 800 }}>Enterprise 24/7 AMC</h3>
               <p style={{ color: '#94a3b8', fontSize: '0.85rem', marginBottom: '1.5rem' }}>
                 Designed for high-speed pharmaceutical packaging, automotive assembly lines, and 24/7 fulfillment centers.
@@ -409,7 +409,7 @@ export const ServicesView = () => {
             style={{ padding: '2.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}
           >
             <div>
-              <div className="badge badge-purple" style={{ marginBottom: '1rem' }}>TIER 3 • MISSION CRITICAL</div>
+              <div className="badge badge-purple" style={{ marginBottom: '1rem' }}>Tier 3: Continuous Operations</div>
               <h3 style={{ fontSize: '1.5rem', color: '#ffffff', marginBottom: '0.5rem', fontWeight: 800 }}>Resident Engineer AMC</h3>
               <p style={{ color: '#94a3b8', fontSize: '0.85rem', marginBottom: '1.5rem' }}>
                 Full-time ATPL automation engineers permanently stationed inside your facility with on-site spare inventory.

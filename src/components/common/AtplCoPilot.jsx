@@ -31,8 +31,8 @@ Your role is to answer client and prospect questions accurately using the offici
 - Slogan: "Target Perfection" | "Targeting Zero-Defect Operations. Powering Autonomous Manufacturing."
 - Heritage: 35+ years of combined Industry 4.0 automation, IIoT, and enterprise AIDC leadership.
 - Leadership:
-  • Amarnath Paramasivam – Founder & Managing Director (Mechanical Engineer & MBA, 15+ years domain leadership).
-  • Anusuya Paramasivam – Director (ME VLSI Design, Corporate Governance & Operations).
+  - Amarnath Paramasivam – Founder & Managing Director (Mechanical Engineer & MBA, 15+ years domain leadership).
+  - Anusuya Paramasivam – Director (ME VLSI Design, Corporate Governance & Operations).
 - Accreditations: ISO 9001:2015 (BMQR), DPIIT (#startupindia Section 80-IAC), Ministry of MSME & Commerce Govt. of India, Authorized GS1 Global Serialization Partner.
 
 ### Official Direct Contact Details & Helplines:
@@ -363,7 +363,7 @@ export const AtplCoPilot = () => {
       }
       // 6. Enterprise Clients & Case Studies
       else if (hasToken('client', 'customer', 'clients', 'customers', 'roster', 'ola', 'bosch', 'jsw', 'leyland', 'caplin', 'titan', 'apollo', 'dixon', 'hatsun', 'hul') || hasPhrase('case study', 'case studies', 'who uses', 'client list')) {
-        botResponse = `### 🏆 Trusted by 250+ Tier-1 Enterprises\n\nATPL powers mission-critical operations across leading industrial conglomerates:\n\n- **Automotive & EV:** Ola Electric FutureFactory (battery pack serialization), Bosch, Ashok Leyland, LS Automotive, Tenneco, Rane NSK, Magna Cosma, PSA Avtec, TVS Sensing.\n- **Pharmaceutical & Healthcare:** Caplin Point Laboratories (US-FDA DSCSA & DGFT export serialization).\n- **Heavy Metals & Steel:** JSW Steel (Hot-rolled coil yard RFID tracking with 300°C ceramic tags), L&T, Vizag Steel, ABB, BEL.\n- **FMCG & Discrete Manufacturing:** Hindustan Unilever (HUL), Hatsun Dairy, Titan, Apollo Tyres, Dixon Technologies (1,500+ handheld MDM fleet).\n\n**Proven Impact Metrics:**\n- *Automotive:* Resource allocation cycle reduced from **2 hours to 2 minutes**.\n- *Logistics:* **+50% dispatch verification accuracy** with inline verifiers.\n- *Compliance:* **-70% audit prep time** with Perfect Audit™ SaaS.`;
+        botResponse = `### 🏆 Trusted by 250+ Tier-1 Enterprises\n\nATPL powers continuous 24/7 production operations across leading industrial conglomerates:\n\n- **Automotive & EV:** Ola Electric FutureFactory (battery pack serialization), Bosch, Ashok Leyland, LS Automotive, Tenneco, Rane NSK, Magna Cosma, PSA Avtec, TVS Sensing.\n- **Pharmaceutical & Healthcare:** Caplin Point Laboratories (US-FDA DSCSA & DGFT export serialization).\n- **Heavy Metals & Steel:** JSW Steel (Hot-rolled coil yard RFID tracking with 300°C ceramic tags), L&T, Vizag Steel, ABB, BEL.\n- **FMCG & Discrete Manufacturing:** Hindustan Unilever (HUL), Hatsun Dairy, Titan, Apollo Tyres, Dixon Technologies (1,500+ handheld MDM fleet).\n\n**Proven Impact Metrics:**\n- *Automotive:* Resource allocation cycle reduced from **2 hours to 2 minutes**.\n- *Logistics:* **+50% dispatch verification accuracy** with inline verifiers.\n- *Compliance:* **-70% audit prep time** with Perfect Audit™ SaaS.`;
         quickReplies = ['📋 Request Customer Case Studies', '💡 Recommend solution for my plant', '📞 Schedule Plant Feasibility Call'];
         actionBtn = {
           label: 'Request Case Studies',
@@ -471,7 +471,7 @@ export const AtplCoPilot = () => {
       }
       // 18. Technical Troubleshooting & Support
       else if (hasToken('troubleshoot', 'issue', 'problem', 'error', 'ticket', 'amc', 'helpdesk', 'sla', 'broken', 'repair')) {
-        botResponse = `### 🛠️ ATPL Technical Support & Troubleshooting\n\nATPL provides 24/7 mission-critical maintenance and SLA support across all facilities:\n\n- **Common Quick Checks:**\n  • *Barcode Scanners:* Clean optical window, verify ISO grade contrast, ensure correct DPM illumination mode.\n  • *UHF RFID:* Check antenna polarization angle, ensure metal/liquid surfaces use on-metal ceramic tags.\n  • *Printers:* Clean thermal head with isopropyl alcohol, calibrate gap/black-mark sensors.\n- **24/7 Escalation Hotlines:**\n  • 📞 Software Support: **+91 93421 73484**\n  • 📞 Hardware & Field AMC: **+91 72001 57626**\n  • ✉️ Email: **support@atplgroup.com**`;
+        botResponse = `### 🛠️ ATPL Technical Support & Troubleshooting\n\nATPL provides 24/7 technical maintenance and SLA support across all facilities:\n\n- **Common Quick Checks:**\n  - *Barcode Scanners:* Clean optical window, verify ISO grade contrast, ensure correct DPM illumination mode.\n  - *UHF RFID:* Check antenna polarization angle, ensure metal/liquid surfaces use on-metal ceramic tags.\n  - *Printers:* Clean thermal head with isopropyl alcohol, calibrate gap/black-mark sensors.\n- **24/7 Escalation Hotlines:**\n  - 📞 Software Support: **+91 93421 73484**\n  - 📞 Hardware & Field AMC: **+91 72001 57626**\n  - ✉️ Email: **support@atplgroup.com**`;
         quickReplies = ['📞 Call Hardware Support', '✉️ Log Support Ticket', '💬 WhatsApp Tech Help'];
         actionBtn = {
           label: 'Contact Support Hub',
@@ -894,7 +894,7 @@ export const AtplCoPilot = () => {
                       const parts = line.replace('- ', '').split('**');
                       return (
                         <div key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.35rem', margin: '0.2rem 0' }}>
-                          <span style={{ color: msg.sender === 'user' ? '#ffffff' : '#0071ba' }}>•</span>
+                          <span style={{ opacity: 0.5 }}>,</span>
                           <span><strong>{parts[1]}</strong>{parts.slice(2).join('')}</span>
                         </div>
                       );

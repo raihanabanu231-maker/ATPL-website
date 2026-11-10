@@ -560,7 +560,7 @@ Book an On-Site RFID/Vision AI Feasibility Study:
                   onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
                 >
                   <MessageSquare size={17} />
-                  <span>Send via WhatsApp (+91 63808 59963) ➔</span>
+                  <span>Send via WhatsApp (+91 63808 59963)</span>
                 </a>
                 <button
                   type="button"
@@ -808,7 +808,7 @@ Book an On-Site RFID/Vision AI Feasibility Study:
                       }}
                     >
                       <Calendar size={17} />
-                      <span>{isSubmitting ? 'Reserving Schedule...' : 'Book Live Demo Session ➔'}</span>
+                      <span>{isSubmitting ? 'Reserving Schedule...' : 'Book Live Demo Session'}</span>
                     </button>
                   </div>
                 </form>
@@ -1055,7 +1055,7 @@ Book an On-Site RFID/Vision AI Feasibility Study:
                       }}
                     >
                       <Headphones size={17} />
-                      <span>{isSubmitting ? 'Routing to Desk...' : 'Request Engineer Callback ➔'}</span>
+                      <span>{isSubmitting ? 'Routing to Desk...' : 'Request Engineer Callback'}</span>
                     </button>
                   </div>
                 </form>
@@ -1363,7 +1363,7 @@ Book an On-Site RFID/Vision AI Feasibility Study:
                       }}
                     >
                       <Download size={17} />
-                      <span>{isSubmitting ? 'Generating File...' : 'Download Model & Send CFO Brief ➔'}</span>
+                      <span>{isSubmitting ? 'Generating File...' : 'Download Model & Send CFO Brief'}</span>
                     </button>
                   </div>
                 </form>
@@ -1578,7 +1578,7 @@ Book an On-Site RFID/Vision AI Feasibility Study:
                       }}
                     >
                       <Handshake size={17} />
-                      <span>{isSubmitting ? 'Transmitting Profile...' : 'Submit Partner Alliance Application ➔'}</span>
+                      <span>{isSubmitting ? 'Transmitting Profile...' : 'Submit Partner Alliance Application'}</span>
                     </button>
                   </div>
                 </form>
@@ -1754,7 +1754,7 @@ Book an On-Site RFID/Vision AI Feasibility Study:
                       }}
                     >
                       <Wrench size={17} />
-                      <span>{isSubmitting ? 'Alerting Emergency Desk...' : 'Dispatch AMC Ticket ➔'}</span>
+                      <span>{isSubmitting ? 'Alerting Emergency Desk...' : 'Dispatch AMC Ticket'}</span>
                     </button>
                   </div>
                 </form>

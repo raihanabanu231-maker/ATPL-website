@@ -730,9 +730,8 @@ export const ProximityScaleGrid = ({
           }}
         >
           <ShieldCheck size={14} color="#00f0ff" />
-          <span>All metrics validated from live industrial installations across India</span>
+          <span>All metrics validated from live industrial installations across India,</span>
         </span>
-        <span style={{ color: '#334155' }}>•</span>
         <span
           style={{
             fontFamily: 'monospace',

@@ -226,10 +226,10 @@ export const SoftwareView = () => {
       image: '/assets/images/software_pms.jpg',
       brochureUrl: 'https://atplgroup.com/wp-content/uploads/2024/04/Production-Monitoring-System.pdf',
       videoUrl: 'https://www.youtube.com/watch?v=27tgTz-Bclw',
-      authenticParagraph: 'Implementing a Production Monitoring System in your unit can lead to increased operational efficiency, reduced downtime, improved quality, and better decision-making based on real-time and historical data. Robust defects identification system contributes significantly to overall product quality.',
+      authenticParagraph: 'Implementing a Production Monitoring System in your unit can lead to increased operational efficiency, reduced downtime, improved quality, and better decision-making based on real-time and historical data. Automated defect detection contributes directly to overall product quality.',
       features: [
         'Tracks, analyzes, and visualizes manufacturing processes in real-time',
-        'Robust defects identification system minimizes defect impact on customer satisfaction',
+        'Automated defect detection prevents non-conforming parts from reaching customers',
         'Substantially reduces machine downtime and boosts shift-level production efficiency'
       ],
       screenData: {
@@ -329,7 +329,7 @@ export const SoftwareView = () => {
         'Generates intuitive daily reports for Directors and Executives regarding inventory processes',
         'Proven reduction of manual work involved in warehouse management by 20% to 30%',
         'Enhances accuracy of inward and outward goods movement with AI virtual house implementation',
-        'Seamless two-way integration with SAP S/4HANA, Oracle, and Microsoft Dynamics'
+        'Direct two-way integration with SAP S/4HANA, Oracle, and Microsoft Dynamics'
       ],
       ctaColor: '#1e293b',
       ctaHoverColor: '#0f172a',
@@ -351,7 +351,7 @@ export const SoftwareView = () => {
         'This applications play a crucial role in modern supply chain management by enhancing accountability, reducing risks, and improving operational efficiency.'
       ],
       bulletPoints: [
-        'Multi-tier packaging aggregation (Item → Carton → Shipper → Pallet) with cryptographic serials',
+        'Multi-tier packaging aggregation (Item to Carton to Shipper to Pallet) with cryptographic serials',
         'Meets DGFT serialization standards and US-FDA DSCSA export traceability protocols',
         'Batch genealogy recall lookup in under 2 minutes with complete audit reporting'
       ],
@@ -371,7 +371,7 @@ export const SoftwareView = () => {
       imageAlt: 'ATPL Perfect PMS Production Monitoring System',
       paragraphs: [
         'Implementing a Production Monitoring System in your unit can lead to increased operational efficiency, reduced downtime, improved quality, and better decision-making based on real-time and historical data.',
-        'Robust defects identification system contributes significantly to overall product quality and customer satisfaction.',
+        'Automated defect detection contributes directly to overall product quality and customer satisfaction.',
         'Our PMS tracks, analyzes, and visualizes manufacturing processes in real-time, helping plant managers identify bottlenecks instantly.'
       ],
       bulletPoints: [
@@ -609,11 +609,6 @@ export const SoftwareView = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.35, ease: [0.23, 1, 0.32, 1] }}
         >
-          {/* Section Sub-Badge with 21st.dev ShineBadge */}
-          <ShineBadge variant="blue" style={{ marginBottom: '1.25rem' }}>
-            ATPL PROPRIETARY SOFTWARE SUITE
-          </ShineBadge>
-
           <h1 style={{
             fontSize: 'clamp(2rem, 3.8vw, 3.2rem)',
             fontWeight: 800,
@@ -634,7 +629,7 @@ export const SoftwareView = () => {
             marginBottom: '1.75rem',
             maxWidth: '1100px'
           }}>
-            Creating application-based solutions to streamline work processes seamlessly.
+            Developing targeted software applications that connect directly into shopfloor hardware.
           </h2>
 
           <div style={{
@@ -648,10 +643,10 @@ export const SoftwareView = () => {
             textAlign: 'justify'
           }}>
             <p style={{ margin: 0 }}>
-              As a prominent industrial solution provider, we specialize in pinpointing customer challenges and creating application-based solutions to streamline work processes seamlessly.
+              As an industrial automation provider, we specialize in diagnosing plant bottlenecks and building targeted software systems that eliminate manual errors.
             </p>
             <p style={{ margin: 0 }}>
-              Our expertise lies in seamlessly integrating software applications with hardware processes. We concentrate on minimizing time-consuming workflows, enhancing efficiency.
+              Our engineering teams integrate software workflows directly with shopfloor hardware controllers, barcode verifiers, and warehouse automation systems.
             </p>
             <p style={{ margin: 0 }}>
               Our internal team of solution architects is committed to supervising the entire process, beginning with requirement gathering and concluding with the delivery of the finalized application to the customer. Simultaneously, our development team collaborates with service engineers for the integration of hardware components, specifically focusing on those who engage extensively with industry-leading OEMs.
@@ -745,14 +740,11 @@ export const SoftwareView = () => {
               color: '#0071ba',
               padding: '0.35rem 1rem',
               borderRadius: '999px',
-              fontSize: '0.76rem',
-              fontWeight: 800,
-              letterSpacing: '0.08em',
-              textTransform: 'uppercase',
-              marginBottom: '0.75rem',
-              fontFamily: 'var(--font-mono, monospace)'
+              fontSize: '0.8rem',
+              fontWeight: 700,
+              marginBottom: '0.75rem'
             }}>
-              <span>★ INTERACTIVE APPLICATION STACK • CLICK ANY DEVICE TO EXPLORE</span>
+              <span>Interactive Application Stack, Select Any Device to Explore</span>
             </div>
             <h3 style={{
               fontSize: 'clamp(1.75rem, 3vw, 2.4rem)',
@@ -1212,19 +1204,16 @@ export const SoftwareView = () => {
                     
                     {/* Brochure Badge in Content */}
                     {isBrochureFeatured && (
-                      <ShineBadge variant="amber">
-                        ★ ATPL PROPRIETARY SUITE • 2026 EDITION
-                      </ShineBadge>
+                      <div style={{ fontSize: '0.82rem', fontWeight: 700, color: '#f59e0b', marginBottom: '0.5rem' }}>
+                        ATPL Proprietary Suite, 2026 Edition
+                      </div>
                     )}
 
                     {/* Category Label */}
                     <div style={{
-                      fontSize: '0.78rem',
-                      fontWeight: 800,
-                      color: isDark ? '#38bdf8' : '#0071ba',
-                      letterSpacing: '0.08em',
-                      textTransform: 'uppercase',
-                      fontFamily: 'var(--font-mono, monospace)'
+                      fontSize: '0.82rem',
+                      fontWeight: 700,
+                      color: isDark ? 'var(--color-brand-cyan, #38bdf8)' : 'var(--color-brand-blue, #0071ba)'
                     }}>
                       {prod.category}
                     </div>

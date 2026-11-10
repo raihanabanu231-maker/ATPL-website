@@ -23,7 +23,7 @@ export const AtplResourcesSection = () => {
       tag: 'DGFT & US-FDA',
       title: 'Pharmaceutical & Discrete Serialization Compliance Checklist',
       desc: 'Step-by-step audit readiness checklist covering DSCSA, DGFT 4-tier aggregation, GS1 Digital Link barcodes, and 21 CFR Part 11 e-signatures.',
-      format: 'PDF Guide • 14 Pages',
+      format: 'PDF Guide, 14 Pages',
       ctaLabel: 'Get Compliance Checklist',
       action: 'compliance'
     },
@@ -33,7 +33,7 @@ export const AtplResourcesSection = () => {
       tag: 'WMS Architecture',
       title: 'Architecting Sub-Second SAP S/4HANA & Oracle WMS Middleware',
       desc: 'Engineering deep dive into bi-directional IDocs, asynchronous buffer queues, and edge RFID tag verification at 1,200 tags/sec.',
-      format: 'Technical Whitepaper • 22 Pages',
+      format: 'Technical Whitepaper, 22 Pages',
       ctaLabel: 'Download Whitepaper',
       action: 'whitepaper'
     }

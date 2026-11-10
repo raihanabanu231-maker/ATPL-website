@@ -69,7 +69,7 @@ export const AdminDashboard = () => {
         <div>
           <div className="badge badge-cyan" style={{ marginBottom: '0.4rem' }}>
             <Sparkles size={13} />
-            <span>EXECUTIVE COMMAND SYSTEM • REAL-TIME SYNC</span>
+            <span>Executive Command System, Real-Time Sync</span>
           </div>
           <h1 style={{ fontSize: '1.65rem', color: '#ffffff', marginBottom: '0.35rem' }}>
             Industry 4.0 Digital Transformation <span className="gradient-text">Operations Center</span>
@@ -188,7 +188,7 @@ export const AdminDashboard = () => {
             {products.length} <span style={{ fontSize: '0.85rem', color: '#c084fc', fontWeight: 600 }}>Products</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', marginTop: '0.5rem', fontSize: '0.78rem', color: '#94a3b8' }}>
-            <span>4 Software Suites • 4 Hardware Lines</span>
+            <span>4 Software Suites, 4 Hardware Lines</span>
           </div>
         </div>
 
@@ -347,7 +347,7 @@ export const AdminDashboard = () => {
               className="btn btn-secondary btn-sm"
               style={{ fontSize: '0.75rem', padding: '0.25rem 0.6rem' }}
             >
-              Telemetry Hub ➔
+              Telemetry Hub
             </button>
           </div>
 

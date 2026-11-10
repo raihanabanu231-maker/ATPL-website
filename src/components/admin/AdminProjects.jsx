@@ -69,7 +69,7 @@ export const AdminProjects = () => {
       client: 'Reliance Retail & Omnichannel Supply Chain',
       industry: 'Omnichannel Retail & Logistics',
       solution: 'PERFECT WAREHOUSE™ + RFID Archway Portals',
-      metric: '-65% Dock Loading Time • 100% Inbound Scan',
+      metric: '-65% Dock Loading Time, 100% Inbound Scan',
       year: '2026',
       description: 'Automated gate check-in, pallet serialization, and bi-directional ERP synchronization for over 450,000 inventory items daily.'
     },
@@ -219,7 +219,7 @@ export const AdminProjects = () => {
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#94a3b8', fontSize: '0.82rem', marginBottom: '0.75rem' }}>
                 <Building2 size={14} color="var(--cyan-primary)" />
                 <span style={{ color: '#ffffff', fontWeight: 600 }}>{proj.client}</span>
-                <span>•</span>
+                <span style={{ opacity: 0.4 }}>,</span>
                 <Calendar size={13} />
                 <span>{proj.year}</span>
               </div>
@@ -463,7 +463,7 @@ export const AdminProjects = () => {
                     {formData.title}
                   </div>
                   <div style={{ fontSize: '0.8rem', color: '#38bdf8', marginTop: '0.2rem' }}>
-                    🏢 {formData.client || 'Client Name'} • <span style={{ color: '#10b981' }}>⚡ {formData.metric || 'Performance Metric'}</span>
+                    🏢 {formData.client || 'Client Name'}, <span style={{ color: '#10b981' }}>⚡ {formData.metric || 'Performance Metric'}</span>
                   </div>
                 </div>
               )}
@@ -473,7 +473,7 @@ export const AdminProjects = () => {
                   Cancel
                 </button>
                 <button type="submit" className="btn btn-cyan btn-lg" style={{ flex: 2, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
-                  <span>{editingProject ? 'Save Changes' : 'Publish to Website ➔'}</span>
+                  <span>{editingProject ? 'Save Changes' : 'Publish to Website'}</span>
                 </button>
               </div>
             </form>

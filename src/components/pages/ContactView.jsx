@@ -443,7 +443,7 @@ export const ContactView = () => {
                 }}
                 className="btn btn-cyan btn-sm"
               >
-                Launch 3D Virtual Tour ➔
+                Launch 3D Virtual Tour
               </button>
             </div>
           </motion.div>
@@ -541,7 +541,7 @@ export const ContactView = () => {
                       }}
                     >
                       <MessageSquare size={16} />
-                      <span>Send via WhatsApp (+91 63808 59963) ➔</span>
+                      <span>Send via WhatsApp (+91 63808 59963)</span>
                     </a>
                   </div>
                 )}
@@ -663,7 +663,7 @@ export const ContactView = () => {
                   disabled={isSubmitting}
                 >
                   <Send size={18} />
-                  <span>{isSubmitting ? 'Transmitting Data...' : 'Submit Inquiry to Engineering Desk ➔'}</span>
+                  <span>{isSubmitting ? 'Transmitting Data...' : 'Submit Inquiry to Engineering Desk'}</span>
                 </motion.button>
               </form>
             )}

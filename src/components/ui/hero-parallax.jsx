@@ -174,20 +174,13 @@ export const Header = ({ onOpenDemo }) => {
         display: 'inline-flex',
         alignItems: 'center',
         gap: '0.45rem',
-        backgroundColor: 'rgba(0, 240, 255, 0.1)',
-        border: '1px solid rgba(0, 240, 255, 0.35)',
-        color: '#00f0ff',
-        padding: '0.35rem 0.95rem',
-        borderRadius: '999px',
-        fontSize: '0.76rem',
-        fontWeight: 800,
-        letterSpacing: '0.08em',
-        textTransform: 'uppercase',
-        marginBottom: '1rem',
-        fontFamily: 'var(--font-mono, monospace)'
+        color: 'var(--color-brand-cyan, #00f0ff)',
+        fontSize: '0.82rem',
+        fontWeight: 700,
+        marginBottom: '0.75rem'
       }}>
         <Sparkles size={14} />
-        <span>ENTERPRISE ARCHITECTURE ECOSYSTEM • INTERACTIVE SHOPFLOOR STACK</span>
+        <span>Enterprise Architecture Ecosystem, Interactive Shopfloor Stack</span>
       </div>
 
       <h2 style={{

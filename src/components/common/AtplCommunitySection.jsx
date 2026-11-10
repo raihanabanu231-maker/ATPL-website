@@ -189,7 +189,7 @@ export function AtplCommunitySection() {
             {/* Luminous Shine Badge */}
             <div style={{ marginBottom: '1.5rem' }}>
               <ShineBadge variant="cyan" icon={<Users size={16} color="#00f0ff" />}>
-                ATPL COMMUNITY • 2,500+ SHOPFLOOR PRACTITIONERS
+                ATPL Community, 2,500+ Shopfloor Practitioners
               </ShineBadge>
             </div>
 
@@ -384,7 +384,7 @@ export function AtplCommunitySection() {
                       }}>
                         {activePhotoTab === 'team' 
                           ? 'In-House Software Engineers, AIDC Integrators & Shopfloor Deployment Specialists' 
-                          : 'Founder & Managing Director • Mechanical Engineer & MBA • 15+ Yrs AIDC Leadership'}
+                          : 'Founder & Managing Director, Mechanical Engineer & MBA, 15+ Yrs AIDC Leadership'}
                       </div>
                       {activePhotoTab === 'founder' && (
                         <blockquote style={{
@@ -422,7 +422,7 @@ export function AtplCommunitySection() {
                           color: '#38bdf8'
                         }}>
                           <ShieldCheck size={14} color="#38bdf8" />
-                          <span>40 ➔ 200+ Enterprise Clients</span>
+                          <span>40 to 200+ Enterprise Clients</span>
                         </div>
                       ) : (
                         <div style={{

@@ -27,7 +27,7 @@ export const ENTERPRISE_CASE_STUDIES_DATA = [
     icon: Zap,
     metricValue: '-98%',
     metricLabel: 'Recall Isolation Cycle Time',
-    metricHighlight: 'From 2 Hours ➔ Under 2 Minutes',
+    metricHighlight: 'From 2 Hours to Under 2 Minutes',
     solution: 'Perfect Trace™ 4-Tier GS1 Packaging Serialization & SAP S/4HANA Sync',
     challenge: 'Manual lot allocation and physical ledger tracking created 2-hour production bottlenecks, high labor overhead, and critical recall liability on high-speed engine and EV motor lines.',
     outcomes: [
@@ -67,7 +67,7 @@ export const ENTERPRISE_CASE_STUDIES_DATA = [
     icon: FileCheck,
     metricValue: '-70%',
     metricLabel: 'Audit Preparation Time Reduced',
-    metricHighlight: 'From 4 Weeks ➔ Under 2 Days Across 14 Plants',
+    metricHighlight: 'From 4 Weeks to Under 2 Days Across 14 Plants',
     solution: 'Perfect Audit™ 100% Paperless Digital Compliance Platform',
     challenge: 'Paper-based clipboards across 14 multi-state facilities led to lost inspection records, delayed non-conformance remediation, and 4-week prep backlogs for ISO certification.',
     outcomes: [
@@ -170,8 +170,8 @@ export const EnterpriseCaseStudiesSection = () => {
             Verified Case Studies: Measured Outcomes Across 250+ Plants
           </h2>
 
-          <p style={{ color: '#94a3b8', fontSize: '1.1rem', lineHeight: 1.65, margin: 0 }}>
-            Real metrics from mission-critical industrial deployments. See how India's top automotive, pharmaceutical, FMCG, and electronics manufacturers achieve zero-defect assembly and proven payback in under 6 months with the ATPL One™ platform.
+          <p style={{ color: 'var(--color-slate-400, #94a3b8)', fontSize: '1.1rem', lineHeight: 1.65, margin: 0 }}>
+            Real metrics from continuous 24/7 manufacturing line deployments. See how India's top automotive, pharmaceutical, FMCG, and electronics manufacturers achieve zero-defect assembly and proven payback in under 6 months with the ATPL One™ platform.
           </p>
         </div>
 

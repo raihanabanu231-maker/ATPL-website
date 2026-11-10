@@ -401,7 +401,7 @@ export const AdminLogin = () => {
           color: '#64748b'
         }}>
           <ShieldCheck size={14} color="#10b981" />
-          <span>Archery Technocrats Private Limited • ISO 9001:2015</span>
+          <span>Archery Technocrats Private Limited, ISO 9001:2015</span>
         </div>
 
       </div>

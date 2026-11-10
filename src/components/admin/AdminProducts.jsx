@@ -148,7 +148,7 @@ export const AdminProducts = () => {
                     <div>
                       <h3 style={{ fontSize: '1.05rem', color: '#ffffff' }}>{product.name}</h3>
                       <div style={{ fontSize: '0.78rem', color: isSoftware ? 'var(--cyan-primary)' : '#c084fc', fontFamily: 'var(--font-mono)' }}>
-                        {product.type} • {product.version}
+                        {product.type}, {product.version}
                       </div>
                     </div>
                   </div>
@@ -300,7 +300,7 @@ export const AdminProducts = () => {
                   Cancel
                 </button>
                 <button type="submit" className="btn btn-primary" style={{ flex: 2 }}>
-                  Publish to Catalog ➔
+                  Publish to Catalog
                 </button>
               </div>
             </form>

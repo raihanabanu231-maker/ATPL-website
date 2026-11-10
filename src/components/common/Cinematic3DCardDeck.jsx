@@ -1328,6 +1328,7 @@ export const Cinematic3DCardDeck = ({ activeCategory = 'all', onCategoryChange }
       {/* HTML5 Celestial Starlight & Sparkle Bursts Canvas */}
       <canvas
         ref={canvasRef}
+        aria-hidden="true"
         style={{
           position: 'absolute',
           top: 0,
@@ -2490,14 +2491,17 @@ export const Cinematic3DCardDeck = ({ activeCategory = 'all', onCategoryChange }
             textAlign: 'center',
             fontSize: '0.72rem',
             color: '#64748b',
-            marginTop: '0.85rem'
+            marginTop: '0.85rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '0.75rem',
+            flexWrap: 'wrap'
           }}>
-            <span>Hotkeys: </span>
-            <kbd style={{ backgroundColor: 'rgba(255, 255, 255, 0.08)', padding: '2px 6px', borderRadius: '4px', color: '#94a3b8' }}>← / →</kbd> Browse
-            <span style={{ margin: '0 0.5rem' }}>•</span>
-            <kbd style={{ backgroundColor: 'rgba(255, 255, 255, 0.08)', padding: '2px 6px', borderRadius: '4px', color: '#94a3b8' }}>Space</kbd> Flip
-            <span style={{ margin: '0 0.5rem' }}>•</span>
-            <kbd style={{ backgroundColor: 'rgba(255, 255, 255, 0.08)', padding: '2px 6px', borderRadius: '4px', color: '#94a3b8' }}>Esc</kbd> Return to Deck
+            <span>Hotkeys:</span>
+            <span><kbd style={{ backgroundColor: 'rgba(255, 255, 255, 0.08)', padding: '2px 6px', borderRadius: '4px', color: '#94a3b8' }}>← / →</kbd> Browse</span>
+            <span><kbd style={{ backgroundColor: 'rgba(255, 255, 255, 0.08)', padding: '2px 6px', borderRadius: '4px', color: '#94a3b8' }}>Space</kbd> Flip</span>
+            <span><kbd style={{ backgroundColor: 'rgba(255, 255, 255, 0.08)', padding: '2px 6px', borderRadius: '4px', color: '#94a3b8' }}>Esc</kbd> Return to Deck</span>
           </div>
         )}
 

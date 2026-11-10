@@ -778,6 +778,8 @@ export const HardwareImageSequenceShowcase = () => {
           {/* HTML5 Canvas Element */}
           <canvas
             ref={canvasRef}
+            aria-label="360-degree industrial equipment rotation viewer"
+            role="img"
             style={{
               width: '100%',
               height: '100%',

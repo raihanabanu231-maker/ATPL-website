@@ -106,7 +106,7 @@ export const AtplDifferentiation = () => {
       icon: ShieldAlert,
       atpl: {
         text: '100% Brand-Agnostic Flexibility',
-        sub: 'Seamlessly works across Zebra, Honeywell, Cognex, Keyence, Sick, Omron, SATO & TSC without lock-in',
+        sub: 'Works natively across Zebra, Honeywell, Cognex, Keyence, Sick, Omron, SATO & TSC without lock-in',
         positive: true
       },
       traditional: {

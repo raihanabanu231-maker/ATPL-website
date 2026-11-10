@@ -97,7 +97,7 @@ function buildCardHTML(product, theme) {
 
     <!-- OEM & Model Code -->
     <div style="width: 100%; text-align: center; font-size: 0.65rem; color: #94a3b8; font-weight: 600; margin-bottom: 0.45rem;">
-      ATPL // ${product.num} • ${product.oem}
+      ATPL // ${product.num}, ${product.oem}
     </div>
 
     <!-- Product 360° Rotating Image Frame (Clean Obsidian Studio, Large Crystal-Clear Image, Zero Circles Below) -->

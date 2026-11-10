@@ -300,13 +300,11 @@ export const FactoryBlueprintMap = ({ embedded = false }) => {
               }} />
               <span className="hud-header-pill-text" style={{
                 fontFamily: 'var(--font-mono)',
-                fontSize: '0.68rem',
-                fontWeight: 800,
-                color: '#00f0ff',
-                letterSpacing: '0.06em',
-                textTransform: 'uppercase'
+                fontSize: '0.72rem',
+                fontWeight: 700,
+                color: 'var(--color-brand-cyan, #00f0ff)'
               }}>
-                ARCHIE AI • SMART FACTORY TOUR
+                Archie AI Smart Factory Tour
               </span>
             </div>
 
@@ -763,7 +761,7 @@ export const FactoryBlueprintMap = ({ embedded = false }) => {
                   colors: ['#0071ba', '#E85874', '#00f0ff', '#ffffff']
                 });
               }}
-              title="ATPL Industrial Core Hub • Target Perfection"
+              title="ATPL Industrial Core Hub, Target Perfection"
             >
               {/* Concentric Rotating Outer Holographic Reticle Ring */}
               <div style={{

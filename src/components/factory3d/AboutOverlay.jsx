@@ -66,9 +66,9 @@ export const AboutOverlay = ({ isOpen, onClose, onSelectStation }) => {
         {/* Header with Title & Close Button */}
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#18E0FF', fontSize: '0.78rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.35rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#18E0FF', fontSize: '0.78rem', fontWeight: 700, marginBottom: '0.35rem' }}>
               <Building2 size={16} />
-              <span>ARCHERY TECHNOCRATS PRIVATE LIMITED • TARGET PERFECTION</span>
+              <span>Archery Technocrats Private Limited, Target Perfection</span>
             </div>
             <h2 style={{ fontSize: '1.7rem', fontWeight: 900, color: '#FFFFFF', margin: 0 }}>
               Corporate Overview & <span style={{ color: '#18E0FF' }}>Pitch Deck 2026</span>

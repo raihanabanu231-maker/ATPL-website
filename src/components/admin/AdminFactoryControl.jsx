@@ -52,7 +52,7 @@ export const AdminFactoryControl = () => {
           style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}
         >
           <Sparkles size={15} />
-          <span>Launch 3D WebGL Digital Twin ➔</span>
+          <span>Launch 3D WebGL Digital Twin</span>
         </button>
       </div>
 

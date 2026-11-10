@@ -90,13 +90,10 @@ export const HardwareView = () => {
               alignItems: 'center'
             }}>
               <div>
-                <ShineBadge variant="emerald" style={{ marginBottom: '0.75rem' }}>
-                  TURNKEY CONSUMABLES & RFID TAGS
-                </ShineBadge>
-                <h3 style={{ fontSize: '1.6rem', color: '#ffffff', marginBottom: '0.5rem', fontWeight: 800 }}>
+                <h3 style={{ fontSize: '1.6rem', color: 'var(--color-white, #ffffff)', marginBottom: '0.5rem', fontWeight: 800 }}>
                   Specialized RFID Tags, Barcode Labels & Thermal Ribbons
                 </h3>
-                <p style={{ color: '#94a3b8', fontSize: '0.94rem', margin: 0, maxWidth: '750px', lineHeight: 1.6 }}>
+                <p style={{ color: 'var(--color-slate-400, #94a3b8)', fontSize: '0.94rem', margin: 0, maxWidth: '750px', lineHeight: 1.6 }}>
                   We supply ISO/IEC compliant tamper-evident barcode labels, metal-mount UHF RFID tags, chemical-resistant tags for pharma autoclaves, and high-resin thermal transfer ribbons.
                 </p>
               </div>

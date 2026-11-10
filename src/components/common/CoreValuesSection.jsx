@@ -241,7 +241,7 @@ export const CoreValuesSection = () => {
       id: 'commitment',
       num: '01',
       tag: 'Heritage & Stability',
-      badge: '35+ Yrs Field Domain • Decades of Reliability',
+      badge: '35+ Yrs Field Domain, Decades of Reliability',
       title: 'Long-term industrial commitment',
       icon: HandshakeIcon,
       color: '#0071ba',
@@ -254,7 +254,7 @@ export const CoreValuesSection = () => {
       id: 'operator-first',
       num: '02',
       tag: 'Operator Centric',
-      badge: 'Glove-Friendly Touch UI • Zero Operator Delay',
+      badge: 'Glove-Friendly Touch UI, Zero Operator Delay',
       title: 'Plant-floor first philosophy',
       icon: Users,
       color: '#E85874',
@@ -267,7 +267,7 @@ export const CoreValuesSection = () => {
       id: 'data-ownership',
       num: '03',
       tag: 'Open Architecture',
-      badge: 'Native RFC / BAPI SQL Connectors • Zero Lock-in',
+      badge: 'Native RFC / BAPI SQL Connectors, Zero Lock-in',
       title: 'Complete data ownership & zero lock-in',
       icon: Database,
       color: '#0071ba',
@@ -280,7 +280,7 @@ export const CoreValuesSection = () => {
       id: 'rnd-focus',
       num: '04',
       tag: 'Proprietary IP',
-      badge: 'TCE-TBI Madurai Center • TIDEL Park Chennai HQ',
+      badge: 'TCE-TBI Madurai Center, TIDEL Park Chennai HQ',
       title: 'Focus on research & in-house R&D',
       icon: Cpu,
       color: '#E85874',
@@ -473,11 +473,9 @@ export const CoreValuesSection = () => {
           {/* Luminous Pill Eyebrow */}
           <div className="values-header-pill" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.2rem' }}>
             <span style={{
-              fontSize: '0.78rem',
-              fontWeight: 800,
-              textTransform: 'uppercase',
-              letterSpacing: '0.08em',
-              color: '#0071ba',
+              fontSize: '0.8rem',
+              fontWeight: 700,
+              color: 'var(--color-brand-blue, #0071ba)',
               backgroundColor: 'rgba(0, 113, 186, 0.08)',
               border: '1px solid rgba(0, 113, 186, 0.22)',
               padding: '0.35rem 0.95rem',
@@ -487,7 +485,7 @@ export const CoreValuesSection = () => {
               gap: '0.45rem'
             }}>
               <Sparkles size={14} color="#0071ba" />
-              ATPL INDUSTRIAL PILLARS • SHOPFLOOR VERIFIED
+              ATPL Industrial Pillars, Shopfloor Verified
             </span>
           </div>
 
@@ -641,8 +639,8 @@ export const CoreValuesSection = () => {
               <div style={{ fontSize: '0.78rem', color: '#64748b', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                 Engineering Core Status
               </div>
-              <div style={{ fontSize: '0.98rem', fontWeight: 800, color: '#0f172a' }}>
-                6/6 Pillars Active • {scrollPercent}% Section Explored
+              <div style={{ fontSize: '0.98rem', fontWeight: 800, color: 'var(--color-slate-900, #0f172a)' }}>
+                6/6 Pillars Active, {scrollPercent}% Section Explored
               </div>
             </div>
           </div>

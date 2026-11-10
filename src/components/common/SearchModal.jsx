@@ -294,7 +294,7 @@ export const SearchModal = ({ isOpen, onClose }) => {
               fontSize: '0.78rem'
             }}
           >
-            Need Help? Request Consultation ➔
+            Need Help? Request Consultation
           </button>
         </div>
       </motion.div>

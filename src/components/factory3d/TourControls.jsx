@@ -75,7 +75,7 @@ export const TourControls = ({
                 SMART FACTORY DIGITAL TWIN
               </div>
               <div style={{ fontFamily: 'monospace, var(--font-mono)', fontSize: '0.66rem', color: '#18E0FF' }}>
-                ATPL GROUP • 12 ACTIVE IOT STATIONS
+                ATPL Group, 12 Active IoT Stations
               </div>
             </div>
           </div>

@@ -363,25 +363,19 @@ export const CustomersView = () => {
               color: '#94a3b8'
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
-              <span style={{ color: '#00f0ff', fontWeight: 700 }}>🏢 Headquarters &amp; Labs:</span>
-              <span>TIDEL Park Chennai (HQ)</span>
-              <span style={{ opacity: 0.4 }}>•</span>
-              <span>Thiagarajar College of Engg TBI-TCE Madurai</span>
-              <span style={{ opacity: 0.4 }}>•</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'wrap' }}>
+              <span style={{ color: '#00f0ff', fontWeight: 700 }}>Headquarters &amp; Labs:</span>
+              <span>TIDEL Park Chennai (HQ),</span>
+              <span>Thiagarajar College of Engg TBI-TCE Madurai,</span>
               <span>Anantapur Center</span>
             </div>
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
-              <span style={{ color: '#f59e0b', fontWeight: 700 }}>🏆 Technology Alliances:</span>
-              <span>Honeywell Gold Partner ("Go Getter Award" Winner)</span>
-              <span style={{ opacity: 0.4 }}>•</span>
-              <span>CSL</span>
-              <span style={{ opacity: 0.4 }}>•</span>
-              <span>Zebra</span>
-              <span style={{ opacity: 0.4 }}>•</span>
-              <span>Printronix</span>
-              <span style={{ opacity: 0.4 }}>•</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'wrap' }}>
+              <span style={{ color: '#f59e0b', fontWeight: 700 }}>Technology Alliances:</span>
+              <span>Honeywell Gold Partner ("Go Getter Award" Winner),</span>
+              <span>CSL,</span>
+              <span>Zebra,</span>
+              <span>Printronix,</span>
               <span>Advantech</span>
             </div>
           </div>
@@ -652,7 +646,7 @@ export const CustomersView = () => {
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                   <div>
                     <div style={{ fontSize: '0.96rem', fontWeight: 800, color: '#ffffff' }}>Mr. Vinayagam</div>
-                    <div style={{ fontSize: '0.78rem', color: '#94a3b8' }}>Senior Consultant • Verified Enterprise Client</div>
+                    <div style={{ fontSize: '0.78rem', color: '#94a3b8' }}>Senior Consultant, Verified Enterprise Client</div>
                   </div>
                 </div>
               </div>

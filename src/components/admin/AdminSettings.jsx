@@ -338,7 +338,7 @@ export const AdminSettings = () => {
               <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
                 <Key size={14} color="var(--cyan-primary)" /> API Key (Groq `gsk_...` / Gemini `AIza...` / Grok `xai-...`)
               </span>
-              <span style={{ fontSize: '0.72rem', color: '#64748b' }}>Optional • If empty, uses built-in local AI</span>
+              <span style={{ fontSize: '0.72rem', color: '#64748b' }}>Optional, If empty, uses built-in local AI</span>
             </label>
             <input
               type="text"

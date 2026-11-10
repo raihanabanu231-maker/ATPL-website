@@ -304,12 +304,6 @@ export const SolutionsView = () => {
           transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
           style={{ position: 'relative', zIndex: 1 }}
         >
-          <div style={{ marginBottom: '1.25rem' }}>
-            <ShineBadge variant="cyan" icon={<Sparkles size={15} color="#00f0ff" />}>
-              INDUSTRY 4.0 VERTICAL SOLUTIONS
-            </ShineBadge>
-          </div>
-
           <h1 style={{
             fontSize: 'clamp(2.4rem, 5vw, 3.8rem)',
             fontWeight: 900,
@@ -318,7 +312,7 @@ export const SolutionsView = () => {
             lineHeight: 1.15,
             fontFamily: 'var(--font-display, Inter, sans-serif)'
           }}>
-            Engineered for <span className="gradient-text">Mission-Critical Manufacturing</span>
+            Engineered for <span className="gradient-text">High-Throughput Manufacturing</span>
           </h1>
 
           <p style={{

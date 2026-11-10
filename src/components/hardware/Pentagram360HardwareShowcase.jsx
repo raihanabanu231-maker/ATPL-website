@@ -494,6 +494,8 @@ export const Pentagram360HardwareShowcase = () => {
             {/* The HTML5 Canvas Rendering 360° Image Sequence Frames */}
             <canvas
               ref={canvasRef}
+              aria-label="Interactive 360-degree industrial equipment inspector"
+              role="img"
               style={{
                 width: '100%',
                 height: '100%',

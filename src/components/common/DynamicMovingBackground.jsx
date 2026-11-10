@@ -199,6 +199,7 @@ export function DynamicMovingBackground({ currentView }) {
       {/* Interactive Sensor Node Network Canvas (NO dynamic connecting lines) */}
       <canvas 
         ref={canvasRef}
+        aria-hidden="true"
         style={{
           position: 'absolute',
           inset: 0,

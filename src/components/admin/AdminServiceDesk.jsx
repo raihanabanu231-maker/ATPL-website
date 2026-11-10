@@ -273,7 +273,7 @@ export const AdminServiceDesk = () => {
                   Cancel
                 </button>
                 <button type="submit" className="btn btn-primary" style={{ flex: 2 }}>
-                  Dispatch Ticket ➔
+                  Dispatch Ticket
                 </button>
               </div>
             </form>

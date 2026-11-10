@@ -106,7 +106,7 @@ export const AboutView = () => {
   const caseStudies = [
     {
       sector: 'Automotive Component Manufacturer',
-      impact: '2 hrs ➔ 2 mins',
+      impact: '2 hrs to 2 mins',
       desc: 'Resource allocation cycle reduced from 2 hours to 2 minutes using ATPL traceability integrated with SAP S/4HANA.'
     },
     {
@@ -336,7 +336,7 @@ export const AboutView = () => {
                 </div>
                 <div>
                   <h3 style={{ fontSize: '1.35rem', color: '#ffffff', margin: 0, fontWeight: 800 }}>Our Infrastructure</h3>
-                  <div style={{ fontSize: '0.8rem', color: '#38bdf8', fontWeight: 700 }}>Seamless Operational Ecosystem</div>
+                  <div style={{ fontSize: '0.8rem', color: '#38bdf8', fontWeight: 700 }}>Integrated Operational Ecosystem</div>
                 </div>
               </div>
               <p style={{ color: '#cbd5e1', fontSize: '0.92rem', lineHeight: 1.65, textAlign: 'justify', margin: 0 }}>
@@ -459,7 +459,7 @@ export const AboutView = () => {
                       Founder &amp; Managing Director
                     </div>
                     <div style={{ fontSize: '0.78rem', color: '#94a3b8', marginTop: '0.2rem' }}>
-                      Mechanical Engineer &amp; MBA • 15+ Yrs Leadership (11 Yrs AIDC/IT)
+                      Mechanical Engineer &amp; MBA, 15+ Yrs Leadership (11 Yrs AIDC/IT)
                     </div>
                   </div>
                 </div>
@@ -516,7 +516,7 @@ export const AboutView = () => {
                       Director (Full Time)
                     </div>
                     <div style={{ fontSize: '0.78rem', color: '#94a3b8', marginTop: '0.2rem' }}>
-                      M.E. (VLSI Design) • 15+ Yrs Industry Experience
+                      M.E. (VLSI Design), 15+ Yrs Industry Experience
                     </div>
                   </div>
                 </div>
@@ -579,9 +579,6 @@ export const AboutView = () => {
         {/* Marquee Clients Showcase (209+ Verified Real Logos from ATPL Brand Portfolio) */}
         <div id="enterprise-roster" className="glass-card" style={{ padding: '3.5rem 2.5rem', marginBottom: '4rem', background: 'rgba(10, 20, 38, 0.95)', scrollMarginTop: '6rem' }}>
           <div style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto 2.5rem auto' }}>
-            <ShineBadge variant="cyan" style={{ marginBottom: '0.75rem' }}>
-              AUTHENTIC ENTERPRISE ROSTER
-            </ShineBadge>
             <h3 style={{ fontSize: '2.2rem', color: '#ffffff', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: '0.5rem' }}>
               Trusted by 200+ Tier-1 Industry Leaders
             </h3>
@@ -644,7 +641,7 @@ export const AboutView = () => {
                   e.currentTarget.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.25)';
                   e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)';
                 }}
-                title={`${client.name} • ${client.category}`}
+                title={`${client.name}, ${client.category}`}
               >
                 <ClientLogo slug={client.slug} clientName={client.name} height={46} />
                 <span style={{ 
@@ -668,11 +665,8 @@ export const AboutView = () => {
         {/* Pan-India Presence (21st.dev Bento Grid) */}
         <div id="offices-branches" className="glass-card" style={{ padding: '3.5rem 2.5rem', background: 'rgba(8, 17, 34, 0.85)', marginBottom: '4rem', scrollMarginTop: '6rem' }}>
           <div style={{ textAlign: 'center', maxWidth: '700px', margin: '0 auto 2.5rem auto' }}>
-            <ShineBadge variant="cyan" style={{ marginBottom: '0.75rem' }}>
-              6 HUBS NATIONWIDE
-            </ShineBadge>
             <h3 style={{ fontSize: '2.2rem', color: '#ffffff', fontWeight: 800, marginBottom: '0.5rem' }}>
-              Offices & R&D Facilities
+              Offices & R&D Facilities Across 6 Nationwide Hubs
             </h3>
             <p style={{ color: '#94a3b8', fontSize: '0.95rem', margin: 0 }}>
               Operating from TIDEL Park Chennai, West Tambaram, TCE-TBI Madurai, and key manufacturing corridors.

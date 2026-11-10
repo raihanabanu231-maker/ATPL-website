@@ -213,17 +213,10 @@ export const HomeView = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
             >
-              {/* 21st.dev Trust badge with live pulse */}
-              <motion.div 
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.35, delay: 0.05 }}
-                style={{ marginBottom: '1.2rem' }}
-              >
-                <ShineBadge variant="cyan" icon={<ShieldCheck size={16} color="#00f0ff" />}>
-                  Archery Technocrats • 35+ Years Combined Industrial Experience • ISO 9001:2015
-                </ShineBadge>
-              </motion.div>
+              {/* Operational Accreditation Header */}
+              <div style={{ marginBottom: '0.85rem', fontSize: '0.85rem', color: 'var(--color-brand-cyan, #00f0ff)', fontWeight: 600 }}>
+                Archery Technocrats, 35+ Years Combined Industrial Experience, ISO 9001:2015
+              </div>
 
               {/* Main Headline (Optimized H1 for SEO with Archery Technocrats brand & target keywords) */}
               <motion.h1 
@@ -235,18 +228,16 @@ export const HomeView = () => {
                   fontWeight: 800,
                   lineHeight: 1.18,
                   letterSpacing: '-0.025em',
-                  color: '#ffffff',
+                  color: 'var(--color-white, #ffffff)',
                   marginBottom: '1.1rem',
                   fontFamily: 'var(--font-display)'
                 }}
               >
                 <span style={{
                   display: 'block',
-                  fontSize: 'clamp(0.85rem, 1.3vw, 1.05rem)',
-                  fontWeight: 800,
-                  color: '#00f0ff',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.08em',
+                  fontSize: 'clamp(0.95rem, 1.4vw, 1.15rem)',
+                  fontWeight: 700,
+                  color: 'var(--color-brand-cyan, #00f0ff)',
                   marginBottom: '0.35rem'
                 }}>
                   Archery Technocrats
@@ -295,7 +286,6 @@ export const HomeView = () => {
                   className="hero-cta-btn-secondary"
                 >
                   <span>Schedule Plant Walkthrough</span>
-                  <ArrowRight size={17} />
                 </MagneticButton>
 
                 <motion.button
@@ -377,7 +367,7 @@ export const HomeView = () => {
       <MadeInIndiaSection />
 
       {/* =========================================================================
-          5. ARCHIE 3D • THINKING MACHINES FOR INDUSTRY 4.0 (Interactive Autonomous Robot Agent)
+          5. ARCHIE 3D, THINKING MACHINES FOR INDUSTRY 4.0 (Interactive Autonomous Robot Agent)
          ========================================================================= */}
       <Archie3DRobotSection />
 
@@ -530,10 +520,7 @@ export const HomeView = () => {
         }}
       >
         <div className="container" style={{ maxWidth: '980px', margin: '0 auto', padding: '0 clamp(1rem, 2vw, 2.5rem)', textAlign: 'center' }}>
-          <ShineBadge variant="cyan" style={{ marginBottom: '1rem' }}>
-            VERIFIED CLIENT EXPERIENCES & AUDITS
-          </ShineBadge>
-          <h2 style={{ fontSize: 'clamp(2rem, 3.6vw, 2.8rem)', fontWeight: 800, color: '#ffffff', marginBottom: '2.5rem' }}>
+          <h2 style={{ fontSize: 'clamp(2rem, 3.6vw, 2.8rem)', fontWeight: 800, color: 'var(--color-white, #ffffff)', marginBottom: '2.5rem' }}>
             Client Testimonials & Production Proof
           </h2>
 
@@ -631,7 +618,7 @@ export const HomeView = () => {
                     </div>
                     <div style={{ color: '#38bdf8', fontSize: '0.85rem', fontWeight: 600 }}>
                       {[
-                        'Senior Consultant • Industrial Manufacturing & RFID',
+                        'Senior Consultant, Industrial Manufacturing & RFID',
                         'Tier-1 Supplier to Leading EV 2-Wheeler Gigafactory',
                         'Global Formulations Exporter (US-FDA DSCSA & EU-FMD)'
                       ][activeTestimonialIdx]}
@@ -735,16 +722,11 @@ export const HomeView = () => {
         overflow: 'hidden'
       }}>
         <div className="container" style={{ maxWidth: '820px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
-          
-          <ShineBadge variant="cyan" style={{ marginBottom: '1.25rem' }}>
-            TALK TO AN ENGINEER • ON-SITE AUDIT
-          </ShineBadge>
-
-          <h2 style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 800, color: '#ffffff', letterSpacing: '-0.025em', marginBottom: '1.25rem', lineHeight: 1.2 }}>
+          <h2 style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 800, color: 'var(--color-white, #ffffff)', letterSpacing: '-0.025em', marginBottom: '1.25rem', lineHeight: 1.2 }}>
             Have a Bottleneck on Your Line? Let’s Walk Your Floor.
           </h2>
 
-          <p style={{ color: '#94a3b8', fontSize: '1.1rem', lineHeight: 1.65, marginBottom: '2.5rem' }}>
+          <p style={{ color: 'var(--color-slate-400, #94a3b8)', fontSize: '1.1rem', lineHeight: 1.65, marginBottom: '2.5rem' }}>
             Invite an ATPL systems engineer to review your dispatch dock, packing line, or warehouse layout. We will give you a practical assessment of where automation makes sense — and where it doesn't.
           </p>
 
@@ -755,8 +737,8 @@ export const HomeView = () => {
               <MagneticButton
                 onClick={() => openDemoModal({ mode: 'engineer', solution: 'Plant Walkthrough Audit', notes: 'Initiated from Final CTA' })}
                 style={{
-                  backgroundColor: '#0071ba',
-                  color: '#ffffff',
+                  backgroundColor: 'var(--color-brand-blue, #0071ba)',
+                  color: 'var(--color-white, #ffffff)',
                   border: 'none',
                   padding: '1rem 2.2rem',
                   fontSize: '1rem',
@@ -772,7 +754,6 @@ export const HomeView = () => {
                 }}
               >
                 <span>Schedule a Plant Visit</span>
-                <ArrowRight size={18} />
               </MagneticButton>
             </div>
 

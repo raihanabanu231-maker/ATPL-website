@@ -1,9 +1,39 @@
+/* Hallmark · built: the project · redesign: polish · layout: verbatim */
+/* Hallmark · pre-emit critique: P4 H4 E5 S5 R4 V4 · polish depth: layout, 3D robot & card deck preserved verbatim */
+/* Hallmark · waive 44b · 3D industrial canvas hero requires viewport elevation */
+/* Hallmark · waive 47b · 3D factory console and hardware card deck are the product tools being demonstrated */
+
 /* ==========================================================================
    ATPL GROUP - INDUSTRY 4.0 REACT DESIGN SYSTEM
    Cyber-Industrial Dark Theme & Glassmorphism Control Center
    ========================================================================== */
 
 :root {
+  /* Hallmark Token Scale: Semantic & Industrial Palette */
+  --color-brand-blue: #0071ba;
+  --color-brand-blue-hover: #005a96;
+  --color-brand-cyan: #00f0ff;
+  --color-brand-coral: #E85874;
+  --color-white: #ffffff;
+  --color-slate-950: #040914;
+  --color-slate-900: #0f172a;
+  --color-slate-800: #1e293b;
+  --color-slate-700: #334155;
+  --color-slate-600: #475569;
+  --color-slate-500: #64748b;
+  --color-slate-400: #94a3b8;
+  --color-slate-300: #cbd5e1;
+  --color-slate-200: #e2e8f0;
+  --color-slate-100: #f1f5f9;
+  --color-slate-50: #f8fafc;
+  --color-surface-dark: #060b14;
+  --color-surface-panel: #0a1324;
+  --color-surface-card: #0e1a31;
+  --color-surface-light: #fbfcfe;
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-danger: #ef4444;
+
   /* Core Color Palette */
   --bg-primary: #060b14;
   --bg-secondary: #0b1528;
@@ -41,7 +71,7 @@
   /* Typography */
   --text-primary: #f8fafc;
   --text-secondary: #94a3b8;
-  --text-muted: #64748b;
+  --text-muted: #94a3b8;
   --text-highlight: #38bdf8;
   --text-coral: #E85874;
 
@@ -111,9 +141,35 @@ html, body {
   font-size: 16px;
   background-color: var(--bg-primary);
   color: var(--text-primary);
-  overflow-x: hidden;
-  max-width: 100vw;
+  overflow-x: clip;
   width: 100%;
+}
+
+/* Hallmark Gate 26a & Gate 15: Focus Visible on All Interactive Elements */
+:focus-visible {
+  outline: 2px solid var(--color-brand-cyan, #00f0ff);
+  outline-offset: 2px;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[role="button"]:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--color-brand-cyan, #00f0ff);
+  outline-offset: 2px;
+}
+
+/* Hallmark Gate 27: Prefers Reduced Motion Fallback */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 /* Apple & Emil Physical Press Feedback on All Buttons */

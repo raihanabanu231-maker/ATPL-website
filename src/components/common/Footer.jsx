@@ -291,28 +291,23 @@ export const Footer = () => {
           flexWrap: 'wrap',
           alignItems: 'center',
           justifyContent: 'center',
-          gap: '0.5rem 1.25rem',
+          gap: '0.75rem 1.75rem',
           fontSize: '0.82rem',
-          color: '#64748b',
+          color: 'var(--color-slate-400, #94a3b8)',
           paddingBottom: '2.5rem'
         }}>
-          <button onClick={() => handleNav('contact')} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', padding: 0, fontSize: '0.82rem' }}>
+          <button onClick={() => handleNav('contact')} style={{ background: 'none', border: 'none', color: 'var(--color-slate-400, #94a3b8)', cursor: 'pointer', padding: 0, fontSize: '0.82rem' }}>
             Contact Us
           </button>
-          <span>•</span>
-          <span style={{ color: '#94a3b8' }}>Security & 21 CFR Part 11</span>
-          <span>•</span>
-          <span style={{ color: '#94a3b8' }}>ISO 9001:2015 Compliance</span>
-          <span>•</span>
-          <button onClick={() => handleNav('terms')} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', padding: 0, fontSize: '0.82rem' }}>
+          <span style={{ color: 'var(--color-slate-400, #94a3b8)' }}>Security & 21 CFR Part 11</span>
+          <span style={{ color: 'var(--color-slate-400, #94a3b8)' }}>ISO 9001:2015 Compliance</span>
+          <button onClick={() => handleNav('terms')} style={{ background: 'none', border: 'none', color: 'var(--color-slate-400, #94a3b8)', cursor: 'pointer', padding: 0, fontSize: '0.82rem' }}>
             Terms of Service
           </button>
-          <span>•</span>
-          <button onClick={() => handleNav('privacy')} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', padding: 0, fontSize: '0.82rem' }}>
+          <button onClick={() => handleNav('privacy')} style={{ background: 'none', border: 'none', color: 'var(--color-slate-400, #94a3b8)', cursor: 'pointer', padding: 0, fontSize: '0.82rem' }}>
             Privacy Policy
           </button>
-          <span>•</span>
-          <button onClick={() => handleNav('login')} style={{ background: 'none', border: 'none', color: '#64748b', cursor: 'pointer', padding: 0, fontSize: '0.82rem' }}>
+          <button onClick={() => handleNav('login')} style={{ background: 'none', border: 'none', color: 'var(--color-slate-400, #94a3b8)', cursor: 'pointer', padding: 0, fontSize: '0.82rem' }}>
             Staff Portal Login
           </button>
         </div>
