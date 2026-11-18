@@ -75,6 +75,7 @@ export const Navbar = ({ onOpenSearch }) => {
       clearTimeout(closeTimeoutRef.current);
       closeTimeoutRef.current = null;
     }
+    setLanguageOpen(false);
     setActiveDropdown(name);
   };
 
@@ -988,7 +989,10 @@ export const Navbar = ({ onOpenSearch }) => {
             <div style={{ position: 'relative', display: 'none' }} className="lang-selector-box">
               <style>{`@media(min-width: 640px){ .lang-selector-box { display: block !important; } }`}</style>
               <button
-                onClick={() => setLanguageOpen(!languageOpen)}
+                onClick={() => {
+                  setActiveDropdown(null);
+                  setLanguageOpen(!languageOpen);
+                }}
                 aria-label="Change Website Language"
                 aria-expanded={languageOpen}
                 style={{
