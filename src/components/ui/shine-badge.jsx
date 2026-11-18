@@ -110,7 +110,7 @@ export const ShineBadge = ({
 
       {icon && (
         <span style={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
-          {icon}
+          {React.isValidElement(icon) ? icon : (typeof icon === 'function' || typeof icon === 'object' ? React.createElement(icon, { size: 13 }) : null)}
         </span>
       )}
 

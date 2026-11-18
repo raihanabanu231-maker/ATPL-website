@@ -279,9 +279,13 @@ export const DotMatrixHandsSection = ({
           <img 
             src="/assets/images/human_hand_reach.webp" 
             alt="Human Craftsmanship & Engineering Hand Reaching In"
+            width={1376}
+            height={768}
+            decoding="async"
             className="w-full h-auto object-contain select-none pointer-events-none"
             style={{
               display: 'block',
+              aspectRatio: '1376 / 768',
               transform: 'scale(1.04) translateY(2%)'
             }}
             loading="eager"
@@ -312,9 +316,13 @@ export const DotMatrixHandsSection = ({
           <img 
             src="/assets/images/robot_hand_reach.webp" 
             alt="Intelligent Robotic Automation Hand Reaching In"
+            width={1376}
+            height={768}
+            decoding="async"
             className="w-full h-auto object-contain select-none pointer-events-none"
             style={{
               display: 'block',
+              aspectRatio: '1376 / 768',
               transform: 'scale(1.04) translateY(-1%)'
             }}
             loading="eager"

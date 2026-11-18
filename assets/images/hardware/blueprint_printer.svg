@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 320" width="400" height="320">
+  <defs>
+    <linearGradient id="printBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a192f"/>
+      <stop offset="100%" stop-color="#030816"/>
+    </linearGradient>
+    <pattern id="printGrid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#00f0ff" stroke-width="0.5" stroke-opacity="0.12"/>
+    </pattern>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#printBg)" rx="12"/>
+  <rect width="100%" height="100%" fill="url(#printGrid)" rx="12"/>
+
+  <!-- Industrial Printer Metal Chassis -->
+  <g transform="translate(60, 50)" stroke="#00f0ff" stroke-width="2" fill="none">
+    <rect x="20" y="20" width="240" height="180" rx="8" fill="#0d233e" fill-opacity="0.7"/>
+    <!-- Viewing Window (Transparent acrylic) -->
+    <rect x="35" y="35" width="120" height="100" rx="4" stroke="#38bdf8" stroke-dasharray="3 3" fill="#0284c7" fill-opacity="0.15"/>
+    <!-- Internal Media Roll -->
+    <circle cx="85" cy="85" r="32" stroke="#38bdf8" stroke-width="2.5" fill="#082f49" fill-opacity="0.5"/>
+    <circle cx="85" cy="85" r="14" stroke="#00f0ff" stroke-width="2" fill="#0369a1"/>
+    <!-- Ribbon Spindle -->
+    <circle cx="130" cy="55" r="12" stroke="#a855f7" stroke-width="1.5"/>
+    <!-- Front Control Panel with LCD -->
+    <rect x="180" y="35" width="65" height="150" rx="4" fill="#07182c" stroke="#00f0ff" stroke-width="1.5"/>
+    <rect x="190" y="45" width="45" height="30" rx="2" fill="#003820" stroke="#00d26a" stroke-width="1.5"/>
+    <text x="196" y="62" font-family="monospace" font-size="7" fill="#00d26a">ONLINE: READY</text>
+    <!-- Buttons -->
+    <circle cx="200" cy="95" r="5" fill="#0284c7"/>
+    <circle cx="215" cy="95" r="5" fill="#0284c7"/>
+    <circle cx="207" cy="115" r="6" fill="#00d26a"/>
+    <!-- Label Exit Slot -->
+    <rect x="18" y="160" width="145" height="8" rx="2" fill="#020817" stroke="#38bdf8" stroke-width="1.5"/>
+    <!-- Printed Barcode Label Ejecting -->
+    <rect x="35" y="168" width="110" height="45" rx="2" fill="#ffffff" stroke="#94a3b8" stroke-width="1"/>
+    <rect x="45" y="176" width="3" height="24" fill="#0f172a"/>
+    <rect x="52" y="176" width="6" height="24" fill="#0f172a"/>
+    <rect x="62" y="176" width="2" height="24" fill="#0f172a"/>
+    <rect x="68" y="176" width="5" height="24" fill="#0f172a"/>
+    <rect x="77" y="176" width="2" height="24" fill="#0f172a"/>
+    <rect x="83" y="176" width="7" height="24" fill="#0f172a"/>
+    <rect x="94" y="176" width="3" height="24" fill="#0f172a"/>
+    <!-- 2D DataMatrix on Label -->
+    <rect x="115" y="176" width="22" height="22" fill="#0f172a"/>
+  </g>
+
+  <!-- Technical Specs -->
+  <text x="35" y="285" font-family="monospace" font-size="11" font-weight="bold" fill="#00f0ff">ATPL-SPEC // THERMAL PRINTER</text>
+  <text x="35" y="297" font-family="monospace" font-size="8" fill="#94a3b8">600 DPI / ODV-2D VERIFIER INTEGRATED</text>
+</svg>
+

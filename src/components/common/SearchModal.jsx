@@ -178,7 +178,7 @@ export const SearchModal = ({ isOpen, onClose }) => {
         </div>
 
         {/* Search Results */}
-        <div style={{ overflowY: 'auto', padding: '1rem 1.25rem', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+        <div data-lenis-prevent="true" style={{ overflowY: 'auto', padding: '1rem 1.25rem', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
           {filteredCategories.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '3rem 1rem', color: '#64748b' }}>
               <p style={{ fontSize: '1rem', fontWeight: 600, color: '#334155', marginBottom: '0.35rem' }}>No results found for "{query}"</p>

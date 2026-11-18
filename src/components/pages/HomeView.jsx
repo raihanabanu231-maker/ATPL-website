@@ -7,6 +7,7 @@ import { DotMatrixHandsSection } from '../common/DotMatrixHandsSection';
 import { AuthenticClientsMarquee } from '../common/ClientBrandLogos';
 import { MadeInIndiaSection } from '../common/MadeInIndiaSection';
 import { CustomerStoriesCarousel } from '../common/CustomerStoriesCarousel';
+import { AtplOpenEcosystemBanner } from '../common/AtplOpenEcosystemBanner';
 import { CoreValuesSection } from '../common/CoreValuesSection';
 import { AtplCommunitySection } from '../common/AtplCommunitySection';
 import { Archie3DRobotSection } from '../common/Archie3DRobotSection';
@@ -63,7 +64,7 @@ export const HomeView = () => {
   };
 
   return (
-    <div style={{ backgroundColor: '#ffffff', color: '#1e293b' }}>
+    <div style={{ backgroundColor: '#ffffff', color: '#1e293b', overflowX: 'clip', overflowY: 'visible', transform: 'none', filter: 'none' }}>
 
       {/* =========================================================================
           1. SPLIT HERO SECTION: HERO HEADLINE & CTAS (LEFT) + 3D FACTORY BLUEPRINT TOUR (RIGHT)
@@ -380,6 +381,11 @@ export const HomeView = () => {
           7. REAL CUSTOMER STORIES (Cinematic Carousel Banner)
          ========================================================================= */}
       <CustomerStoriesCarousel />
+
+      {/* =========================================================================
+          7b. ATPL OPEN ECOSYSTEM MANIFESTO & INTEROPERABILITY (Salesforce-Style)
+         ========================================================================= */}
+      <AtplOpenEcosystemBanner />
 
       {/* =========================================================================
           8. CORE VALUES & PRINCIPLES (Editorial Principles Section)

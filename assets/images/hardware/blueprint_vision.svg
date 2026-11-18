@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 320" width="400" height="320">
+  <defs>
+    <linearGradient id="visBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a192f"/>
+      <stop offset="100%" stop-color="#030816"/>
+    </linearGradient>
+    <radialGradient id="ringLight" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9"/>
+      <stop offset="70%" stop-color="#00f0ff" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#0284c7" stop-opacity="0.2"/>
+    </radialGradient>
+    <pattern id="visGrid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#00f0ff" stroke-width="0.5" stroke-opacity="0.12"/>
+    </pattern>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#visBg)" rx="12"/>
+  <rect width="100%" height="100%" fill="url(#visGrid)" rx="12"/>
+
+  <!-- Industrial Smart Camera Wireframe -->
+  <g transform="translate(110, 40)" stroke="#00f0ff" stroke-width="2" fill="none">
+    <!-- Camera Body -->
+    <rect x="35" y="20" width="110" height="90" rx="8" fill="#0b2447" fill-opacity="0.8"/>
+    <!-- Heat Dissipation Fins -->
+    <line x1="145" y1="35" x2="155" y2="35" stroke="#38bdf8" stroke-width="2"/>
+    <line x1="145" y1="50" x2="155" y2="50" stroke="#38bdf8" stroke-width="2"/>
+    <line x1="145" y1="65" x2="155" y2="65" stroke="#38bdf8" stroke-width="2"/>
+    <line x1="145" y1="80" x2="155" y2="80" stroke="#38bdf8" stroke-width="2"/>
+    <line x1="145" y1="95" x2="155" y2="95" stroke="#38bdf8" stroke-width="2"/>
+
+    <!-- Gigabit Ethernet M12 Industrial Connector -->
+    <rect x="20" y="45" width="15" height="18" rx="2" fill="#1e293b" stroke="#64748b" stroke-width="1.5"/>
+    <rect x="20" y="70" width="15" height="18" rx="2" fill="#1e293b" stroke="#64748b" stroke-width="1.5"/>
+
+    <!-- Precision Optical Lens Barrel -->
+    <rect x="65" y="110" width="50" height="40" rx="2" fill="#082f49" stroke="#38bdf8" stroke-width="1.5"/>
+    <!-- Focus Adjustment Knurled Ring -->
+    <line x1="65" y1="125" x2="115" y2="125" stroke="#00f0ff" stroke-width="2" stroke-dasharray="3 2"/>
+
+    <!-- High-Intensity Strobe Ring Light -->
+    <circle cx="90" cy="165" r="32" fill="none" stroke="#00f0ff" stroke-width="3"/>
+    <circle cx="90" cy="165" r="22" fill="none" stroke="#38bdf8" stroke-width="2" stroke-dasharray="4 4"/>
+    <circle cx="90" cy="165" r="14" fill="#021428" stroke="#ffffff" stroke-width="2"/>
+
+    <!-- Field of View Vision Pyramidal Cone -->
+    <polygon points="90,165 20,240 160,240" fill="#00f0ff" fill-opacity="0.1" stroke="#00f0ff" stroke-width="1" stroke-dasharray="3 3"/>
+    
+    <!-- AI Bounding Box on Conveyor Object -->
+    <rect x="65" y="228" width="50" height="20" rx="2" fill="#00d26a" fill-opacity="0.25" stroke="#00d26a" stroke-width="1.5"/>
+    <text x="70" y="242" font-family="monospace" font-size="8" font-weight="bold" fill="#00d26a">PASS: 99.8%</text>
+  </g>
+
+  <!-- Technical Specs -->
+  <text x="35" y="285" font-family="monospace" font-size="11" font-weight="bold" fill="#00f0ff">ATPL-SPEC // MACHINE VISION</text>
+  <text x="35" y="297" font-family="monospace" font-size="8" fill="#94a3b8">20MP GLOBAL SHUTTER / 4ms GRADING</text>
+</svg>
+

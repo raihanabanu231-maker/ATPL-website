@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 90" width="320" height="90">
+  <rect width="100%" height="100%" fill="#ffffff" rx="8"/>
+  <g transform="translate(24, 18)">
+    <!-- Schneider Electric Eco Green Emblem -->
+    <rect x="6" y="8" width="36" height="36" rx="6" fill="#3DCD58"/>
+    <path d="M16,26 L22,34 L32,18" stroke="#ffffff" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    <!-- Brand Typography -->
+    <text x="52" y="27" font-family="'Segoe UI', Roboto, 'Arial', sans-serif" font-size="20" font-weight="900" fill="#2D3748" letter-spacing="-0.01em">Schneider</text>
+    <text x="52" y="44" font-family="'Segoe UI', Roboto, 'Arial', sans-serif" font-size="16" font-weight="700" fill="#3DCD58" letter-spacing="0.08em">ELECTRIC</text>
+  </g>
+</svg>

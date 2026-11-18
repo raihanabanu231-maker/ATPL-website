@@ -440,8 +440,15 @@ export const AboutView = () => {
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem', marginBottom: '1.25rem', flexWrap: 'wrap' }}>
                   <img 
-                    src="/assets/images/amarnath_paramasivam.jpg" 
+                    src="/assets/images/amarnath_paramasivam.webp" 
                     alt="Amarnath Paramasivam - Founder & Managing Director, ATPL Group" 
+                    width="84"
+                    height="84"
+                    loading="lazy"
+                    decoding="async"
+                    onError={(e) => {
+                      e.currentTarget.src = '/assets/images/amarnath_paramasivam.jpg';
+                    }}
                     style={{
                       width: '84px',
                       height: '84px',

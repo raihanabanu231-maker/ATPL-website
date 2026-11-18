@@ -10,15 +10,16 @@ const AppContext = createContext();
 const normalizeView = (target) => {
   if (!target) return 'home';
   const clean = target.replace(/^\/+|\/+$/g, '').toLowerCase();
-  
+
   if (['login', 'signin', 'auth', 'portal'].includes(clean)) return 'login';
   if (clean === 'admin' || clean.startsWith('admin') || clean === 'cms' || clean === 'control') return 'admin';
-  if (['factory-3d', 'factory-tour', 'factory', 'twin', 'tour', '3d', 'robot-tour', 'digitaltwin'].includes(clean)) return 'factory-3d';
+  if (['demos', 'simulator', '3d-demos', 'digital-twin', 'live-demos', 'twin-demos', '3d-simulator'].includes(clean)) return 'demos';
+  if (['factory-3d', 'factory-tour', 'factory', 'twin', 'tour', '3d', 'robot-tour', 'digitaltwin'].includes(clean)) return 'demos';
   if (['software', 'wms', 'trace', 'vision', 'mdm', 'pms', 'apps', 'products', 'product'].includes(clean)) return 'software';
   if (['hardware', 'rfid', 'labeler', 'printers', 'scanners', 'devices', 'aidc'].includes(clean)) return 'hardware';
   if (['solutions', 'solution', 'industry', 'industries', 'automotive', 'pharma', 'logistics', 'fmcg', 'heavy-engg'].includes(clean)) return 'solutions';
   if (['partners', 'partner', 'alliances', 'oem', 'certifications'].includes(clean)) return 'partners';
-  if (['resources', 'resource', 'downloads', 'docs', 'whitepapers', 'datasheets'].includes(clean)) return 'resources';
+  if (['blog', 'blogs', 'article', 'articles', 'posts', 'insights', 'resources', 'resource', 'downloads', 'docs', 'whitepapers', 'datasheets'].includes(clean)) return 'demos';
   if (['services', 'service', 'amc', 'support', 'maintenance', 'sla'].includes(clean)) return 'services';
   if (['customers', 'clients', 'case-studies', 'customer'].includes(clean)) return 'customers';
   if (['about', 'about-us', 'company', 'history'].includes(clean)) return 'about';
@@ -103,7 +104,7 @@ export const AppProvider = ({ children }) => {
       try {
         const hash = safeView === 'home' ? '' : `#${safeView}`;
         const path = safeView === 'home' ? '/' : `/${safeView}`;
-        
+
         // Sync URL with hash for single page apps to prevent any web server 404s
         if (window.location.hash || window.location.protocol === 'file:') {
           window.location.hash = hash;

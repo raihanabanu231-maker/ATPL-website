@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 90" width="320" height="90">
+  <rect width="100%" height="100%" fill="#ffffff" rx="8"/>
+  <g transform="translate(36, 18)">
+    <!-- Godrej Iconic Script Branding -->
+    <text x="12" y="38" font-family="'Brush Script MT', 'Segoe Script', cursive, sans-serif" font-size="38" font-weight="bold" fill="#0072CE" letter-spacing="0.04em">Godrej</text>
+    <text x="140" y="32" font-family="'Segoe UI', 'Arial', sans-serif" font-size="9" font-weight="800" fill="#64748B" letter-spacing="0.22em">ENTERPRISE</text>
+    <text x="140" y="44" font-family="'Segoe UI', 'Arial', sans-serif" font-size="9" font-weight="800" fill="#0072CE" letter-spacing="0.18em">AUTOMATION</text>
+  </g>
+</svg>

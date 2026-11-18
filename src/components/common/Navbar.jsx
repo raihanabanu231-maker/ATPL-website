@@ -3,14 +3,14 @@ import { useApp } from '../../context/AppContext';
 import { AtplLogo } from './AtplLogo';
 import { AtplRobotAvatar } from './AtplRobotAvatar';
 import { GsapDropdown } from './GsapDropdown';
-import { 
-  Boxes, 
-  Cpu, 
-  Layers, 
-  ShieldCheck, 
-  Sparkles, 
-  LayoutDashboard, 
-  Menu, 
+import {
+  Boxes,
+  Cpu,
+  Layers,
+  ShieldCheck,
+  Sparkles,
+  LayoutDashboard,
+  Menu,
   X,
   Search,
   Globe,
@@ -29,11 +29,16 @@ import {
   Users,
   Handshake,
   BookOpen,
+  FileText,
   Calculator,
   Smartphone,
   Zap,
   Barcode,
-  Bot
+  Bot,
+  Car,
+  RotateCw,
+  Activity,
+  Maximize2
 } from 'lucide-react';
 
 export const ATPL_LANGUAGES = [
@@ -89,7 +94,7 @@ export const Navbar = ({ onOpenSearch }) => {
       if (savedName) {
         setSelectedLang(savedName);
       }
-    } catch (e) {}
+    } catch (e) { }
   }, []);
 
   // Lock body scroll when mobile menu is open
@@ -124,7 +129,7 @@ export const Navbar = ({ onOpenSearch }) => {
       } else {
         window.history.pushState(null, '', `#${viewId}`);
       }
-    } catch (e) {}
+    } catch (e) { }
     setMobileMenuOpen(false);
     setActiveDropdown(null);
     setLanguageOpen(false);
@@ -180,7 +185,7 @@ export const Navbar = ({ onOpenSearch }) => {
         <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', maxWidth: '100%', padding: '0 0.25rem', boxSizing: 'border-box' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', minWidth: 0, gap: '0.5rem' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', minWidth: 0, flex: 1 }}>
-              <span 
+              <span
                 className="announcement-pill"
                 style={{
                   display: 'inline-flex',
@@ -199,11 +204,11 @@ export const Navbar = ({ onOpenSearch }) => {
                 <span className="announcement-badge-desktop">ANNOUNCEMENT</span>
                 <span className="announcement-badge-mobile">NEW</span>
               </span>
-              <span 
+              <span
                 className="announcement-text-content"
-                style={{ 
-                  color: '#334155', 
-                  fontWeight: 600, 
+                style={{
+                  color: '#334155',
+                  fontWeight: 600,
                   fontSize: '0.74rem',
                   lineHeight: 1.2
                 }}
@@ -280,7 +285,7 @@ export const Navbar = ({ onOpenSearch }) => {
       </div>
 
       {/* Main Clean Header */}
-      <header 
+      <header
         ref={dropdownRef}
         style={{
           position: 'sticky',
@@ -296,12 +301,12 @@ export const Navbar = ({ onOpenSearch }) => {
         }}
       >
         <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '72px', width: '100%', maxWidth: '100%', boxSizing: 'border-box' }}>
-          
+
           {/* Brand Logo with exact ATPL Bow & Arrow + #E85874 Coral Arc */}
-          <AtplLogo 
-            size={40} 
-            showText={true} 
-            onClick={() => handleNavClick('home')} 
+          <AtplLogo
+            size={40}
+            showText={true}
+            onClick={() => handleNavClick('home')}
           />
 
           {/* Desktop Navigation Links */}
@@ -320,7 +325,7 @@ export const Navbar = ({ onOpenSearch }) => {
           <nav className="atpl-desktop-nav" style={{ alignItems: 'center', gap: '0.2rem' }}>
 
             {/* 1. Hardware Dropdown & Direct Link */}
-            <div 
+            <div
               style={{ position: 'relative' }}
               onMouseEnter={() => handleDropdownEnter('hardware')}
               onMouseLeave={handleDropdownLeave}
@@ -354,94 +359,94 @@ export const Navbar = ({ onOpenSearch }) => {
                 onMouseEnter={() => handleDropdownEnter('hardware')}
                 onMouseLeave={handleDropdownLeave}
               >
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                    <div style={{ fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', color: '#94a3b8', letterSpacing: '0.06em', marginBottom: '0.4rem' }}>
-                      AIDC, RFID & SCANNING
-                    </div>
-                    
-                    <div 
-                      onClick={() => handleNavClick('hardware')}
-                      style={{ padding: '0.55rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', gap: '0.75rem' }}
-                      className="dropdown-hover-item"
-                    >
-                      <Radio size={20} color="#0071ba" style={{ marginTop: '2px', flexShrink: 0 }} />
-                      <div>
-                        <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#0f172a' }}>Fixed UHF RFID Portals</div>
-                        <div style={{ fontSize: '0.78rem', color: '#64748b' }}>High-throughput dock gate auto scanners</div>
-                      </div>
-                    </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                  <div style={{ fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', color: '#94a3b8', letterSpacing: '0.06em', marginBottom: '0.4rem' }}>
+                    AIDC, RFID & SCANNING
+                  </div>
 
-                    <div 
-                      onClick={() => handleNavClick('hardware')}
-                      style={{ padding: '0.55rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', gap: '0.75rem' }}
-                      className="dropdown-hover-item"
-                    >
-                      <Zap size={20} color="#0071ba" style={{ marginTop: '2px', flexShrink: 0 }} />
-                      <div>
-                        <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#0f172a' }}>Industrial 2D & DPM Scanners</div>
-                        <div style={{ fontSize: '0.78rem', color: '#64748b' }}>Fixed mount & rugged handheld imagers</div>
-                      </div>
-                    </div>
-
-                    <div 
-                      onClick={() => handleNavClick('hardware')}
-                      style={{ padding: '0.55rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', gap: '0.75rem' }}
-                      className="dropdown-hover-item"
-                    >
-                      <Smartphone size={20} color="#0284c7" style={{ marginTop: '2px', flexShrink: 0 }} />
-                      <div>
-                        <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#0f172a' }}>Rugged Mobile Computers</div>
-                        <div style={{ fontSize: '0.78rem', color: '#64748b' }}>Android warehouse PDAs & vehicle mounts</div>
-                      </div>
+                  <div
+                    onClick={() => handleNavClick('hardware')}
+                    style={{ padding: '0.55rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', gap: '0.75rem' }}
+                    className="dropdown-hover-item"
+                  >
+                    <Radio size={20} color="#0071ba" style={{ marginTop: '2px', flexShrink: 0 }} />
+                    <div>
+                      <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#0f172a' }}>Fixed UHF RFID Portals</div>
+                      <div style={{ fontSize: '0.78rem', color: '#64748b' }}>High-throughput dock gate auto scanners</div>
                     </div>
                   </div>
 
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                    <div style={{ fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', color: '#94a3b8', letterSpacing: '0.06em', marginBottom: '0.4rem' }}>
-                      PRINTERS & AUTOMATION
-                    </div>
-
-                    <div 
-                      onClick={() => handleNavClick('hardware')}
-                      style={{ padding: '0.55rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', gap: '0.75rem' }}
-                      className="dropdown-hover-item"
-                    >
-                      <Printer size={20} color="#10b981" style={{ marginTop: '2px', flexShrink: 0 }} />
-                      <div>
-                        <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#0f172a' }}>Industrial Barcode Printers</div>
-                        <div style={{ fontSize: '0.78rem', color: '#64748b' }}>600 DPI & RFID print-and-apply engines</div>
-                      </div>
-                    </div>
-
-                    <div 
-                      onClick={() => handleNavClick('hardware')}
-                      style={{ padding: '0.55rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', gap: '0.75rem' }}
-                      className="dropdown-hover-item"
-                    >
-                      <Cpu size={20} color="#E85874" style={{ marginTop: '2px', flexShrink: 0 }} />
-                      <div>
-                        <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#0f172a' }}>Automation & Sorting Gates</div>
-                        <div style={{ fontSize: '0.78rem', color: '#64748b' }}>Pneumatic diverters & conveyor systems</div>
-                      </div>
-                    </div>
-
-                    <div 
-                      onClick={() => handleNavClick('hardware')}
-                      style={{ padding: '0.55rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', gap: '0.75rem' }}
-                      className="dropdown-hover-item"
-                    >
-                      <Eye size={20} color="#8b5cf6" style={{ marginTop: '2px', flexShrink: 0 }} />
-                      <div>
-                        <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#0f172a' }}>Machine Vision Sensors</div>
-                        <div style={{ fontSize: '0.78rem', color: '#64748b' }}>Telecentric lenses & high-speed cameras</div>
-                      </div>
+                  <div
+                    onClick={() => handleNavClick('hardware')}
+                    style={{ padding: '0.55rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', gap: '0.75rem' }}
+                    className="dropdown-hover-item"
+                  >
+                    <Zap size={20} color="#0071ba" style={{ marginTop: '2px', flexShrink: 0 }} />
+                    <div>
+                      <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#0f172a' }}>Industrial 2D & DPM Scanners</div>
+                      <div style={{ fontSize: '0.78rem', color: '#64748b' }}>Fixed mount & rugged handheld imagers</div>
                     </div>
                   </div>
-                </GsapDropdown>
-              </div>
+
+                  <div
+                    onClick={() => handleNavClick('hardware')}
+                    style={{ padding: '0.55rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', gap: '0.75rem' }}
+                    className="dropdown-hover-item"
+                  >
+                    <Smartphone size={20} color="#0284c7" style={{ marginTop: '2px', flexShrink: 0 }} />
+                    <div>
+                      <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#0f172a' }}>Rugged Mobile Computers</div>
+                      <div style={{ fontSize: '0.78rem', color: '#64748b' }}>Android warehouse PDAs & vehicle mounts</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                  <div style={{ fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', color: '#94a3b8', letterSpacing: '0.06em', marginBottom: '0.4rem' }}>
+                    PRINTERS & AUTOMATION
+                  </div>
+
+                  <div
+                    onClick={() => handleNavClick('hardware')}
+                    style={{ padding: '0.55rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', gap: '0.75rem' }}
+                    className="dropdown-hover-item"
+                  >
+                    <Printer size={20} color="#10b981" style={{ marginTop: '2px', flexShrink: 0 }} />
+                    <div>
+                      <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#0f172a' }}>Industrial Barcode Printers</div>
+                      <div style={{ fontSize: '0.78rem', color: '#64748b' }}>600 DPI & RFID print-and-apply engines</div>
+                    </div>
+                  </div>
+
+                  <div
+                    onClick={() => handleNavClick('hardware')}
+                    style={{ padding: '0.55rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', gap: '0.75rem' }}
+                    className="dropdown-hover-item"
+                  >
+                    <Cpu size={20} color="#E85874" style={{ marginTop: '2px', flexShrink: 0 }} />
+                    <div>
+                      <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#0f172a' }}>Automation & Sorting Gates</div>
+                      <div style={{ fontSize: '0.78rem', color: '#64748b' }}>Pneumatic diverters & conveyor systems</div>
+                    </div>
+                  </div>
+
+                  <div
+                    onClick={() => handleNavClick('hardware')}
+                    style={{ padding: '0.55rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', gap: '0.75rem' }}
+                    className="dropdown-hover-item"
+                  >
+                    <Eye size={20} color="#8b5cf6" style={{ marginTop: '2px', flexShrink: 0 }} />
+                    <div>
+                      <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#0f172a' }}>Machine Vision Sensors</div>
+                      <div style={{ fontSize: '0.78rem', color: '#64748b' }}>Telecentric lenses & high-speed cameras</div>
+                    </div>
+                  </div>
+                </div>
+              </GsapDropdown>
+            </div>
 
             {/* 2. Software Dropdown & Direct Link */}
-            <div 
+            <div
               style={{ position: 'relative' }}
               onMouseEnter={() => handleDropdownEnter('software')}
               onMouseLeave={handleDropdownLeave}
@@ -475,146 +480,146 @@ export const Navbar = ({ onOpenSearch }) => {
                 onMouseEnter={() => handleDropdownEnter('software')}
                 onMouseLeave={handleDropdownLeave}
               >
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                    <div 
-                      onClick={() => handleNavClick('software')}
-                      style={{ padding: '0.55rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', gap: '0.75rem', backgroundColor: 'rgba(56, 189, 248, 0.08)', border: '1px solid rgba(56, 189, 248, 0.25)' }}
-                      className="dropdown-hover-item"
-                    >
-                      <Smartphone size={20} color="#0071ba" style={{ marginTop: '2px', flexShrink: 0 }} />
-                      <div>
-                        <div style={{ fontSize: '0.9rem', fontWeight: 800, color: '#0f172a', display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
-                          <span>PerfectEdge MDM</span>
-                          <span style={{ backgroundColor: '#dc2626', color: '#ffffff', fontSize: '0.62rem', fontWeight: 800, padding: '1px 5px', borderRadius: '4px' }}>NEW</span>
-                        </div>
-                        <div style={{ fontSize: '0.78rem', color: '#64748b' }}>Smart device management & kiosk lockdown</div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                  <div
+                    onClick={() => handleNavClick('software')}
+                    style={{ padding: '0.55rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', gap: '0.75rem', backgroundColor: 'rgba(56, 189, 248, 0.08)', border: '1px solid rgba(56, 189, 248, 0.25)' }}
+                    className="dropdown-hover-item"
+                  >
+                    <Smartphone size={20} color="#0071ba" style={{ marginTop: '2px', flexShrink: 0 }} />
+                    <div>
+                      <div style={{ fontSize: '0.9rem', fontWeight: 800, color: '#0f172a', display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                        <span>PerfectEdge MDM</span>
+                        <span style={{ backgroundColor: '#dc2626', color: '#ffffff', fontSize: '0.62rem', fontWeight: 800, padding: '1px 5px', borderRadius: '4px' }}>NEW</span>
                       </div>
-                    </div>
-
-                    <div 
-                      onClick={() => handleNavClick('software')}
-                      style={{ padding: '0.55rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', gap: '0.75rem', backgroundColor: 'rgba(245, 158, 11, 0.08)', border: '1px solid rgba(245, 158, 11, 0.25)' }}
-                      className="dropdown-hover-item"
-                    >
-                      <Printer size={20} color="#f59e0b" style={{ marginTop: '2px', flexShrink: 0 }} />
-                      <div>
-                        <div style={{ fontSize: '0.9rem', fontWeight: 800, color: '#0f172a', display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
-                          <span>Perfect Labeler</span>
-                          <span style={{ backgroundColor: '#f59e0b', color: '#060b14', fontSize: '0.62rem', fontWeight: 800, padding: '1px 5px', borderRadius: '4px' }}>AI</span>
-                        </div>
-                        <div style={{ fontSize: '0.78rem', color: '#64748b' }}>AI prompt cloud label design & multi-branch</div>
-                      </div>
-                    </div>
-
-                    <div 
-                      onClick={() => handleNavClick('software')}
-                      style={{ padding: '0.55rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', gap: '0.75rem', backgroundColor: 'rgba(16, 185, 129, 0.08)', border: '1px solid rgba(16, 185, 129, 0.25)' }}
-                      className="dropdown-hover-item"
-                    >
-                      <Users size={20} color="#10b981" style={{ marginTop: '2px', flexShrink: 0 }} />
-                      <div>
-                        <div style={{ fontSize: '0.9rem', fontWeight: 800, color: '#0f172a', display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
-                          <span>Perfect Flow 360</span>
-                          <span style={{ backgroundColor: '#10b981', color: '#ffffff', fontSize: '0.62rem', fontWeight: 800, padding: '1px 5px', borderRadius: '4px' }}>CRM</span>
-                        </div>
-                        <div style={{ fontSize: '0.78rem', color: '#64748b' }}>CRM, instant quotes, attendance & live delivery</div>
-                      </div>
-                    </div>
-
-                    <div style={{ fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', color: '#94a3b8', letterSpacing: '0.06em', marginBottom: '0.4rem' }}>
-                      SUPPLY CHAIN & PRODUCTION
-                    </div>
-
-                    <div 
-                      onClick={() => handleNavClick('software')}
-                      style={{ padding: '0.55rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', gap: '0.75rem' }}
-                      className="dropdown-hover-item"
-                    >
-                      <Boxes size={20} color="#0071ba" style={{ marginTop: '2px', flexShrink: 0 }} />
-                      <div>
-                        <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#0f172a' }}>Perfect Store™ (WMS)</div>
-                        <div style={{ fontSize: '0.78rem', color: '#64748b' }}>Warehouse management & 3D bin slotting</div>
-                      </div>
-                    </div>
-
-                    <div 
-                      onClick={() => handleNavClick('software')}
-                      style={{ padding: '0.55rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', gap: '0.75rem' }}
-                      className="dropdown-hover-item"
-                    >
-                      <FileCheck size={20} color="#009a44" style={{ marginTop: '2px', flexShrink: 0 }} />
-                      <div>
-                        <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#0f172a' }}>Perfect Trace™</div>
-                        <div style={{ fontSize: '0.78rem', color: '#64748b' }}>GS1 Item-to-pallet aggregation & serialization</div>
-                      </div>
-                    </div>
-
-                    <div 
-                      onClick={() => handleNavClick('software')}
-                      style={{ padding: '0.55rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', gap: '0.75rem' }}
-                      className="dropdown-hover-item"
-                    >
-                      <Layers size={20} color="#E85874" style={{ marginTop: '2px', flexShrink: 0 }} />
-                      <div>
-                        <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#0f172a' }}>Perfect PMS™ (Production)</div>
-                        <div style={{ fontSize: '0.78rem', color: '#64748b' }}>Shopfloor OEE, WIP & line balancing</div>
-                      </div>
+                      <div style={{ fontSize: '0.78rem', color: '#64748b' }}>Smart device management & kiosk lockdown</div>
                     </div>
                   </div>
 
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                    <div style={{ fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', color: '#94a3b8', letterSpacing: '0.06em', marginBottom: '0.4rem' }}>
-                      AI QUALITY & CONNECTIVITY
-                    </div>
-
-                    <div 
-                      onClick={() => handleNavClick('software')}
-                      style={{ padding: '0.55rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', gap: '0.75rem' }}
-                      className="dropdown-hover-item"
-                    >
-                      <Eye size={20} color="#8b5cf6" style={{ marginTop: '2px', flexShrink: 0 }} />
-                      <div>
-                        <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#0f172a' }}>Perfect AI Vision™</div>
-                        <div style={{ fontSize: '0.78rem', color: '#64748b' }}>Deep learning Pass/Fail defect QC</div>
+                  <div
+                    onClick={() => handleNavClick('software')}
+                    style={{ padding: '0.55rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', gap: '0.75rem', backgroundColor: 'rgba(245, 158, 11, 0.08)', border: '1px solid rgba(245, 158, 11, 0.25)' }}
+                    className="dropdown-hover-item"
+                  >
+                    <Printer size={20} color="#f59e0b" style={{ marginTop: '2px', flexShrink: 0 }} />
+                    <div>
+                      <div style={{ fontSize: '0.9rem', fontWeight: 800, color: '#0f172a', display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                        <span>Perfect Labeler</span>
+                        <span style={{ backgroundColor: '#f59e0b', color: '#060b14', fontSize: '0.62rem', fontWeight: 800, padding: '1px 5px', borderRadius: '4px' }}>AI</span>
                       </div>
-                    </div>
-
-                    <div 
-                      onClick={() => handleNavClick('software')}
-                      style={{ padding: '0.55rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', gap: '0.75rem' }}
-                      className="dropdown-hover-item"
-                    >
-                      <ShieldCheck size={20} color="#10b981" style={{ marginTop: '2px', flexShrink: 0 }} />
-                      <div>
-                        <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#0f172a' }}>Perfect Audit™</div>
-                        <div style={{ fontSize: '0.78rem', color: '#64748b' }}>Digital CAPA & paperless compliance</div>
-                      </div>
-                    </div>
-
-                    <div 
-                      onClick={() => handleNavClick('factory-3d')}
-                      style={{
-                        padding: '0.65rem',
-                        borderRadius: '8px',
-                        cursor: 'pointer',
-                        background: 'linear-gradient(135deg, rgba(232, 88, 116, 0.08) 0%, #fff7ed 100%)',
-                        border: '1px solid rgba(232, 88, 116, 0.25)',
-                        display: 'flex',
-                        gap: '0.75rem'
-                      }}
-                    >
-                      <Sparkles size={20} color="#E85874" style={{ marginTop: '2px', flexShrink: 0 }} />
-                      <div>
-                        <div style={{ fontSize: '0.88rem', fontWeight: 800, color: '#E85874' }}>✨ 3D Digital Twin</div>
-                        <div style={{ fontSize: '0.75rem', color: '#9f1239' }}>Interactive 12-station smart factory tour</div>
-                      </div>
+                      <div style={{ fontSize: '0.78rem', color: '#64748b' }}>AI prompt cloud label design & multi-branch</div>
                     </div>
                   </div>
-                </GsapDropdown>
-              </div>
+
+                  <div
+                    onClick={() => handleNavClick('software')}
+                    style={{ padding: '0.55rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', gap: '0.75rem', backgroundColor: 'rgba(16, 185, 129, 0.08)', border: '1px solid rgba(16, 185, 129, 0.25)' }}
+                    className="dropdown-hover-item"
+                  >
+                    <Users size={20} color="#10b981" style={{ marginTop: '2px', flexShrink: 0 }} />
+                    <div>
+                      <div style={{ fontSize: '0.9rem', fontWeight: 800, color: '#0f172a', display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                        <span>Perfect Flow 360</span>
+                        <span style={{ backgroundColor: '#10b981', color: '#ffffff', fontSize: '0.62rem', fontWeight: 800, padding: '1px 5px', borderRadius: '4px' }}>CRM</span>
+                      </div>
+                      <div style={{ fontSize: '0.78rem', color: '#64748b' }}>CRM, instant quotes, attendance & live delivery</div>
+                    </div>
+                  </div>
+
+                  <div style={{ fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', color: '#94a3b8', letterSpacing: '0.06em', marginBottom: '0.4rem' }}>
+                    SUPPLY CHAIN & PRODUCTION
+                  </div>
+
+                  <div
+                    onClick={() => handleNavClick('software')}
+                    style={{ padding: '0.55rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', gap: '0.75rem' }}
+                    className="dropdown-hover-item"
+                  >
+                    <Boxes size={20} color="#0071ba" style={{ marginTop: '2px', flexShrink: 0 }} />
+                    <div>
+                      <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#0f172a' }}>Perfect Store™ (WMS)</div>
+                      <div style={{ fontSize: '0.78rem', color: '#64748b' }}>Warehouse management & 3D bin slotting</div>
+                    </div>
+                  </div>
+
+                  <div
+                    onClick={() => handleNavClick('software')}
+                    style={{ padding: '0.55rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', gap: '0.75rem' }}
+                    className="dropdown-hover-item"
+                  >
+                    <FileCheck size={20} color="#009a44" style={{ marginTop: '2px', flexShrink: 0 }} />
+                    <div>
+                      <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#0f172a' }}>Perfect Trace™</div>
+                      <div style={{ fontSize: '0.78rem', color: '#64748b' }}>GS1 Item-to-pallet aggregation & serialization</div>
+                    </div>
+                  </div>
+
+                  <div
+                    onClick={() => handleNavClick('software')}
+                    style={{ padding: '0.55rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', gap: '0.75rem' }}
+                    className="dropdown-hover-item"
+                  >
+                    <Layers size={20} color="#E85874" style={{ marginTop: '2px', flexShrink: 0 }} />
+                    <div>
+                      <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#0f172a' }}>Perfect PMS™ (Production)</div>
+                      <div style={{ fontSize: '0.78rem', color: '#64748b' }}>Shopfloor OEE, WIP & line balancing</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                  <div style={{ fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', color: '#94a3b8', letterSpacing: '0.06em', marginBottom: '0.4rem' }}>
+                    AI QUALITY & CONNECTIVITY
+                  </div>
+
+                  <div
+                    onClick={() => handleNavClick('software')}
+                    style={{ padding: '0.55rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', gap: '0.75rem' }}
+                    className="dropdown-hover-item"
+                  >
+                    <Eye size={20} color="#8b5cf6" style={{ marginTop: '2px', flexShrink: 0 }} />
+                    <div>
+                      <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#0f172a' }}>Perfect AI Vision™</div>
+                      <div style={{ fontSize: '0.78rem', color: '#64748b' }}>Deep learning Pass/Fail defect QC</div>
+                    </div>
+                  </div>
+
+                  <div
+                    onClick={() => handleNavClick('software')}
+                    style={{ padding: '0.55rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', gap: '0.75rem' }}
+                    className="dropdown-hover-item"
+                  >
+                    <ShieldCheck size={20} color="#10b981" style={{ marginTop: '2px', flexShrink: 0 }} />
+                    <div>
+                      <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#0f172a' }}>Perfect Audit™</div>
+                      <div style={{ fontSize: '0.78rem', color: '#64748b' }}>Digital CAPA & paperless compliance</div>
+                    </div>
+                  </div>
+
+                  <div
+                    onClick={() => handleNavClick('factory-3d')}
+                    style={{
+                      padding: '0.65rem',
+                      borderRadius: '8px',
+                      cursor: 'pointer',
+                      background: 'linear-gradient(135deg, rgba(232, 88, 116, 0.08) 0%, #fff7ed 100%)',
+                      border: '1px solid rgba(232, 88, 116, 0.25)',
+                      display: 'flex',
+                      gap: '0.75rem'
+                    }}
+                  >
+                    <Sparkles size={20} color="#E85874" style={{ marginTop: '2px', flexShrink: 0 }} />
+                    <div>
+                      <div style={{ fontSize: '0.88rem', fontWeight: 800, color: '#E85874' }}>✨ 3D Digital Twin</div>
+                      <div style={{ fontSize: '0.75rem', color: '#9f1239' }}>Interactive 12-station smart factory tour</div>
+                    </div>
+                  </div>
+                </div>
+              </GsapDropdown>
+            </div>
 
             {/* 3. Customers Dropdown */}
-            <div 
+            <div
               style={{ position: 'relative' }}
               onMouseEnter={() => handleDropdownEnter('customers')}
               onMouseLeave={handleDropdownLeave}
@@ -648,7 +653,7 @@ export const Navbar = ({ onOpenSearch }) => {
                 onMouseEnter={() => handleDropdownEnter('customers')}
                 onMouseLeave={handleDropdownLeave}
               >
-                <div 
+                <div
                   onClick={() => {
                     handleNavClick('customers');
                     setActiveDropdown(null);
@@ -663,7 +668,7 @@ export const Navbar = ({ onOpenSearch }) => {
                   <div style={{ fontSize: '0.78rem', color: '#64748b', marginTop: '2px' }}>Verified production results across 200+ industry leaders</div>
                 </div>
 
-                <div 
+                <div
                   onClick={() => {
                     handleNavClick('customers');
                     setTimeout(() => {
@@ -682,7 +687,7 @@ export const Navbar = ({ onOpenSearch }) => {
                   <div style={{ fontSize: '0.78rem', color: '#64748b', marginTop: '2px' }}>Filter by Automotive, Heavy Engg, Pharma & FMCG</div>
                 </div>
 
-                <div 
+                <div
                   onClick={() => {
                     openDemoModal({ solution: 'Customer Case Studies Request', notes: 'Request for enterprise case studies' });
                     setActiveDropdown(null);
@@ -695,7 +700,7 @@ export const Navbar = ({ onOpenSearch }) => {
             </div>
 
             {/* 4. Partners Dropdown */}
-            <div 
+            <div
               style={{ position: 'relative' }}
               onMouseEnter={() => handleDropdownEnter('partners')}
               onMouseLeave={handleDropdownLeave}
@@ -729,7 +734,7 @@ export const Navbar = ({ onOpenSearch }) => {
                 onMouseEnter={() => handleDropdownEnter('partners')}
                 onMouseLeave={handleDropdownLeave}
               >
-                <div 
+                <div
                   onClick={() => handleNavClick('partners')}
                   style={{ padding: '0.65rem 0.85rem', borderRadius: '8px', cursor: 'pointer' }}
                   className="dropdown-hover-item"
@@ -741,7 +746,7 @@ export const Navbar = ({ onOpenSearch }) => {
                   <div style={{ fontSize: '0.78rem', color: '#64748b', marginTop: '2px' }}>Authorized GS1 barcode & RFID serialization partner</div>
                 </div>
 
-                <div 
+                <div
                   onClick={() => handleNavClick('partners')}
                   style={{ padding: '0.65rem 0.85rem', borderRadius: '8px', cursor: 'pointer' }}
                   className="dropdown-hover-item"
@@ -753,7 +758,7 @@ export const Navbar = ({ onOpenSearch }) => {
                   <div style={{ fontSize: '0.78rem', color: '#64748b', marginTop: '2px' }}>Zebra, Honeywell, Datalogic & Impinj alliance</div>
                 </div>
 
-                <div 
+                <div
                   onClick={() => handleNavClick('partners')}
                   style={{ padding: '0.65rem 0.85rem', borderRadius: '8px', cursor: 'pointer' }}
                   className="dropdown-hover-item"
@@ -767,18 +772,18 @@ export const Navbar = ({ onOpenSearch }) => {
               </GsapDropdown>
             </div>
 
-            {/* 5. Resources Dropdown */}
-            <div 
+            {/* 5. 3D Twin Simulator Dropdown */}
+            <div
               style={{ position: 'relative' }}
-              onMouseEnter={() => handleDropdownEnter('resources')}
+              onMouseEnter={() => handleDropdownEnter('demos')}
               onMouseLeave={handleDropdownLeave}
             >
               <button
-                onClick={() => handleNavClick('resources')}
+                onClick={() => handleNavClick('demos')}
                 style={{
                   background: 'transparent',
                   border: 'none',
-                  color: activeDropdown === 'resources' || currentView === 'resources' ? '#0071ba' : '#334155',
+                  color: activeDropdown === 'demos' || currentView === 'demos' || currentView === 'factory-3d' ? '#0071ba' : '#334155',
                   padding: '0.6rem 0.75rem',
                   fontSize: '0.94rem',
                   fontWeight: 600,
@@ -790,106 +795,92 @@ export const Navbar = ({ onOpenSearch }) => {
                   transition: 'all 0.15s ease'
                 }}
               >
-                <span>Resources</span>
-                <ChevronDown size={14} style={{ transform: activeDropdown === 'resources' ? 'rotate(180deg)' : 'none', transition: 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)' }} />
+                <span>3D Twin Simulator</span>
+                <ChevronDown size={14} style={{ transform: activeDropdown === 'demos' ? 'rotate(180deg)' : 'none', transition: 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)' }} />
               </button>
 
               <GsapDropdown
-                isOpen={activeDropdown === 'resources'}
-                width="350px"
+                isOpen={activeDropdown === 'demos'}
+                width="380px"
                 align="right"
                 style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}
-                onMouseEnter={() => handleDropdownEnter('resources')}
+                onMouseEnter={() => handleDropdownEnter('demos')}
                 onMouseLeave={handleDropdownLeave}
               >
-                <div 
-                  onClick={() => handleNavClick('resources')}
+                <div
+                  onClick={() => {
+                    handleNavClick('demos');
+                    setTimeout(() => {
+                      const el = document.getElementById('3d-simulator');
+                      if (el) el.scrollIntoView({ behavior: 'smooth' });
+                    }, 100);
+                  }}
                   style={{ padding: '0.65rem 0.85rem', borderRadius: '8px', cursor: 'pointer' }}
                   className="dropdown-hover-item"
                 >
                   <div style={{ fontWeight: 700, fontSize: '0.88rem', color: '#0071ba', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                    <BookOpen size={15} />
-                    <span>Technical Whitepapers & Guides</span>
+                    <Sparkles size={15} color="#00f0ff" />
+                    <span>3D Smart Factory Simulator</span>
                   </div>
-                  <div style={{ fontSize: '0.76rem', color: '#64748b' }}>Download product datasheets & standards briefs</div>
+                  <div style={{ fontSize: '0.76rem', color: '#64748b' }}>Live virtual plant inspection with Archie AI flight &amp; telemetry</div>
                 </div>
 
-                <div 
-                  onClick={() => handleNavClick('factory-3d')}
+                <div
+                  onClick={() => {
+                    handleNavClick('demos');
+                    setTimeout(() => {
+                      const el = document.getElementById('hardware-360-matrix');
+                      if (el) el.scrollIntoView({ behavior: 'smooth' });
+                    }, 100);
+                  }}
                   style={{ padding: '0.65rem 0.85rem', borderRadius: '8px', cursor: 'pointer' }}
                   className="dropdown-hover-item"
                 >
                   <div style={{ fontWeight: 700, fontSize: '0.88rem', color: '#E85874', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                    <Sparkles size={15} />
-                    <span>3D Digital Twin Simulator</span>
+                    <RotateCw size={15} color="#E85874" />
+                    <span>360° Product Demo Videos</span>
                   </div>
-                  <div style={{ fontSize: '0.76rem', color: '#64748b' }}>Live interactive virtual plant tour</div>
+                  <div style={{ fontSize: '0.76rem', color: '#64748b' }}>20 rotating turntable demo videos of scanners, RFID &amp; printers</div>
                 </div>
 
-                <div 
-                  onClick={() => handleNavClick('services')}
+                <div
+                  onClick={() => {
+                    handleNavClick('demos');
+                    setTimeout(() => {
+                      const el = document.getElementById('stations-deepdive');
+                      if (el) el.scrollIntoView({ behavior: 'smooth' });
+                    }, 100);
+                  }}
                   style={{ padding: '0.65rem 0.85rem', borderRadius: '8px', cursor: 'pointer' }}
                   className="dropdown-hover-item"
                 >
-                  <div style={{ fontWeight: 700, fontSize: '0.88rem', color: '#0f172a', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                    <Headphones size={15} color="#0d9488" />
-                    <span>AMC & Maintenance SLAs</span>
+                  <div style={{ fontWeight: 700, fontSize: '0.88rem', color: '#10b981', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                    <Activity size={15} color="#10b981" />
+                    <span>High-Speed Conveyor &amp; RFID Gates</span>
                   </div>
-                  <div style={{ fontSize: '0.76rem', color: '#64748b' }}>Guaranteed response tiers & vaults</div>
+                  <div style={{ fontSize: '0.76rem', color: '#64748b' }}>See vision tunnels, dock doors &amp; DPM laser stations in motion</div>
                 </div>
 
-                <div 
-                  onClick={() => handleNavClick('contact')}
-                  style={{ padding: '0.65rem 0.85rem', borderRadius: '8px', cursor: 'pointer' }}
+                <div
+                  onClick={() => handleNavClick('factory-3d')}
+                  style={{ padding: '0.65rem 0.85rem', borderRadius: '8px', cursor: 'pointer', borderTop: '1px solid #f1f5f9' }}
                   className="dropdown-hover-item"
                 >
-                  <div style={{ fontWeight: 700, fontSize: '0.88rem', color: '#0f172a', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                    <Building2 size={15} color="#0071ba" />
-                    <span>Contact & Helpdesk</span>
+                  <div style={{ fontWeight: 700, fontSize: '0.88rem', color: '#0284c7', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                    <Maximize2 size={15} color="#0284c7" />
+                    <span>Full-Screen Immersive 3D Flight</span>
                   </div>
-                  <div style={{ fontSize: '0.76rem', color: '#64748b' }}>Reach engineering teams directly</div>
+                  <div style={{ fontSize: '0.76rem', color: '#64748b' }}>Launch dedicated edge-to-edge 3D plant flight mode</div>
                 </div>
               </GsapDropdown>
             </div>
 
-            {/* Direct 3D Digital Twin Link */}
-            <button
-              onClick={() => handleNavClick('factory-3d')}
-              style={{
-                background: currentView === 'factory-3d' ? 'rgba(0, 113, 186, 0.1)' : 'rgba(0, 240, 255, 0.06)',
-                border: currentView === 'factory-3d' ? '1px solid #0071ba' : '1px solid rgba(0, 240, 255, 0.3)',
-                color: currentView === 'factory-3d' ? '#0071ba' : '#0284c7',
-                padding: '0.45rem 0.75rem',
-                fontSize: '0.88rem',
-                fontWeight: 700,
-                cursor: 'pointer',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.4rem',
-                borderRadius: '8px',
-                transition: 'all 0.2s ease'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = 'rgba(0, 113, 186, 0.12)';
-                e.currentTarget.style.transform = 'translateY(-1px)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = currentView === 'factory-3d' ? 'rgba(0, 113, 186, 0.1)' : 'rgba(0, 240, 255, 0.06)';
-                e.currentTarget.style.transform = 'translateY(0)';
-              }}
-            >
-              <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#00f0ff', boxShadow: '0 0 8px #00f0ff', display: 'inline-block' }}></span>
-              <span>3D Digital Twin</span>
-            </button>
-
-            {/* Direct 3D Hardware Deck Link */}
+            {/* Direct 360° Videos Link */}
             <button
               onClick={() => {
-                if (currentView !== 'hardware') {
-                  setCurrentView('hardware');
-                }
+                handleNavClick('demos');
                 setTimeout(() => {
-                  const el = document.getElementById('hardware-3d-deck');
+                  const el = document.getElementById('hardware-360-matrix');
                   if (el) el.scrollIntoView({ behavior: 'smooth' });
                 }, 100);
               }}
@@ -915,10 +906,10 @@ export const Navbar = ({ onOpenSearch }) => {
                 e.currentTarget.style.backgroundColor = 'rgba(232, 88, 116, 0.08)';
                 e.currentTarget.style.transform = 'translateY(0)';
               }}
-              title="Jump to interactive 3D Cascading Hardware Deck"
+              title="Jump to 360° product demo videos"
             >
-              <Sparkles size={14} color="#E85874" />
-              <span>3D Hardware</span>
+              <RotateCw size={14} color="#E85874" />
+              <span>360° Videos</span>
             </button>
 
             {/* Direct Comparison Section Link */}
@@ -963,7 +954,7 @@ export const Navbar = ({ onOpenSearch }) => {
 
           {/* Right Action Utilities (Zoho Search, Language, Sign In, Sign Up) */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexShrink: 0 }}>
-            
+
             {/* Search Icon */}
             <button
               onClick={onOpenSearch}
@@ -1289,13 +1280,13 @@ export const Navbar = ({ onOpenSearch }) => {
               backgroundColor: '#ffffff',
               flexShrink: 0
             }}>
-              <AtplLogo 
-                size={34} 
-                showText={true} 
+              <AtplLogo
+                size={34}
+                showText={true}
                 onClick={() => {
                   handleNavClick('home');
                   setMobileMenuOpen(false);
-                }} 
+                }}
               />
               <button
                 onClick={() => setMobileMenuOpen(false)}
@@ -1486,20 +1477,20 @@ export const Navbar = ({ onOpenSearch }) => {
                 )}
               </div>
 
-              {/* 5. 3D Factory Tour (Highlighted) */}
+              {/* 5. 3D Twin Simulator (Direct Link) */}
               <button
-                onClick={() => handleNavClick('factory-3d')}
+                onClick={() => handleNavClick('demos')}
                 style={{
                   width: '100%',
                   minHeight: '44px',
-                  background: 'linear-gradient(135deg, rgba(232, 88, 116, 0.08) 0%, rgba(0, 113, 186, 0.08) 100%)',
-                  border: '1.5px solid rgba(232, 88, 116, 0.35)',
+                  background: 'linear-gradient(135deg, rgba(0, 240, 255, 0.08) 0%, rgba(232, 88, 116, 0.08) 100%)',
+                  border: '1.5px solid rgba(0, 240, 255, 0.35)',
                   borderRadius: '8px',
                   padding: '0.7rem 1rem',
                   textAlign: 'left',
                   fontSize: '0.96rem',
                   fontWeight: 700,
-                  color: '#E85874',
+                  color: '#0f172a',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'space-between',
@@ -1507,10 +1498,10 @@ export const Navbar = ({ onOpenSearch }) => {
                 }}
               >
                 <span style={{ display: 'flex', alignItems: 'center', gap: '0.55rem' }}>
-                  <span>✨</span>
-                  <span>3D Digital Twin Factory Tour</span>
+                  <span style={{ color: '#00f0ff' }}>✨</span>
+                  <span>3D Twin Simulator &amp; Product Demos</span>
                 </span>
-                <span style={{ backgroundColor: '#E85874', color: '#ffffff', fontSize: '0.65rem', padding: '0.15rem 0.45rem', borderRadius: '999px', fontWeight: 800 }}>LIVE</span>
+                <span style={{ backgroundColor: '#0071ba', color: '#ffffff', fontSize: '0.65rem', padding: '0.15rem 0.45rem', borderRadius: '999px', fontWeight: 800 }}>LIVE</span>
               </button>
 
               {/* 6. Contact Sales & Support (Direct Link) */}
@@ -1552,7 +1543,7 @@ export const Navbar = ({ onOpenSearch }) => {
               }}>
                 <button onClick={() => handleNavClick('solutions')} style={{ background: 'none', border: 'none', color: '#0071ba', fontWeight: 600, fontSize: '0.82rem', cursor: 'pointer', padding: '0.2rem 0.4rem' }}>Industry Solutions</button>
                 <button onClick={() => handleNavClick('services')} style={{ background: 'none', border: 'none', color: '#0071ba', fontWeight: 600, fontSize: '0.82rem', cursor: 'pointer', padding: '0.2rem 0.4rem' }}>24/7 AMC</button>
-                <button onClick={() => handleNavClick('resources')} style={{ background: 'none', border: 'none', color: '#0071ba', fontWeight: 600, fontSize: '0.82rem', cursor: 'pointer', padding: '0.2rem 0.4rem' }}>Whitepapers</button>
+                <button onClick={() => handleNavClick('demos')} style={{ background: 'none', border: 'none', color: '#0071ba', fontWeight: 600, fontSize: '0.82rem', cursor: 'pointer', padding: '0.2rem 0.4rem' }}>3D Twin Simulator</button>
               </div>
 
               {/* Compact Language Selector Bar */}
@@ -1582,10 +1573,10 @@ export const Navbar = ({ onOpenSearch }) => {
                   <ChevronDown size={15} style={{ transform: mobileExpandedSection === 'language' ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s ease' }} />
                 </button>
                 {mobileExpandedSection === 'language' && (
-                  <div style={{ 
-                    padding: '0.4rem', 
-                    display: 'grid', 
-                    gridTemplateColumns: 'repeat(2, 1fr)', 
+                  <div style={{
+                    padding: '0.4rem',
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(2, 1fr)',
                     gap: '0.4rem',
                     backgroundColor: '#f8fafc',
                     borderRadius: '8px',

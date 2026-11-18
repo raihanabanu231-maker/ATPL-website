@@ -11,8 +11,10 @@ import { GenjutsuCursorAura } from './components/ui/genjutsu-cursor-aura';
 import { CookieConsent } from './components/common/CookieConsent';
 import { GlobalScrollProgress } from './components/ui/global-scroll-progress';
 import { ScrollTelemetryHUD } from './components/ui/scroll-telemetry-hud';
+import { SmoothScrollProvider } from './components/common/SmoothScrollProvider';
 import { Toaster } from 'sonner';
 import { motion, AnimatePresence } from 'framer-motion';
+
 // Code-split interactive modals and CoPilot to keep initial mobile bundle ultra-lean
 const LeadModal = lazy(() => import('./components/common/LeadModal').then(m => ({ default: m.LeadModal })));
 const SearchModal = lazy(() => import('./components/common/SearchModal').then(m => ({ default: m.SearchModal })));
@@ -23,7 +25,7 @@ const SoftwareView = lazy(() => import('./components/pages/SoftwareView').then(m
 const HardwareView = lazy(() => import('./components/pages/HardwareView').then(m => ({ default: m.HardwareView })));
 const SolutionsView = lazy(() => import('./components/pages/SolutionsView').then(m => ({ default: m.SolutionsView })));
 const PartnersView = lazy(() => import('./components/pages/PartnersView').then(m => ({ default: m.PartnersView })));
-const ResourcesView = lazy(() => import('./components/pages/ResourcesView').then(m => ({ default: m.ResourcesView })));
+const DigitalTwinDemosView = lazy(() => import('./components/pages/DigitalTwinDemosView').then(m => ({ default: m.DigitalTwinDemosView })));
 const ServicesView = lazy(() => import('./components/pages/ServicesView').then(m => ({ default: m.ServicesView })));
 const CustomersView = lazy(() => import('./components/pages/CustomersView').then(m => ({ default: m.CustomersView })));
 const AboutView = lazy(() => import('./components/pages/AboutView').then(m => ({ default: m.AboutView })));
@@ -77,22 +79,32 @@ const MainAppContent = () => {
         setCurrentView('privacy');
       } else if (target === 'terms') {
         setCurrentView('terms');
+      } else if (['demos', 'simulator', '3d-demos', 'digital-twin', 'live-demos'].includes(target)) {
+        setCurrentView('demos');
       } else if (['factory-3d', 'factory-tour', 'factory', 'twin', 'tour', '3d', 'robot-tour', 'digitaltwin'].includes(target)) {
-        setCurrentView('factory-3d');
+        setCurrentView('demos');
       } else if (['hardware-3d-deck', 'hardware-deck', '3d-hardware', 'hardware-3d', 'deck', '3d-deck', 'tarot-deck'].includes(target)) {
         setCurrentView('hardware');
         setTimeout(() => {
           const el = document.getElementById('hardware-3d-deck');
           if (el) el.scrollIntoView({ behavior: 'smooth' });
         }, 150);
-      } else if (['software', 'hardware', 'solutions', 'partners', 'resources', 'services', 'customers', 'about', 'contact'].includes(target)) {
-        setCurrentView(target);
+      } else if (['software', 'hardware', 'solutions', 'partners', 'resources', 'blog', 'services', 'customers', 'about', 'contact', 'demos'].includes(target)) {
+        if (target === 'blog' || target === 'resources') {
+          setCurrentView('demos');
+        } else {
+          setCurrentView(target);
+        }
       }
     };
 
     handleLocation();
     window.addEventListener('popstate', handleLocation);
-    return () => window.removeEventListener('popstate', handleLocation);
+    window.addEventListener('hashchange', handleLocation);
+    return () => {
+      window.removeEventListener('popstate', handleLocation);
+      window.removeEventListener('hashchange', handleLocation);
+    };
   }, [setCurrentView]);
 
   // Automatically scroll to top on every view switch
@@ -126,6 +138,10 @@ const MainAppContent = () => {
 
   const renderCurrentView = () => {
     switch (currentView) {
+      case 'demos':
+      case 'blog':
+      case 'resources':
+        return <DigitalTwinDemosView />;
       case 'factory-3d':
         return <Factory3DView />;
       case 'software':
@@ -136,8 +152,6 @@ const MainAppContent = () => {
         return <SolutionsView />;
       case 'partners':
         return <PartnersView />;
-      case 'resources':
-        return <ResourcesView />;
       case 'services':
         return <ServicesView />;
       case 'customers':
@@ -158,93 +172,118 @@ const MainAppContent = () => {
 
   // Main website view with header & footer
   return (
-    <ErrorBoundary>
-      <a href="#main-content" className="skip-link">Skip to main content</a>
-      <div style={{
-        minHeight: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        backgroundColor: currentView === 'home' ? '#ffffff' : '#060b14',
-        position: 'relative'
-      }}>
-        
-        {/* Global Hardware-Accelerated Scroll Progress Laser Line */}
-        <GlobalScrollProgress />
+    <SmoothScrollProvider currentView={currentView}>
+      <ErrorBoundary>
+        <a href="#main-content" className="skip-link">Skip to main content</a>
+        <div style={{
+          minHeight: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          backgroundColor: currentView === 'home' ? '#ffffff' : '#060b14',
+          position: 'relative',
+          overflowX: 'clip',
+          overflowY: 'visible',
+          transform: 'none',
+          filter: 'none'
+        }}>
 
-        {/* 1. Three.js 3D Spatial Particle Constellation Layer */}
-        <ThreeSpatialBackground currentView={currentView} />
+          {/* Global Hardware-Accelerated Scroll Progress Laser Line */}
+          <GlobalScrollProgress />
 
-        {/* 2. Genjutsu Holographic Interactive Cursor Aura */}
-        <GenjutsuCursorAura />
+          {/* 1. Three.js 3D Spatial Particle Constellation Layer (Deferred on Idle) */}
+          <ThreeSpatialBackground currentView={currentView} />
 
-        {/* Dynamic ambient moving background */}
-        <DynamicMovingBackground currentView={currentView} />
+          {/* 2. Genjutsu Holographic Interactive Cursor Aura */}
+          <GenjutsuCursorAura />
 
-        {/* Hide React top navbar when full-screen 3D factory tour is active (it has its own integrated header) */}
-        {currentView !== 'factory-3d' && (
-          <ErrorBoundary title="Navigation Bar">
-            <Navbar onOpenSearch={() => setSearchOpen(true)} />
-          </ErrorBoundary>
-        )}
+          {/* Dynamic ambient moving background */}
+          <DynamicMovingBackground currentView={currentView} />
 
-        <main id="main-content" style={{ flex: 1, width: '100%', maxWidth: '100%', margin: 0, padding: 0 }}>
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={currentView}
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -6 }}
-              transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              style={{ width: '100%' }}
-            >
-              <ErrorBoundary 
+          {/* Hide React top navbar when full-screen 3D factory tour is active (it has its own integrated header) */}
+          {currentView !== 'factory-3d' && (
+            <ErrorBoundary title="Navigation Bar">
+              <Navbar onOpenSearch={() => setSearchOpen(true)} />
+            </ErrorBoundary>
+          )}
+
+          <main
+            id="main-content"
+            style={{
+              flex: 1,
+              width: '100%',
+              maxWidth: '100%',
+              margin: 0,
+              padding: 0,
+              overflowX: 'clip',
+              overflowY: 'visible',
+              transform: 'none',
+              filter: 'none'
+            }}
+          >
+            <AnimatePresence mode="wait">
+              <motion.div
                 key={currentView}
-                title={`${currentView.toUpperCase()} View Reload Needed`}
-                description="This specific view encountered a temporary rendering issue. Click below to return to Homepage or switch views."
-                onReset={() => setCurrentView('home')}
-                compact
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.18 }}
+                style={{
+                  width: '100%',
+                  transform: 'none',
+                  filter: 'none',
+                  overflowX: 'clip',
+                  overflowY: 'visible'
+                }}
               >
-                <Suspense fallback={<ViewLoadingFallback />}>
-                  {renderCurrentView()}
-                </Suspense>
-              </ErrorBoundary>
-            </motion.div>
-          </AnimatePresence>
-        </main>
+                <ErrorBoundary
+                  key={currentView}
+                  title={`${currentView.toUpperCase()} View Reload Needed`}
+                  description="This specific view encountered a temporary rendering issue. Click below to return to Homepage or switch views."
+                  onReset={() => setCurrentView('home')}
+                  compact
+                >
+                  <Suspense fallback={<ViewLoadingFallback />}>
+                    {renderCurrentView()}
+                  </Suspense>
+                </ErrorBoundary>
+              </motion.div>
+            </AnimatePresence>
+          </main>
 
-        {/* Hide footer on full-screen 3D factory tour */}
-        {currentView !== 'factory-3d' && (
-          <ErrorBoundary title="Footer">
-            <Footer />
-          </ErrorBoundary>
-        )}
-        <ToastContainer />
-        <ErrorBoundary title="Lead Modal">
-          <Suspense fallback={null}>
-            <LeadModal />
-          </Suspense>
-        </ErrorBoundary>
-        <ErrorBoundary title="Search Modal">
-          <Suspense fallback={null}>
-            <SearchModal isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
-          </Suspense>
-        </ErrorBoundary>
-        {/* Hide global React chat widget on factory-3d view since it has its own integrated 3D Archie Copilot */}
-        {currentView !== 'factory-3d' && (
-          <ErrorBoundary title="AI CoPilot">
+          {/* Hide footer on full-screen 3D factory tour */}
+          {currentView !== 'factory-3d' && (
+            <ErrorBoundary title="Footer">
+              <Footer />
+            </ErrorBoundary>
+          )}
+          <ToastContainer />
+          <ErrorBoundary title="Lead Modal">
             <Suspense fallback={null}>
-              <AtplCoPilot />
+              <LeadModal />
             </Suspense>
           </ErrorBoundary>
-        )}
-        <ErrorBoundary title="Cookie Consent">
-          <CookieConsent />
-        </ErrorBoundary>
+          <ErrorBoundary title="Search Modal">
+            <Suspense fallback={null}>
+              <SearchModal isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
+            </Suspense>
+          </ErrorBoundary>
+          {/* Hide global React chat widget on factory-3d view since it has its own integrated 3D Archie Copilot */}
+          {currentView !== 'factory-3d' && (
+            <ErrorBoundary title="AI CoPilot">
+              <Suspense fallback={null}>
+                <AtplCoPilot />
+              </Suspense>
+            </ErrorBoundary>
+          )}
+          <ErrorBoundary title="Cookie Consent">
+            <CookieConsent />
+          </ErrorBoundary>
 
-        {/* Global Floating Scroll Telemetry & 1-Click Jump to Top */}
-        <ScrollTelemetryHUD />
-      </div>
-    </ErrorBoundary>
+          {/* Global Floating Scroll Telemetry & 1-Click Jump to Top */}
+          <ScrollTelemetryHUD />
+        </div>
+      </ErrorBoundary>
+    </SmoothScrollProvider>
   );
 };
 

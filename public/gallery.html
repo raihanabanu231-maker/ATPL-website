@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ATPL Hardware Assets Gallery - Google Flow Ready</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #090d16;
+      color: #f1f5f9;
+      padding: 2rem;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+    .header h1 {
+      font-size: 1.8rem;
+      background: linear-gradient(135deg, #00f0ff, #38bdf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.5rem;
+    }
+    .header p {
+      color: #94a3b8;
+      font-size: 0.95rem;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    .card {
+      background: #0f172a;
+      border: 1px solid rgba(0, 240, 255, 0.25);
+      border-radius: 12px;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .card:hover {
+      transform: translateY(-3px);
+      border-color: #00f0ff;
+    }
+    .badge {
+      font-size: 0.7rem;
+      font-weight: 800;
+      color: #00f0ff;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+    .title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      color: #ffffff;
+    }
+    .img-box {
+      width: 100%;
+      height: 220px;
+      background: radial-gradient(circle at 50% 50%, #1e293b 0%, #0f172a 100%);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .img-box img {
+      max-width: 85%;
+      max-height: 85%;
+      object-fit: contain;
+      filter: drop-shadow(0 10px 20px rgba(0,0,0,0.6));
+      cursor: grab;
+    }
+    .prompt-box {
+      background: #090d16;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 6px;
+      padding: 0.65rem;
+      font-size: 0.75rem;
+      color: #94a3b8;
+      line-height: 1.4;
+      max-height: 90px;
+      overflow-y: auto;
+      margin-bottom: 0.75rem;
+      font-family: monospace;
+    }
+    .actions {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: auto;
+    }
+    button {
+      flex: 1;
+      padding: 0.55rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+    }
+    .btn-copy-img {
+      background: #0284c7;
+      color: #ffffff;
+    }
+    .btn-copy-img:hover {
+      background: #0369a1;
+    }
+    .btn-copy-prompt {
+      background: rgba(255, 255, 255, 0.1);
+      color: #f1f5f9;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+    .btn-copy-prompt:hover {
+      background: rgba(255, 255, 255, 0.18);
+    }
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: #00f0ff;
+      color: #090d16;
+      padding: 0.75rem 1.25rem;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      box-shadow: 0 10px 25px rgba(0, 240, 255, 0.4);
+      display: none;
+      z-index: 9999;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h1>ATPL Hardware Assets — Google Flow Direct Hub</h1>
+    <p>Right-click any image to <strong>"Copy Image"</strong>, drag it directly into Google Flow, or click the buttons below!</p>
+  </div>
+
+  <div class="grid" id="gallery-grid"></div>
+
+  <div class="toast" id="toast">Copied to clipboard!</div>
+
+  <script>
+    const items = [
+      {
+        num: '01',
+        title: 'ATPL Wired Scanner 1D/2D',
+        img: '/assets/images/hardware/atpl_scanner_cutout.png',
+        prompt: 'Cinematic 360-degree slow-motion product turntable video of an industrial ergonomic yellow and black handheld barcode scanner. Centered in frame at eye level, smoothly rotating a full 360 degrees. Studio lighting with soft blue rim light, floating above a clean dark obsidian background (#0c111d) with gentle contact shadow. Constant smooth rotation, photorealistic 4k, seamless loop.'
+      },
+      {
+        num: '02',
+        title: 'Industrial RFID Printer',
+        img: '/assets/images/hardware/atpl_printer_rfid.png',
+        prompt: 'Cinematic 360-degree slow-motion product turntable video. The camera smoothly orbits 360 degrees around this exact industrial barcode label printer centered in frame. Maintain 100% strict structural consistency with this reference image: solid closed dark metal chassis, front color LCD screen with navigation keys, and printed barcode label coming out the front. Clean dark studio background (#0c111d) with gentle rim lighting. Seamless 360 loop.'
+      },
+      {
+        num: '03',
+        title: 'Android Enterprise Rugged Handheld',
+        img: '/assets/images/hardware/atpl_mobility_rugged.png',
+        prompt: 'Cinematic 360-degree slow-motion product turntable video. The camera smoothly orbits 360 degrees around this exact rugged Android mobile handheld computer terminal centered in frame at eye level. The product stays perfectly rigid and structurally consistent with no warping: maintaining the exact rubber corner bumpers, physical keypad, side scan buttons, and front touch display. Clean luxury dark studio lighting with subtle rim light accents, floating on a seamless dark background (#0c111d) with gentle contact shadow. Constant smooth rotation speed, photorealistic 4K commercial showcase, seamless 360 loop.'
+      },
+      {
+        num: '04',
+        title: 'Best-in-Class Fixed RFID Reader',
+        img: '/assets/images/hardware/atpl_rfid_fixed_clean.png',
+        prompt: 'Cinematic 360-degree slow-motion product turntable video. The camera smoothly orbits 360 degrees around this exact industrial aluminum multi-port RFID reader hub centered in frame at eye level. Maintain 100% structural consistency: sleek aluminum heatsink casing, blue accent trim, coaxial antenna ports, and status LEDs. Floating on a clean dark studio background (#0c111d) with subtle cyan rim light accents. Photorealistic 4K commercial showcase, seamless 360 loop.'
+      },
+      {
+        num: '05',
+        title: 'Enterprise Rugged 10-Inch Tablet',
+        img: '/assets/images/hardware/atpl_mobility_tablet.png',
+        prompt: 'Cinematic 360-degree slow-motion product turntable video. The camera smoothly orbits 360 degrees around this exact 10-inch industrial rugged enterprise tablet centered in frame. Maintain 100% strict structural consistency: thick rubber shock-absorbing corner bumpers, front touch glass, rear handstrap, and rugged ports. Clean dark obsidian background (#0c111d) with subtle rim lighting. Photorealistic 4K, seamless 360 loop.'
+      },
+      {
+        num: '06',
+        title: 'Industrial Fiber Laser Marker Head',
+        img: '/assets/images/hardware/atpl_marking_laser.png',
+        prompt: 'Cinematic 360-degree slow-motion product turntable video. The camera smoothly orbits 360 degrees around this exact high-speed industrial fiber laser marking galvo scan head centered in frame. Maintain 100% structural consistency: dark anodized aluminum industrial housing, precision optical lens aperture, and rear fiber cabling connection. Sleek dark studio lighting with subtle red laser optical accents, dark background (#0c111d). Photorealistic 4K, seamless loop.'
+      },
+      {
+        num: '07',
+        title: 'Industrial Touch Vehicle Computer',
+        img: '/assets/images/hardware/atpl_touch_computer.jpg',
+        prompt: 'Cinematic 360-degree slow-motion product turntable video. The camera smoothly orbits 360 degrees around this exact heavy-duty IP65 industrial vehicle-mount touch computer terminal. Maintain 100% structural consistency: rugged steel casing, bright industrial touch display, physical side buttons, and heavy-duty RAM mounting ball bracket. Dark studio lighting with subtle edge accents, dark background (#0c111d). Photorealistic 4K, seamless 360 loop.'
+      },
+      {
+        num: '08',
+        title: 'Wearable Voice Picking Headset',
+        img: '/assets/images/hardware/atpl_voice_headset.png',
+        prompt: 'Cinematic 360-degree slow-motion product turntable video. The camera smoothly orbits 360 degrees around this exact industrial warehouse voice-directed picking headset. Maintain 100% structural consistency: ruggedized padded headband, ergonomic earcup cushion, flexible noise-canceling boom microphone, and quick-disconnect cable. Dark tech studio lighting, clean rim reflection, dark background (#0c111d). Photorealistic 4K, seamless loop.'
+      },
+      {
+        num: '09',
+        title: 'Modular Self-Service Kiosk Terminal',
+        img: '/assets/images/hardware/atpl_kiosk_system.jpg',
+        prompt: 'Cinematic 360-degree slow-motion product turntable video. The camera smoothly orbits 360 degrees around this exact freestanding modern enterprise touchscreen kiosk terminal. Maintain 100% structural consistency: sleek vertical metal pedestal stand, portrait touchscreen, integrated barcode scanner window, and receipt printer slot. Dark studio lighting with subtle cyan LED accents, seamless dark background (#0c111d). Photorealistic 4K, seamless 360 loop.'
+      }
+    ];
+
+    const grid = document.getElementById('gallery-grid');
+    const toast = document.getElementById('toast');
+
+    function showToast(msg) {
+      toast.innerText = msg;
+      toast.style.display = 'block';
+      setTimeout(() => { toast.style.display = 'none'; }, 2200);
+    }
+
+    async function copyImageToClipboard(imgUrl) {
+      try {
+        const response = await fetch(imgUrl);
+        const blob = await response.blob();
+        
+        // Convert to PNG blob if needed (Clipboard API requires PNG)
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.onload = async () => {
+          canvas.width = img.naturalWidth;
+          canvas.height = img.naturalHeight;
+          ctx.drawImage(img, 0, 0);
+          canvas.toBlob(async (pngBlob) => {
+            await navigator.clipboard.write([
+              new ClipboardItem({ 'image/png': pngBlob })
+            ]);
+            showToast('✅ Image copied to clipboard! Press Ctrl+V in Google Flow');
+          }, 'image/png');
+        };
+        img.src = imgUrl;
+      } catch (err) {
+        showToast('⚠️ Right-click the image and select "Copy Image"');
+      }
+    }
+
+    function copyText(text, label) {
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('📋 ' + label + ' copied!');
+      });
+    }
+
+    items.forEach(item => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <div class="badge">ATPL // ${item.num}</div>
+        <div class="title">${item.title}</div>
+        <div class="img-box">
+          <img src="${item.img}" alt="${item.title}" title="Drag this into Google Flow or Right Click -> Copy Image" />
+        </div>
+        <div class="prompt-box">${item.prompt}</div>
+        <div class="actions">
+          <button class="btn-copy-img" onclick="copyImageToClipboard('${item.img}')">
+            📋 Copy Image
+          </button>
+          <button class="btn-copy-prompt" onclick="copyText(\`${item.prompt}\`, 'Prompt')">
+            ✍️ Copy Prompt
+          </button>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+  </script>
+</body>
+</html>
+

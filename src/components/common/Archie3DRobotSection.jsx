@@ -1,15 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
-import * as THREE from 'three';
-import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
-import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useApp } from '../../context/AppContext';
 import { 
   ArrowRight, 
   PhoneCall, 
-  CheckCircle2, 
   Bot, 
-  ExternalLink,
   Sparkles,
   Play,
   Pause,
@@ -17,14 +12,9 @@ import {
   VolumeX,
   RotateCcw
 } from 'lucide-react';
-import { ShineBadge } from '../ui/shine-badge';
-import { MagneticButton } from '../ui/magnetic-button';
 
 export const Archie3DRobotSection = () => {
   const { openDemoModal } = useApp();
-  const canvasRef = useRef(null);
-  const containerRef = useRef(null);
-  const [faceMode, setFaceMode] = useState('EYES'); // 'EYES' | 'QUOTE'
   const [hoveredPill, setHoveredPill] = useState(null);
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(false);
@@ -62,8 +52,7 @@ export const Archie3DRobotSection = () => {
   };
 
   // =========================================================================
-  // The ATPL Way - Vertically Staggered Interlocking Stack (Dribbble 25966614)
-  // Each pill has its own row + alternating left/right anchor: NEVER collides!
+  // The ATPL Way - Vertically Staggered Interlocking Stack (Floating Zero-Gravity)
   // =========================================================================
   const atplPills = [
     {
@@ -83,7 +72,7 @@ export const Archie3DRobotSection = () => {
     {
       id: 'p1',
       label: 'Native SAP & Oracle',
-      bg: '#0f172a', // dark slate
+      bg: '#0f172a',
       color: '#ffffff',
       border: '1px solid rgba(0, 0, 0, 0.1)',
       top: '21%',
@@ -97,7 +86,7 @@ export const Archie3DRobotSection = () => {
     {
       id: 'p2',
       label: '<4-Hr Emergency SLA',
-      bg: '#0071ba', // royal electric blue
+      bg: '#0071ba',
       color: '#ffffff',
       border: '1px solid rgba(0, 113, 186, 0.3)',
       top: '31%',
@@ -111,7 +100,7 @@ export const Archie3DRobotSection = () => {
     {
       id: 'p3',
       label: '100% In-House WMS',
-      bg: '#111827', // dark slate
+      bg: '#111827',
       color: '#ffffff',
       border: '1px solid rgba(0, 0, 0, 0.1)',
       top: '41%',
@@ -125,7 +114,7 @@ export const Archie3DRobotSection = () => {
     {
       id: 'p4',
       label: 'Zero Scanner Tax',
-      bg: '#ffffff', // clean white
+      bg: '#ffffff',
       color: '#0f172a',
       border: '1px solid rgba(0, 0, 0, 0.08)',
       top: '51%',
@@ -139,7 +128,7 @@ export const Archie3DRobotSection = () => {
     {
       id: 'p5',
       label: 'Resident Engineers',
-      bg: '#0284c7', // vibrant cyan/sky blue
+      bg: '#0284c7',
       color: '#ffffff',
       border: '1px solid rgba(2, 132, 199, 0.3)',
       top: '61%',
@@ -153,7 +142,7 @@ export const Archie3DRobotSection = () => {
     {
       id: 'p6',
       label: 'IP67 Harsh Grade',
-      bg: '#0f172a', // dark slate
+      bg: '#0f172a',
       color: '#ffffff',
       border: '1px solid rgba(0, 0, 0, 0.1)',
       top: '71%',
@@ -167,7 +156,7 @@ export const Archie3DRobotSection = () => {
     {
       id: 'p7',
       label: 'Lab Golden-Staged',
-      bg: '#ffffff', // clean white
+      bg: '#ffffff',
       color: '#0f172a',
       border: '1px solid rgba(0, 0, 0, 0.08)',
       top: '81%',
@@ -181,7 +170,7 @@ export const Archie3DRobotSection = () => {
     {
       id: 'p8',
       label: 'Zero Line Standstills',
-      bg: '#0071ba', // royal electric blue
+      bg: '#0071ba',
       color: '#ffffff',
       border: '1px solid rgba(0, 113, 186, 0.3)',
       top: '91%',
@@ -195,8 +184,7 @@ export const Archie3DRobotSection = () => {
   ];
 
   // =========================================================================
-  // Without ATPL - Continuous Heavy Rain of Chaotic Problem Boxes (Top to Bottom)
-  // 16 staggered particles cascading down like an endless waterfall video!
+  // Without ATPL - Continuous Heavy Rain of Chaotic Problem Boxes (Waterfall)
   // =========================================================================
   const rainingPills = [
     { id: 'r0', label: 'Delayed Reports', bg: '#e2e8f0', color: '#1e293b', border: '1px solid #cbd5e1', left: '22%', rot: -7, dur: 3.4, delay: 0.0, depth: 1 },
@@ -217,579 +205,54 @@ export const Archie3DRobotSection = () => {
     { id: 'r15', label: 'Disjointed Middleware', bg: '#f1f5f9', color: '#64748b', border: '1px solid #e2e8f0', left: '35%', rot: 5, dur: 3.7, delay: 3.75, depth: 0 }
   ];
 
-  // =========================================================================
-  // Three.js 3D Robot Scene (Archie Shopfloor Agent)
-  // =========================================================================
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    const container = containerRef.current;
-    if (!canvas || !container) return;
-
-    let width = container.clientWidth || 380;
-    let height = container.clientHeight || 450;
-
-    const scene = new THREE.Scene();
-    
-    // Field of view 34 deg: framed to show the whole robot + pedestal with comfortable margin
-    const camera = new THREE.PerspectiveCamera(34, width / height, 0.1, 100);
-    camera.position.set(0, -0.9, 9.8);
-    camera.lookAt(0, -0.9, 0);
-
-    const renderer = new THREE.WebGLRenderer({
-      canvas,
-      antialias: true,
-      alpha: true,
-      powerPreference: 'high-performance'
-    });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.setSize(width, height);
-    renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.05;
-    renderer.outputColorSpace = THREE.SRGBColorSpace;
-    renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-
-    // PMREM Room Environment
-    const pmremGenerator = new THREE.PMREMGenerator(renderer);
-    pmremGenerator.compileEquirectangularShader();
-    const roomEnv = new RoomEnvironment();
-    const envMap = pmremGenerator.fromScene(roomEnv, 0.04).texture;
-    scene.environment = envMap;
-    scene.environmentIntensity = 0.95;
-
-    // Lights
-    const hemiLight = new THREE.HemisphereLight(0xfff6ee, 0xd9d2c8, 0.75);
-    scene.add(hemiLight);
-
-    const keyLight = new THREE.DirectionalLight(0xfff3e6, 1.7);
-    keyLight.position.set(-3, 5, 4);
-    keyLight.castShadow = true;
-    keyLight.shadow.mapSize.width = 1024;
-    keyLight.shadow.mapSize.height = 1024;
-    keyLight.shadow.radius = 6;
-    keyLight.shadow.bias = -0.0005;
-    scene.add(keyLight);
-
-    const rimLight = new THREE.DirectionalLight(0xfff0e6, 1.25);
-    rimLight.position.set(4, 2, -4);
-    scene.add(rimLight);
-
-    const fillLight = new THREE.PointLight(0xff9a6a, 2.2, 7);
-    fillLight.position.set(-3.2, 1.2, 0.6);
-    scene.add(fillLight);
-
-    // Conic Gradient Ring Texture for face frame
-    const ringCanvas = document.createElement('canvas');
-    ringCanvas.width = 512;
-    ringCanvas.height = 512;
-    const ringCtx = ringCanvas.getContext('2d');
-    const conic = ringCtx.createConicGradient(Math.PI * (200 / 180), 256, 256);
-    conic.addColorStop(0, '#ffb347');
-    conic.addColorStop(0.18, '#ff8a3d');
-    conic.addColorStop(0.34, '#ff5a5f');
-    conic.addColorStop(0.50, '#ff3d8b');
-    conic.addColorStop(0.66, '#ff5a5f');
-    conic.addColorStop(0.82, '#ff8a3d');
-    conic.addColorStop(1, '#ffb347');
-    ringCtx.fillStyle = conic;
-    ringCtx.fillRect(0, 0, 512, 512);
-
-    const ringTexture = new THREE.CanvasTexture(ringCanvas);
-    ringTexture.colorSpace = THREE.SRGBColorSpace;
-
-    // Screen Canvas for Face (Eyes / Quote)
-    const faceCanvas = document.createElement('canvas');
-    faceCanvas.width = 512;
-    faceCanvas.height = 512;
-    const faceCtx = faceCanvas.getContext('2d');
-    const faceTexture = new THREE.CanvasTexture(faceCanvas);
-    faceTexture.colorSpace = THREE.SRGBColorSpace;
-
-    // Materials
-    const shellMat = new THREE.MeshPhysicalMaterial({
-      color: 0xeeebe6,
-      roughness: 0.38,
-      metalness: 0.0,
-      clearcoat: 0.45,
-      clearcoatRoughness: 0.3
-    });
-
-    const shellLightMat = new THREE.MeshPhysicalMaterial({
-      color: 0xf8f6f2,
-      roughness: 0.34,
-      metalness: 0.0,
-      clearcoat: 0.45,
-      clearcoatRoughness: 0.3
-    });
-
-    const darkJointMat = new THREE.MeshStandardMaterial({
-      color: 0x1b1b1f,
-      roughness: 0.55,
-      metalness: 0.3
-    });
-
-    const deepDarkMat = new THREE.MeshBasicMaterial({ color: 0x0f0f12 });
-
-    const pedestalMat = new THREE.MeshStandardMaterial({
-      color: 0x222226,
-      roughness: 0.9,
-      metalness: 0.1
-    });
-
-    const ringMat = new THREE.MeshStandardMaterial({
-      map: ringTexture,
-      emissive: 0xffffff,
-      emissiveMap: ringTexture,
-      emissiveIntensity: 0.25,
-      roughness: 0.5,
-      metalness: 0.0
-    });
-
-    const screenMat = new THREE.MeshPhysicalMaterial({
-      color: 0x050508,
-      roughness: 0.1,
-      metalness: 0.1,
-      clearcoat: 1.0,
-      clearcoatRoughness: 0.02,
-      emissive: 0xffffff,
-      emissiveMap: faceTexture,
-      emissiveIntensity: 1.6
-    });
-
-    // Assemble Robot Hierarchy
-    const robotRoot = new THREE.Group();
-    scene.add(robotRoot);
-
-    const bodyGroup = new THREE.Group();
-    robotRoot.add(bodyGroup);
-
-    // Torso
-    const torsoMesh = new THREE.Mesh(new RoundedBoxGeometry(1.22, 1.12, 0.92, 4, 0.24), shellMat);
-    torsoMesh.position.set(0, -0.6, 0);
-    torsoMesh.castShadow = true;
-    torsoMesh.receiveShadow = true;
-    bodyGroup.add(torsoMesh);
-
-    // Chest slab
-    const chestSlab = new THREE.Mesh(new RoundedBoxGeometry(0.98, 0.36, 0.16, 3, 0.08), shellLightMat);
-    chestSlab.position.set(0, -0.32, 0.44);
-    chestSlab.castShadow = true;
-    bodyGroup.add(chestSlab);
-
-    // 3 LEDs
-    const ledColors = [0xff8a3d, 0xff5a5f, 0xff3d8b];
-    const ledGeom = new THREE.SphereGeometry(0.032, 16, 16);
-    ledColors.forEach((col, i) => {
-      const ledMat = new THREE.MeshStandardMaterial({
-        color: col,
-        emissive: col,
-        emissiveIntensity: 2.2,
-        roughness: 0.2
-      });
-      const led = new THREE.Mesh(ledGeom, ledMat);
-      led.position.set(-0.16 + i * 0.16, -0.32, 0.53);
-      bodyGroup.add(led);
-    });
-
-    // Vertical Slots & Lips
-    const slotGeom = new THREE.BoxGeometry(0.045, 0.22, 0.05);
-    const lipGeom = new THREE.TorusGeometry(0.038, 0.015, 8, 16, Math.PI);
-    lipGeom.rotateZ(Math.PI);
-    [-0.18, 0.18].forEach(xPos => {
-      const slot = new THREE.Mesh(slotGeom, deepDarkMat);
-      slot.position.set(xPos, -0.68, 0.47);
-      bodyGroup.add(slot);
-
-      const lip = new THREE.Mesh(lipGeom, deepDarkMat);
-      lip.position.set(xPos, -0.56, 0.48);
-      bodyGroup.add(lip);
-    });
-
-    // Pelvis
-    const pelvis = new THREE.Mesh(new RoundedBoxGeometry(0.85, 0.28, 0.72, 3, 0.1), darkJointMat);
-    pelvis.position.set(0, -1.22, 0);
-    bodyGroup.add(pelvis);
-
-    // Neck
-    const neck = new THREE.Mesh(new THREE.CylinderGeometry(0.24, 0.24, 0.28, 24), darkJointMat);
-    neck.position.set(0, 0.08, 0);
-    bodyGroup.add(neck);
-
-    // Head Pivot & Head
-    const headPivot = new THREE.Group();
-    headPivot.position.set(0, 0.22, 0);
-    bodyGroup.add(headPivot);
-
-    const headGroup = new THREE.Group();
-    headGroup.position.set(0, 0.78, 0);
-    headPivot.add(headGroup);
-
-    // Skull
-    const skull = new THREE.Mesh(new RoundedBoxGeometry(1.5, 1.42, 1.3, 5, 0.2), shellMat);
-    skull.castShadow = true;
-    skull.receiveShadow = true;
-    headGroup.add(skull);
-
-    // Dark Back Block
-    const darkBack = new THREE.Mesh(new RoundedBoxGeometry(1.28, 1.14, 0.9, 4, 0.12), deepDarkMat);
-    darkBack.position.set(0, 0, -0.32);
-    headGroup.add(darkBack);
-
-    // Circuit bars on back
-    const barGeom = new THREE.BoxGeometry(0.12, 0.025, 0.04);
-    for (let b = 0; b < 24; b++) {
-      const bar = new THREE.Mesh(barGeom, darkJointMat);
-      if (b < 14) {
-        const row = Math.floor(b / 3);
-        const col = b % 3;
-        bar.position.set(-0.35 + col * 0.35, -0.35 + row * 0.18, -0.78);
-      } else {
-        const topIdx = b - 14;
-        bar.rotation.x = Math.PI / 2;
-        bar.position.set(-0.3 + (topIdx % 3) * 0.3, 0.58, -0.15 - Math.floor(topIdx / 3) * 0.16);
-      }
-      headGroup.add(bar);
-    }
-
-    // Extruded Face Ring
-    const shape = new THREE.Shape();
-    const w = 1.5, h = 1.44, r = 0.3;
-    shape.moveTo(-w / 2 + r, -h / 2);
-    shape.lineTo(w / 2 - r, -h / 2);
-    shape.quadraticCurveTo(w / 2, -h / 2, w / 2, -h / 2 + r);
-    shape.lineTo(w / 2, h / 2 - r);
-    shape.quadraticCurveTo(w / 2, h / 2, w / 2 - r, h / 2);
-    shape.lineTo(-w / 2 + r, h / 2);
-    shape.quadraticCurveTo(-w / 2, h / 2, -w / 2, h / 2 - r);
-    shape.lineTo(-w / 2, -h / 2 + r);
-    shape.quadraticCurveTo(-w / 2, -h / 2, -w / 2 + r, -h / 2);
-
-    const hole = new THREE.Path();
-    const iw = 1.08, ih = 1.02, ir = 0.2;
-    hole.moveTo(-iw / 2 + ir, -ih / 2);
-    hole.lineTo(iw / 2 - ir, -ih / 2);
-    hole.quadraticCurveTo(iw / 2, -ih / 2, iw / 2, -ih / 2 + ir);
-    hole.lineTo(iw / 2, ih / 2 - ir);
-    hole.quadraticCurveTo(iw / 2, ih / 2, iw / 2 - ir, ih / 2);
-    hole.lineTo(-iw / 2 + ir, ih / 2);
-    hole.quadraticCurveTo(-iw / 2, ih / 2, -iw / 2, ih / 2 - ir);
-    hole.lineTo(-iw / 2, -ih / 2 + ir);
-    hole.quadraticCurveTo(-iw / 2, -ih / 2, -iw / 2 + ir, -ih / 2);
-    shape.holes.push(hole);
-
-    const ringGeom = new THREE.ExtrudeGeometry(shape, {
-      depth: 0.1,
-      bevelEnabled: true,
-      bevelSegments: 4,
-      steps: 1,
-      bevelSize: 0.03,
-      bevelThickness: 0.03
-    });
-
-    const pos = ringGeom.attributes.position;
-    const uvs = [];
-    for (let i = 0; i < pos.count; i++) {
-      const px = pos.getX(i);
-      const py = pos.getY(i);
-      uvs.push((px + 0.8) / 1.6, (py + 0.8) / 1.6);
-    }
-    ringGeom.setAttribute('uv', new THREE.Float32BufferAttribute(uvs, 2));
-
-    const ringMesh = new THREE.Mesh(ringGeom, ringMat);
-    ringMesh.position.set(0, 0, 0.6);
-    ringMesh.castShadow = true;
-    headGroup.add(ringMesh);
-
-    // Bezel
-    const bezelMesh = new THREE.Mesh(new RoundedBoxGeometry(1.06, 1.00, 0.06, 3, 0.16), shellLightMat);
-    bezelMesh.position.set(0, 0, 0.62);
-    headGroup.add(bezelMesh);
-
-    // Screen
-    const screenMesh = new THREE.Mesh(new RoundedBoxGeometry(0.92, 0.86, 0.04, 3, 0.12), screenMat);
-    screenMesh.position.set(0, 0, 0.66);
-    headGroup.add(screenMesh);
-
-    // Ears
-    [-0.82, 0.82].forEach((xSide) => {
-      const earBase = new THREE.Mesh(new THREE.CylinderGeometry(0.24, 0.24, 0.12, 24), darkJointMat);
-      earBase.rotation.z = Math.PI / 2;
-      earBase.position.set(xSide, 0, -0.05);
-      headGroup.add(earBase);
-
-      const earRing = new THREE.Mesh(new THREE.TorusGeometry(0.24, 0.06, 16, 32), shellLightMat);
-      earRing.rotation.y = Math.PI / 2;
-      earRing.position.set(xSide + (xSide > 0 ? 0.08 : -0.08), 0, -0.05);
-      headGroup.add(earRing);
-
-      if (xSide > 0) {
-        const cableGeom = new THREE.TorusGeometry(0.38, 0.03, 12, 32, Math.PI * 0.95);
-        cableGeom.rotateZ(Math.PI * 0.95);
-        const cable = new THREE.Mesh(cableGeom, deepDarkMat);
-        cable.position.set(xSide + 0.04, -0.15, 0);
-        headGroup.add(cable);
-      }
-    });
-
-    // Arms
-    const shoulderBallGeom = new THREE.SphereGeometry(0.16, 20, 20);
-    const elbowBallGeom = new THREE.SphereGeometry(0.12, 16, 16);
-    const armSegments = [];
-
-    [-1, 1].forEach(side => {
-      const armRoot = new THREE.Group();
-      armRoot.position.set(side * 0.72, -0.28, 0);
-      bodyGroup.add(armRoot);
-
-      const shoulder = new THREE.Mesh(shoulderBallGeom, darkJointMat);
-      armRoot.add(shoulder);
-      armRoot.rotation.z = side * 0.16;
-
-      const upperArm = new THREE.Mesh(new RoundedBoxGeometry(0.22, 0.44, 0.22, 3, 0.06), shellMat);
-      upperArm.position.set(0, -0.26, 0);
-      armRoot.add(upperArm);
-
-      const elbow = new THREE.Mesh(elbowBallGeom, darkJointMat);
-      elbow.position.set(0, -0.52, 0);
-      armRoot.add(elbow);
-
-      const forearmGroup = new THREE.Group();
-      forearmGroup.position.set(0, -0.52, 0);
-      forearmGroup.rotation.x = -0.35;
-      armRoot.add(forearmGroup);
-
-      const forearm = new THREE.Mesh(new RoundedBoxGeometry(0.20, 0.40, 0.20, 3, 0.05), shellMat);
-      forearm.position.set(0, -0.22, 0);
-      forearmGroup.add(forearm);
-
-      const hand = new THREE.Mesh(new RoundedBoxGeometry(0.18, 0.18, 0.18, 3, 0.04), shellLightMat);
-      hand.position.set(0, -0.46, 0);
-      forearmGroup.add(hand);
-
-      armSegments.push({ side, armRoot, forearmGroup });
-    });
-
-    // Legs
-    const hipBallGeom = new THREE.SphereGeometry(0.14, 16, 16);
-    const legBlockGeom = new RoundedBoxGeometry(0.32, 0.62, 0.36, 3, 0.08);
-    const footGeom = new RoundedBoxGeometry(0.36, 0.20, 0.56, 3, 0.06);
-
-    [-0.32, 0.32].forEach(side => {
-      const hip = new THREE.Mesh(hipBallGeom, darkJointMat);
-      hip.position.set(side, -1.34, 0);
-      bodyGroup.add(hip);
-
-      const leg = new THREE.Mesh(legBlockGeom, shellMat);
-      leg.position.set(side, -1.72, 0);
-      leg.castShadow = true;
-      bodyGroup.add(leg);
-
-      const ankle = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.09, 0.12, 16), darkJointMat);
-      ankle.position.set(side, -2.06, 0);
-      bodyGroup.add(ankle);
-
-      const foot = new THREE.Mesh(footGeom, shellLightMat);
-      foot.position.set(side, -2.18, 0.08);
-      foot.castShadow = true;
-      bodyGroup.add(foot);
-    });
-
-    // Pedestal
-    const pedestal = new THREE.Mesh(new THREE.BoxGeometry(1.7, 1.6, 1.7), pedestalMat);
-    pedestal.position.set(0, -3.02, 0);
-    pedestal.receiveShadow = true;
-    robotRoot.add(pedestal);
-
-    // Initial Body & Head Stance
-    bodyGroup.rotation.y = -0.25;
-    headPivot.rotation.set(0.12, -0.35, 0.14);
-
-    // Face rendering state
-    let quoteAlpha = 0.0;
-    let nextBlinkTime = 2.0;
-    let blinkProgress = 0.0;
-    let isBlinking = false;
-
-    function renderFace(delta, time) {
-      if (faceMode === 'EYES') {
-        if (!isBlinking && time >= nextBlinkTime) {
-          isBlinking = true;
-          blinkProgress = 0;
-        }
-        if (isBlinking) {
-          blinkProgress += delta / 0.18;
-          if (blinkProgress >= 1.0) {
-            isBlinking = false;
-            blinkProgress = 0;
-            nextBlinkTime = time + 2.5 + Math.random() * 2.5;
-          }
-        }
-      }
-
-      const targetAlpha = faceMode === 'QUOTE' ? 1.0 : 0.0;
-      if (quoteAlpha < targetAlpha) {
-        quoteAlpha = Math.min(targetAlpha, quoteAlpha + 0.08);
-      } else if (quoteAlpha > targetAlpha) {
-        quoteAlpha = Math.max(targetAlpha, quoteAlpha - 0.08);
-      }
-
-      faceCtx.fillStyle = '#000000';
-      faceCtx.fillRect(0, 0, 512, 512);
-
-      if (quoteAlpha < 1.0) {
-        faceCtx.save();
-        faceCtx.globalAlpha = 1.0 - quoteAlpha;
-        faceCtx.shadowColor = '#ffffff';
-        faceCtx.shadowBlur = 18;
-        faceCtx.fillStyle = '#ffffff';
-
-        let vScale = 1.0;
-        if (isBlinking) {
-          vScale = 1.0 - 0.9 * Math.sin(blinkProgress * Math.PI);
-        }
-
-        faceCtx.beginPath();
-        faceCtx.ellipse(196, 262, 30, Math.max(3, 38 * vScale), 0, 0, Math.PI * 2);
-        faceCtx.fill();
-
-        faceCtx.beginPath();
-        faceCtx.ellipse(316, 252, 30, Math.max(3, 38 * vScale), 0, 0, Math.PI * 2);
-        faceCtx.fill();
-        faceCtx.restore();
-      }
-
-      if (quoteAlpha > 0.0) {
-        faceCtx.save();
-        faceCtx.globalAlpha = quoteAlpha;
-        faceCtx.shadowColor = '#ffffff';
-        faceCtx.shadowBlur = 18;
-        faceCtx.fillStyle = '#ffffff';
-        faceCtx.font = '900 560px "Arial Black", sans-serif';
-        faceCtx.textAlign = 'center';
-        faceCtx.textBaseline = 'middle';
-        faceCtx.fillText('“', 256, 360);
-        faceCtx.restore();
-      }
-
-      faceTexture.needsUpdate = true;
-    }
-
-    // Pointer Tracking
-    let targetX = 0;
-    let targetY = 0;
-    let curX = 0;
-    let curY = 0;
-
-    const onPointerMove = (e) => {
-      const rect = container.getBoundingClientRect();
-      const nx = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-      const ny = ((e.clientY - rect.top) / rect.height) * 2 - 1;
-      targetX = Math.max(-1, Math.min(1, nx));
-      targetY = Math.max(-1, Math.min(1, ny));
-    };
-
-    window.addEventListener('pointermove', onPointerMove);
-
-    // Resize Observer
-    const handleResize = () => {
-      if (!container) return;
-      width = container.clientWidth || 380;
-      height = container.clientHeight || 450;
-      camera.aspect = width / height;
-      camera.updateProjectionMatrix();
-      renderer.setSize(width, height);
-    };
-
-    window.addEventListener('resize', handleResize);
-
-    // Animation Loop
-    const clock = new THREE.Clock();
-    let animId = null;
-
-    const animate = () => {
-      animId = requestAnimationFrame(animate);
-
-      const delta = clock.getDelta();
-      const t = clock.getElapsedTime();
-
-      // Smooth cursor lerp
-      curX += (targetX - curX) * 0.08;
-      curY += (targetY - curY) * 0.08;
-
-      renderFace(delta, t);
-
-      // Idle subtle breathing
-      const bob = Math.sin(1.4 * t) * 0.02;
-      bodyGroup.position.y = bob;
-      bodyGroup.rotation.y = -0.25 + curX * 0.22;
-
-      headPivot.rotation.y = -0.35 + curX * 0.45;
-      headPivot.rotation.x = 0.12 - curY * 0.22 + Math.sin(0.9 * t) * 0.02;
-      headPivot.rotation.z = 0.14 + Math.sin(0.7 * t) * 0.015;
-
-      armSegments.forEach(({ side, armRoot, forearmGroup }) => {
-        armRoot.rotation.x = Math.sin(1.4 * t + side * 0.5) * 0.04;
-        forearmGroup.rotation.x = -0.35 + Math.sin(1.4 * t) * 0.05;
-      });
-
-      // Camera stays positioned to show the entire robot + pedestal perfectly centered!
-      camera.position.x = curX * 0.28;
-      camera.position.y = -0.9 - curY * 0.18;
-      camera.position.z = 9.8;
-      camera.lookAt(0, -0.9, 0);
-
-      renderer.render(scene, camera);
-    };
-
-    animate();
-
-    return () => {
-      cancelAnimationFrame(animId);
-      window.removeEventListener('pointermove', onPointerMove);
-      window.removeEventListener('resize', handleResize);
-      renderer.dispose();
-      pmremGenerator.dispose();
-      scene.clear();
-    };
-  }, [faceMode]);
-
   return (
     <section 
-      id="archie-3d-robot"
+      id="why-atpl"
       style={{
         position: 'relative',
-        backgroundColor: '#fbfcfe',
-        backgroundImage: `
-          linear-gradient(to right, rgba(15, 23, 42, 0.04) 1px, transparent 1px),
-          linear-gradient(to bottom, rgba(15, 23, 42, 0.04) 1px, transparent 1px)
-        `,
-        backgroundSize: '48px 48px',
+        backgroundColor: '#FFFFFF',
+        backgroundImage: 'radial-gradient(circle at 50% 0%, rgba(0, 113, 186, 0.05) 0%, transparent 60%)',
         color: '#0f172a',
-        padding: 'clamp(2.75rem, 5vh, 4rem) 1.25rem',
+        padding: 'clamp(3.5rem, 5.5vw, 5.5rem) 0 clamp(3.5rem, 5vw, 5rem) 0',
         overflow: 'hidden',
         borderTop: '1px solid rgba(0, 0, 0, 0.06)',
         borderBottom: '1px solid rgba(0, 0, 0, 0.06)'
       }}
     >
-      <div className="container" style={{ maxWidth: '1320px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
-        
-        {/* =========================================================================
-            SPLIT MASTER LAYOUT:
-            SIDE 1: Animated Dribbble Comparison Video Canvas (Cards 1 & 2 + CTAs)
-            SIDE 2: Archie 3D Autonomous Robot on Pedestal
-           ========================================================================= */}
-        {/* Embedded responsive grid stylesheet */}
+      {/* Background Architectural Grid Pattern */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage: 'radial-gradient(rgba(0, 113, 186, 0.12) 1px, transparent 1px)',
+          backgroundSize: '28px 28px',
+          opacity: 0.55,
+          pointerEvents: 'none'
+        }}
+      />
+
+      <div
+        className="container"
+        style={{
+          maxWidth: '1360px',
+          margin: '0 auto',
+          padding: '0 clamp(1rem, 3vw, 2.5rem)',
+          position: 'relative',
+          zIndex: 10
+        }}
+      >
+        {/* Responsive Grid Stylesheet */}
         <style>{`
           .archie-master-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 2rem;
+            gap: 2.25rem;
             align-items: center;
           }
           @media (min-width: 1024px) {
             .archie-master-grid {
               grid-template-columns: 1.25fr 0.75fr;
-              gap: 2.5rem;
+              gap: 2.75rem;
             }
           }
           .archie-dual-cards {
@@ -805,94 +268,119 @@ export const Archie3DRobotSection = () => {
           }
         `}</style>
 
-        {/* =========================================================================
-            SPLIT MASTER LAYOUT:
-            SIDE 1: Animated Dribbble Comparison Video Canvas (Cards 1 & 2 + CTAs)
-            SIDE 2: Archie 3D Autonomous Robot on Pedestal
-           ========================================================================= */}
+        {/* Master Grid: Left Animated Dribbble Comparison + Right Waving Robot Video */}
         <div className="archie-master-grid">
 
           {/* =======================================================================
-              SIDE 1: THE ANIMATED COMPARISON (The ATPL Way vs Without ATPL)
+              SIDE 1: THE ANIMATED COMPARISON (Floating "The ATPL Way" vs Falling "Without ATPL")
              ======================================================================= */}
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             
-            {/* Operational Accreditation Subhead */}
-            <div style={{ marginBottom: '0.45rem', fontSize: '0.82rem', color: 'var(--color-brand-blue, #0071ba)', fontWeight: 600 }}>
-              Operational benchmark verified across 250+ connected manufacturing plants
+            {/* Header Badge */}
+            <div
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '6px 16px',
+                borderRadius: '999px',
+                backgroundColor: 'rgba(0, 113, 186, 0.08)',
+                border: '1px solid rgba(0, 113, 186, 0.2)',
+                fontSize: '11.5px',
+                fontWeight: 800,
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase',
+                color: '#0071ba',
+                marginBottom: '0.75rem',
+                width: 'fit-content'
+              }}
+            >
+              <span style={{ width: '7px', height: '7px', borderRadius: '50%', backgroundColor: '#0071ba', boxShadow: '0 0 8px rgba(0, 113, 186, 0.5)' }} />
+              <span>OPERATIONAL BENCHMARK // 250+ CONNECTED MEGA-PLANTS</span>
             </div>
 
-            <h2 style={{
-              fontSize: 'clamp(1.75rem, 2.7vw, 2.35rem)',
-              fontWeight: 800,
-              lineHeight: 1.18,
-              letterSpacing: '-0.03em',
-              color: 'var(--color-slate-900, #0f172a)',
-              marginBottom: '0.45rem',
-              fontFamily: 'var(--font-display, Inter, sans-serif)'
-            }}>
-              Why ATPL for <span style={{ color: 'var(--color-brand-blue, #0071ba)' }}>Factory Automation</span>
+            <h2
+              style={{
+                fontSize: 'clamp(2rem, 3.8vw, 3rem)',
+                fontWeight: 900,
+                lineHeight: 1.15,
+                letterSpacing: '-0.03em',
+                color: '#0f172a',
+                margin: '0 0 0.5rem 0'
+              }}
+            >
+              Why ATPL for <span style={{ color: '#0071ba' }}>Factory Automation</span>
             </h2>
 
-            <p style={{
-              fontSize: 'clamp(0.86rem, 1.05vw, 0.96rem)',
-              color: 'var(--color-slate-600, #475569)',
-              lineHeight: 1.45,
-              marginBottom: '1.25rem'
-            }}>
+            <p
+              style={{
+                fontSize: 'clamp(0.95rem, 1.2vw, 1.08rem)',
+                lineHeight: 1.55,
+                color: '#475569',
+                margin: '0 0 1.25rem 0'
+              }}
+            >
               Direct engineering integration with in-house software, guaranteed &lt;4-hr SLAs, and native SAP/Oracle synchronization.
             </p>
 
-            {/* The Dual Animated Video Cards Side-by-Side (Dribbble 25966614) */}
+            {/* The Dual Animated Cards Side-by-Side */}
             <div className="archie-dual-cards">
               
               {/* Card 1: "The ATPL way" (Soft Pastel Sky-Blue with Floating Zero-Gravity Pills) */}
-              <div style={{
-                height: '410px',
-                backgroundColor: '#ebf3fe',
-                borderRadius: '24px',
-                border: '1.5px solid rgba(0, 113, 186, 0.22)',
-                boxShadow: '0 16px 36px rgba(0, 113, 186, 0.09)',
-                position: 'relative',
-                overflow: 'hidden',
-                display: 'flex',
-                flexDirection: 'column'
-              }}>
-                {/* Centered Top Pill Header */}
-                <div style={{
-                  paddingTop: '0.95rem',
-                  display: 'flex',
-                  justifyContent: 'center',
+              <div
+                style={{
+                  height: '410px',
+                  backgroundColor: '#ebf3fe',
+                  borderRadius: '24px',
+                  border: '1.5px solid rgba(0, 113, 186, 0.22)',
+                  boxShadow: '0 16px 36px rgba(0, 113, 186, 0.09)',
                   position: 'relative',
-                  zIndex: 25
-                }}>
-                  <div style={{
-                    backgroundColor: '#ffffff',
-                    border: '1px solid rgba(0, 113, 186, 0.15)',
-                    boxShadow: '0 4px 12px rgba(0, 113, 186, 0.12)',
-                    borderRadius: '999px',
-                    padding: '0.32rem 1.05rem',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '0.4rem',
-                    fontSize: '0.80rem',
-                    fontWeight: 800,
-                    color: '#0f172a'
-                  }}>
-                    <span style={{ width: '7px', height: '7px', borderRadius: '50%', backgroundColor: '#0071ba' }}></span>
+                  overflow: 'hidden',
+                  display: 'flex',
+                  flexDirection: 'column'
+                }}
+              >
+                {/* Centered Top Pill Header */}
+                <div
+                  style={{
+                    paddingTop: '0.95rem',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    position: 'relative',
+                    zIndex: 25
+                  }}
+                >
+                  <div
+                    style={{
+                      backgroundColor: '#ffffff',
+                      border: '1px solid rgba(0, 113, 186, 0.15)',
+                      boxShadow: '0 4px 12px rgba(0, 113, 186, 0.12)',
+                      borderRadius: '999px',
+                      padding: '0.32rem 1.05rem',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '0.4rem',
+                      fontSize: '0.80rem',
+                      fontWeight: 800,
+                      color: '#0f172a'
+                    }}
+                  >
+                    <span style={{ width: '7px', height: '7px', borderRadius: '50%', backgroundColor: '#0071ba' }} />
                     <span>The</span>
                     <span style={{ color: '#0071ba' }}>ATPL</span>
                     <span>way</span>
                   </div>
                 </div>
 
-                {/* Zero-Gravity Floating Pills Canvas - Staggered Interlocking Stack */}
-                <div style={{
-                  position: 'relative',
-                  flex: 1,
-                  width: '100%',
-                  overflow: 'hidden'
-                }}>
+                {/* Zero-Gravity Floating Pills Canvas */}
+                <div
+                  style={{
+                    position: 'relative',
+                    flex: 1,
+                    width: '100%',
+                    overflow: 'hidden'
+                  }}
+                >
                   {atplPills.map((pill) => {
                     const isHovered = hoveredPill === pill.id;
                     return (
@@ -955,13 +443,15 @@ export const Archie3DRobotSection = () => {
                         }}
                       >
                         <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}>
-                          <span style={{ 
-                            width: '6px', 
-                            height: '6px', 
-                            borderRadius: '50%', 
-                            backgroundColor: pill.color === '#ffffff' ? '#38bdf8' : '#0071ba',
-                            boxShadow: `0 0 6px ${pill.color === '#ffffff' ? '#38bdf8' : '#0071ba'}`
-                          }}></span>
+                          <span
+                            style={{ 
+                              width: '6px', 
+                              height: '6px', 
+                              borderRadius: '50%', 
+                              backgroundColor: pill.color === '#ffffff' ? '#38bdf8' : '#0071ba',
+                              boxShadow: `0 0 6px ${pill.color === '#ffffff' ? '#38bdf8' : '#0071ba'}`
+                            }}
+                          />
                           <span>{pill.label}</span>
                         </span>
                       </motion.div>
@@ -971,67 +461,77 @@ export const Archie3DRobotSection = () => {
               </div>
 
               {/* Card 2: "Without ATPL" (CONTINUOUS WATERFALL RAIN OF PROBLEM BOXES) */}
-              <div style={{
-                height: '410px',
-                backgroundColor: '#f8fafc',
-                borderRadius: '24px',
-                border: '1.5px solid rgba(0, 0, 0, 0.08)',
-                boxShadow: '0 12px 28px rgba(0, 0, 0, 0.04)',
-                position: 'relative',
-                overflow: 'hidden',
-                display: 'flex',
-                flexDirection: 'column'
-              }}>
-                {/* Centered Top Pill Header */}
-                <div style={{
-                  paddingTop: '0.95rem',
-                  display: 'flex',
-                  justifyContent: 'center',
+              <div
+                style={{
+                  height: '410px',
+                  backgroundColor: '#f8fafc',
+                  borderRadius: '24px',
+                  border: '1.5px solid rgba(0, 0, 0, 0.08)',
+                  boxShadow: '0 12px 28px rgba(0, 0, 0, 0.04)',
                   position: 'relative',
-                  zIndex: 25
-                }}>
-                  <div style={{
-                    backgroundColor: '#ffffff',
-                    border: '1px solid rgba(0, 0, 0, 0.08)',
-                    boxShadow: '0 3px 8px rgba(0, 0, 0, 0.04)',
-                    borderRadius: '999px',
-                    padding: '0.32rem 1.05rem',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '0.4rem',
-                    fontSize: '0.80rem',
-                    fontWeight: 700,
-                    color: '#64748b'
-                  }}>
-                    <span style={{ width: '7px', height: '7px', borderRadius: '50%', backgroundColor: '#ef4444' }}></span>
+                  overflow: 'hidden',
+                  display: 'flex',
+                  flexDirection: 'column'
+                }}
+              >
+                {/* Centered Top Pill Header */}
+                <div
+                  style={{
+                    paddingTop: '0.95rem',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    position: 'relative',
+                    zIndex: 25
+                  }}
+                >
+                  <div
+                    style={{
+                      backgroundColor: '#ffffff',
+                      border: '1px solid rgba(0, 0, 0, 0.08)',
+                      boxShadow: '0 3px 8px rgba(0, 0, 0, 0.04)',
+                      borderRadius: '999px',
+                      padding: '0.32rem 1.05rem',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '0.4rem',
+                      fontSize: '0.80rem',
+                      fontWeight: 700,
+                      color: '#64748b'
+                    }}
+                  >
+                    <span style={{ width: '7px', height: '7px', borderRadius: '50%', backgroundColor: '#ef4444' }} />
                     <span>Without ATPL</span>
                   </div>
                 </div>
 
                 {/* Faint Background Watermark */}
-                <div style={{
-                  position: 'absolute',
-                  top: '50%',
-                  left: '50%',
-                  transform: 'translate(-50%, -50%)',
-                  textAlign: 'center',
-                  pointerEvents: 'none',
-                  opacity: 0.22,
-                  zIndex: 1
-                }}>
+                <div
+                  style={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    textAlign: 'center',
+                    pointerEvents: 'none',
+                    opacity: 0.22,
+                    zIndex: 1
+                  }}
+                >
                   <div style={{ fontSize: '0.74rem', fontWeight: 700, color: '#94a3b8' }}>
                     Non-Stop Issues, Production Delays
                   </div>
                 </div>
 
                 {/* CONTINUOUS FALLING RAIN OF BOXES CANVAS (Endless Waterfall) */}
-                <div style={{
-                  position: 'relative',
-                  flex: 1,
-                  width: '100%',
-                  overflow: 'hidden',
-                  zIndex: 2
-                }}>
+                <div
+                  style={{
+                    position: 'relative',
+                    flex: 1,
+                    width: '100%',
+                    overflow: 'hidden',
+                    zIndex: 2
+                  }}
+                >
                   {rainingPills.map((pill) => (
                     <motion.div
                       key={pill.id}
@@ -1096,19 +596,21 @@ export const Archie3DRobotSection = () => {
 
             </div>
 
-            {/* Dribbble Style Interactive Video Timeline & Player Controls */}
-            <div style={{
-              marginTop: '0.85rem',
-              marginBottom: '1.35rem',
-              padding: '0.55rem 0.95rem',
-              backgroundColor: '#ffffff',
-              borderRadius: '999px',
-              border: '1.5px solid rgba(0, 113, 186, 0.16)',
-              boxShadow: '0 8px 24px rgba(0, 113, 186, 0.06)',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.75rem'
-            }}>
+            {/* Interactive Timeline & Player Controls */}
+            <div
+              style={{
+                marginTop: '0.85rem',
+                marginBottom: '1.25rem',
+                padding: '0.55rem 0.95rem',
+                backgroundColor: '#ffffff',
+                borderRadius: '999px',
+                border: '1.5px solid rgba(0, 113, 186, 0.16)',
+                boxShadow: '0 8px 24px rgba(0, 113, 186, 0.06)',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.75rem'
+              }}
+            >
               {/* Play / Pause Toggle Button */}
               <button
                 type="button"
@@ -1195,16 +697,18 @@ export const Archie3DRobotSection = () => {
               </div>
 
               {/* Live Timecode & Rewind */}
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.45rem',
-                fontSize: '0.72rem',
-                fontFamily: 'var(--font-mono, monospace)',
-                fontWeight: 700,
-                color: '#64748b',
-                flexShrink: 0
-              }}>
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.45rem',
+                  fontSize: '0.72rem',
+                  fontFamily: 'monospace',
+                  fontWeight: 700,
+                  color: '#64748b',
+                  flexShrink: 0
+                }}
+              >
                 <span>{`00:${String(Math.floor((progress / 100) * 20)).padStart(2, '0')}`} / 00:20</span>
                 <button
                   type="button"
@@ -1228,217 +732,219 @@ export const Archie3DRobotSection = () => {
               </div>
             </div>
 
-            {/* Conversion CTA Row & Trust Chips */}
-            <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '0.75rem', marginBottom: '0.75rem' }}>
-              <MagneticButton
-                onClick={() => openDemoModal({ mode: 'engineer', solution: 'Vendor Feasibility & Architecture Audit', notes: 'Initiated from Comparison Section' })}
+            {/* Bottom Actions Bar */}
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '12px',
+                flexWrap: 'wrap'
+              }}
+            >
+              <button
+                type="button"
+                onClick={() => openDemoModal({ solution: 'Factory Automation Feasibility Audit', notes: 'Scheduled via Why ATPL Comparative Section' })}
                 style={{
-                  backgroundColor: 'var(--color-brand-blue, #0071ba)',
-                  color: 'var(--color-white, #ffffff)',
+                  backgroundColor: '#0071ba',
+                  color: '#ffffff',
                   border: 'none',
                   borderRadius: '999px',
-                  padding: '0.75rem 1.8rem',
-                  fontSize: '0.90rem',
-                  fontWeight: 700,
+                  padding: '11px 24px',
+                  fontSize: '13px',
+                  fontWeight: 800,
                   cursor: 'pointer',
                   display: 'inline-flex',
                   alignItems: 'center',
-                  gap: '0.45rem',
-                  boxShadow: '0 6px 18px rgba(0, 113, 186, 0.35)',
-                  transition: 'background-color 0.15s ease, transform 0.15s ease'
+                  gap: '8px',
+                  boxShadow: '0 6px 20px rgba(0, 113, 186, 0.3)',
+                  transition: 'transform 0.15s ease'
                 }}
+                onMouseEnter={(e) => (e.currentTarget.style.transform = 'translateY(-2px)')}
+                onMouseLeave={(e) => (e.currentTarget.style.transform = 'translateY(0)')}
               >
                 <span>Schedule Feasibility Audit</span>
-              </MagneticButton>
+                <ArrowRight size={14} />
+              </button>
 
-              <MagneticButton
-                onClick={() => window.location.href = 'tel:04435537618'}
+              <a
+                href="tel:04435537618"
                 style={{
-                  backgroundColor: '#ffffff',
-                  color: '#0f172a',
-                  border: '1.5px solid rgba(0, 0, 0, 0.12)',
-                  borderRadius: '999px',
-                  padding: '0.75rem 1.35rem',
-                  fontSize: '0.86rem',
-                  fontWeight: 700,
-                  cursor: 'pointer',
                   display: 'inline-flex',
                   alignItems: 'center',
-                  gap: '0.45rem',
-                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)'
+                  gap: '8px',
+                  padding: '11px 20px',
+                  borderRadius: '999px',
+                  border: '1px solid rgba(0, 0, 0, 0.12)',
+                  backgroundColor: '#ffffff',
+                  color: '#0f172a',
+                  fontSize: '13px',
+                  fontWeight: 700,
+                  textDecoration: 'none',
+                  transition: 'background-color 0.15s ease'
                 }}
               >
                 <PhoneCall size={14} color="#0071ba" />
                 <span>Call: 044 3553 7618</span>
-              </MagneticButton>
-            </div>
+              </a>
 
-            {/* Inline Proof Chips */}
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '1.15rem',
-              flexWrap: 'wrap',
-              fontSize: '0.78rem',
-              color: '#64748b'
-            }}>
-              <span style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', color: '#334155', fontWeight: 600 }}>
-                <CheckCircle2 size={13} color="#0071ba" /> 250+ Plants
-              </span>
-              <span style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', color: '#334155', fontWeight: 600 }}>
-                <CheckCircle2 size={13} color="#0071ba" /> &lt;4-Hr Emergency SLA
-              </span>
-              <span style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', color: '#334155', fontWeight: 600 }}>
-                <CheckCircle2 size={13} color="#0071ba" /> ISO 9001:2015
-              </span>
+              <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '14px', flexWrap: 'wrap' }}>
+                <span style={{ fontSize: '11.5px', color: '#64748b', fontWeight: 600 }}>✓ 250+ Plants Connected</span>
+                <span style={{ fontSize: '11.5px', color: '#64748b', fontWeight: 600 }}>✓ &lt;4-Hr Emergency SLA</span>
+              </div>
             </div>
 
           </div>
 
           {/* =======================================================================
-              SIDE 2: ARCHIE 3D AUTONOMOUS ROBOT (On The Other Side!)
+              SIDE 2: FULL-QUALITY WAVING ROBOT AGENT VIDEO SHOWCASE
+              (High-def authentic robot waving at camera with live HUD telemetry)
              ======================================================================= */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.96 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+          <div
             style={{
               position: 'relative',
-              height: '460px',
-              borderRadius: '24px',
+              borderRadius: '28px',
               overflow: 'hidden',
-              backgroundColor: '#0a1324',
-              background: 'radial-gradient(circle at 50% 40%, #0d1e38 0%, #060c18 100%)',
+              backgroundColor: '#030c1c',
               border: '1.5px solid rgba(0, 240, 255, 0.3)',
-              boxShadow: '0 20px 48px rgba(0, 0, 0, 0.28), inset 0 1px 1px rgba(255, 255, 255, 0.15)',
+              boxShadow: '0 25px 60px rgba(0, 0, 0, 0.35), 0 0 30px rgba(0, 113, 186, 0.18)',
+              aspectRatio: '1 / 1',
+              minHeight: '440px',
               display: 'flex',
-              flexDirection: 'column'
+              flexDirection: 'column',
+              justifyContent: 'space-between'
             }}
           >
-            {/* 3D Canvas Box */}
-            <div 
-              ref={containerRef}
+            {/* The Authentic Robot Waving Video */}
+            <video
+              src="/assets/videos/robot_waving_agent.mp4"
+              autoPlay
+              loop
+              muted
+              playsInline
               style={{
-                position: 'relative',
+                position: 'absolute',
+                inset: 0,
                 width: '100%',
                 height: '100%',
-                cursor: 'grab'
+                objectFit: 'cover',
+                zIndex: 1
+              }}
+            />
+
+            {/* Subtle Top & Bottom Gradient Vignettes */}
+            <div
+              style={{
+                position: 'absolute',
+                inset: 0,
+                background: 'linear-gradient(180deg, rgba(3, 12, 28, 0.65) 0%, transparent 35%, transparent 65%, rgba(3, 12, 28, 0.85) 100%)',
+                zIndex: 2,
+                pointerEvents: 'none'
+              }}
+            />
+
+            {/* Top Status Header Badge */}
+            <div
+              style={{
+                position: 'relative',
+                zIndex: 10,
+                padding: '1.25rem',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between'
               }}
             >
-              <canvas 
-                ref={canvasRef} 
-                aria-label="Interactive 3D Shopfloor Agent model" 
-                role="img" 
-                style={{ width: '100%', height: '100%', display: 'block' }} 
-              />
-
-              {/* Status Header Badge */}
-              <div style={{
-                position: 'absolute',
-                top: '14px',
-                left: '14px',
-                backgroundColor: 'rgba(6, 11, 20, 0.88)',
-                backdropFilter: 'blur(8px)',
-                border: '1px solid rgba(0, 240, 255, 0.35)',
-                padding: '0.28rem 0.72rem',
-                borderRadius: '999px',
-                fontSize: '0.72rem',
-                color: 'var(--color-brand-cyan, #00f0ff)',
-                fontFamily: 'var(--font-mono, monospace)',
-                fontWeight: 700,
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.4rem',
-                zIndex: 2
-              }}>
-                <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: 'var(--color-brand-cyan, #00f0ff)', boxShadow: '0 0 6px #00f0ff' }}></span>
-                <Bot size={12} color="#00f0ff" />
-                <span>Archie 3D Shopfloor Agent</span>
-              </div>
-
-              {/* Face Mode Switcher Button */}
-              <button
-                type="button"
-                onClick={() => setFaceMode(m => m === 'EYES' ? 'QUOTE' : 'EYES')}
+              <div
                 style={{
-                  position: 'absolute',
-                  top: '14px',
-                  right: '14px',
-                  backgroundColor: 'rgba(6, 11, 20, 0.88)',
-                  backdropFilter: 'blur(8px)',
-                  border: '1px solid rgba(255, 255, 255, 0.22)',
-                  padding: '0.28rem 0.72rem',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  padding: '6px 14px',
                   borderRadius: '999px',
-                  fontSize: '0.72rem',
-                  color: 'var(--color-slate-200, #e2e8f0)',
-                  fontFamily: 'var(--font-mono, monospace)',
-                  fontWeight: 700,
-                  cursor: 'pointer',
-                  zIndex: 2,
-                  transition: 'background-color 0.15s ease, border-color 0.15s ease'
-                }}
-                title="Toggle robot face between blinking eyes and quote mark"
-              >
-                Face: {faceMode === 'EYES' ? 'Eyes ••' : 'Quote “'}
-              </button>
-
-              {/* Bottom Interactive Tracker Pill */}
-              <div style={{
-                position: 'absolute',
-                bottom: '14px',
-                left: '14px',
-                backgroundColor: 'rgba(6, 11, 20, 0.88)',
-                backdropFilter: 'blur(8px)',
-                border: '1px solid rgba(255, 255, 255, 0.15)',
-                padding: '0.28rem 0.72rem',
-                borderRadius: '999px',
-                fontSize: '0.70rem',
-                color: 'var(--color-slate-400, #94a3b8)',
-                fontFamily: 'var(--font-mono, monospace)',
-                pointerEvents: 'none',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.4rem',
-                whiteSpace: 'nowrap',
-                zIndex: 2
-              }}>
-                <Sparkles size={12} color="#00f0ff" />
-                <span>Tracking Cursor</span>
-              </div>
-
-              {/* Fullscreen Nova Landing Page Shortcut */}
-              <a
-                href="/nova-agent.html"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  position: 'absolute',
-                  bottom: '14px',
-                  right: '14px',
-                  backgroundColor: 'rgba(6, 11, 20, 0.88)',
-                  backdropFilter: 'blur(8px)',
-                  border: '1px solid rgba(0, 240, 255, 0.35)',
-                  padding: '0.28rem 0.72rem',
-                  borderRadius: '999px',
-                  fontSize: '0.70rem',
+                  backgroundColor: 'rgba(5, 14, 32, 0.82)',
+                  backdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(0, 240, 255, 0.4)',
+                  fontSize: '11px',
+                  fontWeight: 800,
+                  letterSpacing: '0.08em',
                   color: '#00f0ff',
-                  fontFamily: 'var(--font-mono, monospace)',
-                  textDecoration: 'none',
+                  textTransform: 'uppercase'
+                }}
+              >
+                <span style={{ width: '7px', height: '7px', borderRadius: '50%', backgroundColor: '#00f0ff', boxShadow: '0 0 8px #00f0ff' }} />
+                <Bot size={13} color="#00f0ff" />
+                <span>ARCHIE // AI SHOPFLOOR AGENT</span>
+              </div>
+
+              <div
+                style={{
+                  fontSize: '10.5px',
+                  fontWeight: 800,
+                  color: '#10b981',
+                  backgroundColor: 'rgba(16, 185, 129, 0.15)',
+                  border: '1px solid rgba(16, 185, 129, 0.35)',
+                  padding: '4px 10px',
+                  borderRadius: '999px',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '0.35rem',
-                  fontWeight: 700,
-                  zIndex: 2,
+                  gap: '5px'
+                }}
+              >
+                <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#10b981' }} />
+                <span>ACTIVE &amp; TRACKING</span>
+              </div>
+            </div>
+
+            {/* Bottom Floating Telemetry Card */}
+            <div
+              style={{
+                position: 'relative',
+                zIndex: 10,
+                padding: '1.25rem',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                flexWrap: 'wrap',
+                gap: '10px'
+              }}
+            >
+              <div>
+                <div style={{ fontSize: '11px', color: '#00f0ff', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <Sparkles size={12} color="#00f0ff" />
+                  <span>INTELLIGENT AUTONOMOUS ASSISTANT</span>
+                </div>
+                <div style={{ fontSize: '14px', fontWeight: 800, color: '#ffffff', marginTop: '2px' }}>
+                  Live Plant Telemetry &amp; Cognitive Vision
+                </div>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => openDemoModal({ solution: 'Archie 3D Shopfloor Agent Walkthrough', notes: 'Inquiry from Archie Robot Section' })}
+                style={{
+                  backgroundColor: 'rgba(0, 240, 255, 0.18)',
+                  color: '#00f0ff',
+                  border: '1px solid rgba(0, 240, 255, 0.45)',
+                  backdropFilter: 'blur(8px)',
+                  padding: '7px 16px',
+                  borderRadius: '999px',
+                  fontSize: '11.5px',
+                  fontWeight: 800,
+                  cursor: 'pointer',
                   transition: 'all 0.15s ease'
                 }}
-                title="View full standalone 3D experience"
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = '#00f0ff';
+                  e.currentTarget.style.color = '#020b18';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'rgba(0, 240, 255, 0.18)';
+                  e.currentTarget.style.color = '#00f0ff';
+                }}
               >
-                <span>Console</span>
-                <ExternalLink size={11} />
-              </a>
+                Request Walkthrough
+              </button>
             </div>
-          </motion.div>
+          </div>
 
         </div>
 
@@ -1446,3 +952,5 @@ export const Archie3DRobotSection = () => {
     </section>
   );
 };
+
+export default Archie3DRobotSection;

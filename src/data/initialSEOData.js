@@ -173,6 +173,28 @@ export const INITIAL_SEO_DATA = {
       ogImage: 'https://atplgroup.com/og-image.png',
       structuredDataType: 'Service'
     },
+    demos: {
+      id: 'demos',
+      name: '3D Twin Simulator & Product Demos',
+      route: '/demos',
+      title: '3D Twin Simulator & Product Demo Videos | ATPL Group',
+      description: 'Experience ATPL’s smart factory automation live. Explore our interactive 3D digital twin plant simulator and watch 360° rotating video turntables of all 20 industrial barcode scanners, RFID portals, and printers.',
+      keywords: [
+        '3D Digital Twin Simulator',
+        'Smart Factory 3D Tour',
+        'Product Demo Videos',
+        '360 Industrial Hardware Turntables',
+        'RFID Dock Door Portal Demo',
+        'Conveyor Vision Sorting Video',
+        'Shop Floor Automation Simulator'
+      ],
+      canonical: 'https://atplgroup.com/demos',
+      robots: 'index, follow',
+      ogTitle: '3D Twin Simulator & Product Demo Videos | ATPL Group',
+      ogDescription: 'See our factory automation systems working live: interactive 3D digital twin plant tour and 360° rotating product demo videos.',
+      ogImage: 'https://atplgroup.com/og-image.png',
+      structuredDataType: 'WebApplication'
+    },
     resources: {
       id: 'resources',
       name: 'Resources & Downloads',

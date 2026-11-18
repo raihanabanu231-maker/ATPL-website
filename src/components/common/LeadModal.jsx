@@ -292,7 +292,7 @@ Book an On-Site RFID/Vision AI Feasibility Study:
   };
 
   return (
-    <div className="modal-overlay" onClick={closeDemoModal} style={{ zIndex: 9999, overflowY: 'auto', padding: '1.5rem 1rem' }}>
+    <div className="modal-overlay" data-lenis-prevent="true" onClick={closeDemoModal} style={{ zIndex: 9999, overflowY: 'auto', padding: '1.5rem 1rem' }}>
       <div 
         className="modal-container" 
         onClick={(e) => e.stopPropagation()} 

@@ -41,10 +41,16 @@ export function ScrollTelemetryHUD() {
   }, []);
 
   const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
+    if (window.lenis) {
+      window.lenis.scrollTo(0, { duration: 1.2 });
+    } else if (window.locomotiveScroll) {
+      window.locomotiveScroll.scrollTo(0, { duration: 1.2 });
+    } else {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
   };
 
   // SVG Circular progress mathematics (Radius = 16, Circumference = 2 * PI * 16 ≈ 100.53)

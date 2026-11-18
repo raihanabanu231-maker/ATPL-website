@@ -61,9 +61,9 @@ function getProductImage(product) {
   if (product.id === 'hw-mobility-field') return '/assets/images/hardware/atpl_mobility_field.png';
   if (product.id === 'hw-mobility-enterprise') return '/assets/images/hardware/atpl_mobility_enterprise.png';
   if (product.id === 'hw-mobility-tablet') return '/assets/images/hardware/atpl_mobility_tablet.png';
-  if (product.id === 'hw-rfid-fixed') return '/assets/images/hardware/atpl_rfid_fixed_reader.jpg';
+  if (product.id === 'hw-rfid-fixed') return '/assets/images/hardware/atpl_rfid_fixed_clean.png';
   if (product.id === 'hw-rfid-sled') return '/assets/images/hardware/atpl_rfid_handheld_sled.jpg';
-  if (product.id === 'hw-rfid-antenna') return '/assets/images/hardware/atpl_rfid_antenna.jpg';
+  if (product.id === 'hw-rfid-antenna' || product.id === 'hw-rfid-antenna-tags') return '/assets/images/hardware/atpl_rfid_antenna.jpg';
   if (product.id === 'hw-marking-fiber' || product.id === 'hw-marking-laser') return '/assets/images/hardware/atpl_marking_laser.png';
   if (product.id === 'hw-touch-industrial') return '/assets/images/hardware/atpl_touch_computer.jpg';
   if (product.id === 'hw-plc-automation') return '/assets/images/hardware/atpl_plc_automation.jpg';
@@ -79,10 +79,75 @@ function getProductImage(product) {
   if (product.category === 'plc') return '/assets/images/hardware/blueprint_vision.svg';
   return '/assets/images/hardware/blueprint_scanner.svg';
 }
+const AVAILABLE_VIDEOS = new Set([
+  '/assets/videos/scanner_360.mp4',
+  '/assets/videos/printer_360.mp4',
+  '/assets/videos/printer_rfid_360.mp4',
+  '/assets/videos/mobility_360.mp4',
+  '/assets/videos/mobility_field_360.mp4',
+  '/assets/videos/scanner_cordless_360.mp4',
+  '/assets/videos/scanner_dpm_360.mp4',
+  '/assets/videos/scanner_conveyor_360.mp4',
+  '/assets/videos/printer_mobile_360.mp4',
+  '/assets/videos/printer_desktop_360.mp4',
+  '/assets/videos/printer_idcard_360.mp4',
+  '/assets/videos/mobility_tablet_360.mp4',
+  '/assets/videos/mobility_cold_storage_360.mp4',
+  '/assets/videos/rfid_antenna_360.mp4',
+  '/assets/videos/laser_marker_360.mp4',
+  '/assets/videos/uv_laser_360.mp4',
+  '/assets/videos/dotpeen_360.mp4',
+  '/assets/videos/touch_computer_360.mp4',
+  '/assets/videos/kiosk_360.mp4',
+  '/assets/videos/voice_headset_360.mp4'
+]);
 
+function getProductVideo(product) {
+  if (!product) return null;
+  let videoPath = null;
+
+  // Scanners
+  if (product.id === 'hw-scanner-wired') videoPath = '/assets/videos/scanner_360.mp4';
+  else if (product.id === 'hw-scanner-wireless' || product.id === 'hw-scanner-cordless') videoPath = '/assets/videos/scanner_cordless_360.mp4';
+  else if (product.id === 'hw-scanner-granit') videoPath = '/assets/videos/scanner_360.mp4';
+  else if (product.id === 'hw-scanner-dpm') videoPath = '/assets/videos/scanner_dpm_360.mp4';
+  else if (product.id === 'hw-scanner-conveyor') videoPath = '/assets/videos/scanner_conveyor_360.mp4';
+
+  // Printers
+  else if (product.id === 'hw-printer-industrial') videoPath = '/assets/videos/printer_360.mp4';
+  else if (product.id === 'hw-printer-rfid') videoPath = '/assets/videos/printer_rfid_360.mp4';
+  else if (product.id === 'hw-printer-mobile') videoPath = '/assets/videos/printer_mobile_360.mp4';
+  else if (product.id === 'hw-printer-desktop') videoPath = '/assets/videos/printer_desktop_360.mp4';
+
+  // Mobility
+  else if (product.id === 'hw-mobility-rugged') videoPath = '/assets/videos/mobility_360.mp4';
+  else if (product.id === 'hw-mobility-field' || product.id === 'hw-mobility-enterprise') videoPath = '/assets/videos/mobility_field_360.mp4';
+  else if (product.id === 'hw-mobility-cold-zone') videoPath = '/assets/videos/mobility_cold_storage_360.mp4';
+  else if (product.id === 'hw-mobility-tablet') videoPath = '/assets/videos/mobility_tablet_360.mp4';
+
+  // RFID
+  else if (product.id === 'hw-rfid-fixed') videoPath = '/assets/videos/rfid_antenna_360.mp4';
+  else if (product.id === 'hw-rfid-sled') videoPath = '/assets/videos/mobility_360.mp4';
+  else if (product.id === 'hw-rfid-antenna' || product.id === 'hw-rfid-antenna-tags' || product.id === 'hw-rfid-onmetal-tags') videoPath = '/assets/videos/rfid_antenna_360.mp4';
+
+  // Marking / DPM
+  else if (product.id === 'hw-marking-fiber' || product.id === 'hw-marking-laser' || product.id === 'hw-marking-co2') videoPath = '/assets/videos/laser_marker_360.mp4';
+  else if (product.id === 'hw-marking-uv') videoPath = '/assets/videos/uv_laser_360.mp4';
+  else if (product.id === 'hw-marking-pin') videoPath = '/assets/videos/dotpeen_360.mp4';
+
+  // Touch & Automation
+  else if (product.id.includes('touch') || product.id.includes('fanless') || product.id.includes('pos')) videoPath = '/assets/videos/touch_computer_360.mp4';
+  else if (product.id.includes('plc') || product.id.includes('scada') || product.id.includes('robotic') || product.id.includes('safety')) videoPath = '/assets/videos/scanner_conveyor_360.mp4';
+  else if (product.id.includes('kiosk') || product.id.includes('gate-pass') || product.id.includes('job-card') || product.id.includes('ptl')) videoPath = '/assets/videos/kiosk_360.mp4';
+  else if (product.id.includes('voice')) videoPath = '/assets/videos/voice_headset_360.mp4';
+
+  // Only return if file is actually available, otherwise graceful fallback to image
+  return (videoPath && AVAILABLE_VIDEOS.has(videoPath)) ? videoPath : null;
+}
 function buildCardHTML(product, theme) {
   const pills = (product.keyPills || []).slice(0, 2);
   const prodImg = getProductImage(product);
+  const prodVideo = getProductVideo(product);
   return `
     <!-- Small vertical bold-italic ATPL tags on each side edge -->
     <span style="position: absolute; left: 6px; top: 50%; transform: translateY(-50%) rotate(-90deg); font-size: 0.58rem; font-family: monospace; font-weight: 800; font-style: italic; color: ${theme.border}; opacity: 0.7; letter-spacing: 0.15em; pointer-events: none; z-index: 2;">ATPL</span>
@@ -100,30 +165,40 @@ function buildCardHTML(product, theme) {
       ATPL // ${product.num}, ${product.oem}
     </div>
 
-    <!-- Product 360° Rotating Image Frame (Clean Obsidian Studio, Large Crystal-Clear Image, Zero Circles Below) -->
-    <div class="card-turntable-box" style="width: 100%; height: 300px; border-radius: 14px; background: radial-gradient(circle at 50% 45%, #0f172a 0%, #080d1a 65%, #02050c 100%); border: 1.5px solid rgba(0, 240, 255, 0.45); box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.7), 0 8px 25px rgba(0, 0, 0, 0.6); display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 0.75rem; padding: 0; position: relative; perspective: 1000px;">
+    <!-- Product 360° Rotating Image Frame (Clean Obsidian Studio, Perfectly Aligned & Scaled) -->
+    <div class="card-turntable-box" style="width: 100%; height: 285px; border-radius: 14px; background: radial-gradient(circle at 50% 50%, #0d1527 0%, #080d1a 65%, #02050c 100%); border: 1.5px solid rgba(0, 240, 255, 0.4); box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.7), 0 8px 25px rgba(0, 0, 0, 0.6); display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 0.75rem; padding: 0; position: relative; perspective: 1000px;">
       
-      <!-- 360° Rotating Product Image in Slow Motion (Dual-Faced 3D Turntable, Maximized Size) -->
-      <div class="product-turntable-360" style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; transform-style: preserve-3d; animation: slowTurntable360 16s linear infinite; will-change: transform;">
-        <div style="position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; transform-style: preserve-3d;">
-          <!-- Front Face (Maximized, ultra-crisp, filling frame) -->
-          <img 
-            src="${prodImg}" 
-            alt="${product.title}" 
-            loading="lazy"
-            onerror="this.onerror=null; this.src='/assets/images/hardware/blueprint_scanner.svg';"
-            style="width: 100%; height: 100%; max-width: 100%; max-height: 100%; object-fit: cover; border-radius: 12px; filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.75)); backface-visibility: hidden; transform: translateZ(2px); display: block;" 
-          />
-          <!-- Back Face (Un-mirrored, studio shaded) -->
-          <img 
-            src="${prodImg}" 
-            alt="${product.title}" 
-            loading="lazy"
-            onerror="this.onerror=null; this.src='/assets/images/hardware/blueprint_scanner.svg';"
-            style="position: absolute; width: 100%; height: 100%; max-width: 100%; max-height: 100%; object-fit: cover; border-radius: 12px; filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.75)) brightness(0.85); backface-visibility: hidden; transform: rotateY(180deg) translateZ(2px); display: block;" 
-          />
+      ${prodVideo ? `
+        <!-- Authentic 360° Looping Product Video (Balanced Fit, 100% Fully Visible) -->
+        <video 
+          src="${prodVideo}" 
+          autoplay 
+          loop 
+          muted 
+          playsinline 
+          style="width: 100%; height: 100%; object-fit: contain; transform: scale(1.16); transform-origin: center center; border-radius: 12px; filter: drop-shadow(0 15px 25px rgba(0,0,0,0.75)); pointer-events: none;"
+        ></video>
+      ` : `
+        <!-- Rotating Image Fallback (Properly Centered & Contained) -->
+        <div class="product-turntable-360" style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; transform-style: preserve-3d; animation: slowTurntable360 16s linear infinite; will-change: transform;">
+          <div style="position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; transform-style: preserve-3d;">
+            <img 
+              src="${prodImg}" 
+              alt="${product.title}" 
+              loading="lazy"
+              onerror="this.onerror=null; this.src='/assets/images/hardware/blueprint_scanner.svg';"
+              style="width: 86%; height: 86%; max-width: 86%; max-height: 86%; object-fit: contain; border-radius: 12px; filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.75)); backface-visibility: hidden; transform: translateZ(2px); display: block;" 
+            />
+            <img 
+              src="${prodImg}" 
+              alt="${product.title}" 
+              loading="lazy"
+              onerror="this.onerror=null; this.src='/assets/images/hardware/blueprint_scanner.svg';"
+              style="position: absolute; width: 86%; height: 86%; max-width: 86%; max-height: 86%; object-fit: contain; border-radius: 12px; filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.75)) brightness(0.85); backface-visibility: hidden; transform: rotateY(180deg) translateZ(2px); display: block;" 
+            />
+          </div>
         </div>
-      </div>
+      `}
 
       <!-- 360° Rotating Pill Badge -->
       <div style="position: absolute; top: 10px; right: 10px; background: rgba(10, 15, 29, 0.88); backdrop-filter: blur(6px); border: 1px solid rgba(0, 240, 255, 0.5); border-radius: 999px; padding: 3px 9px; font-size: 0.65rem; font-family: monospace; font-weight: 800; color: #00f0ff; z-index: 3; display: flex; align-items: center; gap: 4px; pointer-events: none; box-shadow: 0 2px 10px rgba(0,0,0,0.6);">
@@ -564,10 +639,10 @@ export const HardwareFlipCaterpillar = ({ activeCategory = 'all', onCategoryChan
       />
 
       <div style={{ position: 'relative', zIndex: 2, maxWidth: '1440px', margin: '0 auto' }}>
-        
+
         {/* Header & Category Filters */}
         <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
-          
+
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.75rem' }}>
             <span
               style={{

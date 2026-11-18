@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 320" width="400" height="320">
+  <defs>
+    <linearGradient id="rfidBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a192f"/>
+      <stop offset="100%" stop-color="#030816"/>
+    </linearGradient>
+    <radialGradient id="rfWaves" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#00f0ff" stop-opacity="0.6"/>
+      <stop offset="60%" stop-color="#38bdf8" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#00f0ff" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="rfidGrid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#00f0ff" stroke-width="0.5" stroke-opacity="0.12"/>
+    </pattern>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#rfidBg)" rx="12"/>
+  <rect width="100%" height="100%" fill="url(#rfidGrid)" rx="12"/>
+
+  <!-- Fixed Multi-Antenna RFID Portal Frame -->
+  <g transform="translate(60, 40)" stroke="#00f0ff" stroke-width="2" fill="none">
+    <!-- Left Mast Portal -->
+    <rect x="20" y="20" width="25" height="190" rx="3" fill="#0b2447" fill-opacity="0.8"/>
+    <!-- Right Mast Portal -->
+    <rect x="235" y="20" width="25" height="190" rx="3" fill="#0b2447" fill-opacity="0.8"/>
+    <!-- Overhead Overhead Beam -->
+    <rect x="20" y="20" width="240" height="18" rx="3" fill="#08203e" fill-opacity="0.9"/>
+    
+    <!-- Circular Polarized Antennas -->
+    <rect x="24" y="60" width="17" height="40" rx="2" fill="#0284c7" stroke="#38bdf8" stroke-width="1.5"/>
+    <rect x="24" y="130" width="17" height="40" rx="2" fill="#0284c7" stroke="#38bdf8" stroke-width="1.5"/>
+    <rect x="239" y="60" width="17" height="40" rx="2" fill="#0284c7" stroke="#38bdf8" stroke-width="1.5"/>
+    <rect x="239" y="130" width="17" height="40" rx="2" fill="#0284c7" stroke="#38bdf8" stroke-width="1.5"/>
+
+    <!-- Concentric RF Energy Waves -->
+    <path d="M50,80 A60,60 0 0,1 50,150" stroke="#00f0ff" stroke-width="2" stroke-dasharray="4 4"/>
+    <path d="M70,70 A80,80 0 0,1 70,160" stroke="#00f0ff" stroke-width="2" stroke-opacity="0.7"/>
+    <path d="M90,60 A100,100 0 0,1 90,170" stroke="#00f0ff" stroke-width="2" stroke-opacity="0.4"/>
+
+    <path d="M230,80 A60,60 0 0,0 230,150" stroke="#00f0ff" stroke-width="2" stroke-dasharray="4 4"/>
+    <path d="M210,70 A80,80 0 0,0 210,160" stroke="#00f0ff" stroke-width="2" stroke-opacity="0.7"/>
+    <path d="M190,60 A100,100 0 0,0 190,170" stroke="#00f0ff" stroke-width="2" stroke-opacity="0.4"/>
+
+    <!-- Tagged Pallet Moving Through Portal -->
+    <polygon points="110,160 170,160 190,185 130,185" fill="#1e293b" stroke="#64748b" stroke-width="1.5"/>
+    <rect x="120" y="115" width="45" height="45" fill="#334155" stroke="#94a3b8" stroke-width="1.5"/>
+    <!-- EPC Gen2 Inlay RFID Tag -->
+    <circle cx="142" cy="138" r="8" fill="#E85874" stroke="#ffffff" stroke-width="1.5"/>
+    <path d="M136,138 L148,138" stroke="#ffffff" stroke-width="1.5"/>
+  </g>
+
+  <!-- Technical Specs -->
+  <text x="35" y="285" font-family="monospace" font-size="11" font-weight="bold" fill="#00f0ff">ATPL-SPEC // RAIN RFID PORTAL</text>
+  <text x="35" y="297" font-family="monospace" font-size="8" fill="#94a3b8">865-868 MHz / 1,200 TAGS/SEC BULK READ</text>
+</svg>
+

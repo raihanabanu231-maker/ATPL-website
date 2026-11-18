@@ -855,15 +855,18 @@ export const AtplCoPilot = () => {
           </div>
 
           {/* Messages Area */}
-          <div style={{
-            flex: 1,
-            padding: '1rem',
-            overflowY: 'auto',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '0.85rem',
-            backgroundColor: '#f8fafc'
-          }}>
+          <div
+            data-lenis-prevent="true"
+            style={{
+              flex: 1,
+              padding: '1rem',
+              overflowY: 'auto',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '0.85rem',
+              backgroundColor: '#f8fafc'
+            }}
+          >
             {messages.map((msg) => (
               <div
                 key={msg.id}

@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ATPL Enterprise Customer Stories | Salesforce-Style Stacked Scroll Cards</title>
+  
+  <style>
+    /* ==========================================================================
+       1. CSS RESET & INDUSTRIAL TOKENS
+       ========================================================================== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg-dark: #050914;
+      --bg-panel: #0a1122;
+      --text-white: #ffffff;
+      --text-slate: #94a3b8;
+      --text-muted: #64748b;
+      --cyan-accent: #00f0ff;
+      --indigo-accent: #818cf8;
+      --royal-blue: #0176D3;
+      --emerald-accent: #10b981;
+
+      /* Salesforce "Agentic Enterprise" Stacked Cards Tokens */
+      --nav-h: 72px;
+      --strip-h: 36px;
+      --stack-gap: 38px;
+      --inset-step: 22px;
+      --easing: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background-color: var(--bg-dark);
+      color: var(--text-white);
+      font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: clip;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      min-height: 100vh;
+      overflow-x: clip;
+      color: var(--text-white);
+    }
+
+    /* Ambient top glow */
+    .ambient-glow {
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 1100px;
+      height: 480px;
+      background: radial-gradient(ellipse at top, rgba(1, 118, 211, 0.18) 0%, rgba(0, 240, 255, 0.05) 45%, transparent 75%);
+      filter: blur(80px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Top Fixed Navbar (Height: 72px) */
+    .top-navbar {
+      position: sticky;
+      top: 0;
+      height: var(--nav-h);
+      box-sizing: border-box;
+      z-index: 1000;
+      background: rgba(5, 9, 20, 0.88);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 0 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: #ffffff;
+    }
+
+    .brand-badge {
+      font-family: monospace;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      color: var(--cyan-accent);
+      background: rgba(0, 240, 255, 0.12);
+      border: 1px solid rgba(0, 240, 255, 0.3);
+      padding: 4px 10px;
+      border-radius: 999px;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .nav-link {
+      color: var(--text-slate);
+      text-decoration: none;
+      font-size: 0.86rem;
+      font-weight: 600;
+      transition: color 0.2s ease;
+    }
+
+    .nav-link:hover {
+      color: var(--cyan-accent);
+    }
+
+    .nav-cta {
+      background: var(--royal-blue);
+      color: #ffffff;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 999px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .nav-cta:hover {
+      background: #0162b1;
+      transform: translateY(-1px);
+    }
+
+    /* Container wrapper */
+    .page-container {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 10;
+      overflow: visible;
+    }
+
+    /* ==========================================================================
+       2. SECTION HERO INTRO
+       ========================================================================== */
+    .stories-hero {
+      text-align: center;
+      padding: 60px 0 45px 0;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    .eyebrow-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      border-radius: 999px;
+      background: rgba(0, 240, 255, 0.08);
+      border: 1px solid rgba(0, 240, 255, 0.28);
+      box-shadow: 0 0 20px rgba(0, 240, 255, 0.12);
+      font-size: 0.74rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      color: var(--cyan-accent);
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .stories-hero h1 {
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      line-height: 1.18;
+      margin-bottom: 16px;
+    }
+
+    .hero-gradient-text {
+      background: linear-gradient(135deg, #00f0ff 0%, #38bdf8 50%, #818cf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .stories-hero p {
+      font-size: clamp(0.98rem, 1.3vw, 1.12rem);
+      color: var(--text-slate);
+      line-height: 1.65;
+      margin-bottom: 32px;
+    }
+
+    /* ==========================================================================
+       3. SALESFORCE "AGENTIC ENTERPRISE" STACKED CARDS (.deck & .deck-card)
+       ========================================================================== */
+    .deck {
+      position: relative;
+      width: 100%;
+      margin: 0 auto;
+      padding-bottom: calc(100vh - var(--nav-h) - 80px);
+      overflow: visible;
+    }
+
+    .deck-card {
+      position: sticky;
+      top: calc(var(--nav-h) + var(--card-i) * var(--stack-gap));
+      z-index: calc(var(--card-i) + 1);
+      min-height: calc(100vh - var(--nav-h) - 80px);
+      margin-bottom: calc(100vh - var(--nav-h) - 80px);
+      margin-inline: 0px;
+      border-radius: 28px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      overflow: hidden;
+      box-sizing: border-box;
+      transform-origin: top center;
+      transition: margin-inline 0.35s var(--easing);
+      will-change: margin-inline;
+      backdrop-filter: blur(16px);
+    }
+
+    .deck-card:last-child {
+      margin-bottom: 0px;
+    }
+
+    /* Covered Card: Width shrink via margin-inline (newest is full width, oldest is narrowest) */
+    .deck-card.is-covered {
+      margin-inline: calc((var(--total-n) - 1 - var(--card-i)) * var(--inset-step));
+    }
+
+    /* 4 Gradients matching Dark + Cyan Theme */
+    .card-gradient-0 {
+      background: linear-gradient(135deg, #021a38 0%, #062e60 50%, #0a4d8c 100%);
+      border-top: 2px solid #00f0ff;
+    }
+    .card-gradient-1 {
+      background: linear-gradient(135deg, #0b1329 0%, #1a1e4a 50%, #2e266d 100%);
+      border-top: 2px solid #818cf8;
+    }
+    .card-gradient-2 {
+      background: linear-gradient(135deg, #022c22 0%, #034e3d 50%, #056852 100%);
+      border-top: 2px solid #34d399;
+    }
+    .card-gradient-3 {
+      background: linear-gradient(135deg, #002855 0%, #015ea8 50%, #0077c8 100%);
+      border-top: 2px solid #38bdf8;
+    }
+
+    /* Header Strip: 36px tall */
+    .deck-card-header {
+      height: var(--strip-h);
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1.5rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(0, 0, 0, 0.28);
+      cursor: pointer;
+      user-select: none;
+      gap: 1rem;
+      transition: background-color 0.2s ease;
+    }
+
+    .deck-card-header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .deck-card-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .deck-card-header-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .deck-card-header-right {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+
+    /* Card Body: fades out when covered leaving only the 36px header strip */
+    .deck-card-body {
+      opacity: 1;
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+      gap: 2.5rem;
+      padding: clamp(1.75rem, 3.5vw, 3rem);
+      box-sizing: border-box;
+      transition: opacity 0.35s var(--easing);
+    }
+
+    .deck-card.is-covered .deck-card-body {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* Card Body Contents */
+    .card-narrative {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .client-tagline {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .client-logo-pill {
+      background: #ffffff;
+      padding: 5px 16px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+    }
+
+    .client-logo-pill img {
+      height: 22px;
+      max-width: 120px;
+      object-fit: contain;
+    }
+
+    .client-tagline-badge {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--cyan-accent);
+    }
+
+    .card-big-heading {
+      font-size: clamp(1.6rem, 2.5vw, 2.3rem);
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.22;
+      letter-spacing: -0.02em;
+      margin-bottom: 14px;
+    }
+
+    .card-paragraph {
+      font-size: clamp(0.92rem, 1.1vw, 1.02rem);
+      color: rgba(255, 255, 255, 0.85);
+      line-height: 1.65;
+      margin-bottom: 24px;
+    }
+
+    .metrics-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      padding: 1.5rem 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      margin-bottom: 1.75rem;
+    }
+
+    .metric-val {
+      font-size: clamp(2.1rem, 3.4vw, 3rem);
+      font-weight: 900;
+      color: var(--cyan-accent);
+      line-height: 1;
+      letter-spacing: -0.02em;
+      text-shadow: 0 0 25px rgba(0, 240, 255, 0.45);
+    }
+
+    .metric-lbl {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-top: 6px;
+    }
+
+    .action-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: #ffffff;
+      color: #070c18;
+      border: none;
+      padding: 11px 22px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .btn-primary:hover {
+      background: var(--cyan-accent);
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      padding: 11px 20px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--cyan-accent);
+      color: var(--cyan-accent);
+    }
+
+    /* Right Media Illustration */
+    .body-illustration {
+      position: relative;
+      border-radius: 18px;
+      overflow: hidden;
+      aspect-ratio: 16 / 11;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    .body-illustration img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .illustration-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(5, 9, 20, 0.1) 0%, rgba(5, 9, 20, 0.55) 100%);
+      pointer-events: none;
+    }
+
+    .hud-badge {
+      position: absolute;
+      bottom: 16px;
+      left: 16px;
+      right: 16px;
+      background: rgba(5, 12, 28, 0.85);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      z-index: 5;
+    }
+
+    /* Fixed floating "Ask AI" pill at bottom-right (matching Salesforce "Ask Piper") */
+    .salesforce-ask-ai-pill {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 22px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #014486 0%, #0176D3 60%, #00b4d8 100%);
+      border: 1.5px solid rgba(0, 240, 255, 0.65);
+      box-shadow: 0 8px 30px rgba(0, 118, 211, 0.5), 0 0 20px rgba(0, 240, 255, 0.4);
+      color: #ffffff;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.25s var(--easing);
+    }
+
+    .salesforce-ask-ai-pill:hover {
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 12px 35px rgba(0, 118, 211, 0.7), 0 0 30px rgba(0, 240, 255, 0.6);
+    }
+
+    /* Mobile responsive (< 768px) */
+    @media (max-width: 768px) {
+      .deck {
+        --nav-h: 64px;
+        --strip-h: 32px;
+        --stack-gap: 34px;
+        --inset-step: 10px;
+        padding-bottom: 50vh;
+      }
+
+      .deck-card {
+        border-radius: 20px;
+        min-height: auto;
+        margin-bottom: 50vh;
+      }
+
+      .deck-card-header {
+        height: var(--strip-h);
+        padding: 0 1rem;
+      }
+
+      .deck-card-header-title {
+        font-size: 11px;
+      }
+
+      .deck-card-header-right {
+        font-size: 9.5px;
+        padding: 2px 7px;
+      }
+
+      .deck-card-body {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        padding: 1.25rem 1rem;
+      }
+    }
+
+    /* Respect prefers-reduced-motion */
+    @media (prefers-reduced-motion: reduce) {
+      .deck-card,
+      .deck-card-body,
+      .deck-card-header,
+      .salesforce-ask-ai-pill {
+        transition: none !important;
+        animation: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Ambient Light Field -->
+  <div class="ambient-glow"></div>
+
+  <!-- Top Navigation Bar -->
+  <nav class="top-navbar">
+    <a href="#" class="brand-brand">
+      <span style="font-weight: 800; font-size: 1.15rem; letter-spacing: -0.02em;">ATPL INDUSTRIAL</span>
+      <span class="brand-badge">PROVENANCE</span>
+    </a>
+    <div class="nav-links">
+      <a href="#customers" class="nav-link">Customer Stories</a>
+      <a href="javascript:void(0)" onclick="alert('ATPL Assessment Hotline: +91 98840 00000')" class="nav-cta">Explore ROI</a>
+    </div>
+  </nav>
+
+  <main class="page-container">
+
+    <!-- HERO HEADER -->
+    <header class="stories-hero">
+      <div class="eyebrow-pill">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+        <span>SALESFORCE-GRADE CUSTOMER STORIES &amp; ROI</span>
+      </div>
+
+      <h1>
+        See how Trailblazers transform manufacturing with<br />
+        <span class="hero-gradient-text">ATPL Industrial Automation</span>
+      </h1>
+
+      <p>
+        Explore verified enterprise case studies across automotive mega-factories, SMT cleanrooms, and high-velocity 3PL distribution centers. Audited takt-times, zero defect escapes, and hard ROI.
+      </p>
+    </header>
+
+    <!-- ========================================================================
+         THE DECK: Single wrapper with all cards as direct siblings
+         ======================================================================== -->
+    <div class="deck" id="customers">
+
+      <!-- CARD 0: OLA ELECTRIC -->
+      <article class="deck-card card-gradient-0" style="--card-i: 0; --total-n: 4; top: calc(var(--nav-h) + 0 * var(--stack-gap)); z-index: 1;">
+        <!-- Header Strip: 36px tall -->
+        <div class="deck-card-header" style="background-color: #031e40;">
+          <div class="deck-card-header-left">
+            <span class="deck-card-dot" style="background-color: #00f0ff; box-shadow: 0 0 10px #00f0ff;"></span>
+            <span class="deck-card-header-title">Enterprise intelligence runs on core shopfloor systems</span>
+          </div>
+          <div class="deck-card-header-right">
+            <span>PERFECT TRACE™</span>
+          </div>
+        </div>
+
+        <!-- Card Body -->
+        <div class="deck-card-body">
+          <div class="card-narrative">
+            <div>
+              <div class="client-tagline">
+                <div class="client-logo-pill">
+                  <img src="/assets/images/clients/ola-electric.svg" alt="Ola Electric Logo" />
+                </div>
+                <span class="client-tagline-badge">EV MEGA-FACTORY // TAMIL NADU</span>
+              </div>
+
+              <h2 class="card-big-heading">How Ola Electric slashed battery pack resource allocation from 2 hours to 2 minutes</h2>
+              <p class="card-paragraph">Integrated industrial Direct Part Mark (DPM) cognitive laser imagers and high-density mobile terminals to serialize battery cells and track assembly in real time across 250,000+ EV scooters.</p>
+
+              <div class="metrics-row">
+                <div>
+                  <div class="metric-val">2 Min</div>
+                  <div class="metric-lbl">Resource Allocation Speed (from 2 hrs)</div>
+                </div>
+                <div>
+                  <div class="metric-val" style="color: #ffffff; text-shadow: none;">100%</div>
+                  <div class="metric-lbl">AIS-156 Fire &amp; Safety Compliance</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="action-row">
+              <a href="javascript:void(0)" class="btn-primary">EXPLORE FULL CASE STUDY →</a>
+              <a href="javascript:void(0)" class="btn-secondary">REQUEST PLANT ASSESSMENT</a>
+            </div>
+          </div>
+
+          <div class="body-illustration">
+            <img src="/assets/images/hw_electronics_qc.jpg" alt="Ola Electric Battery Serialization" />
+            <div class="illustration-overlay"></div>
+            <div class="hud-badge">
+              <span style="font-size: 11px; font-weight: 800; color: #ffffff;">LIVE SHOPFLOOR RADAR: ACTIVE</span>
+              <span style="font-size: 11px; font-family: monospace; color: #00f0ff; font-weight: 700;">DPM Cognitive Laser</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- CARD 1: PEGATRON ELECTRONICS -->
+      <article class="deck-card card-gradient-1" style="--card-i: 1; --total-n: 4; top: calc(var(--nav-h) + 1 * var(--stack-gap)); z-index: 2;">
+        <!-- Header Strip: 36px tall -->
+        <div class="deck-card-header" style="background-color: #0e1836;">
+          <div class="deck-card-header-left">
+            <span class="deck-card-dot" style="background-color: #818cf8; box-shadow: 0 0 10px #818cf8;"></span>
+            <span class="deck-card-header-title">An agentic coworker for sub-millisecond AI vision inspection</span>
+          </div>
+          <div class="deck-card-header-right">
+            <span>PERFECT VERIFIER™</span>
+          </div>
+        </div>
+
+        <!-- Card Body -->
+        <div class="deck-card-body">
+          <div class="card-narrative">
+            <div>
+              <div class="client-tagline">
+                <div class="client-logo-pill">
+                  <img src="/assets/images/clients/pegatron-electronics.svg" alt="Pegatron Electronics Logo" />
+                </div>
+                <span class="client-tagline-badge" style="color: #818cf8;">GLOBAL TOP-3 EMS // SMART SMT LINES</span>
+              </div>
+
+              <h2 class="card-big-heading">How Pegatron achieved 99.99% micro-QR vision grading on high-speed SMT lines</h2>
+              <p class="card-paragraph">Automated inline 2D DataMatrix vision grading on micro PCB assemblies with instant 4ms pneumatic rejection gates and real-time MES synchronization.</p>
+
+              <div class="metrics-row">
+                <div>
+                  <div class="metric-val" style="color: #818cf8; text-shadow: 0 0 25px rgba(129, 140, 248, 0.45);">99.99%</div>
+                  <div class="metric-lbl">First-Pass Read Rate on Micro SMT</div>
+                </div>
+                <div>
+                  <div class="metric-val" style="color: #ffffff; text-shadow: none;">&lt; 4ms</div>
+                  <div class="metric-lbl">Pneumatic Diversion Rejection Speed</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="action-row">
+              <a href="javascript:void(0)" class="btn-primary" style="color: #050914;">EXPLORE FULL CASE STUDY →</a>
+              <a href="javascript:void(0)" class="btn-secondary">REQUEST PLANT ASSESSMENT</a>
+            </div>
+          </div>
+
+          <div class="body-illustration">
+            <img src="/assets/images/atpl_factory_3d_interior.jpg" alt="Pegatron SMT Inspection" />
+            <div class="illustration-overlay"></div>
+            <div class="hud-badge">
+              <span style="font-size: 11px; font-weight: 800; color: #ffffff;">LIVE SMT LINE: OPTICAL GRADING</span>
+              <span style="font-size: 11px; font-family: monospace; color: #818cf8; font-weight: 700;">Fixed-Mount Vision</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- CARD 2: PROCONNECT LOGISTICS -->
+      <article class="deck-card card-gradient-2" style="--card-i: 2; --total-n: 4; top: calc(var(--nav-h) + 2 * var(--stack-gap)); z-index: 3;">
+        <!-- Header Strip: 36px tall -->
+        <div class="deck-card-header" style="background-color: #033b2e;">
+          <div class="deck-card-header-left">
+            <span class="deck-card-dot" style="background-color: #34d399; box-shadow: 0 0 10px #34d399;"></span>
+            <span class="deck-card-header-title">Deploy trusted paperless execution that moves at full speed</span>
+          </div>
+          <div class="deck-card-header-right">
+            <span>PERFECT WAREHOUSE™</span>
+          </div>
+        </div>
+
+        <!-- Card Body -->
+        <div class="deck-card-body">
+          <div class="card-narrative">
+            <div>
+              <div class="client-tagline">
+                <div class="client-logo-pill">
+                  <img src="/assets/images/clients/proconnect-logistics.svg" alt="Proconnect Logistics Logo" />
+                </div>
+                <span class="client-tagline-badge" style="color: #34d399;">REDINGTON 3PL DISTRIBUTION HUB</span>
+              </div>
+
+              <h2 class="card-big-heading">How Proconnect accelerated inbound dock turnaround 3.5× with paperless WMS</h2>
+              <p class="card-paragraph">End-to-end warehouse execution system with rugged Android mobile terminals for paperless picking, staging, and ASN validation across 45,000+ active distribution SKUs.</p>
+
+              <div class="metrics-row">
+                <div>
+                  <div class="metric-val" style="color: #34d399; text-shadow: 0 0 25px rgba(52, 211, 153, 0.45);">3.5×</div>
+                  <div class="metric-lbl">Inbound Dock Turnaround Acceleration</div>
+                </div>
+                <div>
+                  <div class="metric-val" style="color: #ffffff; text-shadow: none;">99.98%</div>
+                  <div class="metric-lbl">Pick &amp; Dispatch Verification Accuracy</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="action-row">
+              <a href="javascript:void(0)" class="btn-primary">EXPLORE FULL CASE STUDY →</a>
+              <a href="javascript:void(0)" class="btn-secondary">REQUEST PLANT ASSESSMENT</a>
+            </div>
+          </div>
+
+          <div class="body-illustration">
+            <img src="/assets/images/story_logistics.jpg" alt="Proconnect Logistics WMS" />
+            <div class="illustration-overlay"></div>
+            <div class="hud-badge">
+              <span style="font-size: 11px; font-weight: 800; color: #ffffff;">LIVE WMS RADAR: DISPATCH ACTIVE</span>
+              <span style="font-size: 11px; font-family: monospace; color: #34d399; font-weight: 700;">15m Long-Range RFID</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- CARD 3: APOLLO TYRES -->
+      <article class="deck-card card-gradient-3" style="--card-i: 3; --total-n: 4; top: calc(var(--nav-h) + 3 * var(--stack-gap)); z-index: 4;">
+        <!-- Header Strip: 36px tall -->
+        <div class="deck-card-header" style="background-color: #00366b;">
+          <div class="deck-card-header-left">
+            <span class="deck-card-dot" style="background-color: #38bdf8; box-shadow: 0 0 10px #38bdf8;"></span>
+            <span class="deck-card-header-title">Ground plant logistics with automated RAIN RFID motion portals</span>
+          </div>
+          <div class="deck-card-header-right">
+            <span>RAIN RFID PORTALS</span>
+          </div>
+        </div>
+
+        <!-- Card Body -->
+        <div class="deck-card-body">
+          <div class="card-narrative">
+            <div>
+              <div class="client-tagline">
+                <div class="client-logo-pill">
+                  <img src="/assets/images/clients/apollo-tyres.svg" alt="Apollo Tyres Logo" />
+                </div>
+                <span class="client-tagline-badge" style="color: #38bdf8;">GLOBAL RADIAL MOBILITY LEADER</span>
+              </div>
+
+              <h2 class="card-big-heading">How Apollo Tyres achieved +50% dispatch accuracy with automated RAIN RFID overhead portals</h2>
+              <p class="card-paragraph">Forklifts drive through ATPL RFID dock portals at operating speed. Entire pallet loads are identified, verified against ASN manifests, and recorded into inventory in 4 seconds.</p>
+
+              <div class="metrics-row">
+                <div>
+                  <div class="metric-val" style="color: #38bdf8; text-shadow: 0 0 25px rgba(56, 189, 248, 0.45);">+50%</div>
+                  <div class="metric-lbl">Dispatch Verification Accuracy</div>
+                </div>
+                <div>
+                  <div class="metric-val" style="color: #ffffff; text-shadow: none;">0 Stops</div>
+                  <div class="metric-lbl">Forklift Stoppage During Tag Scans</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="action-row">
+              <a href="javascript:void(0)" class="btn-primary">EXPLORE FULL CASE STUDY →</a>
+              <a href="javascript:void(0)" class="btn-secondary">REQUEST PLANT ASSESSMENT</a>
+            </div>
+          </div>
+
+          <div class="body-illustration">
+            <img src="/assets/images/story_automotive.jpg" alt="Apollo Tyres Overhead RFID" />
+            <div class="illustration-overlay"></div>
+            <div class="hud-badge">
+              <span style="font-size: 11px; font-weight: 800; color: #ffffff;">LIVE DOCK PORTAL: PASS THROUGH</span>
+              <span style="font-size: 11px; font-family: monospace; color: #38bdf8; font-weight: 700;">UHF RAIN RFID</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+  </main>
+
+  <!-- Fixed Floating "Ask AI" Pill matching Salesforce "Ask Piper" -->
+  <div class="salesforce-ask-ai-pill" onclick="alert('ATPL AI Plant Assistant: How can we help automate your production lines?')">
+    <div style="width: 24px; height: 24px; border-radius: 50%; background: rgba(255, 255, 255, 0.2); display: flex; align-items: center; justify-content: center;">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00f0ff" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+    </div>
+    <span style="font-size: 13px; font-weight: 800; letter-spacing: 0.03em;">Ask AI</span>
+  </div>
+
+  <script>
+    (function () {
+      const cards = Array.from(document.querySelectorAll('.deck-card'));
+      const total = cards.length;
+      let ticking = false;
+
+      function updateCoveredState() {
+        const isMobile = window.innerWidth <= 768;
+        const navH = isMobile ? 64 : 72;
+        const stackGap = isMobile ? 34 : 38;
+
+        cards.forEach((card, i) => {
+          if (i === total - 1) {
+            card.classList.remove('is-covered');
+            return;
+          }
+
+          const nextCard = cards[i + 1];
+          if (!nextCard) return;
+
+          const nextRect = nextCard.getBoundingClientRect();
+          const stickyThreshold = navH + (i + 1) * stackGap;
+
+          if (nextRect.top <= stickyThreshold + 2) {
+            card.classList.add('is-covered');
+          } else {
+            card.classList.remove('is-covered');
+          }
+        });
+
+        ticking = false;
+      }
+
+      function onScroll() {
+        if (!ticking) {
+          ticking = true;
+          window.requestAnimationFrame(updateCoveredState);
+        }
+      }
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll, { passive: true });
+      updateCoveredState();
+    })();
+  </script>
+
+</body>
+</html>

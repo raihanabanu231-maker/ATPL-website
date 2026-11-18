@@ -9,6 +9,7 @@ const routes = [
   'factory-tour',
   'services',
   'resources',
+  'demos',
   'about',
   'contact',
   'privacy',
