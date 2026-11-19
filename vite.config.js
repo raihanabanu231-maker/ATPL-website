@@ -10,6 +10,13 @@ export default defineConfig({
     host: true,
     watch: {
       ignored: ['**/.agents/**', '**/.git/**', '**/dist/**']
+    },
+    proxy: {
+      '/api': {
+        target: 'http://localhost:5000',
+        changeOrigin: true,
+        secure: false
+      }
     }
   },
   build: {

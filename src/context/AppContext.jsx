@@ -19,7 +19,10 @@ const normalizeView = (target) => {
   if (['hardware', 'rfid', 'labeler', 'printers', 'scanners', 'devices', 'aidc'].includes(clean)) return 'hardware';
   if (['solutions', 'solution', 'industry', 'industries', 'automotive', 'pharma', 'logistics', 'fmcg', 'heavy-engg'].includes(clean)) return 'solutions';
   if (['partners', 'partner', 'alliances', 'oem', 'certifications'].includes(clean)) return 'partners';
-  if (['blog', 'blogs', 'article', 'articles', 'posts', 'insights', 'resources', 'resource', 'downloads', 'docs', 'whitepapers', 'datasheets'].includes(clean)) return 'demos';
+  if (clean === 'insights') return 'insights';
+  if (clean.startsWith('insights/')) return 'insight-detail';
+  if (clean === 'blog' || clean.startsWith('blog/')) return 'insights';
+  if (['resources', 'resource', 'downloads', 'docs', 'whitepapers', 'datasheets'].includes(clean)) return 'demos';
   if (['services', 'service', 'amc', 'support', 'maintenance', 'sla'].includes(clean)) return 'services';
   if (['customers', 'clients', 'case-studies', 'customer'].includes(clean)) return 'customers';
   if (['about', 'about-us', 'company', 'history'].includes(clean)) return 'about';
@@ -27,21 +30,43 @@ const normalizeView = (target) => {
   return 'home';
 };
 
-const getViewFromURL = () => {
-  if (typeof window === 'undefined') return 'home';
+const parseRouteFromURL = () => {
+  if (typeof window === 'undefined') return { view: 'home', slug: null };
   try {
-    const hash = (window.location.hash || '').replace(/^#\/?/, '').toLowerCase();
-    const path = (window.location.pathname || '').replace(/^\/+|\/+$/g, '').toLowerCase();
-    // Prioritize hash if present, fallback to pathname
-    return normalizeView(hash || path);
+    const rawPath = (window.location.pathname || '').replace(/^\/+|\/+$/g, '');
+    const rawHash = (window.location.hash || '').replace(/^#\/?/, '').replace(/\/+$/, '');
+
+    // Check pathname first, then hash
+    const target = rawPath || rawHash;
+    const parts = target.split('/').filter(Boolean);
+
+    // Redirect legacy /blog or #blog to /insights
+    if (parts[0] === 'blog') {
+      const slug = parts[1] || null;
+      const targetUrl = slug ? `/insights/${slug}` : '/insights';
+      try {
+        window.history.replaceState({ view: slug ? 'insight-detail' : 'insights', slug }, '', targetUrl);
+      } catch (e) {}
+      return slug ? { view: 'insight-detail', slug } : { view: 'insights', slug: null };
+    }
+
+    // Direct /insights route
+    if (parts[0] === 'insights') {
+      const slug = parts[1] || null;
+      return slug ? { view: 'insight-detail', slug } : { view: 'insights', slug: null };
+    }
+
+    return { view: normalizeView(target), slug: null };
   } catch (e) {
-    return 'home';
+    return { view: 'home', slug: null };
   }
 };
 
 export const AppProvider = ({ children }) => {
+  const initialRoute = parseRouteFromURL();
   // Navigation View State initialized from URL
-  const [currentView, setCurrentViewState] = useState(getViewFromURL);
+  const [currentView, setCurrentViewState] = useState(initialRoute.view);
+  const [currentInsightSlug, setCurrentInsightSlug] = useState(initialRoute.slug);
   const [adminTab, setAdminTab] = useState('dashboard');
   const [selectedStationId, setSelectedStationId] = useState('station-warehouse');
   const [demoModalOpen, setDemoModalOpen] = useState(false);
@@ -98,31 +123,57 @@ export const AppProvider = ({ children }) => {
   };
 
   const setCurrentView = (view, updateHistory = true) => {
+    if (view === 'insights') {
+      setCurrentInsightSlug(null);
+      setCurrentViewState('insights');
+      if (updateHistory && typeof window !== 'undefined') {
+        try {
+          window.history.pushState({ view: 'insights' }, '', '/insights');
+        } catch (e) {}
+      }
+      return;
+    }
+
+    if (view === 'insight-detail') {
+      setCurrentViewState('insight-detail');
+      return;
+    }
+
     const safeView = normalizeView(view);
     setCurrentViewState(safeView);
+    setCurrentInsightSlug(null);
+
     if (updateHistory && typeof window !== 'undefined') {
       try {
-        const hash = safeView === 'home' ? '' : `#${safeView}`;
         const path = safeView === 'home' ? '/' : `/${safeView}`;
-
-        // Sync URL with hash for single page apps to prevent any web server 404s
-        if (window.location.hash || window.location.protocol === 'file:') {
-          window.location.hash = hash;
-        } else {
-          // Both pushState and updating hash keeps direct links working
-          window.history.pushState({ view: safeView }, '', hash || path);
-        }
+        window.history.pushState({ view: safeView }, '', path);
       } catch (e) {
         // Fallback for isolated webviews
       }
     }
   };
 
+  const navigateToInsight = (slug) => {
+    setCurrentInsightSlug(slug);
+    setCurrentViewState('insight-detail');
+    if (typeof window !== 'undefined') {
+      try {
+        window.history.pushState({ view: 'insight-detail', slug }, '', `/insights/${slug}`);
+        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+      } catch (e) {}
+    }
+  };
+
+  const navigateToInsights = () => {
+    setCurrentView('insights');
+  };
+
   // Listen for browser back / forward buttons and hash changes
   useEffect(() => {
     const handleUrlChange = () => {
-      const view = getViewFromURL();
-      setCurrentViewState(view);
+      const parsed = parseRouteFromURL();
+      setCurrentViewState(parsed.view);
+      setCurrentInsightSlug(parsed.slug);
     };
 
     window.addEventListener('popstate', handleUrlChange);
@@ -584,7 +635,11 @@ export const AppProvider = ({ children }) => {
         closeCoPilot,
         adminProjectModalOpen,
         setAdminProjectModalOpen,
-        openAddProjectModal
+        openAddProjectModal,
+        currentInsightSlug,
+        setCurrentInsightSlug,
+        navigateToInsight,
+        navigateToInsights
       }}
     >
       {children}

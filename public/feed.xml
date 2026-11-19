@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ATPL Insights | Field Deployment Notes &amp; Teardowns</title>
+    <link>https://atplgroup.com/insights</link>
+    <description>Field deployment notes, implementation blueprints, and technical teardowns from ATPL's plant installations across India.</description>
+    <language>en-us</language>
+    <atom:link href="https://atplgroup.com/feed.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title><![CDATA[Sub-8ms Battery Cell Traceability: How Ola FutureFactory Solved Pack-Level Genealogy]]></title>
+      <link>https://atplgroup.com/insights/sub-8ms-battery-cell-traceability-ola-futurefactory</link>
+      <guid>https://atplgroup.com/insights/sub-8ms-battery-cell-traceability-ola-futurefactory</guid>
+      <pubDate>Sun, 08 Mar 2026 10:00:00 GMT</pubDate>
+      <description><![CDATA[Deep teardown of ATPL’s high-speed cylindrical 21700 cell serialization cell, capturing micro-QR codes across 12-module EV battery packs at 180 PPM with zero line stops.]]></description>
+      <category>Automotive &amp; EV</category>
+    </item>
+    <item>
+      <title><![CDATA[Decoding 1,400 Tags/Second Through Stretch Wrap: Engineering High-Density Dock Portals]]></title>
+      <link>https://atplgroup.com/insights/decoding-1400-tags-second-high-density-dock-portals</link>
+      <guid>https://atplgroup.com/insights/decoding-1400-tags-second-high-density-dock-portals</guid>
+      <pubDate>Mon, 02 Mar 2026 11:30:00 GMT</pubDate>
+      <description><![CDATA[How ATPL designed an automated multi-antenna RF dock door tunnel capable of reading 48 shrink-wrapped pallets per hour with zero false positive reads from adjacent lanes.]]></description>
+      <category>RAIN RFID &amp; Hardware</category>
+    </item>
+    <item>
+      <title><![CDATA[Edge TensorRT Vision vs Microscopic Casting Flaws: Achieving 6.2ms Zero-Defect Inspection]]></title>
+      <link>https://atplgroup.com/insights/edge-tensorrt-vision-microscopic-casting-flaws-sundram-fasteners</link>
+      <guid>https://atplgroup.com/insights/edge-tensorrt-vision-microscopic-casting-flaws-sundram-fasteners</guid>
+      <pubDate>Tue, 24 Feb 2026 14:15:00 GMT</pubDate>
+      <description><![CDATA[Deploying high-speed deep learning inference at the edge to catch 50-micron porosity, hairline cracks, and thread pitch deviations in automotive precision fasteners.]]></description>
+      <category>Industry 4.0 &amp; Machine Vision</category>
+    </item>
+    <item>
+      <title><![CDATA[Warehouse 4.0: Dynamic 3D Bin Heatmaps and Autonomous FIFO Picking at Proconnect Supply Chain]]></title>
+      <link>https://atplgroup.com/insights/warehouse-4-0-dynamic-3d-bin-heatmaps-autonomous-fifo-proconnect</link>
+      <guid>https://atplgroup.com/insights/warehouse-4-0-dynamic-3d-bin-heatmaps-autonomous-fifo-proconnect</guid>
+      <pubDate>Wed, 18 Feb 2026 09:00:00 GMT</pubDate>
+      <description><![CDATA[Architecting a real-time spatial digital twin for a 250,000 sq ft mother warehouse, enabling sub-minute inventory reconciliations and predictive pick path optimization.]]></description>
+      <category>Supply Chain &amp; WMS</category>
+    </item>
+    <item>
+      <title><![CDATA[21 CFR Part 11 Cloud Labeling: Unifying 200+ Industrial Printers Across Multi-Site Operations]]></title>
+      <link>https://atplgroup.com/insights/21-cfr-part-11-cloud-labeling-200-industrial-printers</link>
+      <guid>https://atplgroup.com/insights/21-cfr-part-11-cloud-labeling-200-industrial-printers</guid>
+      <pubDate>Tue, 10 Feb 2026 12:00:00 GMT</pubDate>
+      <description><![CDATA[Architecting an FDA-compliant centralized barcode labeling engine across 6 formulation sites, eliminating mislabeling risks and human template tampering.]]></description>
+      <category>Pharma &amp; Compliance</category>
+    </item>
+  </channel>
+</rss>

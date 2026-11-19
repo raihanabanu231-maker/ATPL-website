@@ -33,6 +33,8 @@ const ContactView = lazy(() => import('./components/pages/ContactView').then(m =
 const PrivacyView = lazy(() => import('./components/pages/PrivacyView').then(m => ({ default: m.PrivacyView })));
 const TermsView = lazy(() => import('./components/pages/TermsView').then(m => ({ default: m.TermsView })));
 const Factory3DView = lazy(() => import('./components/factory3d/Factory3DView').then(m => ({ default: m.Factory3DView })));
+const InsightsListingView = lazy(() => import('./components/pages/InsightsListingView').then(m => ({ default: m.InsightsListingView })));
+const InsightDetailView = lazy(() => import('./components/pages/InsightDetailView').then(m => ({ default: m.InsightDetailView })));
 const AdminLogin = lazy(() => import('./components/admin/AdminLogin').then(m => ({ default: m.AdminLogin })));
 const AdminLayout = lazy(() => import('./components/admin/AdminLayout').then(m => ({ default: m.AdminLayout })));
 
@@ -79,6 +81,10 @@ const MainAppContent = () => {
         setCurrentView('privacy');
       } else if (target === 'terms') {
         setCurrentView('terms');
+      } else if (target === 'insights' || target === 'blog') {
+        setCurrentView('insights');
+      } else if (target.startsWith('insights/') || target.startsWith('blog/')) {
+        setCurrentView('insight-detail');
       } else if (['demos', 'simulator', '3d-demos', 'digital-twin', 'live-demos'].includes(target)) {
         setCurrentView('demos');
       } else if (['factory-3d', 'factory-tour', 'factory', 'twin', 'tour', '3d', 'robot-tour', 'digitaltwin'].includes(target)) {
@@ -89,8 +95,8 @@ const MainAppContent = () => {
           const el = document.getElementById('hardware-3d-deck');
           if (el) el.scrollIntoView({ behavior: 'smooth' });
         }, 150);
-      } else if (['software', 'hardware', 'solutions', 'partners', 'resources', 'blog', 'services', 'customers', 'about', 'contact', 'demos'].includes(target)) {
-        if (target === 'blog' || target === 'resources') {
+      } else if (['software', 'hardware', 'solutions', 'partners', 'resources', 'services', 'customers', 'about', 'contact', 'demos'].includes(target)) {
+        if (target === 'resources') {
           setCurrentView('demos');
         } else {
           setCurrentView(target);
@@ -138,8 +144,11 @@ const MainAppContent = () => {
 
   const renderCurrentView = () => {
     switch (currentView) {
+      case 'insights':
+        return <InsightsListingView />;
+      case 'insight-detail':
+        return <InsightDetailView />;
       case 'demos':
-      case 'blog':
       case 'resources':
         return <DigitalTwinDemosView />;
       case 'factory-3d':

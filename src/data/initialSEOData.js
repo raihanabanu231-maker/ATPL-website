@@ -315,6 +315,28 @@ export const INITIAL_SEO_DATA = {
       ogDescription: 'Service terms, licensing guidelines, and warranty conditions for ATPL enterprise products.',
       ogImage: 'https://atplgroup.com/og-image.png',
       structuredDataType: 'WebPage'
+    },
+    insights: {
+      id: 'insights',
+      name: 'Insights & Technical Teardowns',
+      route: '/insights',
+      title: 'Insights & Implementation Blueprints | ATPL Plant Teardowns',
+      description: 'Field deployment notes, implementation blueprints, and technical teardowns from ATPL\'s plant installations across India.',
+      keywords: [
+        'ATPL Insights',
+        'Factory Automation Blueprints',
+        'RAIN RFID Dock Portals',
+        'Battery Cell Traceability',
+        'Machine Vision Defect Inspection',
+        'WMS Digital Twin',
+        '21 CFR Part 11 Pharma Labeling'
+      ],
+      canonical: 'https://atplgroup.com/insights',
+      robots: 'index, follow',
+      ogTitle: 'Insights & Technical Teardowns | Archery Technocrats',
+      ogDescription: 'Field deployment notes, implementation blueprints, and technical teardowns from ATPL\'s plant installations across India.',
+      ogImage: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1200&q=80',
+      structuredDataType: 'Blog'
     }
   }
 };

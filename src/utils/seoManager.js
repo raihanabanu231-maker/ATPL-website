@@ -73,3 +73,93 @@ export const applyPageSEO = (pageKey, seoData) => {
   }
 };
 
+/**
+ * Apply Dynamic SEO, OpenGraph, Twitter, and JSON-LD Article Schema for an Insight Post
+ */
+export const applyArticleSEO = (post) => {
+  if (typeof document === 'undefined' || !post) return;
+
+  const fullTitle = `${post.seoTitle || post.title} | ATPL Insights`;
+  const description = post.seoDescription || post.excerpt || '';
+  const canonicalUrl = `https://atplgroup.com/insights/${post.slug}`;
+  const ogImage = post.ogImage || post.coverImage || 'https://atplgroup.com/og-image.png';
+
+  document.title = fullTitle;
+
+  setMetaTag('meta[name="title"]', 'name', 'title', fullTitle);
+  setMetaTag('meta[name="description"]', 'name', 'description', description);
+  setMetaTag('meta[name="keywords"]', 'name', 'keywords', (post.tags || []).join(', '));
+  setMetaTag('meta[name="robots"]', 'name', 'robots', 'index, follow');
+
+  setLinkTag('canonical', canonicalUrl);
+
+  // Open Graph
+  setMetaTag('meta[property="og:type"]', 'property', 'og:type', 'article');
+  setMetaTag('meta[property="og:title"]', 'property', 'og:title', fullTitle);
+  setMetaTag('meta[property="og:description"]', 'property', 'og:description', description);
+  setMetaTag('meta[property="og:image"]', 'property', 'og:image', ogImage);
+  setMetaTag('meta[property="og:url"]', 'property', 'og:url', canonicalUrl);
+
+  // Twitter Cards
+  setMetaTag('meta[name="twitter:card"]', 'name', 'twitter:card', 'summary_large_image');
+  setMetaTag('meta[name="twitter:title"]', 'name', 'twitter:title', fullTitle);
+  setMetaTag('meta[name="twitter:description"]', 'name', 'twitter:description', description);
+  setMetaTag('meta[name="twitter:image"]', 'name', 'twitter:image', ogImage);
+  setMetaTag('meta[name="twitter:url"]', 'name', 'twitter:url', canonicalUrl);
+
+  // Article Specific Meta
+  if (post.publishedAt) {
+    setMetaTag('meta[property="article:published_time"]', 'property', 'article:published_time', post.publishedAt);
+  }
+  if (post.author?.name) {
+    setMetaTag('meta[property="article:author"]', 'property', 'article:author', post.author.name);
+  }
+  if (post.category) {
+    setMetaTag('meta[property="article:section"]', 'property', 'article:section', post.category);
+  }
+
+  // JSON-LD Article Schema
+  try {
+    let scriptTag = document.head.querySelector('script[data-schema="article-jsonld"]');
+    if (!scriptTag) {
+      scriptTag = document.createElement('script');
+      scriptTag.setAttribute('type', 'application/ld+json');
+      scriptTag.setAttribute('data-schema', 'article-jsonld');
+      document.head.appendChild(scriptTag);
+    }
+
+    const schemaData = {
+      '@context': 'https://schema.org',
+      '@type': 'Article',
+      'headline': post.title,
+      'description': description,
+      'image': [ogImage],
+      'datePublished': post.publishedAt || new Date().toISOString(),
+      'dateModified': post.publishedAt || new Date().toISOString(),
+      'author': [{
+        '@type': 'Person',
+        'name': post.author?.name || 'ATPL Engineering',
+        'jobTitle': post.author?.role || 'Automation Specialist'
+      }],
+      'publisher': {
+        '@type': 'Organization',
+        'name': 'Archery Technocrats Private Limited',
+        'url': 'https://atplgroup.com',
+        'logo': {
+          '@type': 'ImageObject',
+          'url': 'https://atplgroup.com/atpl-logo.png'
+        }
+      },
+      'mainEntityOfPage': {
+        '@type': 'WebPage',
+        '@id': canonicalUrl
+      }
+    };
+
+    scriptTag.textContent = JSON.stringify(schemaData, null, 2);
+  } catch (schemaErr) {
+    console.warn('JSON-LD schema injection skipped:', schemaErr);
+  }
+};
+
+

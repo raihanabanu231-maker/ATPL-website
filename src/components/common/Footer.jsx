@@ -181,6 +181,11 @@ export const Footer = () => {
                   3D Twin Simulator &amp; Demos
                 </button>
               </li>
+              <li>
+                <button onClick={() => handleNav('insights')} style={{ background: 'none', border: 'none', color: '#00f0ff', cursor: 'pointer', padding: 0, fontSize: '0.86rem', textAlign: 'left', fontWeight: 600, transition: 'color 0.15s' }} onMouseEnter={(e) => e.currentTarget.style.color = '#ffffff'} onMouseLeave={(e) => e.currentTarget.style.color = '#00f0ff'}>
+                  Insights &amp; Plant Teardowns
+                </button>
+              </li>
             </ul>
           </div>
 

@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "server": "node server/index.js",
     "build": "node --max-old-space-size=4096 node_modules/vite/bin/vite.js build",
     "postbuild": "node scripts/minify-html.js && node scripts/generate-routes.js",
     "preview": "vite preview"
@@ -15,6 +16,9 @@
     "@react-three/fiber": "^8.18.0",
     "canvas-confetti": "^1.9.4",
     "clsx": "^2.1.1",
+    "cors": "^2.8.6",
+    "dotenv": "^18.0.10",
+    "express": "^5.3.0",
     "framer-motion": "^14.9.0",
     "gsap": "^3.15.0",
     "lenis": "^1.3.27",

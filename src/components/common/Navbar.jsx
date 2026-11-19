@@ -123,6 +123,17 @@ export const Navbar = ({ onOpenSearch }) => {
   }, []);
 
   const handleNavClick = (viewId) => {
+    if (viewId === 'insights') {
+      setCurrentView('insights');
+      try {
+        window.history.pushState({ view: 'insights' }, '', '/insights');
+      } catch (e) {}
+      setMobileMenuOpen(false);
+      setActiveDropdown(null);
+      setLanguageOpen(false);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
     setCurrentView(viewId);
     try {
       if (viewId === 'home') {
@@ -951,6 +962,42 @@ export const Navbar = ({ onOpenSearch }) => {
               <Sparkles size={14} color="#0071ba" />
               <span>Why ATPL</span>
             </button>
+
+            {/* Direct Insights Link */}
+            <button
+              onClick={() => handleNavClick('insights')}
+              style={{
+                background: currentView === 'insights' || currentView === 'insight-detail' 
+                  ? 'rgba(0, 240, 255, 0.16)' 
+                  : 'rgba(0, 240, 255, 0.08)',
+                border: currentView === 'insights' || currentView === 'insight-detail'
+                  ? '1.5px solid #00f0ff'
+                  : '1px solid rgba(0, 240, 255, 0.35)',
+                color: '#0071ba',
+                padding: '0.45rem 0.75rem',
+                fontSize: '0.88rem',
+                fontWeight: 700,
+                cursor: 'pointer',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.4rem',
+                borderRadius: '8px',
+                transition: 'all 0.2s ease',
+                boxShadow: currentView === 'insights' || currentView === 'insight-detail' ? '0 0 10px rgba(0, 240, 255, 0.3)' : 'none'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = 'rgba(0, 240, 255, 0.18)';
+                e.currentTarget.style.transform = 'translateY(-1px)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = currentView === 'insights' ? 'rgba(0, 240, 255, 0.16)' : 'rgba(0, 240, 255, 0.08)';
+                e.currentTarget.style.transform = 'translateY(0)';
+              }}
+              title="Read ATPL Field Teardowns & Blueprints"
+            >
+              <BookOpen size={14} color="#0071ba" />
+              <span>Insights</span>
+            </button>
           </nav>
 
           {/* Right Action Utilities (Zoho Search, Language, Sign In, Sign Up) */}
@@ -1506,6 +1553,33 @@ export const Navbar = ({ onOpenSearch }) => {
                   <span>3D Twin Simulator &amp; Product Demos</span>
                 </span>
                 <span style={{ backgroundColor: '#0071ba', color: '#ffffff', fontSize: '0.65rem', padding: '0.15rem 0.45rem', borderRadius: '999px', fontWeight: 800 }}>LIVE</span>
+              </button>
+
+              {/* Insights Mobile Button */}
+              <button
+                onClick={() => handleNavClick('insights')}
+                style={{
+                  width: '100%',
+                  minHeight: '44px',
+                  background: 'rgba(0, 240, 255, 0.08)',
+                  border: '1.5px solid rgba(0, 240, 255, 0.35)',
+                  borderRadius: '8px',
+                  padding: '0.7rem 1rem',
+                  textAlign: 'left',
+                  fontSize: '0.96rem',
+                  fontWeight: 700,
+                  color: '#0f172a',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  cursor: 'pointer'
+                }}
+              >
+                <span style={{ display: 'flex', alignItems: 'center', gap: '0.55rem' }}>
+                  <span style={{ color: '#0071ba' }}>📖</span>
+                  <span>Insights &amp; Plant Teardowns</span>
+                </span>
+                <span style={{ backgroundColor: '#00f0ff', color: '#040812', fontSize: '0.65rem', padding: '0.15rem 0.45rem', borderRadius: '999px', fontWeight: 800 }}>NEW</span>
               </button>
 
               {/* 6. Contact Sales & Support (Direct Link) */}
