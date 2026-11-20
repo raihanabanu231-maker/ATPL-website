@@ -123,43 +123,55 @@ export const WhyAtplView = () => {
     }
   };
 
-  // Cognex-Style Machine Vision Inspection Stations
+  // Machine Vision & 3D Plant Simulation Stations
   const stations = [
     {
+      id: '3d-simulator',
+      type: 'simulator',
+      name: '3D Plant Twin Simulator',
+      shortName: '3D Simulator',
+      tagline: 'Interactive 3D WebGL factory floor & autonomous line simulation',
+      simulatorUrl: '/factory-map.html?embedded=true',
+      poster: '/assets/images/atpl_connected_3d_twin.webp',
+      badge: '★ 3D DIGITAL TWIN SIMULATOR',
+      telemetry: '60 FPS WebGL // REAL-TIME 3D',
+      description: 'Explore ATPL’s turnkey Industry 4.0 plant floor in real-time 3D: automated conveyor lines, collaborative robotic inspection, RAIN RFID dock gates, and live shopfloor telemetry.'
+    },
+    {
       id: 'vision-qc',
+      type: 'video',
       name: 'High-Speed Conveyor Vision',
+      shortName: 'Conveyor Vision',
       tagline: 'Edge AI defect inspection at 180 parts/minute',
       video: '/assets/videos/scanner_conveyor_360.mp4',
       poster: '/assets/videos/posters/scanner_conveyor_360.jpg',
       badge: '99.985% First-Pass Yield',
+      telemetry: 'LIVE ATPL TELEMETRY: 6.2ms',
       description: 'Synchronized telecentric cameras and 460nm polarized ring strobes catching 50-micron porosity, burrs, and barcode grading violations in under 6.2 milliseconds.'
     },
     {
       id: 'dpm-laser',
+      type: 'video',
       name: 'DPM Laser Marking & Verification',
+      shortName: 'DPM Laser',
       tagline: 'Permanent ISO/IEC 15415 data matrix serialization',
       video: '/assets/videos/laser_marker_360.mp4',
       poster: '/assets/videos/posters/uv_laser_360.jpg',
       badge: 'AIS-156 EV Battery Genealogy',
+      telemetry: 'ISO/IEC 15415 VERIFIED: GRADE A',
       description: 'Fiber and UV laser stations marking micro-QR codes directly on cylindrical 21700 EV battery cells, automotive knuckles, and turbine blades with zero degradation.'
     },
     {
       id: 'rfid-portal',
+      type: 'video',
       name: 'High-Density RAIN RFID Dock Portal',
+      shortName: 'RFID Dock Gate',
       tagline: '1,420 tags/second through stretch film',
       video: '/assets/videos/rfid_antenna_360.mp4',
       poster: '/assets/videos/posters/rfid_antenna_360.jpg',
       badge: 'Zero Ghost-Read Shielding',
+      telemetry: '1,420 TAGS/SEC // DENSE MODE',
       description: 'Directional narrow-beam phased arrays paired with Doppler phase velocity filtering, eliminating cross-dock staging crosstalk while forklifts pass at 12 km/h.'
-    },
-    {
-      id: 'mobile-wms',
-      name: 'Rugged Warehouse Handhelds & ASRS',
-      tagline: 'Continuous cold-chain and forklift inventory sync',
-      video: '/assets/videos/mobility_360.mp4',
-      poster: '/assets/videos/posters/touch_computer_360.jpg',
-      badge: 'IP68 & Drop-Tested 2.4m',
-      description: 'Enterprise Android mobile computers integrated natively into Perfect Store™ WMS and SAP EWM with 3D spatial bin heatmaps and offline buffer caching.'
     }
   ];
 
@@ -403,102 +415,178 @@ export const WhyAtplView = () => {
             border: '1px solid #e2e8f0',
             backgroundColor: '#090e1a'
           }}>
-            {/* Split Screen Video Preview */}
-            <div style={{ position: 'relative', height: '360px', overflow: 'hidden' }}>
-              <video
-                key={activeStation.video}
-                src={activeStation.video}
-                poster={activeStation.poster}
-                autoPlay
-                loop
-                muted
-                playsInline
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  opacity: 0.92
-                }}
-              />
+            {/* Split Screen Video / 3D Simulator Preview */}
+            <div style={{ position: 'relative', height: '390px', overflow: 'hidden', backgroundColor: '#020b14' }}>
+              {activeStation.type === 'simulator' ? (
+                <div style={{ width: '100%', height: '100%', position: 'relative' }}>
+                  <iframe
+                    src={activeStation.simulatorUrl}
+                    title="ATPL Smart Factory 3D Twin Simulator"
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      border: 'none',
+                      display: 'block'
+                    }}
+                    allow="fullscreen; accelerometer; gyroscope"
+                  />
 
-              {/* Cognex-style Inspection HUD Overlay */}
-              <div style={{
-                position: 'absolute',
-                inset: 0,
-                pointerEvents: 'none',
-                background: 'linear-gradient(to bottom, rgba(4, 9, 20, 0.2) 0%, rgba(4, 9, 20, 0.6) 100%)'
-              }} />
+                  {/* 3D Interaction Pill Overlay */}
+                  <div style={{
+                    position: 'absolute',
+                    top: '1rem',
+                    right: '1rem',
+                    background: 'rgba(9, 14, 26, 0.88)',
+                    border: '1px solid rgba(56, 189, 248, 0.45)',
+                    backdropFilter: 'blur(8px)',
+                    color: '#38bdf8',
+                    padding: '0.35rem 0.75rem',
+                    borderRadius: '6px',
+                    fontSize: '0.72rem',
+                    fontWeight: 700,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.4rem',
+                    pointerEvents: 'none',
+                    zIndex: 10
+                  }}>
+                    <RotateCw size={12} />
+                    <span>Interactive 3D Plant</span>
+                  </div>
+
+                  {/* Quick Expand Button to full Demos page */}
+                  <div style={{
+                    position: 'absolute',
+                    bottom: '48px',
+                    right: '1rem',
+                    zIndex: 10
+                  }}>
+                    <button
+                      onClick={() => setCurrentView('demos')}
+                      style={{
+                        background: 'linear-gradient(135deg, #0071ba 0%, #0284c7 100%)',
+                        color: '#ffffff',
+                        border: '1px solid #38bdf8',
+                        borderRadius: '6px',
+                        padding: '0.45rem 0.95rem',
+                        fontSize: '0.76rem',
+                        fontWeight: 800,
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.45rem',
+                        boxShadow: '0 4px 14px rgba(0, 113, 186, 0.45)',
+                        transition: 'transform 0.15s ease'
+                      }}
+                      onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.04)'}
+                      onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                      title="Launch Guided 3D Plant Tour"
+                    >
+                      <span>Full 3D Plant Tour</span>
+                      <Maximize2 size={13} />
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <video
+                    key={activeStation.video}
+                    src={activeStation.video}
+                    poster={activeStation.poster}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      opacity: 0.92
+                    }}
+                  />
+
+                  {/* Cognex-style Inspection HUD Overlay */}
+                  <div style={{
+                    position: 'absolute',
+                    inset: 0,
+                    pointerEvents: 'none',
+                    background: 'linear-gradient(to bottom, rgba(4, 9, 20, 0.2) 0%, rgba(4, 9, 20, 0.6) 100%)'
+                  }} />
+
+                  {/* Central Yellow Cognex-Style Play Button */}
+                  <div style={{
+                    position: 'absolute',
+                    inset: 0,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}>
+                    <button
+                      onClick={() => setVideoModalOpen(true)}
+                      style={{
+                        width: '68px',
+                        height: '68px',
+                        borderRadius: '50%',
+                        background: '#eab308',
+                        border: 'none',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        cursor: 'pointer',
+                        boxShadow: '0 0 35px rgba(234, 179, 8, 0.7)',
+                        transition: 'transform 0.2s cubic-bezier(0.16, 1, 0.3, 1)'
+                      }}
+                      onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.12)'}
+                      onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                      title="Watch Full-Screen Demonstration"
+                    >
+                      <Play size={28} color="#040812" fill="#040812" style={{ marginLeft: '4px' }} />
+                    </button>
+                  </div>
+                </>
+              )}
 
               {/* Station Badge */}
               <div style={{
                 position: 'absolute',
                 top: '1rem',
                 left: '1rem',
-                background: 'rgba(9, 14, 26, 0.85)',
-                border: '1px solid rgba(0, 240, 255, 0.4)',
+                background: 'rgba(9, 14, 26, 0.92)',
+                border: activeStation.type === 'simulator' ? '1px solid #38bdf8' : '1px solid rgba(0, 240, 255, 0.4)',
                 backdropFilter: 'blur(8px)',
-                color: '#00f0ff',
+                color: activeStation.type === 'simulator' ? '#38bdf8' : '#00f0ff',
                 padding: '0.35rem 0.85rem',
                 borderRadius: '999px',
                 fontSize: '0.75rem',
-                fontWeight: 700,
-                letterSpacing: '0.04em'
+                fontWeight: 800,
+                letterSpacing: '0.04em',
+                zIndex: 10
               }}>
                 {activeStation.badge}
               </div>
 
-              {/* Central Yellow Cognex-Style Play Button */}
-              <div style={{
-                position: 'absolute',
-                inset: 0,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}>
-                <button
-                  onClick={() => setVideoModalOpen(true)}
-                  style={{
-                    width: '68px',
-                    height: '68px',
-                    borderRadius: '50%',
-                    background: '#eab308',
-                    border: 'none',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    cursor: 'pointer',
-                    boxShadow: '0 0 35px rgba(234, 179, 8, 0.7)',
-                    transition: 'transform 0.2s cubic-bezier(0.16, 1, 0.3, 1)'
-                  }}
-                  onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.12)'}
-                  onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-                  title="Watch Full-Screen Demonstration"
-                >
-                  <Play size={28} color="#040812" fill="#040812" style={{ marginLeft: '4px' }} />
-                </button>
-              </div>
-
-              {/* Telemetry Bar at Bottom of Video */}
+              {/* Telemetry Bar at Bottom of Video / Simulator */}
               <div style={{
                 position: 'absolute',
                 bottom: 0,
                 left: 0,
                 right: 0,
                 padding: '0.75rem 1rem',
-                background: 'rgba(9, 14, 26, 0.9)',
+                background: 'rgba(9, 14, 26, 0.92)',
                 borderTop: '1px solid rgba(255, 255, 255, 0.1)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
                 color: '#ffffff',
                 fontSize: '0.78rem',
-                fontFamily: 'var(--font-mono, monospace)'
+                fontFamily: 'var(--font-mono, monospace)',
+                zIndex: 10
               }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                   <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#10b981' }} />
                   <span style={{ color: '#00f0ff', fontWeight: 700 }}>{activeStation.name}</span>
                 </div>
-                <div style={{ color: '#94a3b8' }}>LIVE ATPL TELEMETRY: 6.2ms</div>
+                <div style={{ color: '#94a3b8' }}>{activeStation.telemetry || 'LIVE ATPL TELEMETRY: 6.2ms'}</div>
               </div>
             </div>
 
@@ -508,7 +596,7 @@ export const WhyAtplView = () => {
               borderTop: '1px solid #e2e8f0',
               padding: '0.75rem 1rem',
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(110px, 1fr))',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(115px, 1fr))',
               gap: '0.5rem'
             }}>
               {stations.map((st, idx) => (
@@ -519,7 +607,7 @@ export const WhyAtplView = () => {
                     background: activeStationIndex === idx ? '#ffffff' : 'transparent',
                     border: activeStationIndex === idx ? '1.5px solid #0071ba' : '1px solid #e2e8f0',
                     borderRadius: '8px',
-                    padding: '0.5rem 0.25rem',
+                    padding: '0.55rem 0.4rem',
                     textAlign: 'center',
                     cursor: 'pointer',
                     boxShadow: activeStationIndex === idx ? '0 2px 8px rgba(0, 113, 186, 0.15)' : 'none',
@@ -537,7 +625,7 @@ export const WhyAtplView = () => {
                     overflow: 'hidden',
                     textOverflow: 'ellipsis'
                   }}>
-                    {st.name.split(' ')[0]}
+                    {st.shortName || st.name.split(' ')[0]}
                   </div>
                 </button>
               ))}
@@ -1533,15 +1621,24 @@ export const WhyAtplView = () => {
             </div>
 
             <div style={{ position: 'relative', height: '480px', backgroundColor: '#000000' }}>
-              <video
-                key={activeStation.video}
-                src={activeStation.video}
-                poster={activeStation.poster}
-                autoPlay
-                controls
-                playsInline
-                style={{ width: '100%', height: '100%', objectFit: 'contain' }}
-              />
+              {activeStation.type === 'simulator' ? (
+                <iframe
+                  src={activeStation.simulatorUrl}
+                  title={activeStation.name}
+                  style={{ width: '100%', height: '100%', border: 'none', display: 'block' }}
+                  allow="fullscreen; accelerometer; gyroscope"
+                />
+              ) : (
+                <video
+                  key={activeStation.video}
+                  src={activeStation.video}
+                  poster={activeStation.poster}
+                  autoPlay
+                  controls
+                  playsInline
+                  style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                />
+              )}
             </div>
 
             <div style={{ padding: '1.25rem 1.5rem', background: '#090e1a', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
