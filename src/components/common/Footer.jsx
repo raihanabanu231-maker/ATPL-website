@@ -76,13 +76,18 @@ export const Footer = () => {
             </div>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
               <li>
-                <button onClick={() => handleNav('software')} style={{ background: 'none', border: 'none', color: '#cbd5e1', cursor: 'pointer', padding: 0, fontSize: '0.86rem', textAlign: 'left', transition: 'color 0.15s' }} onMouseEnter={(e) => e.currentTarget.style.color = '#38bdf8'} onMouseLeave={(e) => e.currentTarget.style.color = '#cbd5e1'}>
-                  PerfectEdge MDM (Fleet Kiosk)
+                <button onClick={() => handleNav('software')} style={{ background: 'none', border: 'none', color: '#38bdf8', cursor: 'pointer', padding: 0, fontSize: '0.86rem', textAlign: 'left', fontWeight: 700, transition: 'color 0.15s' }}>
+                  ★ PerfectEdge MDM™ (Priority #1)
+                </button>
+              </li>
+              <li>
+                <button onClick={() => handleNav('software')} style={{ background: 'none', border: 'none', color: '#f59e0b', cursor: 'pointer', padding: 0, fontSize: '0.86rem', textAlign: 'left', fontWeight: 700, transition: 'color 0.15s' }}>
+                  ★ Perfect Labeler™ (Priority #2)
                 </button>
               </li>
               <li>
                 <button onClick={() => handleNav('software')} style={{ background: 'none', border: 'none', color: '#cbd5e1', cursor: 'pointer', padding: 0, fontSize: '0.86rem', textAlign: 'left', transition: 'color 0.15s' }} onMouseEnter={(e) => e.currentTarget.style.color = '#38bdf8'} onMouseLeave={(e) => e.currentTarget.style.color = '#cbd5e1'}>
-                  Perfect Labeler (Cloud Print)
+                  Perfect Flow 360 (CRM & Ops)
                 </button>
               </li>
               <li>
@@ -215,7 +220,45 @@ export const Footer = () => {
                   <Mail size={14} color="#38bdf8" /> info@atplgroup.com
                 </a>
               </li>
-              <li style={{ marginTop: '0.5rem' }}>
+              <li style={{ marginTop: '0.65rem' }}>
+                <a
+                  href="https://perfectedgemdm.atplgroup.org/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.4rem',
+                    color: '#38bdf8',
+                    fontSize: '0.84rem',
+                    fontWeight: 800,
+                    textDecoration: 'none'
+                  }}
+                >
+                  <span>PerfectEdge MDM Portal</span>
+                  <ExternalLink size={13} />
+                </a>
+              </li>
+              <li style={{ marginTop: '0.35rem' }}>
+                <a
+                  href="https://perfectlabeler.atplgroup.org/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.4rem',
+                    color: '#f59e0b',
+                    fontSize: '0.84rem',
+                    fontWeight: 800,
+                    textDecoration: 'none'
+                  }}
+                >
+                  <span>Perfect Labeler Cloud</span>
+                  <ExternalLink size={13} />
+                </a>
+              </li>
+              <li style={{ marginTop: '0.35rem' }}>
                 <a
                   href="https://perfectflow360.atplgroup.org"
                   target="_blank"
@@ -224,7 +267,7 @@ export const Footer = () => {
                     display: 'inline-flex',
                     alignItems: 'center',
                     gap: '0.4rem',
-                    color: '#38bdf8',
+                    color: '#10b981',
                     fontSize: '0.84rem',
                     fontWeight: 700,
                     textDecoration: 'none'

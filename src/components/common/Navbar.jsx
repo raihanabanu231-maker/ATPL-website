@@ -504,33 +504,37 @@ export const Navbar = ({ onOpenSearch }) => {
                 onMouseLeave={handleDropdownLeave}
               >
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                  <div style={{ fontSize: '0.72rem', fontWeight: 800, textTransform: 'uppercase', color: '#0071ba', letterSpacing: '0.06em', marginBottom: '0.15rem' }}>
+                    ★ FLAGSHIP PRIORITY SUITES
+                  </div>
+
                   <div
                     onClick={() => handleNavClick('software')}
-                    style={{ padding: '0.55rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', gap: '0.75rem', backgroundColor: 'rgba(56, 189, 248, 0.08)', border: '1px solid rgba(56, 189, 248, 0.25)' }}
+                    style={{ padding: '0.55rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', gap: '0.75rem', backgroundColor: 'rgba(56, 189, 248, 0.1)', border: '1.5px solid rgba(56, 189, 248, 0.35)' }}
                     className="dropdown-hover-item"
                   >
                     <Smartphone size={20} color="#0071ba" style={{ marginTop: '2px', flexShrink: 0 }} />
                     <div>
                       <div style={{ fontSize: '0.9rem', fontWeight: 800, color: '#0f172a', display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
                         <span>PerfectEdge MDM</span>
-                        <span style={{ backgroundColor: '#dc2626', color: '#ffffff', fontSize: '0.62rem', fontWeight: 800, padding: '1px 5px', borderRadius: '4px' }}>NEW</span>
+                        <span style={{ backgroundColor: '#dc2626', color: '#ffffff', fontSize: '0.62rem', fontWeight: 800, padding: '1px 5px', borderRadius: '4px' }}>TOP PRIORITY</span>
                       </div>
-                      <div style={{ fontSize: '0.78rem', color: '#64748b' }}>Smart device management & kiosk lockdown</div>
+                      <div style={{ fontSize: '0.78rem', color: '#475569' }}>Smart device management & kiosk lockdown</div>
                     </div>
                   </div>
 
                   <div
                     onClick={() => handleNavClick('software')}
-                    style={{ padding: '0.55rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', gap: '0.75rem', backgroundColor: 'rgba(245, 158, 11, 0.08)', border: '1px solid rgba(245, 158, 11, 0.25)' }}
+                    style={{ padding: '0.55rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', gap: '0.75rem', backgroundColor: 'rgba(245, 158, 11, 0.1)', border: '1.5px solid rgba(245, 158, 11, 0.35)' }}
                     className="dropdown-hover-item"
                   >
                     <Printer size={20} color="#f59e0b" style={{ marginTop: '2px', flexShrink: 0 }} />
                     <div>
                       <div style={{ fontSize: '0.9rem', fontWeight: 800, color: '#0f172a', display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
                         <span>Perfect Labeler</span>
-                        <span style={{ backgroundColor: '#f59e0b', color: '#060b14', fontSize: '0.62rem', fontWeight: 800, padding: '1px 5px', borderRadius: '4px' }}>AI</span>
+                        <span style={{ backgroundColor: '#f59e0b', color: '#060b14', fontSize: '0.62rem', fontWeight: 800, padding: '1px 5px', borderRadius: '4px' }}>AI CLOUD</span>
                       </div>
-                      <div style={{ fontSize: '0.78rem', color: '#64748b' }}>AI prompt cloud label design & multi-branch</div>
+                      <div style={{ fontSize: '0.78rem', color: '#475569' }}>AI prompt cloud label design & multi-branch</div>
                     </div>
                   </div>
 
@@ -1448,6 +1452,15 @@ export const Navbar = ({ onOpenSearch }) => {
                 </button>
                 {mobileExpandedSection === 'software' && (
                   <div style={{ padding: '0.5rem 0.5rem 0.5rem 0.85rem', display: 'flex', flexDirection: 'column', gap: '0.4rem', borderLeft: '2px solid #0071ba', marginLeft: '0.5rem', marginTop: '0.35rem' }}>
+                    <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: 'rgba(56, 189, 248, 0.12)', borderRadius: '6px', border: '1px solid rgba(56, 189, 248, 0.35)', textAlign: 'left', padding: '0.5rem 0.65rem', color: '#0071ba', fontWeight: 800, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                      <span>★ PerfectEdge MDM™ (Priority #1)</span>
+                      <span style={{ backgroundColor: '#dc2626', color: '#fff', fontSize: '0.62rem', padding: '1px 5px', borderRadius: '4px' }}>FLEET</span>
+                    </button>
+                    <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: 'rgba(245, 158, 11, 0.12)', borderRadius: '6px', border: '1px solid rgba(245, 158, 11, 0.35)', textAlign: 'left', padding: '0.5rem 0.65rem', color: '#b45309', fontWeight: 800, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                      <span>★ Perfect Labeler™ (Priority #2)</span>
+                      <span style={{ backgroundColor: '#f59e0b', color: '#0f172a', fontSize: '0.62rem', padding: '1px 5px', borderRadius: '4px' }}>AI CLOUD</span>
+                    </button>
+                    <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#10b981', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Perfect Flow 360™ (CRM & Ops)</button>
                     <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0071ba', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Perfect Store™ (Warehouse WMS)</button>
                     <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#E85874', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Perfect Trace™ (Serialization & Aggregation)</button>
                     <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0071ba', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Perfect AI Vision™ (Defect Inspection)</button>

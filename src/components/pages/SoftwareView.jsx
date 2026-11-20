@@ -27,7 +27,7 @@ import {
 export const SoftwareView = () => {
   const { openDemoModal } = useApp();
   const [activeCategory, setActiveCategory] = useState('all');
-  const [focusedAppIndex, setFocusedAppIndex] = useState(2); // Defaults to Perfect Flow 360
+  const [focusedAppIndex, setFocusedAppIndex] = useState(0); // Defaults to PerfectEdge MDM (#1 Top Priority)
 
   const showcaseApps = [
     {
@@ -36,13 +36,14 @@ export const SoftwareView = () => {
       titlePrimary: 'PERFECTEDGE',
       titleSecondary: 'MDM',
       tagline: 'Smart Device Management Made Simple.',
-      badge: '★ NEW BROCHURE RELEASE',
+      badge: '★ #1 TOP PRIORITY · ENTERPRISE FLEET SECURITY',
       color: '#0071ba',
       accentBg: '#eff6ff',
       theme: 'dark',
       ctaColor: '#dc2626',
       ctaHoverColor: '#b91c1c',
       image: '/assets/images/software_mdm.jpg',
+      portalUrl: 'https://perfectedgemdm.atplgroup.org/',
       brochureUrl: '/assets/images/brochures/brochure_perfectedge_mdm.png',
       videoUrl: null,
       authenticParagraph: 'Easily add and manage devices from multiple locations through a single centralized MDM platform for seamless operations. Restrict unauthorized app usage like YouTube, games, or social media to improve productivity and security. Track real-time device status including online/offline, charging, battery health, connectivity, and live location updates.',
@@ -56,7 +57,7 @@ export const SoftwareView = () => {
         metric: '100% KIOSK LOCK',
         sub: 'Multi-Location Fleet',
         status: 'Unauthorized Apps: Blocked',
-        tag: 'NEW RELEASE',
+        tag: 'PRIORITY #1',
         color: '#38bdf8'
       }
     },
@@ -66,13 +67,14 @@ export const SoftwareView = () => {
       titlePrimary: 'PERFECT',
       titleSecondary: 'LABELER',
       tagline: 'Print Anytime. Anywhere Effortlessly',
-      badge: '★ AI CLOUD PRINTING',
+      badge: '★ #2 TOP PRIORITY · AI CLOUD PRINTING',
       color: '#f59e0b',
       accentBg: '#fffbeb',
       theme: 'light',
       ctaColor: '#1e293b',
       ctaHoverColor: '#0f172a',
       image: '/assets/images/software_labeler.jpg',
+      portalUrl: 'https://perfectlabeler.atplgroup.org/',
       brochureUrl: '/assets/images/brochures/brochure_perfect_labeler.png',
       videoUrl: null,
       authenticParagraph: 'Anyone can design and print labels easily without technical training. With cloud-native architecture, there is no extra cost for multiple systems or printers, making it highly scalable and cost-effective across multi-branch operations. Users can generate label templates instantly using simple AI prompts.',
@@ -86,7 +88,7 @@ export const SoftwareView = () => {
         metric: 'AI TEMPLATE GEN',
         sub: 'Zero Extra Printer Fee',
         status: 'Multi-Branch: Cloud Sync',
-        tag: 'AI POWERED',
+        tag: 'PRIORITY #2',
         color: '#f59e0b'
       }
     },
@@ -275,41 +277,100 @@ export const SoftwareView = () => {
 
   const categories = [
     { id: 'all', label: 'All Software Suites' },
-    { id: 'audit', label: 'PERFECT AUDIT' },
+    { id: 'mdm', label: '★ PERFECTEDGE MDM [PRIORITY #1]' },
+    { id: 'labeler', label: '★ PERFECT LABELER [PRIORITY #2]' },
+    { id: 'flow360', label: 'PERFECT FLOW 360' },
     { id: 'warehouse', label: 'PERFECT WAREHOUSE' },
     { id: 'trace', label: 'PERFECT TRACE' },
     { id: 'pms', label: 'PERFECT PMS' },
+    { id: 'audit', label: 'PERFECT AUDIT' },
     { id: 'verifier', label: 'PERFECT VERIFIER' },
-    { id: 'vision', label: 'COMPUTER VISION' },
-    { id: 'mdm', label: 'PERFECTEDGE MDM' },
-    { id: 'labeler', label: 'PERFECT LABELER' },
-    { id: 'flow360', label: 'PERFECT FLOW 360' }
+    { id: 'vision', label: 'COMPUTER VISION' }
   ];
 
   const softwareProducts = [
     {
-      id: 'audit',
-      titlePrimary: 'PERFECT',
-      titleSecondary: 'AUDIT',
-      tagline: 'ISO Audit Application for All Industries',
-      category: 'ISO AUDIT & COMPLIANCE',
+      id: 'mdm',
+      titlePrimary: 'PERFECTEDGE',
+      titleSecondary: 'MDM',
+      tagline: 'Smart Device Management Made Simple.',
+      category: 'MOBILE DEVICE MANAGEMENT & KIOSK LOCKDOWN',
+      priorityBadge: '★ #1 TOP PRIORITY · ENTERPRISE FLEET SECURITY',
       theme: 'dark',
-      image: '/assets/images/software_audit.jpg',
-      imageAlt: 'ATPL Perfect Audit ISO Audit Application',
+      image: '/assets/images/software_mdm.jpg',
+      imageAlt: 'ATPL PerfectEdge MDM Fleet Management Dashboard',
+      portalUrl: 'https://perfectedgemdm.atplgroup.org/',
       paragraphs: [
-        'An ISO Audit application for all industries is a software tool designed to assist companies in conducting and managing audits related to ISO (International Organization for Standardization) standards.',
-        'Conducting regular audits ensures that a company’s processes and practices align with these standards, helping to maintain compliance, improve operations, and enhance overall quality.',
-        'This Audit application tailored for manufacturing/production industries assists in efficiently planning, conducting, and managing ISO audits, ensuring compliance with standards and facilitating continuous improvement efforts within the organization.'
+        'Easily add and manage devices from multiple locations through a single centralized MDM platform for seamless operations.',
+        'Organize devices group-wise based on branch, department, or location for simplified monitoring and management.'
       ],
       bulletPoints: [
-        'Tailored specifically for manufacturing and production plants to streamline compliance audits',
-        'Built-in support for ISO 9001:2015, IATF 16949, ISO 14001 EHS, and 5S checklists',
-        'Real-time digital CAPA tracking with automated escalation workflows and photo evidence'
+        'Easily add and manage devices from multiple locations through a single centralized MDM platform for seamless operations.',
+        'Organize devices group-wise based on branch, department, or location for simplified monitoring and management.',
+        'Restrict unauthorized app usage like YouTube, games, or social media to improve productivity and security.',
+        'Enable secure whitelisting and device-specific link access so shared links work only on authorized devices.',
+        'Track real-time device status including online/offline, charging, battery health, connectivity, and live location updates.'
       ],
       ctaColor: '#dc2626',
       ctaHoverColor: '#b91c1c',
-      brochureUrl: 'https://atplgroup.com/wp-content/uploads/2024/04/Audit-Management-System.pdf',
-      videoUrl: 'https://www.youtube.com/watch?v=4urwO-BZy08'
+      brochureUrl: '/assets/images/brochures/brochure_perfectedge_mdm.png',
+      videoUrl: null
+    },
+    {
+      id: 'labeler',
+      titlePrimary: 'PERFECT',
+      titleSecondary: 'LABELER',
+      tagline: 'Print Anytime. Anywhere Effortlessly',
+      category: 'CLOUD PRINTING APPLICATION',
+      priorityBadge: '★ #2 TOP PRIORITY · AI PROMPT CLOUD PRINTING',
+      theme: 'light',
+      image: '/assets/images/software_labeler.jpg',
+      imageAlt: 'ATPL Perfect Labeler Cloud Barcode Designer Interface',
+      portalUrl: 'https://perfectlabeler.atplgroup.org/',
+      paragraphs: [
+        'Anyone can design and print labels easily without technical training. Cloud-native architecture means no extra cost for multiple systems or printers, making it highly scalable and cost-effective.',
+        'Labels can be created and printed from any location, supporting multi-branch operations. All label templates, print jobs, and user activities are managed from a single unified platform.'
+      ],
+      bulletPoints: [
+        'Anyone can design and print labels easily without technical training.',
+        'No extra cost for multiple systems or printers, making it more scalable and cost-effective.',
+        'Labels can be created and printed from any location, supporting multi-branch operations.',
+        'All label templates, print jobs, and user activities are managed from a single platform.',
+        'Users can generate label templates instantly using simple AI prompts.',
+        'Labels can be generated using Excel upload, PDF upload, or manual data entry.'
+      ],
+      ctaColor: '#1e293b',
+      ctaHoverColor: '#0f172a',
+      brochureUrl: '/assets/images/brochures/brochure_perfect_labeler.png',
+      videoUrl: null
+    },
+    {
+      id: 'flow360',
+      titlePrimary: 'PERFECT',
+      titleSecondary: 'FLOW 360',
+      tagline: 'Customer Relationship Management & Field Operations',
+      category: 'CUSTOMER RELATIONSHIP MANAGEMENT (CRM & OPERATIONS)',
+      priorityBadge: '★ ENTERPRISE CRM & FIELD OPS',
+      theme: 'dark',
+      image: '/assets/images/software_flow360.jpg',
+      imageAlt: 'ATPL Perfect Flow 360 Enterprise CRM & Field Operations Dashboard',
+      portalUrl: 'https://perfectflow360.atplgroup.org',
+      brochureUrl: '/assets/images/brochures/brochure_perfect_flow_360.png',
+      videoUrl: null,
+      paragraphs: [
+        'Create and manage leads efficiently while maintaining complete customer details and communication history in one platform. Generate professional quotations instantly and manage approvals, pricing, and sales processes with ease.',
+        'Track employee attendance, working hours, and field activity through a centralized attendance management system, while monitoring sales performance, customer orders, and business growth with real-time reports and analytics.'
+      ],
+      bulletPoints: [
+        'Create and manage leads efficiently while maintaining complete customer details and communication history in one platform.',
+        'Generate professional quotations instantly and manage approvals, pricing, and sales processes with ease.',
+        'Track employee attendance, working hours, and field activity through a centralized attendance management system.',
+        'Monitor sales performance, customer orders, and business growth with real-time reports and analytics.',
+        'Manage delivery reports and track product deliveries live to ensure smooth and timely customer service.',
+        'Access customer data, sales updates, delivery tracking, and business operations anytime from anywhere securely.'
+      ],
+      ctaColor: '#dc2626',
+      ctaHoverColor: '#b91c1c'
     },
     {
       id: 'warehouse',
@@ -385,6 +446,30 @@ export const SoftwareView = () => {
       videoUrl: 'https://www.youtube.com/watch?v=27tgTz-Bclw'
     },
     {
+      id: 'audit',
+      titlePrimary: 'PERFECT',
+      titleSecondary: 'AUDIT',
+      tagline: 'ISO Audit Application for All Industries',
+      category: 'ISO AUDIT & COMPLIANCE',
+      theme: 'dark',
+      image: '/assets/images/software_audit.jpg',
+      imageAlt: 'ATPL Perfect Audit ISO Audit Application',
+      paragraphs: [
+        'An ISO Audit application for all industries is a software tool designed to assist companies in conducting and managing audits related to ISO (International Organization for Standardization) standards.',
+        'Conducting regular audits ensures that a company’s processes and practices align with these standards, helping to maintain compliance, improve operations, and enhance overall quality.',
+        'This Audit application tailored for manufacturing/production industries assists in efficiently planning, conducting, and managing ISO audits, ensuring compliance with standards and facilitating continuous improvement efforts within the organization.'
+      ],
+      bulletPoints: [
+        'Tailored specifically for manufacturing and production plants to streamline compliance audits',
+        'Built-in support for ISO 9001:2015, IATF 16949, ISO 14001 EHS, and 5S checklists',
+        'Real-time digital CAPA tracking with automated escalation workflows and photo evidence'
+      ],
+      ctaColor: '#dc2626',
+      ctaHoverColor: '#b91c1c',
+      brochureUrl: 'https://atplgroup.com/wp-content/uploads/2024/04/Audit-Management-System.pdf',
+      videoUrl: 'https://www.youtube.com/watch?v=4urwO-BZy08'
+    },
+    {
       id: 'verifier',
       titlePrimary: 'PERFECT',
       titleSecondary: 'VERIFIER',
@@ -430,84 +515,6 @@ export const SoftwareView = () => {
       ctaHoverColor: '#0f172a',
       brochureUrl: 'https://atplgroup.com/wp-content/uploads/2024/04/Vision-System.pdf',
       videoUrl: 'https://www.youtube.com/watch?v=27tgTz-Bclw'
-    },
-    {
-      id: 'mdm',
-      titlePrimary: 'PERFECTEDGE',
-      titleSecondary: 'MDM',
-      tagline: 'Smart Device Management Made Simple.',
-      category: 'MOBILE DEVICE MANAGEMENT & KIOSK LOCKDOWN',
-      theme: 'dark',
-      image: '/assets/images/software_mdm.jpg',
-      imageAlt: 'ATPL PerfectEdge MDM Fleet Management Dashboard',
-      paragraphs: [
-        'Easily add and manage devices from multiple locations through a single centralized MDM platform for seamless operations.',
-        'Organize devices group-wise based on branch, department, or location for simplified monitoring and management.'
-      ],
-      bulletPoints: [
-        'Easily add and manage devices from multiple locations through a single centralized MDM platform for seamless operations.',
-        'Organize devices group-wise based on branch, department, or location for simplified monitoring and management.',
-        'Restrict unauthorized app usage like YouTube, games, or social media to improve productivity and security.',
-        'Enable secure whitelisting and device-specific link access so shared links work only on authorized devices.',
-        'Track real-time device status including online/offline, charging, battery health, connectivity, and live location updates.'
-      ],
-      ctaColor: '#dc2626',
-      ctaHoverColor: '#b91c1c',
-      brochureUrl: '/assets/images/brochures/brochure_perfectedge_mdm.png',
-      videoUrl: null
-    },
-    {
-      id: 'labeler',
-      titlePrimary: 'PERFECT',
-      titleSecondary: 'LABELER',
-      tagline: 'Print Anytime. Anywhere Effortlessly',
-      category: 'CLOUD PRINTING APPLICATION',
-      theme: 'light',
-      image: '/assets/images/software_labeler.jpg',
-      imageAlt: 'ATPL Perfect Labeler Cloud Barcode Designer Interface',
-      paragraphs: [
-        'Anyone can design and print labels easily without technical training. Cloud-native architecture means no extra cost for multiple systems or printers, making it highly scalable and cost-effective.',
-        'Labels can be created and printed from any location, supporting multi-branch operations. All label templates, print jobs, and user activities are managed from a single unified platform.'
-      ],
-      bulletPoints: [
-        'Anyone can design and print labels easily without technical training.',
-        'No extra cost for multiple systems or printers, making it more scalable and cost-effective.',
-        'Labels can be created and printed from any location, supporting multi-branch operations.',
-        'All label templates, print jobs, and user activities are managed from a single platform.',
-        'Users can generate label templates instantly using simple AI prompts.',
-        'Labels can be generated using Excel upload, PDF upload, or manual data entry.'
-      ],
-      ctaColor: '#1e293b',
-      ctaHoverColor: '#0f172a',
-      brochureUrl: '/assets/images/brochures/brochure_perfect_labeler.png',
-      videoUrl: null
-    },
-    {
-      id: 'flow360',
-      titlePrimary: 'PERFECT',
-      titleSecondary: 'FLOW 360',
-      tagline: 'Customer Relationship Management & Field Operations',
-      category: 'CUSTOMER RELATIONSHIP MANAGEMENT (CRM & OPERATIONS)',
-      theme: 'dark',
-      image: '/assets/images/software_flow360.jpg',
-      imageAlt: 'ATPL Perfect Flow 360 Enterprise CRM & Field Operations Dashboard',
-      paragraphs: [
-        'Create and manage leads efficiently while maintaining complete customer details and communication history in one platform. Generate professional quotations instantly and manage approvals, pricing, and sales processes with ease.',
-        'Track employee attendance, working hours, and field activity through a centralized attendance management system, while monitoring sales performance, customer orders, and business growth with real-time reports and analytics.'
-      ],
-      bulletPoints: [
-        'Create and manage leads efficiently while maintaining complete customer details and communication history in one platform.',
-        'Generate professional quotations instantly and manage approvals, pricing, and sales processes with ease.',
-        'Track employee attendance, working hours, and field activity through a centralized attendance management system.',
-        'Monitor sales performance, customer orders, and business growth with real-time reports and analytics.',
-        'Manage delivery reports and track product deliveries live to ensure smooth and timely customer service.',
-        'Access customer data, sales updates, delivery tracking, and business operations anytime from anywhere securely.'
-      ],
-      ctaColor: '#dc2626',
-      ctaHoverColor: '#b91c1c',
-      portalUrl: 'https://perfectflow360.atplgroup.org',
-      brochureUrl: '/assets/images/brochures/brochure_perfect_flow_360.png',
-      videoUrl: null
     }
   ];
 
@@ -1049,10 +1056,10 @@ export const SoftwareView = () => {
               );
             })}
           </div>
-          {/* Subtle Quick Jump Action to Focused Product's Full Specifications */}
-          <div style={{ textAlign: 'center', marginTop: '2.5rem' }}>
+          {/* Subtle Quick Jump Action to Focused Product's Full Specifications and Live Cloud Portal */}
+          <div style={{ textAlign: 'center', marginTop: '2.5rem', display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center', gap: '0.85rem' }}>
             <button
-              onClick={() => scrollToProductSection(showcaseApps[focusedAppIndex]?.id || 'flow360')}
+              onClick={() => scrollToProductSection(showcaseApps[focusedAppIndex]?.id || 'mdm')}
               style={{
                 backgroundColor: '#ffffff',
                 color: '#0071ba',
@@ -1082,6 +1089,34 @@ export const SoftwareView = () => {
               <span>Explore {showcaseApps[focusedAppIndex]?.name || 'Product'} Specifications</span>
               <ChevronRight size={16} />
             </button>
+
+            {showcaseApps[focusedAppIndex]?.portalUrl && (
+              <a
+                href={showcaseApps[focusedAppIndex].portalUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  backgroundColor: showcaseApps[focusedAppIndex]?.id === 'labeler' ? '#f59e0b' : '#2563eb',
+                  color: showcaseApps[focusedAppIndex]?.id === 'labeler' ? '#0f172a' : '#ffffff',
+                  border: 'none',
+                  padding: '0.65rem 1.65rem',
+                  borderRadius: '999px',
+                  fontSize: '0.90rem',
+                  fontWeight: 800,
+                  textDecoration: 'none',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  boxShadow: '0 4px 14px rgba(37, 99, 235, 0.35)',
+                  transition: 'all 0.2s ease'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.filter = 'brightness(1.1)'}
+                onMouseLeave={(e) => e.currentTarget.style.filter = 'none'}
+              >
+                <span>Launch Live Cloud Portal</span>
+                <ExternalLink size={15} />
+              </a>
+            )}
           </div>
         </div>
       </section>
@@ -1202,12 +1237,30 @@ export const SoftwareView = () => {
                   {/* Right Column: Title, Paragraphs, and Action Buttons */}
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
                     
-                    {/* Brochure Badge in Content */}
-                    {isBrochureFeatured && (
-                      <div style={{ fontSize: '0.82rem', fontWeight: 700, color: '#f59e0b', marginBottom: '0.5rem' }}>
-                        ATPL Proprietary Suite, 2026 Edition
+                    {/* Priority / Brochure Badge in Content */}
+                    {prod.priorityBadge ? (
+                      <div style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        backgroundColor: prod.id === 'mdm' ? '#dc2626' : prod.id === 'labeler' ? '#f59e0b' : '#10b981',
+                        color: prod.id === 'labeler' ? '#0f172a' : '#ffffff',
+                        padding: '5px 12px',
+                        borderRadius: '6px',
+                        fontSize: '0.78rem',
+                        fontWeight: 900,
+                        letterSpacing: '0.04em',
+                        marginBottom: '0.35rem',
+                        width: 'fit-content',
+                        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)'
+                      }}>
+                        {prod.priorityBadge}
                       </div>
-                    )}
+                    ) : isBrochureFeatured ? (
+                      <div style={{ fontSize: '0.82rem', fontWeight: 700, color: '#f59e0b', marginBottom: '0.5rem' }}>
+                        ATPL Proprietary Suite · 2026 Edition
+                      </div>
+                    ) : null}
 
                     {/* Category Label */}
                     <div style={{
@@ -1373,8 +1426,8 @@ export const SoftwareView = () => {
                           target="_blank"
                           rel="noopener noreferrer"
                           style={{
-                            backgroundColor: '#2563eb',
-                            color: '#ffffff',
+                            backgroundColor: prod.id === 'labeler' ? '#f59e0b' : '#2563eb',
+                            color: prod.id === 'labeler' ? '#0f172a' : '#ffffff',
                             border: 'none',
                             borderRadius: '6px',
                             padding: '0.75rem 1.45rem',
@@ -1386,13 +1439,13 @@ export const SoftwareView = () => {
                             gap: '0.45rem',
                             transition: 'all 0.15s ease',
                             minHeight: '44px',
-                            boxShadow: '0 4px 14px rgba(37, 99, 235, 0.35)'
+                            boxShadow: prod.id === 'labeler' ? '0 4px 14px rgba(245, 158, 11, 0.4)' : '0 4px 14px rgba(37, 99, 235, 0.35)'
                           }}
-                          onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#1d4ed8'}
-                          onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#2563eb'}
+                          onMouseEnter={(e) => e.currentTarget.style.filter = 'brightness(1.1)'}
+                          onMouseLeave={(e) => e.currentTarget.style.filter = 'none'}
                         >
-                          <span>Open Live Portal</span>
-                          <ArrowRight size={15} />
+                          <ExternalLink size={15} />
+                          <span>Launch Live Cloud Portal</span>
                         </a>
                       )}
                     </div>
