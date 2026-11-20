@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useApp } from '../../context/AppContext';
 import { 
   CheckCircle2, 
@@ -38,6 +38,28 @@ export const WhyAtplView = () => {
   const [videoModalOpen, setVideoModalOpen] = useState(false);
   const [activeStationIndex, setActiveStationIndex] = useState(0);
   const [isHeroExpanded, setIsHeroExpanded] = useState(false);
+  const [isTourPlaying, setIsTourPlaying] = useState(true);
+  const simulatorIframeRef = useRef(null);
+
+  useEffect(() => {
+    const handleMsg = (event) => {
+      if (event.data && event.data.type === 'TOUR_STATE') {
+        setIsTourPlaying(!!event.data.isPlaying);
+      }
+    };
+    window.addEventListener('message', handleMsg);
+    return () => window.removeEventListener('message', handleMsg);
+  }, []);
+
+  const toggleTour = useCallback(() => {
+    const nextState = !isTourPlaying;
+    setIsTourPlaying(nextState);
+    if (simulatorIframeRef.current && simulatorIframeRef.current.contentWindow) {
+      simulatorIframeRef.current.contentWindow.postMessage({
+        action: nextState ? 'startTour' : 'stopTour'
+      }, '*');
+    }
+  }, [isTourPlaying]);
 
   // Full-View Cinematic Robot Theater State
   const [fullVideoMode, setFullVideoMode] = useState('presentation');
@@ -498,6 +520,31 @@ export const WhyAtplView = () => {
                 {activeStation.telemetry}
               </span>
 
+              {activeStation.type === 'simulator' && (
+                <button
+                  onClick={toggleTour}
+                  style={{
+                    background: isTourPlaying ? 'rgba(0, 240, 255, 0.22)' : 'rgba(255, 255, 255, 0.08)',
+                    border: isTourPlaying ? '1px solid #00f0ff' : '1px solid rgba(255, 255, 255, 0.2)',
+                    color: isTourPlaying ? '#00f0ff' : '#ffffff',
+                    borderRadius: '6px',
+                    padding: '0.35rem 0.75rem',
+                    fontSize: '0.76rem',
+                    fontWeight: 800,
+                    cursor: 'pointer',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.35rem',
+                    boxShadow: isTourPlaying ? '0 0 14px rgba(0, 240, 255, 0.45)' : 'none',
+                    transition: 'all 0.15s ease'
+                  }}
+                  title={isTourPlaying ? 'Pause Archie Robot Movement' : 'Resume Archie Robot Factory Tour'}
+                >
+                  {isTourPlaying ? <Pause size={13} color="#00f0ff" /> : <Play size={13} color="#ffffff" />}
+                  <span>{isTourPlaying ? '❚❚ Pause Robot Tour' : '▶ Start Robot Tour'}</span>
+                </button>
+              )}
+
               <button
                 onClick={() => setIsHeroExpanded(prev => !prev)}
                 style={{
@@ -558,6 +605,7 @@ export const WhyAtplView = () => {
             {activeStation.type === 'simulator' ? (
               <div style={{ width: '100%', height: '100%', position: 'relative' }}>
                 <iframe
+                  ref={simulatorIframeRef}
                   src={activeStation.simulatorUrl}
                   title="ATPL Smart Factory 3D Twin Simulator"
                   style={{

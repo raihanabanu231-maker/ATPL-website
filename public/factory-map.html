@@ -186,26 +186,31 @@ button{font:inherit;color:inherit;cursor:pointer;border:none;outline:none;-webki
   border-bottom-right-radius:8px;
 }
 
-/* Official Archery Robot Mascot (Archie) Moving on Factory Floor */
+/* Official Archery Robot Mascot (Archie) Moving & Patrolling Factory Floor */
 .archery-live-robot{
   position:absolute;z-index:4;cursor:pointer;
   width:clamp(80px, 8.5vw, 115px);height:auto;aspect-ratio:394/360;
-  animation:archieWalkTour 18s ease-in-out infinite;
-  transition:filter .2s;
+  transition: left 1.2s cubic-bezier(.22, 1, .36, 1), top 1.2s cubic-bezier(.22, 1, .36, 1), transform 1.2s cubic-bezier(.22, 1, .36, 1), filter .2s;
+  pointer-events: auto;
 }
 .archery-live-robot:hover{
   filter:drop-shadow(0 0 28px #18e0ff);
 }
-@keyframes archieWalkTour{
-  0%   {left:44%;top:46%;transform:translate(-50%,-50%) scale(1)}
-  30%  {left:37%;top:51%;transform:translate(-50%,-50%) scale(1.04)}
-  70%  {left:49%;top:43%;transform:translate(-50%,-50%) scale(0.96)}
-  100% {left:44%;top:46%;transform:translate(-50%,-50%) scale(1)}
+.archery-live-robot img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  filter:drop-shadow(0 0 18px rgba(24,224,255,0.85));
+  animation:archieHoverMotion 2.4s ease-in-out infinite alternate;
+  will-change:transform;
 }
-
+@keyframes archieHoverMotion{
+  0%{transform:translateY(0px) rotate(0deg);}
+  50%{transform:translateY(-8px) rotate(-1deg);}
+  100%{transform:translateY(-14px) rotate(1deg);}
+}
 .archery-live-robot.station-guide{
-  animation: none !important;
-  transition: left 0.9s cubic-bezier(.3,0,.2,1), top 0.9s cubic-bezier(.3,0,.2,1), transform 0.9s cubic-bezier(.3,0,.2,1), filter .2s !important;
+  transition: left 1.2s cubic-bezier(.22, 1, .36, 1), top 1.2s cubic-bezier(.22, 1, .36, 1), transform 1.2s cubic-bezier(.22, 1, .36, 1), filter .2s !important;
 }
 
 .archie-glow-ring{
@@ -1138,12 +1143,17 @@ S.forEach((s,i)=>{
   // Hotspot is a direct clickable cyber-glass region over the 3D painted glassy sign. No duplicate rectangular button!
   d.innerHTML='';
   
+  let autoResumeTimer = null;
   const handleSelect = (e)=>{
     if(e && e.stopPropagation) e.stopPropagation();
     userClosed = false;
     stopTour();
     sel(i);
     setPanelOpen(true, true);
+    if (autoResumeTimer) clearTimeout(autoResumeTimer);
+    autoResumeTimer = setTimeout(() => {
+      startTour();
+    }, 9000);
   };
   d.onclick = handleSelect;
   d.onkeydown = (e)=>{
@@ -1938,7 +1948,7 @@ function startTour(){
         window.parent.postMessage({ type: 'TOUR_STATE', isPlaying: true, index: cur }, '*');
       }
     } catch(e) {}
-  }, 7500);
+  }, 6500);
   auto = tourTimer;
 }
 
@@ -2163,9 +2173,14 @@ if (pCloseBtn) {
 addEventListener('resize',layout);
 layout();
 
-// Start with Station #01 (Perfect Trace) telemetry active, Description Box hidden so user can watch the full tour
+// Start with Station #01 telemetry active
 sel(0);
 setPanelOpen(false);
+
+// Auto-start Archie Robot Tour by default so Archie is actively moving across factory floor
+setTimeout(() => {
+  startTour();
+}, 1200);
 
 function navigateParent(view, hash = ''){
   try {
