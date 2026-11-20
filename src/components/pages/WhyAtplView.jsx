@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useApp } from '../../context/AppContext';
-import { Archie3DRobotSection } from '../common/Archie3DRobotSection';
 import { 
   CheckCircle2, 
   X, 
@@ -990,12 +989,7 @@ export const WhyAtplView = () => {
       </section>
 
       {/* =========================================================================
-          4. ARCHIE 3D OPERATIONAL COMPARATIVE BENCHMARK ARENA
-         ========================================================================= */}
-      <Archie3DRobotSection />
-
-      {/* =========================================================================
-          3. KEY VALUE PILLARS (THE 6 PILLARS OF WHY ATPL)
+          4. KEY VALUE PILLARS (THE 6 PILLARS OF WHY ATPL)
          ========================================================================= */}
       <section style={{
         backgroundColor: '#f8fafc',
