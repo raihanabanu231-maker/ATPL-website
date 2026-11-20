@@ -337,6 +337,28 @@ export const INITIAL_SEO_DATA = {
       ogDescription: 'Field deployment notes, implementation blueprints, and technical teardowns from ATPL\'s plant installations across India.',
       ogImage: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1200&q=80',
       structuredDataType: 'Blog'
+    },
+    'why-atpl': {
+      id: 'why-atpl',
+      name: 'Why ATPL',
+      route: '/why-atpl',
+      title: 'Why ATPL | Advanced Factory Automation, RFID & Vision Made Easy',
+      description: 'Discover why India\'s leading automotive, pharma, and electronics manufacturers choose ATPL for turnkey factory automation, industrial RFID, and Edge AI machine vision.',
+      keywords: [
+        'Why ATPL',
+        'ATPL Advantage',
+        'Industrial Automation India',
+        'Machine Vision Integrator',
+        'RAIN RFID Systems',
+        'Turnkey Automation Chennai',
+        'Shopfloor Traceability'
+      ],
+      canonical: 'https://atplgroup.com/why-atpl',
+      robots: 'index, follow',
+      ogTitle: 'Why ATPL | Advanced Machine Vision & Factory Automation Made Easy',
+      ogDescription: 'Turnkey automation, sub-10ms machine vision, and 24/7 on-site SLA engineering across India.',
+      ogImage: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1200&q=80',
+      structuredDataType: 'AboutPage'
     }
   }
 };

@@ -35,6 +35,7 @@ const TermsView = lazy(() => import('./components/pages/TermsView').then(m => ({
 const Factory3DView = lazy(() => import('./components/factory3d/Factory3DView').then(m => ({ default: m.Factory3DView })));
 const InsightsListingView = lazy(() => import('./components/pages/InsightsListingView').then(m => ({ default: m.InsightsListingView })));
 const InsightDetailView = lazy(() => import('./components/pages/InsightDetailView').then(m => ({ default: m.InsightDetailView })));
+const WhyAtplView = lazy(() => import('./components/pages/WhyAtplView').then(m => ({ default: m.WhyAtplView })));
 const AdminLogin = lazy(() => import('./components/admin/AdminLogin').then(m => ({ default: m.AdminLogin })));
 const AdminLayout = lazy(() => import('./components/admin/AdminLayout').then(m => ({ default: m.AdminLayout })));
 
@@ -85,6 +86,8 @@ const MainAppContent = () => {
         setCurrentView('insights');
       } else if (target.startsWith('insights/') || target.startsWith('blog/')) {
         setCurrentView('insight-detail');
+      } else if (['why-atpl', 'whyatpl', 'why', 'why-us'].includes(target)) {
+        setCurrentView('why-atpl');
       } else if (['demos', 'simulator', '3d-demos', 'digital-twin', 'live-demos'].includes(target)) {
         setCurrentView('demos');
       } else if (['factory-3d', 'factory-tour', 'factory', 'twin', 'tour', '3d', 'robot-tour', 'digitaltwin'].includes(target)) {
@@ -144,6 +147,8 @@ const MainAppContent = () => {
 
   const renderCurrentView = () => {
     switch (currentView) {
+      case 'why-atpl':
+        return <WhyAtplView />;
       case 'insights':
         return <InsightsListingView />;
       case 'insight-detail':
@@ -188,7 +193,7 @@ const MainAppContent = () => {
           minHeight: '100vh',
           display: 'flex',
           flexDirection: 'column',
-          backgroundColor: currentView === 'home' ? '#ffffff' : '#060b14',
+          backgroundColor: currentView === 'home' || currentView === 'why-atpl' ? '#ffffff' : '#060b14',
           position: 'relative',
           overflowX: 'clip',
           overflowY: 'visible',

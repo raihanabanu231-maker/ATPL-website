@@ -16,6 +16,7 @@ const routes = [
   'insights/edge-tensorrt-vision-microscopic-casting-flaws-sundram-fasteners',
   'insights/warehouse-4-0-dynamic-3d-bin-heatmaps-autonomous-fifo-proconnect',
   'insights/21-cfr-part-11-cloud-labeling-200-industrial-printers',
+  'why-atpl',
   'about',
   'contact',
   'privacy',

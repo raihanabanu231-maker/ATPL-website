@@ -19,6 +19,7 @@ const normalizeView = (target) => {
   if (['hardware', 'rfid', 'labeler', 'printers', 'scanners', 'devices', 'aidc'].includes(clean)) return 'hardware';
   if (['solutions', 'solution', 'industry', 'industries', 'automotive', 'pharma', 'logistics', 'fmcg', 'heavy-engg'].includes(clean)) return 'solutions';
   if (['partners', 'partner', 'alliances', 'oem', 'certifications'].includes(clean)) return 'partners';
+  if (['why-atpl', 'whyatpl', 'why', 'why-us', 'differentiation'].includes(clean)) return 'why-atpl';
   if (clean === 'insights') return 'insights';
   if (clean.startsWith('insights/')) return 'insight-detail';
   if (clean === 'blog' || clean.startsWith('blog/')) return 'insights';

@@ -154,6 +154,11 @@ export const Footer = () => {
                 </button>
               </li>
               <li>
+                <button onClick={() => handleNav('why-atpl')} style={{ background: 'none', border: 'none', color: '#38bdf8', cursor: 'pointer', padding: 0, fontSize: '0.86rem', textAlign: 'left', fontWeight: 700, transition: 'color 0.15s' }} onMouseEnter={(e) => e.currentTarget.style.color = '#ffffff'} onMouseLeave={(e) => e.currentTarget.style.color = '#38bdf8'}>
+                  Why ATPL (Executive Difference)
+                </button>
+              </li>
+              <li>
                 <address itemScope itemType="https://schema.org/PostalAddress" style={{ fontStyle: 'normal', color: '#94a3b8', fontSize: '0.84rem', lineHeight: 1.55 }}>
                   <div style={{ color: '#ffffff', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '0.4rem', marginBottom: '0.2rem' }}>
                     <MapPin size={14} color="#38bdf8" /> TIDEL Park Chennai HQ

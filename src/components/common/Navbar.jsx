@@ -123,6 +123,17 @@ export const Navbar = ({ onOpenSearch }) => {
   }, []);
 
   const handleNavClick = (viewId) => {
+    if (viewId === 'why-atpl') {
+      setCurrentView('why-atpl');
+      try {
+        window.history.pushState({ view: 'why-atpl' }, '', '/why-atpl');
+      } catch (e) {}
+      setMobileMenuOpen(false);
+      setActiveDropdown(null);
+      setLanguageOpen(false);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
     if (viewId === 'insights') {
       setCurrentView('insights');
       try {
@@ -924,20 +935,16 @@ export const Navbar = ({ onOpenSearch }) => {
               <span>360° Videos</span>
             </button>
 
-            {/* Direct Comparison Section Link */}
+            {/* Direct Why ATPL Link */}
             <button
-              onClick={() => {
-                if (currentView !== 'home') {
-                  setCurrentView('home');
-                }
-                setTimeout(() => {
-                  const el = document.getElementById('archie-3d-robot');
-                  if (el) el.scrollIntoView({ behavior: 'smooth' });
-                }, 100);
-              }}
+              onClick={() => handleNavClick('why-atpl')}
               style={{
-                background: 'rgba(0, 113, 186, 0.08)',
-                border: '1px solid rgba(0, 113, 186, 0.3)',
+                background: currentView === 'why-atpl' 
+                  ? 'rgba(0, 113, 186, 0.16)' 
+                  : 'rgba(0, 113, 186, 0.08)',
+                border: currentView === 'why-atpl'
+                  ? '1.5px solid #0071ba'
+                  : '1px solid rgba(0, 113, 186, 0.3)',
                 color: '#0071ba',
                 padding: '0.45rem 0.75rem',
                 fontSize: '0.88rem',
@@ -947,17 +954,18 @@ export const Navbar = ({ onOpenSearch }) => {
                 alignItems: 'center',
                 gap: '0.4rem',
                 borderRadius: '8px',
-                transition: 'all 0.2s ease'
+                transition: 'all 0.2s ease',
+                boxShadow: currentView === 'why-atpl' ? '0 0 10px rgba(0, 113, 186, 0.3)' : 'none'
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = 'rgba(0, 113, 186, 0.16)';
+                e.currentTarget.style.backgroundColor = 'rgba(0, 113, 186, 0.2)';
                 e.currentTarget.style.transform = 'translateY(-1px)';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'rgba(0, 113, 186, 0.08)';
+                e.currentTarget.style.backgroundColor = currentView === 'why-atpl' ? 'rgba(0, 113, 186, 0.16)' : 'rgba(0, 113, 186, 0.08)';
                 e.currentTarget.style.transform = 'translateY(0)';
               }}
-              title="Compare Archery Technocrats vs Traditional Resellers"
+              title="Why Industry Leaders Choose Archery Technocrats"
             >
               <Sparkles size={14} color="#0071ba" />
               <span>Why ATPL</span>
@@ -1553,6 +1561,33 @@ export const Navbar = ({ onOpenSearch }) => {
                   <span>3D Twin Simulator &amp; Product Demos</span>
                 </span>
                 <span style={{ backgroundColor: '#0071ba', color: '#ffffff', fontSize: '0.65rem', padding: '0.15rem 0.45rem', borderRadius: '999px', fontWeight: 800 }}>LIVE</span>
+              </button>
+
+              {/* Why ATPL Mobile Button */}
+              <button
+                onClick={() => handleNavClick('why-atpl')}
+                style={{
+                  width: '100%',
+                  minHeight: '44px',
+                  background: 'rgba(0, 113, 186, 0.08)',
+                  border: '1.5px solid rgba(0, 113, 186, 0.35)',
+                  borderRadius: '8px',
+                  padding: '0.7rem 1rem',
+                  textAlign: 'left',
+                  fontSize: '0.96rem',
+                  fontWeight: 700,
+                  color: '#0f172a',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  cursor: 'pointer'
+                }}
+              >
+                <span style={{ display: 'flex', alignItems: 'center', gap: '0.55rem' }}>
+                  <span style={{ color: '#0071ba' }}>✨</span>
+                  <span>Why ATPL (Executive Difference)</span>
+                </span>
+                <span style={{ backgroundColor: '#0071ba', color: '#ffffff', fontSize: '0.65rem', padding: '0.15rem 0.45rem', borderRadius: '999px', fontWeight: 800 }}>LEADER</span>
               </button>
 
               {/* Insights Mobile Button */}
