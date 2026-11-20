@@ -32,8 +32,7 @@ import {
   VolumeX,
   Bot,
   Award,
-  Building2,
-  ChevronLeft
+    ChevronLeft
 } from 'lucide-react';
 import { HardwareVideoMatrixGrid } from '../hardware/HardwareVideoMatrixGrid';
 
@@ -100,7 +99,7 @@ export const FACTORY_PROJECT_STATIONS = [
     telemetry: '12ms Cell Telemetry',
     hardwareRef: 'vid-hw-scanner-dpm',
     hardwareName: 'Industrial DPM Scanner',
-    speechText: "Station 04 is Perfect Trace! For Ola Electric’s 500-acre FutureFactory in Tamil Nadu, ATPL engineered 12-millisecond Direct Part Mark tracking on every battery cell. This slashed pack allocation from 2 hours to 2 minutes with 100% AIS-156 EV compliance.",
+    speechText: "Station 04 is Perfect Trace! For leading EV battery gigafactories, ATPL engineered 12-millisecond Direct Part Mark tracking on every battery cell. This slashed pack allocation from 2 hours to 2 minutes with 100% AIS-156 EV compliance.",
     desc: 'Direct Part Mark cognitive imagers verify 2D DataMatrix on cylindrical battery cells with 12ms SAP integration.'
   },
   {
@@ -116,7 +115,7 @@ export const FACTORY_PROJECT_STATIONS = [
     telemetry: '+38% Forklift Speed',
     hardwareRef: 'vid-hw-touch-vehicle',
     hardwareName: 'Vehicle Mount Computer',
-    speechText: "Moving to Station 05! At Proconnect’s 120,000 square foot logistics hub, Perfect Store uses 3D bin heatmaps and RFID portals to cut dock-to-stock turnaround by 65% with 99.98% inventory accuracy.",
+    speechText: "Moving to Station 05! At leading logistics hubs, Perfect Store uses 3D bin heatmaps and RFID portals to cut dock-to-stock turnaround by 65% with 99.98% inventory accuracy.",
     desc: 'Real-time 3D volumetric slotting and FIFO order fulfillment with native two-way SAP & Oracle sync.'
   },
   {
@@ -180,7 +179,7 @@ export const FACTORY_PROJECT_STATIONS = [
     telemetry: '120 m/min Belt Scanning Speed',
     hardwareRef: 'vid-hw-scanner-conveyor',
     hardwareName: 'Omnidirectional Conveyor Scanner',
-    speechText: "Station 09 represents our high-speed conveyor scanning deployment for Apollo Tyres! Liquid-lens imagers capture curved rubber tire barcodes at 120 meters per minute, lifting dispatch accuracy by 50%.",
+    speechText: "Station 09 represents our high-speed conveyor scanning deployment for automotive manufacturing! Liquid-lens imagers capture curved rubber tire barcodes at 120 meters per minute, lifting dispatch accuracy by 50%.",
     desc: 'Decodes low-contrast, curved, and laser-etched codes at conveyor speeds up to 120 meters/minute.'
   },
   {
@@ -899,7 +898,7 @@ export const DigitalTwinDemosView = memo(() => {
               >
                 <span style={{ opacity: 0.6 }}>{station.num}</span>
                 <span>{station.name}</span>
-                <span style={{ fontSize: '0.68rem', opacity: 0.75, color: '#ffc93c' }}>({station.client.split(' ')[0]})</span>
+                
               </button>
             ))}
           </div>
@@ -956,8 +955,8 @@ export const DigitalTwinDemosView = memo(() => {
               >
                 <Bot size={15} color="#00f0ff" />
                 <span>Station {currentProject.num}: {currentProject.name}</span>
-                <span style={{ fontSize: '0.72rem', backgroundColor: 'rgba(0, 240, 255, 0.15)', padding: '2px 6px', borderRadius: '4px', color: '#ffc93c' }}>
-                  ★ {currentProject.client.split(' ')[0]}
+                <span style={{ fontSize: '0.72rem', backgroundColor: 'rgba(0, 240, 255, 0.15)', padding: '2px 6px', borderRadius: '4px', color: '#38bdf8' }}>
+                  {currentProject.telemetry}
                 </span>
                 <span style={{ fontSize: '0.72rem', color: '#38bdf8' }}>[Expand ◻]</span>
               </button>
@@ -1036,10 +1035,7 @@ export const DigitalTwinDemosView = memo(() => {
                   {currentProject.name}
                 </div>
 
-                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', fontSize: '0.76rem', color: '#ffc93c', fontWeight: 800, marginBottom: '0.55rem' }}>
-                  <Building2 size={13} color="#ffc93c" />
-                  <span>Client: {currentProject.client}</span>
-                </div>
+                
 
                 {/* Archie's Project Explanation Speech Box */}
                 <div style={{
