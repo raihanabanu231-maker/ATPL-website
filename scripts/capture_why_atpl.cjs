@@ -34,8 +34,7 @@ setTimeout(() => {
         ws.onopen = async () => {
           let msgId = 1;
 
-          // Wait 3.5 seconds for video and animations to render
-          await new Promise(r => setTimeout(r, 3500));
+          await new Promise(r => setTimeout(r, 3000));
 
           const takeShot = (filename) => new Promise((resolve) => {
             const id = ++msgId;
@@ -58,7 +57,25 @@ setTimeout(() => {
             }));
           });
 
-          await takeShot('why_atpl_robot_verified.png');
+          // Top Hero shot
+          await takeShot('why_atpl_top_hero.png');
+
+          // Scroll to the Full-View Robot Cinema Theater section
+          ws.send(JSON.stringify({
+            id: ++msgId,
+            method: 'Runtime.evaluate',
+            params: {
+              expression: `
+                const el = document.getElementById('archie-robot-full-view');
+                if (el) el.scrollIntoView({ behavior: 'instant', block: 'center' });
+              `
+            }
+          }));
+
+          await new Promise(r => setTimeout(r, 2000));
+
+          // Dedicated Full-View Cinema Theater shot
+          await takeShot('why_atpl_full_view_cinema.png');
 
           ws.close();
           chrome.kill();

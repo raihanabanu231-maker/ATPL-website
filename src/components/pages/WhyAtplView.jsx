@@ -1,10 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useApp } from '../../context/AppContext';
 import { Archie3DRobotSection } from '../common/Archie3DRobotSection';
 import { 
   CheckCircle2, 
   X, 
   Play, 
+  Pause,
+  Volume2,
+  VolumeX,
+  Maximize2,
+  RotateCcw,
   ArrowRight, 
   ShieldCheck, 
   Zap, 
@@ -13,6 +18,8 @@ import {
   Award, 
   ChevronRight, 
   Sparkles, 
+  Bot,
+  Activity,
   Layers, 
   Eye, 
   Radio, 
@@ -31,16 +38,94 @@ export const WhyAtplView = () => {
   const [videoModalOpen, setVideoModalOpen] = useState(false);
   const [activeStationIndex, setActiveStationIndex] = useState(0);
 
-  const stations = [
-    {
-      id: 'archie-ai',
-      name: 'Archie 3D AI Robot Agent',
-      tagline: 'Cognitive vision and live plant telemetry monitoring',
+  // Full-View Cinematic Robot Theater State
+  const [fullVideoMode, setFullVideoMode] = useState('waving');
+  const [fullVideoPlaying, setFullVideoPlaying] = useState(true);
+  const [fullVideoMuted, setFullVideoMuted] = useState(true);
+  const [fullVideoProgress, setFullVideoProgress] = useState(18);
+  const fullVideoRef = useRef(null);
+  const fullTheaterContainerRef = useRef(null);
+
+  const fullFeeds = {
+    waving: {
+      id: 'waving',
+      title: 'Archie AI Shopfloor Agent // Telemetry Mode',
       video: '/assets/videos/robot_waving_agent.mp4',
       poster: '/assets/videos/posters/robot_waving_agent.jpg',
-      badge: 'Active & Tracking AI Agent',
-      description: 'Autonomous shopfloor intelligence agent tracking conveyor throughput, optical scan health, and predicting line bottlenecks in real time with edge cognitive vision.'
+      status: '• ACTIVE & TRACKING',
+      fps: '60 FPS',
+      resolution: '4K ULTRA-HD',
+      latency: '5.8ms',
+      description: 'Archie 3D autonomous AI shopfloor agent live in plant telemetry mode — streaming cognitive edge vision to line supervisors.'
     },
+    tracking: {
+      id: 'tracking',
+      title: 'Direct Telecentric Camera Lock View',
+      video: '/assets/videos/robot_waving_at_camera.mp4',
+      poster: '/assets/videos/posters/robot_waving_at_camera.jpg',
+      status: '• FOCAL LOCK ON LINE #4',
+      fps: '120 FPS',
+      resolution: '4K MACRO',
+      latency: '4.2ms',
+      description: 'Sub-pixel optical verification and dynamic focal depth adaptation on high-speed moving parts across conveyor lines.'
+    },
+    handshake: {
+      id: 'handshake',
+      title: 'Human & Robot Collaborative Engineering',
+      video: '/assets/videos/human_robot_handshake.mp4',
+      poster: '/assets/videos/posters/human_robot_handshake.jpg',
+      status: '• COLLABORATIVE SAFETY ACTIVE',
+      fps: '60 FPS',
+      resolution: '1080P CINEMA',
+      latency: '6.0ms',
+      description: 'Certified ISO 10218 collaborative robotics integration with zero-pinch safety curtains and instant line handoff.'
+    }
+  };
+
+  const activeFeed = fullFeeds[fullVideoMode] || fullFeeds.waving;
+
+  // Timeline scrubber progress ticker
+  useEffect(() => {
+    if (!fullVideoPlaying) return;
+    const interval = setInterval(() => {
+      setFullVideoProgress(prev => (prev >= 100 ? 0 : Number((prev + 0.4).toFixed(1))));
+    }, 80);
+    return () => clearInterval(interval);
+  }, [fullVideoPlaying]);
+
+  // Audio tactile chime
+  const playAudioChime = (freq = 587.33) => {
+    try {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (!AudioCtx) return;
+      const ctx = new AudioCtx();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(freq * 1.4, ctx.currentTime + 0.12);
+      gain.gain.setValueAtTime(0.04, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.25);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start();
+      osc.stop(ctx.currentTime + 0.25);
+    } catch {}
+  };
+
+  const toggleFullScreenVideo = () => {
+    if (!fullTheaterContainerRef.current) return;
+    if (!document.fullscreenElement) {
+      fullTheaterContainerRef.current.requestFullscreen().catch(() => {
+        setVideoModalOpen(true);
+      });
+    } else {
+      document.exitFullscreen().catch(() => {});
+    }
+  };
+
+  // Cognex-Style Machine Vision Inspection Stations
+  const stations = [
     {
       id: 'vision-qc',
       name: 'High-Speed Conveyor Vision',
@@ -184,21 +269,12 @@ export const WhyAtplView = () => {
       </div>
 
       {/* =========================================================================
-          2. ARCHIE 3D ROBOT & OPERATIONAL COMPARISON BENCHMARK ARENA
-             Matches user's verified layout: "Why ATPL for Factory Automation"
-             with interactive "The ATPL way" floating zero-gravity pills vs
-             "Without ATPL" falling problem rain, interactive scrubber timeline,
-             and authentic waving Archie Robot Video card with live telemetry HUD.
-         ========================================================================= */}
-      <Archie3DRobotSection />
-
-      {/* =========================================================================
-          3. COGNEX-STYLE MACHINE VISION & INSPECTION STATIONS
+          2. COGNEX-STYLE MACHINE VISION HERO & INSPECTION STATIONS
          ========================================================================= */}
       <section style={{
         maxWidth: '1240px',
         margin: '0 auto',
-        padding: '3rem 1.5rem 4rem',
+        padding: '2.5rem 1.5rem 4rem',
         display: 'grid',
         gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))',
         gap: '3.5rem',
@@ -225,14 +301,25 @@ export const WhyAtplView = () => {
             <span>Industrial Automation &amp; Traceability Authority</span>
           </div>
 
-          <h2 style={{
-            fontSize: 'clamp(2rem, 3.8vw, 3rem)',
+          <h1 style={{
+            fontSize: 'clamp(2.5rem, 5vw, 4rem)',
             fontWeight: 900,
             letterSpacing: '-0.03em',
-            lineHeight: 1.12,
+            lineHeight: 1.08,
             color: '#0f172a',
             margin: '0 0 1rem',
             fontFamily: 'var(--font-display, sans-serif)'
+          }}>
+            Why ATPL
+          </h1>
+
+          <h2 style={{
+            fontSize: 'clamp(1.35rem, 2.3vw, 1.85rem)',
+            fontWeight: 800,
+            lineHeight: 1.25,
+            color: '#0f172a',
+            margin: '0 0 1.5rem',
+            letterSpacing: '-0.015em'
           }}>
             Advanced Machine Vision &amp; Factory Automation Made Flawless
           </h2>
@@ -422,7 +509,7 @@ export const WhyAtplView = () => {
               borderTop: '1px solid #e2e8f0',
               padding: '0.75rem 1rem',
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(95px, 1fr))',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(110px, 1fr))',
               gap: '0.5rem'
             }}>
               {stations.map((st, idx) => (
@@ -444,7 +531,7 @@ export const WhyAtplView = () => {
                     0{idx + 1}
                   </div>
                   <div style={{
-                    fontSize: '0.72rem',
+                    fontSize: '0.74rem',
                     fontWeight: 700,
                     color: activeStationIndex === idx ? '#0f172a' : '#475569',
                     whiteSpace: 'nowrap',
@@ -478,6 +565,434 @@ export const WhyAtplView = () => {
           </div>
         </div>
       </section>
+
+      {/* =========================================================================
+          3. DEDICATED FULL-VIEW THEATER: ARCHIE 3D AI ROBOT AGENT
+             (Placed in a separate, dedicated section in expansive full view)
+         ========================================================================= */}
+      <section 
+        id="archie-robot-full-view"
+        style={{
+          backgroundColor: '#030816',
+          backgroundImage: 'radial-gradient(circle at 50% 10%, rgba(0, 113, 186, 0.28) 0%, rgba(3, 8, 22, 0.98) 75%)',
+          color: '#ffffff',
+          padding: '5.5rem 1.5rem',
+          borderTop: '1px solid rgba(0, 240, 255, 0.25)',
+          borderBottom: '1px solid rgba(0, 240, 255, 0.25)',
+          position: 'relative',
+          overflow: 'hidden'
+        }}
+      >
+        {/* Ambient Holographic Cyber Grid Background */}
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage: 'radial-gradient(rgba(0, 240, 255, 0.12) 1px, transparent 1px)',
+          backgroundSize: '32px 32px',
+          opacity: 0.55,
+          pointerEvents: 'none'
+        }} />
+
+        <div style={{ maxWidth: '1280px', margin: '0 auto', position: 'relative', zIndex: 10 }}>
+          
+          {/* Section Header */}
+          <div style={{ textAlign: 'center', maxWidth: '840px', margin: '0 auto 2.5rem' }}>
+            <div style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              background: 'rgba(0, 240, 255, 0.1)',
+              border: '1px solid rgba(0, 240, 255, 0.35)',
+              borderRadius: '999px',
+              padding: '0.35rem 1.15rem',
+              marginBottom: '1rem',
+              fontSize: '0.78rem',
+              fontWeight: 800,
+              letterSpacing: '0.08em',
+              color: '#00f0ff',
+              textTransform: 'uppercase'
+            }}>
+              <Bot size={14} color="#00f0ff" />
+              <span>Full-View Cinematic Theater // Autonomous Shopfloor Intelligence</span>
+            </div>
+
+            <h2 style={{
+              fontSize: 'clamp(2.2rem, 4.2vw, 3.4rem)',
+              fontWeight: 900,
+              color: '#ffffff',
+              letterSpacing: '-0.025em',
+              lineHeight: 1.12,
+              margin: '0 0 1rem',
+              fontFamily: 'var(--font-display, sans-serif)'
+            }}>
+              Meet <span style={{ background: 'linear-gradient(135deg, #00f0ff 0%, #38bdf8 50%, #ec4899 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Archie 3D AI</span> in Full View
+            </h2>
+
+            <p style={{ fontSize: '1.08rem', color: '#94a3b8', lineHeight: 1.65, margin: 0 }}>
+              Autonomous multi-camera cognitive vision, live plant telemetry monitoring, and native ERP synchronization across 250+ connected manufacturing plants.
+            </p>
+          </div>
+
+          {/* Mode Switcher Tabs */}
+          <div style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap: '0.65rem',
+            marginBottom: '1.5rem',
+            flexWrap: 'wrap'
+          }}>
+            {Object.values(fullFeeds).map((feed) => {
+              const isActive = fullVideoMode === feed.id;
+              return (
+                <button
+                  key={feed.id}
+                  onClick={() => {
+                    setFullVideoMode(feed.id);
+                    if (!fullVideoMuted) playAudioChime(isActive ? 440 : 587.33);
+                  }}
+                  style={{
+                    backgroundColor: isActive ? '#0071ba' : 'rgba(15, 23, 42, 0.8)',
+                    color: isActive ? '#ffffff' : '#94a3b8',
+                    border: isActive ? '1.5px solid #00f0ff' : '1px solid rgba(255, 255, 255, 0.12)',
+                    padding: '0.55rem 1.25rem',
+                    borderRadius: '999px',
+                    fontSize: '0.82rem',
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.45rem',
+                    boxShadow: isActive ? '0 0 20px rgba(0, 240, 255, 0.35)' : 'none',
+                    transition: 'all 0.2s ease'
+                  }}
+                >
+                  <span style={{
+                    width: '6px',
+                    height: '6px',
+                    borderRadius: '50%',
+                    backgroundColor: isActive ? '#00f0ff' : '#64748b',
+                    boxShadow: isActive ? '0 0 8px #00f0ff' : 'none'
+                  }} />
+                  <span>{feed.title.split('//')[0].trim()}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* THE GRAND FULL-VIEW CINEMA THEATER CONTAINER */}
+          <div
+            ref={fullTheaterContainerRef}
+            style={{
+              position: 'relative',
+              width: '100%',
+              borderRadius: '24px',
+              overflow: 'hidden',
+              backgroundColor: '#020713',
+              border: '1.5px solid rgba(0, 240, 255, 0.4)',
+              boxShadow: '0 25px 70px rgba(0, 0, 0, 0.6), 0 0 45px rgba(0, 113, 186, 0.25)',
+              minHeight: '480px',
+              height: 'clamp(460px, 56vw, 620px)',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between'
+            }}
+          >
+            {/* The Full-Screen Widescreen Video Stream */}
+            <video
+              ref={fullVideoRef}
+              key={activeFeed.video}
+              src={activeFeed.video}
+              poster={activeFeed.poster}
+              autoPlay
+              loop
+              muted={fullVideoMuted}
+              playsInline
+              style={{
+                position: 'absolute',
+                inset: 0,
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                zIndex: 1
+              }}
+            />
+
+            {/* Subtle Gradient Overlays for High-Contrast Readable HUD */}
+            <div style={{
+              position: 'absolute',
+              inset: 0,
+              background: 'linear-gradient(180deg, rgba(2, 7, 19, 0.75) 0%, transparent 25%, transparent 70%, rgba(2, 7, 19, 0.92) 100%)',
+              zIndex: 2,
+              pointerEvents: 'none'
+            }} />
+
+            {/* Top HUD Status Bar */}
+            <div style={{
+              position: 'relative',
+              zIndex: 10,
+              padding: '1.25rem 1.75rem',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              flexWrap: 'wrap',
+              gap: '0.75rem'
+            }}>
+              <div style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                backgroundColor: 'rgba(2, 7, 19, 0.85)',
+                backdropFilter: 'blur(10px)',
+                border: '1px solid rgba(0, 240, 255, 0.45)',
+                padding: '0.45rem 1.1rem',
+                borderRadius: '999px',
+                fontSize: '0.78rem',
+                fontWeight: 800,
+                color: '#00f0ff',
+                letterSpacing: '0.06em'
+              }}>
+                <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#00f0ff', boxShadow: '0 0 10px #00f0ff' }} />
+                <Bot size={14} color="#00f0ff" />
+                <span>ARCHIE // AI SHOPFLOOR AGENT</span>
+                <span style={{ color: '#ffffff', opacity: 0.4 }}>|</span>
+                <span style={{ color: '#10b981' }}>{activeFeed.status}</span>
+              </div>
+
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.85rem',
+                backgroundColor: 'rgba(2, 7, 19, 0.85)',
+                backdropFilter: 'blur(10px)',
+                border: '1px solid rgba(255, 255, 255, 0.15)',
+                padding: '0.4rem 1rem',
+                borderRadius: '999px',
+                fontSize: '0.74rem',
+                color: '#94a3b8',
+                fontFamily: 'monospace'
+              }}>
+                <span style={{ color: '#00f0ff', fontWeight: 700 }}>{activeFeed.resolution}</span>
+                <span>•</span>
+                <span style={{ color: '#10b981', fontWeight: 700 }}>{activeFeed.fps}</span>
+                <span>•</span>
+                <span style={{ color: '#ec4899', fontWeight: 700 }}>LATENCY: {activeFeed.latency}</span>
+              </div>
+            </div>
+
+            {/* Bottom HUD Controls Bar */}
+            <div style={{
+              position: 'relative',
+              zIndex: 10,
+              padding: '1.25rem 1.75rem',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '0.85rem'
+            }}>
+              {/* Scrubber Bar */}
+              <div 
+                onClick={(e) => {
+                  const rect = e.currentTarget.getBoundingClientRect();
+                  const clickX = e.clientX - rect.left;
+                  const newProgress = Math.max(0, Math.min(100, (clickX / rect.width) * 100));
+                  setFullVideoProgress(Number(newProgress.toFixed(1)));
+                  if (!fullVideoMuted) playAudioChime(520 + (newProgress * 3));
+                }}
+                style={{
+                  width: '100%',
+                  height: '8px',
+                  backgroundColor: 'rgba(255, 255, 255, 0.15)',
+                  borderRadius: '999px',
+                  overflow: 'hidden',
+                  cursor: 'pointer',
+                  position: 'relative',
+                  border: '1px solid rgba(255, 255, 255, 0.1)'
+                }}
+                title="Click anywhere to scrub playback"
+              >
+                <div style={{
+                  height: '100%',
+                  width: `${fullVideoProgress}%`,
+                  background: 'linear-gradient(90deg, #0071ba 0%, #00f0ff 60%, #ec4899 100%)',
+                  borderRadius: '999px'
+                }} />
+              </div>
+
+              {/* Control Buttons & Telemetry Summary */}
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                flexWrap: 'wrap',
+                gap: '1rem'
+              }}>
+                {/* Left: Play/Pause, Mute/Unmute, Timecode */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+                  <button
+                    onClick={() => {
+                      const next = !fullVideoPlaying;
+                      setFullVideoPlaying(next);
+                      if (fullVideoRef.current) {
+                        if (next) fullVideoRef.current.play();
+                        else fullVideoRef.current.pause();
+                      }
+                      if (!fullVideoMuted) playAudioChime(next ? 660 : 440);
+                    }}
+                    style={{
+                      width: '38px',
+                      height: '38px',
+                      borderRadius: '50%',
+                      backgroundColor: fullVideoPlaying ? '#0071ba' : '#0f172a',
+                      color: '#ffffff',
+                      border: '1px solid rgba(0, 240, 255, 0.4)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      cursor: 'pointer',
+                      boxShadow: '0 0 15px rgba(0, 113, 186, 0.4)'
+                    }}
+                  >
+                    {fullVideoPlaying ? <Pause size={16} /> : <Play size={16} style={{ marginLeft: '2px' }} />}
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      const next = !fullVideoMuted;
+                      setFullVideoMuted(next);
+                      if (fullVideoRef.current) fullVideoRef.current.muted = next;
+                      if (!next) playAudioChime(660);
+                    }}
+                    style={{
+                      width: '34px',
+                      height: '34px',
+                      borderRadius: '50%',
+                      backgroundColor: fullVideoMuted ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 240, 255, 0.2)',
+                      color: fullVideoMuted ? '#94a3b8' : '#00f0ff',
+                      border: '1px solid rgba(0, 240, 255, 0.3)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    {fullVideoMuted ? <VolumeX size={15} /> : <Volume2 size={15} />}
+                  </button>
+
+                  <span style={{ fontFamily: 'monospace', fontSize: '0.8rem', color: '#cbd5e1', fontWeight: 700 }}>
+                    {`00:${String(Math.floor((fullVideoProgress / 100) * 20)).padStart(2, '0')}`} / 00:20
+                  </span>
+                </div>
+
+                {/* Right: Description & Action Buttons */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem', flexWrap: 'wrap' }}>
+                  <button
+                    onClick={toggleFullScreenVideo}
+                    style={{
+                      background: 'rgba(255, 255, 255, 0.1)',
+                      color: '#ffffff',
+                      border: '1px solid rgba(255, 255, 255, 0.25)',
+                      padding: '0.55rem 1.15rem',
+                      borderRadius: '8px',
+                      fontSize: '0.82rem',
+                      fontWeight: 700,
+                      cursor: 'pointer',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '0.45rem'
+                    }}
+                  >
+                    <Maximize2 size={14} />
+                    <span>Expand Fullscreen</span>
+                  </button>
+
+                  <button
+                    onClick={() => openDemoModal({ solution: 'Archie 3D AI Robot Shopfloor Walkthrough' })}
+                    style={{
+                      background: 'linear-gradient(135deg, #0071ba 0%, #00f0ff 100%)',
+                      color: '#040812',
+                      border: 'none',
+                      padding: '0.55rem 1.4rem',
+                      borderRadius: '8px',
+                      fontSize: '0.82rem',
+                      fontWeight: 800,
+                      cursor: 'pointer',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '0.45rem',
+                      boxShadow: '0 0 20px rgba(0, 240, 255, 0.4)'
+                    }}
+                  >
+                    <span>Request Walkthrough</span>
+                    <ArrowRight size={14} />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Live Telemetry Pods Under the Full-View Cinema */}
+          <div style={{
+            marginTop: '2.5rem',
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+            gap: '1.25rem'
+          }}>
+            <div style={{
+              backgroundColor: 'rgba(15, 23, 42, 0.75)',
+              border: '1px solid rgba(0, 240, 255, 0.2)',
+              borderRadius: '14px',
+              padding: '1.25rem',
+              backdropFilter: 'blur(8px)'
+            }}>
+              <div style={{ fontSize: '0.74rem', color: '#00f0ff', fontWeight: 800, textTransform: 'uppercase' }}>EDGE COGNITIVE LATENCY</div>
+              <div style={{ fontSize: '1.8rem', fontWeight: 900, color: '#ffffff', marginTop: '0.2rem' }}>5.8 ms</div>
+              <div style={{ fontSize: '0.78rem', color: '#94a3b8', marginTop: '0.3rem' }}>Sub-8ms decode with zero line standstills</div>
+            </div>
+
+            <div style={{
+              backgroundColor: 'rgba(15, 23, 42, 0.75)',
+              border: '1px solid rgba(16, 185, 129, 0.25)',
+              borderRadius: '14px',
+              padding: '1.25rem',
+              backdropFilter: 'blur(8px)'
+            }}>
+              <div style={{ fontSize: '0.74rem', color: '#10b981', fontWeight: 800, textTransform: 'uppercase' }}>HIGH-SPEED THROUGHPUT</div>
+              <div style={{ fontSize: '1.8rem', fontWeight: 900, color: '#ffffff', marginTop: '0.2rem' }}>180 PPM</div>
+              <div style={{ fontSize: '0.78rem', color: '#94a3b8', marginTop: '0.3rem' }}>Continuous inspection at 12 km/h conveyor speed</div>
+            </div>
+
+            <div style={{
+              backgroundColor: 'rgba(15, 23, 42, 0.75)',
+              border: '1px solid rgba(232, 88, 116, 0.25)',
+              borderRadius: '14px',
+              padding: '1.25rem',
+              backdropFilter: 'blur(8px)'
+            }}>
+              <div style={{ fontSize: '0.74rem', color: '#E85874', fontWeight: 800, textTransform: 'uppercase' }}>DEFECT ESCAPE RATE</div>
+              <div style={{ fontSize: '1.8rem', fontWeight: 900, color: '#ffffff', marginTop: '0.2rem' }}>0.00%</div>
+              <div style={{ fontSize: '0.78rem', color: '#94a3b8', marginTop: '0.3rem' }}>14M+ parts verified with optical SLA guarantee</div>
+            </div>
+
+            <div style={{
+              backgroundColor: 'rgba(15, 23, 42, 0.75)',
+              border: '1px solid rgba(56, 189, 248, 0.25)',
+              borderRadius: '14px',
+              padding: '1.25rem',
+              backdropFilter: 'blur(8px)'
+            }}>
+              <div style={{ fontSize: '0.74rem', color: '#38bdf8', fontWeight: 800, textTransform: 'uppercase' }}>ENTERPRISE SYNC</div>
+              <div style={{ fontSize: '1.8rem', fontWeight: 900, color: '#ffffff', marginTop: '0.2rem' }}>SAP &amp; Oracle</div>
+              <div style={{ fontSize: '0.78rem', color: '#94a3b8', marginTop: '0.3rem' }}>Native sub-second IDocs and REST webhooks</div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* =========================================================================
+          4. ARCHIE 3D OPERATIONAL COMPARATIVE BENCHMARK ARENA
+         ========================================================================= */}
+      <Archie3DRobotSection />
 
       {/* =========================================================================
           3. KEY VALUE PILLARS (THE 6 PILLARS OF WHY ATPL)
