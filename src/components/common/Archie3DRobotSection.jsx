@@ -817,6 +817,7 @@ export const Archie3DRobotSection = () => {
             {/* The Authentic Robot Waving Video */}
             <video
               src="/assets/videos/robot_waving_agent.mp4"
+              poster="/assets/videos/posters/robot_waving_agent.jpg"
               autoPlay
               loop
               muted

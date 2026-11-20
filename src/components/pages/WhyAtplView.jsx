@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
+import { Archie3DRobotSection } from '../common/Archie3DRobotSection';
 import { 
   CheckCircle2, 
   X, 
@@ -32,10 +33,20 @@ export const WhyAtplView = () => {
 
   const stations = [
     {
+      id: 'archie-ai',
+      name: 'Archie 3D AI Robot Agent',
+      tagline: 'Cognitive vision and live plant telemetry monitoring',
+      video: '/assets/videos/robot_waving_agent.mp4',
+      poster: '/assets/videos/posters/robot_waving_agent.jpg',
+      badge: 'Active & Tracking AI Agent',
+      description: 'Autonomous shopfloor intelligence agent tracking conveyor throughput, optical scan health, and predicting line bottlenecks in real time with edge cognitive vision.'
+    },
+    {
       id: 'vision-qc',
       name: 'High-Speed Conveyor Vision',
       tagline: 'Edge AI defect inspection at 180 parts/minute',
-      video: '/scanner_conveyor_360.mp4',
+      video: '/assets/videos/scanner_conveyor_360.mp4',
+      poster: '/assets/videos/posters/scanner_conveyor_360.jpg',
       badge: '99.985% First-Pass Yield',
       description: 'Synchronized telecentric cameras and 460nm polarized ring strobes catching 50-micron porosity, burrs, and barcode grading violations in under 6.2 milliseconds.'
     },
@@ -43,7 +54,8 @@ export const WhyAtplView = () => {
       id: 'dpm-laser',
       name: 'DPM Laser Marking & Verification',
       tagline: 'Permanent ISO/IEC 15415 data matrix serialization',
-      video: '/laser_marker_360.mp4',
+      video: '/assets/videos/laser_marker_360.mp4',
+      poster: '/assets/videos/posters/uv_laser_360.jpg',
       badge: 'AIS-156 EV Battery Genealogy',
       description: 'Fiber and UV laser stations marking micro-QR codes directly on cylindrical 21700 EV battery cells, automotive knuckles, and turbine blades with zero degradation.'
     },
@@ -51,7 +63,8 @@ export const WhyAtplView = () => {
       id: 'rfid-portal',
       name: 'High-Density RAIN RFID Dock Portal',
       tagline: '1,420 tags/second through stretch film',
-      video: '/rfid_antenna_360.mp4',
+      video: '/assets/videos/rfid_antenna_360.mp4',
+      poster: '/assets/videos/posters/rfid_antenna_360.jpg',
       badge: 'Zero Ghost-Read Shielding',
       description: 'Directional narrow-beam phased arrays paired with Doppler phase velocity filtering, eliminating cross-dock staging crosstalk while forklifts pass at 12 km/h.'
     },
@@ -59,7 +72,8 @@ export const WhyAtplView = () => {
       id: 'mobile-wms',
       name: 'Rugged Warehouse Handhelds & ASRS',
       tagline: 'Continuous cold-chain and forklift inventory sync',
-      video: '/mobility_360.mp4',
+      video: '/assets/videos/mobility_360.mp4',
+      poster: '/assets/videos/posters/touch_computer_360.jpg',
       badge: 'IP68 & Drop-Tested 2.4m',
       description: 'Enterprise Android mobile computers integrated natively into Perfect Store™ WMS and SAP EWM with 3D spatial bin heatmaps and offline buffer caching.'
     }
@@ -151,7 +165,7 @@ export const WhyAtplView = () => {
           1. BREADCRUMBS
          ========================================================================= */}
       <div style={{
-        maxWidth: '1240px',
+        maxWidth: '1360px',
         margin: '0 auto',
         padding: '1.25rem 1.5rem 0.5rem',
         fontSize: '0.82rem',
@@ -170,12 +184,21 @@ export const WhyAtplView = () => {
       </div>
 
       {/* =========================================================================
-          2. HERO SECTION (MIRRORING COGNEX'S PREMIER LAYOUT)
+          2. ARCHIE 3D ROBOT & OPERATIONAL COMPARISON BENCHMARK ARENA
+             Matches user's verified layout: "Why ATPL for Factory Automation"
+             with interactive "The ATPL way" floating zero-gravity pills vs
+             "Without ATPL" falling problem rain, interactive scrubber timeline,
+             and authentic waving Archie Robot Video card with live telemetry HUD.
+         ========================================================================= */}
+      <Archie3DRobotSection />
+
+      {/* =========================================================================
+          3. COGNEX-STYLE MACHINE VISION & INSPECTION STATIONS
          ========================================================================= */}
       <section style={{
         maxWidth: '1240px',
         margin: '0 auto',
-        padding: '2rem 1.5rem 4rem',
+        padding: '3rem 1.5rem 4rem',
         display: 'grid',
         gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))',
         gap: '3.5rem',
@@ -202,25 +225,14 @@ export const WhyAtplView = () => {
             <span>Industrial Automation &amp; Traceability Authority</span>
           </div>
 
-          <h1 style={{
-            fontSize: 'clamp(2.5rem, 5vw, 4rem)',
+          <h2 style={{
+            fontSize: 'clamp(2rem, 3.8vw, 3rem)',
             fontWeight: 900,
             letterSpacing: '-0.03em',
-            lineHeight: 1.08,
+            lineHeight: 1.12,
             color: '#0f172a',
             margin: '0 0 1rem',
             fontFamily: 'var(--font-display, sans-serif)'
-          }}>
-            Why ATPL
-          </h1>
-
-          <h2 style={{
-            fontSize: 'clamp(1.35rem, 2.3vw, 1.85rem)',
-            fontWeight: 800,
-            lineHeight: 1.25,
-            color: '#0f172a',
-            margin: '0 0 1.5rem',
-            letterSpacing: '-0.015em'
           }}>
             Advanced Machine Vision &amp; Factory Automation Made Flawless
           </h2>
@@ -245,7 +257,7 @@ export const WhyAtplView = () => {
 
           <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
             <button
-              onClick={() => openDemoModal()}
+              onClick={() => openDemoModal({ solution: 'Factory Automation Feasibility Walkthrough' })}
               style={{
                 background: 'linear-gradient(135deg, #0071ba 0%, #00f0ff 100%)',
                 color: '#040812',
@@ -308,7 +320,9 @@ export const WhyAtplView = () => {
             {/* Split Screen Video Preview */}
             <div style={{ position: 'relative', height: '360px', overflow: 'hidden' }}>
               <video
+                key={activeStation.video}
                 src={activeStation.video}
+                poster={activeStation.poster}
                 autoPlay
                 loop
                 muted
@@ -408,7 +422,7 @@ export const WhyAtplView = () => {
               borderTop: '1px solid #e2e8f0',
               padding: '0.75rem 1rem',
               display: 'grid',
-              gridTemplateColumns: 'repeat(4, 1fr)',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(95px, 1fr))',
               gap: '0.5rem'
             }}>
               {stations.map((st, idx) => (
@@ -417,9 +431,9 @@ export const WhyAtplView = () => {
                   onClick={() => setActiveStationIndex(idx)}
                   style={{
                     background: activeStationIndex === idx ? '#ffffff' : 'transparent',
-                    border: activeStationIndex === idx ? '1px solid #0071ba' : '1px solid transparent',
+                    border: activeStationIndex === idx ? '1.5px solid #0071ba' : '1px solid #e2e8f0',
                     borderRadius: '8px',
-                    padding: '0.5rem',
+                    padding: '0.5rem 0.25rem',
                     textAlign: 'center',
                     cursor: 'pointer',
                     boxShadow: activeStationIndex === idx ? '0 2px 8px rgba(0, 113, 186, 0.15)' : 'none',
@@ -430,7 +444,7 @@ export const WhyAtplView = () => {
                     0{idx + 1}
                   </div>
                   <div style={{
-                    fontSize: '0.74rem',
+                    fontSize: '0.72rem',
                     fontWeight: 700,
                     color: activeStationIndex === idx ? '#0f172a' : '#475569',
                     whiteSpace: 'nowrap',
@@ -1011,7 +1025,9 @@ export const WhyAtplView = () => {
 
             <div style={{ position: 'relative', height: '480px', backgroundColor: '#000000' }}>
               <video
+                key={activeStation.video}
                 src={activeStation.video}
+                poster={activeStation.poster}
                 autoPlay
                 controls
                 playsInline
