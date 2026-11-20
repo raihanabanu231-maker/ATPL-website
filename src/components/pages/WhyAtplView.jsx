@@ -8,6 +8,7 @@ import {
   Volume2,
   VolumeX,
   Maximize2,
+  Minimize2,
   RotateCcw,
   ArrowRight, 
   ShieldCheck, 
@@ -36,6 +37,7 @@ export const WhyAtplView = () => {
   const { openDemoModal, setCurrentView, navigateToInsight } = useApp();
   const [videoModalOpen, setVideoModalOpen] = useState(false);
   const [activeStationIndex, setActiveStationIndex] = useState(0);
+  const [isHeroExpanded, setIsHeroExpanded] = useState(false);
 
   // Full-View Cinematic Robot Theater State
   const [fullVideoMode, setFullVideoMode] = useState('presentation');
@@ -292,19 +294,20 @@ export const WhyAtplView = () => {
       </div>
 
       {/* =========================================================================
-          2. COGNEX-STYLE MACHINE VISION HERO & INSPECTION STATIONS
+          2. COGNEX-STYLE MACHINE VISION HERO & INSPECTION STATIONS (BIG SIZE VIEW)
          ========================================================================= */}
       <section style={{
-        maxWidth: '1240px',
+        maxWidth: isHeroExpanded ? '100%' : '1360px',
         margin: '0 auto',
-        padding: '2.5rem 1.5rem 4rem',
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))',
-        gap: '3.5rem',
-        alignItems: 'center'
+        padding: isHeroExpanded ? '1.5rem 1rem 4rem' : '2rem 1.5rem 4.5rem',
+        transition: 'all 0.3s ease'
       }}>
-        {/* Left Column: Typography & Lead Messaging */}
-        <div>
+        {/* Executive Headline & Value Proposition Block */}
+        <div style={{
+          maxWidth: '960px',
+          margin: '0 auto 2.5rem',
+          textAlign: 'center'
+        }}>
           <div style={{
             display: 'inline-flex',
             alignItems: 'center',
@@ -312,8 +315,8 @@ export const WhyAtplView = () => {
             background: 'rgba(0, 113, 186, 0.08)',
             border: '1px solid rgba(0, 113, 186, 0.25)',
             borderRadius: '999px',
-            padding: '0.3rem 0.85rem',
-            marginBottom: '1.25rem',
+            padding: '0.35rem 0.95rem',
+            marginBottom: '1rem',
             fontSize: '0.78rem',
             fontWeight: 800,
             letterSpacing: '0.06em',
@@ -325,7 +328,7 @@ export const WhyAtplView = () => {
           </div>
 
           <h1 style={{
-            fontSize: 'clamp(2.5rem, 5vw, 4rem)',
+            fontSize: 'clamp(2.4rem, 4.8vw, 4rem)',
             fontWeight: 900,
             letterSpacing: '-0.03em',
             lineHeight: 1.08,
@@ -337,35 +340,27 @@ export const WhyAtplView = () => {
           </h1>
 
           <h2 style={{
-            fontSize: 'clamp(1.35rem, 2.3vw, 1.85rem)',
+            fontSize: 'clamp(1.35rem, 2.3vw, 1.95rem)',
             fontWeight: 800,
             lineHeight: 1.25,
             color: '#0f172a',
-            margin: '0 0 1.5rem',
+            margin: '0 0 1.25rem',
             letterSpacing: '-0.015em'
           }}>
             Advanced Machine Vision &amp; Factory Automation Made Flawless
           </h2>
 
           <p style={{
-            fontSize: '1.05rem',
+            fontSize: '1.06rem',
             lineHeight: 1.65,
             color: '#475569',
-            margin: '0 0 1.25rem'
+            margin: '0 auto 1.75rem',
+            maxWidth: '840px'
           }}>
-            Archery Technocrats stands alone in combining advanced machine vision, industrial RAIN RFID, and turnkey shopfloor automation that reliably solves India's toughest manufacturing challenges — backed by industry-leading 24/7 on-site support that makes every solution easier to deploy, maintain, and expand.
+            Archery Technocrats stands alone in combining advanced machine vision, industrial RAIN RFID, collaborative robotics, and 9 in-house software suites directly integrated with SAP S/4HANA &amp; Oracle ERP — backed by guaranteed 4-hour on-site SLA across India's manufacturing corridors.
           </p>
 
-          <p style={{
-            fontSize: '1.05rem',
-            lineHeight: 1.65,
-            color: '#475569',
-            margin: '0 0 2rem'
-          }}>
-            We've built a decade of customer success across automotive, pharma, electronics, FMCG, and logistics by delivering zero-defect shopfloor intelligence with enterprise SAP S/4HANA &amp; Oracle ERP interoperability.
-          </p>
-
-          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', gap: '0.85rem', justifyContent: 'center', flexWrap: 'wrap' }}>
             <button
               onClick={() => openDemoModal({ solution: 'Factory Automation Feasibility Walkthrough' })}
               style={{
@@ -414,254 +409,328 @@ export const WhyAtplView = () => {
             >
               Read Customer Teardowns
             </button>
+
+            <button
+              onClick={() => {
+                const el = document.getElementById('archie-robot-full-view');
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+              }}
+              style={{
+                background: 'rgba(0, 113, 186, 0.08)',
+                color: '#0071ba',
+                border: '1.5px solid rgba(0, 113, 186, 0.3)',
+                padding: '0.85rem 1.4rem',
+                borderRadius: '8px',
+                fontWeight: 700,
+                fontSize: '0.95rem',
+                cursor: 'pointer',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.45rem',
+                transition: 'all 0.15s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'rgba(0, 113, 186, 0.15)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'rgba(0, 113, 186, 0.08)';
+              }}
+            >
+              <Bot size={16} />
+              <span>Meet Archie 3D AI Robot</span>
+            </button>
           </div>
         </div>
 
-        {/* Right Column: Split Camera / Machine Vision Inspection Player */}
-        <div>
+        {/* EXPANSIVE BIG-SIZE VIEW: 3D PLANT TWIN & INSPECTION STATIONS CONSOLE */}
+        <div style={{
+          position: 'relative',
+          borderRadius: '20px',
+          overflow: 'hidden',
+          boxShadow: '0 25px 70px rgba(15, 23, 42, 0.22), 0 0 50px rgba(0, 113, 186, 0.15)',
+          border: '1.5px solid rgba(0, 113, 186, 0.35)',
+          backgroundColor: '#090e1a'
+        }}>
+          {/* Top Industrial Control Ribbon */}
           <div style={{
-            position: 'relative',
-            borderRadius: '16px',
-            overflow: 'hidden',
-            boxShadow: '0 20px 50px rgba(15, 23, 42, 0.18)',
-            border: '1px solid #e2e8f0',
-            backgroundColor: '#090e1a'
+            background: 'rgba(6, 14, 27, 0.98)',
+            borderBottom: '1px solid rgba(0, 240, 255, 0.25)',
+            padding: '0.85rem 1.25rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: '0.75rem',
+            color: '#ffffff'
           }}>
-            {/* Split Screen Video / 3D Simulator Preview */}
-            <div style={{ position: 'relative', height: '390px', overflow: 'hidden', backgroundColor: '#020b14' }}>
-              {activeStation.type === 'simulator' ? (
-                <div style={{ width: '100%', height: '100%', position: 'relative' }}>
-                  <iframe
-                    src={activeStation.simulatorUrl}
-                    title="ATPL Smart Factory 3D Twin Simulator"
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      border: 'none',
-                      display: 'block'
-                    }}
-                    allow="fullscreen; accelerometer; gyroscope"
-                  />
-
-                  {/* 3D Interaction Pill Overlay */}
-                  <div style={{
-                    position: 'absolute',
-                    top: '1rem',
-                    right: '1rem',
-                    background: 'rgba(9, 14, 26, 0.88)',
-                    border: '1px solid rgba(56, 189, 248, 0.45)',
-                    backdropFilter: 'blur(8px)',
-                    color: '#38bdf8',
-                    padding: '0.35rem 0.75rem',
-                    borderRadius: '6px',
-                    fontSize: '0.72rem',
-                    fontWeight: 700,
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.4rem',
-                    pointerEvents: 'none',
-                    zIndex: 10
-                  }}>
-                    <RotateCw size={12} />
-                    <span>Interactive 3D Plant</span>
-                  </div>
-
-                  {/* Quick Expand Button to full Demos page */}
-                  <div style={{
-                    position: 'absolute',
-                    bottom: '48px',
-                    right: '1rem',
-                    zIndex: 10
-                  }}>
-                    <button
-                      onClick={() => setCurrentView('demos')}
-                      style={{
-                        background: 'linear-gradient(135deg, #0071ba 0%, #0284c7 100%)',
-                        color: '#ffffff',
-                        border: '1px solid #38bdf8',
-                        borderRadius: '6px',
-                        padding: '0.45rem 0.95rem',
-                        fontSize: '0.76rem',
-                        fontWeight: 800,
-                        cursor: 'pointer',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '0.45rem',
-                        boxShadow: '0 4px 14px rgba(0, 113, 186, 0.45)',
-                        transition: 'transform 0.15s ease'
-                      }}
-                      onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.04)'}
-                      onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-                      title="Launch Guided 3D Plant Tour"
-                    >
-                      <span>Full 3D Plant Tour</span>
-                      <Maximize2 size={13} />
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                <>
-                  <video
-                    key={activeStation.video}
-                    src={activeStation.video}
-                    poster={activeStation.poster}
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                      opacity: 0.92
-                    }}
-                  />
-
-                  {/* Cognex-style Inspection HUD Overlay */}
-                  <div style={{
-                    position: 'absolute',
-                    inset: 0,
-                    pointerEvents: 'none',
-                    background: 'linear-gradient(to bottom, rgba(4, 9, 20, 0.2) 0%, rgba(4, 9, 20, 0.6) 100%)'
-                  }} />
-
-                  {/* Central Yellow Cognex-Style Play Button */}
-                  <div style={{
-                    position: 'absolute',
-                    inset: 0,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}>
-                    <button
-                      onClick={() => setVideoModalOpen(true)}
-                      style={{
-                        width: '68px',
-                        height: '68px',
-                        borderRadius: '50%',
-                        background: '#eab308',
-                        border: 'none',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        cursor: 'pointer',
-                        boxShadow: '0 0 35px rgba(234, 179, 8, 0.7)',
-                        transition: 'transform 0.2s cubic-bezier(0.16, 1, 0.3, 1)'
-                      }}
-                      onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.12)'}
-                      onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-                      title="Watch Full-Screen Demonstration"
-                    >
-                      <Play size={28} color="#040812" fill="#040812" style={{ marginLeft: '4px' }} />
-                    </button>
-                  </div>
-                </>
-              )}
-
-              {/* Station Badge */}
+            {/* Left: Active Station Badge & Status */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <span style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#ff4d6d' }} />
+                <span style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#ffc93c' }} />
+                <span style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#10b981' }} />
+              </div>
+              <span style={{ color: 'rgba(255,255,255,0.2)' }}>|</span>
               <div style={{
-                position: 'absolute',
-                top: '1rem',
-                left: '1rem',
-                background: 'rgba(9, 14, 26, 0.92)',
-                border: activeStation.type === 'simulator' ? '1px solid #38bdf8' : '1px solid rgba(0, 240, 255, 0.4)',
-                backdropFilter: 'blur(8px)',
-                color: activeStation.type === 'simulator' ? '#38bdf8' : '#00f0ff',
-                padding: '0.35rem 0.85rem',
+                background: 'rgba(0, 240, 255, 0.12)',
+                border: '1px solid rgba(0, 240, 255, 0.4)',
                 borderRadius: '999px',
-                fontSize: '0.75rem',
+                padding: '0.25rem 0.75rem',
+                fontSize: '0.74rem',
                 fontWeight: 800,
+                color: '#00f0ff',
                 letterSpacing: '0.04em',
-                zIndex: 10
-              }}>
-                {activeStation.badge}
-              </div>
-
-              {/* Telemetry Bar at Bottom of Video / Simulator */}
-              <div style={{
-                position: 'absolute',
-                bottom: 0,
-                left: 0,
-                right: 0,
-                padding: '0.75rem 1rem',
-                background: 'rgba(9, 14, 26, 0.92)',
-                borderTop: '1px solid rgba(255, 255, 255, 0.1)',
-                display: 'flex',
+                display: 'inline-flex',
                 alignItems: 'center',
-                justifyContent: 'space-between',
-                color: '#ffffff',
-                fontSize: '0.78rem',
-                fontFamily: 'var(--font-mono, monospace)',
-                zIndex: 10
+                gap: '0.4rem'
               }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#10b981' }} />
-                  <span style={{ color: '#00f0ff', fontWeight: 700 }}>{activeStation.name}</span>
-                </div>
-                <div style={{ color: '#94a3b8' }}>{activeStation.telemetry || 'LIVE ATPL TELEMETRY: 6.2ms'}</div>
+                <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#00f0ff', boxShadow: '0 0 8px #00f0ff' }} />
+                <span>{activeStation.badge}</span>
               </div>
+              <span style={{ fontSize: '0.88rem', fontWeight: 800, color: '#f8fafc' }}>
+                {activeStation.name}
+              </span>
             </div>
 
-            {/* Station Switcher Tabs */}
-            <div style={{
-              background: '#f8fafc',
-              borderTop: '1px solid #e2e8f0',
-              padding: '0.75rem 1rem',
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(115px, 1fr))',
-              gap: '0.5rem'
-            }}>
-              {stations.map((st, idx) => (
+            {/* Right: Expand Widescreen Toggle & External Full 3D Map Link */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+              <span style={{ fontSize: '0.76rem', color: '#94a3b8', fontFamily: 'monospace' }}>
+                {activeStation.telemetry}
+              </span>
+
+              <button
+                onClick={() => setIsHeroExpanded(prev => !prev)}
+                style={{
+                  background: isHeroExpanded ? '#0071ba' : 'rgba(255, 255, 255, 0.08)',
+                  border: isHeroExpanded ? '1px solid #00f0ff' : '1px solid rgba(255, 255, 255, 0.2)',
+                  color: '#ffffff',
+                  borderRadius: '6px',
+                  padding: '0.35rem 0.75rem',
+                  fontSize: '0.76rem',
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.35rem',
+                  transition: 'all 0.15s ease'
+                }}
+                title={isHeroExpanded ? 'Standard Widescreen' : 'Expand Fullscreen'}
+              >
+                {isHeroExpanded ? <Minimize2 size={13} /> : <Maximize2 size={13} />}
+                <span>{isHeroExpanded ? 'Exit Big View' : 'Big Size View'}</span>
+              </button>
+
+              <a
+                href="/factory-map.html"
+                target="_blank"
+                rel="noreferrer"
+                style={{
+                  background: 'linear-gradient(135deg, #0071ba 0%, #0284c7 100%)',
+                  border: '1px solid #38bdf8',
+                  color: '#ffffff',
+                  borderRadius: '6px',
+                  padding: '0.35rem 0.85rem',
+                  fontSize: '0.76rem',
+                  fontWeight: 800,
+                  textDecoration: 'none',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.35rem',
+                  boxShadow: '0 2px 10px rgba(0, 113, 186, 0.4)'
+                }}
+                title="Launch Full 3D Plant Simulation in new window"
+              >
+                <span>Full Tour</span>
+                <ExternalLink size={12} />
+              </a>
+            </div>
+          </div>
+
+          {/* MAIN BIG-SIZE VIEWPORT (560px - 660px tall) */}
+          <div style={{
+            position: 'relative',
+            height: isHeroExpanded ? '85vh' : 'clamp(520px, 60vw, 660px)',
+            minHeight: '480px',
+            overflow: 'hidden',
+            backgroundColor: '#020b14',
+            transition: 'height 0.3s ease'
+          }}>
+            {activeStation.type === 'simulator' ? (
+              <div style={{ width: '100%', height: '100%', position: 'relative' }}>
+                <iframe
+                  src={activeStation.simulatorUrl}
+                  title="ATPL Smart Factory 3D Twin Simulator"
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    border: 'none',
+                    display: 'block'
+                  }}
+                  allow="fullscreen; accelerometer; gyroscope"
+                />
+
+                {/* 3D Interaction Pill Overlay */}
+                <div style={{
+                  position: 'absolute',
+                  top: '1rem',
+                  right: '1rem',
+                  background: 'rgba(9, 14, 26, 0.90)',
+                  border: '1px solid rgba(56, 189, 248, 0.5)',
+                  backdropFilter: 'blur(10px)',
+                  color: '#38bdf8',
+                  padding: '0.45rem 0.95rem',
+                  borderRadius: '8px',
+                  fontSize: '0.76rem',
+                  fontWeight: 800,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.45rem',
+                  pointerEvents: 'none',
+                  zIndex: 10,
+                  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.5)'
+                }}>
+                  <RotateCw size={13} />
+                  <span>Interactive 3D WebGL Plant // Drag to Rotate, Zoom &amp; Orbit</span>
+                </div>
+              </div>
+            ) : (
+              <>
+                <video
+                  key={activeStation.video}
+                  src={activeStation.video}
+                  poster={activeStation.poster}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    opacity: 0.94
+                  }}
+                />
+
+                {/* Shading Vignette */}
+                <div style={{
+                  position: 'absolute',
+                  inset: 0,
+                  pointerEvents: 'none',
+                  background: 'linear-gradient(to bottom, rgba(4, 9, 20, 0.2) 0%, rgba(4, 9, 20, 0.6) 100%)'
+                }} />
+
+                {/* Central Yellow Cognex-Style Play Button */}
+                <div style={{
+                  position: 'absolute',
+                  inset: 0,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}>
+                  <button
+                    onClick={() => setVideoModalOpen(true)}
+                    style={{
+                      width: '76px',
+                      height: '76px',
+                      borderRadius: '50%',
+                      background: '#eab308',
+                      border: 'none',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      cursor: 'pointer',
+                      boxShadow: '0 0 40px rgba(234, 179, 8, 0.75)',
+                      transition: 'transform 0.2s cubic-bezier(0.16, 1, 0.3, 1)'
+                    }}
+                    onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.12)'}
+                    onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                    title="Watch Full-Screen Demonstration"
+                  >
+                    <Play size={32} color="#040812" fill="#040812" style={{ marginLeft: '4px' }} />
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
+
+          {/* Station Switcher Tabs Bar */}
+          <div style={{
+            background: '#091322',
+            borderTop: '1px solid rgba(0, 240, 255, 0.25)',
+            padding: '0.85rem 1.25rem',
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+            gap: '0.75rem'
+          }}>
+            {stations.map((st, idx) => {
+              const isSelected = activeStationIndex === idx;
+              return (
                 <button
                   key={st.id}
                   onClick={() => setActiveStationIndex(idx)}
                   style={{
-                    background: activeStationIndex === idx ? '#ffffff' : 'transparent',
-                    border: activeStationIndex === idx ? '1.5px solid #0071ba' : '1px solid #e2e8f0',
-                    borderRadius: '8px',
-                    padding: '0.55rem 0.4rem',
-                    textAlign: 'center',
+                    background: isSelected ? 'rgba(0, 113, 186, 0.28)' : 'rgba(255, 255, 255, 0.04)',
+                    border: isSelected ? '1.5px solid #00f0ff' : '1px solid rgba(255, 255, 255, 0.1)',
+                    borderRadius: '10px',
+                    padding: '0.75rem 1rem',
+                    textAlign: 'left',
                     cursor: 'pointer',
-                    boxShadow: activeStationIndex === idx ? '0 2px 8px rgba(0, 113, 186, 0.15)' : 'none',
+                    boxShadow: isSelected ? '0 0 20px rgba(0, 240, 255, 0.25)' : 'none',
                     transition: 'all 0.15s ease'
                   }}
                 >
-                  <div style={{ fontSize: '0.72rem', fontWeight: 800, color: activeStationIndex === idx ? '#0071ba' : '#64748b' }}>
-                    0{idx + 1}
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.2rem' }}>
+                    <span style={{ fontSize: '0.72rem', fontWeight: 800, color: isSelected ? '#00f0ff' : '#64748b', fontFamily: 'monospace' }}>
+                      STATION 0{idx + 1}
+                    </span>
+                    {isSelected && (
+                      <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#00f0ff', boxShadow: '0 0 8px #00f0ff' }} />
+                    )}
                   </div>
                   <div style={{
-                    fontSize: '0.74rem',
-                    fontWeight: 700,
-                    color: activeStationIndex === idx ? '#0f172a' : '#475569',
+                    fontSize: '0.85rem',
+                    fontWeight: 800,
+                    color: isSelected ? '#ffffff' : '#94a3b8',
                     whiteSpace: 'nowrap',
                     overflow: 'hidden',
                     textOverflow: 'ellipsis'
                   }}>
-                    {st.shortName || st.name.split(' ')[0]}
+                    {st.name}
+                  </div>
+                  <div style={{
+                    fontSize: '0.72rem',
+                    color: isSelected ? '#38bdf8' : '#64748b',
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    marginTop: '0.15rem'
+                  }}>
+                    {st.tagline}
                   </div>
                 </button>
-              ))}
-            </div>
+              );
+            })}
           </div>
+        </div>
 
-          {/* Under-Video Cognex-Style Guiding Philosophy Caption */}
-          <div style={{
-            marginTop: '1.25rem',
-            padding: '0 0.5rem',
-            textAlign: 'left'
+        {/* Under-Video Cognex-Style Guiding Philosophy Caption */}
+        <div style={{
+          maxWidth: '980px',
+          margin: '1.5rem auto 0',
+          padding: '0 0.5rem',
+          textAlign: 'center'
+        }}>
+          <p style={{
+            fontSize: '0.94rem',
+            lineHeight: 1.6,
+            color: '#64748b',
+            margin: 0,
+            fontStyle: 'italic',
+            borderLeft: 'none',
+            paddingLeft: 0
           }}>
-            <p style={{
-              fontSize: '0.88rem',
-              lineHeight: 1.6,
-              color: '#64748b',
-              margin: 0,
-              fontStyle: 'italic',
-              borderLeft: '3px solid #0071ba',
-              paddingLeft: '0.85rem'
-            }}>
-              "Advanced, but not complicated. High-speed, but zero-escape. To be truly transformational on the factory floor, technology must work effortlessly from Day 1."
-            </p>
-          </div>
+            "Advanced, but not complicated. High-speed, but zero-escape. To be truly transformational on the factory floor, technology must work effortlessly from Day 1."
+          </p>
         </div>
       </section>
 
