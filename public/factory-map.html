@@ -16,6 +16,117 @@
       }
     } catch(e) {}
   })();
+
+// =========================================================================
+// INTERACTIVE STATION DESCRIPTION MODAL (TRIGGERED BY GLASS SIGN & BUBBLE BUTTONS)
+// =========================================================================
+let currentModalIndex = 0;
+
+function openStationModal(index) {
+  if (typeof index === 'number') {
+    currentModalIndex = index;
+  } else {
+    currentModalIndex = cur;
+  }
+  const s = S[currentModalIndex];
+  if (!s) return;
+
+  stopTour();
+
+  const modal = $('stationModal');
+  if (!modal) return;
+
+  const catText = $('modalCategoryText');
+  if (catText) catText.textContent = '#' + p2(currentModalIndex) + ' · ' + (s[1] || 'Industrial Automation');
+
+  const titleEl = $('modalStationTitle');
+  if (titleEl) titleEl.textContent = s[0];
+
+  const kpiEl = $('modalKpiBadge');
+  if (kpiEl) {
+    if (s[8] && s[8].metric) {
+      kpiEl.style.display = 'inline-block';
+      kpiEl.textContent = '✓ ' + s[8].metric;
+    } else {
+      kpiEl.style.display = 'none';
+    }
+  }
+
+  const descEl = $('modalDescText');
+  if (descEl) descEl.textContent = s[2] || '';
+
+  const caseBox = $('modalCaseBox');
+  const caseQuote = $('modalCaseQuote');
+  if (caseBox && caseQuote) {
+    if (s[8] && s[8].head) {
+      caseBox.style.display = 'block';
+      caseQuote.textContent = '"' + s[8].head + '"';
+    } else {
+      caseBox.style.display = 'none';
+    }
+  }
+
+  const insightBox = $('modalInsightBox');
+  const insightText = $('modalInsightText');
+  if (insightBox && insightText) {
+    if (s[3]) {
+      insightBox.style.display = 'block';
+      insightText.textContent = s[3];
+    } else {
+      insightBox.style.display = 'none';
+    }
+  }
+
+  const specsBox = $('modalSpecsBox');
+  const specsList = $('modalSpecsList');
+  if (specsBox && specsList) {
+    if (s[4] && s[4].length) {
+      specsBox.style.display = 'block';
+      specsList.innerHTML = s[4].map(spec => '<li>' + spec + '</li>').join('');
+    } else {
+      specsBox.style.display = 'none';
+    }
+  }
+
+  const countEl = $('modalStationCount');
+  if (countEl) countEl.textContent = 'Station ' + (currentModalIndex + 1) + ' of ' + S.length;
+
+  modal.style.display = 'flex';
+}
+window.openStationModal = openStationModal;
+
+function closeStationModal(e) {
+  if (e && e.target && e.target !== $('stationModal') && !e.target.classList.contains('st-modal-close') && !e.target.classList.contains('st-modal-dismiss-btn')) {
+    return;
+  }
+  const modal = $('stationModal');
+  if (modal) modal.style.display = 'none';
+}
+window.closeStationModal = closeStationModal;
+
+function prevModalStation() {
+  currentModalIndex = (currentModalIndex - 1 + S.length) % S.length;
+  sel(currentModalIndex);
+  openStationModal(currentModalIndex);
+}
+window.prevModalStation = prevModalStation;
+
+function nextModalStation() {
+  currentModalIndex = (currentModalIndex + 1) % S.length;
+  sel(currentModalIndex);
+  openStationModal(currentModalIndex);
+}
+window.nextModalStation = nextModalStation;
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    const modal = $('stationModal');
+    if (modal && modal.style.display !== 'none') {
+      modal.style.display = 'none';
+    }
+  }
+});
+
 </script>
 <style>
 /* =====================================================================
@@ -41,32 +152,10 @@ html.is-embedded #ctl #q {
   display: none !important;
 }
 
-html.is-embedded #panel{
-  width: min(420px, 45vw);
-  max-width: calc(100vw - 20px);
-  top: 10px;
-  bottom: 10px;
-  left: 10px;
-  z-index: 100 !important;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.92), 0 0 25px rgba(24, 224, 255, 0.25) !important;
-}
-html.is-embedded #panel.open{
-  transform: translateX(0) !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  pointer-events: auto !important;
-}
-html.is-embedded #openPanelBtn{
-  top: 10px;
-  left: 10px;
-  z-index: 90;
-  font-size: 11px;
-  padding: 5px 12px;
-  border-radius: 6px;
-  background: rgba(6, 16, 29, 0.95);
-  border: 1px solid rgba(24, 224, 255, 0.45);
-  color: #fff;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.6), 0 0 10px rgba(24,224,255,0.25);
+html.is-embedded #panel,
+html.is-embedded #panel-handle,
+html.is-embedded #openPanelBtn {
+  display: none !important;
 }
 html.is-embedded #stage {
   height: 100% !important;
@@ -251,7 +340,7 @@ button{font:inherit;color:inherit;cursor:pointer;border:none;outline:none;-webki
   position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);
   background:rgba(3, 14, 26, 0.96);color:#fff;border-radius:10px;padding:8px 12px;
   font-size:11px;font-weight:700;line-height:1.35;box-shadow:0 10px 30px rgba(0,0,0,0.8), 0 0 15px rgba(24,224,255,0.4);
-  pointer-events:none;border:1.5px solid #18e0ff;letter-spacing:0.2px;z-index:20;
+  pointer-events:auto;cursor:pointer;border:1.5px solid #18e0ff;letter-spacing:0.2px;z-index:20;
   max-width:280px;min-width:200px;white-space:normal;text-align:left;
   direction:ltr !important;unicode-bidi:normal !important;
   backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
@@ -763,6 +852,283 @@ ul.s li:before{content:"✓";position:absolute;left:0;top:2px;width:16px;height:
   #openPanelBtn{bottom: 38px; left: 6px; font-size: 10px; padding: 5px 10px;}
 }
   
+
+/* Floating Glass Hotspot Action Button (Appears when glass sign is selected) */
+.hs-desc-btn {
+  position: absolute;
+  bottom: -32px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(3, 14, 28, 0.95);
+  border: 1.5px solid #18e0ff;
+  border-radius: 999px;
+  color: #18e0ff;
+  font-family: Inter, system-ui, -apple-system, sans-serif;
+  font-size: 10.5px;
+  font-weight: 800;
+  padding: 4px 10px;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.85), 0 0 14px rgba(24, 224, 255, 0.6);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  z-index: 25;
+  pointer-events: auto;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  letter-spacing: 0.3px;
+  animation: pillFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.hs-desc-btn:hover {
+  background: #18e0ff;
+  color: #030e1a;
+  box-shadow: 0 0 22px rgba(24, 224, 255, 0.95);
+  transform: translateX(-50%) scale(1.08);
+}
+@keyframes pillFadeIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(5px); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+/* Archie Speech Bubble Interactive Button */
+.archie-desc-btn {
+  margin-top: 6px;
+  background: linear-gradient(135deg, rgba(24, 224, 255, 0.22) 0%, rgba(0, 113, 186, 0.4) 100%);
+  border: 1px solid #18e0ff;
+  border-radius: 6px;
+  color: #ffffff;
+  font-family: Inter, system-ui, -apple-system, sans-serif;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 5px 9px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6), 0 0 10px rgba(24, 224, 255, 0.3);
+  transition: all 0.15s ease;
+  pointer-events: auto;
+}
+.archie-desc-btn:hover {
+  background: #18e0ff;
+  color: #030e1a;
+  box-shadow: 0 0 18px rgba(24, 224, 255, 0.85);
+}
+
+/* Centered Glassmorphism Station Description Modal */
+.st-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(2, 8, 18, 0.78);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 18px 16px;
+  overflow-y: auto;
+  animation: modalFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes modalFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.st-modal-card {
+  width: 100%;
+  max-width: 480px;
+  max-height: min(440px, 84%);
+  background: linear-gradient(135deg, rgba(6, 18, 36, 0.98) 0%, rgba(2, 10, 20, 0.98) 100%);
+  border: 1.5px solid rgba(24, 224, 255, 0.65);
+  border-radius: 14px;
+  box-shadow: 0 25px 65px rgba(0, 0, 0, 0.95), 0 0 35px rgba(24, 224, 255, 0.35);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  color: #f8fafc;
+  font-family: Inter, system-ui, -apple-system, sans-serif;
+  animation: cardScaleIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes cardScaleIn {
+  from { opacity: 0; transform: scale(0.92) translateY(10px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+.st-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px 8px;
+  border-bottom: 1px solid rgba(24, 224, 255, 0.2);
+}
+.st-modal-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(24, 224, 255, 0.12);
+  border: 1px solid rgba(24, 224, 255, 0.4);
+  border-radius: 999px;
+  padding: 3px 10px;
+  font-size: 10px;
+  font-weight: 800;
+  color: #18e0ff;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.st-modal-pulse {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #18e0ff;
+  box-shadow: 0 0 8px #18e0ff;
+}
+.st-modal-close {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #94a3b8;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+.st-modal-close:hover {
+  background: #ef4444;
+  color: #fff;
+  border-color: #ef4444;
+}
+.st-modal-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px 6px;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.st-modal-title {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 900;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+}
+.st-modal-kpi {
+  background: rgba(16, 185, 129, 0.18);
+  border: 1px solid rgba(16, 185, 129, 0.45);
+  color: #34d399;
+  font-size: 10.5px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-family: monospace;
+}
+.st-modal-body {
+  padding: 8px 16px 12px;
+  overflow-y: auto;
+  max-height: 270px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+.st-modal-section-label {
+  font-size: 9.5px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  color: #94a3b8;
+  margin-bottom: 4px;
+}
+.st-modal-desc-box {
+  background: rgba(24, 224, 255, 0.05);
+  border: 1px solid rgba(24, 224, 255, 0.2);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+.st-modal-desc {
+  margin: 0;
+  color: #e2e8f0;
+}
+.st-modal-case-box {
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+.st-modal-case-box blockquote {
+  margin: 0;
+  font-style: italic;
+  color: #a7f3d0;
+  font-size: 12px;
+}
+.st-modal-insight-box {
+  background: rgba(0, 113, 186, 0.12);
+  border: 1px solid rgba(0, 113, 186, 0.35);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+.st-modal-insight-box p {
+  margin: 0;
+  color: #bae6fd;
+}
+.st-modal-specs-box {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+.st-modal-specs-list {
+  margin: 0;
+  padding-left: 18px;
+  color: #cbd5e1;
+}
+.st-modal-specs-list li {
+  margin-bottom: 3px;
+}
+.st-modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  border-top: 1px solid rgba(24, 224, 255, 0.2);
+  background: rgba(2, 9, 18, 0.9);
+}
+.st-modal-nav-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.st-modal-nav-btn:hover {
+  background: rgba(24, 224, 255, 0.25);
+  border-color: #18e0ff;
+  color: #18e0ff;
+}
+.st-modal-dismiss-btn {
+  background: #18e0ff;
+  border: 1px solid #18e0ff;
+  color: #030e1a;
+  border-radius: 6px;
+  padding: 5px 14px;
+  font-size: 11.5px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.st-modal-dismiss-btn:hover {
+  background: #38bdf8;
+  box-shadow: 0 0 14px rgba(24, 224, 255, 0.7);
+}
+
 </style>
 </head>
 <body>
@@ -834,7 +1200,7 @@ ul.s li:before{content:"✓";position:absolute;left:0;top:2px;width:16px;height:
     
     <!-- Official Archery Robot Mascot (Archie) Moving & Patrolling Factory Floor -->
     <div id="archeryRobotLive" class="archery-live-robot" onclick="openArchieChat()" title="Click to interact with Archie AI (Official Archery Robot)">
-      <div class="archie-bubble" id="archieSpeechBubble" onclick="event.stopPropagation();userClosed=false;stopTour();setPanelOpen(true,true);" title="Click to view full station description">
+      <div class="archie-bubble" id="archieSpeechBubble" onclick="event.stopPropagation();openStationModal(cur);" title="Click to view full station description">
         <span>🤖 Archie AI:</span> "Target Perfection! Factory Tour Guide Active."
       </div>
       <div class="archie-glow-ring"></div>
@@ -1048,6 +1414,56 @@ ul.s li:before{content:"✓";position:absolute;left:0;top:2px;width:16px;height:
       <img src="assets/images/atpl_archery_robot_transparent.webp" srcset="assets/images/atpl_archery_robot_transparent.webp 1x, assets/images/atpl_archery_robot_transparent.webp 2x" sizes="48px" loading="lazy" decoding="async" alt="Archie Robot" style="width:100%;height:100%;object-fit:contain;">
     </div>
   </div>
+
+  <!-- Centered Glassmorphism Station Description Modal -->
+  <div id="stationModal" class="st-modal-backdrop" onclick="closeStationModal(event)" style="display:none;">
+    <div class="st-modal-card" onclick="event.stopPropagation()">
+      <div class="st-modal-header">
+        <div class="st-modal-badge" id="modalCategoryBadge">
+          <span class="st-modal-pulse"></span>
+          <span id="modalCategoryText">01 · GS1 SUPPLY CHAIN TRACEABILITY</span>
+        </div>
+        <button type="button" class="st-modal-close" onclick="closeStationModal()" aria-label="Close" title="Close (Esc)">✕</button>
+      </div>
+
+      <div class="st-modal-title-row">
+        <h2 id="modalStationTitle" class="st-modal-title">Perfect Trace™</h2>
+        <div id="modalKpiBadge" class="st-modal-kpi">✓ -98% Allocation Time</div>
+      </div>
+
+      <div class="st-modal-body">
+        <div class="st-modal-desc-box">
+          <div class="st-modal-section-label">OPERATIONAL ARCHITECTURE</div>
+          <p id="modalDescText" class="st-modal-desc">Assigns verifiable cryptographic identities...</p>
+        </div>
+
+        <div class="st-modal-case-box" id="modalCaseBox">
+          <div class="st-modal-section-label" style="color:#10b981;">★ PITCH DECK CUSTOMER SUCCESS STORY</div>
+          <blockquote id="modalCaseQuote">"Sub-8ms cryptographic DPM laser verification..."</blockquote>
+        </div>
+
+        <div class="st-modal-insight-box" id="modalInsightBox">
+          <div class="st-modal-section-label" style="color:#18e0ff;">🤖 ARCHIE AI INDUSTRIAL INSIGHT</div>
+          <p id="modalInsightText">Direct Part Mark cognitive imagers...</p>
+        </div>
+
+        <div class="st-modal-specs-box" id="modalSpecsBox">
+          <div class="st-modal-section-label">ENTERPRISE SPECIFICATIONS</div>
+          <ul id="modalSpecsList" class="st-modal-specs-list"></ul>
+        </div>
+      </div>
+
+      <div class="st-modal-footer">
+        <div style="display:flex;align-items:center;gap:6px;">
+          <button type="button" class="st-modal-nav-btn" onclick="prevModalStation()" title="Previous Station">◀ Prev</button>
+          <span id="modalStationCount" style="font-size:11px;color:#94a3b8;font-family:monospace;">Station 1 of 12</span>
+          <button type="button" class="st-modal-nav-btn" onclick="nextModalStation()" title="Next Station">Next ▶</button>
+        </div>
+        <button type="button" class="st-modal-dismiss-btn" onclick="closeStationModal()">Done</button>
+      </div>
+    </div>
+  </div>
+
 </main>
 
 <script>
@@ -1137,9 +1553,13 @@ function setPanelOpen(isOpen, isExplicitUserAction = false) {
       panel.style.removeProperty('transform');
     }
     if (openBtn) {
-      openBtn.style.setProperty('display', 'inline-flex', 'important');
-      const stName = S[cur] ? S[cur][0] : 'Station';
-      openBtn.innerHTML = '📋 Station Details [<b>#' + p2(cur) + ' ' + stName + '</b>] ▶';
+      if (document.documentElement.classList.contains('is-embedded')) {
+        openBtn.style.setProperty('display', 'none', 'important');
+      } else {
+        openBtn.style.setProperty('display', 'inline-flex', 'important');
+        const stName = S[cur] ? S[cur][0] : 'Station';
+        openBtn.innerHTML = '📋 Station Details [<b>#' + p2(cur) + ' ' + stName + '</b>] ▶';
+      }
     }
     if (hud) hud.classList.remove('panel-open');
     document.body.classList.add('panel-closed');
@@ -1177,7 +1597,6 @@ S.forEach((s,i)=>{
     userClosed = false;
     stopTour();
     sel(i);
-    setPanelOpen(true, true);
   };
   d.onclick = handleSelect;
   d.onkeydown = (e)=>{
@@ -1199,7 +1618,6 @@ S.forEach((s,i)=>{
     userClosed = false;
     stopTour();
     sel(i);
-    setPanelOpen(true, true);
   };
   $('tabs').appendChild(t);
   s.tab=t;
@@ -1678,7 +2096,11 @@ function sel(i, keepClosedIfHidden = false){
           '<span style="background:rgba(24,224,255,0.2);color:#18e0ff;font-size:9.5px;padding:1px 5px;border-radius:4px;font-weight:800;">#' + p2(i) + '</span>' +
         '</div>' +
         '<div style="font-weight:800;color:#fff;font-size:11.5px;margin-bottom:2px;">' + s[0] + '</div>' +
-        (metric ? '<div style="color:#10b981;font-size:9.5px;font-weight:800;">✓ ' + metric + '</div>' : '');
+        (metric ? '<div style="color:#10b981;font-size:9.5px;font-weight:800;margin-bottom:4px;">✓ ' + metric + '</div>' : '') +
+        '<button type="button" class="archie-desc-btn" onclick="event.stopPropagation();openStationModal(' + i + ')" title="View full station description & specifications">' +
+          '<span>📋 View Description</span>' +
+          '<span style="font-size:9.5px;">▶</span>' +
+        '</button>';
     }
   }
 
@@ -1708,12 +2130,26 @@ function sel(i, keepClosedIfHidden = false){
   // 11. Sync Dropdown and Floating Reopen Button
   const stSelect = $('stationSelect');
   if (stSelect) stSelect.value = String(i);
-  if (openBtn) openBtn.innerHTML = '📋 Station Details [<b>#' + p2(i) + ' ' + s[0] + '</b>] ▶';
+  if (openBtn) {
+    if (document.documentElement.classList.contains('is-embedded')) {
+      openBtn.style.setProperty('display', 'none', 'important');
+    } else {
+      openBtn.innerHTML = '📋 Station Details [<b>#' + p2(i) + ' ' + s[0] + '</b>] ▶';
+    }
+  }
 
   // 12. Sync Active Hotspots and Bottom Tabs
   S.forEach((o, j) => {
-    if (o.el) o.el.classList.toggle('sel', j === i);
-    if (o.tab) o.tab.classList.toggle('on', j === i);
+    const isCur = (j === i);
+    if (o.el) {
+      o.el.classList.toggle('sel', isCur);
+      if (isCur) {
+        o.el.innerHTML = '<button type="button" class="hs-desc-btn" onclick="event.stopPropagation();openStationModal(' + i + ')" title="View Station Description">📋 Description ▶</button>';
+      } else {
+        o.el.innerHTML = '';
+      }
+    }
+    if (o.tab) o.tab.classList.toggle('on', isCur);
   });
   if (s.tab) {
     const tabsEl = $('tabs');
@@ -1924,7 +2360,6 @@ window.addEventListener('message', (event) => {
     userClosed = false;
     stopTour();
     sel(event.data.index, false);
-    setPanelOpen(true, true);
   } else if (event.data.action === 'startTour') {
     startTour();
   } else if (event.data.action === 'stopTour') {
