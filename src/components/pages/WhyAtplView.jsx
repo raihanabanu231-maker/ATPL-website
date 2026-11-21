@@ -37,9 +37,42 @@ export const WhyAtplView = () => {
   const { openDemoModal, setCurrentView, navigateToInsight } = useApp();
   const [videoModalOpen, setVideoModalOpen] = useState(false);
   const [activeStationIndex, setActiveStationIndex] = useState(0);
-  const [isHeroExpanded, setIsHeroExpanded] = useState(false);
+  const [isHeroExpanded, setIsHeroExpanded] = useState(true);
   const [isTourPlaying, setIsTourPlaying] = useState(true);
+  const [isFullscreen, setIsFullscreen] = useState(false);
   const simulatorIframeRef = useRef(null);
+  const consoleContainerRef = useRef(null);
+
+  const toggleFullscreen = useCallback(() => {
+    if (!document.fullscreenElement) {
+      if (consoleContainerRef.current) {
+        const el = consoleContainerRef.current;
+        if (el.requestFullscreen) {
+          el.requestFullscreen();
+        } else if (el.webkitRequestFullscreen) {
+          el.webkitRequestFullscreen();
+        }
+      }
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    const handleFsChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+    document.addEventListener('fullscreenchange', handleFsChange);
+    document.addEventListener('webkitfullscreenchange', handleFsChange);
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFsChange);
+      document.removeEventListener('webkitfullscreenchange', handleFsChange);
+    };
+  }, []);
 
   useEffect(() => {
     const handleMsg = (event) => {
@@ -319,9 +352,10 @@ export const WhyAtplView = () => {
           2. COGNEX-STYLE MACHINE VISION HERO & INSPECTION STATIONS (BIG SIZE VIEW)
          ========================================================================= */}
       <section style={{
-        maxWidth: isHeroExpanded ? '100%' : '1360px',
+        maxWidth: isHeroExpanded ? '100%' : '1440px',
+        width: '100%',
         margin: '0 auto',
-        padding: isHeroExpanded ? '1.5rem 1rem 4rem' : '2rem 1.5rem 4.5rem',
+        padding: isHeroExpanded ? '0.75rem 1rem 3.5rem' : '1.75rem 1.25rem 4rem',
         transition: 'all 0.3s ease'
       }}>
         {/* Executive Headline & Value Proposition Block */}
@@ -465,14 +499,20 @@ export const WhyAtplView = () => {
         </div>
 
         {/* EXPANSIVE BIG-SIZE VIEW: 3D PLANT TWIN & INSPECTION STATIONS CONSOLE */}
-        <div style={{
-          position: 'relative',
-          borderRadius: '20px',
-          overflow: 'hidden',
-          boxShadow: '0 25px 70px rgba(15, 23, 42, 0.22), 0 0 50px rgba(0, 113, 186, 0.15)',
-          border: '1.5px solid rgba(0, 113, 186, 0.35)',
-          backgroundColor: '#090e1a'
-        }}>
+        <div 
+          ref={consoleContainerRef}
+          style={{
+            position: 'relative',
+            borderRadius: isFullscreen ? 0 : '20px',
+            overflow: 'hidden',
+            boxShadow: isFullscreen ? 'none' : '0 25px 70px rgba(15, 23, 42, 0.22), 0 0 50px rgba(0, 113, 186, 0.15)',
+            border: isFullscreen ? 'none' : '1.5px solid rgba(0, 113, 186, 0.35)',
+            backgroundColor: '#090e1a',
+            height: isFullscreen ? '100vh' : 'auto',
+            display: isFullscreen ? 'flex' : 'block',
+            flexDirection: 'column'
+          }}
+        >
           {/* Top Industrial Control Ribbon */}
           <div style={{
             background: 'rgba(6, 14, 27, 0.98)',
@@ -548,9 +588,9 @@ export const WhyAtplView = () => {
               <button
                 onClick={() => setIsHeroExpanded(prev => !prev)}
                 style={{
-                  background: isHeroExpanded ? '#0071ba' : 'rgba(255, 255, 255, 0.08)',
+                  background: isHeroExpanded ? 'rgba(0, 113, 186, 0.35)' : 'rgba(255, 255, 255, 0.08)',
                   border: isHeroExpanded ? '1px solid #00f0ff' : '1px solid rgba(255, 255, 255, 0.2)',
-                  color: '#ffffff',
+                  color: isHeroExpanded ? '#00f0ff' : '#ffffff',
                   borderRadius: '6px',
                   padding: '0.35rem 0.75rem',
                   fontSize: '0.76rem',
@@ -561,10 +601,33 @@ export const WhyAtplView = () => {
                   gap: '0.35rem',
                   transition: 'all 0.15s ease'
                 }}
-                title={isHeroExpanded ? 'Standard Widescreen' : 'Expand Fullscreen'}
+                title={isHeroExpanded ? 'Switch to Standard Boxed View' : 'Switch to Expansive Widescreen'}
               >
                 {isHeroExpanded ? <Minimize2 size={13} /> : <Maximize2 size={13} />}
-                <span>{isHeroExpanded ? 'Exit Big View' : 'Big Size View'}</span>
+                <span>{isHeroExpanded ? 'Standard View' : 'Big Screen View'}</span>
+              </button>
+
+              <button
+                onClick={toggleFullscreen}
+                style={{
+                  background: isFullscreen ? '#0071ba' : 'rgba(0, 240, 255, 0.15)',
+                  border: '1px solid #00f0ff',
+                  color: '#ffffff',
+                  borderRadius: '6px',
+                  padding: '0.35rem 0.85rem',
+                  fontSize: '0.76rem',
+                  fontWeight: 800,
+                  cursor: 'pointer',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.35rem',
+                  boxShadow: '0 0 12px rgba(0, 240, 255, 0.35)',
+                  transition: 'all 0.15s ease'
+                }}
+                title={isFullscreen ? 'Exit Fullscreen Monitor View' : 'Open True Fullscreen Monitor View'}
+              >
+                <Maximize2 size={13} color="#00f0ff" />
+                <span>{isFullscreen ? 'Exit Fullscreen' : '⛶ Fullscreen Monitor'}</span>
               </button>
 
               <a
@@ -593,11 +656,12 @@ export const WhyAtplView = () => {
             </div>
           </div>
 
-          {/* MAIN BIG-SIZE VIEWPORT (560px - 660px tall) */}
+          {/* MAIN BIG-SIZE VIEWPORT */}
           <div style={{
             position: 'relative',
-            height: isHeroExpanded ? '85vh' : 'clamp(520px, 60vw, 660px)',
-            minHeight: '480px',
+            height: isFullscreen ? 'calc(100vh - 120px)' : (isHeroExpanded ? 'clamp(620px, 78vh, 850px)' : 'clamp(520px, 60vw, 660px)'),
+            minHeight: '520px',
+            flex: isFullscreen ? 1 : 'none',
             overflow: 'hidden',
             backgroundColor: '#020b14',
             transition: 'height 0.3s ease'
