@@ -31,10 +31,13 @@ import {
   ExternalLink,
   RotateCw
 } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useSpring } from 'framer-motion';
+import { WhyAtplCardsSection } from './WhyAtplCardsSection';
 
 export const WhyAtplView = () => {
   const { openDemoModal, setCurrentView, navigateToInsight } = useApp();
+  const { scrollYProgress } = useScroll();
+  const progressScaleX = useSpring(scrollYProgress, { stiffness: 400, damping: 30 });
   const [videoModalOpen, setVideoModalOpen] = useState(false);
   const [activeStationIndex, setActiveStationIndex] = useState(0);
   const [isHeroExpanded, setIsHeroExpanded] = useState(true);
@@ -325,6 +328,22 @@ export const WhyAtplView = () => {
       color: '#0f172a',
       fontFamily: 'var(--font-sans, system-ui, -apple-system, sans-serif)'
     }}>
+
+      {/* Top Cyan Gradient Scroll Progress Bar (Page-Level Extra) */}
+      <motion.div
+        style={{
+          scaleX: progressScaleX,
+          transformOrigin: '0%',
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          height: '3px',
+          background: 'linear-gradient(90deg, #22d3ee 0%, #0369a1 60%, #0284c7 100%)',
+          zIndex: 99999,
+          pointerEvents: 'none'
+        }}
+      />
 
       {/* =========================================================================
           1. BREADCRUMBS
@@ -1271,93 +1290,9 @@ export const WhyAtplView = () => {
       </section>
 
       {/* =========================================================================
-          4. KEY VALUE PILLARS (THE 6 PILLARS OF WHY ATPL)
+          4. KEY VALUE PILLARS (THE 6 PILLARS OF WHY ATPL - UPGRADED 3D ANIMATED CARDS)
          ========================================================================= */}
-      <section style={{
-        backgroundColor: '#f8fafc',
-        borderTop: '1px solid #e2e8f0',
-        borderBottom: '1px solid #e2e8f0',
-        padding: '5rem 1.5rem'
-      }}>
-        <div style={{ maxWidth: '1240px', margin: '0 auto' }}>
-          
-          <div style={{ textAlign: 'center', maxWidth: '780px', margin: '0 auto 4rem' }}>
-            <h2 style={{
-              fontSize: 'clamp(1.8rem, 3.2vw, 2.6rem)',
-              fontWeight: 900,
-              color: '#0f172a',
-              margin: '0 0 1rem',
-              letterSpacing: '-0.02em',
-              fontFamily: 'var(--font-display, sans-serif)'
-            }}>
-              Engineering Excellence Built for Indian Industry
-            </h2>
-            <p style={{ fontSize: '1.05rem', color: '#64748b', lineHeight: 1.65, margin: 0 }}>
-              Why leading OEMs and Tier-1 suppliers choose Archery Technocrats as their primary factory automation partner.
-            </p>
-          </div>
-
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
-            gap: '2rem'
-          }}>
-            {pillars.map((pillar, pIdx) => {
-              const IconComp = pillar.icon;
-              return (
-                <div
-                  key={pIdx}
-                  style={{
-                    background: '#ffffff',
-                    border: '1px solid #e2e8f0',
-                    borderRadius: '16px',
-                    padding: '2rem',
-                    boxShadow: '0 4px 14px rgba(15, 23, 42, 0.04)',
-                    transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.borderColor = '#0071ba';
-                    e.currentTarget.style.transform = 'translateY(-3px)';
-                    e.currentTarget.style.boxShadow = '0 12px 28px rgba(0, 113, 186, 0.12)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.borderColor = '#e2e8f0';
-                    e.currentTarget.style.transform = 'translateY(0)';
-                    e.currentTarget.style.boxShadow = '0 4px 14px rgba(15, 23, 42, 0.04)';
-                  }}
-                >
-                  <div style={{
-                    width: '48px',
-                    height: '48px',
-                    borderRadius: '12px',
-                    background: 'rgba(0, 113, 186, 0.08)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    marginBottom: '1.25rem',
-                    color: '#0071ba'
-                  }}>
-                    <IconComp size={24} />
-                  </div>
-
-                  <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0f172a', margin: '0 0 0.4rem', lineHeight: 1.3 }}>
-                    {pillar.title}
-                  </h3>
-
-                  <div style={{ fontSize: '0.84rem', fontWeight: 700, color: '#0071ba', marginBottom: '1rem' }}>
-                    {pillar.subtitle}
-                  </div>
-
-                  <p style={{ fontSize: '0.94rem', color: '#64748b', lineHeight: 1.6, margin: 0 }}>
-                    {pillar.description}
-                  </p>
-                </div>
-              );
-            })}
-          </div>
-
-        </div>
-      </section>
+      <WhyAtplCardsSection />
 
       {/* =========================================================================
           4. HEAD-TO-HEAD COMPARISON MATRIX (COGNEX-STYLE TEARDOWN)
