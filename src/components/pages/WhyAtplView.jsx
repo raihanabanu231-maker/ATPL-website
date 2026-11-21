@@ -33,6 +33,7 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence, useScroll, useSpring } from 'framer-motion';
 import { WhyAtplCardsSection } from './WhyAtplCardsSection';
+import { HowAtplComparesSection } from './HowAtplComparesSection';
 
 export const WhyAtplView = () => {
   const { openDemoModal, setCurrentView, navigateToInsight } = useApp();
@@ -286,38 +287,6 @@ export const WhyAtplView = () => {
     }
   ];
 
-  const comparisonData = [
-    {
-      criterion: 'Deployment Velocity',
-      atpl: { title: '2 to 4 Weeks Turnkey', desc: 'Pre-calibrated hardware modules and plug-and-play ERP connectors.', positive: true },
-      resellers: { title: '6 to 12 Months', desc: 'Disjointed third-party software integration and custom driver writing.', positive: false },
-      megaVendors: { title: '12 to 18 Months', desc: 'Protracted multi-phase rollouts with heavy professional services fees.', positive: false }
-    },
-    {
-      criterion: 'Hardware & Software Responsibility',
-      atpl: { title: 'Single Turnkey Partner', desc: 'ATPL owns the optical design, PLC logic, and software stack from end to end.', positive: true },
-      resellers: { title: 'Vendor Finger-Pointing', desc: 'Hardware vendor blames software vendor when misreads or latency occurs.', positive: false },
-      megaVendors: { title: 'Proprietary Lock-in', desc: 'Rigid ecosystems requiring expensive proprietary certified peripherals.', positive: false }
-    },
-    {
-      criterion: 'Real-Time ERP Sync (SAP / Oracle)',
-      atpl: { title: 'Sub-Second Certified Connectors', desc: 'Direct bi-directional IDocs & REST webhooks with offline failover buffer.', positive: true },
-      resellers: { title: 'Fragile Batch Cron Jobs', desc: 'Periodic CSV dumps causing ghost inventory and shipping discrepancies.', positive: false },
-      megaVendors: { title: 'Complex Middleware Tax', desc: 'Requires expensive enterprise service buses (MuleSoft, SAP PI/PO).', positive: false }
-    },
-    {
-      criterion: 'On-Site Field Support & AMC SLA',
-      atpl: { title: 'Guaranteed 4-Hour On-Site SLA', desc: 'Local engineering squads in Chennai, Hosur, Bangalore & Madurai.', positive: true },
-      resellers: { title: 'Best-Effort Ticketing', desc: '48 to 72 hour email response times with no local hardware swap pool.', positive: false },
-      megaVendors: { title: 'Multi-Tier Offshore Queues', desc: 'Tier-1/2 call centers with days of delay before physical dispatch.', positive: false }
-    },
-    {
-      criterion: 'Defect Escape Guarantee',
-      atpl: { title: '100% Escape Prevention', desc: 'Sub-pixel AI defect detection backed by optical verification SLA.', positive: true },
-      resellers: { title: 'No Guarantee on Reads', desc: 'Resells equipment with standard OEM manufacturer pass-through warranty.', positive: false },
-      megaVendors: { title: 'Software Only SLA', desc: 'No responsibility for ambient lighting, vibration, or optical errors.', positive: false }
-    }
-  ];
 
   const activeStation = stations[activeStationIndex];
 
@@ -1295,119 +1264,9 @@ export const WhyAtplView = () => {
       <WhyAtplCardsSection />
 
       {/* =========================================================================
-          4. HEAD-TO-HEAD COMPARISON MATRIX (COGNEX-STYLE TEARDOWN)
+          4. HEAD-TO-HEAD COMPARISON MATRIX (ANIMATED RACE TIMELINE & CRITERIA EXPLORER)
          ========================================================================= */}
-      <section style={{ padding: '5rem 1.5rem', maxWidth: '1240px', margin: '0 auto' }}>
-        
-        <div style={{ textAlign: 'center', maxWidth: '780px', margin: '0 auto 3.5rem' }}>
-          <div style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '0.45rem',
-            background: 'rgba(16, 185, 129, 0.1)',
-            border: '1px solid rgba(16, 185, 129, 0.3)',
-            borderRadius: '999px',
-            padding: '0.3rem 0.85rem',
-            marginBottom: '1rem',
-            fontSize: '0.78rem',
-            fontWeight: 800,
-            color: '#059669',
-            textTransform: 'uppercase'
-          }}>
-            <ShieldCheck size={14} />
-            <span>Honest Evaluation</span>
-          </div>
-
-          <h2 style={{
-            fontSize: 'clamp(1.8rem, 3.2vw, 2.6rem)',
-            fontWeight: 900,
-            color: '#0f172a',
-            margin: '0 0 1rem',
-            letterSpacing: '-0.02em',
-            fontFamily: 'var(--font-display, sans-serif)'
-          }}>
-            How ATPL Compares
-          </h2>
-          <p style={{ fontSize: '1.05rem', color: '#64748b', lineHeight: 1.6, margin: 0 }}>
-            Compare ATPL’s turnkey engineering against traditional hardware resellers and rigid enterprise software monoliths.
-          </p>
-        </div>
-
-        <div style={{
-          overflowX: 'auto',
-          border: '1px solid #e2e8f0',
-          borderRadius: '16px',
-          boxShadow: '0 8px 30px rgba(15, 23, 42, 0.06)'
-        }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', minWidth: '700px' }}>
-            <thead>
-              <tr style={{ background: '#f8fafc', borderBottom: '2px solid #e2e8f0' }}>
-                <th style={{ padding: '1.25rem 1.5rem', width: '25%', color: '#64748b', fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-                  CRITERIA
-                </th>
-                <th style={{ padding: '1.25rem 1.5rem', width: '30%', background: 'rgba(0, 113, 186, 0.06)', borderLeft: '2px solid #0071ba', borderRight: '2px solid #0071ba' }}>
-                  <div style={{ color: '#0071ba', fontWeight: 800, fontSize: '1.05rem' }}>ATPL Turnkey Engineering</div>
-                  <div style={{ fontSize: '0.75rem', color: '#64748b' }}>Hardware + In-House Software</div>
-                </th>
-                <th style={{ padding: '1.25rem 1.5rem', width: '22%', color: '#475569', fontSize: '0.92rem' }}>
-                  <div style={{ fontWeight: 700 }}>Traditional Resellers</div>
-                  <div style={{ fontSize: '0.74rem', color: '#94a3b8' }}>Hardware Box-Pushers</div>
-                </th>
-                <th style={{ padding: '1.25rem 1.5rem', width: '23%', color: '#475569', fontSize: '0.92rem' }}>
-                  <div style={{ fontWeight: 700 }}>Mega Software Vendors</div>
-                  <div style={{ fontSize: '0.74rem', color: '#94a3b8' }}>Rigid COTS Monoliths</div>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {comparisonData.map((row, rIdx) => (
-                <tr key={rIdx} style={{ borderBottom: '1px solid #f1f5f9' }}>
-                  
-                  {/* Criterion Title */}
-                  <td style={{ padding: '1.25rem 1.5rem', fontWeight: 800, color: '#0f172a', fontSize: '0.94rem' }}>
-                    {row.criterion}
-                  </td>
-
-                  {/* ATPL Column (Highlighted) */}
-                  <td style={{ padding: '1.25rem 1.5rem', background: 'rgba(0, 113, 186, 0.03)', borderLeft: '2px solid #0071ba', borderRight: '2px solid #0071ba' }}>
-                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem' }}>
-                      <CheckCircle2 size={18} color="#0071ba" style={{ flexShrink: 0, marginTop: '2px' }} />
-                      <div>
-                        <div style={{ fontWeight: 800, color: '#0071ba', fontSize: '0.95rem' }}>{row.atpl.title}</div>
-                        <div style={{ fontSize: '0.82rem', color: '#64748b', marginTop: '0.2rem', lineHeight: 1.4 }}>{row.atpl.desc}</div>
-                      </div>
-                    </div>
-                  </td>
-
-                  {/* Traditional Resellers */}
-                  <td style={{ padding: '1.25rem 1.5rem' }}>
-                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem' }}>
-                      <X size={16} color="#ef4444" style={{ flexShrink: 0, marginTop: '3px' }} />
-                      <div>
-                        <div style={{ fontWeight: 700, color: '#475569', fontSize: '0.88rem' }}>{row.resellers.title}</div>
-                        <div style={{ fontSize: '0.78rem', color: '#94a3b8', marginTop: '0.15rem', lineHeight: 1.4 }}>{row.resellers.desc}</div>
-                      </div>
-                    </div>
-                  </td>
-
-                  {/* Mega Vendors */}
-                  <td style={{ padding: '1.25rem 1.5rem' }}>
-                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem' }}>
-                      <X size={16} color="#ef4444" style={{ flexShrink: 0, marginTop: '3px' }} />
-                      <div>
-                        <div style={{ fontWeight: 700, color: '#475569', fontSize: '0.88rem' }}>{row.megaVendors.title}</div>
-                        <div style={{ fontSize: '0.78rem', color: '#94a3b8', marginTop: '0.15rem', lineHeight: 1.4 }}>{row.megaVendors.desc}</div>
-                      </div>
-                    </div>
-                  </td>
-
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-
-      </section>
+      <HowAtplComparesSection />
 
       {/* =========================================================================
           5. METRICS COUNTER BAR & ENTERPRISE ROSTER
