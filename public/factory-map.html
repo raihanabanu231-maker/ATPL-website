@@ -34,14 +34,39 @@ html.is-embedded #nav,
 html.is-embedded #mobNavDrawer,
 html.is-embedded #tabs,
 html.is-embedded #hud,
-html.is-embedded #openPanelBtn,
-html.is-embedded #panel,
-html.is-embedded #panel-handle,
 html.is-embedded #archieTourProjectOverlay,
 html.is-embedded #ctl .b.red,
 html.is-embedded #ctl #ab,
 html.is-embedded #ctl #q {
   display: none !important;
+}
+
+html.is-embedded #panel{
+  width: min(420px, 45vw);
+  max-width: calc(100vw - 20px);
+  top: 10px;
+  bottom: 10px;
+  left: 10px;
+  z-index: 100 !important;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.92), 0 0 25px rgba(24, 224, 255, 0.25) !important;
+}
+html.is-embedded #panel.open{
+  transform: translateX(0) !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+html.is-embedded #openPanelBtn{
+  top: 10px;
+  left: 10px;
+  z-index: 90;
+  font-size: 11px;
+  padding: 5px 12px;
+  border-radius: 6px;
+  background: rgba(6, 16, 29, 0.95);
+  border: 1px solid rgba(24, 224, 255, 0.45);
+  color: #fff;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.6), 0 0 10px rgba(24,224,255,0.25);
 }
 html.is-embedded #stage {
   height: 100% !important;
@@ -809,7 +834,7 @@ ul.s li:before{content:"✓";position:absolute;left:0;top:2px;width:16px;height:
     
     <!-- Official Archery Robot Mascot (Archie) Moving & Patrolling Factory Floor -->
     <div id="archeryRobotLive" class="archery-live-robot" onclick="openArchieChat()" title="Click to interact with Archie AI (Official Archery Robot)">
-      <div class="archie-bubble" id="archieSpeechBubble">
+      <div class="archie-bubble" id="archieSpeechBubble" onclick="event.stopPropagation();userClosed=false;stopTour();setPanelOpen(true,true);" title="Click to view full station description">
         <span>🤖 Archie AI:</span> "Target Perfection! Factory Tour Guide Active."
       </div>
       <div class="archie-glow-ring"></div>
@@ -880,7 +905,7 @@ ul.s li:before{content:"✓";position:absolute;left:0;top:2px;width:16px;height:
   <button id="openPanelBtn" type="button" onclick="userClosed=false;setPanelOpen(true,true)" aria-label="Reopen station details" title="Open Details (📋)">📋 Details [<b>#01 Perfect Trace</b>] ▶</button>
 
   <!-- Executive Inspector Panel (Opens only when user clicks a project) -->
-  <aside id="panel" class="" style="display: none;">
+  <aside id="panel" class="">
     <div id="panel-handle" onclick="togglePanel(event)" title="Tap to toggle sheet"></div>
     <div class="panel-hdr">
       <div class="panel-top-actions">
@@ -1112,13 +1137,9 @@ function setPanelOpen(isOpen, isExplicitUserAction = false) {
       panel.style.removeProperty('transform');
     }
     if (openBtn) {
-      if (document.documentElement.classList.contains('is-embedded')) {
-        openBtn.style.setProperty('display', 'none', 'important');
-      } else {
-        openBtn.style.setProperty('display', 'inline-flex', 'important');
-        const stName = S[cur] ? S[cur][0] : 'Station';
-        openBtn.innerHTML = '📋 Station Details [<b>#' + p2(cur) + ' ' + stName + '</b>] ▶';
-      }
+      openBtn.style.setProperty('display', 'inline-flex', 'important');
+      const stName = S[cur] ? S[cur][0] : 'Station';
+      openBtn.innerHTML = '📋 Station Details [<b>#' + p2(cur) + ' ' + stName + '</b>] ▶';
     }
     if (hud) hud.classList.remove('panel-open');
     document.body.classList.add('panel-closed');
@@ -1134,6 +1155,12 @@ function setPanelOpen(isOpen, isExplicitUserAction = false) {
 }
 
 // Build Hotspots and Tabs - Hotspots directly overlay the 3D glassy text signs in the background image
+// Populate station select dropdown dynamically from S array
+const stSelect = $('stationSelect');
+if (stSelect) {
+  stSelect.innerHTML = S.map((s, idx) => '<option value="' + idx + '">' + p2(idx) + ' · ' + s[0] + '</option>').join('');
+}
+
 S.forEach((s,i)=>{
   const d=document.createElement('div');
   d.className='hs';
@@ -1145,17 +1172,12 @@ S.forEach((s,i)=>{
   // Hotspot is a direct clickable cyber-glass region over the 3D painted glassy sign. No duplicate rectangular button!
   d.innerHTML='';
   
-  let autoResumeTimer = null;
   const handleSelect = (e)=>{
     if(e && e.stopPropagation) e.stopPropagation();
     userClosed = false;
     stopTour();
     sel(i);
     setPanelOpen(true, true);
-    if (autoResumeTimer) clearTimeout(autoResumeTimer);
-    autoResumeTimer = setTimeout(() => {
-      startTour();
-    }, 9000);
   };
   d.onclick = handleSelect;
   d.onkeydown = (e)=>{
@@ -1900,7 +1922,9 @@ window.addEventListener('message', (event) => {
   if (!event.data) return;
   if (event.data.action === 'selectStation') {
     userClosed = false;
+    stopTour();
     sel(event.data.index, false);
+    setPanelOpen(true, true);
   } else if (event.data.action === 'startTour') {
     startTour();
   } else if (event.data.action === 'stopTour') {
