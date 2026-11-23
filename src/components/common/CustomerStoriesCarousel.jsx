@@ -677,10 +677,24 @@ export const CustomerStoriesCarousel = () => {
           @media (prefers-reduced-motion: reduce) {
             .deck-card,
             .deck-card-body,
-            .deck-card-header {
+            .deck-card-header,
+            .customer-laser-beam {
               transition: none !important;
               animation: none !important;
             }
+          }
+
+          @keyframes customerLaserScan {
+            0%, 100% {
+              top: 2%;
+            }
+            50% {
+              top: 96%;
+            }
+          }
+
+          .customer-laser-beam {
+            animation: customerLaserScan 3.8s ease-in-out infinite;
           }
         `}</style>
 
@@ -1035,16 +1049,9 @@ export const CustomerStoriesCarousel = () => {
                           pointerEvents: 'none'
                         }} />
 
-                        {/* ANIMATED LASER SCANNING BEAM */}
-                        <motion.div
-                          animate={{
-                            top: ['0%', '98%', '0%']
-                          }}
-                          transition={{
-                            duration: 3.8,
-                            repeat: Infinity,
-                            ease: 'easeInOut'
-                          }}
+                        {/* ANIMATED LASER SCANNING BEAM (Pure GPU CSS) */}
+                        <div
+                          className="customer-laser-beam"
                           style={{
                             position: 'absolute',
                             left: 0,

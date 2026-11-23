@@ -1105,6 +1105,7 @@ export const Cinematic3DCardDeck = ({ activeCategory = 'all', onCategoryChange }
 
     let width = (canvas.width = canvas.offsetWidth);
     let height = (canvas.height = canvas.offsetHeight);
+    let isVisible = true;
 
     const handleResize = () => {
       if (!canvas) return;
@@ -1113,28 +1114,46 @@ export const Cinematic3DCardDeck = ({ activeCategory = 'all', onCategoryChange }
     };
     window.addEventListener('resize', handleResize);
 
+    // Pause particle loop when deck is offscreen
+    let observer = null;
+    if (typeof IntersectionObserver !== 'undefined') {
+      observer = new IntersectionObserver(([entry]) => {
+        isVisible = entry.isIntersecting;
+        if (isVisible && !animFrameRef.current) {
+          animFrameRef.current = requestAnimationFrame(render);
+        }
+      }, { rootMargin: '100px 0px' });
+      observer.observe(canvas);
+    }
+
     // Generate ambient celestial starlight nodes
-    const ambientStars = Array.from({ length: 65 }, () => ({
+    const ambientStars = Array.from({ length: 45 }, () => ({
       x: Math.random() * width,
       y: Math.random() * height,
-      size: 0.8 + Math.random() * 2,
-      baseAlpha: 0.2 + Math.random() * 0.5,
-      twinkleSpeed: 0.02 + Math.random() * 0.04,
+      size: 0.8 + Math.random() * 1.8,
+      baseAlpha: 0.2 + Math.random() * 0.4,
+      twinkleSpeed: 0.02 + Math.random() * 0.03,
       twinklePhase: Math.random() * Math.PI * 2
     }));
 
     const render = () => {
+      if (!isVisible) {
+        animFrameRef.current = null;
+        return;
+      }
+
       ctx.clearRect(0, 0, width, height);
 
       // 1. Draw ambient celestial stars
-      ambientStars.forEach(star => {
+      for (let i = 0; i < ambientStars.length; i++) {
+        const star = ambientStars[i];
         star.twinklePhase += star.twinkleSpeed;
         const currentAlpha = star.baseAlpha + Math.sin(star.twinklePhase) * 0.25;
         ctx.fillStyle = `rgba(255, 255, 255, ${Math.max(0.05, Math.min(1, currentAlpha))})`;
         ctx.beginPath();
         ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
         ctx.fill();
-      });
+      }
 
       // 2. Draw active burst sparks
       for (let i = particlesRef.current.length - 1; i >= 0; i--) {
@@ -1150,27 +1169,25 @@ export const Cinematic3DCardDeck = ({ activeCategory = 'all', onCategoryChange }
           continue;
         }
 
-        ctx.save();
         ctx.globalAlpha = p.alpha;
         ctx.fillStyle = p.color;
-        ctx.shadowBlur = 8;
-        ctx.shadowColor = p.color;
-
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
         ctx.fill();
-        ctx.restore();
       }
+      ctx.globalAlpha = 1;
 
       animFrameRef.current = requestAnimationFrame(render);
     };
 
-    render();
+    animFrameRef.current = requestAnimationFrame(render);
 
     return () => {
       window.removeEventListener('resize', handleResize);
+      if (observer) observer.disconnect();
       if (animFrameRef.current) {
         cancelAnimationFrame(animFrameRef.current);
+        animFrameRef.current = null;
       }
     };
   }, []);

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, memo } from 'react';
 import { motion } from 'framer-motion';
 import { useApp } from '../../context/AppContext';
 import { 
@@ -13,210 +13,255 @@ import {
   RotateCcw
 } from 'lucide-react';
 
+// Tactile sound effect for interactive controls & pill drag/hover
+const playChime = (freq = 587.33) => {
+  try {
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    if (!AudioCtx) return;
+    const ctx = new AudioCtx();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(freq, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(freq * 1.5, ctx.currentTime + 0.12);
+    gain.gain.setValueAtTime(0.05, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.28);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start();
+    osc.stop(ctx.currentTime + 0.28);
+  } catch {
+    // AudioContext muted/unsupported
+  }
+};
+
+// =========================================================================
+// The ATPL Way - Precision Luminous Badges (Floating Zero-Gravity)
+// =========================================================================
+const atplPills = [
+  { id: 'p0', label: 'Live Real-Time Sync', bg: '#ffffff', color: '#040914', border: '1px solid rgba(255, 255, 255, 0.9)', top: '11%', left: '50%', rot: 0, floatY: [-4, 4], floatX: [-2, 2], dur: 3.4, delay: 0.05 },
+  { id: 'p1', label: 'Native SAP & Oracle', bg: 'rgba(0, 113, 186, 0.95)', color: '#ffffff', border: '1px solid rgba(0, 240, 255, 0.5)', top: '21%', left: '34%', rot: -3, floatY: [-5, 5], floatX: [-3, 3], dur: 3.8, delay: 0.15 },
+  { id: 'p2', label: '<4-Hr Emergency SLA', bg: 'rgba(2, 132, 199, 0.95)', color: '#ffffff', border: '1px solid rgba(56, 189, 248, 0.5)', top: '31%', left: '66%', rot: 4, floatY: [-6, 5], floatX: [3, -2], dur: 4.2, delay: 0.3 },
+  { id: 'p3', label: '100% In-House WMS', bg: 'rgba(15, 23, 42, 0.95)', color: '#38bdf8', border: '1px solid rgba(56, 189, 248, 0.35)', top: '41%', left: '35%', rot: -2, floatY: [-7, 4], floatX: [2, -3], dur: 4.5, delay: 0.25 },
+  { id: 'p4', label: 'Zero Scanner Tax', bg: '#ffffff', color: '#040914', border: '1px solid rgba(255, 255, 255, 0.9)', top: '51%', left: '68%', rot: 3, floatY: [-4, 6], floatX: [-2, 3], dur: 3.5, delay: 0.45 },
+  { id: 'p5', label: 'Resident Engineers', bg: 'rgba(0, 113, 186, 0.95)', color: '#ffffff', border: '1px solid rgba(0, 240, 255, 0.5)', top: '61%', left: '33%', rot: -3, floatY: [-4, 5], floatX: [-3, 2], dur: 3.6, delay: 0.4 },
+  { id: 'p6', label: 'IP67 Harsh Grade', bg: 'rgba(15, 23, 42, 0.95)', color: '#38bdf8', border: '1px solid rgba(56, 189, 248, 0.35)', top: '71%', left: '67%', rot: 4, floatY: [-5, 5], floatX: [-2, 3], dur: 3.9, delay: 0.35 },
+  { id: 'p7', label: 'Lab Golden-Staged', bg: '#ffffff', color: '#040914', border: '1px solid rgba(255, 255, 255, 0.9)', top: '81%', left: '36%', rot: -2, floatY: [-5, 5], floatX: [2, -2], dur: 4.0, delay: 0.5 },
+  { id: 'p8', label: 'Zero Line Standstills', bg: 'rgba(2, 132, 199, 0.95)', color: '#ffffff', border: '1px solid rgba(56, 189, 248, 0.5)', top: '91%', left: '52%', rot: 2, floatY: [-6, 4], floatX: [2, -3], dur: 4.3, delay: 0.2 }
+];
+
+// =========================================================================
+// Without ATPL - Problem Box Waterfall (Alert Warning Palette)
+// =========================================================================
+const rainingPills = [
+  { id: 'r0', label: 'Delayed Reports', bg: 'rgba(30, 41, 59, 0.85)', color: '#e2e8f0', border: '1px solid rgba(255, 255, 255, 0.12)', left: '22%', rot: -7, dur: 3.4, delay: 0.0, depth: 1 },
+  { id: 'r1', label: 'Random Firmware', bg: 'rgba(30, 41, 59, 0.75)', color: '#94a3b8', border: '1px solid rgba(255, 255, 255, 0.08)', left: '56%', rot: 8, dur: 4.1, delay: 0.25, depth: 0 },
+  { id: 'r2', label: 'Unorganized IT', bg: 'rgba(30, 41, 59, 0.85)', color: '#e2e8f0', border: '1px solid rgba(255, 255, 255, 0.12)', left: '38%', rot: -6, dur: 3.5, delay: 0.5, depth: 1 },
+  { id: 'r3', label: 'Overwhelming Bugs', bg: 'rgba(239, 68, 68, 0.22)', color: '#fca5a5', border: '1px solid rgba(239, 68, 68, 0.45)', left: '76%', rot: 5, dur: 4.2, delay: 0.75, depth: 0 },
+  { id: 'r4', label: 'Vendor Spam', bg: 'rgba(30, 41, 59, 0.85)', color: '#e2e8f0', border: '1px solid rgba(255, 255, 255, 0.12)', left: '18%', rot: -9, dur: 3.6, delay: 1.0, depth: 1 },
+  { id: 'r5', label: '3 to 7 Days Delay', bg: 'rgba(239, 68, 68, 0.25)', color: '#fca5a5', border: '1px solid rgba(239, 68, 68, 0.5)', left: '68%', rot: 7, dur: 3.9, delay: 1.25, depth: 1 },
+  { id: 'r6', label: 'Broken CSV Drops', bg: 'rgba(30, 41, 59, 0.75)', color: '#94a3b8', border: '1px solid rgba(255, 255, 255, 0.08)', left: '44%', rot: -11, dur: 4.4, delay: 1.5, depth: 0 },
+  { id: 'r7', label: 'Costly Lock-In', bg: 'rgba(30, 41, 59, 0.85)', color: '#e2e8f0', border: '1px solid rgba(255, 255, 255, 0.12)', left: '82%', rot: -4, dur: 3.7, delay: 1.75, depth: 1 },
+  { id: 'r8', label: 'Hardware Burnout', bg: 'rgba(239, 68, 68, 0.25)', color: '#fca5a5', border: '1px solid rgba(239, 68, 68, 0.5)', left: '26%', rot: 6, dur: 4.0, delay: 2.0, depth: 0 },
+  { id: 'r9', label: 'Line Standstills', bg: 'rgba(239, 68, 68, 0.25)', color: '#fca5a5', border: '1px solid rgba(239, 68, 68, 0.5)', left: '62%', rot: 4, dur: 3.5, delay: 2.25, depth: 1 },
+  { id: 'r10', label: 'Drop-Ship Boxes', bg: 'rgba(30, 41, 59, 0.75)', color: '#94a3b8', border: '1px solid rgba(255, 255, 255, 0.08)', left: '32%', rot: -8, dur: 4.3, delay: 2.5, depth: 0 },
+  { id: 'r11', label: 'Zero SLA Support', bg: 'rgba(239, 68, 68, 0.25)', color: '#fca5a5', border: '1px solid rgba(239, 68, 68, 0.5)', left: '74%', rot: 6, dur: 3.8, delay: 2.75, depth: 1 },
+  { id: 'r12', label: 'Manual Scans', bg: 'rgba(30, 41, 59, 0.85)', color: '#e2e8f0', border: '1px solid rgba(255, 255, 255, 0.12)', left: '20%', rot: -5, dur: 4.1, delay: 3.0, depth: 1 },
+  { id: 'r13', label: 'Uncertified Cables', bg: 'rgba(30, 41, 59, 0.75)', color: '#94a3b8', border: '1px solid rgba(255, 255, 255, 0.08)', left: '50%', rot: 10, dur: 3.6, delay: 3.25, depth: 0 },
+  { id: 'r14', label: 'Inventory Drift', bg: 'rgba(239, 68, 68, 0.25)', color: '#fca5a5', border: '1px solid rgba(239, 68, 68, 0.5)', left: '80%', rot: -6, dur: 4.2, delay: 3.5, depth: 1 },
+  { id: 'r15', label: 'Disjointed Middleware', bg: 'rgba(30, 41, 59, 0.75)', color: '#94a3b8', border: '1px solid rgba(255, 255, 255, 0.08)', left: '35%', rot: 5, dur: 3.7, delay: 3.75, depth: 0 }
+];
+
+// =========================================================================
+// ISOLATED TIMELINE CONTROLS (Cyber-Glass Aesthetic)
+// =========================================================================
+const SimulationTimelineControl = memo(({ isPlaying, setIsPlaying, isMuted, setIsMuted, isInView }) => {
+  const [progress, setProgress] = useState(18);
+
+  useEffect(() => {
+    if (!isPlaying || !isInView) return;
+    const interval = setInterval(() => {
+      setProgress(prev => (prev >= 100 ? 0 : Number((prev + 0.4).toFixed(1))));
+    }, 80);
+    return () => clearInterval(interval);
+  }, [isPlaying, isInView]);
+
+  return (
+    <div
+      style={{
+        marginTop: '0.85rem',
+        marginBottom: '1.25rem',
+        padding: '0.55rem 0.95rem',
+        backgroundColor: 'rgba(5, 14, 32, 0.88)',
+        backdropFilter: 'blur(10px)',
+        borderRadius: '999px',
+        border: '1.5px solid rgba(0, 240, 255, 0.25)',
+        boxShadow: '0 8px 24px rgba(0, 0, 0, 0.45)',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '0.75rem'
+      }}
+    >
+      {/* Play / Pause Toggle Button */}
+      <button
+        type="button"
+        onClick={() => {
+          setIsPlaying(!isPlaying);
+          if (!isMuted) playChime(isPlaying ? 440 : 659.25);
+        }}
+        style={{
+          width: '32px',
+          height: '32px',
+          borderRadius: '50%',
+          backgroundColor: isPlaying ? '#0071ba' : 'rgba(255, 255, 255, 0.1)',
+          color: '#ffffff',
+          border: '1px solid rgba(0, 240, 255, 0.35)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          cursor: 'pointer',
+          boxShadow: isPlaying ? '0 0 12px rgba(0, 113, 186, 0.6)' : 'none',
+          transition: 'all 0.15s ease',
+          flexShrink: 0
+        }}
+        title={isPlaying ? 'Pause simulation animation' : 'Resume simulation animation'}
+      >
+        {isPlaying ? <Pause size={13} /> : <Play size={13} style={{ marginLeft: '1px' }} />}
+      </button>
+
+      {/* Sound Chime Toggle Button */}
+      <button
+        type="button"
+        onClick={() => {
+          setIsMuted(!isMuted);
+          if (isMuted) playChime(659.25);
+        }}
+        style={{
+          width: '28px',
+          height: '28px',
+          borderRadius: '50%',
+          backgroundColor: isMuted ? 'rgba(255, 255, 255, 0.06)' : 'rgba(0, 240, 255, 0.15)',
+          color: isMuted ? '#64748b' : '#00f0ff',
+          border: '1px solid rgba(0, 240, 255, 0.25)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          cursor: 'pointer',
+          transition: 'all 0.15s ease',
+          flexShrink: 0
+        }}
+        title={isMuted ? 'Turn Sound ON' : 'Turn Sound OFF'}
+      >
+        {isMuted ? <VolumeX size={12} /> : <Volume2 size={12} />}
+      </button>
+
+      {/* Interactive Scrubber Track Bar */}
+      <div 
+        onClick={(e) => {
+          const rect = e.currentTarget.getBoundingClientRect();
+          const clickX = e.clientX - rect.left;
+          const newProgress = Math.max(0, Math.min(100, (clickX / rect.width) * 100));
+          setProgress(Number(newProgress.toFixed(1)));
+          if (!isMuted) playChime(523.25 + (newProgress * 3));
+        }}
+        style={{
+          flex: 1,
+          height: '8px',
+          backgroundColor: 'rgba(255, 255, 255, 0.08)',
+          borderRadius: '999px',
+          overflow: 'hidden',
+          position: 'relative',
+          cursor: 'pointer',
+          border: '1px solid rgba(255, 255, 255, 0.08)'
+        }}
+        title="Click or scrub along the simulation timeline"
+      >
+        <div 
+          style={{
+            height: '100%',
+            width: `${progress}%`,
+            background: 'linear-gradient(90deg, #0071ba 0%, #00f0ff 60%, #E85874 100%)',
+            boxShadow: '0 0 10px rgba(0, 240, 255, 0.6)',
+            borderRadius: '999px',
+            transition: isPlaying ? 'width 0.1s linear' : 'none'
+          }}
+        />
+      </div>
+
+      {/* Live Timecode & Rewind */}
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '0.45rem',
+          fontSize: '0.72rem',
+          fontFamily: 'monospace',
+          fontWeight: 700,
+          color: '#94a3b8',
+          flexShrink: 0
+        }}
+      >
+        <span>{`00:${String(Math.floor((progress / 100) * 20)).padStart(2, '0')}`} / 00:20</span>
+        <button
+          type="button"
+          onClick={() => {
+            setProgress(0);
+            if (!isMuted) playChime(523.25);
+          }}
+          style={{
+            background: 'none',
+            border: 'none',
+            color: '#94a3b8',
+            cursor: 'pointer',
+            padding: '2px',
+            display: 'flex',
+            alignItems: 'center'
+          }}
+          title="Rewind to 00:00"
+        >
+          <RotateCcw size={11} />
+        </button>
+      </div>
+    </div>
+  );
+});
+
 export const Archie3DRobotSection = () => {
   const { openDemoModal } = useApp();
   const [hoveredPill, setHoveredPill] = useState(null);
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(false);
-  const [progress, setProgress] = useState(18); // 0 to 100% video scrubber progress
+  const [isInView, setIsInView] = useState(true);
+  const sectionRef = useRef(null);
 
-  // Video Scrubber Timeline Animation Loop
+  // Pause animations when section is scrolled out of viewport
   useEffect(() => {
-    if (!isPlaying) return;
-    const interval = setInterval(() => {
-      setProgress(prev => (prev >= 100 ? 0 : Number((prev + 0.4).toFixed(1))));
-    }, 80);
-    return () => clearInterval(interval);
-  }, [isPlaying]);
+    const el = sectionRef.current;
+    if (!el || typeof IntersectionObserver === 'undefined') return;
 
-  // Tactile sound effect for interactive controls & pill drag/hover
-  const playChime = (freq = 587.33) => {
-    try {
-      const AudioCtx = window.AudioContext || window.webkitAudioContext;
-      if (!AudioCtx) return;
-      const ctx = new AudioCtx();
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(freq, ctx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(freq * 1.5, ctx.currentTime + 0.12);
-      gain.gain.setValueAtTime(0.05, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.28);
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.start();
-      osc.stop(ctx.currentTime + 0.28);
-    } catch {
-      // AudioContext muted/unsupported
-    }
-  };
-
-  // =========================================================================
-  // The ATPL Way - Vertically Staggered Interlocking Stack (Floating Zero-Gravity)
-  // =========================================================================
-  const atplPills = [
-    {
-      id: 'p0',
-      label: 'Live Real-Time Sync',
-      bg: '#ffffff',
-      color: '#0f172a',
-      border: '1px solid rgba(0, 0, 0, 0.08)',
-      top: '11%',
-      left: '50%',
-      rot: 0,
-      floatY: [-4, 4, -4],
-      floatX: [-2, 2, -2],
-      dur: 3.4,
-      delay: 0.05
-    },
-    {
-      id: 'p1',
-      label: 'Native SAP & Oracle',
-      bg: '#0f172a',
-      color: '#ffffff',
-      border: '1px solid rgba(0, 0, 0, 0.1)',
-      top: '21%',
-      left: '34%',
-      rot: -3,
-      floatY: [-5, 5, -5],
-      floatX: [-3, 3, -3],
-      dur: 3.8,
-      delay: 0.15
-    },
-    {
-      id: 'p2',
-      label: '<4-Hr Emergency SLA',
-      bg: '#0071ba',
-      color: '#ffffff',
-      border: '1px solid rgba(0, 113, 186, 0.3)',
-      top: '31%',
-      left: '66%',
-      rot: 4,
-      floatY: [-6, 5, -6],
-      floatX: [3, -2, 3],
-      dur: 4.2,
-      delay: 0.3
-    },
-    {
-      id: 'p3',
-      label: '100% In-House WMS',
-      bg: '#111827',
-      color: '#ffffff',
-      border: '1px solid rgba(0, 0, 0, 0.1)',
-      top: '41%',
-      left: '35%',
-      rot: -2,
-      floatY: [-7, 4, -7],
-      floatX: [2, -3, 2],
-      dur: 4.5,
-      delay: 0.25
-    },
-    {
-      id: 'p4',
-      label: 'Zero Scanner Tax',
-      bg: '#ffffff',
-      color: '#0f172a',
-      border: '1px solid rgba(0, 0, 0, 0.08)',
-      top: '51%',
-      left: '68%',
-      rot: 3,
-      floatY: [-4, 6, -4],
-      floatX: [-2, 3, -2],
-      dur: 3.5,
-      delay: 0.45
-    },
-    {
-      id: 'p5',
-      label: 'Resident Engineers',
-      bg: '#0284c7',
-      color: '#ffffff',
-      border: '1px solid rgba(2, 132, 199, 0.3)',
-      top: '61%',
-      left: '33%',
-      rot: -3,
-      floatY: [-4, 5, -4],
-      floatX: [-3, 2, -3],
-      dur: 3.6,
-      delay: 0.4
-    },
-    {
-      id: 'p6',
-      label: 'IP67 Harsh Grade',
-      bg: '#0f172a',
-      color: '#ffffff',
-      border: '1px solid rgba(0, 0, 0, 0.1)',
-      top: '71%',
-      left: '67%',
-      rot: 4,
-      floatY: [-5, 5, -5],
-      floatX: [-2, 3, -2],
-      dur: 3.9,
-      delay: 0.35
-    },
-    {
-      id: 'p7',
-      label: 'Lab Golden-Staged',
-      bg: '#ffffff',
-      color: '#0f172a',
-      border: '1px solid rgba(0, 0, 0, 0.08)',
-      top: '81%',
-      left: '36%',
-      rot: -2,
-      floatY: [-5, 5, -5],
-      floatX: [2, -2, 2],
-      dur: 4.0,
-      delay: 0.5
-    },
-    {
-      id: 'p8',
-      label: 'Zero Line Standstills',
-      bg: '#0071ba',
-      color: '#ffffff',
-      border: '1px solid rgba(0, 113, 186, 0.3)',
-      top: '91%',
-      left: '52%',
-      rot: 2,
-      floatY: [-6, 4, -6],
-      floatX: [2, -3, 2],
-      dur: 4.3,
-      delay: 0.2
-    }
-  ];
-
-  // =========================================================================
-  // Without ATPL - Continuous Heavy Rain of Chaotic Problem Boxes (Waterfall)
-  // =========================================================================
-  const rainingPills = [
-    { id: 'r0', label: 'Delayed Reports', bg: '#e2e8f0', color: '#1e293b', border: '1px solid #cbd5e1', left: '22%', rot: -7, dur: 3.4, delay: 0.0, depth: 1 },
-    { id: 'r1', label: 'Random Firmware', bg: '#f1f5f9', color: '#64748b', border: '1px solid #e2e8f0', left: '56%', rot: 8, dur: 4.1, delay: 0.25, depth: 0 },
-    { id: 'r2', label: 'Unorganized IT', bg: '#e2e8f0', color: '#1e293b', border: '1px solid #cbd5e1', left: '38%', rot: -6, dur: 3.5, delay: 0.5, depth: 1 },
-    { id: 'r3', label: 'Overwhelming Bugs', bg: '#f1f5f9', color: '#64748b', border: '1px solid #e2e8f0', left: '76%', rot: 5, dur: 4.2, delay: 0.75, depth: 0 },
-    { id: 'r4', label: 'Vendor Spam', bg: '#e2e8f0', color: '#1e293b', border: '1px solid #cbd5e1', left: '18%', rot: -9, dur: 3.6, delay: 1.0, depth: 1 },
-    { id: 'r5', label: '3 to 7 Days Delay', bg: '#fee2e2', color: '#991b1b', border: '1px solid #fecaca', left: '68%', rot: 7, dur: 3.9, delay: 1.25, depth: 1 },
-    { id: 'r6', label: 'Broken CSV Drops', bg: '#f1f5f9', color: '#64748b', border: '1px solid #e2e8f0', left: '44%', rot: -11, dur: 4.4, delay: 1.5, depth: 0 },
-    { id: 'r7', label: 'Costly Lock-In', bg: '#e2e8f0', color: '#1e293b', border: '1px solid #cbd5e1', left: '82%', rot: -4, dur: 3.7, delay: 1.75, depth: 1 },
-    { id: 'r8', label: 'Hardware Burnout', bg: '#fee2e2', color: '#991b1b', border: '1px solid #fecaca', left: '26%', rot: 6, dur: 4.0, delay: 2.0, depth: 0 },
-    { id: 'r9', label: 'Line Standstills', bg: '#fee2e2', color: '#991b1b', border: '1px solid #fecaca', left: '62%', rot: 4, dur: 3.5, delay: 2.25, depth: 1 },
-    { id: 'r10', label: 'Drop-Ship Boxes', bg: '#f1f5f9', color: '#64748b', border: '1px solid #e2e8f0', left: '32%', rot: -8, dur: 4.3, delay: 2.5, depth: 0 },
-    { id: 'r11', label: 'Zero SLA Support', bg: '#fee2e2', color: '#991b1b', border: '1px solid #fecaca', left: '74%', rot: 6, dur: 3.8, delay: 2.75, depth: 1 },
-    { id: 'r12', label: 'Manual Scans', bg: '#e2e8f0', color: '#1e293b', border: '1px solid #cbd5e1', left: '20%', rot: -5, dur: 4.1, delay: 3.0, depth: 1 },
-    { id: 'r13', label: 'Uncertified Cables', bg: '#f1f5f9', color: '#64748b', border: '1px solid #e2e8f0', left: '50%', rot: 10, dur: 3.6, delay: 3.25, depth: 0 },
-    { id: 'r14', label: 'Inventory Drift', bg: '#fee2e2', color: '#991b1b', border: '1px solid #fecaca', left: '80%', rot: -6, dur: 4.2, delay: 3.5, depth: 1 },
-    { id: 'r15', label: 'Disjointed Middleware', bg: '#f1f5f9', color: '#64748b', border: '1px solid #e2e8f0', left: '35%', rot: 5, dur: 3.7, delay: 3.75, depth: 0 }
-  ];
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsInView(entry.isIntersecting);
+      },
+      { rootMargin: '100px 0px' }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <section 
+      ref={sectionRef}
       id="why-atpl"
       style={{
         position: 'relative',
-        backgroundColor: '#FFFFFF',
-        backgroundImage: 'radial-gradient(circle at 50% 0%, rgba(0, 113, 186, 0.05) 0%, transparent 60%)',
-        color: '#0f172a',
+        backgroundColor: '#040914',
+        backgroundImage: 'radial-gradient(ellipse at 50% 0%, rgba(0, 113, 186, 0.18) 0%, transparent 65%)',
+        color: '#ffffff',
         padding: 'clamp(3.5rem, 5.5vw, 5.5rem) 0 clamp(3.5rem, 5vw, 5rem) 0',
         overflow: 'hidden',
-        borderTop: '1px solid rgba(0, 0, 0, 0.06)',
-        borderBottom: '1px solid rgba(0, 0, 0, 0.06)'
+        borderTop: '1px solid rgba(0, 240, 255, 0.15)',
+        borderBottom: '1px solid rgba(0, 240, 255, 0.15)'
       }}
     >
       {/* Background Architectural Grid Pattern */}
@@ -224,12 +269,73 @@ export const Archie3DRobotSection = () => {
         style={{
           position: 'absolute',
           inset: 0,
-          backgroundImage: 'radial-gradient(rgba(0, 113, 186, 0.12) 1px, transparent 1px)',
+          backgroundImage: 'radial-gradient(rgba(0, 240, 255, 0.15) 1px, transparent 1px)',
           backgroundSize: '28px 28px',
-          opacity: 0.55,
+          opacity: 0.4,
           pointerEvents: 'none'
         }}
       />
+
+      {/* GPU CSS Keyframe Animations for Zero DOM Mutations */}
+      <style>{`
+        .archie-master-grid {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 2.25rem;
+          align-items: center;
+        }
+        @media (min-width: 1024px) {
+          .archie-master-grid {
+            grid-template-columns: 1.25fr 0.75fr;
+            gap: 2.75rem;
+          }
+        }
+        .archie-dual-cards {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 1rem;
+        }
+        @media (min-width: 580px) {
+          .archie-dual-cards {
+            grid-template-columns: 1fr 1fr;
+            gap: 1.15rem;
+          }
+        }
+
+        /* 1. Pure GPU CSS Zero-Gravity Float Keyframes */
+        @keyframes atplPillFloat {
+          0%, 100% {
+            transform: translate3d(calc(-50% + var(--px-min, -2px)), calc(-50% + var(--py-min, -5px)), 0) rotate(var(--rot-base, 0deg));
+          }
+          50% {
+            transform: translate3d(calc(-50% + var(--px-max, 2px)), calc(-50% + var(--py-max, 5px)), 0) rotate(calc(var(--rot-base, 0deg) + 2deg));
+          }
+        }
+
+        /* 2. Pure GPU CSS Rain Waterfall Keyframes */
+        @keyframes atplPillRain {
+          0% {
+            transform: translate3d(-50%, -70px, 0) rotate(calc(var(--rot-start) - 6deg));
+            opacity: 0;
+          }
+          10% {
+            opacity: var(--pill-max-opacity);
+          }
+          90% {
+            opacity: var(--pill-max-opacity);
+          }
+          100% {
+            transform: translate3d(-50%, 430px, 0) rotate(calc(var(--rot-start) + 8deg));
+            opacity: 0;
+          }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .archie-pill-anim, .archie-rain-anim {
+            animation: none !important;
+          }
+        }
+      `}</style>
 
       <div
         className="container"
@@ -241,33 +347,6 @@ export const Archie3DRobotSection = () => {
           zIndex: 10
         }}
       >
-        {/* Responsive Grid Stylesheet */}
-        <style>{`
-          .archie-master-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 2.25rem;
-            align-items: center;
-          }
-          @media (min-width: 1024px) {
-            .archie-master-grid {
-              grid-template-columns: 1.25fr 0.75fr;
-              gap: 2.75rem;
-            }
-          }
-          .archie-dual-cards {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1rem;
-          }
-          @media (min-width: 580px) {
-            .archie-dual-cards {
-              grid-template-columns: 1fr 1fr;
-              gap: 1.15rem;
-            }
-          }
-        `}</style>
-
         {/* Master Grid: Left Animated Dribbble Comparison + Right Waving Robot Video */}
         <div className="archie-master-grid">
 
@@ -284,18 +363,18 @@ export const Archie3DRobotSection = () => {
                 gap: '8px',
                 padding: '6px 16px',
                 borderRadius: '999px',
-                backgroundColor: 'rgba(0, 113, 186, 0.08)',
-                border: '1px solid rgba(0, 113, 186, 0.2)',
+                backgroundColor: 'rgba(0, 240, 255, 0.1)',
+                border: '1px solid rgba(0, 240, 255, 0.35)',
                 fontSize: '11.5px',
                 fontWeight: 800,
                 letterSpacing: '0.08em',
                 textTransform: 'uppercase',
-                color: '#0071ba',
+                color: '#00f0ff',
                 marginBottom: '0.75rem',
                 width: 'fit-content'
               }}
             >
-              <span style={{ width: '7px', height: '7px', borderRadius: '50%', backgroundColor: '#0071ba', boxShadow: '0 0 8px rgba(0, 113, 186, 0.5)' }} />
+              <span style={{ width: '7px', height: '7px', borderRadius: '50%', backgroundColor: '#00f0ff', boxShadow: '0 0 8px #00f0ff' }} />
               <span>OPERATIONAL BENCHMARK // 250+ CONNECTED MEGA-PLANTS</span>
             </div>
 
@@ -305,35 +384,35 @@ export const Archie3DRobotSection = () => {
                 fontWeight: 900,
                 lineHeight: 1.15,
                 letterSpacing: '-0.03em',
-                color: '#0f172a',
+                color: '#ffffff',
                 margin: '0 0 0.5rem 0'
               }}
             >
-              Why ATPL for <span style={{ color: '#0071ba' }}>Factory Automation</span>
+              Why ATPL for <span style={{ color: '#00f0ff', textShadow: '0 0 25px rgba(0, 240, 255, 0.45)' }}>Factory Automation</span>
             </h2>
 
             <p
               style={{
                 fontSize: 'clamp(0.95rem, 1.2vw, 1.08rem)',
                 lineHeight: 1.55,
-                color: '#475569',
+                color: '#94a3b8',
                 margin: '0 0 1.25rem 0'
               }}
             >
               Direct engineering integration with in-house software, guaranteed &lt;4-hr SLAs, and native SAP/Oracle synchronization.
             </p>
 
-            {/* The Dual Animated Cards Side-by-Side */}
+            {/* The Dual Animated Cards Side-by-Side (High-Contrast Cyber-Glass Theme) */}
             <div className="archie-dual-cards">
               
-              {/* Card 1: "The ATPL way" (Soft Pastel Sky-Blue with Floating Zero-Gravity Pills) */}
+              {/* Card 1: "The ATPL way" (Deep Cyber Glass with Glowing Floating Zero-Gravity Pills) */}
               <div
                 style={{
                   height: '410px',
-                  backgroundColor: '#ebf3fe',
+                  backgroundColor: 'rgba(6, 18, 38, 0.88)',
                   borderRadius: '24px',
-                  border: '1.5px solid rgba(0, 113, 186, 0.22)',
-                  boxShadow: '0 16px 36px rgba(0, 113, 186, 0.09)',
+                  border: '1.5px solid rgba(0, 240, 255, 0.35)',
+                  boxShadow: '0 20px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(0, 113, 186, 0.22)',
                   position: 'relative',
                   overflow: 'hidden',
                   display: 'flex',
@@ -352,9 +431,9 @@ export const Archie3DRobotSection = () => {
                 >
                   <div
                     style={{
-                      backgroundColor: '#ffffff',
-                      border: '1px solid rgba(0, 113, 186, 0.15)',
-                      boxShadow: '0 4px 12px rgba(0, 113, 186, 0.12)',
+                      backgroundColor: 'rgba(0, 240, 255, 0.12)',
+                      border: '1px solid rgba(0, 240, 255, 0.4)',
+                      boxShadow: '0 0 16px rgba(0, 240, 255, 0.25)',
                       borderRadius: '999px',
                       padding: '0.32rem 1.05rem',
                       display: 'inline-flex',
@@ -362,17 +441,17 @@ export const Archie3DRobotSection = () => {
                       gap: '0.4rem',
                       fontSize: '0.80rem',
                       fontWeight: 800,
-                      color: '#0f172a'
+                      color: '#ffffff'
                     }}
                   >
-                    <span style={{ width: '7px', height: '7px', borderRadius: '50%', backgroundColor: '#0071ba' }} />
+                    <span style={{ width: '7px', height: '7px', borderRadius: '50%', backgroundColor: '#00f0ff', boxShadow: '0 0 8px #00f0ff' }} />
                     <span>The</span>
-                    <span style={{ color: '#0071ba' }}>ATPL</span>
+                    <span style={{ color: '#00f0ff' }}>ATPL</span>
                     <span>way</span>
                   </div>
                 </div>
 
-                {/* Zero-Gravity Floating Pills Canvas */}
+                {/* Zero-Gravity Floating Pills (GPU Composited) */}
                 <div
                   style={{
                     position: 'relative',
@@ -395,34 +474,24 @@ export const Archie3DRobotSection = () => {
                           if (!isMuted) playChime(587.33);
                         }}
                         onHoverEnd={() => setHoveredPill(null)}
-                        initial={{ opacity: 0, scale: 0.85 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        viewport={{ once: true }}
-                        animate={isPlaying ? {
-                          y: pill.floatY,
-                          x: pill.floatX,
-                          rotate: [pill.rot, pill.rot + 2, pill.rot - 2, pill.rot]
-                        } : {
-                          y: 0,
-                          x: 0,
-                          rotate: pill.rot
-                        }}
-                        transition={{
-                          y: { duration: pill.dur, repeat: Infinity, ease: 'easeInOut', delay: pill.delay },
-                          x: { duration: pill.dur * 1.15, repeat: Infinity, ease: 'easeInOut', delay: pill.delay },
-                          rotate: { duration: pill.dur * 1.3, repeat: Infinity, ease: 'easeInOut', delay: pill.delay },
-                          opacity: { duration: 0.3 }
-                        }}
                         whileHover={{
                           scale: 1.08,
                           zIndex: 40,
-                          boxShadow: '0 12px 28px rgba(0, 113, 186, 0.35)'
+                          boxShadow: '0 0 24px rgba(0, 240, 255, 0.55)'
                         }}
+                        className="archie-pill-anim"
                         style={{
                           position: 'absolute',
                           top: pill.top,
                           left: pill.left,
-                          transform: 'translate(-50%, -50%)',
+                          '--px-min': `${pill.floatX[0]}px`,
+                          '--px-max': `${pill.floatX[1]}px`,
+                          '--py-min': `${pill.floatY[0]}px`,
+                          '--py-max': `${pill.floatY[1]}px`,
+                          '--rot-base': `${pill.rot}deg`,
+                          animation: `atplPillFloat ${pill.dur}s ease-in-out ${pill.delay}s infinite`,
+                          animationPlayState: isPlaying && isInView && !isHovered ? 'running' : 'paused',
+                          willChange: 'transform',
                           backgroundColor: pill.bg,
                           color: pill.color,
                           border: pill.border,
@@ -434,8 +503,8 @@ export const Archie3DRobotSection = () => {
                           lineHeight: 1,
                           whiteSpace: 'nowrap',
                           boxShadow: isHovered 
-                            ? '0 12px 28px rgba(0, 113, 186, 0.35)' 
-                            : '0 4px 14px rgba(0, 113, 186, 0.1)',
+                            ? '0 0 24px rgba(0, 240, 255, 0.65)' 
+                            : '0 4px 16px rgba(0, 0, 0, 0.4)',
                           cursor: 'grab',
                           userSelect: 'none',
                           zIndex: isHovered ? 35 : 10,
@@ -448,8 +517,8 @@ export const Archie3DRobotSection = () => {
                               width: '6px', 
                               height: '6px', 
                               borderRadius: '50%', 
-                              backgroundColor: pill.color === '#ffffff' ? '#38bdf8' : '#0071ba',
-                              boxShadow: `0 0 6px ${pill.color === '#ffffff' ? '#38bdf8' : '#0071ba'}`
+                              backgroundColor: pill.color === '#040914' ? '#0071ba' : '#00f0ff',
+                              boxShadow: `0 0 6px ${pill.color === '#040914' ? '#0071ba' : '#00f0ff'}`
                             }}
                           />
                           <span>{pill.label}</span>
@@ -460,14 +529,14 @@ export const Archie3DRobotSection = () => {
                 </div>
               </div>
 
-              {/* Card 2: "Without ATPL" (CONTINUOUS WATERFALL RAIN OF PROBLEM BOXES) */}
+              {/* Card 2: "Without ATPL" (Warning Crimson Glass with Falling Problem Boxes) */}
               <div
                 style={{
                   height: '410px',
-                  backgroundColor: '#f8fafc',
+                  backgroundColor: 'rgba(20, 8, 14, 0.88)',
                   borderRadius: '24px',
-                  border: '1.5px solid rgba(0, 0, 0, 0.08)',
-                  boxShadow: '0 12px 28px rgba(0, 0, 0, 0.04)',
+                  border: '1.5px solid rgba(239, 68, 68, 0.35)',
+                  boxShadow: '0 20px 50px rgba(0, 0, 0, 0.5), 0 0 25px rgba(239, 68, 68, 0.15)',
                   position: 'relative',
                   overflow: 'hidden',
                   display: 'flex',
@@ -486,9 +555,9 @@ export const Archie3DRobotSection = () => {
                 >
                   <div
                     style={{
-                      backgroundColor: '#ffffff',
-                      border: '1px solid rgba(0, 0, 0, 0.08)',
-                      boxShadow: '0 3px 8px rgba(0, 0, 0, 0.04)',
+                      backgroundColor: 'rgba(239, 68, 68, 0.15)',
+                      border: '1px solid rgba(239, 68, 68, 0.4)',
+                      boxShadow: '0 0 14px rgba(239, 68, 68, 0.25)',
                       borderRadius: '999px',
                       padding: '0.32rem 1.05rem',
                       display: 'inline-flex',
@@ -496,10 +565,10 @@ export const Archie3DRobotSection = () => {
                       gap: '0.4rem',
                       fontSize: '0.80rem',
                       fontWeight: 700,
-                      color: '#64748b'
+                      color: '#f87171'
                     }}
                   >
-                    <span style={{ width: '7px', height: '7px', borderRadius: '50%', backgroundColor: '#ef4444' }} />
+                    <span style={{ width: '7px', height: '7px', borderRadius: '50%', backgroundColor: '#ef4444', boxShadow: '0 0 8px #ef4444' }} />
                     <span>Without ATPL</span>
                   </div>
                 </div>
@@ -513,16 +582,16 @@ export const Archie3DRobotSection = () => {
                     transform: 'translate(-50%, -50%)',
                     textAlign: 'center',
                     pointerEvents: 'none',
-                    opacity: 0.22,
+                    opacity: 0.3,
                     zIndex: 1
                   }}
                 >
-                  <div style={{ fontSize: '0.74rem', fontWeight: 700, color: '#94a3b8' }}>
-                    Non-Stop Issues, Production Delays
+                  <div style={{ fontSize: '0.74rem', fontWeight: 700, color: '#f87171', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                    Non-Stop Issues • Production Delays
                   </div>
                 </div>
 
-                {/* CONTINUOUS FALLING RAIN OF BOXES CANVAS (Endless Waterfall) */}
+                {/* CONTINUOUS FALLING RAIN OF BOXES (Pure GPU CSS Compositor) */}
                 <div
                   style={{
                     position: 'relative',
@@ -533,41 +602,18 @@ export const Archie3DRobotSection = () => {
                   }}
                 >
                   {rainingPills.map((pill) => (
-                    <motion.div
+                    <div
                       key={pill.id}
-                      animate={isPlaying ? {
-                        y: [-80, 440],
-                        rotate: [pill.rot - 6, pill.rot + 8],
-                        opacity: [0, pill.depth === 1 ? 0.95 : 0.65, pill.depth === 1 ? 0.95 : 0.65, 0]
-                      } : {
-                        y: 180,
-                        opacity: 0.8
-                      }}
-                      transition={{
-                        y: { 
-                          duration: pill.dur, 
-                          repeat: Infinity, 
-                          ease: 'linear', 
-                          delay: pill.delay 
-                        },
-                        rotate: { 
-                          duration: pill.dur, 
-                          repeat: Infinity, 
-                          ease: 'easeInOut', 
-                          delay: pill.delay 
-                        },
-                        opacity: { 
-                          duration: pill.dur, 
-                          repeat: Infinity, 
-                          times: [0, 0.1, 0.9, 1], 
-                          delay: pill.delay 
-                        }
-                      }}
+                      className="archie-rain-anim"
                       style={{
                         position: 'absolute',
                         top: 0,
                         left: pill.left,
-                        transform: 'translateX(-50%)',
+                        '--rot-start': `${pill.rot}deg`,
+                        '--pill-max-opacity': pill.depth === 1 ? 0.95 : 0.65,
+                        animation: `atplPillRain ${pill.dur}s linear ${pill.delay}s infinite`,
+                        animationPlayState: isPlaying && isInView ? 'running' : 'paused',
+                        willChange: 'transform, opacity',
                         backgroundColor: pill.bg,
                         color: pill.color,
                         border: pill.border,
@@ -577,160 +623,32 @@ export const Archie3DRobotSection = () => {
                         fontWeight: 600,
                         lineHeight: 1,
                         whiteSpace: 'nowrap',
-                        boxShadow: '0 3px 10px rgba(0, 0, 0, 0.05)',
+                        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.35)',
                         userSelect: 'none',
                         pointerEvents: 'none',
-                        willChange: 'transform, opacity',
                         filter: pill.depth === 0 ? 'blur(0.2px)' : 'none',
                         zIndex: pill.depth === 1 ? 5 : 2
                       }}
                     >
                       <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
-                        <span style={{ fontSize: '0.68rem', opacity: 0.65 }}>✕</span>
+                        <span style={{ fontSize: '0.68rem', opacity: 0.75, color: '#ef4444' }}>✕</span>
                         <span>{pill.label}</span>
                       </span>
-                    </motion.div>
+                    </div>
                   ))}
                 </div>
               </div>
 
             </div>
 
-            {/* Interactive Timeline & Player Controls */}
-            <div
-              style={{
-                marginTop: '0.85rem',
-                marginBottom: '1.25rem',
-                padding: '0.55rem 0.95rem',
-                backgroundColor: '#ffffff',
-                borderRadius: '999px',
-                border: '1.5px solid rgba(0, 113, 186, 0.16)',
-                boxShadow: '0 8px 24px rgba(0, 113, 186, 0.06)',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.75rem'
-              }}
-            >
-              {/* Play / Pause Toggle Button */}
-              <button
-                type="button"
-                onClick={() => {
-                  setIsPlaying(!isPlaying);
-                  if (!isMuted) playChime(isPlaying ? 440 : 659.25);
-                }}
-                style={{
-                  width: '32px',
-                  height: '32px',
-                  borderRadius: '50%',
-                  backgroundColor: isPlaying ? '#0071ba' : '#0f172a',
-                  color: '#ffffff',
-                  border: 'none',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  cursor: 'pointer',
-                  boxShadow: '0 2px 8px rgba(0, 113, 186, 0.3)',
-                  transition: 'all 0.15s ease',
-                  flexShrink: 0
-                }}
-                title={isPlaying ? 'Pause simulation animation' : 'Resume simulation animation'}
-              >
-                {isPlaying ? <Pause size={13} /> : <Play size={13} style={{ marginLeft: '1px' }} />}
-              </button>
-
-              {/* Sound Chime Toggle Button */}
-              <button
-                type="button"
-                onClick={() => {
-                  setIsMuted(!isMuted);
-                  if (isMuted) playChime(659.25);
-                }}
-                style={{
-                  width: '28px',
-                  height: '28px',
-                  borderRadius: '50%',
-                  backgroundColor: isMuted ? '#f1f5f9' : '#e0f2fe',
-                  color: isMuted ? '#94a3b8' : '#0071ba',
-                  border: '1px solid rgba(0, 113, 186, 0.15)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  cursor: 'pointer',
-                  transition: 'all 0.15s ease',
-                  flexShrink: 0
-                }}
-                title={isMuted ? 'Turn Sound ON' : 'Turn Sound OFF'}
-              >
-                {isMuted ? <VolumeX size={12} /> : <Volume2 size={12} />}
-              </button>
-
-              {/* Interactive Scrubber Track Bar */}
-              <div 
-                onClick={(e) => {
-                  const rect = e.currentTarget.getBoundingClientRect();
-                  const clickX = e.clientX - rect.left;
-                  const newProgress = Math.max(0, Math.min(100, (clickX / rect.width) * 100));
-                  setProgress(Number(newProgress.toFixed(1)));
-                  if (!isMuted) playChime(523.25 + (newProgress * 3));
-                }}
-                style={{
-                  flex: 1,
-                  height: '8px',
-                  backgroundColor: '#f1f5f9',
-                  borderRadius: '999px',
-                  overflow: 'hidden',
-                  position: 'relative',
-                  cursor: 'pointer',
-                  border: '1px solid rgba(0, 0, 0, 0.05)'
-                }}
-                title="Click or scrub along the simulation timeline"
-              >
-                <div 
-                  style={{
-                    height: '100%',
-                    width: `${progress}%`,
-                    background: 'linear-gradient(90deg, #0071ba 0%, #00f0ff 60%, #ec4899 100%)',
-                    borderRadius: '999px',
-                    transition: isPlaying ? 'width 0.1s linear' : 'none'
-                  }}
-                />
-              </div>
-
-              {/* Live Timecode & Rewind */}
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.45rem',
-                  fontSize: '0.72rem',
-                  fontFamily: 'monospace',
-                  fontWeight: 700,
-                  color: '#64748b',
-                  flexShrink: 0
-                }}
-              >
-                <span>{`00:${String(Math.floor((progress / 100) * 20)).padStart(2, '0')}`} / 00:20</span>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setProgress(0);
-                    if (!isMuted) playChime(523.25);
-                  }}
-                  style={{
-                    background: 'none',
-                    border: 'none',
-                    color: '#94a3b8',
-                    cursor: 'pointer',
-                    padding: '2px',
-                    display: 'flex',
-                    alignItems: 'center'
-                  }}
-                  title="Rewind to 00:00"
-                >
-                  <RotateCcw size={11} />
-                </button>
-              </div>
-            </div>
+            {/* Interactive Timeline & Player Controls (Isolated Subcomponent) */}
+            <SimulationTimelineControl 
+              isPlaying={isPlaying} 
+              setIsPlaying={setIsPlaying}
+              isMuted={isMuted}
+              setIsMuted={setIsMuted}
+              isInView={isInView}
+            />
 
             {/* Bottom Actions Bar */}
             <div
@@ -747,7 +665,7 @@ export const Archie3DRobotSection = () => {
                 style={{
                   backgroundColor: '#0071ba',
                   color: '#ffffff',
-                  border: 'none',
+                  border: '1px solid rgba(0, 240, 255, 0.45)',
                   borderRadius: '999px',
                   padding: '11px 24px',
                   fontSize: '13px',
@@ -756,7 +674,7 @@ export const Archie3DRobotSection = () => {
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: '8px',
-                  boxShadow: '0 6px 20px rgba(0, 113, 186, 0.3)',
+                  boxShadow: '0 4px 20px rgba(0, 113, 186, 0.45), 0 0 15px rgba(0, 240, 255, 0.3)',
                   transition: 'transform 0.15s ease'
                 }}
                 onMouseEnter={(e) => (e.currentTarget.style.transform = 'translateY(-2px)')}
@@ -774,22 +692,22 @@ export const Archie3DRobotSection = () => {
                   gap: '8px',
                   padding: '11px 20px',
                   borderRadius: '999px',
-                  border: '1px solid rgba(0, 0, 0, 0.12)',
-                  backgroundColor: '#ffffff',
-                  color: '#0f172a',
+                  border: '1px solid rgba(255, 255, 255, 0.22)',
+                  backgroundColor: 'rgba(255, 255, 255, 0.06)',
+                  color: '#ffffff',
                   fontSize: '13px',
                   fontWeight: 700,
                   textDecoration: 'none',
                   transition: 'background-color 0.15s ease'
                 }}
               >
-                <PhoneCall size={14} color="#0071ba" />
+                <PhoneCall size={14} color="#00f0ff" />
                 <span>Call: 044 3553 7618</span>
               </a>
 
               <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '14px', flexWrap: 'wrap' }}>
-                <span style={{ fontSize: '11.5px', color: '#64748b', fontWeight: 600 }}>✓ 250+ Plants Connected</span>
-                <span style={{ fontSize: '11.5px', color: '#64748b', fontWeight: 600 }}>✓ &lt;4-Hr Emergency SLA</span>
+                <span style={{ fontSize: '11.5px', color: '#94a3b8', fontWeight: 600 }}>✓ 250+ Plants Connected</span>
+                <span style={{ fontSize: '11.5px', color: '#94a3b8', fontWeight: 600 }}>✓ &lt;4-Hr Emergency SLA</span>
               </div>
             </div>
 

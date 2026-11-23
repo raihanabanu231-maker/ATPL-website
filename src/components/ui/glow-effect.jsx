@@ -1,7 +1,11 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useId } from 'react';
 import { cn } from '../../lib/utils';
 
+/**
+ * High-Performance GPU-Composited GlowEffect
+ * Replaces main-thread JavaScript gradient interpolation with native GPU CSS keyframes
+ * (composite-only transform & opacity), eliminating DOM mutations and style recalcs.
+ */
 export function GlowEffect({
   className,
   style,
@@ -11,72 +15,6 @@ export function GlowEffect({
   scale = 1,
   duration = 5,
 }) {
-  const BASE_TRANSITION = {
-    repeat: Infinity,
-    duration: duration,
-    ease: 'linear',
-  };
-
-  const animations = {
-    rotate: {
-      background: [
-        `conic-gradient(from 0deg at 50% 50%, ${colors.join(', ')})`,
-        `conic-gradient(from 360deg at 50% 50%, ${colors.join(', ')})`,
-      ],
-      transition: {
-        ...BASE_TRANSITION,
-      },
-    },
-    pulse: {
-      background: colors.map(
-        (color) =>
-          `radial-gradient(circle at 50% 50%, ${color} 0%, transparent 100%)`
-      ),
-      scale: [1 * scale, 1.1 * scale, 1 * scale],
-      opacity: [0.35, 0.7, 0.35],
-      transition: {
-        ...BASE_TRANSITION,
-        repeatType: 'mirror',
-      },
-    },
-    breathe: {
-      background: [
-        ...colors.map(
-          (color) =>
-            `radial-gradient(circle at 50% 50%, ${color} 0%, transparent 100%)`
-        ),
-      ],
-      scale: [1 * scale, 1.05 * scale, 1 * scale],
-      transition: {
-        ...BASE_TRANSITION,
-        repeatType: 'mirror',
-      },
-    },
-    colorShift: {
-      background: colors.map((color, index) => {
-        const nextColor = colors[(index + 1) % colors.length];
-        return `conic-gradient(from 0deg at 50% 50%, ${color} 0%, ${nextColor} 50%, ${color} 100%)`;
-      }),
-      transition: {
-        ...BASE_TRANSITION,
-        repeatType: 'mirror',
-      },
-    },
-    flowHorizontal: {
-      background: colors.map((color) => {
-        const nextColor = colors[(colors.indexOf(color) + 1) % colors.length];
-        return `linear-gradient(to right, ${color}, ${nextColor})`;
-      }),
-      transition: {
-        ...BASE_TRANSITION,
-        repeatType: 'mirror',
-      },
-    },
-    static: {
-      background: `linear-gradient(to right, ${colors.join(', ')})`,
-    },
-  };
-
   const blurMap = {
     softest: 'blur(8px)',
     soft: 'blur(16px)',
@@ -88,22 +26,74 @@ export function GlowEffect({
   };
 
   const filterStyle = typeof blur === 'number' ? `blur(${blur}px)` : blurMap[blur] || 'blur(24px)';
+  const uniqueId = useId().replace(/[^a-zA-Z0-9_-]/g, '');
+
+  let background = '';
+  let animationName = '';
+
+  if (mode === 'rotate') {
+    background = `conic-gradient(from 0deg at 50% 50%, ${colors.join(', ')}, ${colors[0]})`;
+    animationName = `glow-rotate-${uniqueId}`;
+  } else if (mode === 'pulse') {
+    background = `radial-gradient(circle at 50% 50%, ${colors[0]} 0%, ${colors[1] || colors[0]} 45%, transparent 75%)`;
+    animationName = `glow-pulse-${uniqueId}`;
+  } else if (mode === 'breathe') {
+    background = `radial-gradient(ellipse at center, ${colors[0]} 0%, ${colors[1] || colors[0]} 45%, ${colors[2] || 'transparent'} 75%, transparent 100%)`;
+    animationName = `glow-breathe-${uniqueId}`;
+  } else if (mode === 'flowHorizontal') {
+    background = `linear-gradient(90deg, ${colors.join(', ')}, ${colors[0]})`;
+    animationName = `glow-flow-${uniqueId}`;
+  } else if (mode === 'colorShift') {
+    background = `conic-gradient(from 0deg at 50% 50%, ${colors.join(', ')}, ${colors[0]})`;
+    animationName = `glow-rotate-${uniqueId}`;
+  } else {
+    background = `linear-gradient(to right, ${colors.join(', ')})`;
+    animationName = 'none';
+  }
 
   return (
-    <motion.div
-      style={{
-        ...style,
-        filter: filterStyle,
-        willChange: 'transform, filter',
-        pointerEvents: 'none',
-        position: 'absolute',
-        inset: 0,
-        zIndex: 0,
-        transform: `scale(${scale})`
-      }}
-      animate={animations[mode] || animations.rotate}
-      className={cn('glow-effect-aura', className)}
-    />
+    <>
+      <style>{`
+        @keyframes glow-rotate-${uniqueId} {
+          from { transform: scale(${scale}) rotate(0deg); }
+          to { transform: scale(${scale}) rotate(360deg); }
+        }
+        @keyframes glow-pulse-${uniqueId} {
+          0%, 100% { transform: scale(${scale}); opacity: 0.35; }
+          50% { transform: scale(${scale * 1.1}); opacity: 0.7; }
+        }
+        @keyframes glow-breathe-${uniqueId} {
+          0%, 100% { transform: scale(${scale}); opacity: 0.45; }
+          50% { transform: scale(${scale * 1.06}); opacity: 0.75; }
+        }
+        @keyframes glow-flow-${uniqueId} {
+          0% { transform: scale(${scale}) translateX(-4%); }
+          50% { transform: scale(${scale}) translateX(4%); }
+          100% { transform: scale(${scale}) translateX(-4%); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .glow-effect-aura-${uniqueId} {
+            animation: none !important;
+          }
+        }
+      `}</style>
+      <div
+        className={cn('glow-effect-aura', `glow-effect-aura-${uniqueId}`, className)}
+        style={{
+          ...style,
+          background,
+          filter: filterStyle,
+          willChange: 'transform, opacity',
+          pointerEvents: 'none',
+          position: 'absolute',
+          inset: 0,
+          zIndex: 0,
+          transform: `scale(${scale})`,
+          animation: animationName !== 'none' ? `${animationName} ${duration}s linear infinite` : 'none',
+          transformOrigin: 'center center'
+        }}
+      />
+    </>
   );
 }
-
+export default GlowEffect;

@@ -67,10 +67,14 @@ export function DynamicMovingBackground({ currentView }) {
     let time = 0;
 
     const render = () => {
+      if (document.hidden) {
+        animationFrameId = requestAnimationFrame(render);
+        return;
+      }
       time += 0.015;
       ctx.clearRect(0, 0, width, height);
 
-      // Draw gentle glowing floating particles without any connecting lines
+      // Draw gentle glowing floating particles without heavy shadow blur
       for (let i = 0; i < particles.length; i++) {
         const p = particles[i];
 
@@ -95,10 +99,7 @@ export function DynamicMovingBackground({ currentView }) {
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(${c.r}, ${c.g}, ${c.b}, ${Math.max(0.1, currentAlpha)})`;
-        ctx.shadowColor = `rgba(${c.r}, ${c.g}, ${c.b}, 0.8)`;
-        ctx.shadowBlur = 10;
         ctx.fill();
-        ctx.shadowBlur = 0;
       }
 
       animationFrameId = requestAnimationFrame(render);

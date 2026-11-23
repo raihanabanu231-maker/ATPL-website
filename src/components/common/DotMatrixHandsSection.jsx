@@ -38,44 +38,84 @@ export const DotMatrixHandsSection = ({
   onCtaClick
 }) => {
   const containerRef = useRef(null);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0, targetX: 0, targetY: 0 });
+  const leftHandRef = useRef(null);
+  const rightHandRef = useRef(null);
   const [isCtaHovered, setIsCtaHovered] = useState(false);
   const animFrameRef = useRef(null);
   const { openDemoModal } = useApp ? useApp() : { openDemoModal: () => {} };
 
-  // Smooth mouse parallax loop
+  // High-performance zero-re-render mouse parallax
   useEffect(() => {
+    const isTouch = window.matchMedia('(hover: none)').matches;
+    if (isTouch) return;
+
+    let targetX = 0, targetY = 0;
+    let curX = 0, curY = 0;
+    let isRunning = false;
+
+    const updateDOM = () => {
+      curX += (targetX - curX) * 0.08;
+      curY += (targetY - curY) * 0.08;
+
+      const ctaBonus = isCtaHovered ? 18 : 0;
+      const leftX = curX * 12 + ctaBonus;
+      const leftY = curY * 8;
+      const leftRot = curY * 1.5;
+
+      const rightX = -curX * 12 - ctaBonus;
+      const rightY = -curY * 8;
+      const rightRot = -curY * 1.5;
+
+      if (leftHandRef.current) {
+        leftHandRef.current.style.transform = `translate3d(${leftX}px, calc(-50% + ${leftY}px), 0) rotate(${leftRot}deg)`;
+      }
+      if (rightHandRef.current) {
+        rightHandRef.current.style.transform = `translate3d(${rightX}px, calc(-50% + ${rightY}px), 0) rotate(${rightRot}deg)`;
+      }
+
+      // Stop RAF when close to resting state to save CPU
+      if (Math.abs(targetX - curX) > 0.001 || Math.abs(targetY - curY) > 0.001) {
+        animFrameRef.current = requestAnimationFrame(updateDOM);
+      } else {
+        isRunning = false;
+      }
+    };
+
     const handleMouseMove = (e) => {
       if (!containerRef.current) return;
       const rect = containerRef.current.getBoundingClientRect();
-      // Normalized between -1 and 1
-      const nx = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-      const ny = ((e.clientY - rect.top) / rect.height) * 2 - 1;
-      setMousePos(prev => ({ ...prev, targetX: nx, targetY: ny }));
+      targetX = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+      targetY = ((e.clientY - rect.top) / rect.height) * 2 - 1;
+
+      if (!isRunning) {
+        isRunning = true;
+        animFrameRef.current = requestAnimationFrame(updateDOM);
+      }
+    };
+
+    const handleMouseLeave = () => {
+      targetX = 0;
+      targetY = 0;
+      if (!isRunning) {
+        isRunning = true;
+        animFrameRef.current = requestAnimationFrame(updateDOM);
+      }
     };
 
     const container = containerRef.current;
     if (container) {
-      container.addEventListener('mousemove', handleMouseMove);
+      container.addEventListener('mousemove', handleMouseMove, { passive: true });
+      container.addEventListener('mouseleave', handleMouseLeave, { passive: true });
     }
 
-    // Interpolation loop
-    let curX = 0, curY = 0;
-    const updateMotion = () => {
-      setMousePos(prev => {
-        curX += (prev.targetX - curX) * 0.08;
-        curY += (prev.targetY - curY) * 0.08;
-        return { ...prev, x: curX, y: curY };
-      });
-      animFrameRef.current = requestAnimationFrame(updateMotion);
-    };
-    animFrameRef.current = requestAnimationFrame(updateMotion);
-
     return () => {
-      if (container) container.removeEventListener('mousemove', handleMouseMove);
+      if (container) {
+        container.removeEventListener('mousemove', handleMouseMove);
+        container.removeEventListener('mouseleave', handleMouseLeave);
+      }
       if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
     };
-  }, []);
+  }, [isCtaHovered]);
 
   const handleCta = () => {
     if (onCtaClick) {
@@ -95,15 +135,6 @@ export const DotMatrixHandsSection = ({
       el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
-
-  // Parallax offsets
-  const leftHandShiftX = mousePos.x * 12 + (isCtaHovered ? 18 : 0);
-  const leftHandShiftY = mousePos.y * 8;
-  const leftHandRot = mousePos.y * 1.5;
-
-  const rightHandShiftX = -mousePos.x * 12 - (isCtaHovered ? 18 : 0);
-  const rightHandShiftY = -mousePos.y * 8;
-  const rightHandRot = -mousePos.y * 1.5;
 
   return (
     <div 
@@ -262,13 +293,14 @@ export const DotMatrixHandsSection = ({
 
       {/* SOLID HAND 1: Human Hand Reaching Inward from Left Edge */}
       <div
+        ref={leftHandRef}
         style={{
           position: 'absolute',
           left: 0,
           top: '48%',
           width: 'clamp(340px, 45vw, 680px)',
           height: 'auto',
-          transform: `translate3d(${leftHandShiftX}px, calc(-50% + ${leftHandShiftY}px), 0) rotate(${leftHandRot}deg)`,
+          transform: 'translate3d(0px, -50%, 0) rotate(0deg)',
           transition: 'transform 0.15s cubic-bezier(0.2, 0, 0, 1)',
           zIndex: 2,
           pointerEvents: 'none',
@@ -299,13 +331,14 @@ export const DotMatrixHandsSection = ({
 
       {/* SOLID HAND 2: Bionic Robotic Cybernetic Hand Reaching Inward from Right Edge */}
       <div
+        ref={rightHandRef}
         style={{
           position: 'absolute',
           right: 0,
           top: '48%',
           width: 'clamp(340px, 45vw, 680px)',
           height: 'auto',
-          transform: `translate3d(${rightHandShiftX}px, calc(-50% + ${rightHandShiftY}px), 0) rotate(${rightHandRot}deg)`,
+          transform: 'translate3d(0px, -50%, 0) rotate(0deg)',
           transition: 'transform 0.15s cubic-bezier(0.2, 0, 0, 1)',
           zIndex: 2,
           pointerEvents: 'none',

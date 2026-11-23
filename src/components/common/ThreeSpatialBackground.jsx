@@ -36,7 +36,7 @@ export function ThreeSpatialBackground({ currentView }) {
         powerPreference: 'high-performance'
       });
       renderer.setSize(width, height);
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.setPixelRatio(width < 768 ? 1 : Math.min(window.devicePixelRatio, 1.5));
       renderer.domElement.style.position = 'absolute';
       renderer.domElement.style.inset = '0';
       renderer.domElement.style.pointerEvents = 'none';
@@ -150,6 +150,9 @@ export function ThreeSpatialBackground({ currentView }) {
       const animate = () => {
         animationId = requestAnimationFrame(animate);
         if (!isVisible) return;
+
+        // Skip render when scrolled far past hero into opaque body sections
+        if (targetScrollY > height * 2.2) return;
 
         // Smooth camera dampening (Apple-style inertia for mouse)
         mouseX += (targetX - mouseX) * 0.05;

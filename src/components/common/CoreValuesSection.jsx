@@ -233,7 +233,8 @@ export const CoreValuesSection = () => {
   const sectionRef = useRef(null);
   const containerRef = useRef(null);
   const spineFillRef = useRef(null);
-  const [scrollPercent, setScrollPercent] = useState(0);
+  const progressTextRef = useRef(null);
+  const beadsRef = useRef([]);
 
   // 6 Official ATPL Values with Enhanced Metadata
   const values = useMemo(() => [
@@ -378,7 +379,7 @@ export const CoreValuesSection = () => {
         }
       );
 
-      // 3. Central Timeline Spine Scroll Scrubbing
+      // 3. Central Timeline Spine Scroll Scrubbing (Direct DOM update - Zero React re-renders)
       if (spineFillRef.current) {
         gsap.fromTo(
           spineFillRef.current,
@@ -392,25 +393,34 @@ export const CoreValuesSection = () => {
               end: 'bottom 85%',
               scrub: true,
               onUpdate: (self) => {
-                setScrollPercent(Math.round(self.progress * 100));
+                const pct = Math.round(self.progress * 100);
+                if (progressTextRef.current) {
+                  progressTextRef.current.textContent = `6/6 Pillars Active, ${pct}% Section Explored`;
+                }
+                const beadPositions = [16, 50, 84];
+                beadsRef.current.forEach((bead, idx) => {
+                  if (bead) {
+                    const active = pct >= beadPositions[idx];
+                    bead.style.borderColor = active ? '#00f0ff' : '#cbd5e1';
+                    bead.style.boxShadow = active ? '0 0 14px rgba(0, 240, 255, 0.8)' : 'none';
+                  }
+                });
               }
             }
           }
         );
       }
 
-      // 4. Parallax Scrub on Architectural Numbers
-      gsap.utils.toArray('.card-watermark-num').forEach((numEl) => {
-        gsap.to(numEl, {
-          y: -25,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: numEl,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: 1.2
-          }
-        });
+      // 4. Parallax Scrub on Architectural Numbers (Single Batched ScrollTrigger)
+      gsap.to('.card-watermark-num', {
+        y: -25,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 1.2
+        }
       });
 
       // 5. Bottom Telemetry Banner Entrance
@@ -565,6 +575,7 @@ export const CoreValuesSection = () => {
             {[0.16, 0.5, 0.84].map((pos, idx) => (
               <div
                 key={idx}
+                ref={(el) => (beadsRef.current[idx] = el)}
                 style={{
                   position: 'absolute',
                   top: `${pos * 100}%`,
@@ -574,8 +585,8 @@ export const CoreValuesSection = () => {
                   height: '18px',
                   borderRadius: '50%',
                   backgroundColor: '#ffffff',
-                  border: scrollPercent >= (pos * 100) ? '3px solid #00f0ff' : '3px solid #cbd5e1',
-                  boxShadow: scrollPercent >= (pos * 100) ? '0 0 14px rgba(0, 240, 255, 0.8)' : 'none',
+                  border: '3px solid #cbd5e1',
+                  boxShadow: 'none',
                   transition: 'border 0.3s ease, box-shadow 0.3s ease',
                   zIndex: 2
                 }}
@@ -639,8 +650,8 @@ export const CoreValuesSection = () => {
               <div style={{ fontSize: '0.78rem', color: '#64748b', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                 Engineering Core Status
               </div>
-              <div style={{ fontSize: '0.98rem', fontWeight: 800, color: 'var(--color-slate-900, #0f172a)' }}>
-                6/6 Pillars Active, {scrollPercent}% Section Explored
+              <div ref={progressTextRef} style={{ fontSize: '0.98rem', fontWeight: 800, color: 'var(--color-slate-900, #0f172a)' }}>
+                6/6 Pillars Active, 0% Section Explored
               </div>
             </div>
           </div>

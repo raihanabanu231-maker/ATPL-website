@@ -214,9 +214,24 @@ export const HomeView = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
             >
-              {/* Operational Accreditation Header */}
-              <div style={{ marginBottom: '0.85rem', fontSize: '0.85rem', color: 'var(--color-brand-cyan, #00f0ff)', fontWeight: 600 }}>
-                Archery Technocrats, 35+ Years Combined Industrial Experience, ISO 9001:2015
+              {/* Operational Accreditation Header Badge */}
+              <div style={{ marginBottom: '1rem' }}>
+                <span style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.45rem',
+                  fontSize: '0.82rem',
+                  fontWeight: 700,
+                  color: '#00f0ff',
+                  backgroundColor: 'rgba(0, 240, 255, 0.08)',
+                  border: '1px solid rgba(0, 240, 255, 0.28)',
+                  padding: '0.35rem 0.95rem',
+                  borderRadius: '999px',
+                  letterSpacing: '0.03em'
+                }}>
+                  <span style={{ width: '7px', height: '7px', borderRadius: '50%', backgroundColor: '#00f0ff', boxShadow: '0 0 8px #00f0ff' }} />
+                  <span>35+ Years Combined Industrial Experience • ISO 9001:2015</span>
+                </span>
               </div>
 
               {/* Main Headline (Optimized H1 for SEO with Archery Technocrats brand & target keywords) */}
@@ -225,25 +240,26 @@ export const HomeView = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: 0.1 }}
                 style={{
-                  fontSize: 'clamp(1.95rem, 3.2vw, 3.2rem)',
-                  fontWeight: 800,
-                  lineHeight: 1.18,
+                  fontSize: 'clamp(2.1rem, 3.4vw, 3.4rem)',
+                  fontWeight: 900,
+                  lineHeight: 1.15,
                   letterSpacing: '-0.025em',
                   color: 'var(--color-white, #ffffff)',
-                  marginBottom: '1.1rem',
+                  marginBottom: '1.25rem',
                   fontFamily: 'var(--font-display)'
                 }}
               >
                 <span style={{
                   display: 'block',
-                  fontSize: 'clamp(0.95rem, 1.4vw, 1.15rem)',
-                  fontWeight: 700,
+                  fontSize: 'clamp(1rem, 1.4vw, 1.25rem)',
+                  fontWeight: 800,
                   color: 'var(--color-brand-cyan, #00f0ff)',
+                  textShadow: '0 0 20px rgba(0, 240, 255, 0.35)',
                   marginBottom: '0.35rem'
                 }}>
                   Archery Technocrats
                 </span>
-                Factory Automation That Actually Works on the Shop Floor.
+                Factory Automation That <span style={{ color: '#00f0ff', textShadow: '0 0 25px rgba(0, 240, 255, 0.45)' }}>Actually Works</span> on the Shop Floor.
               </motion.h1>
 
               {/* Sub-headline */}
@@ -353,9 +369,23 @@ export const HomeView = () => {
          ========================================================================= */}
       <section style={{ backgroundColor: '#f8fafc', padding: '2.5rem 0', borderTop: '1px solid #e2e8f0', borderBottom: '1px solid #e2e8f0' }}>
         <div className="container" style={{ textAlign: 'center', marginBottom: '1.25rem' }}>
-          <div style={{ fontSize: '0.76rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#64748b' }}>
-            TRUSTED BY 250+ ENTERPRISE MANUFACTURING PLANTS & SUPPLY CHAIN HUBS
-          </div>
+          <span style={{
+            fontSize: '0.76rem',
+            fontWeight: 800,
+            textTransform: 'uppercase',
+            letterSpacing: '0.08em',
+            color: '#0071ba',
+            backgroundColor: 'rgba(0, 113, 186, 0.08)',
+            border: '1px solid rgba(0, 113, 186, 0.22)',
+            padding: '0.35rem 1rem',
+            borderRadius: '999px',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '0.45rem'
+          }}>
+            <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#0071ba', boxShadow: '0 0 6px #0071ba' }} />
+            TRUSTED BY 250+ ENTERPRISE MANUFACTURING PLANTS &amp; SUPPLY CHAIN HUBS
+          </span>
         </div>
 
         {/* Client Logos Marquee */}
