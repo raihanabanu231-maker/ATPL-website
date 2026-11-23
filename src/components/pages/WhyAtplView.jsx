@@ -112,7 +112,7 @@ export const WhyAtplView = () => {
       id: 'presentation',
       title: 'Archie Presenting Hardware & Software',
       video: '/assets/videos/archie_presentation.mp4',
-      poster: '/assets/images/archery_robot_clean.png',
+      poster: '/assets/videos/posters/archie_presentation.jpg',
       status: '• PRESENTING CAPABILITIES',
       fps: '60 FPS',
       resolution: '4K ULTRA-HD',
@@ -1048,6 +1048,179 @@ export const WhyAtplView = () => {
                 <span style={{ color: '#ec4899', fontWeight: 700 }}>LATENCY: {activeFeed.latency}</span>
               </div>
             </div>
+
+            {/* Floating Holographic Cyber Glass Board HUD (Precision-aligned over in-video blank glass screen) */}
+            {fullVideoMode === 'presentation' && (
+              <div
+                className="archie-glass-hud-overlay"
+                style={{
+                  position: 'absolute',
+                  left: '6.5%',
+                  top: 'clamp(52px, 9.5%, 64px)',
+                  bottom: 'clamp(72px, 11%, 84px)',
+                  width: 'clamp(300px, 39.5%, 460px)',
+                  background: 'linear-gradient(145deg, rgba(2, 10, 24, 0.45) 0%, rgba(3, 16, 32, 0.35) 50%, rgba(2, 10, 24, 0.45) 100%)',
+                  backgroundImage: 'radial-gradient(circle at 50% 15%, rgba(0, 240, 255, 0.1) 0%, transparent 65%), linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px)',
+                  backgroundSize: '100% 100%, 100% 6px',
+                  backdropFilter: 'blur(10px)',
+                  WebkitBackdropFilter: 'blur(10px)',
+                  border: '1.5px solid rgba(0, 240, 255, 0.75)',
+                  borderRadius: '16px',
+                  boxShadow: '0 0 35px rgba(0, 240, 255, 0.35), inset 0 0 20px rgba(0, 240, 255, 0.15)',
+                  padding: 'clamp(0.85rem, 1.35vw, 1.25rem)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  zIndex: 9,
+                  pointerEvents: 'auto',
+                  transition: 'all 0.3s ease'
+                }}
+              >
+                {/* Top Reflection Light Bar */}
+                <div style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: '12%',
+                  right: '12%',
+                  height: '2px',
+                  background: 'linear-gradient(90deg, transparent, #00f0ff, transparent)',
+                  opacity: 0.9,
+                  borderRadius: '999px'
+                }} />
+
+                {/* Glowing Corner HUD Accents matching the video stand */}
+                <div style={{ position: 'absolute', top: '-1px', left: '-1px', width: '14px', height: '14px', borderTop: '2.5px solid #00f0ff', borderLeft: '2.5px solid #00f0ff', borderTopLeftRadius: '16px' }} />
+                <div style={{ position: 'absolute', top: '-1px', right: '-1px', width: '14px', height: '14px', borderTop: '2.5px solid #00f0ff', borderRight: '2.5px solid #00f0ff', borderTopRightRadius: '16px' }} />
+                <div style={{ position: 'absolute', bottom: '-1px', left: '-1px', width: '14px', height: '14px', borderBottom: '2.5px solid #00f0ff', borderLeft: '2.5px solid #00f0ff', borderBottomLeftRadius: '16px' }} />
+                <div style={{ position: 'absolute', bottom: '-1px', right: '-1px', width: '14px', height: '14px', borderBottom: '2.5px solid #00f0ff', borderRight: '2.5px solid #00f0ff', borderBottomRightRadius: '16px' }} />
+
+                {/* Glass Header */}
+                <div>
+                  <div style={{
+                    color: '#00f0ff',
+                    fontSize: 'clamp(0.6rem, 0.8vw, 0.7rem)',
+                    fontWeight: 800,
+                    letterSpacing: '0.12em',
+                    textTransform: 'uppercase',
+                    marginBottom: '4px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px'
+                  }}>
+                    <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#00f0ff', boxShadow: '0 0 10px #00f0ff' }} />
+                    <span>ATPL PROVEN ECOSYSTEM</span>
+                  </div>
+
+                  {/* Main Title matching the video */}
+                  <h3 style={{
+                    margin: 0,
+                    color: '#ffffff',
+                    fontSize: 'clamp(0.95rem, 1.4vw, 1.3rem)',
+                    fontWeight: 900,
+                    letterSpacing: '-0.02em',
+                    lineHeight: 1.2,
+                    textShadow: '0 0 16px rgba(0, 240, 255, 0.7), 0 2px 4px rgba(0, 0, 0, 0.8)'
+                  }}>
+                    Hardware + Software, <span style={{ color: '#00f0ff' }}>One Partner</span>
+                  </h3>
+
+                  {/* Luminous Center Subtitle matching the video's original layout */}
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    margin: 'clamp(0.25rem, 0.5vw, 0.45rem) 0'
+                  }}>
+                    <div style={{ flex: 1, height: '1px', background: 'linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.6))' }} />
+                    <span style={{ color: '#00f0ff', fontSize: 'clamp(0.58rem, 0.75vw, 0.68rem)', fontWeight: 800, letterSpacing: '0.14em', textShadow: '0 0 8px #00f0ff' }}>
+                      — ONE PARTNER —
+                    </span>
+                    <div style={{ flex: 1, height: '1px', background: 'linear-gradient(90deg, rgba(0, 240, 255, 0.6), transparent)' }} />
+                  </div>
+                </div>
+
+                {/* Exact Features Bullet Points (using '+' like the video) */}
+                <div style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 'clamp(0.25rem, 0.55vw, 0.45rem)'
+                }}>
+                  {[
+                    '9 In-House Specialized Software Products',
+                    'Direct SAP & Oracle Integration',
+                    'RFID, Barcode & Machine Vision',
+                    'Direct Factory Line Automation',
+                    '200+ Plants Automated',
+                    'PAN India Service & AMC Support'
+                  ].map((feat, fidx) => (
+                    <div
+                      key={fidx}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.45rem',
+                        color: '#ffffff',
+                        fontSize: 'clamp(0.7rem, 0.95vw, 0.84rem)',
+                        fontWeight: 700,
+                        lineHeight: 1.25,
+                        textShadow: '0 0 10px rgba(0, 0, 0, 0.95), 0 1px 3px rgba(0, 0, 0, 0.9)'
+                      }}
+                    >
+                      <span style={{
+                        color: '#00f0ff',
+                        fontWeight: 900,
+                        fontSize: '0.95rem',
+                        textShadow: '0 0 10px #00f0ff',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        width: '14px',
+                        flexShrink: 0
+                      }}>+</span>
+                      <span style={{ letterSpacing: '0.01em' }}>{feat}</span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Glowing CTA Button matching the video's [Request a Demo] button */}
+                <button
+                  onClick={() => openDemoModal({ solution: 'ATPL Turnkey Hardware + Software Ecosystem' })}
+                  style={{
+                    width: '100%',
+                    background: 'rgba(0, 240, 255, 0.15)',
+                    border: '1.5px solid #00f0ff',
+                    color: '#00f0ff',
+                    borderRadius: '8px',
+                    padding: 'clamp(0.4rem, 0.7vw, 0.58rem) 1rem',
+                    fontSize: 'clamp(0.74rem, 0.98vw, 0.86rem)',
+                    fontWeight: 900,
+                    letterSpacing: '0.04em',
+                    cursor: 'pointer',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '0.45rem',
+                    boxShadow: '0 0 20px rgba(0, 240, 255, 0.35), inset 0 0 10px rgba(0, 240, 255, 0.15)',
+                    textShadow: '0 0 8px rgba(0, 240, 255, 0.8)',
+                    transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
+                    marginTop: '0.35rem'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = '#00f0ff';
+                    e.currentTarget.style.color = '#020713';
+                    e.currentTarget.style.boxShadow = '0 0 30px #00f0ff';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = 'rgba(0, 240, 255, 0.15)';
+                    e.currentTarget.style.color = '#00f0ff';
+                    e.currentTarget.style.boxShadow = '0 0 20px rgba(0, 240, 255, 0.35), inset 0 0 10px rgba(0, 240, 255, 0.15)';
+                  }}
+                >
+                  <span>[ Request a Demo ]</span>
+                  <ArrowRight size={14} />
+                </button>
+              </div>
+            )}
 
             {/* Bottom HUD Controls Bar */}
             <div style={{
