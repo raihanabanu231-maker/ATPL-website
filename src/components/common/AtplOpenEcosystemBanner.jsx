@@ -72,12 +72,13 @@ export const AtplOpenEcosystemBanner = () => {
       id="open-ecosystem-section"
       style={{
         position: 'relative',
-        backgroundColor: '#C8E3FD',
-        backgroundImage: 'linear-gradient(180deg, #C5E1FD 0%, #D6EBFE 45%, #E5F3FE 85%, #F4F9FE 100%)',
-        color: '#032D60',
+        backgroundColor: '#040914',
+        backgroundImage: 'radial-gradient(ellipse at 50% 10%, rgba(0, 113, 186, 0.22) 0%, #060e20 50%, #020712 100%)',
+        color: '#ffffff',
         padding: 'clamp(4.5rem, 8vw, 7.5rem) 0 clamp(4rem, 6vw, 6rem) 0',
         overflow: 'hidden',
-        borderTop: '1px solid rgba(3, 45, 96, 0.08)'
+        borderTop: '1px solid rgba(0, 240, 255, 0.15)',
+        borderBottom: '1px solid rgba(0, 240, 255, 0.15)'
       }}
     >
       {/* Subtle atmospheric ambient glow */}
@@ -89,7 +90,7 @@ export const AtplOpenEcosystemBanner = () => {
           transform: 'translateX(-50%)',
           width: '1000px',
           height: '500px',
-          background: 'radial-gradient(ellipse at center, rgba(255, 255, 255, 0.7) 0%, rgba(200, 227, 253, 0) 70%)',
+          background: 'radial-gradient(ellipse at center, rgba(0, 113, 186, 0.25) 0%, rgba(0, 240, 255, 0.08) 45%, transparent 70%)',
           pointerEvents: 'none',
           zIndex: 0
         }}
@@ -106,14 +107,14 @@ export const AtplOpenEcosystemBanner = () => {
         }}
       >
         {/* =====================================================================
-            1. SALESFORCE-STYLE BOLD HERO MANIFESTO (Matching Uploaded Screenshot)
+            1. CYBER-COCKPIT BOLD HERO MANIFESTO
            ===================================================================== */}
         <div style={{ textAlign: 'center', maxWidth: '1040px', margin: '0 auto' }}>
           
           {/* Eyebrow Pill */}
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 16px', borderRadius: '999px', backgroundColor: 'rgba(3, 45, 96, 0.08)', border: '1px solid rgba(3, 45, 96, 0.15)', marginBottom: '1.75rem' }}>
-            <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#0176D3' }} />
-            <span style={{ fontSize: '12px', fontWeight: 800, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#032D60' }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 16px', borderRadius: '999px', backgroundColor: 'rgba(0, 240, 255, 0.08)', border: '1px solid rgba(0, 240, 255, 0.3)', marginBottom: '1.75rem' }}>
+            <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#00f0ff', boxShadow: '0 0 8px #00f0ff' }} />
+            <span style={{ fontSize: '12px', fontWeight: 800, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#00f0ff' }}>
               UNIVERSAL INDUSTRIAL ARCHITECTURE
             </span>
           </div>
@@ -125,23 +126,22 @@ export const AtplOpenEcosystemBanner = () => {
               fontWeight: 800,
               lineHeight: 1.1,
               letterSpacing: '-0.03em',
-              color: '#032D60',
+              color: '#ffffff',
               margin: '0 0 1.5rem 0'
             }}
           >
-            ATPL is open to every machine, operator, and platform
+            ATPL is <span style={{ color: '#00f0ff', textShadow: '0 0 25px rgba(0, 240, 255, 0.4)' }}>open to every machine</span>, operator, and platform
           </h2>
 
           {/* Punchy Subtitle */}
           <p
             style={{
-              fontSize: 'clamp(1.1rem, 1.85vw, 1.35rem)',
-              lineHeight: 1.6,
-              color: '#032D60',
-              opacity: 0.88,
+              fontSize: 'clamp(1.05rem, 1.75vw, 1.25rem)',
+              lineHeight: 1.65,
+              color: '#94a3b8',
               maxWidth: '860px',
               margin: '0 auto 2.75rem auto',
-              fontWeight: 450
+              fontWeight: 400
             }}
           >
             When you build on ATPL, you’re connected to the shopfloor machinery your business depends on, 
@@ -154,9 +154,9 @@ export const AtplOpenEcosystemBanner = () => {
             <button
               onClick={() => openDemoModal({ solution: 'Enterprise Plant Architecture', notes: 'Inquiry from Open Ecosystem Section' })}
               style={{
-                backgroundColor: '#032D60',
+                backgroundColor: '#0071ba',
                 color: '#ffffff',
-                border: 'none',
+                border: '1px solid rgba(0, 240, 255, 0.45)',
                 padding: '14px 32px',
                 borderRadius: '999px',
                 fontSize: '15px',
@@ -165,18 +165,18 @@ export const AtplOpenEcosystemBanner = () => {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '10px',
-                boxShadow: '0 10px 25px rgba(3, 45, 96, 0.25)',
+                boxShadow: '0 10px 25px rgba(0, 113, 186, 0.4), 0 0 15px rgba(0, 240, 255, 0.25)',
                 transition: 'all 0.2s cubic-bezier(0.22, 1, 0.36, 1)'
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#0176D3';
+                e.currentTarget.style.backgroundColor = '#005a96';
                 e.currentTarget.style.transform = 'translateY(-2px)';
-                e.currentTarget.style.boxShadow = '0 14px 30px rgba(1, 118, 211, 0.35)';
+                e.currentTarget.style.boxShadow = '0 14px 30px rgba(0, 240, 255, 0.45)';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = '#032D60';
+                e.currentTarget.style.backgroundColor = '#0071ba';
                 e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = '0 10px 25px rgba(3, 45, 96, 0.25)';
+                e.currentTarget.style.boxShadow = '0 10px 25px rgba(0, 113, 186, 0.4)';
               }}
             >
               <span>Explore Enterprise Architecture</span>
@@ -186,9 +186,9 @@ export const AtplOpenEcosystemBanner = () => {
             <button
               onClick={() => openDemoModal({ solution: 'System Integration Review', notes: 'Request ERP & hardware integration blueprint' })}
               style={{
-                backgroundColor: 'rgba(255, 255, 255, 0.85)',
-                color: '#032D60',
-                border: '1.5px solid rgba(3, 45, 96, 0.25)',
+                backgroundColor: 'rgba(255, 255, 255, 0.06)',
+                color: '#ffffff',
+                border: '1.5px solid rgba(255, 255, 255, 0.22)',
                 padding: '14px 28px',
                 borderRadius: '999px',
                 fontSize: '15px',
@@ -201,13 +201,13 @@ export const AtplOpenEcosystemBanner = () => {
                 transition: 'all 0.2s ease'
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#ffffff';
-                e.currentTarget.style.borderColor = '#032D60';
+                e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.12)';
+                e.currentTarget.style.borderColor = '#00f0ff';
                 e.currentTarget.style.transform = 'translateY(-2px)';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.85)';
-                e.currentTarget.style.borderColor = 'rgba(3, 45, 96, 0.25)';
+                e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.06)';
+                e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.22)';
                 e.currentTarget.style.transform = 'translateY(0)';
               }}
             >
@@ -234,25 +234,27 @@ export const AtplOpenEcosystemBanner = () => {
               <div
                 key={pillar.id}
                 style={{
-                  backgroundColor: '#ffffff',
+                  backgroundColor: 'rgba(6, 18, 38, 0.88)',
                   borderRadius: '24px',
                   padding: '2.25rem 2rem',
-                  border: '1px solid rgba(3, 45, 96, 0.1)',
-                  boxShadow: '0 16px 40px rgba(3, 45, 96, 0.08)',
+                  border: '1px solid rgba(0, 240, 255, 0.22)',
+                  boxShadow: '0 16px 40px rgba(0, 0, 0, 0.35)',
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'space-between',
-                  transition: 'transform 0.25s ease, box-shadow 0.25s ease',
+                  transition: 'transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease',
                   position: 'relative',
                   overflow: 'hidden'
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = 'translateY(-4px)';
-                  e.currentTarget.style.boxShadow = '0 24px 50px rgba(3, 45, 96, 0.14)';
+                  e.currentTarget.style.borderColor = '#00f0ff';
+                  e.currentTarget.style.boxShadow = '0 24px 50px rgba(0, 113, 186, 0.35), 0 0 20px rgba(0, 240, 255, 0.2)';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 16px 40px rgba(3, 45, 96, 0.08)';
+                  e.currentTarget.style.borderColor = 'rgba(0, 240, 255, 0.22)';
+                  e.currentTarget.style.boxShadow = '0 16px 40px rgba(0, 0, 0, 0.35)';
                 }}
               >
                 <div>
@@ -262,42 +264,42 @@ export const AtplOpenEcosystemBanner = () => {
                         width: '52px',
                         height: '52px',
                         borderRadius: '16px',
-                        background: pillar.gradient,
+                        background: 'linear-gradient(135deg, #0071ba 0%, #00f0ff 100%)',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        color: '#ffffff',
-                        boxShadow: '0 8px 20px rgba(3, 45, 96, 0.25)'
+                        color: '#020b18',
+                        boxShadow: '0 8px 20px rgba(0, 113, 186, 0.4)'
                       }}
                     >
-                      <Icon size={26} />
+                      <Icon size={26} color="#020b18" />
                     </div>
 
                     <div style={{ textAlign: 'right' }}>
-                      <div style={{ fontSize: '1.45rem', fontWeight: 800, color: '#0176D3', lineHeight: 1.1 }}>
+                      <div style={{ fontSize: '1.45rem', fontWeight: 800, color: '#00f0ff', lineHeight: 1.1 }}>
                         {pillar.stat}
                       </div>
-                      <div style={{ fontSize: '11px', fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                      <div style={{ fontSize: '11px', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
                         {pillar.statLabel}
                       </div>
                     </div>
                   </div>
 
-                  <div style={{ fontSize: '11.5px', fontWeight: 800, color: '#0176D3', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '4px' }}>
+                  <div style={{ fontSize: '11.5px', fontWeight: 800, color: '#38bdf8', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '4px' }}>
                     {pillar.subtitle}
                   </div>
 
-                  <h3 style={{ fontSize: '1.35rem', fontWeight: 800, color: '#032D60', margin: '0 0 0.85rem 0', letterSpacing: '-0.01em' }}>
+                  <h3 style={{ fontSize: '1.35rem', fontWeight: 800, color: '#ffffff', margin: '0 0 0.85rem 0', letterSpacing: '-0.01em' }}>
                     {pillar.title}
                   </h3>
 
-                  <p style={{ fontSize: '0.94rem', lineHeight: 1.6, color: '#334155', margin: 0 }}>
+                  <p style={{ fontSize: '0.94rem', lineHeight: 1.6, color: '#94a3b8', margin: 0 }}>
                     {pillar.description}
                   </p>
                 </div>
 
-                <div style={{ marginTop: '2rem', paddingTop: '1.25rem', borderTop: '1px solid rgba(3, 45, 96, 0.08)', display: 'flex', alignItems: 'center', gap: '8px', color: '#032D60', fontSize: '13px', fontWeight: 700 }}>
-                  <CheckCircle2 size={16} color="#0176D3" />
+                <div style={{ marginTop: '2rem', paddingTop: '1.25rem', borderTop: '1px solid rgba(0, 240, 255, 0.12)', display: 'flex', alignItems: 'center', gap: '8px', color: '#cbd5e1', fontSize: '13px', fontWeight: 700 }}>
+                  <CheckCircle2 size={16} color="#00f0ff" />
                   <span>Production-tested on 200+ shopfloors</span>
                 </div>
               </div>
@@ -310,25 +312,25 @@ export const AtplOpenEcosystemBanner = () => {
            ===================================================================== */}
         <div
           style={{
-            backgroundColor: 'rgba(255, 255, 255, 0.85)',
+            backgroundColor: 'rgba(5, 14, 32, 0.92)',
             backdropFilter: 'blur(16px)',
             borderRadius: '24px',
-            border: '1px solid rgba(3, 45, 96, 0.12)',
+            border: '1px solid rgba(0, 240, 255, 0.25)',
             padding: '2.25rem 2.5rem',
-            boxShadow: '0 16px 40px rgba(3, 45, 96, 0.06)'
+            boxShadow: '0 16px 40px rgba(0, 0, 0, 0.45)'
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem', marginBottom: '1.75rem' }}>
             <div>
-              <div style={{ fontSize: '11.5px', fontWeight: 800, color: '#0176D3', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '4px' }}>
+              <div style={{ fontSize: '11.5px', fontWeight: 800, color: '#00f0ff', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '4px' }}>
                 SEAMLESS INTEROPERABILITY
               </div>
-              <h4 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#032D60', margin: 0 }}>
+              <h4 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#ffffff', margin: 0 }}>
                 Integrate with your enterprise ecosystem of choice
               </h4>
             </div>
 
-            <div style={{ fontSize: '13px', fontWeight: 700, color: '#64748b' }}>
+            <div style={{ fontSize: '13px', fontWeight: 700, color: '#94a3b8' }}>
               Zero custom coding • Bidirectional REST/RFC • Real-time audit
             </div>
           </div>
@@ -344,28 +346,28 @@ export const AtplOpenEcosystemBanner = () => {
               <div
                 key={idx}
                 style={{
-                  backgroundColor: '#ffffff',
-                  border: '1px solid rgba(3, 45, 96, 0.08)',
+                  backgroundColor: 'rgba(10, 24, 52, 0.75)',
+                  border: '1px solid rgba(0, 240, 255, 0.18)',
                   borderRadius: '14px',
                   padding: '12px 16px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'space-between',
-                  boxShadow: '0 2px 8px rgba(3, 45, 96, 0.04)',
+                  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.25)',
                   transition: 'all 0.2s ease'
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = '#0176D3';
-                  e.currentTarget.style.boxShadow = '0 6px 16px rgba(1, 118, 211, 0.15)';
+                  e.currentTarget.style.borderColor = '#00f0ff';
+                  e.currentTarget.style.boxShadow = '0 6px 16px rgba(0, 240, 255, 0.25)';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = 'rgba(3, 45, 96, 0.08)';
-                  e.currentTarget.style.boxShadow = '0 2px 8px rgba(3, 45, 96, 0.04)';
+                  e.currentTarget.style.borderColor = 'rgba(0, 240, 255, 0.18)';
+                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.25)';
                 }}
               >
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#0176D3' }} />
-                  <span style={{ fontSize: '13.5px', fontWeight: 800, color: '#032D60' }}>
+                  <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#00f0ff', boxShadow: '0 0 6px #00f0ff' }} />
+                  <span style={{ fontSize: '13.5px', fontWeight: 800, color: '#ffffff' }}>
                     {item.name}
                   </span>
                 </div>
@@ -373,8 +375,9 @@ export const AtplOpenEcosystemBanner = () => {
                   style={{
                     fontSize: '11px',
                     fontWeight: 700,
-                    color: '#0176D3',
-                    backgroundColor: 'rgba(1, 118, 211, 0.08)',
+                    color: '#00f0ff',
+                    backgroundColor: 'rgba(0, 240, 255, 0.12)',
+                    border: '1px solid rgba(0, 240, 255, 0.25)',
                     padding: '3px 9px',
                     borderRadius: '999px'
                   }}
@@ -390,7 +393,6 @@ export const AtplOpenEcosystemBanner = () => {
 
       {/* =====================================================================
           4. FLOATING SALESFORCE-STYLE "ASK ARCHIE AI" PILL & SPEECH BUBBLE
-             (Exactly matching "Ask Piper" speech bubble in the uploaded screenshot)
          ===================================================================== */}
       <div
         style={{
@@ -412,13 +414,13 @@ export const AtplOpenEcosystemBanner = () => {
               exit={{ opacity: 0, y: 10, scale: 0.95 }}
               transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
               style={{
-                backgroundColor: 'rgba(255, 255, 255, 0.96)',
+                backgroundColor: 'rgba(4, 14, 32, 0.95)',
                 backdropFilter: 'blur(16px)',
-                border: '1px solid rgba(3, 45, 96, 0.14)',
+                border: '1px solid rgba(0, 240, 255, 0.35)',
                 borderRadius: '20px 20px 4px 20px',
                 padding: '16px 20px',
                 maxWidth: '340px',
-                boxShadow: '0 20px 50px rgba(3, 45, 96, 0.22)',
+                boxShadow: '0 20px 50px rgba(0, 0, 0, 0.6), 0 0 25px rgba(0, 113, 186, 0.3)',
                 marginBottom: '12px',
                 pointerEvents: 'auto',
                 position: 'relative'
@@ -446,12 +448,12 @@ export const AtplOpenEcosystemBanner = () => {
               </button>
 
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
-                <span style={{ fontSize: '11px', fontWeight: 800, color: '#0176D3', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+                <span style={{ fontSize: '11px', fontWeight: 800, color: '#00f0ff', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
                   ARCHIE AI // SHOPFLOOR ADVISOR
                 </span>
               </div>
 
-              <p style={{ margin: 0, fontSize: '13.5px', lineHeight: 1.55, color: '#032D60', fontWeight: 500 }}>
+              <p style={{ margin: 0, fontSize: '13.5px', lineHeight: 1.55, color: '#cbd5e1', fontWeight: 500 }}>
                 Hi, I'm Archie from ATPL! Are you exploring ways to unify your shopfloor traceability, integrate with SAP/Oracle, or improve vision inspection?
               </p>
             </motion.div>
@@ -470,9 +472,9 @@ export const AtplOpenEcosystemBanner = () => {
           }}
           style={{
             pointerEvents: 'auto',
-            backgroundColor: '#0176D3',
+            backgroundColor: '#0071ba',
             color: '#ffffff',
-            border: 'none',
+            border: '1px solid rgba(0, 240, 255, 0.45)',
             padding: '12px 22px',
             borderRadius: '999px',
             fontSize: '14px',
@@ -481,19 +483,19 @@ export const AtplOpenEcosystemBanner = () => {
             display: 'inline-flex',
             alignItems: 'center',
             gap: '8px',
-            boxShadow: '0 10px 30px rgba(1, 118, 211, 0.45)',
+            boxShadow: '0 10px 30px rgba(0, 113, 186, 0.5), 0 0 15px rgba(0, 240, 255, 0.3)',
             transition: 'all 0.2s cubic-bezier(0.22, 1, 0.36, 1)'
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = '#032D60';
+            e.currentTarget.style.backgroundColor = '#005a96';
             e.currentTarget.style.transform = 'scale(1.04)';
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = '#0176D3';
+            e.currentTarget.style.backgroundColor = '#0071ba';
             e.currentTarget.style.transform = 'scale(1)';
           }}
         >
-          <Sparkles size={16} />
+          <Sparkles size={16} color="#00f0ff" />
           <span>Ask Archie</span>
           <Pin size={13} style={{ opacity: 0.75, marginLeft: '2px' }} />
         </button>

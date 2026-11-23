@@ -226,12 +226,44 @@ const SimulationTimelineControl = memo(({ isPlaying, setIsPlaying, isMuted, setI
   );
 });
 
+// Archie Showcase Camera & Presentation Feeds
+const ARCHIE_FEEDS = {
+  presentation: {
+    id: 'presentation',
+    label: '4K Presentation',
+    video: '/assets/videos/archie_presentation.mp4',
+    poster: '/assets/videos/posters/archie_presentation.jpg',
+    status: '• PRESENTING CAPABILITIES',
+    statusColor: '#00f0ff',
+    badge: 'ARCHIE // 4K SMART FACTORY AGENT'
+  },
+  waving: {
+    id: 'waving',
+    label: 'Shopfloor Telemetry',
+    video: '/assets/videos/robot_waving_agent.mp4',
+    poster: '/assets/videos/posters/robot_waving_agent.jpg',
+    status: '• ACTIVE & TRACKING',
+    statusColor: '#10b981',
+    badge: 'ARCHIE // SHOPFLOOR AGENT'
+  },
+  tracking: {
+    id: 'tracking',
+    label: 'Camera Lock',
+    video: '/assets/videos/robot_waving_at_camera.mp4',
+    poster: '/assets/videos/posters/robot_waving_at_camera.jpg',
+    status: '• FOCAL LOCK ON LINE #4',
+    statusColor: '#38bdf8',
+    badge: 'ARCHIE // OPTICAL INSPECTION'
+  }
+};
+
 export const Archie3DRobotSection = () => {
   const { openDemoModal } = useApp();
   const [hoveredPill, setHoveredPill] = useState(null);
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(false);
   const [isInView, setIsInView] = useState(true);
+  const [activeFeed, setActiveFeed] = useState('presentation');
   const sectionRef = useRef(null);
 
   // Pause animations when section is scrolled out of viewport
@@ -714,8 +746,9 @@ export const Archie3DRobotSection = () => {
           </div>
 
           {/* =======================================================================
-              SIDE 2: FULL-QUALITY WAVING ROBOT AGENT VIDEO SHOWCASE
-              (High-def authentic robot waving at camera with live HUD telemetry)
+              SIDE 2: ARCHIE 4K ULTRA-HD AGENT VIDEO SHOWCASE
+              (Google Flow 4K Archie gesturing toward blank holographic screen,
+               with interactive camera feed switcher and live HUD overlays)
              ======================================================================= */}
           <div
             style={{
@@ -723,19 +756,20 @@ export const Archie3DRobotSection = () => {
               borderRadius: '28px',
               overflow: 'hidden',
               backgroundColor: '#030c1c',
-              border: '1.5px solid rgba(0, 240, 255, 0.3)',
-              boxShadow: '0 25px 60px rgba(0, 0, 0, 0.35), 0 0 30px rgba(0, 113, 186, 0.18)',
-              aspectRatio: '1 / 1',
+              border: '1.5px solid rgba(0, 240, 255, 0.35)',
+              boxShadow: '0 25px 60px rgba(0, 0, 0, 0.45), 0 0 35px rgba(0, 113, 186, 0.25)',
+              aspectRatio: '16 / 11',
               minHeight: '440px',
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'space-between'
             }}
           >
-            {/* The Authentic Robot Waving Video */}
+            {/* The Active Robot Video Stream */}
             <video
-              src="/assets/videos/robot_waving_agent.mp4"
-              poster="/assets/videos/posters/robot_waving_agent.jpg"
+              key={activeFeed}
+              src={ARCHIE_FEEDS[activeFeed]?.video || ARCHIE_FEEDS.presentation.video}
+              poster={ARCHIE_FEEDS[activeFeed]?.poster || ARCHIE_FEEDS.presentation.poster}
               autoPlay
               loop
               muted
@@ -750,75 +784,155 @@ export const Archie3DRobotSection = () => {
               }}
             />
 
-            {/* Subtle Top & Bottom Gradient Vignettes */}
+            {/* Subtle Atmospheric Top & Bottom Vignettes */}
             <div
               style={{
                 position: 'absolute',
                 inset: 0,
-                background: 'linear-gradient(180deg, rgba(3, 12, 28, 0.65) 0%, transparent 35%, transparent 65%, rgba(3, 12, 28, 0.85) 100%)',
+                background: 'linear-gradient(180deg, rgba(3, 12, 28, 0.72) 0%, transparent 35%, transparent 60%, rgba(3, 12, 28, 0.88) 100%)',
                 zIndex: 2,
                 pointerEvents: 'none'
               }}
             />
 
-            {/* Top Status Header Badge */}
+            {/* Top Status Header Badge + Multi-Feed Camera Switcher */}
             <div
               style={{
                 position: 'relative',
                 zIndex: 10,
-                padding: '1.25rem',
+                padding: '1.15rem',
                 display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between'
+                flexDirection: 'column',
+                gap: '0.65rem'
               }}
             >
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '8px' }}>
+                <div
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    padding: '6px 14px',
+                    borderRadius: '999px',
+                    backgroundColor: 'rgba(5, 14, 32, 0.88)',
+                    backdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(0, 240, 255, 0.45)',
+                    fontSize: '11px',
+                    fontWeight: 800,
+                    letterSpacing: '0.08em',
+                    color: '#00f0ff',
+                    textTransform: 'uppercase'
+                  }}
+                >
+                  <span style={{ width: '7px', height: '7px', borderRadius: '50%', backgroundColor: '#00f0ff', boxShadow: '0 0 8px #00f0ff' }} />
+                  <Bot size={13} color="#00f0ff" />
+                  <span>{ARCHIE_FEEDS[activeFeed]?.badge || 'ARCHIE // 4K SMART FACTORY AGENT'}</span>
+                </div>
+
+                <div
+                  style={{
+                    fontSize: '10.5px',
+                    fontWeight: 800,
+                    color: ARCHIE_FEEDS[activeFeed]?.statusColor || '#10b981',
+                    backgroundColor: 'rgba(5, 14, 32, 0.85)',
+                    border: `1px solid ${ARCHIE_FEEDS[activeFeed]?.statusColor || '#10b981'}55`,
+                    padding: '4px 11px',
+                    borderRadius: '999px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px'
+                  }}
+                >
+                  <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: ARCHIE_FEEDS[activeFeed]?.statusColor || '#10b981' }} />
+                  <span>{ARCHIE_FEEDS[activeFeed]?.status || '• LIVE STREAMING'}</span>
+                </div>
+              </div>
+
+              {/* Feed Switcher Tabs */}
               <div
                 style={{
                   display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  padding: '6px 14px',
+                  alignSelf: 'flex-start',
+                  backgroundColor: 'rgba(4, 12, 28, 0.82)',
+                  backdropFilter: 'blur(8px)',
                   borderRadius: '999px',
-                  backgroundColor: 'rgba(5, 14, 32, 0.82)',
-                  backdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(0, 240, 255, 0.4)',
-                  fontSize: '11px',
-                  fontWeight: 800,
-                  letterSpacing: '0.08em',
-                  color: '#00f0ff',
-                  textTransform: 'uppercase'
+                  padding: '3px',
+                  border: '1px solid rgba(0, 240, 255, 0.25)',
+                  gap: '4px'
                 }}
               >
-                <span style={{ width: '7px', height: '7px', borderRadius: '50%', backgroundColor: '#00f0ff', boxShadow: '0 0 8px #00f0ff' }} />
-                <Bot size={13} color="#00f0ff" />
-                <span>ARCHIE // AI SHOPFLOOR AGENT</span>
-              </div>
-
-              <div
-                style={{
-                  fontSize: '10.5px',
-                  fontWeight: 800,
-                  color: '#10b981',
-                  backgroundColor: 'rgba(16, 185, 129, 0.15)',
-                  border: '1px solid rgba(16, 185, 129, 0.35)',
-                  padding: '4px 10px',
-                  borderRadius: '999px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '5px'
-                }}
-              >
-                <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#10b981' }} />
-                <span>ACTIVE &amp; TRACKING</span>
+                {Object.values(ARCHIE_FEEDS).map(feed => (
+                  <button
+                    key={feed.id}
+                    type="button"
+                    onClick={() => {
+                      setActiveFeed(feed.id);
+                      if (!isMuted) playChime(feed.id === 'presentation' ? 659.25 : 587.33);
+                    }}
+                    style={{
+                      padding: '4px 11px',
+                      borderRadius: '999px',
+                      fontSize: '10.5px',
+                      fontWeight: activeFeed === feed.id ? 800 : 600,
+                      backgroundColor: activeFeed === feed.id ? 'rgba(0, 113, 186, 0.9)' : 'transparent',
+                      color: activeFeed === feed.id ? '#ffffff' : '#94a3b8',
+                      border: activeFeed === feed.id ? '1px solid rgba(0, 240, 255, 0.5)' : '1px solid transparent',
+                      cursor: 'pointer',
+                      transition: 'all 0.15s ease',
+                      boxShadow: activeFeed === feed.id ? '0 0 10px rgba(0, 240, 255, 0.35)' : 'none'
+                    }}
+                  >
+                    {feed.label}
+                  </button>
+                ))}
               </div>
             </div>
+
+            {/* Floating Holographic Telemetry Projected onto the Blank Glass Screen (Presentation Feed) */}
+            {activeFeed === 'presentation' && (
+              <div
+                style={{
+                  position: 'absolute',
+                  top: '28%',
+                  left: '6%',
+                  width: '38%',
+                  maxWidth: '210px',
+                  backgroundColor: 'rgba(5, 14, 32, 0.65)',
+                  backdropFilter: 'blur(6px)',
+                  border: '1.5px solid rgba(0, 240, 255, 0.5)',
+                  borderRadius: '14px',
+                  padding: '0.75rem 0.85rem',
+                  boxShadow: '0 8px 24px rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 240, 255, 0.25)',
+                  zIndex: 5,
+                  pointerEvents: 'none',
+                  animation: 'atplPillFloat 3.8s ease-in-out infinite'
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '4px' }}>
+                  <span style={{ fontSize: '9px', fontWeight: 800, color: '#00f0ff', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                    • ATPL SYSTEM HUD
+                  </span>
+                  <span style={{ fontSize: '8.5px', color: '#10b981', fontWeight: 700 }}>60 FPS</span>
+                </div>
+                <div style={{ fontSize: '13px', fontWeight: 900, color: '#ffffff', lineHeight: 1.2 }}>
+                  99.985%
+                </div>
+                <div style={{ fontSize: '10px', color: '#94a3b8' }}>
+                  First-Pass Inspection Yield
+                </div>
+                <div style={{ marginTop: '6px', paddingTop: '6px', borderTop: '1px solid rgba(0, 240, 255, 0.2)', display: 'flex', justifyContent: 'space-between', fontSize: '9px', color: '#38bdf8', fontWeight: 700 }}>
+                  <span>SAP BAPI SYNC</span>
+                  <span style={{ color: '#00f0ff' }}>4.8ms</span>
+                </div>
+              </div>
+            )}
 
             {/* Bottom Floating Telemetry Card */}
             <div
               style={{
                 position: 'relative',
                 zIndex: 10,
-                padding: '1.25rem',
+                padding: '1.15rem',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
@@ -831,7 +945,7 @@ export const Archie3DRobotSection = () => {
                   <Sparkles size={12} color="#00f0ff" />
                   <span>INTELLIGENT AUTONOMOUS ASSISTANT</span>
                 </div>
-                <div style={{ fontSize: '14px', fontWeight: 800, color: '#ffffff', marginTop: '2px' }}>
+                <div style={{ fontSize: '13.5px', fontWeight: 800, color: '#ffffff', marginTop: '2px' }}>
                   Live Plant Telemetry &amp; Cognitive Vision
                 </div>
               </div>

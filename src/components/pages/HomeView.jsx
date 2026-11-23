@@ -64,7 +64,7 @@ export const HomeView = () => {
   };
 
   return (
-    <div style={{ backgroundColor: '#ffffff', color: '#1e293b', overflowX: 'clip', overflowY: 'visible', transform: 'none', filter: 'none' }}>
+    <div style={{ backgroundColor: '#040914', color: '#ffffff', overflowX: 'clip', overflowY: 'visible', transform: 'none', filter: 'none' }}>
 
       {/* =========================================================================
           1. SPLIT HERO SECTION: HERO HEADLINE & CTAS (LEFT) + 3D FACTORY BLUEPRINT TOUR (RIGHT)
@@ -367,23 +367,23 @@ export const HomeView = () => {
       {/* =========================================================================
           3. AUTHENTIC ENTERPRISE CLIENT LOGOS STRIP
          ========================================================================= */}
-      <section style={{ backgroundColor: '#f8fafc', padding: '2.5rem 0', borderTop: '1px solid #e2e8f0', borderBottom: '1px solid #e2e8f0' }}>
+      <section style={{ backgroundColor: '#050a16', padding: '2.5rem 0', borderTop: '1px solid rgba(0, 240, 255, 0.15)', borderBottom: '1px solid rgba(0, 240, 255, 0.15)' }}>
         <div className="container" style={{ textAlign: 'center', marginBottom: '1.25rem' }}>
           <span style={{
             fontSize: '0.76rem',
             fontWeight: 800,
             textTransform: 'uppercase',
             letterSpacing: '0.08em',
-            color: '#0071ba',
-            backgroundColor: 'rgba(0, 113, 186, 0.08)',
-            border: '1px solid rgba(0, 113, 186, 0.22)',
+            color: '#00f0ff',
+            backgroundColor: 'rgba(0, 240, 255, 0.08)',
+            border: '1px solid rgba(0, 240, 255, 0.28)',
             padding: '0.35rem 1rem',
             borderRadius: '999px',
             display: 'inline-flex',
             alignItems: 'center',
             gap: '0.45rem'
           }}>
-            <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#0071ba', boxShadow: '0 0 6px #0071ba' }} />
+            <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#00f0ff', boxShadow: '0 0 8px #00f0ff' }} />
             TRUSTED BY 250+ ENTERPRISE MANUFACTURING PLANTS &amp; SUPPLY CHAIN HUBS
           </span>
         </div>

@@ -84,13 +84,13 @@ const InteractiveValueCard = ({ item, index }) => {
       style={{
         position: 'relative',
         borderRadius: '20px',
-        backgroundColor: '#ffffff',
+        backgroundColor: 'rgba(6, 18, 38, 0.88)',
         border: isHovered 
           ? `1.5px solid ${item.color}` 
-          : '1px solid rgba(226, 232, 240, 0.95)',
+          : '1px solid rgba(0, 240, 255, 0.18)',
         boxShadow: isHovered 
-          ? `0 20px 40px -15px ${item.accentGlow}, 0 8px 16px -6px rgba(15, 23, 42, 0.08)` 
-          : '0 4px 18px -4px rgba(15, 23, 42, 0.04), 0 2px 6px -2px rgba(15, 23, 42, 0.02)',
+          ? `0 20px 40px -15px ${item.accentGlow}, 0 0 25px rgba(0, 240, 255, 0.2)` 
+          : '0 8px 24px rgba(0, 0, 0, 0.45)',
         padding: '2.25rem 2rem',
         overflow: 'hidden',
         transition: 'border 0.25s ease, box-shadow 0.3s ease',
@@ -190,7 +190,7 @@ const InteractiveValueCard = ({ item, index }) => {
         <h3 style={{
           fontSize: '1.28rem',
           fontWeight: 800,
-          color: '#0f172a',
+          color: '#ffffff',
           lineHeight: 1.3,
           margin: '0 0 0.75rem 0',
           letterSpacing: '-0.015em'
@@ -201,7 +201,7 @@ const InteractiveValueCard = ({ item, index }) => {
         {/* Detailed Copywriting */}
         <p style={{
           fontSize: '0.96rem',
-          color: '#475569',
+          color: '#94a3b8',
           lineHeight: 1.68,
           margin: '0 0 1.5rem 0'
         }}>
@@ -214,9 +214,9 @@ const InteractiveValueCard = ({ item, index }) => {
           alignItems: 'center',
           gap: '0.5rem',
           paddingTop: '0.95rem',
-          borderTop: '1px solid rgba(226, 232, 240, 0.8)',
+          borderTop: '1px solid rgba(0, 240, 255, 0.15)',
           fontSize: '0.8rem',
-          color: '#64748b',
+          color: '#cbd5e1',
           fontWeight: 600
         }}>
           <CheckCircle2 size={15} color={item.color} style={{ flexShrink: 0 }} />
@@ -452,13 +452,15 @@ export const CoreValuesSection = () => {
       style={{
         position: 'relative',
         padding: '6rem 1.5rem 6.5rem 1.5rem',
-        backgroundColor: '#fbfcfe',
+        backgroundColor: '#040914',
         backgroundImage: `
-          linear-gradient(to right, rgba(15, 23, 42, 0.035) 1px, transparent 1px),
-          linear-gradient(to bottom, rgba(15, 23, 42, 0.035) 1px, transparent 1px)
+          radial-gradient(ellipse at 50% 10%, rgba(0, 113, 186, 0.18) 0%, transparent 65%),
+          linear-gradient(to right, rgba(0, 240, 255, 0.05) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(0, 240, 255, 0.05) 1px, transparent 1px)
         `,
-        backgroundSize: '48px 48px',
-        borderBottom: '1px solid #e2e8f0',
+        backgroundSize: '100% 100%, 48px 48px, 48px 48px',
+        borderTop: '1px solid rgba(0, 240, 255, 0.15)',
+        borderBottom: '1px solid rgba(0, 240, 255, 0.15)',
         overflow: 'hidden'
       }}
     >
@@ -470,7 +472,7 @@ export const CoreValuesSection = () => {
         transform: 'translateX(-50%)',
         width: '800px',
         height: '400px',
-        background: 'radial-gradient(circle, rgba(0, 113, 186, 0.06) 0%, transparent 70%)',
+        background: 'radial-gradient(circle, rgba(0, 240, 255, 0.1) 0%, transparent 70%)',
         pointerEvents: 'none',
         zIndex: 0
       }} />
@@ -485,16 +487,16 @@ export const CoreValuesSection = () => {
             <span style={{
               fontSize: '0.8rem',
               fontWeight: 700,
-              color: 'var(--color-brand-blue, #0071ba)',
-              backgroundColor: 'rgba(0, 113, 186, 0.08)',
-              border: '1px solid rgba(0, 113, 186, 0.22)',
+              color: '#00f0ff',
+              backgroundColor: 'rgba(0, 240, 255, 0.08)',
+              border: '1px solid rgba(0, 240, 255, 0.28)',
               padding: '0.35rem 0.95rem',
               borderRadius: '999px',
               display: 'inline-flex',
               alignItems: 'center',
               gap: '0.45rem'
             }}>
-              <Sparkles size={14} color="#0071ba" />
+              <Sparkles size={14} color="#00f0ff" />
               ATPL Industrial Pillars, Shopfloor Verified
             </span>
           </div>
@@ -502,7 +504,7 @@ export const CoreValuesSection = () => {
           <h2 style={{
             fontSize: 'clamp(2.1rem, 3.8vw, 3.1rem)',
             fontWeight: 800,
-            color: '#0f172a',
+            color: '#ffffff',
             lineHeight: 1.2,
             letterSpacing: '-0.025em',
             margin: '0 0 1.25rem 0',
@@ -510,12 +512,12 @@ export const CoreValuesSection = () => {
             caretColor: 'transparent'
           }}>
             The core values and principles<br />
-            that drive us
+            that <span style={{ color: '#00f0ff', textShadow: '0 0 25px rgba(0, 240, 255, 0.4)' }}>drive us</span>
           </h2>
 
           <p style={{
             fontSize: '1.05rem',
-            color: '#64748b',
+            color: '#94a3b8',
             lineHeight: 1.65,
             maxWidth: '640px',
             margin: '0 auto 1.5rem auto'
@@ -551,7 +553,7 @@ export const CoreValuesSection = () => {
               left: '50%',
               width: '2px',
               transform: 'translateX(-50%)',
-              backgroundColor: 'rgba(226, 232, 240, 0.8)',
+              backgroundColor: 'rgba(0, 240, 255, 0.25)',
               zIndex: 0,
               pointerEvents: 'none'
             }}
@@ -621,9 +623,9 @@ export const CoreValuesSection = () => {
             marginTop: '4rem',
             padding: '1.5rem 2rem',
             borderRadius: '16px',
-            backgroundColor: '#ffffff',
-            border: '1px solid rgba(226, 232, 240, 0.9)',
-            boxShadow: '0 6px 20px -6px rgba(15, 23, 42, 0.05)',
+            backgroundColor: 'rgba(6, 18, 38, 0.88)',
+            border: '1px solid rgba(0, 240, 255, 0.25)',
+            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.45)',
             display: 'flex',
             flexWrap: 'wrap',
             alignItems: 'center',
@@ -637,20 +639,21 @@ export const CoreValuesSection = () => {
               width: '42px',
               height: '42px',
               borderRadius: '10px',
-              backgroundColor: 'rgba(0, 113, 186, 0.08)',
-              color: '#0071ba',
+              backgroundColor: 'rgba(0, 240, 255, 0.12)',
+              border: '1px solid rgba(0, 240, 255, 0.25)',
+              color: '#00f0ff',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               flexShrink: 0
             }}>
-              <Activity size={22} />
+              <Activity size={22} color="#00f0ff" />
             </div>
             <div>
-              <div style={{ fontSize: '0.78rem', color: '#64748b', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              <div style={{ fontSize: '0.78rem', color: '#94a3b8', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                 Engineering Core Status
               </div>
-              <div ref={progressTextRef} style={{ fontSize: '0.98rem', fontWeight: 800, color: 'var(--color-slate-900, #0f172a)' }}>
+              <div ref={progressTextRef} style={{ fontSize: '0.98rem', fontWeight: 800, color: '#ffffff' }}>
                 6/6 Pillars Active, 0% Section Explored
               </div>
             </div>
@@ -666,14 +669,16 @@ export const CoreValuesSection = () => {
                 gap: '0.45rem',
                 fontSize: '0.9rem',
                 fontWeight: 700,
-                color: '#0071ba',
+                color: '#00f0ff',
                 textDecoration: 'none',
-                padding: '0.55rem 1rem',
+                padding: '0.55rem 1.1rem',
                 borderRadius: '8px',
-                backgroundColor: 'rgba(0, 113, 186, 0.06)'
+                backgroundColor: 'rgba(0, 240, 255, 0.08)',
+                border: '1px solid rgba(0, 240, 255, 0.25)',
+                transition: 'all 0.15s ease'
               }}
             >
-              <PhoneCall size={16} />
+              <PhoneCall size={16} color="#00f0ff" />
               Call SLA Desk: 044 3553 7618
             </a>
 
@@ -683,23 +688,23 @@ export const CoreValuesSection = () => {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '0.5rem',
-                backgroundColor: '#0f172a',
+                backgroundColor: '#0071ba',
                 color: '#ffffff',
-                border: 'none',
-                padding: '0.65rem 1.25rem',
+                border: '1px solid rgba(0, 240, 255, 0.45)',
+                padding: '0.65rem 1.35rem',
                 borderRadius: '8px',
-                fontWeight: 700,
+                fontWeight: 800,
                 fontSize: '0.9rem',
                 cursor: 'pointer',
-                boxShadow: '0 4px 14px rgba(15, 23, 42, 0.15)',
+                boxShadow: '0 4px 16px rgba(0, 113, 186, 0.4), 0 0 12px rgba(0, 240, 255, 0.25)',
                 transition: 'all 0.2s ease'
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#0071ba';
+                e.currentTarget.style.backgroundColor = '#005a96';
                 e.currentTarget.style.transform = 'translateY(-2px)';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = '#0f172a';
+                e.currentTarget.style.backgroundColor = '#0071ba';
                 e.currentTarget.style.transform = 'translateY(0)';
               }}
             >
