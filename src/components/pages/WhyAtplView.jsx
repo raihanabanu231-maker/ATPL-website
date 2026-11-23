@@ -861,6 +861,67 @@ export const WhyAtplView = () => {
           pointerEvents: 'none'
         }} />
 
+        <style>{`
+          .archie-video-theater-container {
+            min-height: 480px;
+            height: clamp(480px, 56vw, 620px);
+          }
+          .archie-top-hud {
+            padding: 1.25rem 1.75rem;
+          }
+          .archie-bottom-hud {
+            padding: 1.25rem 1.75rem;
+          }
+          .archie-glass-hud-overlay {
+            position: absolute;
+            left: 6.5%;
+            top: clamp(52px, 9.5%, 64px);
+            bottom: clamp(72px, 11%, 84px);
+            width: clamp(300px, 39.5%, 460px);
+          }
+
+          @media (max-width: 900px) {
+            .archie-glass-hud-overlay {
+              left: 4%;
+              width: 48%;
+              top: 54px;
+              bottom: 70px;
+            }
+          }
+
+          @media (max-width: 640px) {
+            .archie-video-theater-container {
+              min-height: 520px !important;
+              border-radius: 18px !important;
+            }
+            .archie-top-hud {
+              padding: 0.65rem 0.85rem !important;
+              gap: 0.5rem !important;
+              flex-wrap: nowrap !important;
+            }
+            .archie-bottom-hud {
+              padding: 0.65rem 0.85rem !important;
+              gap: 0.55rem !important;
+            }
+            .archie-glass-hud-overlay {
+              left: 10px !important;
+              right: 10px !important;
+              width: auto !important;
+              top: 52px !important;
+              bottom: 60px !important;
+              padding: 0.75rem 0.85rem !important;
+              overflow-y: auto !important;
+              -webkit-overflow-scrolling: touch !important;
+            }
+            .archie-top-hud-pill-telemetry {
+              display: none !important;
+            }
+            .archie-hud-feat-list {
+              gap: 0.25rem !important;
+            }
+          }
+        `}</style>
+
         <div style={{ maxWidth: '1280px', margin: '0 auto', position: 'relative', zIndex: 10 }}>
           
           {/* Section Header */}
@@ -951,6 +1012,7 @@ export const WhyAtplView = () => {
           {/* THE GRAND FULL-VIEW CINEMA THEATER CONTAINER */}
           <div
             ref={fullTheaterContainerRef}
+            className="archie-video-theater-container"
             style={{
               position: 'relative',
               width: '100%',
@@ -959,8 +1021,6 @@ export const WhyAtplView = () => {
               backgroundColor: '#020713',
               border: '1.5px solid rgba(0, 240, 255, 0.4)',
               boxShadow: '0 25px 70px rgba(0, 0, 0, 0.6), 0 0 45px rgba(0, 113, 186, 0.25)',
-              minHeight: '480px',
-              height: 'clamp(460px, 56vw, 620px)',
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'space-between'
@@ -997,16 +1057,18 @@ export const WhyAtplView = () => {
             }} />
 
             {/* Top HUD Status Bar */}
-            <div style={{
-              position: 'relative',
-              zIndex: 10,
-              padding: '1.25rem 1.75rem',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              flexWrap: 'wrap',
-              gap: '0.75rem'
-            }}>
+            <div 
+              className="archie-top-hud"
+              style={{
+                position: 'relative',
+                zIndex: 10,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                flexWrap: 'wrap',
+                gap: '0.75rem'
+              }}
+            >
               <div style={{
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -1028,19 +1090,22 @@ export const WhyAtplView = () => {
                 <span style={{ color: '#10b981' }}>{activeFeed.status}</span>
               </div>
 
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.85rem',
-                backgroundColor: 'rgba(2, 7, 19, 0.85)',
-                backdropFilter: 'blur(10px)',
-                border: '1px solid rgba(255, 255, 255, 0.15)',
-                padding: '0.4rem 1rem',
-                borderRadius: '999px',
-                fontSize: '0.74rem',
-                color: '#94a3b8',
-                fontFamily: 'monospace'
-              }}>
+              <div 
+                className="archie-top-hud-pill-telemetry"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.85rem',
+                  backgroundColor: 'rgba(2, 7, 19, 0.85)',
+                  backdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(255, 255, 255, 0.15)',
+                  padding: '0.4rem 1rem',
+                  borderRadius: '999px',
+                  fontSize: '0.74rem',
+                  color: '#94a3b8',
+                  fontFamily: 'monospace'
+                }}
+              >
                 <span style={{ color: '#00f0ff', fontWeight: 700 }}>{activeFeed.resolution}</span>
                 <span>•</span>
                 <span style={{ color: '#10b981', fontWeight: 700 }}>{activeFeed.fps}</span>
@@ -1140,11 +1205,14 @@ export const WhyAtplView = () => {
                 </div>
 
                 {/* Exact Features Bullet Points (using '+' like the video) */}
-                <div style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: 'clamp(0.25rem, 0.55vw, 0.45rem)'
-                }}>
+                <div 
+                  className="archie-hud-feat-list"
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 'clamp(0.25rem, 0.55vw, 0.45rem)'
+                  }}
+                >
                   {[
                     '9 In-House Specialized Software Products',
                     'Direct SAP & Oracle Integration',
@@ -1223,14 +1291,16 @@ export const WhyAtplView = () => {
             )}
 
             {/* Bottom HUD Controls Bar */}
-            <div style={{
-              position: 'relative',
-              zIndex: 10,
-              padding: '1.25rem 1.75rem',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '0.85rem'
-            }}>
+            <div 
+              className="archie-bottom-hud"
+              style={{
+                position: 'relative',
+                zIndex: 10,
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '0.85rem'
+              }}
+            >
               {/* Scrubber Bar */}
               <div 
                 onClick={(e) => {

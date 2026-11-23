@@ -821,7 +821,9 @@ const BentoCard = memo(({ card, index, isInView, onSelect }) => {
         perspective: 900,
         height: '100%',
         cursor: 'pointer',
-        position: 'relative'
+        position: 'relative',
+        touchAction: 'manipulation',
+        WebkitTapHighlightColor: 'transparent'
       }}
       tabIndex={0}
       role="article"
@@ -1022,6 +1024,7 @@ const ExpandedDetailModal = memo(({ card, onClose }) => {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.25 }}
+      className="why-atpl-bento-modal-backdrop"
       style={{
         position: 'fixed',
         inset: 0,
@@ -1038,6 +1041,7 @@ const ExpandedDetailModal = memo(({ card, onClose }) => {
     >
       <motion.div
         layoutId={`card-container-${card.id}`}
+        className="why-atpl-bento-modal"
         style={{
           width: '100%',
           maxWidth: '780px',
@@ -1055,6 +1059,7 @@ const ExpandedDetailModal = memo(({ card, onClose }) => {
         {/* Close Button */}
         <button
           onClick={onClose}
+          className="bento-modal-close-btn"
           style={{
             position: 'absolute',
             top: '1.25rem',
@@ -1069,7 +1074,8 @@ const ExpandedDetailModal = memo(({ card, onClose }) => {
             justifyContent: 'center',
             color: '#0f172a',
             cursor: 'pointer',
-            transition: 'all 0.2s ease'
+            transition: 'all 0.2s ease',
+            touchAction: 'manipulation'
           }}
           onMouseEnter={(e) => { e.currentTarget.style.background = '#0284c7'; e.currentTarget.style.color = '#fff'; }}
           onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(241, 245, 249, 0.9)'; e.currentTarget.style.color = '#0f172a'; }}
@@ -1458,6 +1464,20 @@ export const WhyAtplCardsSection = memo(() => {
           }
           .col-span-2 {
             grid-column: span 1;
+          }
+          .why-atpl-bento-modal-backdrop {
+            padding: 0.75rem !important;
+          }
+          .why-atpl-bento-modal {
+            padding: 1.25rem 1rem !important;
+            border-radius: 18px !important;
+            max-height: 92vh !important;
+          }
+          .bento-modal-close-btn {
+            width: 44px !important;
+            height: 44px !important;
+            top: 0.75rem !important;
+            right: 0.75rem !important;
           }
         }
 

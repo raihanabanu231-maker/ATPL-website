@@ -593,6 +593,7 @@ const RaceToGoLivePanel = memo(() => {
               WebkitAppearance: 'none',
               outline: 'none',
               cursor: 'pointer',
+              touchAction: 'manipulation',
               background: `linear-gradient(90deg, #0369a1 0%, #0369a1 ${(currentWeeks / MAX_WEEKS) * 100}%, #e2e8f0 ${(currentWeeks / MAX_WEEKS) * 100}%, #e2e8f0 100%)`
             }}
           />
@@ -717,6 +718,8 @@ const CriteriaExplorer = memo(() => {
                   cursor: 'pointer',
                   outline: 'none',
                   transition: 'all 0.2s ease',
+                  touchAction: 'manipulation',
+                  WebkitTapHighlightColor: 'transparent',
                   boxShadow: isSelected ? '0 4px 18px rgba(3, 105, 161, 0.08)' : 'none'
                 }}
               >
