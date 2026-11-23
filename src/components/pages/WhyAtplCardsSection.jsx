@@ -781,6 +781,8 @@ const BentoCard = memo(({ card, index, isInView, onSelect }) => {
 
   const handleMouseMove = useCallback((e) => {
     if (!cardRef.current || prefersReduced) return;
+    // Only calculate 3D perspective tilt on devices with precise pointer (mouse), avoiding mobile touch CPU cost
+    if (typeof window !== 'undefined' && window.matchMedia && !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
     const rect = cardRef.current.getBoundingClientRect();
     const mouseClientX = e.clientX - rect.left;
     const mouseClientY = e.clientY - rect.top;
@@ -1283,76 +1285,24 @@ const ExpandedDetailModal = memo(({ card, onClose }) => {
 });
 
 // ============================================================================
-// 7. SUBTLE PARTICLES BACKGROUND
+// 7. AMBIENT PARTICLES & GRID BACKGROUND (GPU COMPOSITED, 0% CPU JS LOAD)
 // ============================================================================
 const SubtleParticles = memo(() => {
-  const canvasRef = useRef(null);
-  const prefersReduced = useReducedMotion();
-
-  useEffect(() => {
-    if (prefersReduced) return;
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    let width = (canvas.width = canvas.parentElement.offsetWidth);
-    let height = (canvas.height = canvas.parentElement.offsetHeight);
-    let animId;
-
-    const count = 30;
-    const particles = Array.from({ length: count }, () => ({
-      x: Math.random() * width,
-      y: Math.random() * height,
-      size: Math.random() * 2.2 + 0.8,
-      vx: (Math.random() - 0.5) * 0.35,
-      vy: (Math.random() - 0.5) * 0.35,
-      alpha: Math.random() * 0.22 + 0.08,
-    }));
-
-    const render = () => {
-      ctx.clearRect(0, 0, width, height);
-      particles.forEach((p) => {
-        p.x += p.vx;
-        p.y += p.vy;
-        if (p.x < 0) p.x = width;
-        if (p.x > width) p.x = 0;
-        if (p.y < 0) p.y = height;
-        if (p.y > height) p.y = 0;
-
-        ctx.fillStyle = `rgba(34, 211, 238, ${p.alpha})`;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fill();
-      });
-      animId = requestAnimationFrame(render);
-    };
-
-    render();
-    const handleResize = () => {
-      if (!canvas || !canvas.parentElement) return;
-      width = canvas.width = canvas.parentElement.offsetWidth;
-      height = canvas.height = canvas.parentElement.offsetHeight;
-    };
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      cancelAnimationFrame(animId);
-      window.removeEventListener('resize', handleResize);
-    };
-  }, [prefersReduced]);
-
-  if (prefersReduced) return null;
-
   return (
-    <canvas
-      ref={canvasRef}
+    <div
       style={{
         position: 'absolute',
         inset: 0,
         pointerEvents: 'none',
         zIndex: 0,
-        opacity: 0.65
+        overflow: 'hidden',
+        backgroundImage: `
+          radial-gradient(circle at 15% 20%, rgba(34, 211, 238, 0.08) 0%, transparent 42%),
+          radial-gradient(circle at 85% 65%, rgba(3, 105, 161, 0.07) 0%, transparent 48%),
+          radial-gradient(rgba(34, 211, 238, 0.16) 1.2px, transparent 1.2px)
+        `,
+        backgroundSize: '100% 100%, 100% 100%, 28px 28px',
+        opacity: 0.85
       }}
       aria-hidden="true"
     />

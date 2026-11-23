@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect, useCallback, memo } from 'react';
 import { useApp } from '../../context/AppContext';
 import { 
   CheckCircle2, 
@@ -35,6 +35,187 @@ import { motion, AnimatePresence, useScroll, useSpring } from 'framer-motion';
 import { WhyAtplCardsSection } from './WhyAtplCardsSection';
 import { HowAtplComparesSection } from './HowAtplComparesSection';
 
+// =========================================================================
+// ISOLATED CINEMATIC THEATER BOTTOM CONTROLS (Zero Parent Re-render)
+// =========================================================================
+const TheaterBottomControls = memo(({
+  fullVideoPlaying,
+  setFullVideoPlaying,
+  fullVideoMuted,
+  setFullVideoMuted,
+  fullVideoRef,
+  toggleFullScreenVideo,
+  openDemoModal,
+  playAudioChime
+}) => {
+  const [progress, setProgress] = useState(18);
+
+  useEffect(() => {
+    if (!fullVideoPlaying) return;
+    const interval = setInterval(() => {
+      setProgress(prev => (prev >= 100 ? 0 : Number((prev + 0.4).toFixed(1))));
+    }, 80);
+    return () => clearInterval(interval);
+  }, [fullVideoPlaying]);
+
+  return (
+    <div 
+      className="archie-bottom-hud"
+      style={{
+        position: 'relative',
+        zIndex: 10,
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '0.85rem'
+      }}
+    >
+      {/* Scrubber Bar */}
+      <div 
+        onClick={(e) => {
+          const rect = e.currentTarget.getBoundingClientRect();
+          const clickX = e.clientX - rect.left;
+          const newProgress = Math.max(0, Math.min(100, (clickX / rect.width) * 100));
+          setProgress(Number(newProgress.toFixed(1)));
+          if (!fullVideoMuted) playAudioChime(520 + (newProgress * 3));
+        }}
+        style={{
+          width: '100%',
+          height: '8px',
+          backgroundColor: 'rgba(255, 255, 255, 0.15)',
+          borderRadius: '999px',
+          overflow: 'hidden',
+          cursor: 'pointer',
+          position: 'relative',
+          border: '1px solid rgba(255, 255, 255, 0.1)',
+          touchAction: 'manipulation'
+        }}
+        title="Click anywhere to scrub playback"
+      >
+        <div style={{
+          height: '100%',
+          width: `${progress}%`,
+          background: 'linear-gradient(90deg, #0071ba 0%, #00f0ff 60%, #ec4899 100%)',
+          borderRadius: '999px'
+        }} />
+      </div>
+
+      {/* Control Buttons & Telemetry Summary */}
+      <div style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        flexWrap: 'wrap',
+        gap: '1rem'
+      }}>
+        {/* Left: Play/Pause, Mute/Unmute, Timecode */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+          <button
+            onClick={() => {
+              const next = !fullVideoPlaying;
+              setFullVideoPlaying(next);
+              if (fullVideoRef.current) {
+                if (next) fullVideoRef.current.play();
+                else fullVideoRef.current.pause();
+              }
+              if (!fullVideoMuted) playAudioChime(next ? 660 : 440);
+            }}
+            style={{
+              width: '38px',
+              height: '38px',
+              borderRadius: '50%',
+              backgroundColor: fullVideoPlaying ? '#0071ba' : '#0f172a',
+              color: '#ffffff',
+              border: '1px solid rgba(0, 240, 255, 0.4)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              boxShadow: '0 0 15px rgba(0, 113, 186, 0.4)',
+              touchAction: 'manipulation'
+            }}
+          >
+            {fullVideoPlaying ? <Pause size={16} /> : <Play size={16} style={{ marginLeft: '2px' }} />}
+          </button>
+
+          <button
+            onClick={() => {
+              const next = !fullVideoMuted;
+              setFullVideoMuted(next);
+              if (fullVideoRef.current) fullVideoRef.current.muted = next;
+              if (!next) playAudioChime(660);
+            }}
+            style={{
+              width: '34px',
+              height: '34px',
+              borderRadius: '50%',
+              backgroundColor: fullVideoMuted ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 240, 255, 0.2)',
+              color: fullVideoMuted ? '#94a3b8' : '#00f0ff',
+              border: '1px solid rgba(0, 240, 255, 0.3)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              touchAction: 'manipulation'
+            }}
+          >
+            {fullVideoMuted ? <VolumeX size={15} /> : <Volume2 size={15} />}
+          </button>
+
+          <span style={{ fontFamily: 'monospace', fontSize: '0.8rem', color: '#cbd5e1', fontWeight: 700 }}>
+            {`00:${String(Math.floor((progress / 100) * 20)).padStart(2, '0')}`} / 00:20
+          </span>
+        </div>
+
+        {/* Right: Description & Action Buttons */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem', flexWrap: 'wrap' }}>
+          <button
+            onClick={toggleFullScreenVideo}
+            style={{
+              background: 'rgba(255, 255, 255, 0.1)',
+              color: '#ffffff',
+              border: '1px solid rgba(255, 255, 255, 0.25)',
+              padding: '0.55rem 1.15rem',
+              borderRadius: '8px',
+              fontSize: '0.82rem',
+              fontWeight: 700,
+              cursor: 'pointer',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.45rem',
+              touchAction: 'manipulation'
+            }}
+          >
+            <Maximize2 size={14} />
+            <span>Expand Fullscreen</span>
+          </button>
+
+          <button
+            onClick={() => openDemoModal({ solution: 'Archie 3D AI Robot Shopfloor Walkthrough' })}
+            style={{
+              background: 'linear-gradient(135deg, #0071ba 0%, #00f0ff 100%)',
+              color: '#040812',
+              border: 'none',
+              padding: '0.55rem 1.35rem',
+              borderRadius: '8px',
+              fontSize: '0.82rem',
+              fontWeight: 800,
+              cursor: 'pointer',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.45rem',
+              boxShadow: '0 0 25px rgba(0, 240, 255, 0.4)',
+              touchAction: 'manipulation'
+            }}
+          >
+            <span>Request Walkthrough</span>
+            <ArrowRight size={14} />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+});
+
 export const WhyAtplView = () => {
   const { openDemoModal, setCurrentView, navigateToInsight } = useApp();
   const { scrollYProgress } = useScroll();
@@ -42,7 +223,8 @@ export const WhyAtplView = () => {
   const [videoModalOpen, setVideoModalOpen] = useState(false);
   const [activeStationIndex, setActiveStationIndex] = useState(0);
   const [isHeroExpanded, setIsHeroExpanded] = useState(true);
-  const [isTourPlaying, setIsTourPlaying] = useState(true);
+  const [isTourPlaying, setIsTourPlaying] = useState(false);
+  const [simulatorLoaded, setSimulatorLoaded] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const simulatorIframeRef = useRef(null);
   const consoleContainerRef = useRef(null);
@@ -89,6 +271,7 @@ export const WhyAtplView = () => {
   }, []);
 
   const toggleTour = useCallback(() => {
+    if (!simulatorLoaded) setSimulatorLoaded(true);
     const nextState = !isTourPlaying;
     setIsTourPlaying(nextState);
     if (simulatorIframeRef.current && simulatorIframeRef.current.contentWindow) {
@@ -96,13 +279,12 @@ export const WhyAtplView = () => {
         action: nextState ? 'startTour' : 'stopTour'
       }, '*');
     }
-  }, [isTourPlaying]);
+  }, [isTourPlaying, simulatorLoaded]);
 
   // Full-View Cinematic Robot Theater State
   const [fullVideoMode, setFullVideoMode] = useState('presentation');
   const [fullVideoPlaying, setFullVideoPlaying] = useState(true);
   const [fullVideoMuted, setFullVideoMuted] = useState(true);
-  const [fullVideoProgress, setFullVideoProgress] = useState(18);
   const [videoTime, setVideoTime] = useState(0);
   const fullVideoRef = useRef(null);
   const fullTheaterContainerRef = useRef(null);
@@ -155,15 +337,6 @@ export const WhyAtplView = () => {
   };
 
   const activeFeed = fullFeeds[fullVideoMode] || fullFeeds.waving;
-
-  // Timeline scrubber progress ticker
-  useEffect(() => {
-    if (!fullVideoPlaying) return;
-    const interval = setInterval(() => {
-      setFullVideoProgress(prev => (prev >= 100 ? 0 : Number((prev + 0.4).toFixed(1))));
-    }, 80);
-    return () => clearInterval(interval);
-  }, [fullVideoPlaying]);
 
   // Audio tactile chime
   const playAudioChime = (freq = 587.33) => {
@@ -656,18 +829,114 @@ export const WhyAtplView = () => {
           }}>
             {activeStation.type === 'simulator' ? (
               <div style={{ width: '100%', height: '100%', position: 'relative' }}>
-                <iframe
-                  ref={simulatorIframeRef}
-                  src={activeStation.simulatorUrl}
-                  title="ATPL Smart Factory 3D Twin Simulator"
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    border: 'none',
-                    display: 'block'
-                  }}
-                  allow="fullscreen; accelerometer; gyroscope"
-                />
+                {simulatorLoaded ? (
+                  <iframe
+                    ref={simulatorIframeRef}
+                    src={activeStation.simulatorUrl}
+                    title="ATPL Smart Factory 3D Twin Simulator"
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      border: 'none',
+                      display: 'block'
+                    }}
+                    allow="fullscreen; accelerometer; gyroscope"
+                  />
+                ) : (
+                  <div
+                    onClick={() => setSimulatorLoaded(true)}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      position: 'relative',
+                      cursor: 'pointer',
+                      backgroundImage: `url(${activeStation.poster})`,
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      padding: '2rem'
+                    }}
+                  >
+                    <div style={{
+                      position: 'absolute',
+                      inset: 0,
+                      background: 'radial-gradient(circle at center, rgba(2, 11, 20, 0.45) 0%, rgba(2, 11, 20, 0.88) 100%)'
+                    }} />
+
+                    <div style={{
+                      position: 'relative',
+                      zIndex: 2,
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      gap: '1rem',
+                      textAlign: 'center',
+                      maxWidth: '520px'
+                    }}>
+                      <div style={{
+                        width: '72px',
+                        height: '72px',
+                        borderRadius: '50%',
+                        background: 'linear-gradient(135deg, rgba(0, 113, 186, 0.3) 0%, rgba(0, 240, 255, 0.4) 100%)',
+                        border: '2px solid #00f0ff',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: '#00f0ff',
+                        boxShadow: '0 0 35px rgba(0, 240, 255, 0.5)'
+                      }}>
+                        <Play size={32} style={{ marginLeft: '4px' }} />
+                      </div>
+
+                      <h3 style={{
+                        color: '#ffffff',
+                        fontSize: 'clamp(1.2rem, 2vw, 1.6rem)',
+                        fontWeight: 900,
+                        margin: 0,
+                        textShadow: '0 2px 10px rgba(0, 0, 0, 0.8)'
+                      }}>
+                        Interactive 3D Digital Twin Simulator
+                      </h3>
+
+                      <p style={{
+                        color: '#94a3b8',
+                        fontSize: '0.88rem',
+                        margin: 0,
+                        lineHeight: 1.5
+                      }}>
+                        Click to launch live WebGL factory floor: autonomous conveyor routing, robot stations, and real-time shopfloor telemetry.
+                      </p>
+
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSimulatorLoaded(true);
+                        }}
+                        style={{
+                          background: 'linear-gradient(135deg, #0071ba 0%, #00f0ff 100%)',
+                          color: '#040812',
+                          fontWeight: 800,
+                          fontSize: '0.86rem',
+                          padding: '0.65rem 1.6rem',
+                          borderRadius: '8px',
+                          border: 'none',
+                          cursor: 'pointer',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '0.5rem',
+                          boxShadow: '0 0 25px rgba(0, 240, 255, 0.45)',
+                          marginTop: '0.35rem'
+                        }}
+                      >
+                        <RotateCw size={15} />
+                        <span>Launch 3D Simulator</span>
+                      </button>
+                    </div>
+                  </div>
+                )}
 
                 {/* 3D Interaction Pill Overlay */}
                 <div style={{
@@ -1290,156 +1559,17 @@ export const WhyAtplView = () => {
               </div>
             )}
 
-            {/* Bottom HUD Controls Bar */}
-            <div 
-              className="archie-bottom-hud"
-              style={{
-                position: 'relative',
-                zIndex: 10,
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '0.85rem'
-              }}
-            >
-              {/* Scrubber Bar */}
-              <div 
-                onClick={(e) => {
-                  const rect = e.currentTarget.getBoundingClientRect();
-                  const clickX = e.clientX - rect.left;
-                  const newProgress = Math.max(0, Math.min(100, (clickX / rect.width) * 100));
-                  setFullVideoProgress(Number(newProgress.toFixed(1)));
-                  if (!fullVideoMuted) playAudioChime(520 + (newProgress * 3));
-                }}
-                style={{
-                  width: '100%',
-                  height: '8px',
-                  backgroundColor: 'rgba(255, 255, 255, 0.15)',
-                  borderRadius: '999px',
-                  overflow: 'hidden',
-                  cursor: 'pointer',
-                  position: 'relative',
-                  border: '1px solid rgba(255, 255, 255, 0.1)'
-                }}
-                title="Click anywhere to scrub playback"
-              >
-                <div style={{
-                  height: '100%',
-                  width: `${fullVideoProgress}%`,
-                  background: 'linear-gradient(90deg, #0071ba 0%, #00f0ff 60%, #ec4899 100%)',
-                  borderRadius: '999px'
-                }} />
-              </div>
-
-              {/* Control Buttons & Telemetry Summary */}
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                flexWrap: 'wrap',
-                gap: '1rem'
-              }}>
-                {/* Left: Play/Pause, Mute/Unmute, Timecode */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
-                  <button
-                    onClick={() => {
-                      const next = !fullVideoPlaying;
-                      setFullVideoPlaying(next);
-                      if (fullVideoRef.current) {
-                        if (next) fullVideoRef.current.play();
-                        else fullVideoRef.current.pause();
-                      }
-                      if (!fullVideoMuted) playAudioChime(next ? 660 : 440);
-                    }}
-                    style={{
-                      width: '38px',
-                      height: '38px',
-                      borderRadius: '50%',
-                      backgroundColor: fullVideoPlaying ? '#0071ba' : '#0f172a',
-                      color: '#ffffff',
-                      border: '1px solid rgba(0, 240, 255, 0.4)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      cursor: 'pointer',
-                      boxShadow: '0 0 15px rgba(0, 113, 186, 0.4)'
-                    }}
-                  >
-                    {fullVideoPlaying ? <Pause size={16} /> : <Play size={16} style={{ marginLeft: '2px' }} />}
-                  </button>
-
-                  <button
-                    onClick={() => {
-                      const next = !fullVideoMuted;
-                      setFullVideoMuted(next);
-                      if (fullVideoRef.current) fullVideoRef.current.muted = next;
-                      if (!next) playAudioChime(660);
-                    }}
-                    style={{
-                      width: '34px',
-                      height: '34px',
-                      borderRadius: '50%',
-                      backgroundColor: fullVideoMuted ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 240, 255, 0.2)',
-                      color: fullVideoMuted ? '#94a3b8' : '#00f0ff',
-                      border: '1px solid rgba(0, 240, 255, 0.3)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      cursor: 'pointer'
-                    }}
-                  >
-                    {fullVideoMuted ? <VolumeX size={15} /> : <Volume2 size={15} />}
-                  </button>
-
-                  <span style={{ fontFamily: 'monospace', fontSize: '0.8rem', color: '#cbd5e1', fontWeight: 700 }}>
-                    {`00:${String(Math.floor((fullVideoProgress / 100) * 20)).padStart(2, '0')}`} / 00:20
-                  </span>
-                </div>
-
-                {/* Right: Description & Action Buttons */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem', flexWrap: 'wrap' }}>
-                  <button
-                    onClick={toggleFullScreenVideo}
-                    style={{
-                      background: 'rgba(255, 255, 255, 0.1)',
-                      color: '#ffffff',
-                      border: '1px solid rgba(255, 255, 255, 0.25)',
-                      padding: '0.55rem 1.15rem',
-                      borderRadius: '8px',
-                      fontSize: '0.82rem',
-                      fontWeight: 700,
-                      cursor: 'pointer',
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '0.45rem'
-                    }}
-                  >
-                    <Maximize2 size={14} />
-                    <span>Expand Fullscreen</span>
-                  </button>
-
-                  <button
-                    onClick={() => openDemoModal({ solution: 'Archie 3D AI Robot Shopfloor Walkthrough' })}
-                    style={{
-                      background: 'linear-gradient(135deg, #0071ba 0%, #00f0ff 100%)',
-                      color: '#040812',
-                      border: 'none',
-                      padding: '0.55rem 1.4rem',
-                      borderRadius: '8px',
-                      fontSize: '0.82rem',
-                      fontWeight: 800,
-                      cursor: 'pointer',
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '0.45rem',
-                      boxShadow: '0 0 20px rgba(0, 240, 255, 0.4)'
-                    }}
-                  >
-                    <span>Request Walkthrough</span>
-                    <ArrowRight size={14} />
-                  </button>
-                </div>
-              </div>
-            </div>
+            {/* Bottom HUD Controls Bar (Isolated Component - Zero Parent Re-renders) */}
+            <TheaterBottomControls
+              fullVideoPlaying={fullVideoPlaying}
+              setFullVideoPlaying={setFullVideoPlaying}
+              fullVideoMuted={fullVideoMuted}
+              setFullVideoMuted={setFullVideoMuted}
+              fullVideoRef={fullVideoRef}
+              toggleFullScreenVideo={toggleFullScreenVideo}
+              openDemoModal={openDemoModal}
+              playAudioChime={playAudioChime}
+            />
           </div>
 
           {/* Live Telemetry Pods Under the Full-View Cinema */}
