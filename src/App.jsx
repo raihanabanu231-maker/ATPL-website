@@ -281,14 +281,7 @@ const MainAppContent = () => {
               <SearchModal isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
             </Suspense>
           </ErrorBoundary>
-          {/* Hide global React chat widget on factory-3d view since it has its own integrated 3D Archie Copilot */}
-          {currentView !== 'factory-3d' && (
-            <ErrorBoundary title="AI CoPilot">
-              <Suspense fallback={null}>
-                <AtplCoPilot />
-              </Suspense>
-            </ErrorBoundary>
-          )}
+          {/* AI CoPilot disabled */}
           <ErrorBoundary title="Cookie Consent">
             <CookieConsent />
           </ErrorBoundary>

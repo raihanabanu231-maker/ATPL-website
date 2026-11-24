@@ -304,7 +304,7 @@ export const FactoryBlueprintMap = ({ embedded = false }) => {
                 fontWeight: 700,
                 color: 'var(--color-brand-cyan, #00f0ff)'
               }}>
-                Archie AI Smart Factory Tour
+                Smart Factory Floor Tour
               </span>
             </div>
 
