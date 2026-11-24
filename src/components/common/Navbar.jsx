@@ -15,7 +15,7 @@ import {
   ExternalLink
 } from 'lucide-react';
 
-export const ATPL_LANGUAGES = [
+const ATPL_LANGUAGES = [
   { code: 'en', name: 'English', native: 'English', flag: '🇬🇧' },
   { code: 'hi', name: 'Hindi', native: 'हिन्दी (Hindi)', flag: '🇮🇳' },
   { code: 'ta', name: 'Tamil', native: 'தமிழ் (Tamil)', flag: '🇮🇳' },
