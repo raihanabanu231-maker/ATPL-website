@@ -553,7 +553,7 @@ export const DotMatrixHandsSection = ({
         </div>
       </div>
 
-      {/* Real OEM Partner Brand Logos at Bottom */}
+      {/* Real OEM Partner Brand Logos at Bottom - Rendered in clean white rounded pills */}
       <div 
         style={{
           position: 'absolute',
@@ -563,40 +563,39 @@ export const DotMatrixHandsSection = ({
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          gap: 'clamp(24px, 4.2vw, 60px)',
+          gap: 'clamp(12px, 2.5vw, 24px)',
           flexWrap: 'wrap',
           padding: '0 16px',
-          color: '#64748b',
           zIndex: 10
         }}
       >
         {/* Honeywell */}
-        <div style={{ display: 'inline-flex', alignItems: 'center', opacity: 0.9, transition: 'all 0.2s ease', cursor: 'pointer' }} onClick={scrollToCatalog} className="hover:opacity-100 hover:scale-105" title="Honeywell Gold Partner">
+        <div style={{ backgroundColor: '#ffffff', padding: '6px 14px', borderRadius: '10px', boxShadow: '0 2px 8px rgba(0,0,0,0.12)', border: '1px solid rgba(0,0,0,0.08)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', height: '42px', cursor: 'pointer', transition: 'all 0.2s ease' }} onClick={scrollToCatalog} className="hover:scale-105" title="Honeywell Gold Partner">
           <HoneywellLogo height={24} />
         </div>
 
         {/* Zebra */}
-        <div style={{ display: 'inline-flex', alignItems: 'center', opacity: 0.9, transition: 'all 0.2s ease', cursor: 'pointer' }} onClick={scrollToCatalog} className="hover:opacity-100 hover:scale-105" title="Zebra Technologies Certified Partner">
+        <div style={{ backgroundColor: '#ffffff', padding: '6px 14px', borderRadius: '10px', boxShadow: '0 2px 8px rgba(0,0,0,0.12)', border: '1px solid rgba(0,0,0,0.08)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', height: '42px', cursor: 'pointer', transition: 'all 0.2s ease' }} onClick={scrollToCatalog} className="hover:scale-105" title="Zebra Technologies Certified Partner">
           <ZebraLogo height={24} />
         </div>
 
         {/* Datalogic */}
-        <div style={{ display: 'inline-flex', alignItems: 'center', opacity: 0.9, transition: 'all 0.2s ease', cursor: 'pointer' }} onClick={scrollToCatalog} className="hover:opacity-100 hover:scale-105" title="Datalogic Partner">
+        <div style={{ backgroundColor: '#ffffff', padding: '6px 14px', borderRadius: '10px', boxShadow: '0 2px 8px rgba(0,0,0,0.12)', border: '1px solid rgba(0,0,0,0.08)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', height: '42px', cursor: 'pointer', transition: 'all 0.2s ease' }} onClick={scrollToCatalog} className="hover:scale-105" title="Datalogic Partner">
           <DatalogicLogo height={24} />
         </div>
 
         {/* SOTI */}
-        <div style={{ display: 'inline-flex', alignItems: 'center', opacity: 0.9, transition: 'all 0.2s ease', cursor: 'pointer' }} onClick={scrollToCatalog} className="hover:opacity-100 hover:scale-105" title="SOTI MobiControl Enterprise Partner">
+        <div style={{ backgroundColor: '#ffffff', padding: '6px 14px', borderRadius: '10px', boxShadow: '0 2px 8px rgba(0,0,0,0.12)', border: '1px solid rgba(0,0,0,0.08)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', height: '42px', cursor: 'pointer', transition: 'all 0.2s ease' }} onClick={scrollToCatalog} className="hover:scale-105" title="SOTI MobiControl Enterprise Partner">
           <SotiLogo height={22} />
         </div>
 
         {/* Telesis */}
-        <div style={{ display: 'inline-flex', alignItems: 'center', opacity: 0.9, transition: 'all 0.2s ease', cursor: 'pointer' }} onClick={scrollToCatalog} className="hover:opacity-100 hover:scale-105" title="Telesis Laser Traceability Alliance">
+        <div style={{ backgroundColor: '#ffffff', padding: '6px 14px', borderRadius: '10px', boxShadow: '0 2px 8px rgba(0,0,0,0.12)', border: '1px solid rgba(0,0,0,0.08)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', height: '42px', cursor: 'pointer', transition: 'all 0.2s ease' }} onClick={scrollToCatalog} className="hover:scale-105" title="Telesis Laser Traceability Alliance">
           <TelesisLogo height={22} />
         </div>
 
         {/* GS1 India */}
-        <div style={{ display: 'inline-flex', alignItems: 'center', opacity: 0.9, transition: 'all 0.2s ease', cursor: 'pointer' }} onClick={scrollToCatalog} className="hover:opacity-100 hover:scale-105" title="GS1 Global Standard Partner">
+        <div style={{ backgroundColor: '#ffffff', padding: '6px 14px', borderRadius: '10px', boxShadow: '0 2px 8px rgba(0,0,0,0.12)', border: '1px solid rgba(0,0,0,0.08)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', height: '42px', cursor: 'pointer', transition: 'all 0.2s ease' }} onClick={scrollToCatalog} className="hover:scale-105" title="GS1 Global Standard Partner">
           <Gs1Logo height={28} />
         </div>
       </div>

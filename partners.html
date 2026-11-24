@@ -331,19 +331,34 @@
     .marquee-item {
       display: inline-flex;
       align-items: center;
-      gap: 10px;
-      padding: 6px 20px;
-      color: var(--text-muted);
-      font-weight: 600;
-      font-size: 0.95rem;
+      justify-content: center;
+      background: #ffffff;
+      border: 1.5px solid rgba(255, 255, 255, 0.25);
+      border-radius: var(--radius-pill);
+      height: 48px;
+      padding: 4px 20px;
+      margin: 0 8px;
       cursor: pointer;
-      transition: color 0.2s ease, transform 0.2s ease;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
       white-space: nowrap;
+      flex-shrink: 0;
     }
 
     .marquee-item:hover {
-      color: #ffffff;
-      transform: scale(1.05);
+      transform: translateY(-2px) scale(1.05);
+      box-shadow: 0 8px 24px rgba(34, 211, 238, 0.45);
+      border-color: var(--accent-cyan);
+    }
+
+    .marquee-logo-img {
+      max-height: 32px;
+      max-width: 130px;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      display: block;
+      pointer-events: none;
     }
 
     .marquee-dot {
@@ -990,9 +1005,16 @@
         overflow-x: clip;
       }
       .marquee-item {
-        min-height: 44px;
+        height: 40px !important;
+        min-height: 40px !important;
+        padding: 3px 14px !important;
+        margin: 0 6px !important;
         display: inline-flex;
         align-items: center;
+      }
+      .marquee-logo-img {
+        max-height: 24px !important;
+        max-width: 100px !important;
       }
       .hero-title {
         font-size: clamp(1.8rem, 6vw, 2.3rem);
@@ -1387,9 +1409,16 @@
         item.type = 'button';
         item.className = 'marquee-item';
         item.setAttribute('aria-label', `View details for ${partner.full}`);
+        item.setAttribute('title', partner.full);
         item.innerHTML = `
-          <span class="marquee-dot" style="background-color: ${partner.ac}; box-shadow: 0 0 8px ${partner.ac};"></span>
-          <span>${partner.n}</span>
+          <img 
+            src="${partner.img}" 
+            alt="${partner.full}" 
+            title="${partner.full}" 
+            loading="lazy" 
+            class="marquee-logo-img" 
+            onerror="this.onerror=null; this.replaceWith(document.createTextNode('${partner.n}'));" 
+          />
         `;
         item.addEventListener('click', () => {
           selectPartner(partner);

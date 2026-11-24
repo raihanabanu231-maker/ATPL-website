@@ -617,7 +617,6 @@ export const FactoryBlueprintMap = ({ embedded = false }) => {
                 width="1920"
                 height="1080"
                 loading="eager"
-                fetchPriority="high"
                 style={{
                   width: '100%',
                   height: '100%',

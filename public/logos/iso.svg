@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 48" width="180" height="48" fill="none">
+  <rect x="2" y="4" width="40" height="40" rx="8" fill="#0071ba" />
+  <text x="22" y="31" fill="#ffffff" font-family="'Arial Black', sans-serif" font-size="18" font-weight="900" text-anchor="middle">ISO</text>
+  <text x="50" y="24" fill="#0f172a" font-family="'Arial', sans-serif" font-size="15" font-weight="900">9001:2015</text>
+  <text x="50" y="38" fill="#0071ba" font-family="'Arial', sans-serif" font-size="10.5" font-weight="700">Certified QMS</text>
+</svg>
