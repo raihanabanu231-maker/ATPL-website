@@ -83,8 +83,12 @@ export const AtplSplitComparison = memo(() => {
 
   useEffect(() => {
     updateLine();
+    const t = setTimeout(updateLine, 250);
     window.addEventListener('resize', updateLine);
-    return () => window.removeEventListener('resize', updateLine);
+    return () => {
+      clearTimeout(t);
+      window.removeEventListener('resize', updateLine);
+    };
   }, [updateLine]);
 
   // 3D Tilt calculation on mouse move
@@ -324,8 +328,8 @@ export const AtplSplitComparison = memo(() => {
 
         /* Slow blinking red cross icon (2.6s) */
         @keyframes redCrossBlink {
-          0%, 100% { opacity: 0.95; transform: scale(1); }
-          50% { opacity: 0.35; transform: scale(0.92); }
+          0%, 100% { opacity: 1; transform: scale(1); }
+          50% { opacity: 0.8; transform: scale(0.95); }
         }
         .red-cross-blink {
           animation: redCrossBlink 2.6s ease-in-out infinite;
@@ -481,7 +485,8 @@ export const AtplSplitComparison = memo(() => {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: row.alignAtpl,
-                    position: 'relative'
+                    position: 'relative',
+                    zIndex: isActive ? 2 : 1
                   }}
                   onMouseEnter={() => setHoveredRow(row.id)}
                   onMouseLeave={() => setHoveredRow(null)}
@@ -491,17 +496,18 @@ export const AtplSplitComparison = memo(() => {
                     className="chip-idle-wrapper"
                     style={{
                       animation: `chipEntrance 0.9s cubic-bezier(0.16, 1, 0.3, 1) ${idx * 0.16}s backwards, chipIdleFloat 8s ease-in-out ${idx * 0.35}s infinite`,
-                      display: 'inline-flex'
+                      display: 'inline-flex',
+                      zIndex: isActive ? 2 : 1
                     }}
                   >
-                    {/* The ATPL Chip (White pill with dark text and cyan ✓) */}
+                    {/* The ATPL Chip (Solid white background, dark navy text #05223a, and cyan ✓ #00b4e6) */}
                     <div
                       ref={(el) => { atplRefs.current[row.id] = el; }}
                       data-atpl-id={row.id}
                       className="split-comp-chip"
                       style={{
                         backgroundColor: '#ffffff',
-                        color: '#050a14',
+                        color: '#05223a',
                         borderRadius: '9999px',
                         padding: '0.4rem 0.95rem',
                         fontSize: '0.78rem',
@@ -512,23 +518,24 @@ export const AtplSplitComparison = memo(() => {
                         alignItems: 'center',
                         gap: '0.45rem',
                         transform: isActive 
-                          ? 'scale(1.08) rotate(0deg)' 
+                          ? 'scale(1.1) rotate(0deg)' 
                           : `scale(1) rotate(${row.rotAtpl}deg)`,
-                        opacity: isDimmed ? 0.32 : 1,
+                        opacity: isDimmed ? 0.9 : 1,
                         boxShadow: isActive
-                          ? '0 0 24px rgba(0, 240, 255, 0.8), 0 4px 16px rgba(0, 0, 0, 0.45)'
+                          ? '0 0 0 3px #18d4ff, 0 0 28px #18d4ff'
                           : '0 3px 12px rgba(0, 0, 0, 0.35)',
-                        border: isActive ? '1.5px solid #00f0ff' : '1px solid rgba(255, 255, 255, 0.9)',
-                        transition: 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease, box-shadow 0.25s ease',
+                        border: isActive ? '1px solid #18d4ff' : '1px solid rgba(255, 255, 255, 0.9)',
+                        transition: 'transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease, opacity 0.5s ease',
                         cursor: 'pointer',
                         position: 'relative',
-                        overflow: 'hidden'
+                        overflow: 'hidden',
+                        zIndex: isActive ? 2 : 1
                       }}
                     >
                       {/* Sweep Shine Streak on each white chip */}
                       <div className="atpl-chip-shine" />
 
-                      <span style={{ color: '#0071ba', fontWeight: 900, fontSize: '0.86rem' }}>✓</span>
+                      <span style={{ color: '#00b4e6', fontWeight: 900, fontSize: '0.86rem' }}>✓</span>
                       <span>{row.atpl}</span>
                     </div>
                   </div>
@@ -595,7 +602,8 @@ export const AtplSplitComparison = memo(() => {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: row.alignProb,
-                    position: 'relative'
+                    position: 'relative',
+                    zIndex: isActive ? 2 : 1
                   }}
                   onMouseEnter={() => setHoveredRow(row.id)}
                   onMouseLeave={() => setHoveredRow(null)}
@@ -605,10 +613,11 @@ export const AtplSplitComparison = memo(() => {
                     className="chip-idle-wrapper"
                     style={{
                       animation: `chipEntrance 0.9s cubic-bezier(0.16, 1, 0.3, 1) ${idx * 0.16 + 0.08}s backwards, chipIdleFloat 8s ease-in-out ${idx * 0.35 + 0.5}s infinite`,
-                      display: 'inline-flex'
+                      display: 'inline-flex',
+                      zIndex: isActive ? 2 : 1
                     }}
                   >
-                    {/* Problem Chip (Translucent red with red ✕; becomes grey with green ✓ when solved) */}
+                    {/* Problem Chip (Translucent red rgba(255,255,255,.08), light red text #ffb3bd, 1px border rgba(255,90,110,.4), red ✕ #ff4d63) */}
                     <div
                       ref={(el) => { probRefs.current[row.id] = el; }}
                       data-prob-id={row.id}
@@ -616,11 +625,11 @@ export const AtplSplitComparison = memo(() => {
                       className="split-comp-chip"
                       title={isSolved ? "Problem resolved with ATPL" : "Click to solve with ATPL"}
                       style={{
-                        backgroundColor: isSolved ? 'rgba(148, 163, 184, 0.08)' : 'rgba(239, 68, 68, 0.18)',
-                        color: isSolved ? '#64748b' : '#fecaca',
+                        backgroundColor: isSolved ? 'rgba(148, 163, 184, 0.08)' : 'rgba(255, 255, 255, 0.08)',
+                        color: isSolved ? '#64748b' : '#ffb3bd',
                         border: isSolved 
                           ? '1px solid rgba(148, 163, 184, 0.25)' 
-                          : (isActive ? '1.5px solid #ef4444' : '1px solid rgba(239, 68, 68, 0.45)'),
+                          : (isActive ? '1px solid #ff4d63' : '1px solid rgba(255, 90, 110, 0.4)'),
                         borderRadius: '9999px',
                         padding: '0.4rem 0.95rem',
                         fontSize: '0.78rem',
@@ -631,21 +640,22 @@ export const AtplSplitComparison = memo(() => {
                         alignItems: 'center',
                         gap: '0.45rem',
                         transform: isActive 
-                          ? 'scale(1.08) rotate(0deg)' 
+                          ? 'scale(1.1) rotate(0deg)' 
                           : `scale(1) rotate(${row.rotProb}deg)`,
-                        opacity: isDimmed ? 0.32 : 1,
+                        opacity: isSolved ? 0.4 : (isDimmed ? 0.9 : 1),
                         boxShadow: isActive && !isSolved
-                          ? '0 0 24px rgba(239, 68, 68, 0.7), 0 4px 16px rgba(0, 0, 0, 0.45)'
+                          ? '0 0 0 2px #ff4d63, 0 0 28px rgba(255, 77, 99, 0.7)'
                           : '0 3px 12px rgba(0, 0, 0, 0.3)',
-                        transition: 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease, background-color 0.4s ease, color 0.4s ease',
+                        transition: 'transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease, opacity 0.5s ease, background-color 0.5s ease, color 0.5s ease',
                         cursor: isSolved ? 'default' : 'pointer',
-                        textDecoration: isSolved ? 'line-through' : 'none'
+                        textDecoration: isSolved ? 'line-through' : 'none',
+                        zIndex: isActive ? 2 : 1
                       }}
                     >
                       {isSolved ? (
                         <span style={{ color: '#10b981', fontWeight: 900, fontSize: '0.86rem' }}>✓</span>
                       ) : (
-                        <span className="red-cross-blink" style={{ color: '#ef4444', fontWeight: 900, fontSize: '0.82rem' }}>✕</span>
+                        <span className="red-cross-blink" style={{ color: '#ff4d63', fontWeight: 900, fontSize: '0.82rem' }}>✕</span>
                       )}
                       <span>{row.problem}</span>
                     </div>
