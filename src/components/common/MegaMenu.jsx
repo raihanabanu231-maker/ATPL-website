@@ -488,6 +488,106 @@ export const MEGA_MENU_CONFIG = {
       action: 'demo-modal',
       solution: 'OEM Hardware & Standards Integration Consultation'
     }
+  },
+
+  'why-atpl': {
+    id: 'why-atpl',
+    label: 'Why ATPL',
+    groups: [
+      {
+        title: 'CORE ADVANTAGES',
+        items: [
+          {
+            id: 'tech-easy',
+            name: 'Advanced Tech Made Easy',
+            desc: 'Complexity hidden, performance amplified',
+            link: 'why-atpl',
+            img: '/assets/images/atpl_isometric_factory.webp',
+            longDesc: 'Turnkey automation systems that conceal technical complexity while delivering maximum shopfloor productivity.'
+          },
+          {
+            id: 'perf-uncompromised',
+            name: 'Performance Without Compromise',
+            desc: 'Sub-8ms decode & zero line bottlenecks',
+            link: 'why-atpl',
+            img: '/assets/images/hw_handheld_scanner.jpg',
+            longDesc: 'High-speed industrial scanning, sorting, and serialization calibrated to run 24/7 at full factory line speeds.'
+          },
+          {
+            id: 'turnkey-ecosystem',
+            name: 'Single Engineering Authority',
+            desc: 'Turnkey hardware + software with zero finger-pointing',
+            link: 'why-atpl',
+            img: '/assets/images/atpl_team_full_group.webp',
+            longDesc: 'One accountable partner for mechanical gates, AIDC scanners, custom WMS, and bi-directional ERP integration.'
+          }
+        ]
+      },
+      {
+        title: 'ENTERPRISE CAPABILITIES',
+        items: [
+          {
+            id: 'erp-interop',
+            name: 'Native ERP Interoperability',
+            desc: 'Certified SAP S/4HANA & Oracle Cloud connectors',
+            link: 'why-atpl',
+            img: '/assets/images/software_blueprint.svg',
+            longDesc: 'Pre-built, certified connectors ensuring seamless two-way inventory and work-order sync with zero data loss.'
+          },
+          {
+            id: 'sla-guarantee',
+            name: 'Guaranteed 4-Hour On-Site SLA',
+            desc: 'Dedicated rapid-response teams across industrial hubs',
+            link: 'why-atpl',
+            img: '/assets/images/story_automotive.jpg',
+            longDesc: 'Field engineering squads strategically stationed near major manufacturing corridors in Tamil Nadu and India.'
+          },
+          {
+            id: 'compliance-audit',
+            name: 'Tested & Regulatory Compliant',
+            desc: 'AIS-156, FDA 21 CFR Part 11 & GS1 certified',
+            link: 'why-atpl',
+            img: '/assets/images/software_trace.jpg',
+            longDesc: 'Complete adherence to automotive EV battery safety, pharmaceutical serialization, and global GS1 standards.'
+          }
+        ]
+      },
+      {
+        title: 'BENCHMARKS & PROOF',
+        items: [
+          {
+            id: 'how-compares',
+            name: 'How ATPL Compares',
+            desc: 'Side-by-side benchmark vs traditional integrators',
+            link: 'why-atpl',
+            img: '/assets/images/atpl_factory_3d_interior.webp',
+            longDesc: 'Discover why leading OEMs switch to Archery Technocrats for lower TCO, faster rollouts, and proprietary software.'
+          },
+          {
+            id: 'track-record',
+            name: '35+ Years Proven Track Record',
+            desc: 'ISO 9001:2015 certified engineering heritage',
+            link: 'why-atpl',
+            img: '/assets/images/atpl_tech_campus_bg.jpg',
+            longDesc: 'Decades of deep domain experience delivering fail-safe automation for Fortune 500 manufacturing plants.'
+          },
+          {
+            id: 'roi-metrics',
+            name: 'Operational ROI & Metrics',
+            desc: 'Average 18% OEE uplift & 99.98% inventory accuracy',
+            link: 'why-atpl',
+            img: '/assets/images/hw_logistics_forklift.jpg',
+            longDesc: 'Tangible productivity gains, reduced scrap rates, and rapid payback periods proven across 200+ enterprise clients.'
+          }
+        ]
+      }
+    ],
+    cta: {
+      text: 'Explore the Executive Difference',
+      sub: 'Detailed comparison matrix and full engineering capabilities report',
+      action: 'navigate',
+      target: 'why-atpl'
+    }
   }
 };
 

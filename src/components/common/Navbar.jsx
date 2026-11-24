@@ -33,7 +33,7 @@ export const ATPL_LANGUAGES = [
   { code: 'zh-CN', name: 'Chinese', native: '中文 (Simplified)', flag: '🇨🇳' }
 ];
 
-const NAV_DROPDOWN_KEYS = ['hardware', 'software', 'customers', 'partners'];
+const NAV_DROPDOWN_KEYS = ['hardware', 'software', 'customers', 'partners', 'why-atpl'];
 
 export const Navbar = ({ onOpenSearch }) => {
   const { currentView, setCurrentView, openDemoModal } = useApp();
@@ -265,33 +265,6 @@ export const Navbar = ({ onOpenSearch }) => {
           margin-left: 6px;
         }
 
-        /* Why Us accent pill hover behavior */
-        .why-us-btn {
-          background: transparent;
-          border: 1px solid #22d3ee;
-          color: #22d3ee;
-          border-radius: 9999px;
-          padding: 0.36rem 0.85rem;
-          font-size: 0.86rem;
-          font-weight: 700;
-          display: inline-flex;
-          align-items: center;
-          gap: 0.42rem;
-          cursor: pointer;
-          transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .why-us-btn:hover {
-          background-color: #22d3ee !important;
-          color: #050a14 !important;
-          box-shadow: 0 0 16px rgba(34, 211, 238, 0.45);
-        }
-        .why-us-btn .why-us-star {
-          transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .why-us-btn:hover .why-us-star {
-          transform: rotate(180deg);
-        }
-
         /* Responsive Breakpoints */
         @media (max-width: 1024px) {
           .atpl-desktop-nav { display: none !important; }
@@ -305,7 +278,6 @@ export const Navbar = ({ onOpenSearch }) => {
         }
         @media (max-width: 900px) {
           .top-strip-tagline { display: none !important; }
-          .why-us-btn-wrap { display: none !important; }
           .nav-search-wrap { display: none !important; }
         }
 
@@ -314,9 +286,6 @@ export const Navbar = ({ onOpenSearch }) => {
           .cyan-travel-beam,
           .cyan-pulse-dot {
             animation: none !important;
-          }
-          .why-us-btn .why-us-star {
-            transition: none !important;
           }
         }
       `}</style>
@@ -657,15 +626,47 @@ export const Navbar = ({ onOpenSearch }) => {
               </button>
             </div>
 
-            {/* Highlighted "Why us" button as an outlined accent pill */}
-            <div className="why-us-btn-wrap" style={{ marginLeft: '0.35rem' }}>
+            {/* Why ATPL - Nav item styled identically to Partners */}
+            <div
+              ref={(el) => { navItemRefs.current['why-atpl'] = el; }}
+              onMouseEnter={() => handleDropdownEnter('why-atpl')}
+              onMouseLeave={handleDropdownLeave}
+              style={{ position: 'relative', zIndex: 2 }}
+            >
               <button
-                onClick={() => handleNavClick('why-atpl')}
-                className="why-us-btn"
-                title="Why Industry Leaders Choose Archery Technocrats"
+                onClick={() => {
+                  if (activeDropdown === 'why-atpl') {
+                    handleNavClick('why-atpl');
+                  } else {
+                    handleDropdownEnter('why-atpl');
+                  }
+                }}
+                role="menuitem"
+                aria-haspopup="true"
+                aria-expanded={activeDropdown === 'why-atpl'}
+                style={{
+                  background: 'transparent',
+                  border: 'none',
+                  color: (activeDropdown === 'why-atpl' || hoveredNav === 'why-atpl' || currentView === 'why-atpl') ? '#22d3ee' : '#eaf1ff',
+                  padding: '0.45rem 0.85rem',
+                  fontSize: '0.92rem',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.35rem',
+                  borderRadius: '9999px',
+                  transition: 'color 0.2s ease'
+                }}
               >
-                <Sparkles size={14} className="why-us-star" />
                 <span>Why ATPL</span>
+                <ChevronDown
+                  size={14}
+                  style={{
+                    transform: activeDropdown === 'why-atpl' ? 'rotate(180deg)' : 'none',
+                    transition: 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)'
+                  }}
+                />
               </button>
             </div>
           </nav>
@@ -1227,32 +1228,51 @@ export const Navbar = ({ onOpenSearch }) => {
                 )}
               </div>
 
-              {/* Why ATPL Mobile Button */}
-              <button
-                onClick={() => handleNavClick('why-atpl')}
-                style={{
-                  width: '100%',
-                  minHeight: '44px',
-                  background: 'rgba(34, 211, 238, 0.08)',
-                  border: '1.5px solid #22d3ee',
-                  borderRadius: '8px',
-                  padding: '0.7rem 1rem',
-                  textAlign: 'left',
-                  fontSize: '0.96rem',
-                  fontWeight: 700,
-                  color: '#22d3ee',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  cursor: 'pointer'
-                }}
-              >
-                <span style={{ display: 'flex', alignItems: 'center', gap: '0.55rem' }}>
-                  <span>✨</span>
-                  <span>Why ATPL (Executive Difference)</span>
-                </span>
-                <span style={{ backgroundColor: '#22d3ee', color: '#050a14', fontSize: '0.65rem', padding: '0.15rem 0.45rem', borderRadius: '999px', fontWeight: 800 }}>LEADER</span>
-              </button>
+              {/* 5. Why ATPL Accordion (Identical to Partners) */}
+              <div>
+                <button
+                  onClick={() => setMobileExpandedSection(mobileExpandedSection === 'why-atpl' ? null : 'why-atpl')}
+                  style={{
+                    width: '100%',
+                    minHeight: '44px',
+                    background: '#0a1220',
+                    border: '1px solid #1c2a44',
+                    borderRadius: '8px',
+                    padding: '0.7rem 1rem',
+                    fontSize: '0.96rem',
+                    fontWeight: 700,
+                    color: '#eaf1ff',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    cursor: 'pointer'
+                  }}
+                >
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '0.55rem' }}>
+                    <span style={{ color: '#22d3ee' }}>✨</span>
+                    <span>Why ATPL (Executive Difference)</span>
+                  </span>
+                  <ChevronDown
+                    size={18}
+                    style={{
+                      transform: mobileExpandedSection === 'why-atpl' ? 'rotate(180deg)' : 'none',
+                      transition: 'transform 0.2s ease',
+                      color: '#8aa0c4'
+                    }}
+                  />
+                </button>
+                {mobileExpandedSection === 'why-atpl' && (
+                  <div style={{ padding: '0.5rem 0.5rem 0.5rem 0.85rem', display: 'flex', flexDirection: 'column', gap: '0.4rem', borderLeft: '2px solid #22d3ee', marginLeft: '0.5rem', marginTop: '0.35rem' }}>
+                    <button onClick={() => handleNavClick('why-atpl')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#eaf1ff', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Advanced Tech Made Easy</button>
+                    <button onClick={() => handleNavClick('why-atpl')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#22d3ee', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Single Engineering Authority</button>
+                    <button onClick={() => handleNavClick('why-atpl')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#eaf1ff', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Guaranteed 4-Hour On-Site SLA</button>
+                    <button onClick={() => handleNavClick('why-atpl')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#22d3ee', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>35+ Years Proven Track Record</button>
+                    <button onClick={() => handleNavClick('why-atpl')} style={{ minHeight: '44px', background: '#13203a', borderRadius: '6px', border: '1px solid #1c2a44', textAlign: 'left', padding: '0.5rem 0.75rem', color: '#22d3ee', fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                      <span>Explore Why ATPL Overview</span>
+                    </button>
+                  </div>
+                )}
+              </div>
 
               {/* Language Selector Bar */}
               <div>
