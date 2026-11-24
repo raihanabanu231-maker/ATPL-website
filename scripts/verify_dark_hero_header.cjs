@@ -77,8 +77,8 @@ async function run() {
     await send(ws, 'Page.navigate', { url: 'http://localhost:5180' });
     await new Promise(r => setTimeout(r, 3000));
 
-    // Capture Default Header
-    await captureScreenshot(ws, 'header_dark_hero_desktop.png', {
+    // Capture Default White Header
+    await captureScreenshot(ws, 'header_white_desktop.png', {
       x: 0,
       y: 0,
       width: 1440,
@@ -107,7 +107,7 @@ async function run() {
       await new Promise(r => setTimeout(r, 800));
 
       // Capture MegaMenu Open State
-      await captureScreenshot(ws, 'header_dark_hero_megamenu_hover.png', {
+      await captureScreenshot(ws, 'header_white_hardware_hover.png', {
         x: 0,
         y: 0,
         width: 1440,

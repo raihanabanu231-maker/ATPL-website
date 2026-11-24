@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useApp } from '../../context/AppContext';
 import { AtplLogo } from './AtplLogo';
 import { GsapDropdown } from './GsapDropdown';
@@ -35,6 +35,14 @@ export const ATPL_LANGUAGES = [
 
 const NAV_DROPDOWN_KEYS = ['hardware', 'software', 'customers', 'partners', 'why-atpl'];
 
+const HERO_TICKER_ITEMS = [
+  '35+ Years Combined Industrial Experience',
+  'ISO 9001:2015 & GS1 Certified Alliance',
+  'Live Two-Way SAP & Oracle ERP Sync',
+  'Rapid Factory Rollouts in 2 to 4 Weeks',
+  '4-Hour On-Site Support SLA in South India'
+];
+
 export const Navbar = ({ onOpenSearch }) => {
   const { currentView, setCurrentView, openDemoModal } = useApp();
   
@@ -43,6 +51,10 @@ export const Navbar = ({ onOpenSearch }) => {
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [hoveredNav, setHoveredNav] = useState(null);
   const [isScrolled, setIsScrolled] = useState(false);
+  
+  // Ticker animation state (3.2s interval, 0.5s slide up + fade)
+  const [tickerIndex, setTickerIndex] = useState(0);
+  const [tickerAnimating, setTickerAnimating] = useState(false);
   
   // Search expander state
   const [searchExpanded, setSearchExpanded] = useState(false);
@@ -53,7 +65,7 @@ export const Navbar = ({ onOpenSearch }) => {
   const [selectedLang, setSelectedLang] = useState('English');
   const [mobileExpandedSection, setMobileExpandedSection] = useState(null);
   
-  // Pill highlight coordinates
+  // Sliding pill highlight coordinates
   const [pillStyle, setPillStyle] = useState({ opacity: 0, left: 0, width: 0, height: 0, top: 0 });
   
   // DOM Refs
@@ -63,6 +75,18 @@ export const Navbar = ({ onOpenSearch }) => {
   const closeTimeoutRef = useRef(null);
   const searchInputRef = useRef(null);
   const searchContainerRef = useRef(null);
+
+  // Rotate message ticker every 3.2s
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTickerAnimating(true);
+      setTimeout(() => {
+        setTickerIndex((prev) => (prev + 1) % HERO_TICKER_ITEMS.length);
+        setTickerAnimating(false);
+      }, 500); // 0.5s slide up & fade
+    }, 3200);
+    return () => clearInterval(timer);
+  }, []);
 
   // Track scroll position: shrink navbar from 64px to 54px past 20px
   useEffect(() => {
@@ -237,32 +261,51 @@ export const Navbar = ({ onOpenSearch }) => {
     <>
       {/* Dynamic Keyframes & Responsive Rules for Header */}
       <style>{`
-        /* Cyan bottom travel line loop (5s linear infinite) */
-        @keyframes cyanTravelLine {
-          0% { transform: translateX(-100%); }
-          100% { transform: translateX(350%); }
+        /* Global header white text override */
+        .atpl-white-header {
+          background-color: #ffffff !important;
+          color: #0e1a2b !important;
         }
-        .cyan-travel-beam {
-          width: 32%;
-          height: 100%;
-          background: linear-gradient(90deg, transparent 0%, rgba(34, 211, 238, 0.12) 20%, #22d3ee 50%, rgba(34, 211, 238, 0.12) 80%, transparent 100%);
-          animation: cyanTravelLine 5s linear infinite;
+        .atpl-white-header button {
+          color: #0e1a2b;
         }
 
-        /* Pulsing cyan dot next to company logo */
-        @keyframes cyanPulseDot {
-          0%, 100% { transform: scale(1); opacity: 0.8; box-shadow: 0 0 0 0 rgba(34, 211, 238, 0.8); }
-          50% { transform: scale(1.25); opacity: 1; box-shadow: 0 0 8px 2px rgba(34, 211, 238, 0.6); }
+        /* Pulsing green dot for Telemetry Active */
+        @keyframes greenPulseDot {
+          0%, 100% { transform: scale(1); opacity: 0.85; box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+          50% { transform: scale(1.2); opacity: 1; box-shadow: 0 0 8px 2px rgba(16, 185, 129, 0.5); }
         }
-        .cyan-pulse-dot {
+        .green-pulse-dot {
           width: 6.5px;
           height: 6.5px;
           border-radius: 50%;
-          background-color: #22d3ee;
+          background-color: #10b981;
           display: inline-block;
-          animation: cyanPulseDot 2.2s ease-in-out infinite;
+          animation: greenPulseDot 2s ease-in-out infinite;
           flex-shrink: 0;
-          margin-left: 6px;
+        }
+
+        /* White shine sweep across red engineer button every 3.6s */
+        @keyframes whiteShineSweep {
+          0% { transform: translateX(-160%) skewX(-20deg); }
+          30%, 100% { transform: translateX(260%) skewX(-20deg); }
+        }
+        .talk-engineer-shine {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 45%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.45) 50%, transparent 100%);
+          animation: whiteShineSweep 3.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+          pointer-events: none;
+          z-index: 1;
+        }
+        .talk-engineer-btn:hover .talk-engineer-arrow {
+          transform: translateX(4px);
+        }
+        .talk-engineer-arrow {
+          transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         /* Responsive Breakpoints */
@@ -278,28 +321,35 @@ export const Navbar = ({ onOpenSearch }) => {
         }
         @media (max-width: 900px) {
           .top-strip-tagline { display: none !important; }
+          .top-strip-telemetry { display: none !important; }
           .nav-search-wrap { display: none !important; }
+        }
+        @media (max-width: 640px) {
+          .top-strip-ticker-wrap { display: none !important; }
         }
 
         /* Accessibility: respect prefers-reduced-motion */
         @media (prefers-reduced-motion: reduce) {
-          .cyan-travel-beam,
-          .cyan-pulse-dot {
+          .green-pulse-dot,
+          .talk-engineer-shine {
             animation: none !important;
+          }
+          .talk-engineer-arrow {
+            transition: none !important;
           }
         }
       `}</style>
 
-      {/* 1) TOP STRIP: Slim 32px dark bar above navbar */}
+      {/* 1) TOP STRIP: Light (#edf3fd), 32px slim bar with ticker & telemetry */}
       <div
         style={{
-          backgroundColor: '#050a14',
-          borderBottom: '1px solid #1c2a44',
+          backgroundColor: '#edf3fd',
+          borderBottom: '1px solid #d8e3f5',
           height: '32px',
           minHeight: '32px',
           padding: '0 1.25rem',
           fontSize: '0.75rem',
-          color: '#8aa0c4',
+          color: '#5b6a84',
           display: 'flex',
           alignItems: 'center',
           position: 'relative',
@@ -319,16 +369,17 @@ export const Navbar = ({ onOpenSearch }) => {
           }}
         >
           {/* Left: Outlined Badge & Tagline */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', minWidth: 0 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', flexShrink: 0 }}>
             <span
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
-                border: '1px solid #1c2a44',
-                color: '#22d3ee',
+                backgroundColor: '#ffffff',
+                border: '1px solid #c7d7ed',
+                color: '#0071ba',
                 fontSize: '0.62rem',
-                fontWeight: 700,
-                letterSpacing: '0.08em',
+                fontWeight: 800,
+                letterSpacing: '0.06em',
                 padding: '0.08rem 0.45rem',
                 borderRadius: '4px',
                 flexShrink: 0
@@ -339,7 +390,7 @@ export const Navbar = ({ onOpenSearch }) => {
             <span
               className="top-strip-tagline"
               style={{
-                color: '#8aa0c4',
+                color: '#5b6a84',
                 fontSize: '0.74rem',
                 fontWeight: 500,
                 overflow: 'hidden',
@@ -351,13 +402,79 @@ export const Navbar = ({ onOpenSearch }) => {
             </span>
           </div>
 
-          {/* Right: Accent Admin Link */}
+          {/* Center: Message Ticker rotating every 3.2s + Green Pulsing Dot with "Telemetry active" */}
+          <div
+            className="top-strip-ticker-wrap"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '1rem',
+              overflow: 'hidden',
+              minWidth: 0,
+              flex: 1,
+              justifyContent: 'center'
+            }}
+          >
+            <div
+              style={{
+                height: '20px',
+                overflow: 'hidden',
+                position: 'relative',
+                display: 'flex',
+                alignItems: 'center'
+              }}
+            >
+              <div
+                style={{
+                  transform: tickerAnimating ? 'translateY(-12px)' : 'translateY(0)',
+                  opacity: tickerAnimating ? 0 : 1,
+                  transition: 'transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease',
+                  color: '#0e1a2b',
+                  fontWeight: 600,
+                  fontSize: '0.74rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.4rem',
+                  whiteSpace: 'nowrap'
+                }}
+              >
+                <span style={{ color: '#0071ba', fontWeight: 800 }}>⚡</span>
+                <span>{HERO_TICKER_ITEMS[tickerIndex]}</span>
+              </div>
+            </div>
+
+            {/* Small green pulsing dot with "Telemetry active" */}
+            <div
+              className="top-strip-telemetry"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.35rem',
+                flexShrink: 0
+              }}
+            >
+              <span className="green-pulse-dot" />
+              <span
+                style={{
+                  color: '#059669',
+                  fontSize: '0.7rem',
+                  fontWeight: 700,
+                  letterSpacing: '0.02em',
+                  whiteSpace: 'nowrap'
+                }}
+              >
+                Telemetry active
+              </span>
+            </div>
+          </div>
+
+          {/* Right: Admin Panel Link */}
           <button
             onClick={() => handleNavClick('admin')}
             style={{
               background: 'transparent',
               border: 'none',
-              color: '#22d3ee',
+              color: '#0071ba',
               cursor: 'pointer',
               fontWeight: 600,
               fontSize: '0.74rem',
@@ -366,11 +483,11 @@ export const Navbar = ({ onOpenSearch }) => {
               gap: '0.3rem',
               padding: '0.15rem 0.4rem',
               borderRadius: '4px',
-              transition: 'opacity 0.15s ease',
+              transition: 'color 0.15s ease',
               flexShrink: 0
             }}
-            onMouseEnter={(e) => { e.currentTarget.style.opacity = '0.8'; }}
-            onMouseLeave={(e) => { e.currentTarget.style.opacity = '1'; }}
+            onMouseEnter={(e) => { e.currentTarget.style.color = '#0e1a2b'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.color = '#0071ba'; }}
             title="Open ATPL Control Center & SEO Manager"
           >
             <span>⚙️ Admin Panel</span>
@@ -378,17 +495,17 @@ export const Navbar = ({ onOpenSearch }) => {
         </div>
       </div>
 
-      {/* 2) NAVBAR: Sticky, full width, 64px shrinking to 54px, dark #050a14 @ 90% */}
+      {/* 2) NAVBAR: Sticky, full width, WHITE (#ffffff), explicit dark text (#0e1a2b) & muted (#5b6a84) */}
       <header
         ref={headerRef}
+        className="atpl-white-header"
         style={{
           position: 'sticky',
           top: 0,
           zIndex: 1000,
-          backgroundColor: 'rgba(5, 10, 20, 0.9)',
-          backdropFilter: 'blur(16px)',
-          WebkitBackdropFilter: 'blur(16px)',
-          borderBottom: '1px solid #1c2a44',
+          backgroundColor: '#ffffff',
+          boxShadow: '0 2px 16px rgba(14, 26, 43, 0.06)',
+          borderBottom: '1px solid #e2e8f0',
           transition: 'height 0.25s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease',
           height: isScrolled ? '54px' : '64px',
           width: '100%',
@@ -410,18 +527,17 @@ export const Navbar = ({ onOpenSearch }) => {
             position: 'relative'
           }}
         >
-          {/* Left: Brand Logo with pulsing dot */}
+          {/* Left: Brand Logo with dark text for white navbar */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.2rem', flexShrink: 0 }}>
             <AtplLogo
               size={isScrolled ? 34 : 38}
               showText={true}
-              lightText={true}
+              lightText={false}
               onClick={() => handleNavClick('home')}
             />
-            <span className="cyan-pulse-dot" title="Systems Active" />
           </div>
 
-          {/* Center: Dropdown items + sliding soft pill highlight */}
+          {/* Center: Dropdown items + sliding soft pill highlight (#f1f5f9) */}
           <nav
             ref={navContainerRef}
             className="atpl-desktop-nav"
@@ -429,11 +545,11 @@ export const Navbar = ({ onOpenSearch }) => {
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '0.25rem',
+              gap: '0.2rem',
               position: 'relative'
             }}
           >
-            {/* Sliding Soft Pill Highlight (#13203a) */}
+            {/* Sliding Soft Pill Highlight (subtle light slate #f1f5f9) */}
             <div
               style={{
                 position: 'absolute',
@@ -441,7 +557,7 @@ export const Navbar = ({ onOpenSearch }) => {
                 left: `${pillStyle.left || 0}px`,
                 width: `${pillStyle.width || 0}px`,
                 height: `${pillStyle.height || 0}px`,
-                backgroundColor: '#13203a',
+                backgroundColor: '#f1f5f9',
                 borderRadius: '9999px',
                 transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
                 opacity: pillStyle.opacity,
@@ -450,7 +566,7 @@ export const Navbar = ({ onOpenSearch }) => {
               }}
             />
 
-            {/* Hardware */}
+            {/* 1. Hardware */}
             <div
               ref={(el) => { navItemRefs.current['hardware'] = el; }}
               onMouseEnter={() => handleDropdownEnter('hardware')}
@@ -471,8 +587,8 @@ export const Navbar = ({ onOpenSearch }) => {
                 style={{
                   background: 'transparent',
                   border: 'none',
-                  color: (activeDropdown === 'hardware' || hoveredNav === 'hardware' || currentView === 'hardware') ? '#22d3ee' : '#eaf1ff',
-                  padding: '0.45rem 0.85rem',
+                  color: (activeDropdown === 'hardware' || hoveredNav === 'hardware' || currentView === 'hardware') ? '#0071ba' : '#0e1a2b',
+                  padding: '0.45rem 0.75rem',
                   fontSize: '0.92rem',
                   fontWeight: 600,
                   cursor: 'pointer',
@@ -480,21 +596,23 @@ export const Navbar = ({ onOpenSearch }) => {
                   alignItems: 'center',
                   gap: '0.35rem',
                   borderRadius: '9999px',
-                  transition: 'color 0.2s ease'
+                  whiteSpace: 'nowrap',
+                  transition: 'color 0.15s ease'
                 }}
               >
                 <span>Hardware</span>
                 <ChevronDown
                   size={14}
+                  color={(activeDropdown === 'hardware' || hoveredNav === 'hardware') ? '#0071ba' : '#5b6a84'}
                   style={{
                     transform: activeDropdown === 'hardware' ? 'rotate(180deg)' : 'none',
-                    transition: 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)'
+                    transition: 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), color 0.15s ease'
                   }}
                 />
               </button>
             </div>
 
-            {/* Software */}
+            {/* 2. Software */}
             <div
               ref={(el) => { navItemRefs.current['software'] = el; }}
               onMouseEnter={() => handleDropdownEnter('software')}
@@ -515,8 +633,8 @@ export const Navbar = ({ onOpenSearch }) => {
                 style={{
                   background: 'transparent',
                   border: 'none',
-                  color: (activeDropdown === 'software' || hoveredNav === 'software' || currentView === 'software') ? '#22d3ee' : '#eaf1ff',
-                  padding: '0.45rem 0.85rem',
+                  color: (activeDropdown === 'software' || hoveredNav === 'software' || currentView === 'software') ? '#0071ba' : '#0e1a2b',
+                  padding: '0.45rem 0.75rem',
                   fontSize: '0.92rem',
                   fontWeight: 600,
                   cursor: 'pointer',
@@ -524,21 +642,23 @@ export const Navbar = ({ onOpenSearch }) => {
                   alignItems: 'center',
                   gap: '0.35rem',
                   borderRadius: '9999px',
-                  transition: 'color 0.2s ease'
+                  whiteSpace: 'nowrap',
+                  transition: 'color 0.15s ease'
                 }}
               >
                 <span>Software</span>
                 <ChevronDown
                   size={14}
+                  color={(activeDropdown === 'software' || hoveredNav === 'software') ? '#0071ba' : '#5b6a84'}
                   style={{
                     transform: activeDropdown === 'software' ? 'rotate(180deg)' : 'none',
-                    transition: 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)'
+                    transition: 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), color 0.15s ease'
                   }}
                 />
               </button>
             </div>
 
-            {/* Customers */}
+            {/* 3. Customers */}
             <div
               ref={(el) => { navItemRefs.current['customers'] = el; }}
               onMouseEnter={() => handleDropdownEnter('customers')}
@@ -559,8 +679,8 @@ export const Navbar = ({ onOpenSearch }) => {
                 style={{
                   background: 'transparent',
                   border: 'none',
-                  color: (activeDropdown === 'customers' || hoveredNav === 'customers' || currentView === 'customers') ? '#22d3ee' : '#eaf1ff',
-                  padding: '0.45rem 0.85rem',
+                  color: (activeDropdown === 'customers' || hoveredNav === 'customers' || currentView === 'customers') ? '#0071ba' : '#0e1a2b',
+                  padding: '0.45rem 0.75rem',
                   fontSize: '0.92rem',
                   fontWeight: 600,
                   cursor: 'pointer',
@@ -568,21 +688,23 @@ export const Navbar = ({ onOpenSearch }) => {
                   alignItems: 'center',
                   gap: '0.35rem',
                   borderRadius: '9999px',
-                  transition: 'color 0.2s ease'
+                  whiteSpace: 'nowrap',
+                  transition: 'color 0.15s ease'
                 }}
               >
                 <span>Customers</span>
                 <ChevronDown
                   size={14}
+                  color={(activeDropdown === 'customers' || hoveredNav === 'customers') ? '#0071ba' : '#5b6a84'}
                   style={{
                     transform: activeDropdown === 'customers' ? 'rotate(180deg)' : 'none',
-                    transition: 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)'
+                    transition: 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), color 0.15s ease'
                   }}
                 />
               </button>
             </div>
 
-            {/* Partners */}
+            {/* 4. Partners */}
             <div
               ref={(el) => { navItemRefs.current['partners'] = el; }}
               onMouseEnter={() => handleDropdownEnter('partners')}
@@ -603,8 +725,8 @@ export const Navbar = ({ onOpenSearch }) => {
                 style={{
                   background: 'transparent',
                   border: 'none',
-                  color: (activeDropdown === 'partners' || hoveredNav === 'partners' || currentView === 'partners') ? '#22d3ee' : '#eaf1ff',
-                  padding: '0.45rem 0.85rem',
+                  color: (activeDropdown === 'partners' || hoveredNav === 'partners' || currentView === 'partners') ? '#0071ba' : '#0e1a2b',
+                  padding: '0.45rem 0.75rem',
                   fontSize: '0.92rem',
                   fontWeight: 600,
                   cursor: 'pointer',
@@ -612,21 +734,23 @@ export const Navbar = ({ onOpenSearch }) => {
                   alignItems: 'center',
                   gap: '0.35rem',
                   borderRadius: '9999px',
-                  transition: 'color 0.2s ease'
+                  whiteSpace: 'nowrap',
+                  transition: 'color 0.15s ease'
                 }}
               >
                 <span>Partners</span>
                 <ChevronDown
                   size={14}
+                  color={(activeDropdown === 'partners' || hoveredNav === 'partners') ? '#0071ba' : '#5b6a84'}
                   style={{
                     transform: activeDropdown === 'partners' ? 'rotate(180deg)' : 'none',
-                    transition: 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)'
+                    transition: 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), color 0.15s ease'
                   }}
                 />
               </button>
             </div>
 
-            {/* Why ATPL - Nav item styled identically to Partners */}
+            {/* 5. Why ATPL (Positioned identically like Partners) */}
             <div
               ref={(el) => { navItemRefs.current['why-atpl'] = el; }}
               onMouseEnter={() => handleDropdownEnter('why-atpl')}
@@ -647,8 +771,8 @@ export const Navbar = ({ onOpenSearch }) => {
                 style={{
                   background: 'transparent',
                   border: 'none',
-                  color: (activeDropdown === 'why-atpl' || hoveredNav === 'why-atpl' || currentView === 'why-atpl') ? '#22d3ee' : '#eaf1ff',
-                  padding: '0.45rem 0.85rem',
+                  color: (activeDropdown === 'why-atpl' || hoveredNav === 'why-atpl' || currentView === 'why-atpl') ? '#0071ba' : '#0e1a2b',
+                  padding: '0.45rem 0.75rem',
                   fontSize: '0.92rem',
                   fontWeight: 600,
                   cursor: 'pointer',
@@ -656,22 +780,24 @@ export const Navbar = ({ onOpenSearch }) => {
                   alignItems: 'center',
                   gap: '0.35rem',
                   borderRadius: '9999px',
-                  transition: 'color 0.2s ease'
+                  whiteSpace: 'nowrap',
+                  transition: 'color 0.15s ease'
                 }}
               >
                 <span>Why ATPL</span>
                 <ChevronDown
                   size={14}
+                  color={(activeDropdown === 'why-atpl' || hoveredNav === 'why-atpl') ? '#0071ba' : '#5b6a84'}
                   style={{
                     transform: activeDropdown === 'why-atpl' ? 'rotate(180deg)' : 'none',
-                    transition: 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)'
+                    transition: 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), color 0.15s ease'
                   }}
                 />
               </button>
             </div>
           </nav>
 
-          {/* Right: Expandable Search, Language Selector, Admin Pill */}
+          {/* Right: Expandable Search, Language Selector, Admin Pill & Red "Talk to an Engineer" */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', flexShrink: 0 }}>
             
             {/* Search Icon that expands into input field */}
@@ -690,12 +816,12 @@ export const Navbar = ({ onOpenSearch }) => {
                 style={{
                   display: 'flex',
                   alignItems: 'center',
-                  background: searchExpanded ? '#0a1220' : 'transparent',
-                  border: searchExpanded ? '1px solid #1c2a44' : '1px solid transparent',
+                  background: searchExpanded ? '#f8fafc' : 'transparent',
+                  border: searchExpanded ? '1px solid #cbd5e1' : '1px solid transparent',
                   borderRadius: '9999px',
                   padding: searchExpanded ? '0 0.5rem 0 0.75rem' : '0',
                   transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
-                  width: searchExpanded ? '210px' : '36px',
+                  width: searchExpanded ? '200px' : '36px',
                   overflow: 'hidden'
                 }}
               >
@@ -711,7 +837,7 @@ export const Navbar = ({ onOpenSearch }) => {
                       background: 'transparent',
                       border: 'none',
                       outline: 'none',
-                      color: '#eaf1ff',
+                      color: '#0e1a2b',
                       fontSize: '0.84rem',
                       width: '100%',
                       padding: '0.35rem 0'
@@ -733,7 +859,7 @@ export const Navbar = ({ onOpenSearch }) => {
                   style={{
                     background: 'transparent',
                     border: 'none',
-                    color: searchExpanded ? '#22d3ee' : '#8aa0c4',
+                    color: searchExpanded ? '#0071ba' : '#5b6a84',
                     cursor: 'pointer',
                     width: '36px',
                     height: '36px',
@@ -745,8 +871,8 @@ export const Navbar = ({ onOpenSearch }) => {
                     borderRadius: '50%',
                     transition: 'color 0.15s ease'
                   }}
-                  onMouseEnter={(e) => { e.currentTarget.style.color = '#22d3ee'; }}
-                  onMouseLeave={(e) => { if (!searchExpanded) e.currentTarget.style.color = '#8aa0c4'; }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = '#0e1a2b'; }}
+                  onMouseLeave={(e) => { if (!searchExpanded) e.currentTarget.style.color = '#5b6a84'; }}
                 >
                   <Search size={17} />
                 </button>
@@ -763,9 +889,9 @@ export const Navbar = ({ onOpenSearch }) => {
                 aria-label="Change Website Language"
                 aria-expanded={languageOpen}
                 style={{
-                  background: '#0a1220',
-                  border: '1px solid #1c2a44',
-                  color: '#eaf1ff',
+                  background: '#f8fafc',
+                  border: '1px solid #cbd5e1',
+                  color: '#0e1a2b',
                   cursor: 'pointer',
                   fontSize: '0.84rem',
                   fontWeight: 600,
@@ -777,18 +903,19 @@ export const Navbar = ({ onOpenSearch }) => {
                   transition: 'all 0.15s ease'
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = '#22d3ee';
-                  e.currentTarget.style.color = '#22d3ee';
+                  e.currentTarget.style.borderColor = '#0071ba';
+                  e.currentTarget.style.color = '#0071ba';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = '#1c2a44';
-                  e.currentTarget.style.color = '#eaf1ff';
+                  e.currentTarget.style.borderColor = '#cbd5e1';
+                  e.currentTarget.style.color = '#0e1a2b';
                 }}
               >
-                <Globe size={14} color="#22d3ee" />
+                <Globe size={14} color="#0071ba" />
                 <span>{selectedLang.split(' ')[0]}</span>
                 <ChevronDown
                   size={13}
+                  color="#5b6a84"
                   style={{
                     transform: languageOpen ? 'rotate(180deg)' : 'none',
                     transition: 'transform 0.2s ease'
@@ -801,9 +928,9 @@ export const Navbar = ({ onOpenSearch }) => {
                 width="220px"
                 align="right"
                 style={{
-                  backgroundColor: '#050a14',
-                  border: '1px solid #1c2a44',
-                  boxShadow: '0 12px 32px rgba(0, 0, 0, 0.65)',
+                  backgroundColor: '#ffffff',
+                  border: '1px solid #e2e8f0',
+                  boxShadow: '0 12px 32px rgba(14, 26, 43, 0.12)',
                   maxHeight: '340px',
                   overflowY: 'auto',
                   display: 'flex',
@@ -819,9 +946,9 @@ export const Navbar = ({ onOpenSearch }) => {
                     fontWeight: 700,
                     textTransform: 'uppercase',
                     letterSpacing: '0.08em',
-                    color: '#8aa0c4',
+                    color: '#5b6a84',
                     padding: '0.3rem 0.5rem 0.2rem 0.5rem',
-                    borderBottom: '1px solid #1c2a44'
+                    borderBottom: '1px solid #f1f5f9'
                   }}
                 >
                   Select Language / மொழி
@@ -833,9 +960,9 @@ export const Navbar = ({ onOpenSearch }) => {
                       key={lang.code}
                       onClick={() => handleLanguageChange(lang)}
                       style={{
-                        background: isSelected ? '#13203a' : 'transparent',
+                        background: isSelected ? 'rgba(0, 113, 186, 0.08)' : 'transparent',
                         border: 'none',
-                        color: isSelected ? '#22d3ee' : '#eaf1ff',
+                        color: isSelected ? '#0071ba' : '#0e1a2b',
                         fontWeight: isSelected ? 700 : 500,
                         fontSize: '0.84rem',
                         textAlign: 'left',
@@ -849,7 +976,7 @@ export const Navbar = ({ onOpenSearch }) => {
                         transition: 'background 0.15s ease'
                       }}
                       onMouseEnter={(e) => {
-                        if (!isSelected) e.currentTarget.style.backgroundColor = '#0a1220';
+                        if (!isSelected) e.currentTarget.style.backgroundColor = '#f8fafc';
                       }}
                       onMouseLeave={(e) => {
                         if (!isSelected) e.currentTarget.style.backgroundColor = 'transparent';
@@ -859,21 +986,21 @@ export const Navbar = ({ onOpenSearch }) => {
                         <span style={{ fontSize: '1rem' }}>{lang.flag}</span>
                         <span>{lang.native}</span>
                       </span>
-                      {isSelected && <span style={{ color: '#22d3ee', fontSize: '0.8rem' }}>✓</span>}
+                      {isSelected && <span style={{ color: '#0071ba', fontSize: '0.8rem' }}>✓</span>}
                     </button>
                   );
                 })}
               </GsapDropdown>
             </div>
 
-            {/* Admin button as a solid light pill (#eaf1ff) */}
+            {/* Admin button as a light solid pill (#f1f5f9) */}
             <button
               onClick={() => handleNavClick('admin')}
               className="desktop-only-action"
               style={{
-                backgroundColor: '#eaf1ff',
-                color: '#050a14',
-                border: 'none',
+                backgroundColor: '#f1f5f9',
+                color: '#0e1a2b',
+                border: '1px solid #cbd5e1',
                 fontWeight: 700,
                 fontSize: '0.84rem',
                 padding: '0.38rem 0.95rem',
@@ -885,17 +1012,61 @@ export const Navbar = ({ onOpenSearch }) => {
                 transition: 'all 0.2s ease'
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#ffffff';
-                e.currentTarget.style.boxShadow = '0 0 16px rgba(234, 241, 255, 0.4)';
+                e.currentTarget.style.backgroundColor = '#0e1a2b';
+                e.currentTarget.style.color = '#ffffff';
+                e.currentTarget.style.borderColor = '#0e1a2b';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = '#eaf1ff';
-                e.currentTarget.style.boxShadow = 'none';
+                e.currentTarget.style.backgroundColor = '#f1f5f9';
+                e.currentTarget.style.color = '#0e1a2b';
+                e.currentTarget.style.borderColor = '#cbd5e1';
               }}
               title="Open Admin Control Center & SEO Manager"
             >
               <LayoutDashboard size={14} />
               <span>Admin</span>
+            </button>
+
+            {/* Red Pill Button: "Talk to an Engineer" with right-moving arrow & 3.6s white shine sweep */}
+            <button
+              onClick={() => {
+                if (openDemoModal) {
+                  openDemoModal('Talk to an Automation Engineer');
+                } else {
+                  handleNavClick('contact');
+                }
+              }}
+              className="talk-engineer-btn desktop-only-action"
+              title="Connect Directly with an ATPL Factory Automation Engineer"
+              style={{
+                backgroundColor: '#dc2626',
+                color: '#ffffff',
+                border: 'none',
+                borderRadius: '9999px',
+                fontWeight: 700,
+                fontSize: '0.84rem',
+                padding: '0.42rem 1.05rem',
+                cursor: 'pointer',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.45rem',
+                boxShadow: '0 2px 10px rgba(220, 38, 38, 0.28)',
+                position: 'relative',
+                overflow: 'hidden',
+                flexShrink: 0,
+                transition: 'background-color 0.2s ease, transform 0.15s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#b91c1c';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = '#dc2626';
+              }}
+            >
+              {/* White shine sweep animation every 3.6s */}
+              <div className="talk-engineer-shine" />
+              <span style={{ position: 'relative', zIndex: 2 }}>Talk to an Engineer</span>
+              <ArrowRight size={14} className="talk-engineer-arrow" style={{ position: 'relative', zIndex: 2 }} />
             </button>
 
             {/* Mobile Hamburger Button (44x44px minimum tap target) */}
@@ -905,15 +1076,15 @@ export const Navbar = ({ onOpenSearch }) => {
               aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
               aria-expanded={mobileMenuOpen}
               style={{
-                background: '#0a1220',
-                border: '1px solid #1c2a44',
+                background: '#f1f5f9',
+                border: '1px solid #cbd5e1',
                 borderRadius: '8px',
                 width: '44px',
                 height: '44px',
                 minWidth: '44px',
                 minHeight: '44px',
                 padding: 0,
-                color: '#eaf1ff',
+                color: '#0e1a2b',
                 cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'center',
@@ -924,21 +1095,6 @@ export const Navbar = ({ onOpenSearch }) => {
               {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
             </button>
           </div>
-        </div>
-
-        {/* 1px Cyan Light Traveling Beam along bottom edge */}
-        <div
-          style={{
-            position: 'absolute',
-            bottom: 0,
-            left: 0,
-            right: 0,
-            height: '1px',
-            overflow: 'hidden',
-            pointerEvents: 'none'
-          }}
-        >
-          <div className="cyan-travel-beam" />
         </div>
 
         {/* 3) Reusable Compact MegaMenu Component */}
@@ -964,7 +1120,7 @@ export const Navbar = ({ onOpenSearch }) => {
           onMouseLeave={handleDropdownLeave}
         />
 
-        {/* 4) Mobile Full-Screen Navigation Drawer (Hero-Integrated Dark Theme) */}
+        {/* 4) Mobile Full-Screen Navigation Drawer */}
         {mobileMenuOpen && (
           <div
             style={{
@@ -975,7 +1131,7 @@ export const Navbar = ({ onOpenSearch }) => {
               bottom: 0,
               width: '100vw',
               height: '100dvh',
-              backgroundColor: '#050a14',
+              backgroundColor: '#ffffff',
               display: 'flex',
               flexDirection: 'column',
               zIndex: 99999,
@@ -990,15 +1146,15 @@ export const Navbar = ({ onOpenSearch }) => {
                 alignItems: 'center',
                 justifyContent: 'space-between',
                 padding: '0.75rem 1.25rem',
-                borderBottom: '1px solid #1c2a44',
-                backgroundColor: '#050a14',
+                borderBottom: '1px solid #e2e8f0',
+                backgroundColor: '#ffffff',
                 flexShrink: 0
               }}
             >
               <AtplLogo
                 size={34}
                 showText={true}
-                lightText={true}
+                lightText={false}
                 onClick={() => {
                   handleNavClick('home');
                   setMobileMenuOpen(false);
@@ -1013,9 +1169,9 @@ export const Navbar = ({ onOpenSearch }) => {
                   minWidth: '44px',
                   minHeight: '44px',
                   borderRadius: '50%',
-                  background: '#0a1220',
-                  border: '1px solid #1c2a44',
-                  color: '#eaf1ff',
+                  background: '#f1f5f9',
+                  border: '1px solid #cbd5e1',
+                  color: '#0e1a2b',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -1038,6 +1194,37 @@ export const Navbar = ({ onOpenSearch }) => {
                 gap: '0.65rem'
               }}
             >
+              {/* Talk to an Engineer CTA (Mobile Priority #1) */}
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  if (openDemoModal) {
+                    openDemoModal('Talk to an Automation Engineer');
+                  } else {
+                    handleNavClick('contact');
+                  }
+                }}
+                style={{
+                  width: '100%',
+                  minHeight: '46px',
+                  background: '#dc2626',
+                  color: '#ffffff',
+                  border: 'none',
+                  borderRadius: '8px',
+                  padding: '0.7rem 1rem',
+                  fontSize: '0.96rem',
+                  fontWeight: 700,
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  cursor: 'pointer',
+                  boxShadow: '0 2px 10px rgba(220, 38, 38, 0.25)'
+                }}
+              >
+                <span>Talk to an Engineer</span>
+                <ArrowRight size={18} />
+              </button>
+
               {/* 1. Hardware Accordion */}
               <div>
                 <button
@@ -1045,13 +1232,13 @@ export const Navbar = ({ onOpenSearch }) => {
                   style={{
                     width: '100%',
                     minHeight: '44px',
-                    background: '#0a1220',
-                    border: '1px solid #1c2a44',
+                    background: '#f8fafc',
+                    border: '1px solid #e2e8f0',
                     borderRadius: '8px',
                     padding: '0.7rem 1rem',
                     fontSize: '0.96rem',
                     fontWeight: 700,
-                    color: '#eaf1ff',
+                    color: '#0e1a2b',
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
@@ -1059,25 +1246,25 @@ export const Navbar = ({ onOpenSearch }) => {
                   }}
                 >
                   <span style={{ display: 'flex', alignItems: 'center', gap: '0.55rem' }}>
-                    <span style={{ color: '#22d3ee' }}>📦</span>
+                    <span style={{ color: '#0071ba' }}>📦</span>
                     <span>Hardware Solutions</span>
                   </span>
                   <ChevronDown
                     size={18}
+                    color="#5b6a84"
                     style={{
                       transform: mobileExpandedSection === 'hardware' ? 'rotate(180deg)' : 'none',
-                      transition: 'transform 0.2s ease',
-                      color: '#8aa0c4'
+                      transition: 'transform 0.2s ease'
                     }}
                   />
                 </button>
                 {mobileExpandedSection === 'hardware' && (
-                  <div style={{ padding: '0.5rem 0.5rem 0.5rem 0.85rem', display: 'flex', flexDirection: 'column', gap: '0.4rem', borderLeft: '2px solid #22d3ee', marginLeft: '0.5rem', marginTop: '0.35rem' }}>
-                    <button onClick={() => handleNavClick('hardware')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#eaf1ff', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Fixed UHF RFID Portals & Antennas</button>
-                    <button onClick={() => handleNavClick('hardware')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#22d3ee', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Industrial 2D & DPM Barcode Scanners</button>
-                    <button onClick={() => handleNavClick('hardware')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#eaf1ff', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Industrial Barcode & RFID Printers</button>
-                    <button onClick={() => handleNavClick('hardware')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#22d3ee', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Rugged Handheld Computers & PDAs</button>
-                    <button onClick={() => handleNavClick('hardware')} style={{ minHeight: '44px', background: '#13203a', borderRadius: '6px', border: '1px solid #1c2a44', textAlign: 'left', padding: '0.5rem 0.75rem', color: '#22d3ee', fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <div style={{ padding: '0.5rem 0.5rem 0.5rem 0.85rem', display: 'flex', flexDirection: 'column', gap: '0.4rem', borderLeft: '2px solid #0071ba', marginLeft: '0.5rem', marginTop: '0.35rem' }}>
+                    <button onClick={() => handleNavClick('hardware')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0e1a2b', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Fixed UHF RFID Portals & Antennas</button>
+                    <button onClick={() => handleNavClick('hardware')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0071ba', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Industrial 2D & DPM Barcode Scanners</button>
+                    <button onClick={() => handleNavClick('hardware')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0e1a2b', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Industrial Barcode & RFID Printers</button>
+                    <button onClick={() => handleNavClick('hardware')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0071ba', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Rugged Handheld Computers & PDAs</button>
+                    <button onClick={() => handleNavClick('hardware')} style={{ minHeight: '44px', background: '#f1f5f9', borderRadius: '6px', border: '1px solid #e2e8f0', textAlign: 'left', padding: '0.5rem 0.75rem', color: '#0071ba', fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                       <span>Explore All Hardware Catalog</span>
                     </button>
                   </div>
@@ -1091,13 +1278,13 @@ export const Navbar = ({ onOpenSearch }) => {
                   style={{
                     width: '100%',
                     minHeight: '44px',
-                    background: '#0a1220',
-                    border: '1px solid #1c2a44',
+                    background: '#f8fafc',
+                    border: '1px solid #e2e8f0',
                     borderRadius: '8px',
                     padding: '0.7rem 1rem',
                     fontSize: '0.96rem',
                     fontWeight: 700,
-                    color: '#eaf1ff',
+                    color: '#0e1a2b',
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
@@ -1105,33 +1292,32 @@ export const Navbar = ({ onOpenSearch }) => {
                   }}
                 >
                   <span style={{ display: 'flex', alignItems: 'center', gap: '0.55rem' }}>
-                    <span style={{ color: '#22d3ee' }}>💻</span>
+                    <span style={{ color: '#0071ba' }}>💻</span>
                     <span>Software Suites (ATPL One™)</span>
                   </span>
                   <ChevronDown
                     size={18}
+                    color="#5b6a84"
                     style={{
                       transform: mobileExpandedSection === 'software' ? 'rotate(180deg)' : 'none',
-                      transition: 'transform 0.2s ease',
-                      color: '#8aa0c4'
+                      transition: 'transform 0.2s ease'
                     }}
                   />
                 </button>
                 {mobileExpandedSection === 'software' && (
-                  <div style={{ padding: '0.5rem 0.5rem 0.5rem 0.85rem', display: 'flex', flexDirection: 'column', gap: '0.4rem', borderLeft: '2px solid #22d3ee', marginLeft: '0.5rem', marginTop: '0.35rem' }}>
-                    <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: 'rgba(34, 211, 238, 0.1)', borderRadius: '6px', border: '1px solid rgba(34, 211, 238, 0.3)', textAlign: 'left', padding: '0.5rem 0.65rem', color: '#22d3ee', fontWeight: 800, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <div style={{ padding: '0.5rem 0.5rem 0.5rem 0.85rem', display: 'flex', flexDirection: 'column', gap: '0.4rem', borderLeft: '2px solid #0071ba', marginLeft: '0.5rem', marginTop: '0.35rem' }}>
+                    <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: 'rgba(0, 113, 186, 0.08)', borderRadius: '6px', border: '1px solid rgba(0, 113, 186, 0.25)', textAlign: 'left', padding: '0.5rem 0.65rem', color: '#0071ba', fontWeight: 800, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                       <span>★ PerfectEdge MDM™</span>
                       <span style={{ backgroundColor: '#dc2626', color: '#fff', fontSize: '0.62rem', padding: '1px 5px', borderRadius: '4px' }}>FLEET</span>
                     </button>
-                    <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: 'rgba(245, 158, 11, 0.1)', borderRadius: '6px', border: '1px solid rgba(245, 158, 11, 0.3)', textAlign: 'left', padding: '0.5rem 0.65rem', color: '#f59e0b', fontWeight: 800, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: 'rgba(245, 158, 11, 0.08)', borderRadius: '6px', border: '1px solid rgba(245, 158, 11, 0.25)', textAlign: 'left', padding: '0.5rem 0.65rem', color: '#b45309', fontWeight: 800, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                       <span>★ Perfect Labeler™</span>
-                      <span style={{ backgroundColor: '#f59e0b', color: '#050a14', fontSize: '0.62rem', padding: '1px 5px', borderRadius: '4px' }}>AI CLOUD</span>
+                      <span style={{ backgroundColor: '#f59e0b', color: '#0f172a', fontSize: '0.62rem', padding: '1px 5px', borderRadius: '4px' }}>AI CLOUD</span>
                     </button>
-                    <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#eaf1ff', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Perfect Flow 360™ (CRM & Ops)</button>
-                    <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#eaf1ff', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Perfect Store™ (Warehouse WMS)</button>
-                    <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#22d3ee', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Perfect Trace™ (Serialization & Aggregation)</button>
-                    <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#eaf1ff', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Perfect AI Vision™ (Defect Inspection)</button>
-                    <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: '#13203a', borderRadius: '6px', border: '1px solid #1c2a44', textAlign: 'left', padding: '0.5rem 0.75rem', color: '#22d3ee', fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0e1a2b', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Perfect Flow 360™ (CRM & Ops)</button>
+                    <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0e1a2b', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Perfect Store™ (Warehouse WMS)</button>
+                    <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0071ba', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Perfect Trace™ (Serialization & Aggregation)</button>
+                    <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: '#f1f5f9', borderRadius: '6px', border: '1px solid #e2e8f0', textAlign: 'left', padding: '0.5rem 0.75rem', color: '#0071ba', fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                       <span>Explore All Software Suites</span>
                     </button>
                   </div>
@@ -1145,13 +1331,13 @@ export const Navbar = ({ onOpenSearch }) => {
                   style={{
                     width: '100%',
                     minHeight: '44px',
-                    background: '#0a1220',
-                    border: '1px solid #1c2a44',
+                    background: '#f8fafc',
+                    border: '1px solid #e2e8f0',
                     borderRadius: '8px',
                     padding: '0.7rem 1rem',
                     fontSize: '0.96rem',
                     fontWeight: 700,
-                    color: '#eaf1ff',
+                    color: '#0e1a2b',
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
@@ -1159,24 +1345,24 @@ export const Navbar = ({ onOpenSearch }) => {
                   }}
                 >
                   <span style={{ display: 'flex', alignItems: 'center', gap: '0.55rem' }}>
-                    <span style={{ color: '#22d3ee' }}>👥</span>
+                    <span style={{ color: '#0071ba' }}>👥</span>
                     <span>Customers &amp; Case Studies</span>
                   </span>
                   <ChevronDown
                     size={18}
+                    color="#5b6a84"
                     style={{
                       transform: mobileExpandedSection === 'customers' ? 'rotate(180deg)' : 'none',
-                      transition: 'transform 0.2s ease',
-                      color: '#8aa0c4'
+                      transition: 'transform 0.2s ease'
                     }}
                   />
                 </button>
                 {mobileExpandedSection === 'customers' && (
-                  <div style={{ padding: '0.5rem 0.5rem 0.5rem 0.85rem', display: 'flex', flexDirection: 'column', gap: '0.4rem', borderLeft: '2px solid #22d3ee', marginLeft: '0.5rem', marginTop: '0.35rem' }}>
-                    <button onClick={() => handleNavClick('customers')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#eaf1ff', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Automotive &amp; EV (Apollo, Ola, Bosch)</button>
-                    <button onClick={() => handleNavClick('customers')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#22d3ee', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Heavy Engg &amp; Defense (L&amp;T, ABB, BEL)</button>
-                    <button onClick={() => handleNavClick('customers')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#eaf1ff', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>FMCG &amp; Packaging (HUL, Hatsun, ITC)</button>
-                    <button onClick={() => handleNavClick('customers')} style={{ minHeight: '44px', background: '#13203a', borderRadius: '6px', border: '1px solid #1c2a44', textAlign: 'left', padding: '0.5rem 0.75rem', color: '#22d3ee', fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <div style={{ padding: '0.5rem 0.5rem 0.5rem 0.85rem', display: 'flex', flexDirection: 'column', gap: '0.4rem', borderLeft: '2px solid #0071ba', marginLeft: '0.5rem', marginTop: '0.35rem' }}>
+                    <button onClick={() => handleNavClick('customers')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0e1a2b', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Automotive &amp; EV (Apollo, Ola, Bosch)</button>
+                    <button onClick={() => handleNavClick('customers')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0071ba', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Heavy Engg &amp; Defense (L&amp;T, ABB, BEL)</button>
+                    <button onClick={() => handleNavClick('customers')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0e1a2b', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>FMCG &amp; Packaging (HUL, Hatsun, ITC)</button>
+                    <button onClick={() => handleNavClick('customers')} style={{ minHeight: '44px', background: '#f1f5f9', borderRadius: '6px', border: '1px solid #e2e8f0', textAlign: 'left', padding: '0.5rem 0.75rem', color: '#0071ba', fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                       <span>Explore 200+ Enterprise Clients</span>
                     </button>
                   </div>
@@ -1190,13 +1376,13 @@ export const Navbar = ({ onOpenSearch }) => {
                   style={{
                     width: '100%',
                     minHeight: '44px',
-                    background: '#0a1220',
-                    border: '1px solid #1c2a44',
+                    background: '#f8fafc',
+                    border: '1px solid #e2e8f0',
                     borderRadius: '8px',
                     padding: '0.7rem 1rem',
                     fontSize: '0.96rem',
                     fontWeight: 700,
-                    color: '#eaf1ff',
+                    color: '#0e1a2b',
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
@@ -1204,24 +1390,23 @@ export const Navbar = ({ onOpenSearch }) => {
                   }}
                 >
                   <span style={{ display: 'flex', alignItems: 'center', gap: '0.55rem' }}>
-                    <span style={{ color: '#22d3ee' }}>🤝</span>
+                    <span style={{ color: '#0071ba' }}>🤝</span>
                     <span>Partners &amp; OEM Alliances</span>
                   </span>
                   <ChevronDown
                     size={18}
+                    color="#5b6a84"
                     style={{
                       transform: mobileExpandedSection === 'partners' ? 'rotate(180deg)' : 'none',
-                      transition: 'transform 0.2s ease',
-                      color: '#8aa0c4'
+                      transition: 'transform 0.2s ease'
                     }}
                   />
                 </button>
                 {mobileExpandedSection === 'partners' && (
-                  <div style={{ padding: '0.5rem 0.5rem 0.5rem 0.85rem', display: 'flex', flexDirection: 'column', gap: '0.4rem', borderLeft: '2px solid #22d3ee', marginLeft: '0.5rem', marginTop: '0.35rem' }}>
-                    <button onClick={() => handleNavClick('partners')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#eaf1ff', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Hardware OEMs (Honeywell, Zebra, TSC, Impinj)</button>
-                    <button onClick={() => handleNavClick('partners')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#22d3ee', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>ERP Cloud Alliances (SAP S/4HANA, Oracle Cloud)</button>
-                    <button onClick={() => handleNavClick('partners')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#eaf1ff', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Authorized GS1 Global Alliance Partner</button>
-                    <button onClick={() => handleNavClick('partners')} style={{ minHeight: '44px', background: '#13203a', borderRadius: '6px', border: '1px solid #1c2a44', textAlign: 'left', padding: '0.5rem 0.75rem', color: '#22d3ee', fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <div style={{ padding: '0.5rem 0.5rem 0.5rem 0.85rem', display: 'flex', flexDirection: 'column', gap: '0.4rem', borderLeft: '2px solid #0071ba', marginLeft: '0.5rem', marginTop: '0.35rem' }}>
+                    <button onClick={() => handleNavClick('partners')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0e1a2b', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Hardware OEMs (Honeywell, Zebra, TSC, Impinj)</button>
+                    <button onClick={() => handleNavClick('partners')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0071ba', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>ERP Cloud Alliances (SAP S/4HANA, Oracle Cloud)</button>
+                    <button onClick={() => handleNavClick('partners')} style={{ minHeight: '44px', background: '#f1f5f9', borderRadius: '6px', border: '1px solid #e2e8f0', textAlign: 'left', padding: '0.5rem 0.75rem', color: '#0071ba', fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                       <span>Explore All Partner Programs</span>
                     </button>
                   </div>
@@ -1235,13 +1420,13 @@ export const Navbar = ({ onOpenSearch }) => {
                   style={{
                     width: '100%',
                     minHeight: '44px',
-                    background: '#0a1220',
-                    border: '1px solid #1c2a44',
+                    background: '#f8fafc',
+                    border: '1px solid #e2e8f0',
                     borderRadius: '8px',
                     padding: '0.7rem 1rem',
                     fontSize: '0.96rem',
                     fontWeight: 700,
-                    color: '#eaf1ff',
+                    color: '#0e1a2b',
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
@@ -1249,25 +1434,25 @@ export const Navbar = ({ onOpenSearch }) => {
                   }}
                 >
                   <span style={{ display: 'flex', alignItems: 'center', gap: '0.55rem' }}>
-                    <span style={{ color: '#22d3ee' }}>✨</span>
+                    <span style={{ color: '#0071ba' }}>✨</span>
                     <span>Why ATPL (Executive Difference)</span>
                   </span>
                   <ChevronDown
                     size={18}
+                    color="#5b6a84"
                     style={{
                       transform: mobileExpandedSection === 'why-atpl' ? 'rotate(180deg)' : 'none',
-                      transition: 'transform 0.2s ease',
-                      color: '#8aa0c4'
+                      transition: 'transform 0.2s ease'
                     }}
                   />
                 </button>
                 {mobileExpandedSection === 'why-atpl' && (
-                  <div style={{ padding: '0.5rem 0.5rem 0.5rem 0.85rem', display: 'flex', flexDirection: 'column', gap: '0.4rem', borderLeft: '2px solid #22d3ee', marginLeft: '0.5rem', marginTop: '0.35rem' }}>
-                    <button onClick={() => handleNavClick('why-atpl')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#eaf1ff', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Advanced Tech Made Easy</button>
-                    <button onClick={() => handleNavClick('why-atpl')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#22d3ee', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Single Engineering Authority</button>
-                    <button onClick={() => handleNavClick('why-atpl')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#eaf1ff', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Guaranteed 4-Hour On-Site SLA</button>
-                    <button onClick={() => handleNavClick('why-atpl')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#22d3ee', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>35+ Years Proven Track Record</button>
-                    <button onClick={() => handleNavClick('why-atpl')} style={{ minHeight: '44px', background: '#13203a', borderRadius: '6px', border: '1px solid #1c2a44', textAlign: 'left', padding: '0.5rem 0.75rem', color: '#22d3ee', fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <div style={{ padding: '0.5rem 0.5rem 0.5rem 0.85rem', display: 'flex', flexDirection: 'column', gap: '0.4rem', borderLeft: '2px solid #0071ba', marginLeft: '0.5rem', marginTop: '0.35rem' }}>
+                    <button onClick={() => handleNavClick('why-atpl')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0e1a2b', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Advanced Tech Made Easy</button>
+                    <button onClick={() => handleNavClick('why-atpl')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0071ba', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Single Engineering Authority</button>
+                    <button onClick={() => handleNavClick('why-atpl')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0e1a2b', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Guaranteed 4-Hour On-Site SLA</button>
+                    <button onClick={() => handleNavClick('why-atpl')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0071ba', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>35+ Years Proven Track Record</button>
+                    <button onClick={() => handleNavClick('why-atpl')} style={{ minHeight: '44px', background: '#f1f5f9', borderRadius: '6px', border: '1px solid #e2e8f0', textAlign: 'left', padding: '0.5rem 0.75rem', color: '#0071ba', fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                       <span>Explore Why ATPL Overview</span>
                     </button>
                   </div>
@@ -1281,13 +1466,13 @@ export const Navbar = ({ onOpenSearch }) => {
                   style={{
                     width: '100%',
                     minHeight: '40px',
-                    background: '#0a1220',
-                    border: '1px solid #1c2a44',
+                    background: '#f8fafc',
+                    border: '1px solid #e2e8f0',
                     borderRadius: '8px',
                     padding: '0.5rem 0.75rem',
                     fontSize: '0.85rem',
                     fontWeight: 600,
-                    color: '#8aa0c4',
+                    color: '#5b6a84',
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
@@ -1295,15 +1480,15 @@ export const Navbar = ({ onOpenSearch }) => {
                   }}
                 >
                   <span style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
-                    <Globe size={16} color="#22d3ee" />
-                    <span>Language / மொழி: <strong style={{ color: '#22d3ee' }}>{selectedLang.split(' ')[0]}</strong></span>
+                    <Globe size={16} color="#0071ba" />
+                    <span>Language / மொழி: <strong style={{ color: '#0071ba' }}>{selectedLang.split(' ')[0]}</strong></span>
                   </span>
                   <ChevronDown
                     size={15}
+                    color="#5b6a84"
                     style={{
                       transform: mobileExpandedSection === 'language' ? 'rotate(180deg)' : 'none',
-                      transition: 'transform 0.2s ease',
-                      color: '#8aa0c4'
+                      transition: 'transform 0.2s ease'
                     }}
                   />
                 </button>
@@ -1314,8 +1499,8 @@ export const Navbar = ({ onOpenSearch }) => {
                       display: 'grid',
                       gridTemplateColumns: 'repeat(2, 1fr)',
                       gap: '0.4rem',
-                      backgroundColor: '#0a1220',
-                      border: '1px solid #1c2a44',
+                      backgroundColor: '#f8fafc',
+                      border: '1px solid #e2e8f0',
                       borderRadius: '8px',
                       marginTop: '0.35rem'
                     }}
@@ -1331,9 +1516,9 @@ export const Navbar = ({ onOpenSearch }) => {
                           }}
                           style={{
                             minHeight: '38px',
-                            background: isSelected ? '#22d3ee' : '#13203a',
-                            color: isSelected ? '#050a14' : '#eaf1ff',
-                            border: '1px solid #1c2a44',
+                            background: isSelected ? '#0071ba' : '#ffffff',
+                            color: isSelected ? '#ffffff' : '#0e1a2b',
+                            border: '1px solid #e2e8f0',
                             borderRadius: '6px',
                             padding: '0.4rem 0.55rem',
                             fontSize: '0.8rem',
@@ -1355,7 +1540,7 @@ export const Navbar = ({ onOpenSearch }) => {
               </div>
 
               {/* Admin Control Link */}
-              <div style={{ marginTop: '0.85rem', paddingTop: '0.85rem', borderTop: '1px solid #1c2a44' }}>
+              <div style={{ marginTop: '0.85rem', paddingTop: '0.85rem', borderTop: '1px solid #e2e8f0' }}>
                 <button
                   onClick={() => {
                     setMobileMenuOpen(false);
@@ -1364,9 +1549,9 @@ export const Navbar = ({ onOpenSearch }) => {
                   style={{
                     width: '100%',
                     minHeight: '44px',
-                    backgroundColor: '#eaf1ff',
-                    color: '#050a14',
-                    border: 'none',
+                    backgroundColor: '#f1f5f9',
+                    color: '#0e1a2b',
+                    border: '1px solid #cbd5e1',
                     borderRadius: '8px',
                     padding: '0.6rem 1rem',
                     fontWeight: 700,
