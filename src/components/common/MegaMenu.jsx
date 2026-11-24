@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { ArrowRight, ChevronRight } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { ArrowRight } from 'lucide-react';
 
 /**
  * TECHNICAL MEDIA FALLBACK
@@ -11,7 +11,7 @@ const TechnicalMediaFallback = () => (
     style={{
       width: '100%',
       height: '100%',
-      background: 'radial-gradient(circle at 50% 50%, #002244 0%, #040914 100%)',
+      background: 'radial-gradient(circle at 50% 50%, #0a172e 0%, #050a14 100%)',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
@@ -21,17 +21,17 @@ const TechnicalMediaFallback = () => (
   >
     <svg width="84" height="84" viewBox="0 0 100 100" fill="none" style={{ opacity: 0.85 }}>
       {/* Concentric Calibration Circles */}
-      <circle cx="50" cy="50" r="42" stroke="#0071ba" strokeWidth="1" strokeDasharray="3 3" opacity="0.4" />
-      <circle cx="50" cy="50" r="30" stroke="#38bdf8" strokeWidth="1.2" opacity="0.65">
+      <circle cx="50" cy="50" r="42" stroke="#1c2a44" strokeWidth="1" strokeDasharray="3 3" />
+      <circle cx="50" cy="50" r="30" stroke="#22d3ee" strokeWidth="1.2" opacity="0.65">
         <animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" dur="9s" repeatCount="indefinite" />
       </circle>
-      <circle cx="50" cy="50" r="16" stroke="#0071ba" strokeWidth="1.5" />
-      <circle cx="50" cy="50" r="4" fill="#38bdf8">
+      <circle cx="50" cy="50" r="16" stroke="#1c2a44" strokeWidth="1.5" />
+      <circle cx="50" cy="50" r="4" fill="#22d3ee">
         <animate attributeName="opacity" values="0.4;1;0.4" dur="2s" repeatCount="indefinite" />
       </circle>
       {/* Crosshair Graticules */}
-      <line x1="8" y1="50" x2="92" y2="50" stroke="#0071ba" strokeWidth="1" opacity="0.35" />
-      <line x1="50" y1="8" x2="50" y2="92" stroke="#0071ba" strokeWidth="1" opacity="0.35" />
+      <line x1="8" y1="50" x2="92" y2="50" stroke="#1c2a44" strokeWidth="1" opacity="0.5" />
+      <line x1="50" y1="8" x2="50" y2="92" stroke="#1c2a44" strokeWidth="1" opacity="0.5" />
     </svg>
     <div
       style={{
@@ -40,9 +40,9 @@ const TechnicalMediaFallback = () => (
         right: '12px',
         fontSize: '9.5px',
         fontFamily: 'monospace',
-        color: '#38bdf8',
+        color: '#22d3ee',
         letterSpacing: '0.08em',
-        opacity: 0.75
+        opacity: 0.8
       }}
     >
       ATPL//SYS.ACTIVE
@@ -52,8 +52,7 @@ const TechnicalMediaFallback = () => (
 
 /**
  * MASTER DATA-DRIVEN CONFIGURATION
- * All navigation menus, groups, items, descriptions, images and actions in one single array.
- * Real authentic products, solutions, links and images from the live website.
+ * All authentic navigation menus, groups, items, descriptions, images and CTAs.
  */
 export const MEGA_MENU_CONFIG = {
   hardware: {
@@ -262,7 +261,8 @@ export const MEGA_MENU_CONFIG = {
             anchor: 'cmms',
             img: '/assets/images/atpl_tech_campus_bg.jpg',
             longDesc: 'Automated predictive maintenance scheduling, MTBF/MTTR tracking, spare parts inventory, and technician dispatch.'
-          }]
+          }
+        ]
       }
     ],
     cta: {
@@ -365,8 +365,8 @@ export const MEGA_MENU_CONFIG = {
             id: 'video-proofs',
             name: 'Factory Video Case Studies',
             desc: 'Watch operational equipment in action',
-            link: 'demos',
-            anchor: 'hardware-360-matrix',
+            link: 'customers',
+            anchor: 'client-roster',
             img: '/assets/images/atpl_factory_3d_interior.webp',
             longDesc: 'Watch real shopfloor footage of automated packaging, high-speed sorting tunnels, and live robotic workcells.'
           }
@@ -488,124 +488,18 @@ export const MEGA_MENU_CONFIG = {
       action: 'demo-modal',
       solution: 'OEM Hardware & Standards Integration Consultation'
     }
-  },
-
-  demos: {
-    id: 'demos',
-    label: '3D Twin Simulator',
-    groups: [
-      {
-        title: 'VIRTUAL FACTORY TWIN',
-        items: [
-          {
-            id: 'plant-sim',
-            name: '3D Smart Factory Simulator',
-            desc: 'Interactive plant tour with Archie AI telemetry',
-            link: 'demos',
-            anchor: '3d-simulator',
-            img: '/assets/images/atpl_connected_3d_twin.webp',
-            longDesc: 'Fly through a 12-station Industry 4.0 plant model with animated AGVs, pick stations, and real-time sensor HUD overlays.'
-          },
-          {
-            id: 'fullscreen-tour',
-            name: 'Dedicated 3D Flight Mode',
-            desc: 'Full-screen immersive virtual reality plant tour',
-            link: 'factory-tour',
-            img: '/assets/images/atpl_factory_3d_interior.webp',
-            longDesc: 'Full-screen 60 FPS Three.js virtual walk-through optimized for desktop monitors, mobile sensors, and showroom displays.'
-          },
-          {
-            id: 'telemetry-hud',
-            name: 'Live Station HUD Telemetry',
-            desc: 'Line balancing, cycle time & OEE metrics',
-            link: 'demos',
-            anchor: 'stations-deepdive',
-            img: '/assets/images/atpl_isometric_factory.webp',
-            longDesc: 'Inspect real-time telemetry graphs for conveyor speed, RFID tag read counts, and optical inspection pass rates.'
-          }
-        ]
-      },
-      {
-        title: '360° PRODUCT DEMOS',
-        items: [
-          {
-            id: 'turntable-360',
-            name: '360° Product Demo Videos',
-            desc: '20 rotating turntable videos of scanners & RFID',
-            link: 'demos',
-            anchor: 'hardware-360-matrix',
-            img: '/assets/images/robot_hardware_showcase.webp',
-            longDesc: 'Spin and inspect rugged barcode scanners, RFID readers, and industrial label printers in full 360-degree high resolution.'
-          },
-          {
-            id: 'conveyor-vision',
-            name: 'High-Speed Conveyor Tunnels',
-            desc: 'See vision tunnels & barcode grading in motion',
-            link: 'demos',
-            anchor: 'hardware-360-matrix',
-            img: '/assets/images/hw_fixed_conveyor.jpg',
-            longDesc: 'High-speed package scan tunnels capturing multi-sided barcodes on conveyor lines running at >2.5 meters/second.'
-          },
-          {
-            id: 'dock-rfid',
-            name: 'Dock-Door RFID Inbound Gates',
-            desc: 'Watch bulk pallet tag reads in action',
-            link: 'demos',
-            anchor: 'hardware-360-matrix',
-            img: '/assets/images/hw_rfid_portal.jpg',
-            longDesc: 'Watch instantaneous bulk interrogation of 500+ tagged cartons passing through an automated warehouse dock door.'
-          }
-        ]
-      },
-      {
-        title: 'INTERACTIVE EXPERIENCES',
-        items: [
-          {
-            id: 'archie-assistant',
-            name: 'Archie Industrial AI Guide',
-            desc: 'Interactive plant floor virtual assistant',
-            link: 'demos',
-            anchor: 'archie-ai',
-            img: '/assets/images/archery_robot_mascot.webp',
-            longDesc: 'Meet Archie, ATPL’s 3D robot engineer guiding you through stations, answering equipment specs, and calculating cycle times.'
-          },
-          {
-            id: 'qc-benchmarks',
-            name: 'Defect Inspection Workcells',
-            desc: 'AI sub-pixel optical grading demonstration',
-            link: 'demos',
-            anchor: 'stations-deepdive',
-            img: '/assets/images/atpl_ai_vision_inspection.webp',
-            longDesc: 'See deep learning vision algorithms classifying microscopic casting voids, scratch defects, and misaligned caps.'
-          },
-          {
-            id: 'dpm-pin-demo',
-            name: 'Laser & Pin Marking Workcells',
-            desc: 'Permanent direct part marking simulation',
-            link: 'demos',
-            anchor: 'stations-deepdive',
-            img: '/assets/images/hw_laser_marking.jpg',
-            longDesc: 'High-speed fiber laser marking micro-QR codes on automotive transmission gears and medical surgical tools.'
-          }
-        ]
-      }
-    ],
-    cta: {
-      text: 'Launch 3D Smart Factory Simulator Now',
-      sub: 'Step into the virtual plant and test real-time station diagnostics',
-      link: 'demos',
-      anchor: '3d-simulator'
-    }
   }
 };
 
 /**
- * REUSABLE COMPACT MEGA MENU SYSTEM
- * - Fixed ~300px panel under navbar, 0 vertical scroll on desktop.
- * - Left 1.35fr (3 columns x up to 3 cards under 10.5px uppercase muted headings + dashed CTA).
- * - Right 1fr (Dark preview card with 2:1 media, progress dots, title, description, Explore link).
- * - 55ms staggered card reveal, 0.4s clip-path slide down, 3s auto-rotation when idle.
- * - Flat surfaces, 1px borders, zero emoji icons, zero purple/rainbow gradients.
+ * REUSABLE COMPACT MEGA MENU SYSTEM (Dark Hero-Integrated Style)
+ * - Fixed ~330px panel under navbar, 0 vertical scroll on desktop.
+ * - Always dark (#050a14), 1px top border (#1c2a44), deep shadow below.
+ * - Left 1.35fr (3 columns x up to 3 items as rows with continuous mono 01-09, 8px hover slide).
+ * - Tiny accent square (#22d3ee) before uppercase headings.
+ * - Solid accent button card below last group.
+ * - Right 1fr (Preview panel with faint 24px grid, 16px accent corner brackets, 22px title, solid accent Explore button).
+ * - Auto-rotates every 3s when idle.
  */
 export const MegaMenu = ({
   menuKey,
@@ -629,7 +523,7 @@ export const MegaMenu = ({
     setIsHoveringGrid(false);
   }, [menuKey]);
 
-  // Auto-rotation every 3 seconds when mouse is not hovering cards
+  // Auto-rotation every 3 seconds when mouse is not hovering rows
   useEffect(() => {
     if (!isOpen || isHoveringGrid || allItems.length <= 1) return;
 
@@ -644,7 +538,7 @@ export const MegaMenu = ({
 
   const activeItem = allItems[activeIndex] || allItems[0];
 
-  const handleCardClick = (item) => {
+  const handleRowClick = (item) => {
     if (item.action === 'demo-modal') {
       if (onOpenDemo) onOpenDemo({ solution: item.solution || item.name });
     } else if (onNavigate) {
@@ -664,7 +558,7 @@ export const MegaMenu = ({
     if (onClose) onClose();
   };
 
-  let globalCardIdx = 0;
+  let globalRowCounter = 0;
 
   return (
     <div
@@ -677,9 +571,10 @@ export const MegaMenu = ({
         left: 0,
         right: 0,
         width: '100%',
-        backgroundColor: '#ffffff',
-        borderBottom: '1px solid #e2e8f0',
-        boxShadow: '0 24px 48px -12px rgba(15, 23, 42, 0.12), 0 2px 4px rgba(0, 0, 0, 0.04)',
+        backgroundColor: '#050a14',
+        borderTop: '1px solid #1c2a44',
+        borderBottom: '1px solid #1c2a44',
+        boxShadow: '0 24px 60px rgba(0, 0, 0, 0.85), 0 4px 12px rgba(0, 0, 0, 0.5)',
         zIndex: 999,
         animation: 'megaPanelReveal 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards'
       }}
@@ -695,7 +590,7 @@ export const MegaMenu = ({
             opacity: 1;
           }
         }
-        @keyframes megaCardFadeUp {
+        @keyframes megaRowFadeUp {
           from {
             opacity: 0;
             transform: translateY(8px);
@@ -705,10 +600,10 @@ export const MegaMenu = ({
             transform: translateY(0);
           }
         }
-        @keyframes megaPreviewSlide {
+        @keyframes megaPreviewSlideIn {
           from {
             opacity: 0;
-            transform: translateX(12px);
+            transform: translateX(14px);
           }
           to {
             opacity: 1;
@@ -722,99 +617,152 @@ export const MegaMenu = ({
           padding: 22px 20px;
           display: grid;
           grid-template-columns: 1.35fr 1fr;
-          gap: 24px;
+          gap: 34px;
           align-items: start;
           box-sizing: border-box;
+          min-height: 310px;
         }
 
         .mega-grid-left {
           display: grid;
           grid-template-columns: repeat(3, 1fr);
-          gap: 14px;
+          gap: 16px;
         }
 
-        .mega-card-btn {
+        /* Each item is a row, not a box */
+        .mega-row-btn {
           width: 100%;
           text-align: left;
-          background-color: #f8fafc;
-          border: 1px solid #e2e8f0;
-          border-radius: 8px;
-          padding: 10px 12px;
+          background-color: transparent;
+          border: none;
+          border-bottom: 1px solid #1c2a44;
+          padding: 8px 10px;
           cursor: pointer;
           position: relative;
-          transition: background-color 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+          transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease;
           display: flex;
-          flex-direction: column;
-          justifyContent: center;
+          align-items: flex-start;
           box-sizing: border-box;
-          min-height: 52px;
-          animation: megaCardFadeUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+          min-height: 48px;
+          animation: megaRowFadeUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+          border-radius: 4px;
         }
 
-        .mega-card-btn:hover,
-        .mega-card-btn:focus-visible,
-        .mega-card-btn.active-card {
-          background-color: #ffffff;
-          border-color: #0071ba;
-          box-shadow: inset 3px 0 0 #0071ba, 0 2px 6px rgba(0, 113, 186, 0.08);
+        .mega-row-btn:hover,
+        .mega-row-btn:focus-visible,
+        .mega-row-btn.active-row {
+          background-color: #13203a;
+          transform: translateX(8px);
           outline: none;
         }
 
-        .mega-card-title {
-          font-size: 14px;
+        .mega-row-btn:hover .mega-row-name,
+        .mega-row-btn:focus-visible .mega-row-name,
+        .mega-row-btn.active-row .mega-row-name {
+          color: #22d3ee !important;
+        }
+
+        .mega-row-num {
+          font-family: monospace;
+          font-size: 11px;
           font-weight: 700;
-          color: #0f172a;
+          color: #22d3ee;
+          margin-right: 8px;
+          margin-top: 1px;
+          flex-shrink: 0;
+          opacity: 0.85;
+        }
+
+        .mega-row-name {
+          font-size: 13.5px;
+          font-weight: 700;
+          color: #eaf1ff;
           line-height: 1.25;
           margin: 0;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
+          transition: color 0.18s ease;
         }
 
-        .mega-card-desc {
-          font-size: 11.5px;
-          color: #64748b;
-          margin-top: 3px;
+        .mega-row-desc {
+          font-size: 11px;
+          color: #8aa0c4;
+          margin-top: 2px;
           line-height: 1.3;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
         }
 
-        .mega-cta-dashed {
+        .mega-cta-card-btn {
           grid-column: span 3;
-          border: 1.5px dashed #cbd5e1;
-          border-radius: 8px;
+          margin-top: 8px;
+          background-color: #22d3ee;
+          color: #050a14;
+          border: none;
+          border-radius: 6px;
           padding: 10px 14px;
-          margin-top: 4px;
-          background-color: #fafbfd;
+          cursor: pointer;
           display: flex;
           align-items: center;
           justifyContent: space-between;
-          cursor: pointer;
-          transition: all 0.2s ease;
+          font-weight: 800;
+          font-size: 12.5px;
+          transition: background-color 0.2s ease, transform 0.2s ease;
           box-sizing: border-box;
+          width: 100%;
+          text-align: left;
         }
 
-        .mega-cta-dashed:hover {
-          border-color: #0071ba;
-          background-color: rgba(0, 113, 186, 0.04);
+        .mega-cta-card-btn:hover {
+          background-color: #06b6d4;
+          transform: translateY(-1px);
         }
 
-        .mega-preview-card {
-          background-color: #060e1d;
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          border-radius: 12px;
-          padding: 14px 16px;
-          height: 254px;
-          max-height: 254px;
+        /* Right Column Preview Panel with 24px grid & 16px corner brackets */
+        .mega-preview-panel {
+          position: relative;
+          background-color: #08101e;
+          background-image: 
+            linear-gradient(rgba(28, 42, 68, 0.45) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(28, 42, 68, 0.45) 1px, transparent 1px);
+          background-size: 24px 24px;
+          border: 1px solid #1c2a44;
+          border-radius: 4px;
+          padding: 16px;
+          height: 260px;
+          max-height: 260px;
           display: flex;
           flex-direction: column;
           justifyContent: space-between;
-          position: relative;
           overflow: hidden;
           box-sizing: border-box;
-          box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.4);
+        }
+
+        /* 16px accent corner brackets at top-left and bottom-right */
+        .corner-bracket-tl {
+          position: absolute;
+          top: -1px;
+          left: -1px;
+          width: 16px;
+          height: 16px;
+          border-top: 2px solid #22d3ee;
+          border-left: 2px solid #22d3ee;
+          pointer-events: none;
+          z-index: 4;
+        }
+
+        .corner-bracket-br {
+          position: absolute;
+          bottom: -1px;
+          right: -1px;
+          width: 16px;
+          height: 16px;
+          border-bottom: 2px solid #22d3ee;
+          border-right: 2px solid #22d3ee;
+          pointer-events: none;
+          z-index: 4;
         }
 
         /* Responsive Breakpoint (Under 700px) */
@@ -832,17 +780,17 @@ export const MegaMenu = ({
             grid-template-columns: repeat(3, 1fr) !important;
             gap: 8px !important;
           }
-          .mega-card-desc {
+          .mega-row-desc {
             display: none !important;
           }
-          .mega-card-title {
-            font-size: 12px !important;
+          .mega-row-name {
+            font-size: 11.5px !important;
           }
-          .mega-card-btn {
-            padding: 8px 8px !important;
-            min-height: 42px !important;
+          .mega-row-btn {
+            padding: 6px 6px !important;
+            min-height: 38px !important;
           }
-          .mega-preview-card {
+          .mega-preview-panel {
             height: 210px !important;
             max-height: 210px !important;
           }
@@ -851,17 +799,18 @@ export const MegaMenu = ({
         /* Respect prefers-reduced-motion */
         @media (prefers-reduced-motion: reduce) {
           .mega-menu-panel,
-          .mega-card-btn,
-          .mega-preview-slide-wrap {
+          .mega-row-btn,
+          .mega-preview-slide-box {
             animation: none !important;
             transition: none !important;
+            transform: none !important;
           }
         }
       `}</style>
 
       <div className="mega-menu-content-wrap">
         
-        {/* LEFT COLUMN: 3 Groups x Up to 3 Cards + 1 Dashed CTA Card */}
+        {/* LEFT COLUMN: 3 Columns of Rows with Continuous 01-09 Numbers */}
         <div>
           <div 
             className="mega-grid-left"
@@ -869,24 +818,26 @@ export const MegaMenu = ({
             onMouseLeave={() => setIsHoveringGrid(false)}
           >
             {menuData.groups.map((group, gIdx) => (
-              <div key={gIdx} style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                {/* Small uppercase muted heading */}
-                <div
-                  style={{
-                    fontSize: '10.5px',
-                    fontWeight: 800,
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.08em',
-                    color: '#94a3b8',
-                    marginBottom: '2px',
-                    userSelect: 'none'
-                  }}
-                >
-                  {group.title}
+              <div key={gIdx} style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                {/* Heading with tiny accent square */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '4px', userSelect: 'none' }}>
+                  <span style={{ width: '4px', height: '4px', backgroundColor: '#22d3ee', borderRadius: '1px', flexShrink: 0 }} />
+                  <span
+                    style={{
+                      fontSize: '10.5px',
+                      fontWeight: 800,
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.08em',
+                      color: '#8aa0c4'
+                    }}
+                  >
+                    {group.title}
+                  </span>
                 </div>
 
                 {group.items.map((item) => {
-                  const currentGlobalIdx = globalCardIdx++;
+                  const currentGlobalIdx = globalRowCounter++;
+                  const formattedNum = String(currentGlobalIdx + 1).padStart(2, '0');
                   const isActive = allItems[activeIndex]?.id === item.id;
                   const staggerDelay = `${currentGlobalIdx * 55}ms`;
 
@@ -894,18 +845,21 @@ export const MegaMenu = ({
                     <button
                       key={item.id}
                       type="button"
-                      className={`mega-card-btn ${isActive ? 'active-card' : ''}`}
+                      className={`mega-row-btn ${isActive ? 'active-row' : ''}`}
                       style={{ animationDelay: staggerDelay }}
                       onMouseEnter={() => setActiveIndex(currentGlobalIdx)}
                       onFocus={() => setActiveIndex(currentGlobalIdx)}
-                      onClick={() => handleCardClick(item)}
+                      onClick={() => handleRowClick(item)}
                       aria-label={`${item.name} - ${item.desc}`}
                     >
-                      <div className="mega-card-title" title={item.name}>
-                        {item.name}
-                      </div>
-                      <div className="mega-card-desc" title={item.desc}>
-                        {item.desc}
+                      <span className="mega-row-num">{formattedNum}</span>
+                      <div style={{ minWidth: 0, flex: 1 }}>
+                        <div className="mega-row-name" title={item.name}>
+                          {item.name}
+                        </div>
+                        <div className="mega-row-desc" title={item.desc}>
+                          {item.desc}
+                        </div>
                       </div>
                     </button>
                   );
@@ -913,43 +867,41 @@ export const MegaMenu = ({
               </div>
             ))}
 
-            {/* Bottom Dashed CTA Card */}
+            {/* Bottom Solid Accent-Colored Button Card */}
             {menuData.cta && (
-              <div
-                className="mega-cta-dashed"
+              <button
+                type="button"
+                className="mega-cta-card-btn"
                 onClick={handleCtaClick}
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    handleCtaClick();
-                  }
-                }}
+                aria-label={menuData.cta.text}
               >
-                <div>
-                  <div style={{ fontSize: '12.5px', fontWeight: 700, color: '#0071ba' }}>
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  <span style={{ fontWeight: 800, fontSize: '13px', color: '#050a14' }}>
                     {menuData.cta.text}
-                  </div>
-                  <div style={{ fontSize: '11px', color: '#64748b', marginTop: '1px' }}>
-                    {menuData.cta.sub}
-                  </div>
+                  </span>
+                  {menuData.cta.sub && (
+                    <span style={{ fontSize: '11px', color: '#092537', opacity: 0.9, marginTop: '1px' }}>
+                      {menuData.cta.sub}
+                    </span>
+                  )}
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', color: '#0071ba', paddingLeft: '8px' }}>
-                  <ArrowRight size={15} />
-                </div>
-              </div>
+                <ArrowRight size={16} color="#050a14" style={{ flexShrink: 0, marginLeft: '12px' }} />
+              </button>
             )}
           </div>
         </div>
 
-        {/* RIGHT COLUMN: Dark Preview Card */}
+        {/* RIGHT COLUMN: Preview Panel with 24px Grid & 16px Corner Brackets */}
         {activeItem && (
           <div
-            className="mega-preview-card"
+            className="mega-preview-panel"
             onMouseEnter={() => setIsHoveringGrid(true)}
             onMouseLeave={() => setIsHoveringGrid(false)}
           >
+            {/* 16px Accent Corner Brackets */}
+            <span className="corner-bracket-tl" />
+            <span className="corner-bracket-br" />
+
             {/* Top-Right Progress Dots showing active item */}
             <div
               style={{
@@ -966,10 +918,10 @@ export const MegaMenu = ({
                 <span
                   key={it.id}
                   style={{
-                    height: '4px',
+                    height: '3px',
                     borderRadius: '2px',
                     width: idx === activeIndex ? '14px' : '4px',
-                    backgroundColor: idx === activeIndex ? '#38bdf8' : 'rgba(255, 255, 255, 0.25)',
+                    backgroundColor: idx === activeIndex ? '#22d3ee' : 'rgba(138, 160, 196, 0.3)',
                     transition: 'all 0.25s ease'
                   }}
                   title={it.name}
@@ -977,34 +929,34 @@ export const MegaMenu = ({
               ))}
             </div>
 
-            {/* Slide-in Animated Preview Content */}
+            {/* Slide-in Animated Preview Content (0.4s) */}
             <div
               key={activeItem.id}
-              className="mega-preview-slide-wrap"
+              className="mega-preview-slide-box"
               style={{
                 display: 'flex',
                 flexDirection: 'column',
                 height: '100%',
                 justifyContent: 'space-between',
-                animation: 'megaPreviewSlide 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards'
+                animation: 'megaPreviewSlideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards'
               }}
             >
               <div>
-                {/* Media Area on Top (2:1 Ratio, 130px Tall, Rounded) */}
+                {/* Media Area on Top (about 150px tall, rounded) */}
                 <div
                   style={{
                     width: '100%',
-                    height: '128px',
-                    borderRadius: '8px',
+                    height: '138px',
+                    borderRadius: '4px',
                     overflow: 'hidden',
-                    backgroundColor: activeItem.img?.startsWith('/logos/') ? '#ffffff' : '#040914',
-                    border: '1px solid rgba(255, 255, 255, 0.08)',
+                    backgroundColor: activeItem.img?.startsWith('/logos/') ? '#ffffff' : '#050a14',
+                    border: '1px solid #1c2a44',
                     marginBottom: '10px',
                     position: 'relative',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    padding: activeItem.img?.startsWith('/logos/') ? '16px' : '0',
+                    padding: activeItem.img?.startsWith('/logos/') ? '14px' : '0',
                     boxSizing: 'border-box'
                   }}
                 >
@@ -1026,12 +978,12 @@ export const MegaMenu = ({
                   )}
                 </div>
 
-                {/* Title */}
+                {/* 22px Title */}
                 <h4
                   style={{
-                    fontSize: '15px',
-                    fontWeight: 700,
-                    color: '#ffffff',
+                    fontSize: '20px',
+                    fontWeight: 800,
+                    color: '#eaf1ff',
                     margin: '0 0 3px 0',
                     lineHeight: 1.25,
                     fontFamily: 'var(--font-display, inherit)'
@@ -1040,11 +992,11 @@ export const MegaMenu = ({
                   {activeItem.name}
                 </h4>
 
-                {/* 1-2 Line Description */}
+                {/* 1-2 Line Description in Muted Color */}
                 <p
                   style={{
                     fontSize: '11.8px',
-                    color: '#94a3b8',
+                    color: '#8aa0c4',
                     lineHeight: 1.45,
                     margin: 0,
                     display: '-webkit-box',
@@ -1057,33 +1009,36 @@ export const MegaMenu = ({
                 </p>
               </div>
 
-              {/* Bottom "Explore →" Link */}
-              <div style={{ paddingTop: '6px' }}>
+              {/* Bottom Solid Accent "Explore →" Button */}
+              <div style={{ paddingTop: '8px' }}>
                 <button
                   type="button"
-                  onClick={() => handleCardClick(activeItem)}
+                  onClick={() => handleRowClick(activeItem)}
                   style={{
-                    background: 'none',
+                    backgroundColor: '#22d3ee',
+                    color: '#050a14',
                     border: 'none',
-                    padding: 0,
+                    padding: '6px 16px',
+                    borderRadius: '4px',
+                    fontWeight: 800,
+                    fontSize: '12px',
                     cursor: 'pointer',
-                    color: '#38bdf8',
-                    fontSize: '12.5px',
-                    fontWeight: 700,
                     display: 'inline-flex',
                     alignItems: 'center',
                     gap: '4px',
-                    transition: 'gap 0.15s ease'
+                    transition: 'all 0.15s ease'
                   }}
                   onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = '#06b6d4';
                     e.currentTarget.style.gap = '7px';
                   }}
                   onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = '#22d3ee';
                     e.currentTarget.style.gap = '4px';
                   }}
                 >
                   <span>Explore</span>
-                  <ArrowRight size={13} />
+                  <ArrowRight size={13} color="#050a14" />
                 </button>
               </div>
             </div>

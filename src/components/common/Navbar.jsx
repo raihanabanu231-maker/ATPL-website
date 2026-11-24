@@ -1,14 +1,9 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useApp } from '../../context/AppContext';
 import { AtplLogo } from './AtplLogo';
-import { AtplRobotAvatar } from './AtplRobotAvatar';
 import { GsapDropdown } from './GsapDropdown';
 import { MegaMenu } from './MegaMenu';
 import {
-  Boxes,
-  Cpu,
-  Layers,
-  ShieldCheck,
   Sparkles,
   LayoutDashboard,
   Menu,
@@ -17,29 +12,7 @@ import {
   Globe,
   ChevronDown,
   ArrowRight,
-  Radio,
-  Eye,
-  FileCheck,
-  Headphones,
-  Printer,
-  Building2,
-  CheckCircle2,
-  PlusCircle,
-  ExternalLink,
-  Award,
-  Users,
-  Handshake,
-  BookOpen,
-  FileText,
-  Calculator,
-  Smartphone,
-  Zap,
-  Barcode,
-  Bot,
-  Car,
-  RotateCw,
-  Activity,
-  Maximize2
+  ExternalLink
 } from 'lucide-react';
 
 export const ATPL_LANGUAGES = [
@@ -60,27 +33,81 @@ export const ATPL_LANGUAGES = [
   { code: 'zh-CN', name: 'Chinese', native: '中文 (Simplified)', flag: '🇨🇳' }
 ];
 
+const NAV_DROPDOWN_KEYS = ['hardware', 'software', 'customers', 'partners'];
+
 export const Navbar = ({ onOpenSearch }) => {
-  const { currentView, setCurrentView, openDemoModal, authSession, openCoPilot } = useApp();
+  const { currentView, setCurrentView, openDemoModal } = useApp();
+  
+  // Navigation & dropdown state
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
+  const [hoveredNav, setHoveredNav] = useState(null);
+  const [isScrolled, setIsScrolled] = useState(false);
+  
+  // Search expander state
+  const [searchExpanded, setSearchExpanded] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  
+  // Language & mobile state
   const [languageOpen, setLanguageOpen] = useState(false);
   const [selectedLang, setSelectedLang] = useState('English');
   const [mobileExpandedSection, setMobileExpandedSection] = useState(null);
-  const dropdownRef = useRef(null);
+  
+  // Pill highlight coordinates
+  const [pillStyle, setPillStyle] = useState({ opacity: 0, left: 0, width: 0, height: 0, top: 0 });
+  
+  // DOM Refs
+  const headerRef = useRef(null);
+  const navContainerRef = useRef(null);
+  const navItemRefs = useRef({});
   const closeTimeoutRef = useRef(null);
+  const searchInputRef = useRef(null);
+  const searchContainerRef = useRef(null);
 
-  // Smooth hover intent handlers for GSAP dropdowns
+  // Track scroll position: shrink navbar from 64px to 54px past 20px
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Update sliding soft pill highlight over nav items
+  useEffect(() => {
+    const targetKey = hoveredNav || activeDropdown;
+    if (targetKey && navItemRefs.current[targetKey] && navContainerRef.current) {
+      const el = navItemRefs.current[targetKey];
+      const navContainer = navContainerRef.current;
+      const elRect = el.getBoundingClientRect();
+      const containerRect = navContainer.getBoundingClientRect();
+      
+      setPillStyle({
+        opacity: 1,
+        left: elRect.left - containerRect.left,
+        width: elRect.width,
+        height: elRect.height,
+        top: elRect.top - containerRect.top
+      });
+    } else {
+      setPillStyle(prev => ({ ...prev, opacity: 0 }));
+    }
+  }, [hoveredNav, activeDropdown]);
+
+  // Hover intent for dropdowns
   const handleDropdownEnter = (name) => {
     if (closeTimeoutRef.current) {
       clearTimeout(closeTimeoutRef.current);
       closeTimeoutRef.current = null;
     }
+    setHoveredNav(name);
     setLanguageOpen(false);
     setActiveDropdown(name);
   };
 
   const handleDropdownLeave = () => {
+    setHoveredNav(null);
     if (closeTimeoutRef.current) {
       clearTimeout(closeTimeoutRef.current);
     }
@@ -111,12 +138,15 @@ export const Navbar = ({ onOpenSearch }) => {
     };
   }, [mobileMenuOpen]);
 
-  // Close dropdown on outside click & Escape key closes mobile menu
+  // Outside click & keyboard accessibility (Esc closes menus/drawer)
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+      if (headerRef.current && !headerRef.current.contains(e.target)) {
         setActiveDropdown(null);
         setLanguageOpen(false);
+      }
+      if (searchContainerRef.current && !searchContainerRef.current.contains(e.target) && !searchQuery) {
+        setSearchExpanded(false);
       }
     };
     const handleKeyDown = (e) => {
@@ -124,6 +154,7 @@ export const Navbar = ({ onOpenSearch }) => {
         setMobileMenuOpen(false);
         setActiveDropdown(null);
         setLanguageOpen(false);
+        setSearchExpanded(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -132,24 +163,20 @@ export const Navbar = ({ onOpenSearch }) => {
       document.removeEventListener('mousedown', handleClickOutside);
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, []);
+  }, [searchQuery]);
+
+  // Focus input when search expands
+  useEffect(() => {
+    if (searchExpanded && searchInputRef.current) {
+      searchInputRef.current.focus();
+    }
+  }, [searchExpanded]);
 
   const handleNavClick = (viewId) => {
     if (viewId === 'why-atpl') {
       setCurrentView('why-atpl');
       try {
         window.history.pushState({ view: 'why-atpl' }, '', '/why-atpl');
-      } catch (e) {}
-      setMobileMenuOpen(false);
-      setActiveDropdown(null);
-      setLanguageOpen(false);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      return;
-    }
-    if (viewId === 'insights') {
-      setCurrentView('insights');
-      try {
-        window.history.pushState({ view: 'insights' }, '', '/insights');
       } catch (e) {}
       setMobileMenuOpen(false);
       setActiveDropdown(null);
@@ -169,6 +196,13 @@ export const Navbar = ({ onOpenSearch }) => {
     setActiveDropdown(null);
     setLanguageOpen(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleSearchSubmit = (e) => {
+    if (e) e.preventDefault();
+    if (onOpenSearch) {
+      onOpenSearch(searchQuery);
+    }
   };
 
   const handleLanguageChange = (langObj) => {
@@ -201,154 +235,258 @@ export const Navbar = ({ onOpenSearch }) => {
 
   return (
     <>
-      {/* Top Banner Alert Strip */}
-      <div style={{
-        background: '#f8fafc',
-        borderBottom: '1px solid #e2e8f0',
-        padding: '0.35rem 0.75rem',
-        fontSize: '0.78rem',
-        color: '#475569',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        position: 'relative',
-        zIndex: 1002,
-        maxWidth: '100vw',
-        overflow: 'hidden',
-        boxSizing: 'border-box'
-      }}>
-        <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', maxWidth: '100%', padding: '0 0.25rem', boxSizing: 'border-box' }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', minWidth: 0, gap: '0.5rem' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', minWidth: 0, flex: 1 }}>
-              <span
-                className="announcement-pill"
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  backgroundColor: 'rgba(0, 113, 186, 0.1)',
-                  color: '#0071ba',
-                  border: '1px solid rgba(0, 113, 186, 0.25)',
-                  fontSize: '0.62rem',
-                  fontWeight: 800,
-                  padding: '0.12rem 0.45rem',
-                  borderRadius: '999px',
-                  letterSpacing: '0.04em',
-                  flexShrink: 0
-                }}
-              >
-                <span className="announcement-badge-desktop">ATPL GROUP</span>
-                <span className="announcement-badge-mobile">ATPL</span>
-              </span>
-              <span
-                className="announcement-text-content"
-                style={{
-                  color: '#334155',
-                  fontWeight: 600,
-                  fontSize: '0.74rem',
-                  lineHeight: 1.2
-                }}
-              >
-                <span>Enterprise Shopfloor Automation, AIDC &amp; Barcode Solutions</span>
-              </span>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', flexShrink: 0 }}>
+      {/* Dynamic Keyframes & Responsive Rules for Header */}
+      <style>{`
+        /* Cyan bottom travel line loop (5s linear infinite) */
+        @keyframes cyanTravelLine {
+          0% { transform: translateX(-100%); }
+          100% { transform: translateX(350%); }
+        }
+        .cyan-travel-beam {
+          width: 32%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent 0%, rgba(34, 211, 238, 0.12) 20%, #22d3ee 50%, rgba(34, 211, 238, 0.12) 80%, transparent 100%);
+          animation: cyanTravelLine 5s linear infinite;
+        }
 
-              <button
-                onClick={() => handleNavClick('admin')}
-                style={{
-                  background: 'rgba(0, 113, 186, 0.08)',
-                  border: '1px solid rgba(0, 113, 186, 0.3)',
-                  borderRadius: '5px',
-                  color: '#0071ba',
-                  cursor: 'pointer',
-                  fontWeight: 700,
-                  fontSize: '0.73rem',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '0.25rem',
-                  padding: '0.14rem 0.5rem',
-                  flexShrink: 0,
-                  transition: 'all 0.15s ease'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = '#0071ba';
-                  e.currentTarget.style.color = '#ffffff';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = 'rgba(0, 113, 186, 0.08)';
-                  e.currentTarget.style.color = '#0071ba';
-                }}
-                title="Open ATPL Control Center & SEO Manager"
-              >
-                <span>⚙️ Admin Panel</span>
-              </button>
-            </div>
-          </div>
+        /* Pulsing cyan dot next to company logo */
+        @keyframes cyanPulseDot {
+          0%, 100% { transform: scale(1); opacity: 0.8; box-shadow: 0 0 0 0 rgba(34, 211, 238, 0.8); }
+          50% { transform: scale(1.25); opacity: 1; box-shadow: 0 0 8px 2px rgba(34, 211, 238, 0.6); }
+        }
+        .cyan-pulse-dot {
+          width: 6.5px;
+          height: 6.5px;
+          border-radius: 50%;
+          background-color: #22d3ee;
+          display: inline-block;
+          animation: cyanPulseDot 2.2s ease-in-out infinite;
+          flex-shrink: 0;
+          margin-left: 6px;
+        }
 
-          <div style={{ display: 'none', alignItems: 'center', gap: '1.25rem', flexShrink: 0 }} className="top-banner-right">
-            <span style={{ color: '#64748b' }}>ISO 9001:2015 & GS1 Certified</span>
-            <span style={{ color: '#cbd5e1' }}>|</span>
-            <a
-              href="https://wa.me/916380859963?text=Hello%20ATPL%20Team%2C%20I%20would%20like%20to%20connect%20with%20your%20sales%20and%20engineering%20team."
-              target="_blank"
-              rel="noreferrer"
-              style={{ color: '#0071ba', fontWeight: 700, textDecoration: 'none', fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: '0.35rem' }}
+        /* Why Us accent pill hover behavior */
+        .why-us-btn {
+          background: transparent;
+          border: 1px solid #22d3ee;
+          color: #22d3ee;
+          border-radius: 9999px;
+          padding: 0.36rem 0.85rem;
+          font-size: 0.86rem;
+          font-weight: 700;
+          display: inline-flex;
+          align-items: center;
+          gap: 0.42rem;
+          cursor: pointer;
+          transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .why-us-btn:hover {
+          background-color: #22d3ee !important;
+          color: #050a14 !important;
+          box-shadow: 0 0 16px rgba(34, 211, 238, 0.45);
+        }
+        .why-us-btn .why-us-star {
+          transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .why-us-btn:hover .why-us-star {
+          transform: rotate(180deg);
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 1024px) {
+          .atpl-desktop-nav { display: none !important; }
+          .desktop-only-action { display: none !important; }
+          .mobile-toggle-btn { display: flex !important; }
+        }
+        @media (min-width: 1025px) {
+          .atpl-desktop-nav { display: flex !important; }
+          .desktop-only-action { display: inline-flex !important; }
+          .mobile-toggle-btn { display: none !important; }
+        }
+        @media (max-width: 900px) {
+          .top-strip-tagline { display: none !important; }
+          .why-us-btn-wrap { display: none !important; }
+          .nav-search-wrap { display: none !important; }
+        }
+
+        /* Accessibility: respect prefers-reduced-motion */
+        @media (prefers-reduced-motion: reduce) {
+          .cyan-travel-beam,
+          .cyan-pulse-dot {
+            animation: none !important;
+          }
+          .why-us-btn .why-us-star {
+            transition: none !important;
+          }
+        }
+      `}</style>
+
+      {/* 1) TOP STRIP: Slim 32px dark bar above navbar */}
+      <div
+        style={{
+          backgroundColor: '#050a14',
+          borderBottom: '1px solid #1c2a44',
+          height: '32px',
+          minHeight: '32px',
+          padding: '0 1.25rem',
+          fontSize: '0.75rem',
+          color: '#8aa0c4',
+          display: 'flex',
+          alignItems: 'center',
+          position: 'relative',
+          zIndex: 1002,
+          boxSizing: 'border-box'
+        }}
+      >
+        <div
+          style={{
+            maxWidth: '1240px',
+            width: '100%',
+            margin: '0 auto',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '0.75rem'
+          }}
+        >
+          {/* Left: Outlined Badge & Tagline */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', minWidth: 0 }}>
+            <span
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                border: '1px solid #1c2a44',
+                color: '#22d3ee',
+                fontSize: '0.62rem',
+                fontWeight: 700,
+                letterSpacing: '0.08em',
+                padding: '0.08rem 0.45rem',
+                borderRadius: '4px',
+                flexShrink: 0
+              }}
             >
-              <span>💬 WhatsApp Support</span>
-            </a>
+              ATPL GROUP
+            </span>
+            <span
+              className="top-strip-tagline"
+              style={{
+                color: '#8aa0c4',
+                fontSize: '0.74rem',
+                fontWeight: 500,
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap'
+              }}
+            >
+              Enterprise Shopfloor Automation, AIDC &amp; Barcode Solutions
+            </span>
           </div>
+
+          {/* Right: Accent Admin Link */}
+          <button
+            onClick={() => handleNavClick('admin')}
+            style={{
+              background: 'transparent',
+              border: 'none',
+              color: '#22d3ee',
+              cursor: 'pointer',
+              fontWeight: 600,
+              fontSize: '0.74rem',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.3rem',
+              padding: '0.15rem 0.4rem',
+              borderRadius: '4px',
+              transition: 'opacity 0.15s ease',
+              flexShrink: 0
+            }}
+            onMouseEnter={(e) => { e.currentTarget.style.opacity = '0.8'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.opacity = '1'; }}
+            title="Open ATPL Control Center & SEO Manager"
+          >
+            <span>⚙️ Admin Panel</span>
+          </button>
         </div>
       </div>
 
-      {/* Main Clean Header */}
+      {/* 2) NAVBAR: Sticky, full width, 64px shrinking to 54px, dark #050a14 @ 90% */}
       <header
-        ref={dropdownRef}
+        ref={headerRef}
         style={{
           position: 'sticky',
           top: 0,
           zIndex: 1000,
-          backgroundColor: '#ffffff',
-          boxShadow: '0 2px 15px rgba(0, 0, 0, 0.05)',
-          borderBottom: '1px solid #f1f5f9',
-          transition: 'all 0.2s ease',
+          backgroundColor: 'rgba(5, 10, 20, 0.9)',
+          backdropFilter: 'blur(16px)',
+          WebkitBackdropFilter: 'blur(16px)',
+          borderBottom: '1px solid #1c2a44',
+          transition: 'height 0.25s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease',
+          height: isScrolled ? '54px' : '64px',
           width: '100%',
           maxWidth: '100vw',
           boxSizing: 'border-box'
         }}
       >
-        <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '72px', width: '100%', maxWidth: '100%', boxSizing: 'border-box' }}>
+        <div
+          style={{
+            maxWidth: '1240px',
+            width: '100%',
+            height: '100%',
+            margin: '0 auto',
+            padding: '0 1.25rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            boxSizing: 'border-box',
+            position: 'relative'
+          }}
+        >
+          {/* Left: Brand Logo with pulsing dot */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.2rem', flexShrink: 0 }}>
+            <AtplLogo
+              size={isScrolled ? 34 : 38}
+              showText={true}
+              lightText={true}
+              onClick={() => handleNavClick('home')}
+            />
+            <span className="cyan-pulse-dot" title="Systems Active" />
+          </div>
 
-          {/* Brand Logo with exact ATPL Bow & Arrow + #E85874 Coral Arc */}
-          <AtplLogo
-            size={40}
-            showText={true}
-            onClick={() => handleNavClick('home')}
-          />
-
-          {/* Responsive Header Navigation Breakpoint (1024px) */}
-          <style>{`
-            @media (max-width: 1024px) {
-              .atpl-desktop-nav { display: none !important; }
-              .desktop-only-action { display: none !important; }
-              .mobile-toggle-btn { display: flex !important; }
-            }
-            @media (min-width: 1025px) {
-              .atpl-desktop-nav { display: flex !important; }
-              .desktop-only-action { display: flex !important; }
-              .mobile-toggle-btn { display: none !important; }
-            }
-            .mega-nav-item-wrap:hover .mega-nav-underline {
-              transform: scaleX(1) !important;
-            }
-          `}</style>
-          <nav className="atpl-desktop-nav" style={{ alignItems: 'center', gap: '0.2rem' }}>
-
-            {/* 1. Hardware Dropdown Trigger */}
+          {/* Center: Dropdown items + sliding soft pill highlight */}
+          <nav
+            ref={navContainerRef}
+            className="atpl-desktop-nav"
+            role="menubar"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.25rem',
+              position: 'relative'
+            }}
+          >
+            {/* Sliding Soft Pill Highlight (#13203a) */}
             <div
-              className="mega-nav-item-wrap"
-              style={{ position: 'relative' }}
+              style={{
+                position: 'absolute',
+                top: `${pillStyle.top || 0}px`,
+                left: `${pillStyle.left || 0}px`,
+                width: `${pillStyle.width || 0}px`,
+                height: `${pillStyle.height || 0}px`,
+                backgroundColor: '#13203a',
+                borderRadius: '9999px',
+                transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+                opacity: pillStyle.opacity,
+                pointerEvents: 'none',
+                zIndex: 1
+              }}
+            />
+
+            {/* Hardware */}
+            <div
+              ref={(el) => { navItemRefs.current['hardware'] = el; }}
               onMouseEnter={() => handleDropdownEnter('hardware')}
               onMouseLeave={handleDropdownLeave}
+              style={{ position: 'relative', zIndex: 2 }}
             >
               <button
                 onClick={() => {
@@ -358,49 +496,41 @@ export const Navbar = ({ onOpenSearch }) => {
                     handleDropdownEnter('hardware');
                   }
                 }}
-                className="mega-nav-btn"
+                role="menuitem"
+                aria-haspopup="true"
                 aria-expanded={activeDropdown === 'hardware'}
                 style={{
                   background: 'transparent',
                   border: 'none',
-                  color: activeDropdown === 'hardware' || currentView === 'hardware' ? '#0071ba' : '#334155',
-                  padding: '0.6rem 0.75rem',
-                  fontSize: '0.94rem',
+                  color: (activeDropdown === 'hardware' || hoveredNav === 'hardware' || currentView === 'hardware') ? '#22d3ee' : '#eaf1ff',
+                  padding: '0.45rem 0.85rem',
+                  fontSize: '0.92rem',
                   fontWeight: 600,
                   cursor: 'pointer',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '0.35rem',
-                  borderRadius: '6px',
-                  position: 'relative',
-                  transition: 'color 0.15s ease'
+                  borderRadius: '9999px',
+                  transition: 'color 0.2s ease'
                 }}
               >
                 <span>Hardware</span>
-                <ChevronDown size={14} style={{ transform: activeDropdown === 'hardware' ? 'rotate(180deg)' : 'none', transition: 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)' }} />
-                <span
-                  className="mega-nav-underline"
+                <ChevronDown
+                  size={14}
                   style={{
-                    position: 'absolute',
-                    bottom: '2px',
-                    left: '0.75rem',
-                    right: '0.75rem',
-                    height: '2px',
-                    backgroundColor: '#0071ba',
-                    transformOrigin: 'left',
-                    transform: activeDropdown === 'hardware' || currentView === 'hardware' ? 'scaleX(1)' : 'scaleX(0)',
+                    transform: activeDropdown === 'hardware' ? 'rotate(180deg)' : 'none',
                     transition: 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)'
                   }}
                 />
               </button>
             </div>
 
-            {/* 2. Software Dropdown Trigger */}
+            {/* Software */}
             <div
-              className="mega-nav-item-wrap"
-              style={{ position: 'relative' }}
+              ref={(el) => { navItemRefs.current['software'] = el; }}
               onMouseEnter={() => handleDropdownEnter('software')}
               onMouseLeave={handleDropdownLeave}
+              style={{ position: 'relative', zIndex: 2 }}
             >
               <button
                 onClick={() => {
@@ -410,49 +540,41 @@ export const Navbar = ({ onOpenSearch }) => {
                     handleDropdownEnter('software');
                   }
                 }}
-                className="mega-nav-btn"
+                role="menuitem"
+                aria-haspopup="true"
                 aria-expanded={activeDropdown === 'software'}
                 style={{
                   background: 'transparent',
                   border: 'none',
-                  color: activeDropdown === 'software' || currentView === 'software' ? '#0071ba' : '#334155',
-                  padding: '0.6rem 0.75rem',
-                  fontSize: '0.94rem',
+                  color: (activeDropdown === 'software' || hoveredNav === 'software' || currentView === 'software') ? '#22d3ee' : '#eaf1ff',
+                  padding: '0.45rem 0.85rem',
+                  fontSize: '0.92rem',
                   fontWeight: 600,
                   cursor: 'pointer',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '0.35rem',
-                  borderRadius: '6px',
-                  position: 'relative',
-                  transition: 'color 0.15s ease'
+                  borderRadius: '9999px',
+                  transition: 'color 0.2s ease'
                 }}
               >
                 <span>Software</span>
-                <ChevronDown size={14} style={{ transform: activeDropdown === 'software' ? 'rotate(180deg)' : 'none', transition: 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)' }} />
-                <span
-                  className="mega-nav-underline"
+                <ChevronDown
+                  size={14}
                   style={{
-                    position: 'absolute',
-                    bottom: '2px',
-                    left: '0.75rem',
-                    right: '0.75rem',
-                    height: '2px',
-                    backgroundColor: '#0071ba',
-                    transformOrigin: 'left',
-                    transform: activeDropdown === 'software' || currentView === 'software' ? 'scaleX(1)' : 'scaleX(0)',
+                    transform: activeDropdown === 'software' ? 'rotate(180deg)' : 'none',
                     transition: 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)'
                   }}
                 />
               </button>
             </div>
 
-            {/* 3. Customers Dropdown Trigger */}
+            {/* Customers */}
             <div
-              className="mega-nav-item-wrap"
-              style={{ position: 'relative' }}
+              ref={(el) => { navItemRefs.current['customers'] = el; }}
               onMouseEnter={() => handleDropdownEnter('customers')}
               onMouseLeave={handleDropdownLeave}
+              style={{ position: 'relative', zIndex: 2 }}
             >
               <button
                 onClick={() => {
@@ -462,49 +584,41 @@ export const Navbar = ({ onOpenSearch }) => {
                     handleDropdownEnter('customers');
                   }
                 }}
-                className="mega-nav-btn"
+                role="menuitem"
+                aria-haspopup="true"
                 aria-expanded={activeDropdown === 'customers'}
                 style={{
                   background: 'transparent',
                   border: 'none',
-                  color: activeDropdown === 'customers' || currentView === 'customers' ? '#0071ba' : '#334155',
-                  padding: '0.6rem 0.75rem',
-                  fontSize: '0.94rem',
+                  color: (activeDropdown === 'customers' || hoveredNav === 'customers' || currentView === 'customers') ? '#22d3ee' : '#eaf1ff',
+                  padding: '0.45rem 0.85rem',
+                  fontSize: '0.92rem',
                   fontWeight: 600,
                   cursor: 'pointer',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '0.35rem',
-                  borderRadius: '6px',
-                  position: 'relative',
-                  transition: 'color 0.15s ease'
+                  borderRadius: '9999px',
+                  transition: 'color 0.2s ease'
                 }}
               >
                 <span>Customers</span>
-                <ChevronDown size={14} style={{ transform: activeDropdown === 'customers' ? 'rotate(180deg)' : 'none', transition: 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)' }} />
-                <span
-                  className="mega-nav-underline"
+                <ChevronDown
+                  size={14}
                   style={{
-                    position: 'absolute',
-                    bottom: '2px',
-                    left: '0.75rem',
-                    right: '0.75rem',
-                    height: '2px',
-                    backgroundColor: '#0071ba',
-                    transformOrigin: 'left',
-                    transform: activeDropdown === 'customers' || currentView === 'customers' ? 'scaleX(1)' : 'scaleX(0)',
+                    transform: activeDropdown === 'customers' ? 'rotate(180deg)' : 'none',
                     transition: 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)'
                   }}
                 />
               </button>
             </div>
 
-            {/* 4. Partners Dropdown Trigger */}
+            {/* Partners */}
             <div
-              className="mega-nav-item-wrap"
-              style={{ position: 'relative' }}
+              ref={(el) => { navItemRefs.current['partners'] = el; }}
               onMouseEnter={() => handleDropdownEnter('partners')}
               onMouseLeave={handleDropdownLeave}
+              style={{ position: 'relative', zIndex: 2 }}
             >
               <button
                 onClick={() => {
@@ -514,115 +628,132 @@ export const Navbar = ({ onOpenSearch }) => {
                     handleDropdownEnter('partners');
                   }
                 }}
-                className="mega-nav-btn"
+                role="menuitem"
+                aria-haspopup="true"
                 aria-expanded={activeDropdown === 'partners'}
                 style={{
                   background: 'transparent',
                   border: 'none',
-                  color: activeDropdown === 'partners' || currentView === 'partners' ? '#0071ba' : '#334155',
-                  padding: '0.6rem 0.75rem',
-                  fontSize: '0.94rem',
+                  color: (activeDropdown === 'partners' || hoveredNav === 'partners' || currentView === 'partners') ? '#22d3ee' : '#eaf1ff',
+                  padding: '0.45rem 0.85rem',
+                  fontSize: '0.92rem',
                   fontWeight: 600,
                   cursor: 'pointer',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '0.35rem',
-                  borderRadius: '6px',
-                  position: 'relative',
-                  transition: 'color 0.15s ease'
+                  borderRadius: '9999px',
+                  transition: 'color 0.2s ease'
                 }}
               >
                 <span>Partners</span>
-                <ChevronDown size={14} style={{ transform: activeDropdown === 'partners' ? 'rotate(180deg)' : 'none', transition: 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)' }} />
-                <span
-                  className="mega-nav-underline"
+                <ChevronDown
+                  size={14}
                   style={{
-                    position: 'absolute',
-                    bottom: '2px',
-                    left: '0.75rem',
-                    right: '0.75rem',
-                    height: '2px',
-                    backgroundColor: '#0071ba',
-                    transformOrigin: 'left',
-                    transform: activeDropdown === 'partners' || currentView === 'partners' ? 'scaleX(1)' : 'scaleX(0)',
+                    transform: activeDropdown === 'partners' ? 'rotate(180deg)' : 'none',
                     transition: 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)'
                   }}
                 />
               </button>
             </div>
 
-            {/* Direct Why ATPL Link */}
-            <button
-              onClick={() => handleNavClick('why-atpl')}
-              style={{
-                background: currentView === 'why-atpl' 
-                  ? 'rgba(0, 113, 186, 0.16)' 
-                  : 'rgba(0, 113, 186, 0.08)',
-                border: currentView === 'why-atpl'
-                  ? '1.5px solid #0071ba'
-                  : '1px solid rgba(0, 113, 186, 0.3)',
-                color: '#0071ba',
-                padding: '0.45rem 0.75rem',
-                fontSize: '0.88rem',
-                fontWeight: 700,
-                cursor: 'pointer',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.4rem',
-                borderRadius: '8px',
-                transition: 'all 0.2s ease',
-                boxShadow: currentView === 'why-atpl' ? '0 0 10px rgba(0, 113, 186, 0.3)' : 'none'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = 'rgba(0, 113, 186, 0.2)';
-                e.currentTarget.style.transform = 'translateY(-1px)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = currentView === 'why-atpl' ? 'rgba(0, 113, 186, 0.16)' : 'rgba(0, 113, 186, 0.08)';
-                e.currentTarget.style.transform = 'translateY(0)';
-              }}
-              title="Why Industry Leaders Choose Archery Technocrats"
-            >
-              <Sparkles size={14} color="#0071ba" />
-              <span>Why ATPL</span>
-            </button>
+            {/* Highlighted "Why us" button as an outlined accent pill */}
+            <div className="why-us-btn-wrap" style={{ marginLeft: '0.35rem' }}>
+              <button
+                onClick={() => handleNavClick('why-atpl')}
+                className="why-us-btn"
+                title="Why Industry Leaders Choose Archery Technocrats"
+              >
+                <Sparkles size={14} className="why-us-star" />
+                <span>Why ATPL</span>
+              </button>
+            </div>
           </nav>
 
-          {/* Right Action Utilities (Zoho Search, Language, Sign In, Sign Up) */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexShrink: 0 }}>
-
-            {/* Search Icon */}
-            <button
-              onClick={onOpenSearch}
-              aria-label="Search"
+          {/* Right: Expandable Search, Language Selector, Admin Pill */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', flexShrink: 0 }}>
+            
+            {/* Search Icon that expands into input field */}
+            <div
+              ref={searchContainerRef}
+              className="nav-search-wrap"
               style={{
-                background: 'transparent',
-                border: 'none',
-                color: '#475569',
-                cursor: 'pointer',
-                padding: '0.45rem',
-                borderRadius: '50%',
+                position: 'relative',
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'center',
-                transition: 'all 0.15s ease'
+                height: '36px'
               }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#f1f5f9';
-                e.currentTarget.style.color = '#0f172a';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'transparent';
-                e.currentTarget.style.color = '#475569';
-              }}
-              title="Search products and docs (Ctrl+K)"
             >
-              <Search size={19} />
-            </button>
+              <form
+                onSubmit={handleSearchSubmit}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  background: searchExpanded ? '#0a1220' : 'transparent',
+                  border: searchExpanded ? '1px solid #1c2a44' : '1px solid transparent',
+                  borderRadius: '9999px',
+                  padding: searchExpanded ? '0 0.5rem 0 0.75rem' : '0',
+                  transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+                  width: searchExpanded ? '210px' : '36px',
+                  overflow: 'hidden'
+                }}
+              >
+                {searchExpanded && (
+                  <input
+                    ref={searchInputRef}
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Search catalog..."
+                    aria-label="Search ATPL products and solutions"
+                    style={{
+                      background: 'transparent',
+                      border: 'none',
+                      outline: 'none',
+                      color: '#eaf1ff',
+                      fontSize: '0.84rem',
+                      width: '100%',
+                      padding: '0.35rem 0'
+                    }}
+                  />
+                )}
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (!searchExpanded) {
+                      setSearchExpanded(true);
+                    } else if (searchQuery.trim()) {
+                      handleSearchSubmit();
+                    } else {
+                      setSearchExpanded(false);
+                    }
+                  }}
+                  aria-label={searchExpanded ? "Execute Search" : "Open Search"}
+                  style={{
+                    background: 'transparent',
+                    border: 'none',
+                    color: searchExpanded ? '#22d3ee' : '#8aa0c4',
+                    cursor: 'pointer',
+                    width: '36px',
+                    height: '36px',
+                    minWidth: '36px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    padding: 0,
+                    borderRadius: '50%',
+                    transition: 'color 0.15s ease'
+                  }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = '#22d3ee'; }}
+                  onMouseLeave={(e) => { if (!searchExpanded) e.currentTarget.style.color = '#8aa0c4'; }}
+                >
+                  <Search size={17} />
+                </button>
+              </form>
+            </div>
 
-            {/* Language Selector */}
-            <div style={{ position: 'relative', display: 'none' }} className="lang-selector-box">
-              <style>{`@media(min-width: 640px){ .lang-selector-box { display: block !important; } }`}</style>
+            {/* Language Selector: Rounded pill with small dropdown */}
+            <div style={{ position: 'relative' }} className="desktop-only-action">
               <button
                 onClick={() => {
                   setActiveDropdown(null);
@@ -631,32 +762,37 @@ export const Navbar = ({ onOpenSearch }) => {
                 aria-label="Change Website Language"
                 aria-expanded={languageOpen}
                 style={{
-                  background: 'transparent',
-                  border: '1px solid #e2e8f0',
-                  color: '#334155',
+                  background: '#0a1220',
+                  border: '1px solid #1c2a44',
+                  color: '#eaf1ff',
                   cursor: 'pointer',
-                  fontSize: '0.86rem',
+                  fontSize: '0.84rem',
                   fontWeight: 600,
                   display: 'flex',
                   alignItems: 'center',
                   gap: '0.4rem',
-                  padding: '0.4rem 0.65rem',
-                  borderRadius: '6px',
+                  padding: '0.36rem 0.75rem',
+                  borderRadius: '9999px',
                   transition: 'all 0.15s ease'
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = '#0071ba';
-                  e.currentTarget.style.color = '#0071ba';
+                  e.currentTarget.style.borderColor = '#22d3ee';
+                  e.currentTarget.style.color = '#22d3ee';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = '#e2e8f0';
-                  e.currentTarget.style.color = '#334155';
+                  e.currentTarget.style.borderColor = '#1c2a44';
+                  e.currentTarget.style.color = '#eaf1ff';
                 }}
-                title="Change Website Language (Google Translate)"
               >
-                <Globe size={15} color="#0071ba" />
+                <Globe size={14} color="#22d3ee" />
                 <span>{selectedLang.split(' ')[0]}</span>
-                <ChevronDown size={13} style={{ transform: languageOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s ease' }} />
+                <ChevronDown
+                  size={13}
+                  style={{
+                    transform: languageOpen ? 'rotate(180deg)' : 'none',
+                    transition: 'transform 0.2s ease'
+                  }}
+                />
               </button>
 
               <GsapDropdown
@@ -664,36 +800,41 @@ export const Navbar = ({ onOpenSearch }) => {
                 width="220px"
                 align="right"
                 style={{
+                  backgroundColor: '#050a14',
+                  border: '1px solid #1c2a44',
+                  boxShadow: '0 12px 32px rgba(0, 0, 0, 0.65)',
                   maxHeight: '340px',
                   overflowY: 'auto',
                   display: 'flex',
                   flexDirection: 'column',
                   gap: '0.2rem',
-                  padding: '0.6rem 0.5rem'
+                  padding: '0.6rem 0.5rem',
+                  borderRadius: '10px'
                 }}
               >
-                <div style={{
-                  fontSize: '0.7rem',
-                  fontWeight: 700,
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.08em',
-                  color: '#94a3b8',
-                  padding: '0.3rem 0.5rem 0.2rem 0.5rem',
-                  borderBottom: '1px solid #f1f5f9'
-                }}>
+                <div
+                  style={{
+                    fontSize: '0.7rem',
+                    fontWeight: 700,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.08em',
+                    color: '#8aa0c4',
+                    padding: '0.3rem 0.5rem 0.2rem 0.5rem',
+                    borderBottom: '1px solid #1c2a44'
+                  }}
+                >
                   Select Language / மொழி
                 </div>
-                {ATPL_LANGUAGES.map(lang => {
+                {ATPL_LANGUAGES.map((lang) => {
                   const isSelected = selectedLang === lang.native || selectedLang === lang.name;
                   return (
                     <button
                       key={lang.code}
                       onClick={() => handleLanguageChange(lang)}
-                      className="dropdown-hover-item"
                       style={{
-                        background: isSelected ? 'rgba(0, 113, 186, 0.08)' : 'transparent',
+                        background: isSelected ? '#13203a' : 'transparent',
                         border: 'none',
-                        color: isSelected ? '#0071ba' : '#334155',
+                        color: isSelected ? '#22d3ee' : '#eaf1ff',
                         fontWeight: isSelected ? 700 : 500,
                         fontSize: '0.84rem',
                         textAlign: 'left',
@@ -707,7 +848,7 @@ export const Navbar = ({ onOpenSearch }) => {
                         transition: 'background 0.15s ease'
                       }}
                       onMouseEnter={(e) => {
-                        if (!isSelected) e.currentTarget.style.backgroundColor = '#f8fafc';
+                        if (!isSelected) e.currentTarget.style.backgroundColor = '#0a1220';
                       }}
                       onMouseLeave={(e) => {
                         if (!isSelected) e.currentTarget.style.backgroundColor = 'transparent';
@@ -717,84 +858,92 @@ export const Navbar = ({ onOpenSearch }) => {
                         <span style={{ fontSize: '1rem' }}>{lang.flag}</span>
                         <span>{lang.native}</span>
                       </span>
-                      {isSelected && <span style={{ color: '#0071ba', fontSize: '0.8rem' }}>✓</span>}
+                      {isSelected && <span style={{ color: '#22d3ee', fontSize: '0.8rem' }}>✓</span>}
                     </button>
                   );
                 })}
               </GsapDropdown>
             </div>
 
-
-            {/* Direct Admin Control Center Button (Desktop) */}
+            {/* Admin button as a solid light pill (#eaf1ff) */}
             <button
               onClick={() => handleNavClick('admin')}
               className="desktop-only-action"
               style={{
-                backgroundColor: 'rgba(15, 23, 42, 0.04)',
-                border: '1.5px solid #cbd5e1',
-                color: '#1e293b',
+                backgroundColor: '#eaf1ff',
+                color: '#050a14',
+                border: 'none',
                 fontWeight: 700,
-                fontSize: '0.86rem',
-                padding: '0.45rem 0.8rem',
-                borderRadius: '6px',
+                fontSize: '0.84rem',
+                padding: '0.38rem 0.95rem',
+                borderRadius: '9999px',
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '0.4rem',
                 cursor: 'pointer',
-                transition: 'all 0.2s ease',
-                fontFamily: 'var(--font-display)'
+                transition: 'all 0.2s ease'
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#0071ba';
-                e.currentTarget.style.color = '#ffffff';
-                e.currentTarget.style.borderColor = '#0071ba';
+                e.currentTarget.style.backgroundColor = '#ffffff';
+                e.currentTarget.style.boxShadow = '0 0 16px rgba(234, 241, 255, 0.4)';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'rgba(15, 23, 42, 0.04)';
-                e.currentTarget.style.color = '#1e293b';
-                e.currentTarget.style.borderColor = '#cbd5e1';
+                e.currentTarget.style.backgroundColor = '#eaf1ff';
+                e.currentTarget.style.boxShadow = 'none';
               }}
               title="Open Admin Control Center & SEO Manager"
             >
-              <LayoutDashboard size={15} />
+              <LayoutDashboard size={14} />
               <span>Admin</span>
             </button>
 
-            {/* Mobile Hamburger Button (Strict 44x44px minimum tap target) */}
+            {/* Mobile Hamburger Button (44x44px minimum tap target) */}
             <button
               className="mobile-toggle-btn"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
               aria-expanded={mobileMenuOpen}
               style={{
-                background: '#f1f5f9',
-                border: 'none',
+                background: '#0a1220',
+                border: '1px solid #1c2a44',
                 borderRadius: '8px',
                 width: '44px',
                 height: '44px',
                 minWidth: '44px',
                 minHeight: '44px',
                 padding: 0,
-                color: '#0f172a',
+                color: '#eaf1ff',
                 cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                boxShadow: '0 1px 3px rgba(0, 0, 0, 0.08)',
                 transition: 'background 0.15s ease'
               }}
             >
               {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
             </button>
-
           </div>
-
         </div>
 
-        {/* Reusable Compact Mega Menu Panel */}
+        {/* 1px Cyan Light Traveling Beam along bottom edge */}
+        <div
+          style={{
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: '1px',
+            overflow: 'hidden',
+            pointerEvents: 'none'
+          }}
+        >
+          <div className="cyan-travel-beam" />
+        </div>
+
+        {/* 3) Reusable Compact MegaMenu Component */}
         <MegaMenu
           menuKey={activeDropdown}
-          isOpen={Boolean(activeDropdown && ['hardware', 'software', 'customers', 'partners'].includes(activeDropdown))}
+          isOpen={Boolean(activeDropdown && NAV_DROPDOWN_KEYS.includes(activeDropdown))}
           onClose={() => setActiveDropdown(null)}
           onNavigate={(view, anchor) => {
             handleNavClick(view);
@@ -814,36 +963,41 @@ export const Navbar = ({ onOpenSearch }) => {
           onMouseLeave={handleDropdownLeave}
         />
 
-        {/* Mobile Clean Full-Screen Navigation Drawer */}
+        {/* 4) Mobile Full-Screen Navigation Drawer (Hero-Integrated Dark Theme) */}
         {mobileMenuOpen && (
-          <div style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            width: '100vw',
-            height: '100dvh',
-            backgroundColor: '#ffffff',
-            display: 'flex',
-            flexDirection: 'column',
-            zIndex: 99999,
-            overflow: 'hidden',
-            boxSizing: 'border-box'
-          }}>
-            {/* Drawer Top Bar with Brand Logo and 44x44px Close Button */}
-            <div style={{
+          <div
+            style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              width: '100vw',
+              height: '100dvh',
+              backgroundColor: '#050a14',
               display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              padding: '0.75rem 1.25rem',
-              borderBottom: '1px solid #e2e8f0',
-              backgroundColor: '#ffffff',
-              flexShrink: 0
-            }}>
+              flexDirection: 'column',
+              zIndex: 99999,
+              overflow: 'hidden',
+              boxSizing: 'border-box'
+            }}
+          >
+            {/* Drawer Top Bar */}
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                padding: '0.75rem 1.25rem',
+                borderBottom: '1px solid #1c2a44',
+                backgroundColor: '#050a14',
+                flexShrink: 0
+              }}
+            >
               <AtplLogo
                 size={34}
                 showText={true}
+                lightText={true}
                 onClick={() => {
                   handleNavClick('home');
                   setMobileMenuOpen(false);
@@ -858,14 +1012,13 @@ export const Navbar = ({ onOpenSearch }) => {
                   minWidth: '44px',
                   minHeight: '44px',
                   borderRadius: '50%',
-                  background: '#f1f5f9',
-                  border: 'none',
-                  color: '#0f172a',
+                  background: '#0a1220',
+                  border: '1px solid #1c2a44',
+                  color: '#eaf1ff',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  cursor: 'pointer',
-                  transition: 'background 0.15s ease'
+                  cursor: 'pointer'
                 }}
               >
                 <X size={22} />
@@ -873,15 +1026,17 @@ export const Navbar = ({ onOpenSearch }) => {
             </div>
 
             {/* Scrollable Navigation Body */}
-            <div style={{
-              flex: 1,
-              overflowY: 'auto',
-              WebkitOverflowScrolling: 'touch',
-              padding: '1rem 1.25rem 3.5rem 1.25rem',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '0.65rem'
-            }}>
+            <div
+              style={{
+                flex: 1,
+                overflowY: 'auto',
+                WebkitOverflowScrolling: 'touch',
+                padding: '1rem 1.25rem 3.5rem 1.25rem',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '0.65rem'
+              }}
+            >
               {/* 1. Hardware Accordion */}
               <div>
                 <button
@@ -889,13 +1044,13 @@ export const Navbar = ({ onOpenSearch }) => {
                   style={{
                     width: '100%',
                     minHeight: '44px',
-                    background: '#f8fafc',
-                    border: '1px solid #e2e8f0',
+                    background: '#0a1220',
+                    border: '1px solid #1c2a44',
                     borderRadius: '8px',
                     padding: '0.7rem 1rem',
                     fontSize: '0.96rem',
                     fontWeight: 700,
-                    color: '#0f172a',
+                    color: '#eaf1ff',
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
@@ -903,19 +1058,25 @@ export const Navbar = ({ onOpenSearch }) => {
                   }}
                 >
                   <span style={{ display: 'flex', alignItems: 'center', gap: '0.55rem' }}>
-                    <span style={{ color: '#0071ba' }}>📦</span>
+                    <span style={{ color: '#22d3ee' }}>📦</span>
                     <span>Hardware Solutions</span>
                   </span>
-                  <ChevronDown size={18} style={{ transform: mobileExpandedSection === 'hardware' ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s ease' }} />
+                  <ChevronDown
+                    size={18}
+                    style={{
+                      transform: mobileExpandedSection === 'hardware' ? 'rotate(180deg)' : 'none',
+                      transition: 'transform 0.2s ease',
+                      color: '#8aa0c4'
+                    }}
+                  />
                 </button>
                 {mobileExpandedSection === 'hardware' && (
-                  <div style={{ padding: '0.5rem 0.5rem 0.5rem 0.85rem', display: 'flex', flexDirection: 'column', gap: '0.4rem', borderLeft: '2px solid #0071ba', marginLeft: '0.5rem', marginTop: '0.35rem' }}>
-                    <button onClick={() => handleNavClick('hardware')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0071ba', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Fixed UHF RFID Portals & Antennas</button>
-                    <button onClick={() => handleNavClick('hardware')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#E85874', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Industrial 2D & DPM Barcode Scanners</button>
-                    <button onClick={() => handleNavClick('hardware')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0071ba', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Industrial Barcode & RFID Printers</button>
-                    <button onClick={() => handleNavClick('hardware')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0284c7', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Rugged Handheld Computers & PDAs</button>
-                    <button onClick={() => handleNavClick('hardware')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#E85874', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Automated Sorting & Conveyor Systems</button>
-                    <button onClick={() => handleNavClick('hardware')} style={{ minHeight: '44px', background: 'rgba(0, 113, 186, 0.08)', borderRadius: '6px', border: 'none', textAlign: 'left', padding: '0.5rem 0.75rem', color: '#0071ba', fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <div style={{ padding: '0.5rem 0.5rem 0.5rem 0.85rem', display: 'flex', flexDirection: 'column', gap: '0.4rem', borderLeft: '2px solid #22d3ee', marginLeft: '0.5rem', marginTop: '0.35rem' }}>
+                    <button onClick={() => handleNavClick('hardware')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#eaf1ff', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Fixed UHF RFID Portals & Antennas</button>
+                    <button onClick={() => handleNavClick('hardware')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#22d3ee', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Industrial 2D & DPM Barcode Scanners</button>
+                    <button onClick={() => handleNavClick('hardware')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#eaf1ff', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Industrial Barcode & RFID Printers</button>
+                    <button onClick={() => handleNavClick('hardware')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#22d3ee', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Rugged Handheld Computers & PDAs</button>
+                    <button onClick={() => handleNavClick('hardware')} style={{ minHeight: '44px', background: '#13203a', borderRadius: '6px', border: '1px solid #1c2a44', textAlign: 'left', padding: '0.5rem 0.75rem', color: '#22d3ee', fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                       <span>Explore All Hardware Catalog</span>
                     </button>
                   </div>
@@ -929,13 +1090,13 @@ export const Navbar = ({ onOpenSearch }) => {
                   style={{
                     width: '100%',
                     minHeight: '44px',
-                    background: '#f8fafc',
-                    border: '1px solid #e2e8f0',
+                    background: '#0a1220',
+                    border: '1px solid #1c2a44',
                     borderRadius: '8px',
                     padding: '0.7rem 1rem',
                     fontSize: '0.96rem',
                     fontWeight: 700,
-                    color: '#0f172a',
+                    color: '#eaf1ff',
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
@@ -943,48 +1104,53 @@ export const Navbar = ({ onOpenSearch }) => {
                   }}
                 >
                   <span style={{ display: 'flex', alignItems: 'center', gap: '0.55rem' }}>
-                    <span style={{ color: '#0071ba' }}>💻</span>
+                    <span style={{ color: '#22d3ee' }}>💻</span>
                     <span>Software Suites (ATPL One™)</span>
                   </span>
-                  <ChevronDown size={18} style={{ transform: mobileExpandedSection === 'software' ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s ease' }} />
+                  <ChevronDown
+                    size={18}
+                    style={{
+                      transform: mobileExpandedSection === 'software' ? 'rotate(180deg)' : 'none',
+                      transition: 'transform 0.2s ease',
+                      color: '#8aa0c4'
+                    }}
+                  />
                 </button>
                 {mobileExpandedSection === 'software' && (
-                  <div style={{ padding: '0.5rem 0.5rem 0.5rem 0.85rem', display: 'flex', flexDirection: 'column', gap: '0.4rem', borderLeft: '2px solid #0071ba', marginLeft: '0.5rem', marginTop: '0.35rem' }}>
-                    <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: 'rgba(56, 189, 248, 0.12)', borderRadius: '6px', border: '1px solid rgba(56, 189, 248, 0.35)', textAlign: 'left', padding: '0.5rem 0.65rem', color: '#0071ba', fontWeight: 800, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                      <span>★ PerfectEdge MDM™ (Priority #1)</span>
+                  <div style={{ padding: '0.5rem 0.5rem 0.5rem 0.85rem', display: 'flex', flexDirection: 'column', gap: '0.4rem', borderLeft: '2px solid #22d3ee', marginLeft: '0.5rem', marginTop: '0.35rem' }}>
+                    <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: 'rgba(34, 211, 238, 0.1)', borderRadius: '6px', border: '1px solid rgba(34, 211, 238, 0.3)', textAlign: 'left', padding: '0.5rem 0.65rem', color: '#22d3ee', fontWeight: 800, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                      <span>★ PerfectEdge MDM™</span>
                       <span style={{ backgroundColor: '#dc2626', color: '#fff', fontSize: '0.62rem', padding: '1px 5px', borderRadius: '4px' }}>FLEET</span>
                     </button>
-                    <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: 'rgba(245, 158, 11, 0.12)', borderRadius: '6px', border: '1px solid rgba(245, 158, 11, 0.35)', textAlign: 'left', padding: '0.5rem 0.65rem', color: '#b45309', fontWeight: 800, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                      <span>★ Perfect Labeler™ (Priority #2)</span>
-                      <span style={{ backgroundColor: '#f59e0b', color: '#0f172a', fontSize: '0.62rem', padding: '1px 5px', borderRadius: '4px' }}>AI CLOUD</span>
+                    <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: 'rgba(245, 158, 11, 0.1)', borderRadius: '6px', border: '1px solid rgba(245, 158, 11, 0.3)', textAlign: 'left', padding: '0.5rem 0.65rem', color: '#f59e0b', fontWeight: 800, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                      <span>★ Perfect Labeler™</span>
+                      <span style={{ backgroundColor: '#f59e0b', color: '#050a14', fontSize: '0.62rem', padding: '1px 5px', borderRadius: '4px' }}>AI CLOUD</span>
                     </button>
-                    <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#10b981', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Perfect Flow 360™ (CRM & Ops)</button>
-                    <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0071ba', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Perfect Store™ (Warehouse WMS)</button>
-                    <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#E85874', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Perfect Trace™ (Serialization & Aggregation)</button>
-                    <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0071ba', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Perfect AI Vision™ (Defect Inspection)</button>
-                    <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#E85874', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Perfect PMS™ (Production Management)</button>
-                    <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0071ba', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Perfect Audit™ (Digital Compliance)</button>
-                    <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: 'rgba(0, 113, 186, 0.08)', borderRadius: '6px', border: 'none', textAlign: 'left', padding: '0.5rem 0.75rem', color: '#0071ba', fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#eaf1ff', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Perfect Flow 360™ (CRM & Ops)</button>
+                    <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#eaf1ff', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Perfect Store™ (Warehouse WMS)</button>
+                    <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#22d3ee', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Perfect Trace™ (Serialization & Aggregation)</button>
+                    <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#eaf1ff', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Perfect AI Vision™ (Defect Inspection)</button>
+                    <button onClick={() => handleNavClick('software')} style={{ minHeight: '44px', background: '#13203a', borderRadius: '6px', border: '1px solid #1c2a44', textAlign: 'left', padding: '0.5rem 0.75rem', color: '#22d3ee', fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                       <span>Explore All Software Suites</span>
                     </button>
                   </div>
                 )}
               </div>
 
-              {/* 3. Customers & Case Studies Accordion */}
+              {/* 3. Customers Accordion */}
               <div>
                 <button
                   onClick={() => setMobileExpandedSection(mobileExpandedSection === 'customers' ? null : 'customers')}
                   style={{
                     width: '100%',
                     minHeight: '44px',
-                    background: '#f8fafc',
-                    border: '1px solid #e2e8f0',
+                    background: '#0a1220',
+                    border: '1px solid #1c2a44',
                     borderRadius: '8px',
                     padding: '0.7rem 1rem',
                     fontSize: '0.96rem',
                     fontWeight: 700,
-                    color: '#0f172a',
+                    color: '#eaf1ff',
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
@@ -992,37 +1158,44 @@ export const Navbar = ({ onOpenSearch }) => {
                   }}
                 >
                   <span style={{ display: 'flex', alignItems: 'center', gap: '0.55rem' }}>
-                    <span style={{ color: '#0071ba' }}>👥</span>
-                    <span>Customers & Case Studies</span>
+                    <span style={{ color: '#22d3ee' }}>👥</span>
+                    <span>Customers &amp; Case Studies</span>
                   </span>
-                  <ChevronDown size={18} style={{ transform: mobileExpandedSection === 'customers' ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s ease' }} />
+                  <ChevronDown
+                    size={18}
+                    style={{
+                      transform: mobileExpandedSection === 'customers' ? 'rotate(180deg)' : 'none',
+                      transition: 'transform 0.2s ease',
+                      color: '#8aa0c4'
+                    }}
+                  />
                 </button>
                 {mobileExpandedSection === 'customers' && (
-                  <div style={{ padding: '0.5rem 0.5rem 0.5rem 0.85rem', display: 'flex', flexDirection: 'column', gap: '0.4rem', borderLeft: '2px solid #0071ba', marginLeft: '0.5rem', marginTop: '0.35rem' }}>
-                    <button onClick={() => handleNavClick('customers')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0071ba', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Automotive & EV (Apollo, Ola, Bosch)</button>
-                    <button onClick={() => handleNavClick('customers')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#E85874', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Heavy Engg & Defense (L&T, ABB, BEL)</button>
-                    <button onClick={() => handleNavClick('customers')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0071ba', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>FMCG & Packaging (HUL, Hatsun, ITC)</button>
-                    <button onClick={() => handleNavClick('customers')} style={{ minHeight: '44px', background: 'rgba(0, 113, 186, 0.08)', borderRadius: '6px', border: 'none', textAlign: 'left', padding: '0.5rem 0.75rem', color: '#0071ba', fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <div style={{ padding: '0.5rem 0.5rem 0.5rem 0.85rem', display: 'flex', flexDirection: 'column', gap: '0.4rem', borderLeft: '2px solid #22d3ee', marginLeft: '0.5rem', marginTop: '0.35rem' }}>
+                    <button onClick={() => handleNavClick('customers')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#eaf1ff', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Automotive &amp; EV (Apollo, Ola, Bosch)</button>
+                    <button onClick={() => handleNavClick('customers')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#22d3ee', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Heavy Engg &amp; Defense (L&amp;T, ABB, BEL)</button>
+                    <button onClick={() => handleNavClick('customers')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#eaf1ff', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>FMCG &amp; Packaging (HUL, Hatsun, ITC)</button>
+                    <button onClick={() => handleNavClick('customers')} style={{ minHeight: '44px', background: '#13203a', borderRadius: '6px', border: '1px solid #1c2a44', textAlign: 'left', padding: '0.5rem 0.75rem', color: '#22d3ee', fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                       <span>Explore 200+ Enterprise Clients</span>
                     </button>
                   </div>
                 )}
               </div>
 
-              {/* 4. Partners & OEM Alliances Accordion */}
+              {/* 4. Partners Accordion */}
               <div>
                 <button
                   onClick={() => setMobileExpandedSection(mobileExpandedSection === 'partners' ? null : 'partners')}
                   style={{
                     width: '100%',
                     minHeight: '44px',
-                    background: '#f8fafc',
-                    border: '1px solid #e2e8f0',
+                    background: '#0a1220',
+                    border: '1px solid #1c2a44',
                     borderRadius: '8px',
                     padding: '0.7rem 1rem',
                     fontSize: '0.96rem',
                     fontWeight: 700,
-                    color: '#0f172a',
+                    color: '#eaf1ff',
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
@@ -1030,17 +1203,24 @@ export const Navbar = ({ onOpenSearch }) => {
                   }}
                 >
                   <span style={{ display: 'flex', alignItems: 'center', gap: '0.55rem' }}>
-                    <span style={{ color: '#0071ba' }}>🤝</span>
-                    <span>Partners & OEM Alliances</span>
+                    <span style={{ color: '#22d3ee' }}>🤝</span>
+                    <span>Partners &amp; OEM Alliances</span>
                   </span>
-                  <ChevronDown size={18} style={{ transform: mobileExpandedSection === 'partners' ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s ease' }} />
+                  <ChevronDown
+                    size={18}
+                    style={{
+                      transform: mobileExpandedSection === 'partners' ? 'rotate(180deg)' : 'none',
+                      transition: 'transform 0.2s ease',
+                      color: '#8aa0c4'
+                    }}
+                  />
                 </button>
                 {mobileExpandedSection === 'partners' && (
-                  <div style={{ padding: '0.5rem 0.5rem 0.5rem 0.85rem', display: 'flex', flexDirection: 'column', gap: '0.4rem', borderLeft: '2px solid #0071ba', marginLeft: '0.5rem', marginTop: '0.35rem' }}>
-                    <button onClick={() => handleNavClick('partners')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0071ba', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Hardware OEMs (Honeywell, Zebra, TSC, Impinj)</button>
-                    <button onClick={() => handleNavClick('partners')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#E85874', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>ERP Cloud Alliances (SAP S/4HANA, Oracle Cloud)</button>
-                    <button onClick={() => handleNavClick('partners')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#0071ba', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Authorized GS1 Global Alliance Partner</button>
-                    <button onClick={() => handleNavClick('partners')} style={{ minHeight: '44px', background: 'rgba(0, 113, 186, 0.08)', borderRadius: '6px', border: 'none', textAlign: 'left', padding: '0.5rem 0.75rem', color: '#0071ba', fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <div style={{ padding: '0.5rem 0.5rem 0.5rem 0.85rem', display: 'flex', flexDirection: 'column', gap: '0.4rem', borderLeft: '2px solid #22d3ee', marginLeft: '0.5rem', marginTop: '0.35rem' }}>
+                    <button onClick={() => handleNavClick('partners')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#eaf1ff', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Hardware OEMs (Honeywell, Zebra, TSC, Impinj)</button>
+                    <button onClick={() => handleNavClick('partners')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#22d3ee', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>ERP Cloud Alliances (SAP S/4HANA, Oracle Cloud)</button>
+                    <button onClick={() => handleNavClick('partners')} style={{ minHeight: '44px', background: 'none', border: 'none', textAlign: 'left', padding: '0.5rem', color: '#eaf1ff', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>Authorized GS1 Global Alliance Partner</button>
+                    <button onClick={() => handleNavClick('partners')} style={{ minHeight: '44px', background: '#13203a', borderRadius: '6px', border: '1px solid #1c2a44', textAlign: 'left', padding: '0.5rem 0.75rem', color: '#22d3ee', fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                       <span>Explore All Partner Programs</span>
                     </button>
                   </div>
@@ -1053,14 +1233,14 @@ export const Navbar = ({ onOpenSearch }) => {
                 style={{
                   width: '100%',
                   minHeight: '44px',
-                  background: 'rgba(0, 113, 186, 0.08)',
-                  border: '1.5px solid rgba(0, 113, 186, 0.35)',
+                  background: 'rgba(34, 211, 238, 0.08)',
+                  border: '1.5px solid #22d3ee',
                   borderRadius: '8px',
                   padding: '0.7rem 1rem',
                   textAlign: 'left',
                   fontSize: '0.96rem',
                   fontWeight: 700,
-                  color: '#0f172a',
+                  color: '#22d3ee',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'space-between',
@@ -1068,67 +1248,26 @@ export const Navbar = ({ onOpenSearch }) => {
                 }}
               >
                 <span style={{ display: 'flex', alignItems: 'center', gap: '0.55rem' }}>
-                  <span style={{ color: '#0071ba' }}>✨</span>
+                  <span>✨</span>
                   <span>Why ATPL (Executive Difference)</span>
                 </span>
-                <span style={{ backgroundColor: '#0071ba', color: '#ffffff', fontSize: '0.65rem', padding: '0.15rem 0.45rem', borderRadius: '999px', fontWeight: 800 }}>LEADER</span>
+                <span style={{ backgroundColor: '#22d3ee', color: '#050a14', fontSize: '0.65rem', padding: '0.15rem 0.45rem', borderRadius: '999px', fontWeight: 800 }}>LEADER</span>
               </button>
 
-              {/* 6. Contact Sales & Support (Direct Link) */}
-              <button
-                onClick={() => handleNavClick('contact')}
-                style={{
-                  width: '100%',
-                  minHeight: '44px',
-                  background: '#f8fafc',
-                  border: '1px solid #e2e8f0',
-                  borderRadius: '8px',
-                  padding: '0.7rem 1rem',
-                  textAlign: 'left',
-                  fontSize: '0.96rem',
-                  fontWeight: 700,
-                  color: '#0f172a',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  cursor: 'pointer'
-                }}
-              >
-                <span style={{ display: 'flex', alignItems: 'center', gap: '0.55rem' }}>
-                  <span style={{ color: '#0071ba' }}>📍</span>
-                  <span>Contact Sales & Support (TIDEL Park HQ)</span>
-                </span>
-              </button>
-
-              {/* Secondary Navigation Quick-Links */}
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                flexWrap: 'wrap',
-                gap: '0.5rem',
-                padding: '0.65rem 0.25rem 0.2rem 0.25rem',
-                fontSize: '0.82rem',
-                color: '#64748b'
-              }}>
-                <button onClick={() => handleNavClick('solutions')} style={{ background: 'none', border: 'none', color: '#0071ba', fontWeight: 600, fontSize: '0.82rem', cursor: 'pointer', padding: '0.2rem 0.4rem' }}>Industry Solutions</button>
-                <button onClick={() => handleNavClick('services')} style={{ background: 'none', border: 'none', color: '#0071ba', fontWeight: 600, fontSize: '0.82rem', cursor: 'pointer', padding: '0.2rem 0.4rem' }}>24/7 AMC</button>
-                </div>
-
-              {/* Compact Language Selector Bar */}
+              {/* Language Selector Bar */}
               <div>
                 <button
                   onClick={() => setMobileExpandedSection(mobileExpandedSection === 'language' ? null : 'language')}
                   style={{
                     width: '100%',
-                    minHeight: '38px',
-                    background: 'transparent',
-                    border: '1px solid #e2e8f0',
+                    minHeight: '40px',
+                    background: '#0a1220',
+                    border: '1px solid #1c2a44',
                     borderRadius: '8px',
-                    padding: '0.45rem 0.75rem',
+                    padding: '0.5rem 0.75rem',
                     fontSize: '0.85rem',
                     fontWeight: 600,
-                    color: '#64748b',
+                    color: '#8aa0c4',
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
@@ -1136,22 +1275,32 @@ export const Navbar = ({ onOpenSearch }) => {
                   }}
                 >
                   <span style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
-                    <Globe size={16} color="#0071ba" />
-                    <span>Language / மொழி: <strong style={{ color: '#0071ba' }}>{selectedLang.split(' ')[0]}</strong></span>
+                    <Globe size={16} color="#22d3ee" />
+                    <span>Language / மொழி: <strong style={{ color: '#22d3ee' }}>{selectedLang.split(' ')[0]}</strong></span>
                   </span>
-                  <ChevronDown size={15} style={{ transform: mobileExpandedSection === 'language' ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s ease' }} />
+                  <ChevronDown
+                    size={15}
+                    style={{
+                      transform: mobileExpandedSection === 'language' ? 'rotate(180deg)' : 'none',
+                      transition: 'transform 0.2s ease',
+                      color: '#8aa0c4'
+                    }}
+                  />
                 </button>
                 {mobileExpandedSection === 'language' && (
-                  <div style={{
-                    padding: '0.4rem',
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(2, 1fr)',
-                    gap: '0.4rem',
-                    backgroundColor: '#f8fafc',
-                    borderRadius: '8px',
-                    marginTop: '0.35rem'
-                  }}>
-                    {ATPL_LANGUAGES.map(lang => {
+                  <div
+                    style={{
+                      padding: '0.4rem',
+                      display: 'grid',
+                      gridTemplateColumns: 'repeat(2, 1fr)',
+                      gap: '0.4rem',
+                      backgroundColor: '#0a1220',
+                      border: '1px solid #1c2a44',
+                      borderRadius: '8px',
+                      marginTop: '0.35rem'
+                    }}
+                  >
+                    {ATPL_LANGUAGES.map((lang) => {
                       const isSelected = selectedLang === lang.native || selectedLang === lang.name;
                       return (
                         <button
@@ -1162,9 +1311,9 @@ export const Navbar = ({ onOpenSearch }) => {
                           }}
                           style={{
                             minHeight: '38px',
-                            background: isSelected ? '#0071ba' : '#ffffff',
-                            color: isSelected ? '#ffffff' : '#334155',
-                            border: '1px solid #e2e8f0',
+                            background: isSelected ? '#22d3ee' : '#13203a',
+                            color: isSelected ? '#050a14' : '#eaf1ff',
+                            border: '1px solid #1c2a44',
                             borderRadius: '6px',
                             padding: '0.4rem 0.55rem',
                             fontSize: '0.8rem',
@@ -1186,17 +1335,18 @@ export const Navbar = ({ onOpenSearch }) => {
               </div>
 
               {/* Admin Control Link */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem', marginTop: '0.85rem', paddingTop: '0.85rem', borderTop: '1px solid #f1f5f9' }}>
+              <div style={{ marginTop: '0.85rem', paddingTop: '0.85rem', borderTop: '1px solid #1c2a44' }}>
                 <button
                   onClick={() => {
                     setMobileMenuOpen(false);
                     handleNavClick('admin');
                   }}
                   style={{
-                    minHeight: '40px',
-                    backgroundColor: 'rgba(0, 113, 186, 0.06)',
-                    color: '#0071ba',
-                    border: '1px dashed rgba(0, 113, 186, 0.35)',
+                    width: '100%',
+                    minHeight: '44px',
+                    backgroundColor: '#eaf1ff',
+                    color: '#050a14',
+                    border: 'none',
                     borderRadius: '8px',
                     padding: '0.6rem 1rem',
                     fontWeight: 700,
@@ -1205,11 +1355,11 @@ export const Navbar = ({ onOpenSearch }) => {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    gap: '0.4rem',
-                    marginTop: '0.25rem'
+                    gap: '0.4rem'
                   }}
                 >
-                  <span>⚙️ Admin & SEO Control Center</span>
+                  <LayoutDashboard size={16} />
+                  <span>Admin &amp; Control Center</span>
                 </button>
               </div>
             </div>
