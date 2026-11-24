@@ -110,7 +110,7 @@ export const Navbar = ({ onOpenSearch }) => {
     };
   }, [mobileMenuOpen]);
 
-  // Close dropdown on outside click
+  // Close dropdown on outside click & Escape key closes mobile menu
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
@@ -118,8 +118,19 @@ export const Navbar = ({ onOpenSearch }) => {
         setLanguageOpen(false);
       }
     };
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        setMobileMenuOpen(false);
+        setActiveDropdown(null);
+        setLanguageOpen(false);
+      }
+    };
     document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      window.removeEventListener('keydown', handleKeyDown);
+    };
   }, []);
 
   const handleNavClick = (viewId) => {
@@ -332,14 +343,14 @@ export const Navbar = ({ onOpenSearch }) => {
             onClick={() => handleNavClick('home')}
           />
 
-          {/* Desktop Navigation Links */}
+          {/* Responsive Header Navigation Breakpoint (1024px) */}
           <style>{`
-            @media (max-width: 860px) {
+            @media (max-width: 1024px) {
               .atpl-desktop-nav { display: none !important; }
               .desktop-only-action { display: none !important; }
               .mobile-toggle-btn { display: flex !important; }
             }
-            @media (min-width: 861px) {
+            @media (min-width: 1025px) {
               .atpl-desktop-nav { display: flex !important; }
               .desktop-only-action { display: flex !important; }
               .mobile-toggle-btn { display: none !important; }

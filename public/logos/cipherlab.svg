@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 45" height="48" fill="none">
+      <g transform="translate(0, 10)">
+        <rect x="0" y="0" width="18" height="18" fill="#0072CE" rx="2" />
+        <circle cx="9" cy="9" r="4" fill="#FFFFFF" />
+      </g>
+      <text x="26" y="27" fill="#0072CE" font-family="'Arial Black', sans-serif" font-size="24" font-weight="900" letter-spacing="0.5px">CIPHERLAB</text>
+    </svg>

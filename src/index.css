@@ -353,8 +353,8 @@ body::before {
 .ambient-glow-1 {
   position: fixed;
   top: -150px;
-  right: -100px;
-  width: 600px;
+  right: 0;
+  width: min(600px, 90vw);
   height: 600px;
   background: radial-gradient(circle, rgba(0, 240, 255, 0.12) 0%, rgba(37, 99, 235, 0.05) 50%, transparent 70%);
   pointer-events: none;
@@ -365,8 +365,8 @@ body::before {
 .ambient-glow-2 {
   position: fixed;
   bottom: -150px;
-  left: -100px;
-  width: 600px;
+  left: 0;
+  width: min(600px, 90vw);
   height: 600px;
   background: radial-gradient(circle, rgba(139, 92, 246, 0.1) 0%, rgba(0, 240, 255, 0.04) 50%, transparent 70%);
   pointer-events: none;
@@ -378,6 +378,14 @@ body::before {
 html {
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
 }
 
 /* Cyber-Industrial Gradient Scrollbar */
@@ -625,7 +633,8 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: var(--radius-sm);
   color: #ffffff;
   font-family: var(--font-body);
-  font-size: 0.92rem;
+  font-size: 16px;
+  min-height: 44px;
   padding: 0.65rem 0.95rem;
   outline: none;
   transition: border-color 160ms var(--ease-out), box-shadow 160ms var(--ease-out), background-color 160ms var(--ease-out);
@@ -930,8 +939,8 @@ select.form-control option {
    RESPONSIVE DESIGN & MOBILE OPTIMIZATIONS
    ========================================================================== */
 
-/* Breakpoint for Desktop Header Navigation (<= 860px) */
-@media (max-width: 860px) {
+/* Breakpoint for Desktop Header Navigation (<= 1024px) */
+@media (max-width: 1024px) {
   .desktop-only-action {
     display: none !important;
   }
@@ -1313,10 +1322,66 @@ body.lenis,
   }
 }
 
-/* Touch Targets on Mobile (min 40px - 44px comfortable taps) */
-@media (max-width: 640px) {
-  button, a.btn, input, select {
+/* ==========================================================================
+   Mobile-First Touch Ergonomics, Inputs, & Hover Rules
+   ========================================================================== */
+/* Prevent iOS zoom on form field focus by guaranteeing min 16px font size */
+input, select, textarea {
+  font-size: 16px !important;
+}
+
+/* Touch Targets on Mobile (min 44px comfortable taps & manipulation) */
+@media (max-width: 768px) {
+  button, a.btn, input, select, textarea, .filter-chip, [role="tab"], [role="button"] {
     touch-action: manipulation;
+  }
+  
+  .btn, button.btn, .mobile-toggle-btn {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Ambient Glow Blobs suppression on mobile for GPU frame budget */
+  .ambient-glow-1,
+  .ambient-glow-2 {
+    display: none !important;
+  }
+
+  /* Parallax Product Cards fluid scaling on mobile */
+  .parallax-product-card {
+    width: min(88vw, 340px) !important;
+    height: 220px !important;
+  }
+
+  /* Factory Flight Map HUD header responsive wrap */
+  .hud-header-bar {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0.5rem !important;
+  }
+  .hud-header-left,
+  .hud-header-right {
+    width: 100% !important;
+    justify-content: space-between !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .parallax-product-card {
+    width: min(92vw, 300px) !important;
+    height: 195px !important;
+  }
+}
+
+/* Disable sticky hover artifacts on touch-only hardware */
+@media (hover: none) and (pointer: coarse) {
+  *:hover {
+    transform: none !important;
+  }
+  .spotlight-card:hover,
+  .bento-card:hover,
+  .partner-card:hover {
+    transform: none !important;
   }
 }
 

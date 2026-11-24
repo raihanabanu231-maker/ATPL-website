@@ -308,8 +308,8 @@ export const Footer = () => {
                 rel="noopener noreferrer"
                 aria-label={soc.name}
                 style={{
-                  width: '38px',
-                  height: '38px',
+                  width: '44px',
+                  height: '44px',
                   borderRadius: '50%',
                   display: 'flex',
                   alignItems: 'center',

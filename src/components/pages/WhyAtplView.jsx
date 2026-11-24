@@ -1149,7 +1149,7 @@ export const WhyAtplView = () => {
             width: clamp(300px, 39.5%, 460px);
           }
 
-          @media (max-width: 900px) {
+          @media (max-width: 1024px) {
             .archie-glass-hud-overlay {
               left: 4%;
               width: 48%;

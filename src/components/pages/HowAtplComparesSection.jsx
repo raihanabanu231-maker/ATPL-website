@@ -1142,25 +1142,31 @@ export const HowAtplComparesSection = memo(() => {
           box-shadow: 0 10px 28px rgba(15, 23, 42, 0.08) !important;
         }
 
-        /* Responsive styling for Tablet & Mobile (below 860px) */
-        @media (max-width: 860px) {
+        /* Responsive styling for Tablet & Mobile (below 1024px) */
+        @media (max-width: 1024px) {
           .how-atpl-criteria-container {
             flex-direction: column;
             gap: 1.5rem;
+            max-width: 100%;
+            overflow: hidden;
           }
           .how-atpl-tablist {
             width: 100%;
+            max-width: 100%;
             flex-direction: row;
             overflow-x: auto;
             padding-bottom: 0.5rem;
             -webkit-overflow-scrolling: touch;
             gap: 0.5rem;
+            scroll-snap-type: x proximity;
           }
           .how-atpl-tab-btn {
             width: auto !important;
             white-space: nowrap;
             flex-shrink: 0;
             padding: 0.75rem 1rem !important;
+            min-height: 44px;
+            scroll-snap-align: start;
           }
           .how-atpl-active-indicator {
             left: 0 !important;

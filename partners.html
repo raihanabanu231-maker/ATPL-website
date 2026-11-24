@@ -1,0 +1,1957 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Strategic Technology Partners & OEM Alliances | ATPL</title>
+  <meta name="description" content="Explore ATPL's certified OEM hardware and technology partners — Honeywell, Zebra, TSC Printronix, Datalogic, Newland, CipherLab, SOTI, Telesis, Nilfisk, and more.">
+  
+  <!-- Google Fonts: Sora (Headings) & Manrope (Body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       1. CSS VARIABLES & RESET
+       ========================================================================== */
+    :root {
+      --bg-dark: #050b18;
+      --bg-card: rgba(8, 20, 42, 0.78);
+      --bg-card-hover: rgba(12, 28, 58, 0.92);
+      --text-main: #eaf1fb;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --accent-cyan: #22d3ee;
+      --accent-cyan-glow: rgba(34, 211, 238, 0.28);
+      --accent-red: #f43f5e;
+      --border-subtle: rgba(34, 211, 238, 0.18);
+      --border-card: rgba(255, 255, 255, 0.08);
+      --font-display: 'Sora', system-ui, -apple-system, sans-serif;
+      --font-body: 'Manrope', system-ui, -apple-system, sans-serif;
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-pill: 999px;
+      --container-max: 1320px;
+      --transition-smooth: 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+
+    body {
+      max-width: 100%;
+      overflow-x: hidden;
+      position: relative;
+      background-color: var(--bg-dark);
+      min-height: 100vh;
+      min-height: 100dvh;
+    }
+
+    /* Ambient Cursor Glow */
+    #cursor-glow {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 480px;
+      height: 480px;
+      border-radius: 50%;
+      pointer-events: none;
+      background: radial-gradient(circle, rgba(34, 211, 238, 0.06) 0%, transparent 70%);
+      transform: translate(-50%, -50%);
+      z-index: 999;
+      transition: opacity 0.3s ease;
+      will-change: transform;
+    }
+
+    /* Top Reading Progress Bar */
+    #scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent-cyan), #38bdf8, var(--accent-red));
+      z-index: 10000;
+      box-shadow: 0 0 10px var(--accent-cyan);
+      transition: width 0.08s linear;
+    }
+
+    a, button {
+      color: inherit;
+      font-family: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      cursor: pointer;
+      border: none;
+      background: none;
+    }
+
+    .container {
+      width: 100%;
+      max-width: var(--container-max);
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* ==========================================================================
+       2. FIXED TOP NAVIGATION BAR
+       ========================================================================== */
+    .top-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 72px;
+      background: rgba(5, 11, 24, 0.82);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-card);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      transition: background 0.3s ease, border-color 0.3s ease;
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    .brand-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: #ffffff;
+    }
+
+    .brand-tag {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      background: rgba(34, 211, 238, 0.12);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-pill);
+      color: var(--accent-cyan);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+    }
+
+    .btn-engineer {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 22px;
+      background: linear-gradient(135deg, #0284c7 0%, #0071ba 100%);
+      color: #ffffff;
+      font-size: 0.88rem;
+      font-weight: 700;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 4px 16px rgba(0, 113, 186, 0.35);
+      transition: var(--transition-smooth);
+    }
+
+    .btn-engineer:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 22px rgba(34, 211, 238, 0.45);
+      border-color: var(--accent-cyan);
+    }
+
+    /* ==========================================================================
+       3. DYNAMIC HERO SECTION WITH PARTICLE CANVAS
+       ========================================================================== */
+    .hero-section {
+      position: relative;
+      padding: 140px 0 60px 0;
+      overflow: hidden;
+      min-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    #particles-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: auto;
+      z-index: 1;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    .pill-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      background: rgba(8, 26, 56, 0.7);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-pill);
+      color: var(--accent-cyan);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      margin-bottom: 1.5rem;
+      backdrop-filter: blur(8px);
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.3rem, 5vw, 4.2rem);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -1px;
+      color: #ffffff;
+      margin-bottom: 1.25rem;
+    }
+
+    .highlight-cyan {
+      color: var(--accent-cyan);
+      text-shadow: 0 0 25px var(--accent-cyan-glow);
+      display: inline-block;
+      min-width: 200px;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    .hero-desc {
+      font-size: clamp(1rem, 1.8vw, 1.2rem);
+      color: var(--text-muted);
+      max-width: 740px;
+      margin: 0 auto 2.5rem auto;
+      line-height: 1.7;
+    }
+
+    /* 3 Count-up Metric Stat Boxes */
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+      max-width: 760px;
+      margin: 0 auto 3rem auto;
+    }
+
+    .stat-card {
+      background: rgba(8, 20, 42, 0.65);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-md);
+      padding: 1.25rem 1rem;
+      backdrop-filter: blur(12px);
+      transition: var(--transition-smooth);
+    }
+
+    .stat-card:hover {
+      border-color: var(--border-subtle);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+    }
+
+    .stat-number {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+      font-weight: 800;
+      color: var(--accent-cyan);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .stat-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    /* ==========================================================================
+       4. SCROLLING MARQUEE STRIP
+       ========================================================================== */
+    .marquee-container {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      background: rgba(4, 12, 28, 0.85);
+      border-top: 1px solid var(--border-card);
+      border-bottom: 1px solid var(--border-card);
+      padding: 14px 0;
+      margin-bottom: 3.5rem;
+      z-index: 3;
+    }
+
+    .marquee-track {
+      display: flex;
+      width: max-content;
+      animation: marqueeScroll 36s linear infinite;
+    }
+
+    .marquee-container:hover .marquee-track {
+      animation-play-state: paused;
+    }
+
+    .marquee-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 20px;
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: color 0.2s ease, transform 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .marquee-item:hover {
+      color: #ffffff;
+      transform: scale(1.05);
+    }
+
+    .marquee-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: var(--accent-cyan);
+      box-shadow: 0 0 8px var(--accent-cyan);
+    }
+
+    @keyframes marqueeScroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ==========================================================================
+       5. FILTER CHIPS & SEARCH CONTROLS
+       ========================================================================== */
+    .controls-section {
+      margin-bottom: 2.5rem;
+    }
+
+    .controls-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      align-items: center;
+    }
+
+    .chips-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+    }
+
+    .filter-chip {
+      padding: 7px 18px;
+      background: rgba(8, 20, 42, 0.7);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-pill);
+      color: var(--text-muted);
+      font-size: 0.84rem;
+      font-weight: 600;
+      transition: var(--transition-smooth);
+      cursor: pointer;
+    }
+
+    .filter-chip:hover {
+      color: #ffffff;
+      border-color: var(--border-subtle);
+      background: rgba(12, 28, 58, 0.85);
+    }
+
+    .filter-chip.active {
+      color: var(--accent-cyan);
+      background: rgba(34, 211, 238, 0.12);
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 14px var(--accent-cyan-glow);
+    }
+
+    /* Search Box */
+    .search-box {
+      position: relative;
+      width: 100%;
+      max-width: 480px;
+    }
+
+    .search-input {
+      width: 100%;
+      min-height: 44px;
+      padding: 12px 18px 12px 44px;
+      background: rgba(8, 20, 42, 0.85);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-pill);
+      color: #ffffff;
+      font-size: 16px;
+      font-family: inherit;
+      outline: none;
+      transition: var(--transition-smooth);
+    }
+
+    .search-input:focus {
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 18px var(--accent-cyan-glow);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-dim);
+      pointer-events: none;
+    }
+
+    /* ==========================================================================
+       6. THE INTERACTIVE 3D ROTATING RING OF LOGOS
+       ========================================================================== */
+    .ring-section {
+      position: relative;
+      margin-bottom: 4rem;
+    }
+
+    .ring-stage {
+      position: relative;
+      width: 100%;
+      height: 380px;
+      perspective: 1200px;
+      perspective-origin: 50% 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: visible;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: pan-y;
+      cursor: grab;
+    }
+
+    .ring-stage:active {
+      cursor: grabbing;
+    }
+
+    .ring-rotator {
+      position: relative;
+      width: 160px;
+      height: 80px;
+      transform-style: preserve-3d;
+      -webkit-transform-style: preserve-3d;
+      transform-origin: center center;
+      will-change: transform;
+    }
+
+    .ring-tile {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 150px;
+      height: 76px;
+      background: #ffffff;
+      border-radius: 14px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 16px;
+      cursor: pointer;
+      transition: box-shadow 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+
+    .ring-tile:hover {
+      box-shadow: 0 12px 32px rgba(34, 211, 238, 0.35), 0 0 0 2px var(--accent-cyan);
+    }
+
+    .ring-tile.active-focus {
+      box-shadow: 0 0 35px var(--tile-glow, rgba(34, 211, 238, 0.7)), 0 0 0 3px var(--tile-accent, var(--accent-cyan)) !important;
+      transform: scale(1.12);
+    }
+
+    .ring-logo-img {
+      max-height: 48px;
+      max-width: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      pointer-events: none;
+      display: block;
+    }
+
+    .ring-logo-fallback {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #050b18;
+      text-align: center;
+      pointer-events: none;
+    }
+
+    .ring-hint {
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      margin-top: 1rem;
+    }
+
+    /* ==========================================================================
+       7. ACTIVE PARTNER DETAILS PANEL
+       ========================================================================== */
+    .details-panel-wrap {
+      max-width: 960px;
+      margin: 0 auto 5rem auto;
+    }
+
+    .details-panel {
+      background: linear-gradient(180deg, rgba(10, 24, 52, 0.85) 0%, rgba(6, 16, 36, 0.95) 100%);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-lg);
+      padding: 2.25rem;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 30px var(--panel-glow, rgba(34, 211, 238, 0.12));
+      backdrop-filter: blur(16px);
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .details-header {
+      display: flex;
+      align-items: center;
+      gap: 1.75rem;
+      margin-bottom: 1.75rem;
+      flex-wrap: wrap;
+    }
+
+    .details-logo-tile {
+      width: 170px;
+      height: 82px;
+      background: #ffffff;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 20px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+      flex-shrink: 0;
+    }
+
+    .details-logo-tile img {
+      max-height: 52px;
+      max-width: 100%;
+      object-fit: contain;
+    }
+
+    .details-title-group {
+      flex: 1;
+      min-width: 260px;
+    }
+
+    .details-badges-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+    }
+
+    .badge-tier {
+      padding: 4px 12px;
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      border-radius: var(--radius-pill);
+      background: rgba(244, 63, 94, 0.14);
+      border: 1px solid var(--accent-red);
+      color: #fda4af;
+    }
+
+    .badge-role {
+      padding: 4px 10px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      border-radius: var(--radius-pill);
+      background: rgba(34, 211, 238, 0.12);
+      border: 1px solid var(--accent-cyan);
+      color: var(--accent-cyan);
+    }
+
+    .details-name {
+      font-family: var(--font-display);
+      font-size: 1.85rem;
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.2;
+    }
+
+    .details-desc {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 1.75rem;
+    }
+
+    .details-products-section {
+      background: rgba(4, 12, 28, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .products-heading {
+      font-size: 0.82rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--accent-cyan);
+      margin-bottom: 1rem;
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 10px;
+      list-style: none;
+    }
+
+    .product-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      background: rgba(8, 20, 42, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-sm);
+      font-size: 0.88rem;
+      color: var(--text-main);
+      font-weight: 600;
+    }
+
+    .product-pill svg {
+      color: var(--accent-cyan);
+      flex-shrink: 0;
+    }
+
+    .details-actions-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .details-categories-tags {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .cat-tag {
+      font-size: 0.76rem;
+      padding: 4px 10px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius-pill);
+      color: var(--text-dim);
+      font-weight: 600;
+    }
+
+    /* ==========================================================================
+       8. ALL-PARTNERS DIRECTORY GRID
+       ========================================================================== */
+    .directory-heading {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 800;
+      color: #ffffff;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .directory-sub {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .partner-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 5rem;
+    }
+
+    .partner-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      cursor: pointer;
+      position: relative;
+      transition: var(--transition-smooth);
+      transform-style: preserve-3d;
+    }
+
+    .partner-card:hover {
+      border-color: var(--card-accent, var(--accent-cyan));
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), 0 0 25px var(--card-glow, rgba(34, 211, 238, 0.25));
+      transform: translateY(-4px);
+    }
+
+    .partner-logo-box {
+      width: 100%;
+      height: 74px;
+      background: #ffffff;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 16px;
+      margin-bottom: 1.25rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .partner-logo-box img {
+      max-height: 48px;
+      max-width: 100%;
+      object-fit: contain;
+    }
+
+    .card-partner-name {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 6px;
+    }
+
+    .card-partner-desc {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 1.25rem;
+      flex-grow: 1;
+    }
+
+    /* ==========================================================================
+       9. CONTACT & CONSULTATION FORM
+       ========================================================================== */
+    .contact-section {
+      padding: 5rem 0;
+      background: rgba(3, 8, 20, 0.95);
+      border-top: 1px solid var(--border-card);
+      position: relative;
+    }
+
+    .contact-container {
+      max-width: 720px;
+      margin: 0 auto;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 3rem 2.5rem;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5), 0 0 35px var(--accent-cyan-glow);
+      backdrop-filter: blur(16px);
+    }
+
+    .contact-header {
+      text-align: center;
+      margin-bottom: 2.25rem;
+    }
+
+    .contact-title {
+      font-family: var(--font-display);
+      font-size: 2.1rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    .contact-subtitle {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 6px;
+    }
+
+    .form-input, .form-textarea {
+      width: 100%;
+      min-height: 44px;
+      padding: 13px 18px;
+      background: rgba(5, 11, 24, 0.85);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-sm);
+      color: #ffffff;
+      font-size: 16px;
+      font-family: inherit;
+      outline: none;
+      transition: var(--transition-smooth);
+    }
+
+    .form-input:focus, .form-textarea:focus {
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 15px var(--accent-cyan-glow);
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(135deg, #0284c7 0%, #0071ba 100%);
+      color: #ffffff;
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      border-radius: var(--radius-sm);
+      box-shadow: 0 6px 20px rgba(0, 113, 186, 0.4);
+      transition: var(--transition-smooth);
+    }
+
+    .btn-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 26px rgba(34, 211, 238, 0.5);
+    }
+
+    .thank-you-card {
+      display: none;
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+
+    .thank-you-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: rgba(34, 211, 238, 0.15);
+      border: 2px solid var(--accent-cyan);
+      color: var(--accent-cyan);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .thank-you-title {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    /* Modal Dialog */
+    dialog.partner-modal {
+      margin: auto;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      background: rgba(8, 20, 42, 0.96);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      color: var(--text-main);
+      max-width: 640px;
+      width: 90%;
+      padding: 2.25rem;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7), 0 0 30px var(--accent-cyan-glow);
+      outline: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 10001;
+    }
+
+    dialog.partner-modal::backdrop {
+      background: rgba(5, 11, 24, 0.85);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .modal-close-btn {
+      position: absolute;
+      top: 1.25rem;
+      right: 1.25rem;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition: var(--transition-smooth);
+    }
+
+    .modal-close-btn:hover {
+      background: rgba(244, 63, 94, 0.25);
+      color: #ffffff;
+      border-color: var(--accent-red);
+    }
+
+    /* ==========================================================================
+       10. ACCESSIBILITY & RESPONSIVE RULES
+       ========================================================================== */
+    html {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      padding-top: env(safe-area-inset-top);
+      padding-bottom: env(safe-area-inset-bottom);
+      padding-left: env(safe-area-inset-left);
+      padding-right: env(safe-area-inset-right);
+    }
+
+    input, select, textarea {
+      font-size: 16px !important;
+    }
+
+    @media (max-width: 768px) {
+      #cursor-glow {
+        display: none !important;
+      }
+      .brand-tag {
+        display: none !important;
+      }
+      .btn-engineer {
+        padding: 8px 12px;
+        font-size: 0.78rem;
+        min-height: 44px;
+      }
+      .ring-section {
+        contain: paint;
+        overflow-x: clip;
+      }
+      .marquee-container {
+        contain: paint;
+        overflow-x: clip;
+      }
+      .marquee-item {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+      }
+      .hero-title {
+        font-size: clamp(1.8rem, 6vw, 2.3rem);
+      }
+      .hero-stats {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+      .ring-stage {
+        height: 320px;
+        touch-action: pan-y;
+      }
+      .filter-chip, .btn-submit, .modal-close-btn {
+        min-height: 44px;
+        touch-action: manipulation;
+        display: inline-flex;
+        align-items: center;
+      }
+      .details-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .details-logo-tile {
+        width: 140px;
+        height: 70px;
+      }
+      .contact-container {
+        padding: 2rem 1.25rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-title {
+        font-size: 1.75rem;
+      }
+      .stat-card {
+        padding: 1.25rem 1rem;
+      }
+      dialog.partner-modal {
+        padding: 1.5rem 1.15rem;
+        width: 95%;
+      }
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      .partner-card:hover {
+        transform: none !important;
+      }
+      #cursor-glow {
+        display: none !important;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+      .marquee-track {
+        animation: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Ambient Cursor Glow -->
+  <div id="cursor-glow"></div>
+
+  <!-- Top Scroll Reading Progress -->
+  <div id="scroll-progress"></div>
+
+  <!-- Top Fixed Navigation -->
+  <header class="top-nav">
+    <div class="container nav-inner">
+      <a href="https://atplgroup.com" class="brand-link" aria-label="ATPL Group Home">
+        <span>ATPL</span>
+        <span class="brand-tag">• TECHNOLOGY PARTNERS</span>
+      </a>
+      <div class="nav-actions">
+        <a href="#contact-section" class="btn-engineer">
+          <span>Talk to an Engineer</span>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-section" id="hero">
+    <canvas id="particles-canvas"></canvas>
+
+    <div class="container hero-content">
+      <div class="pill-label">
+        <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:var(--accent-cyan); box-shadow:0 0 8px var(--accent-cyan);"></span>
+        <span>CERTIFIED INDUSTRIAL ALLIANCES & OEM NETWORK</span>
+      </div>
+
+      <h1 class="hero-title">
+        Technology Partners for Industrial<br>
+        <span id="cycling-word" class="highlight-cyan">Scanning</span>
+      </h1>
+
+      <p class="hero-desc">
+        ATPL bridges premier global hardware OEMs and frontline shopfloor execution. Certified integration, native SAP & Oracle connectivity, and guaranteed local SLA support across India.
+      </p>
+
+      <!-- 3 Dynamic Count-Up Stat Cards -->
+      <div class="hero-stats">
+        <div class="stat-card">
+          <div class="stat-number" id="stat-partners">0</div>
+          <div class="stat-label">Certified Global Partners</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" id="stat-industries">0</div>
+          <div class="stat-label">Key Industry Sectors</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" id="stat-products">0</div>
+          <div class="stat-label">Supported Product Lines</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Marquee Strip of Partner Names -->
+  <div class="marquee-container" aria-label="Partner Directory Scrolling Marquee">
+    <div class="marquee-track" id="marquee-track"></div>
+  </div>
+
+  <!-- Filter Chips & Search Bar -->
+  <section class="controls-section" id="controls">
+    <div class="container controls-wrap">
+      <div class="chips-wrapper" id="chips-container" role="tablist" aria-label="Partner Category Filter"></div>
+
+      <div class="search-box">
+        <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input 
+          type="text" 
+          id="search-input" 
+          class="search-input" 
+          placeholder="Search partners, hardware models, solutions..." 
+          aria-label="Search technology partners"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive 3D Spinning Ring of Logos -->
+  <section class="ring-section" id="ring-container">
+    <div class="container">
+      <div class="ring-stage" id="ring-stage" aria-label="Interactive 3D auto-spinning ring of partner logos">
+        <div class="ring-rotator" id="ring-rotator"></div>
+      </div>
+      <p class="ring-hint">✦ Auto-spinning 3D Ring • Drag horizontally to spin • Hover to slow • Click any logo to view specs</p>
+    </div>
+  </section>
+
+  <!-- Active Partner Details Panel -->
+  <section class="details-panel-wrap" id="details-section">
+    <div class="container">
+      <div class="details-panel" id="details-panel">
+        <div class="details-header">
+          <div class="details-logo-tile" id="panel-logo-box">
+            <img id="panel-logo-img" src="" alt="" />
+            <div id="panel-logo-fallback" class="ring-logo-fallback" style="display:none;"></div>
+          </div>
+          <div class="details-title-group">
+            <div class="details-badges-row" id="panel-badges"></div>
+            <h2 class="details-name" id="panel-name">Select a Partner</h2>
+            <div id="panel-role" style="font-size:0.85rem; color:var(--accent-cyan); font-weight:700; margin-top:4px;"></div>
+          </div>
+        </div>
+
+        <p class="details-desc" id="panel-desc"></p>
+
+        <div class="details-products-section">
+          <div class="products-heading">Verified Solutions & Equipment Lineup</div>
+          <div class="products-grid" id="panel-products"></div>
+        </div>
+
+        <div class="details-actions-bar">
+          <div class="details-categories-tags" id="panel-categories"></div>
+          <button type="button" class="btn-engineer" id="panel-consult-btn">
+            <span>Consult Integration Engineer</span>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Complete Directory Grid View -->
+  <section class="container" style="padding-top: 2rem;">
+    <h2 class="directory-heading">Comprehensive Alliance Directory</h2>
+    <p class="directory-sub">Showing <span id="showing-count">0</span> verified partner programs</p>
+    <div class="partner-grid" id="partner-grid"></div>
+  </section>
+
+  <!-- Consultation & Inquiries Contact Form -->
+  <section class="contact-section" id="contact-section">
+    <div class="container">
+      <div class="contact-container">
+        <div class="contact-header">
+          <h2 class="contact-title">Consult an ATPL Integration Engineer</h2>
+          <p class="contact-subtitle">Speak directly with certified AIDC and Industry 4.0 automation architects for your deployment.</p>
+        </div>
+
+        <form id="contact-form" novalidate>
+          <div class="form-group">
+            <label class="form-label" for="contact-name">Your Full Name *</label>
+            <input type="text" id="contact-name" class="form-input" placeholder="e.g. Rajesh Kumar" required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="contact-email">Work Email *</label>
+            <input type="email" id="contact-email" class="form-input" placeholder="name@company.com" required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="contact-message">Technical Requirements & Plant Scope *</label>
+            <textarea id="contact-message" class="form-textarea" placeholder="Describe your scanning, printing, RFID, or automation requirements..." required></textarea>
+          </div>
+
+          <button type="submit" class="btn-submit" id="btn-submit">Submit Consultation Request</button>
+        </form>
+
+        <div class="thank-you-card" id="thank-you-card">
+          <div class="thank-you-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <h3 class="thank-you-title">Consultation Request Received</h3>
+          <p id="thank-you-message" style="color:var(--text-muted); line-height:1.7; max-width:520px; margin:0 auto;"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Partner Modal Dialog (<dialog>) -->
+  <dialog id="partner-modal" class="partner-modal" aria-labelledby="modal-name">
+    <button type="button" class="modal-close-btn" id="modal-close" aria-label="Close dialog">✕</button>
+    <div style="display: flex; align-items: center; gap: 1.25rem; margin-bottom: 1.25rem;">
+      <div class="details-logo-tile" id="modal-logo-box" style="width: 140px; height: 64px; flex-shrink: 0;">
+        <img id="modal-logo-img" src="" alt="" style="max-height: 48px; max-width: 100%; object-fit: contain;" />
+        <span id="modal-logo-fallback" class="ring-logo-fallback" style="display:none;"></span>
+      </div>
+      <div>
+        <div id="modal-badges" style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 6px;"></div>
+        <h3 id="modal-name" style="font-family: var(--font-display); font-size: 1.35rem; font-weight: 800; color: #fff;"></h3>
+        <div id="modal-role" style="font-size: 0.85rem; color: var(--accent-cyan); font-weight: 700; margin-top: 4px;"></div>
+      </div>
+    </div>
+    <p id="modal-desc" style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.5rem;"></p>
+    <div style="margin-bottom: 1.5rem;">
+      <h4 style="font-size: 0.85rem; font-weight: 700; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.75rem;">Verified Solutions & Equipment Lineup</h4>
+      <ul id="modal-products" class="products-grid" style="list-style: none;"></ul>
+    </div>
+    <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; padding-top: 1rem; border-top: 1px solid var(--border-card);">
+      <div id="modal-categories" style="display: flex; gap: 6px; flex-wrap: wrap;"></div>
+      <button type="button" class="btn-engineer" id="modal-consult-btn">
+        <span>Consult Integration Engineer</span>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+          <polyline points="12 5 19 12 12 19"></polyline>
+        </svg>
+      </button>
+    </div>
+  </dialog>
+
+  <!-- ==========================================================================
+       11. JAVASCRIPT MASTER CONTROLLER
+       ========================================================================== -->
+  <script>
+    /* ==========================================================================
+       MASTER CONFIRMED PARTNER DATA ARRAY
+       Source: atplgroup.com & verified OEM partner agreements
+       ========================================================================== */
+    var D = [
+      { n: "Honeywell", full: "Honeywell Scanning & Mobility", col: "#ED1C24", ac: "#ef4444", img: "logos/honeywell.png", s: "Gold Partner (2021 Go-Getter Award)", r: "Distributor & Solution Partner", d: "Industrial 2D DPM Barcode Imagers, Fixed Scanners, Rugged Vehicle Mounts, and Voice Picking Headsets.", p: ["Xenon XP 1950g/1952g Scanners", "Granit XP Rugged Imagers", "CT60 & CK65 Mobile Computers", "SRX3 Voice Headsets", "PM45C Industrial Printers"], c: ["Scanning", "Mobility", "Printing", "Voice"] },
+      { n: "Zebra", full: "Zebra Technologies Corporation", col: "#000000", ac: "#94a3b8", img: "logos/zebra.svg", s: "", r: "Hardware Partner", d: "Enterprise UHF RFID dock antennas, rugged mobile computers, and industrial barcode supplies.", p: ["AN4x High-Density RFID Antennas (AN440/AN480)", "Enterprise Barcode Scanners", "Industrial RFID Inlays"], c: ["RFID", "Scanning", "Printing"] },
+      { n: "TSC Printronix", full: "TSC Printronix Auto ID", col: "#005BAC", ac: "#3b82f6", img: "logos/tscprintronix.png", s: "", r: "Hardware Partner", d: "Mission-critical enterprise industrial barcode and RFID label printers with inline barcode verification.", p: ["T6000e High Performance Industrial RFID Printer", "Print & Apply Engines", "ODV-2D Barcode Verifier Printers", "TX200 Desktop Barcode Printers"], c: ["Printing", "RFID"] },
+      { n: "Datalogic", full: "Datalogic S.p.A.", col: "#003882", ac: "#1d4ed8", img: "logos/datalogic.svg", s: "", r: "Technology Partner", d: "Industrial fixed-mount barcode scanners, liquid lens 2D imagers, and machine vision sensors.", p: ["Industrial Fixed Conveyor Scanners", "Matrix 2D High-Speed Imagers", "Handheld Industrial Scanners"], c: ["Scanning", "Vision"] },
+      { n: "Newland", full: "Newland AIDC", col: "#D9251D", ac: "#ef4444", img: "logos/newland.svg", s: "", r: "Technology Partner", d: "High-performance OEM 2D scan engines, handheld barcode scanners, and rugged touch terminals.", p: ["2D OEM Scan Engines", "Industrial Stationary Scanners", "Rugged Android Touch Handhelds"], c: ["Scanning", "Mobility"] },
+      { n: "CipherLab", full: "CipherLab Co., Ltd.", col: "#0072CE", ac: "#0284c7", img: "logos/cipherlab.png", s: "", r: "Technology Partner", d: "Rugged Android mobile computers and wireless barcode scanners for warehousing and supply chains.", p: ["Enterprise Android Mobile Computers", "Bluetooth Pocket Scanners", "Wearable Ring Scanners"], c: ["Mobility", "Scanning"] },
+      { n: "Advantech", full: "Advantech Co., Ltd.", col: "#003E7E", ac: "#0284c7", img: "logos/advantech.png", s: "", r: "Technology Partner", d: "Industrial IoT edge computing hardware, rugged touch panel PCs, and industrial Ethernet switches.", p: ["Industrial Touch Panel PCs", "Industrial Ethernet Switches", "Modbus Gateways", "Edge IoT Computing Systems"], c: ["Industrial PC", "Automation"] },
+      { n: "Axis", full: "Axis Communications AB", col: "#FDB913", ac: "#fbbf24", img: "logos/axis.svg", s: "", r: "Technology Partner", d: "Thermal CCTV vision, AI-assisted factory perimeter security, and intelligent optical analytics.", p: ["Thermal CCTV Vision", "AI Factory Perimeter Security", "Optical Analytics Sensors", "Network Video Recorders"], c: ["Vision", "Security"] },
+      { n: "Bradma", full: "Bradma Automating The Future", col: "#D32F2F", ac: "#f87171", img: "logos/bradma.png", s: "", r: "Technology Partner", d: "Automated product marking machines, packaging traceability, and industrial impact presses.", p: ["Automated Product Marking", "Packaging Traceability", "Impact Marking Presses", "Shopfloor Serialization"], c: ["Marking", "Automation"] },
+      { n: "Forbes Macsa", full: "Forbes Macsa id Private Limited", col: "#C8102E", ac: "#f43f5e", img: "logos/forbesmacsa.png", s: "", r: "Technology Partner", d: "Industrial coding and high-speed laser serialization for packaging lines.", p: ["Icon 10 & Icon 30 Packaging Lasers", "High-Speed Laser Coding", "Continuous Inkjet (CIJ)", "Thermal Inkjet (TIJ)"], c: ["Marking", "Traceability"] },
+      { n: "Nilfisk", full: "Nilfisk Industrial", col: "#002855", ac: "#60a5fa", img: "logos/nilfisk.png", s: "", r: "Technology Partner", d: "Autonomous plant maintenance, industrial vacuum systems, and automated cleaning equipment.", p: ["Continuous Vacuum Systems", "Autonomous Floor Scrubbers", "Cleanroom Equipment", "Plant Maintenance Automation"], c: ["Automation", "Maintenance"] },
+      { n: "SOTI", full: "SOTI Inc.", col: "#0054A6", ac: "#38bdf8", img: "logos/soti.png", s: "", r: "Technology Partner", d: "Enterprise Mobile Device Management (MDM) and remote over-the-air diagnostic control.", p: ["SOTI MobiControl", "Centralized Device Management", "Remote Diagnostic OTA Support", "Frontline Asset Visibility"], c: ["Mobility", "Software"] },
+      { n: "Telesis", full: "Telesis Technologies, Inc.", col: "#0A2A5E", ac: "#06b6d4", img: "logos/telesis.png", s: "", r: "Technology Partner", d: "Direct Part Marking (DPM) industrial lasers and permanent dot peen pin markers.", p: ["Fiber Laser Marking Systems", "CO2 Laser Engravers", "UV Laser Markers", "Dot Peen Pin Markers", "Industrial Traceability"], c: ["Marking", "Traceability"] },
+      { n: "CSL", full: "Convergence Systems Limited", col: "#0284C7", ac: "#22d3ee", img: "logos/csl.svg", s: "", r: "Technological Partner", d: "High-performance passive RFID readers, antennas, and handheld RFID inventory devices.", p: ["Fixed UHF RFID Readers", "Directional RFID Antennas", "Handheld RFID Terminals", "Asset Tracking Portals"], c: ["RFID"] },
+      { n: "Fargo", full: "HID Global (Fargo)", col: "#003B71", ac: "#0ea5e9", img: "logos/fargo.svg", s: "", r: "Hardware Partner", d: "High-definition retransfer ID card printers and secure employee credential issuance systems.", p: ["HDP6600xe High-Definition ID Card Printers", "Dual-Sided Card Printing Modules", "Secure Holographic Laminators"], c: ["Printing", "Security"] },
+      { n: "Raiser", full: "Raiser Industrial", col: "#0284C7", ac: "#38bdf8", img: "logos/raiser.png", s: "", r: "Technology Partner", d: "Automated conveyor transfers, plant logistics, pallet handling, and shopfloor storage systems.", p: ["Automated Conveyor Transfers", "Pallet Handling Equipment", "Shopfloor Storage Racks", "Line Logistics Transfers"], c: ["Automation", "Logistics"] },
+      { n: "GS1 India", full: "GS1 India (Global Standards 1)", col: "#F26322", ac: "#ea580c", img: "logos/gs1.svg", s: "Authorized Solution Partner", r: "Standards & Compliance Partner", d: "Global barcode standards, serialization compliance, and item-to-pallet supply chain traceability.", p: ["1D/2D Barcode Verification & Grading", "GS1 EPCIS Serialization", "Item-to-Pallet Traceability Standards"], c: ["Traceability", "Standards"] }
+    ];
+
+    /* ==========================================================================
+       DYNAMIC METRIC COMPUTATION & CATEGORY EXTRACTION
+       ========================================================================== */
+    var allCategories = Array.from(new Set(D.flatMap(item => item.c))).sort();
+    var totalProductLines = D.reduce((sum, item) => sum + (item.p ? item.p.length : 0), 0);
+    var activeCategory = 'All';
+    var searchQuery = '';
+    var selectedPartner = D[0];
+
+    // DOM Elements
+    var chipsEl = document.getElementById('chips-container');
+    var marqueeEl = document.getElementById('marquee-track');
+    var searchInput = document.getElementById('search-input');
+    var showingCountEl = document.getElementById('showing-count');
+    var cyclingWordEl = document.getElementById('cycling-word');
+    var gridEl = document.getElementById('partner-grid');
+
+    // Ring Elements
+    var ringStage = document.getElementById('ring-stage');
+    var ringRotator = document.getElementById('ring-rotator');
+
+    // Details Panel Elements
+    var panelEl = document.getElementById('details-panel');
+    var panelLogoImg = document.getElementById('panel-logo-img');
+    var panelLogoFallback = document.getElementById('panel-logo-fallback');
+    var panelBadges = document.getElementById('panel-badges');
+    var panelName = document.getElementById('panel-name');
+    var panelRole = document.getElementById('panel-role');
+    var panelDesc = document.getElementById('panel-desc');
+    var panelProducts = document.getElementById('panel-products');
+    var panelCategories = document.getElementById('panel-categories');
+    var panelConsultBtn = document.getElementById('panel-consult-btn');
+
+    /* ==========================================================================
+       HERO COUNT-UP NUMBER ANIMATION
+       ========================================================================== */
+    function animateCountUp(elementId, targetValue, duration = 1400) {
+      var el = document.getElementById(elementId);
+      if (!el) return;
+      var startTime = null;
+
+      function step(timestamp) {
+        if (!startTime) startTime = timestamp;
+        var progress = Math.min((timestamp - startTime) / duration, 1);
+        var easeOut = 1 - Math.pow(1 - progress, 3);
+        var current = Math.floor(easeOut * targetValue);
+        el.textContent = current + '+';
+        if (progress < 1) {
+          requestAnimationFrame(step);
+        } else {
+          el.textContent = targetValue + '+';
+        }
+      }
+      requestAnimationFrame(step);
+    }
+
+    /* ==========================================================================
+       HERO CYCLING HIGHLIGHT WORD
+       ========================================================================== */
+    function initCategoryWordCycle() {
+      if (!cyclingWordEl || allCategories.length === 0) return;
+      var idx = 0;
+      setInterval(() => {
+        cyclingWordEl.style.opacity = '0';
+        cyclingWordEl.style.transform = 'translateY(6px)';
+        setTimeout(() => {
+          idx = (idx + 1) % allCategories.length;
+          cyclingWordEl.textContent = allCategories[idx];
+          cyclingWordEl.style.opacity = '1';
+          cyclingWordEl.style.transform = 'translateY(0)';
+        }, 220);
+      }, 2400);
+    }
+
+    /* ==========================================================================
+       MARQUEE STRIP
+       ========================================================================== */
+    function renderMarquee() {
+      marqueeEl.innerHTML = '';
+      var duplicated = [...D, ...D]; // Double for seamless loop
+
+      duplicated.forEach((partner, i) => {
+        var item = document.createElement('button');
+        item.type = 'button';
+        item.className = 'marquee-item';
+        item.setAttribute('aria-label', `View details for ${partner.full}`);
+        item.innerHTML = `
+          <span class="marquee-dot" style="background-color: ${partner.ac}; box-shadow: 0 0 8px ${partner.ac};"></span>
+          <span>${partner.n}</span>
+        `;
+        item.addEventListener('click', () => {
+          selectPartner(partner);
+          document.getElementById('details-section')?.scrollIntoView({ behavior: 'smooth' });
+        });
+        marqueeEl.appendChild(item);
+      });
+    }
+
+    /* ==========================================================================
+       FILTER CHIPS
+       ========================================================================== */
+    function renderFilterChips() {
+      chipsEl.innerHTML = '';
+      var categoriesWithAll = ['All', ...allCategories];
+
+      categoriesWithAll.forEach(cat => {
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = `filter-chip ${cat === activeCategory ? 'active' : ''}`;
+        btn.textContent = cat;
+        btn.setAttribute('role', 'tab');
+        btn.setAttribute('aria-selected', cat === activeCategory ? 'true' : 'false');
+        btn.addEventListener('click', () => {
+          activeCategory = cat;
+          renderFilterChips();
+          updateFilteredView();
+        });
+        chipsEl.appendChild(btn);
+      });
+    }
+
+    /* ==========================================================================
+       3D AUTO-SPINNING RING ENGINE
+       ========================================================================== */
+    var currentFiltered = [...D];
+    var currentRotation = 0;
+    var targetRotation = 0;
+    var isDragging = false;
+    var startX = 0;
+    var lastX = 0;
+    var dragVelocity = 0;
+    var baseSpeed = 0.28; // deg per frame
+    var currentSpeed = baseSpeed;
+    var isHovered = false;
+    var animationFrameId = null;
+
+    function build3DRing(items) {
+      ringRotator.innerHTML = '';
+      if (!items || items.length === 0) return;
+
+      var n = items.length;
+      var isMobile = window.innerWidth <= 768;
+      var tileWidth = isMobile ? 120 : 150;
+      var angleStep = 360 / n;
+      
+      // Tangent-based cylinder radius to evenly distribute tiles and prevent overlap
+      // For N items: radius = (tileWidth / 2) / Math.tan(Math.PI / N) + padding
+      var radius = Math.max(200, Math.round((tileWidth / 2) / Math.tan(Math.PI / n)) + (isMobile ? 25 : 35));
+
+      items.forEach((partner, i) => {
+        var tile = document.createElement('div');
+        tile.className = `ring-tile ${selectedPartner && selectedPartner.n === partner.n ? 'active-focus' : ''}`;
+        tile.style.setProperty('--tile-accent', partner.ac);
+        tile.style.setProperty('--tile-glow', `${partner.ac}99`);
+        
+        var angle = i * angleStep;
+        tile.style.transform = `rotateY(${angle}deg) translateZ(${radius}px)`;
+        tile.setAttribute('data-index', i);
+        tile.setAttribute('title', partner.full);
+
+        // Tile displays ONLY the real logo with text fallback onerror
+        tile.innerHTML = `
+          <img 
+            src="${partner.img}" 
+            alt="${partner.full} Logo" 
+            class="ring-logo-img" 
+            loading="lazy"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
+          />
+          <span class="ring-logo-fallback" style="display:none; color:${partner.col};">${partner.n}</span>
+        `;
+
+        tile.addEventListener('click', (e) => {
+          e.stopPropagation();
+          selectPartner(partner);
+          // Rotate clicked tile straight to front
+          targetRotation = -i * angleStep;
+          currentRotation = targetRotation;
+        });
+
+        ringRotator.appendChild(tile);
+      });
+    }
+
+    function animateRing() {
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        if (!isDragging) {
+          // Inertia damping
+          if (Math.abs(dragVelocity) > 0.01) {
+            currentRotation += dragVelocity;
+            dragVelocity *= 0.94;
+          } else {
+            currentSpeed = isHovered ? 0.06 : baseSpeed;
+            currentRotation += currentSpeed;
+          }
+        }
+        ringRotator.style.transform = `rotateY(${currentRotation}deg)`;
+      }
+      animationFrameId = requestAnimationFrame(animateRing);
+    }
+
+    function initRingInteractions() {
+      // Hover slows rotation
+      ringStage.addEventListener('mouseenter', () => { isHovered = true; });
+      ringStage.addEventListener('mouseleave', () => { isHovered = false; isDragging = false; });
+
+      // Drag to spin with pointer events
+      ringStage.addEventListener('pointerdown', (e) => {
+        isDragging = true;
+        startX = e.clientX;
+        lastX = e.clientX;
+        dragVelocity = 0;
+      });
+
+      window.addEventListener('pointermove', (e) => {
+        if (!isDragging) return;
+        var delta = e.clientX - lastX;
+        lastX = e.clientX;
+        currentRotation += delta * 0.45;
+        dragVelocity = delta * 0.45;
+      });
+
+      window.addEventListener('pointerup', () => {
+        isDragging = false;
+      });
+
+      // Handle window resize for dynamic radius recalculation
+      window.addEventListener('resize', () => {
+        build3DRing(currentFiltered);
+      });
+    }
+
+    /* ==========================================================================
+       DETAILS PANEL POPULATION
+       ========================================================================== */
+    function selectPartner(partner) {
+      if (!partner) return;
+      selectedPartner = partner;
+
+      // Update ring tile active state
+      document.querySelectorAll('.ring-tile').forEach(tile => {
+        tile.classList.remove('active-focus');
+      });
+      var activeTile = Array.from(document.querySelectorAll('.ring-tile')).find(t => t.getAttribute('title') === partner.full);
+      if (activeTile) activeTile.classList.add('active-focus');
+
+      // Update details panel
+      panelEl.style.setProperty('--panel-glow', `${partner.ac}33`);
+      panelEl.style.borderColor = `${partner.ac}66`;
+
+      // Logo
+      panelLogoImg.src = partner.img;
+      panelLogoImg.alt = `${partner.full} Official Logo`;
+      panelLogoImg.style.display = 'block';
+      panelLogoFallback.style.display = 'none';
+      panelLogoFallback.textContent = partner.n;
+      panelLogoFallback.style.color = partner.col;
+      panelLogoImg.onerror = () => {
+        panelLogoImg.style.display = 'none';
+        panelLogoFallback.style.display = 'block';
+      };
+
+      // Badges
+      var badgesHtml = '';
+      if (partner.s) {
+        badgesHtml += `<span class="badge-tier">${partner.s}</span>`;
+      }
+      if (partner.r) {
+        badgesHtml += `<span class="badge-role">${partner.r}</span>`;
+      }
+      panelBadges.innerHTML = badgesHtml;
+
+      // Text Info
+      panelName.textContent = partner.full;
+      panelRole.textContent = partner.r ? `ATPL Certified Role: ${partner.r}` : '';
+      panelDesc.textContent = partner.d;
+
+      // Product Lines
+      panelProducts.innerHTML = (partner.p || []).map(item => `
+        <li class="product-pill">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          <span>${item}</span>
+        </li>
+      `).join('');
+
+      // Categories
+      panelCategories.innerHTML = (partner.c || []).map(cat => `
+        <span class="cat-tag">${cat}</span>
+      `).join('');
+    }
+
+    // Consult button prefill & scroll
+    if (panelConsultBtn) {
+      panelConsultBtn.addEventListener('click', () => {
+        var partner = selectedPartner || D[0];
+        document.getElementById('contact-section')?.scrollIntoView({ behavior: 'smooth' });
+        var msg = document.getElementById('contact-message');
+        if (msg) {
+          msg.value = `I would like to consult an ATPL automation engineer regarding ${partner.full} solutions (${partner.c.join(', ')}) for our facility.`;
+          msg.focus();
+        }
+      });
+    }
+
+    /* ==========================================================================
+       MODAL DIALOG CONTROLLER
+       ========================================================================== */
+    var modalEl = document.getElementById('partner-modal');
+    var modalCloseBtn = document.getElementById('modal-close');
+    var modalConsultBtn = document.getElementById('modal-consult-btn');
+
+    function openPartnerModal(partner) {
+      if (!modalEl || !partner) return;
+      var modalName = document.getElementById('modal-name');
+      var modalRole = document.getElementById('modal-role');
+      var modalDesc = document.getElementById('modal-desc');
+      var modalImg = document.getElementById('modal-logo-img');
+      var modalFallback = document.getElementById('modal-logo-fallback');
+      var modalBadges = document.getElementById('modal-badges');
+      var modalProducts = document.getElementById('modal-products');
+      var modalCategories = document.getElementById('modal-categories');
+
+      if (modalName) modalName.textContent = partner.full;
+      if (modalRole) modalRole.textContent = partner.r ? `ATPL Certified Role: ${partner.r}` : '';
+      if (modalDesc) modalDesc.textContent = partner.d;
+
+      if (modalImg) {
+        modalImg.src = partner.img;
+        modalImg.alt = `${partner.full} Official Logo`;
+        modalImg.style.display = 'block';
+        if (modalFallback) {
+          modalFallback.style.display = 'none';
+          modalFallback.textContent = partner.n;
+          modalFallback.style.color = partner.col;
+        }
+        modalImg.onerror = () => {
+          modalImg.style.display = 'none';
+          if (modalFallback) modalFallback.style.display = 'block';
+        };
+      }
+
+      if (modalBadges) {
+        var bHtml = '';
+        if (partner.s) bHtml += `<span class="badge-tier">${partner.s}</span>`;
+        if (partner.r) bHtml += `<span class="badge-role">${partner.r}</span>`;
+        modalBadges.innerHTML = bHtml;
+      }
+
+      if (modalProducts) {
+        modalProducts.innerHTML = (partner.p || []).map(item => `
+          <li class="product-pill">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            <span>${item}</span>
+          </li>
+        `).join('');
+      }
+
+      if (modalCategories) {
+        modalCategories.innerHTML = (partner.c || []).map(cat => `<span class="cat-tag">${cat}</span>`).join('');
+      }
+
+      if (typeof modalEl.showModal === 'function') {
+        modalEl.showModal();
+      } else {
+        modalEl.setAttribute('open', '');
+      }
+    }
+
+    if (modalCloseBtn) {
+      modalCloseBtn.addEventListener('click', () => {
+        if (modalEl.close) modalEl.close();
+        else modalEl.removeAttribute('open');
+      });
+    }
+
+    if (modalEl) {
+      modalEl.addEventListener('click', (e) => {
+        if (e.target === modalEl) {
+          if (modalEl.close) modalEl.close();
+          else modalEl.removeAttribute('open');
+        }
+      });
+    }
+
+    if (modalConsultBtn) {
+      modalConsultBtn.addEventListener('click', () => {
+        if (modalEl.close) modalEl.close();
+        else modalEl.removeAttribute('open');
+        var partner = selectedPartner || D[0];
+        document.getElementById('contact-section')?.scrollIntoView({ behavior: 'smooth' });
+        var msg = document.getElementById('contact-message');
+        if (msg) {
+          msg.value = `I would like to consult an ATPL automation engineer regarding ${partner.full} solutions (${partner.c.join(', ')}) for our facility.`;
+          msg.focus();
+        }
+      });
+    }
+
+    /* ==========================================================================
+       DIRECTORY GRID VIEW
+       ========================================================================== */
+    function renderDirectoryGrid(items) {
+      gridEl.innerHTML = '';
+      showingCountEl.textContent = items.length;
+
+      items.forEach(partner => {
+        var card = document.createElement('div');
+        card.className = 'partner-card';
+        card.style.setProperty('--card-accent', partner.ac);
+        card.style.setProperty('--card-glow', `${partner.ac}33`);
+
+        var badgesHtml = '';
+        if (partner.s) badgesHtml += `<span class="badge-tier" style="margin-bottom:8px; display:inline-block;">${partner.s}</span>`;
+
+        card.innerHTML = `
+          <div>
+            <div class="partner-logo-box">
+              <img 
+                src="${partner.img}" 
+                alt="${partner.full} Logo" 
+                loading="lazy" 
+                onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
+              />
+              <span class="ring-logo-fallback" style="display:none; color:${partner.col};">${partner.n}</span>
+            </div>
+            ${badgesHtml}
+            <h3 class="card-partner-name">${partner.n}</h3>
+            <p class="card-partner-desc">${partner.d}</p>
+          </div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-top:1rem; pt:1rem; border-top:1px solid rgba(255,255,255,0.06);">
+            <div style="display:flex; gap:6px; flex-wrap:wrap;">
+              ${partner.c.map(c => `<span class="cat-tag">${c}</span>`).join('')}
+            </div>
+            <span style="color:var(--accent-cyan); font-weight:700; font-size:0.85rem;">Specs →</span>
+          </div>
+        `;
+
+        card.addEventListener('click', () => {
+          selectPartner(partner);
+          openPartnerModal(partner);
+        });
+
+        gridEl.appendChild(card);
+      });
+    }
+
+    /* ==========================================================================
+       FILTER & SEARCH SYNCHRONIZATION
+       ========================================================================== */
+    function updateFilteredView() {
+      var q = searchQuery.trim().toLowerCase();
+      currentFiltered = D.filter(partner => {
+        var matchesCat = activeCategory === 'All' || partner.c.includes(activeCategory);
+        var matchesQuery = !q || 
+          partner.n.toLowerCase().includes(q) ||
+          partner.full.toLowerCase().includes(q) ||
+          partner.d.toLowerCase().includes(q) ||
+          (partner.p && partner.p.some(p => p.toLowerCase().includes(q)));
+        return matchesCat && matchesQuery;
+      });
+
+      build3DRing(currentFiltered);
+      renderDirectoryGrid(currentFiltered);
+
+      if (currentFiltered.length > 0) {
+        selectPartner(currentFiltered[0]);
+      }
+    }
+
+    /* ==========================================================================
+       CONTACT FORM SUBMISSION WITH THANK YOU CONFIRMATION
+       ========================================================================== */
+    function initContactForm() {
+      var form = document.getElementById('contact-form');
+      var thankYouCard = document.getElementById('thank-you-card');
+      var thankYouMsg = document.getElementById('thank-you-message');
+
+      if (!form) return;
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        var name = document.getElementById('contact-name').value.trim();
+        var email = document.getElementById('contact-email').value.trim();
+        var msg = document.getElementById('contact-message').value.trim();
+
+        if (!name || !email || !msg) {
+          alert('Please fill out all required fields.');
+          return;
+        }
+
+        var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+          alert('Please enter a valid work email address.');
+          return;
+        }
+
+        // TODO: Send to ATPL CRM API endpoint (e.g. POST /api/leads)
+        console.log('Lead submitted:', { name, email, message: msg, partner: selectedPartner?.n });
+
+        // Show thank you card
+        form.style.display = 'none';
+        thankYouCard.style.display = 'block';
+        thankYouMsg.textContent = `Thank you, ${name}. Your consultation request regarding ${selectedPartner ? selectedPartner.full : 'ATPL partner solutions'} has been prioritized. An integration engineer will contact you at ${email} within 4 business hours.`;
+      });
+    }
+
+    /* ==========================================================================
+       PARTICLE NETWORK CANVAS (Physics with Cursor Repulsion)
+       ========================================================================== */
+    function initParticles() {
+      var canvas = document.getElementById('particles-canvas');
+      if (!canvas) return;
+      var ctx = canvas.getContext('2d');
+      var width = (canvas.width = window.innerWidth);
+      var height = (canvas.height = window.innerHeight);
+
+      var mouse = { x: -1000, y: -1000, radius: 150 };
+      var particles = [];
+      var particleCount = Math.min(Math.floor((width * height) / 14000), 85);
+
+      for (var i = 0; i < particleCount; i++) {
+        particles.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          vx: (Math.random() - 0.5) * 0.6,
+          vy: (Math.random() - 0.5) * 0.6,
+          radius: Math.random() * 1.8 + 1,
+          color: Math.random() > 0.4 ? 'rgba(34, 211, 238, ' : 'rgba(2, 132, 199, '
+        });
+      }
+
+      window.addEventListener('resize', () => {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+      });
+
+      window.addEventListener('mousemove', (e) => {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+      });
+
+      function render() {
+        if (!document.hidden && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          ctx.clearRect(0, 0, width, height);
+
+          for (var i = 0; i < particles.length; i++) {
+            var p = particles[i];
+
+            // Mouse repulsion
+            var dx = p.x - mouse.x;
+            var dy = p.y - mouse.y;
+            var dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < mouse.radius) {
+              var force = (mouse.radius - dist) / mouse.radius;
+              var angle = Math.atan2(dy, dx);
+              p.x += Math.cos(angle) * force * 3;
+              p.y += Math.sin(angle) * force * 3;
+            }
+
+            p.x += p.vx;
+            p.y += p.vy;
+
+            if (p.x < 0) p.x = width;
+            if (p.x > width) p.x = 0;
+            if (p.y < 0) p.y = height;
+            if (p.y > height) p.y = 0;
+
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+            ctx.fillStyle = p.color + '0.7)';
+            ctx.fill();
+
+            // Connect neighbor lines
+            for (var j = i + 1; j < particles.length; j++) {
+              var p2 = particles[j];
+              var d = Math.hypot(p.x - p2.x, p.y - p2.y);
+              if (d < 110) {
+                ctx.beginPath();
+                ctx.moveTo(p.x, p.y);
+                ctx.lineTo(p2.x, p2.y);
+                ctx.strokeStyle = `rgba(34, 211, 238, ${0.18 * (1 - d / 110)})`;
+                ctx.lineWidth = 0.8;
+                ctx.stroke();
+              }
+            }
+          }
+        }
+        requestAnimationFrame(render);
+      }
+      render();
+    }
+
+    /* ==========================================================================
+       CURSOR GLOW & SCROLL PROGRESS
+       ========================================================================== */
+    function initScrollAndCursor() {
+      var glow = document.getElementById('cursor-glow');
+      var progress = document.getElementById('scroll-progress');
+
+      window.addEventListener('mousemove', (e) => {
+        if (glow) {
+          glow.style.transform = `translate(${e.clientX - 240}px, ${e.clientY - 240}px)`;
+        }
+      });
+
+      window.addEventListener('scroll', () => {
+        if (progress) {
+          var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+          var scrolled = (window.scrollY / (docHeight || 1)) * 100;
+          progress.style.width = `${Math.min(scrolled, 100)}%`;
+        }
+      });
+    }
+
+    /* ==========================================================================
+       INITIALIZATION
+       ========================================================================== */
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Compute and animate stats
+      animateCountUp('stat-partners', D.length);
+      animateCountUp('stat-industries', 15); // Exactly 15 industry sectors from atplgroup.com
+      animateCountUp('stat-products', totalProductLines);
+
+      // 2. Render controls and components
+      renderMarquee();
+      renderFilterChips();
+      build3DRing(D);
+      renderDirectoryGrid(D);
+      selectPartner(D[0]);
+
+      // 3. Start Engines
+      animateRing();
+      initRingInteractions();
+      initCategoryWordCycle();
+      initParticles();
+      initScrollAndCursor();
+      initContactForm();
+
+      // 4. Live Search listener
+      if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+          searchQuery = e.target.value;
+          updateFilteredView();
+        });
+      }
+    });
+  </script>
+</body>
+</html>

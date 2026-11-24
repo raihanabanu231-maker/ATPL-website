@@ -1407,7 +1407,7 @@ export const WhyAtplCardsSection = memo(() => {
         }
 
         /* Mobile Responsive (1 column) */
-        @media (max-width: 640px) {
+        @media (max-width: 768px) {
           .why-atpl-bento-grid {
             grid-template-columns: 1fr;
             gap: 1.25rem;

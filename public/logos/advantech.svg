@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 170 42" height="48" fill="none">
+      <rect x="0" y="0" width="170" height="42" fill="#003E7E" rx="3" />
+      <text x="12" y="30" fill="#FFFFFF" font-family="'Arial Black', sans-serif" font-size="23" font-weight="900" letter-spacing="1.5px">ADVANTECH</text>
+      <polygon points="34,22 45,22 39.5,12" fill="#003E7E" />
+      <polygon points="37,20 42,20 39.5,15" fill="#38BDF8" />
+    </svg>

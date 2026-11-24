@@ -764,7 +764,8 @@ input[type="range"]::-webkit-slider-thumb {
   border-radius: var(--radius-md);
   color: #fff;
   font-family: var(--font-body);
-  font-size: 0.95rem;
+  font-size: 16px;
+  min-height: 44px;
   outline: none;
   transition: border-color var(--transition-fast);
 }

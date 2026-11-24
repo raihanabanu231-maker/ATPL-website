@@ -121,9 +121,9 @@ body::before {
 .ambient-glow-2 {
   position: fixed;
   bottom: 10vh;
-  right: -5vw;
-  width: 35vw;
-  height: 35vw;
+  right: 0;
+  width: min(35vw, 400px);
+  height: min(35vw, 400px);
   background: radial-gradient(circle, rgba(37, 99, 235, 0.1) 0%, transparent 70%);
   pointer-events: none;
   z-index: 0;
@@ -506,6 +506,11 @@ video {
 
 @media (max-width: 768px) {
 
+  .ambient-glow-1,
+  .ambient-glow-2 {
+    display: none !important;
+  }
+
   .grid-4,
   .grid-3,
   .grid-2 {
@@ -519,7 +524,17 @@ video {
   .btn-lg {
     padding: 0.9rem 1.6rem;
     font-size: 1rem;
+    min-height: 44px;
   }
+
+  button, a.btn, input, select, textarea {
+    min-height: 44px;
+  }
+}
+
+/* Prevent iOS Safari auto-zoom */
+input, select, textarea {
+  font-size: 16px !important;
 }
 
 /* Fix: allow sticky stacked cards to work */

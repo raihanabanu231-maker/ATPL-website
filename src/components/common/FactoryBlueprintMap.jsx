@@ -557,6 +557,21 @@ export const FactoryBlueprintMap = ({ embedded = false }) => {
               transform: translate(-50%, -50%) scale(1.08);
             }
             @media (max-width: 768px) {
+              .hud-header-bar {
+                gap: 0.65rem !important;
+                margin-bottom: 0.85rem !important;
+              }
+              .hud-header-right {
+                width: 100% !important;
+                justify-content: space-between !important;
+                margin-top: 0.35rem !important;
+              }
+              .hud-header-right button {
+                min-height: 44px !important;
+                min-width: 44px !important;
+                padding: 0.45rem 0.75rem !important;
+                font-size: 0.8rem !important;
+              }
               .hud-central-logo-hub {
                 transform: translate(-50%, -50%) scale(0.82) !important;
               }
@@ -564,15 +579,15 @@ export const FactoryBlueprintMap = ({ embedded = false }) => {
                 transform: translate(-50%, -50%) scale(0.88) !important;
               }
               .hud-station-pin {
-                width: 24px !important;
-                height: 24px !important;
+                min-width: 44px !important;
+                min-height: 44px !important;
                 display: flex !important;
                 align-items: center !important;
                 justifyContent: center !important;
               }
               .hud-pin-disc {
-                width: 17px !important;
-                height: 17px !important;
+                width: 20px !important;
+                height: 20px !important;
               }
               .hud-archie-speech-badge {
                 padding: 0.12rem 0.45rem !important;
