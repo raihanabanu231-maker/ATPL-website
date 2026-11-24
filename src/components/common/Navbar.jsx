@@ -225,9 +225,9 @@ export const Navbar = ({ onOpenSearch }) => {
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
-                  backgroundColor: 'rgba(232, 88, 116, 0.12)',
-                  color: '#E85874',
-                  border: '1px solid rgba(232, 88, 116, 0.3)',
+                  backgroundColor: 'rgba(0, 113, 186, 0.1)',
+                  color: '#0071ba',
+                  border: '1px solid rgba(0, 113, 186, 0.25)',
                   fontSize: '0.62rem',
                   fontWeight: 800,
                   padding: '0.12rem 0.45rem',
@@ -236,8 +236,8 @@ export const Navbar = ({ onOpenSearch }) => {
                   flexShrink: 0
                 }}
               >
-                <span className="announcement-badge-desktop">ANNOUNCEMENT</span>
-                <span className="announcement-badge-mobile">NEW</span>
+                <span className="announcement-badge-desktop">ATPL GROUP</span>
+                <span className="announcement-badge-mobile">ATPL</span>
               </span>
               <span
                 className="announcement-text-content"
@@ -248,29 +248,10 @@ export const Navbar = ({ onOpenSearch }) => {
                   lineHeight: 1.2
                 }}
               >
-                <span className="announcement-text-desktop">🚀 Live 3D Digital Twin Simulator</span>
-                <span className="announcement-text-mobile">🚀 3D Digital Twin Tour</span>
+                <span>Enterprise Shopfloor Automation, AIDC &amp; Barcode Solutions</span>
               </span>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', flexShrink: 0 }}>
-              <button
-                onClick={() => handleNavClick('factory-3d')}
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  color: '#E85874',
-                  cursor: 'pointer',
-                  fontWeight: 700,
-                  fontSize: '0.74rem',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '0.2rem',
-                  padding: '0.2rem 0.35rem',
-                  flexShrink: 0
-                }}
-              >
-                <span>Explore</span>
-              </button>
 
               <button
                 onClick={() => handleNavClick('admin')}
@@ -570,95 +551,6 @@ export const Navbar = ({ onOpenSearch }) => {
               </button>
             </div>
 
-            {/* 5. 3D Twin Simulator Dropdown Trigger */}
-            <div
-              className="mega-nav-item-wrap"
-              style={{ position: 'relative' }}
-              onMouseEnter={() => handleDropdownEnter('demos')}
-              onMouseLeave={handleDropdownLeave}
-            >
-              <button
-                onClick={() => {
-                  if (activeDropdown === 'demos') {
-                    handleNavClick('demos');
-                  } else {
-                    handleDropdownEnter('demos');
-                  }
-                }}
-                className="mega-nav-btn"
-                aria-expanded={activeDropdown === 'demos'}
-                style={{
-                  background: 'transparent',
-                  border: 'none',
-                  color: activeDropdown === 'demos' || currentView === 'demos' || currentView === 'factory-3d' ? '#0071ba' : '#334155',
-                  padding: '0.6rem 0.75rem',
-                  fontSize: '0.94rem',
-                  fontWeight: 600,
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.35rem',
-                  borderRadius: '6px',
-                  position: 'relative',
-                  transition: 'color 0.15s ease'
-                }}
-              >
-                <span>3D Twin Simulator</span>
-                <ChevronDown size={14} style={{ transform: activeDropdown === 'demos' ? 'rotate(180deg)' : 'none', transition: 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)' }} />
-                <span
-                  className="mega-nav-underline"
-                  style={{
-                    position: 'absolute',
-                    bottom: '2px',
-                    left: '0.75rem',
-                    right: '0.75rem',
-                    height: '2px',
-                    backgroundColor: '#0071ba',
-                    transformOrigin: 'left',
-                    transform: activeDropdown === 'demos' || currentView === 'demos' || currentView === 'factory-3d' ? 'scaleX(1)' : 'scaleX(0)',
-                    transition: 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)'
-                  }}
-                />
-              </button>
-            </div>
-
-            {/* Direct 360° Videos Link */}
-            <button
-              onClick={() => {
-                handleNavClick('demos');
-                setTimeout(() => {
-                  const el = document.getElementById('hardware-360-matrix');
-                  if (el) el.scrollIntoView({ behavior: 'smooth' });
-                }, 100);
-              }}
-              style={{
-                background: 'rgba(232, 88, 116, 0.08)',
-                border: '1px solid rgba(232, 88, 116, 0.3)',
-                color: '#E85874',
-                padding: '0.45rem 0.75rem',
-                fontSize: '0.88rem',
-                fontWeight: 700,
-                cursor: 'pointer',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.4rem',
-                borderRadius: '8px',
-                transition: 'all 0.2s ease'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = 'rgba(232, 88, 116, 0.16)';
-                e.currentTarget.style.transform = 'translateY(-1px)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'rgba(232, 88, 116, 0.08)';
-                e.currentTarget.style.transform = 'translateY(0)';
-              }}
-              title="Jump to 360° product demo videos"
-            >
-              <RotateCw size={14} color="#E85874" />
-              <span>360° Videos</span>
-            </button>
-
             {/* Direct Why ATPL Link */}
             <button
               onClick={() => handleNavClick('why-atpl')}
@@ -693,42 +585,6 @@ export const Navbar = ({ onOpenSearch }) => {
             >
               <Sparkles size={14} color="#0071ba" />
               <span>Why ATPL</span>
-            </button>
-
-            {/* Direct Insights Link */}
-            <button
-              onClick={() => handleNavClick('insights')}
-              style={{
-                background: currentView === 'insights' || currentView === 'insight-detail' 
-                  ? 'rgba(0, 240, 255, 0.16)' 
-                  : 'rgba(0, 240, 255, 0.08)',
-                border: currentView === 'insights' || currentView === 'insight-detail'
-                  ? '1.5px solid #00f0ff'
-                  : '1px solid rgba(0, 240, 255, 0.35)',
-                color: '#0071ba',
-                padding: '0.45rem 0.75rem',
-                fontSize: '0.88rem',
-                fontWeight: 700,
-                cursor: 'pointer',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.4rem',
-                borderRadius: '8px',
-                transition: 'all 0.2s ease',
-                boxShadow: currentView === 'insights' || currentView === 'insight-detail' ? '0 0 10px rgba(0, 240, 255, 0.3)' : 'none'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = 'rgba(0, 240, 255, 0.18)';
-                e.currentTarget.style.transform = 'translateY(-1px)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = currentView === 'insights' ? 'rgba(0, 240, 255, 0.16)' : 'rgba(0, 240, 255, 0.08)';
-                e.currentTarget.style.transform = 'translateY(0)';
-              }}
-              title="Read ATPL Field Teardowns & Blueprints"
-            >
-              <BookOpen size={14} color="#0071ba" />
-              <span>Insights</span>
             </button>
           </nav>
 
@@ -1039,7 +895,7 @@ export const Navbar = ({ onOpenSearch }) => {
         {/* Reusable Compact Mega Menu Panel */}
         <MegaMenu
           menuKey={activeDropdown}
-          isOpen={Boolean(activeDropdown && ['hardware', 'software', 'customers', 'partners', 'demos'].includes(activeDropdown))}
+          isOpen={Boolean(activeDropdown && ['hardware', 'software', 'customers', 'partners'].includes(activeDropdown))}
           onClose={() => setActiveDropdown(null)}
           onNavigate={(view, anchor) => {
             handleNavClick(view);
@@ -1292,33 +1148,6 @@ export const Navbar = ({ onOpenSearch }) => {
                 )}
               </div>
 
-              {/* 5. 3D Twin Simulator (Direct Link) */}
-              <button
-                onClick={() => handleNavClick('demos')}
-                style={{
-                  width: '100%',
-                  minHeight: '44px',
-                  background: 'linear-gradient(135deg, rgba(0, 240, 255, 0.08) 0%, rgba(232, 88, 116, 0.08) 100%)',
-                  border: '1.5px solid rgba(0, 240, 255, 0.35)',
-                  borderRadius: '8px',
-                  padding: '0.7rem 1rem',
-                  textAlign: 'left',
-                  fontSize: '0.96rem',
-                  fontWeight: 700,
-                  color: '#0f172a',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  cursor: 'pointer'
-                }}
-              >
-                <span style={{ display: 'flex', alignItems: 'center', gap: '0.55rem' }}>
-                  <span style={{ color: '#00f0ff' }}>✨</span>
-                  <span>3D Twin Simulator &amp; Product Demos</span>
-                </span>
-                <span style={{ backgroundColor: '#0071ba', color: '#ffffff', fontSize: '0.65rem', padding: '0.15rem 0.45rem', borderRadius: '999px', fontWeight: 800 }}>LIVE</span>
-              </button>
-
               {/* Why ATPL Mobile Button */}
               <button
                 onClick={() => handleNavClick('why-atpl')}
@@ -1344,33 +1173,6 @@ export const Navbar = ({ onOpenSearch }) => {
                   <span>Why ATPL (Executive Difference)</span>
                 </span>
                 <span style={{ backgroundColor: '#0071ba', color: '#ffffff', fontSize: '0.65rem', padding: '0.15rem 0.45rem', borderRadius: '999px', fontWeight: 800 }}>LEADER</span>
-              </button>
-
-              {/* Insights Mobile Button */}
-              <button
-                onClick={() => handleNavClick('insights')}
-                style={{
-                  width: '100%',
-                  minHeight: '44px',
-                  background: 'rgba(0, 240, 255, 0.08)',
-                  border: '1.5px solid rgba(0, 240, 255, 0.35)',
-                  borderRadius: '8px',
-                  padding: '0.7rem 1rem',
-                  textAlign: 'left',
-                  fontSize: '0.96rem',
-                  fontWeight: 700,
-                  color: '#0f172a',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  cursor: 'pointer'
-                }}
-              >
-                <span style={{ display: 'flex', alignItems: 'center', gap: '0.55rem' }}>
-                  <span style={{ color: '#0071ba' }}>📖</span>
-                  <span>Insights &amp; Plant Teardowns</span>
-                </span>
-                <span style={{ backgroundColor: '#00f0ff', color: '#040812', fontSize: '0.65rem', padding: '0.15rem 0.45rem', borderRadius: '999px', fontWeight: 800 }}>NEW</span>
               </button>
 
               {/* 6. Contact Sales & Support (Direct Link) */}
@@ -1412,8 +1214,7 @@ export const Navbar = ({ onOpenSearch }) => {
               }}>
                 <button onClick={() => handleNavClick('solutions')} style={{ background: 'none', border: 'none', color: '#0071ba', fontWeight: 600, fontSize: '0.82rem', cursor: 'pointer', padding: '0.2rem 0.4rem' }}>Industry Solutions</button>
                 <button onClick={() => handleNavClick('services')} style={{ background: 'none', border: 'none', color: '#0071ba', fontWeight: 600, fontSize: '0.82rem', cursor: 'pointer', padding: '0.2rem 0.4rem' }}>24/7 AMC</button>
-                <button onClick={() => handleNavClick('demos')} style={{ background: 'none', border: 'none', color: '#0071ba', fontWeight: 600, fontSize: '0.82rem', cursor: 'pointer', padding: '0.2rem 0.4rem' }}>3D Twin Simulator</button>
-              </div>
+                </div>
 
               {/* Compact Language Selector Bar */}
               <div>

@@ -404,28 +404,7 @@ export const FactoryBlueprintMap = ({ embedded = false }) => {
                 <span>{isAutoTour ? 'Pause' : 'Play'}</span>
               </button>
 
-              <button
-                onClick={() => setCurrentView('factory-3d')}
-                style={{
-                  backgroundColor: 'rgba(0, 113, 186, 0.25)',
-                  border: '1px solid rgba(0, 240, 255, 0.5)',
-                  color: '#00f0ff',
-                  borderRadius: '6px',
-                  padding: '0.22rem 0.65rem',
-                  fontSize: '0.72rem',
-                  fontWeight: 800,
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.25rem',
-                  minHeight: '28px',
-                  transition: 'all 0.15s ease'
-                }}
-                title="Switch to 3D Digital Twin View"
-              >
-                <Layers size={12} />
-                <span>3D Twin</span>
-              </button>
+              
             </div>
           </div>
         </div>

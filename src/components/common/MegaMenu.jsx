@@ -255,15 +255,14 @@ export const MEGA_MENU_CONFIG = {
             longDesc: 'Paperless quality auditing with photo capture, automated corrective action triggers, and 21 CFR Part 11 audit trails.'
           },
           {
-            id: 'twin',
-            name: '3D Digital Twin Suite',
-            desc: 'Real-time plant simulation & live telemetry',
-            link: 'demos',
-            anchor: '3d-simulator',
-            img: '/assets/images/atpl_connected_3d_twin.webp',
-            longDesc: 'Virtual shopfloor twin visualizing physical sensor streams, conveyor flow rates, and bottleneck alerts in full 3D.'
-          }
-        ]
+            id: 'cmms',
+            name: 'Perfect Maintenance™ (CMMS)',
+            desc: 'Preventive maintenance, spares & work orders',
+            link: 'software',
+            anchor: 'cmms',
+            img: '/assets/images/atpl_tech_campus_bg.jpg',
+            longDesc: 'Automated predictive maintenance scheduling, MTBF/MTTR tracking, spare parts inventory, and technician dispatch.'
+          }]
       }
     ],
     cta: {
