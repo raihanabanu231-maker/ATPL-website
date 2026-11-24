@@ -3,6 +3,7 @@ import { useApp } from '../../context/AppContext';
 import { AtplLogo } from './AtplLogo';
 import { AtplRobotAvatar } from './AtplRobotAvatar';
 import { GsapDropdown } from './GsapDropdown';
+import { MegaMenu } from './MegaMenu';
 import {
   Boxes,
   Cpu,
@@ -85,7 +86,7 @@ export const Navbar = ({ onOpenSearch }) => {
     }
     closeTimeoutRef.current = setTimeout(() => {
       setActiveDropdown(null);
-    }, 180);
+    }, 200);
   };
 
   // Restore saved language preference on mount
@@ -355,17 +356,29 @@ export const Navbar = ({ onOpenSearch }) => {
               .desktop-only-action { display: flex !important; }
               .mobile-toggle-btn { display: none !important; }
             }
+            .mega-nav-item-wrap:hover .mega-nav-underline {
+              transform: scaleX(1) !important;
+            }
           `}</style>
           <nav className="atpl-desktop-nav" style={{ alignItems: 'center', gap: '0.2rem' }}>
 
-            {/* 1. Hardware Dropdown & Direct Link */}
+            {/* 1. Hardware Dropdown Trigger */}
             <div
+              className="mega-nav-item-wrap"
               style={{ position: 'relative' }}
               onMouseEnter={() => handleDropdownEnter('hardware')}
               onMouseLeave={handleDropdownLeave}
             >
               <button
-                onClick={() => handleNavClick('hardware')}
+                onClick={() => {
+                  if (activeDropdown === 'hardware') {
+                    handleNavClick('hardware');
+                  } else {
+                    handleDropdownEnter('hardware');
+                  }
+                }}
+                className="mega-nav-btn"
+                aria-expanded={activeDropdown === 'hardware'}
                 style={{
                   background: 'transparent',
                   border: 'none',
@@ -378,119 +391,50 @@ export const Navbar = ({ onOpenSearch }) => {
                   alignItems: 'center',
                   gap: '0.35rem',
                   borderRadius: '6px',
-                  transition: 'all 0.15s ease'
+                  position: 'relative',
+                  transition: 'color 0.15s ease'
                 }}
               >
                 <span>Hardware</span>
                 <ChevronDown size={14} style={{ transform: activeDropdown === 'hardware' ? 'rotate(180deg)' : 'none', transition: 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)' }} />
+                <span
+                  className="mega-nav-underline"
+                  style={{
+                    position: 'absolute',
+                    bottom: '2px',
+                    left: '0.75rem',
+                    right: '0.75rem',
+                    height: '2px',
+                    backgroundColor: '#0071ba',
+                    transformOrigin: 'left',
+                    transform: activeDropdown === 'hardware' || currentView === 'hardware' ? 'scaleX(1)' : 'scaleX(0)',
+                    transition: 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)'
+                  }}
+                />
               </button>
-
-              <GsapDropdown
-                isOpen={activeDropdown === 'hardware'}
-                width="640px"
-                align="left"
-                style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1.25rem' }}
-                onMouseEnter={() => handleDropdownEnter('hardware')}
-                onMouseLeave={handleDropdownLeave}
-              >
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                  <div style={{ fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', color: '#94a3b8', letterSpacing: '0.06em', marginBottom: '0.4rem' }}>
-                    AIDC, RFID & SCANNING
-                  </div>
-
-                  <div
-                    onClick={() => handleNavClick('hardware')}
-                    style={{ padding: '0.55rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', gap: '0.75rem' }}
-                    className="dropdown-hover-item"
-                  >
-                    <Radio size={20} color="#0071ba" style={{ marginTop: '2px', flexShrink: 0 }} />
-                    <div>
-                      <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#0f172a' }}>Fixed UHF RFID Portals</div>
-                      <div style={{ fontSize: '0.78rem', color: '#64748b' }}>High-throughput dock gate auto scanners</div>
-                    </div>
-                  </div>
-
-                  <div
-                    onClick={() => handleNavClick('hardware')}
-                    style={{ padding: '0.55rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', gap: '0.75rem' }}
-                    className="dropdown-hover-item"
-                  >
-                    <Zap size={20} color="#0071ba" style={{ marginTop: '2px', flexShrink: 0 }} />
-                    <div>
-                      <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#0f172a' }}>Industrial 2D & DPM Scanners</div>
-                      <div style={{ fontSize: '0.78rem', color: '#64748b' }}>Fixed mount & rugged handheld imagers</div>
-                    </div>
-                  </div>
-
-                  <div
-                    onClick={() => handleNavClick('hardware')}
-                    style={{ padding: '0.55rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', gap: '0.75rem' }}
-                    className="dropdown-hover-item"
-                  >
-                    <Smartphone size={20} color="#0284c7" style={{ marginTop: '2px', flexShrink: 0 }} />
-                    <div>
-                      <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#0f172a' }}>Rugged Mobile Computers</div>
-                      <div style={{ fontSize: '0.78rem', color: '#64748b' }}>Android warehouse PDAs & vehicle mounts</div>
-                    </div>
-                  </div>
-                </div>
-
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                  <div style={{ fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', color: '#94a3b8', letterSpacing: '0.06em', marginBottom: '0.4rem' }}>
-                    PRINTERS & AUTOMATION
-                  </div>
-
-                  <div
-                    onClick={() => handleNavClick('hardware')}
-                    style={{ padding: '0.55rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', gap: '0.75rem' }}
-                    className="dropdown-hover-item"
-                  >
-                    <Printer size={20} color="#10b981" style={{ marginTop: '2px', flexShrink: 0 }} />
-                    <div>
-                      <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#0f172a' }}>Industrial Barcode Printers</div>
-                      <div style={{ fontSize: '0.78rem', color: '#64748b' }}>600 DPI & RFID print-and-apply engines</div>
-                    </div>
-                  </div>
-
-                  <div
-                    onClick={() => handleNavClick('hardware')}
-                    style={{ padding: '0.55rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', gap: '0.75rem' }}
-                    className="dropdown-hover-item"
-                  >
-                    <Cpu size={20} color="#E85874" style={{ marginTop: '2px', flexShrink: 0 }} />
-                    <div>
-                      <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#0f172a' }}>Automation & Sorting Gates</div>
-                      <div style={{ fontSize: '0.78rem', color: '#64748b' }}>Pneumatic diverters & conveyor systems</div>
-                    </div>
-                  </div>
-
-                  <div
-                    onClick={() => handleNavClick('hardware')}
-                    style={{ padding: '0.55rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', gap: '0.75rem' }}
-                    className="dropdown-hover-item"
-                  >
-                    <Eye size={20} color="#8b5cf6" style={{ marginTop: '2px', flexShrink: 0 }} />
-                    <div>
-                      <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#0f172a' }}>Machine Vision Sensors</div>
-                      <div style={{ fontSize: '0.78rem', color: '#64748b' }}>Telecentric lenses & high-speed cameras</div>
-                    </div>
-                  </div>
-                </div>
-              </GsapDropdown>
             </div>
 
-            {/* 2. Software Dropdown & Direct Link */}
+            {/* 2. Software Dropdown Trigger */}
             <div
+              className="mega-nav-item-wrap"
               style={{ position: 'relative' }}
               onMouseEnter={() => handleDropdownEnter('software')}
               onMouseLeave={handleDropdownLeave}
             >
               <button
-                onClick={() => handleNavClick('software')}
+                onClick={() => {
+                  if (activeDropdown === 'software') {
+                    handleNavClick('software');
+                  } else {
+                    handleDropdownEnter('software');
+                  }
+                }}
+                className="mega-nav-btn"
+                aria-expanded={activeDropdown === 'software'}
                 style={{
                   background: 'transparent',
                   border: 'none',
-                  color: activeDropdown === 'software' || currentView === 'software' ? '#E85874' : '#334155',
+                  color: activeDropdown === 'software' || currentView === 'software' ? '#0071ba' : '#334155',
                   padding: '0.6rem 0.75rem',
                   fontSize: '0.94rem',
                   fontWeight: 600,
@@ -499,175 +443,50 @@ export const Navbar = ({ onOpenSearch }) => {
                   alignItems: 'center',
                   gap: '0.35rem',
                   borderRadius: '6px',
-                  transition: 'all 0.15s ease'
+                  position: 'relative',
+                  transition: 'color 0.15s ease'
                 }}
               >
                 <span>Software</span>
                 <ChevronDown size={14} style={{ transform: activeDropdown === 'software' ? 'rotate(180deg)' : 'none', transition: 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)' }} />
+                <span
+                  className="mega-nav-underline"
+                  style={{
+                    position: 'absolute',
+                    bottom: '2px',
+                    left: '0.75rem',
+                    right: '0.75rem',
+                    height: '2px',
+                    backgroundColor: '#0071ba',
+                    transformOrigin: 'left',
+                    transform: activeDropdown === 'software' || currentView === 'software' ? 'scaleX(1)' : 'scaleX(0)',
+                    transition: 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)'
+                  }}
+                />
               </button>
-
-              <GsapDropdown
-                isOpen={activeDropdown === 'software'}
-                width="640px"
-                align="left"
-                style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1.25rem' }}
-                onMouseEnter={() => handleDropdownEnter('software')}
-                onMouseLeave={handleDropdownLeave}
-              >
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                  <div style={{ fontSize: '0.72rem', fontWeight: 800, textTransform: 'uppercase', color: '#0071ba', letterSpacing: '0.06em', marginBottom: '0.15rem' }}>
-                    ★ FLAGSHIP PRIORITY SUITES
-                  </div>
-
-                  <div
-                    onClick={() => handleNavClick('software')}
-                    style={{ padding: '0.55rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', gap: '0.75rem', backgroundColor: 'rgba(56, 189, 248, 0.1)', border: '1.5px solid rgba(56, 189, 248, 0.35)' }}
-                    className="dropdown-hover-item"
-                  >
-                    <Smartphone size={20} color="#0071ba" style={{ marginTop: '2px', flexShrink: 0 }} />
-                    <div>
-                      <div style={{ fontSize: '0.9rem', fontWeight: 800, color: '#0f172a', display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
-                        <span>PerfectEdge MDM</span>
-                        <span style={{ backgroundColor: '#dc2626', color: '#ffffff', fontSize: '0.62rem', fontWeight: 800, padding: '1px 5px', borderRadius: '4px' }}>TOP PRIORITY</span>
-                      </div>
-                      <div style={{ fontSize: '0.78rem', color: '#475569' }}>Smart device management & kiosk lockdown</div>
-                    </div>
-                  </div>
-
-                  <div
-                    onClick={() => handleNavClick('software')}
-                    style={{ padding: '0.55rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', gap: '0.75rem', backgroundColor: 'rgba(245, 158, 11, 0.1)', border: '1.5px solid rgba(245, 158, 11, 0.35)' }}
-                    className="dropdown-hover-item"
-                  >
-                    <Printer size={20} color="#f59e0b" style={{ marginTop: '2px', flexShrink: 0 }} />
-                    <div>
-                      <div style={{ fontSize: '0.9rem', fontWeight: 800, color: '#0f172a', display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
-                        <span>Perfect Labeler</span>
-                        <span style={{ backgroundColor: '#f59e0b', color: '#060b14', fontSize: '0.62rem', fontWeight: 800, padding: '1px 5px', borderRadius: '4px' }}>AI CLOUD</span>
-                      </div>
-                      <div style={{ fontSize: '0.78rem', color: '#475569' }}>AI prompt cloud label design & multi-branch</div>
-                    </div>
-                  </div>
-
-                  <div
-                    onClick={() => handleNavClick('software')}
-                    style={{ padding: '0.55rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', gap: '0.75rem', backgroundColor: 'rgba(16, 185, 129, 0.08)', border: '1px solid rgba(16, 185, 129, 0.25)' }}
-                    className="dropdown-hover-item"
-                  >
-                    <Users size={20} color="#10b981" style={{ marginTop: '2px', flexShrink: 0 }} />
-                    <div>
-                      <div style={{ fontSize: '0.9rem', fontWeight: 800, color: '#0f172a', display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
-                        <span>Perfect Flow 360</span>
-                        <span style={{ backgroundColor: '#10b981', color: '#ffffff', fontSize: '0.62rem', fontWeight: 800, padding: '1px 5px', borderRadius: '4px' }}>CRM</span>
-                      </div>
-                      <div style={{ fontSize: '0.78rem', color: '#64748b' }}>CRM, instant quotes, attendance & live delivery</div>
-                    </div>
-                  </div>
-
-                  <div style={{ fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', color: '#94a3b8', letterSpacing: '0.06em', marginBottom: '0.4rem' }}>
-                    SUPPLY CHAIN & PRODUCTION
-                  </div>
-
-                  <div
-                    onClick={() => handleNavClick('software')}
-                    style={{ padding: '0.55rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', gap: '0.75rem' }}
-                    className="dropdown-hover-item"
-                  >
-                    <Boxes size={20} color="#0071ba" style={{ marginTop: '2px', flexShrink: 0 }} />
-                    <div>
-                      <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#0f172a' }}>Perfect Store™ (WMS)</div>
-                      <div style={{ fontSize: '0.78rem', color: '#64748b' }}>Warehouse management & 3D bin slotting</div>
-                    </div>
-                  </div>
-
-                  <div
-                    onClick={() => handleNavClick('software')}
-                    style={{ padding: '0.55rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', gap: '0.75rem' }}
-                    className="dropdown-hover-item"
-                  >
-                    <FileCheck size={20} color="#009a44" style={{ marginTop: '2px', flexShrink: 0 }} />
-                    <div>
-                      <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#0f172a' }}>Perfect Trace™</div>
-                      <div style={{ fontSize: '0.78rem', color: '#64748b' }}>GS1 Item-to-pallet aggregation & serialization</div>
-                    </div>
-                  </div>
-
-                  <div
-                    onClick={() => handleNavClick('software')}
-                    style={{ padding: '0.55rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', gap: '0.75rem' }}
-                    className="dropdown-hover-item"
-                  >
-                    <Layers size={20} color="#E85874" style={{ marginTop: '2px', flexShrink: 0 }} />
-                    <div>
-                      <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#0f172a' }}>Perfect PMS™ (Production)</div>
-                      <div style={{ fontSize: '0.78rem', color: '#64748b' }}>Shopfloor OEE, WIP & line balancing</div>
-                    </div>
-                  </div>
-                </div>
-
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                  <div style={{ fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', color: '#94a3b8', letterSpacing: '0.06em', marginBottom: '0.4rem' }}>
-                    AI QUALITY & CONNECTIVITY
-                  </div>
-
-                  <div
-                    onClick={() => handleNavClick('software')}
-                    style={{ padding: '0.55rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', gap: '0.75rem' }}
-                    className="dropdown-hover-item"
-                  >
-                    <Eye size={20} color="#8b5cf6" style={{ marginTop: '2px', flexShrink: 0 }} />
-                    <div>
-                      <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#0f172a' }}>Perfect AI Vision™</div>
-                      <div style={{ fontSize: '0.78rem', color: '#64748b' }}>Deep learning Pass/Fail defect QC</div>
-                    </div>
-                  </div>
-
-                  <div
-                    onClick={() => handleNavClick('software')}
-                    style={{ padding: '0.55rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', gap: '0.75rem' }}
-                    className="dropdown-hover-item"
-                  >
-                    <ShieldCheck size={20} color="#10b981" style={{ marginTop: '2px', flexShrink: 0 }} />
-                    <div>
-                      <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#0f172a' }}>Perfect Audit™</div>
-                      <div style={{ fontSize: '0.78rem', color: '#64748b' }}>Digital CAPA & paperless compliance</div>
-                    </div>
-                  </div>
-
-                  <div
-                    onClick={() => handleNavClick('factory-3d')}
-                    style={{
-                      padding: '0.65rem',
-                      borderRadius: '8px',
-                      cursor: 'pointer',
-                      background: 'linear-gradient(135deg, rgba(232, 88, 116, 0.08) 0%, #fff7ed 100%)',
-                      border: '1px solid rgba(232, 88, 116, 0.25)',
-                      display: 'flex',
-                      gap: '0.75rem'
-                    }}
-                  >
-                    <Sparkles size={20} color="#E85874" style={{ marginTop: '2px', flexShrink: 0 }} />
-                    <div>
-                      <div style={{ fontSize: '0.88rem', fontWeight: 800, color: '#E85874' }}>✨ 3D Digital Twin</div>
-                      <div style={{ fontSize: '0.75rem', color: '#9f1239' }}>Interactive 12-station smart factory tour</div>
-                    </div>
-                  </div>
-                </div>
-              </GsapDropdown>
             </div>
 
-            {/* 3. Customers Dropdown */}
+            {/* 3. Customers Dropdown Trigger */}
             <div
+              className="mega-nav-item-wrap"
               style={{ position: 'relative' }}
               onMouseEnter={() => handleDropdownEnter('customers')}
               onMouseLeave={handleDropdownLeave}
             >
               <button
-                onClick={() => handleNavClick('customers')}
+                onClick={() => {
+                  if (activeDropdown === 'customers') {
+                    handleNavClick('customers');
+                  } else {
+                    handleDropdownEnter('customers');
+                  }
+                }}
+                className="mega-nav-btn"
+                aria-expanded={activeDropdown === 'customers'}
                 style={{
                   background: 'transparent',
                   border: 'none',
-                  color: activeDropdown === 'customers' || currentView === 'customers' ? '#E85874' : '#334155',
+                  color: activeDropdown === 'customers' || currentView === 'customers' ? '#0071ba' : '#334155',
                   padding: '0.6rem 0.75rem',
                   fontSize: '0.94rem',
                   fontWeight: 600,
@@ -676,75 +495,46 @@ export const Navbar = ({ onOpenSearch }) => {
                   alignItems: 'center',
                   gap: '0.35rem',
                   borderRadius: '6px',
-                  transition: 'all 0.15s ease'
+                  position: 'relative',
+                  transition: 'color 0.15s ease'
                 }}
               >
                 <span>Customers</span>
                 <ChevronDown size={14} style={{ transform: activeDropdown === 'customers' ? 'rotate(180deg)' : 'none', transition: 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)' }} />
+                <span
+                  className="mega-nav-underline"
+                  style={{
+                    position: 'absolute',
+                    bottom: '2px',
+                    left: '0.75rem',
+                    right: '0.75rem',
+                    height: '2px',
+                    backgroundColor: '#0071ba',
+                    transformOrigin: 'left',
+                    transform: activeDropdown === 'customers' || currentView === 'customers' ? 'scaleX(1)' : 'scaleX(0)',
+                    transition: 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)'
+                  }}
+                />
               </button>
-
-              <GsapDropdown
-                isOpen={activeDropdown === 'customers'}
-                width="390px"
-                align="left"
-                style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}
-                onMouseEnter={() => handleDropdownEnter('customers')}
-                onMouseLeave={handleDropdownLeave}
-              >
-                <div
-                  onClick={() => {
-                    handleNavClick('customers');
-                    setActiveDropdown(null);
-                  }}
-                  style={{ padding: '0.65rem 0.85rem', borderRadius: '8px', cursor: 'pointer' }}
-                  className="dropdown-hover-item"
-                >
-                  <div style={{ fontWeight: 700, fontSize: '0.9rem', color: '#0f172a', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                    <Users size={16} color="#0071ba" />
-                    <span>Enterprise Clients & Case Studies</span>
-                  </div>
-                  <div style={{ fontSize: '0.78rem', color: '#64748b', marginTop: '2px' }}>Verified production results across 200+ industry leaders</div>
-                </div>
-
-                <div
-                  onClick={() => {
-                    handleNavClick('customers');
-                    setTimeout(() => {
-                      const el = document.getElementById('client-roster');
-                      if (el) el.scrollIntoView({ behavior: 'smooth' });
-                    }, 120);
-                    setActiveDropdown(null);
-                  }}
-                  style={{ padding: '0.65rem 0.85rem', borderRadius: '8px', cursor: 'pointer' }}
-                  className="dropdown-hover-item"
-                >
-                  <div style={{ fontWeight: 700, fontSize: '0.9rem', color: '#0f172a', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                    <Award size={16} color="#009a44" />
-                    <span>Explore 200+ Client Directory</span>
-                  </div>
-                  <div style={{ fontSize: '0.78rem', color: '#64748b', marginTop: '2px' }}>Filter by Automotive, Heavy Engg, Pharma & FMCG</div>
-                </div>
-
-                <div
-                  onClick={() => {
-                    openDemoModal({ solution: 'Customer Case Studies Request', notes: 'Request for enterprise case studies' });
-                    setActiveDropdown(null);
-                  }}
-                  style={{ padding: '0.65rem 0.85rem', borderRadius: '8px', cursor: 'pointer', background: 'rgba(232, 88, 116, 0.06)', border: '1px solid rgba(232, 88, 116, 0.25)' }}
-                >
-                  <div style={{ fontWeight: 700, fontSize: '0.86rem', color: '#E85874' }}>Request Industry Case Studies</div>
-                </div>
-              </GsapDropdown>
             </div>
 
-            {/* 4. Partners Dropdown */}
+            {/* 4. Partners Dropdown Trigger */}
             <div
+              className="mega-nav-item-wrap"
               style={{ position: 'relative' }}
               onMouseEnter={() => handleDropdownEnter('partners')}
               onMouseLeave={handleDropdownLeave}
             >
               <button
-                onClick={() => handleNavClick('partners')}
+                onClick={() => {
+                  if (activeDropdown === 'partners') {
+                    handleNavClick('partners');
+                  } else {
+                    handleDropdownEnter('partners');
+                  }
+                }}
+                className="mega-nav-btn"
+                aria-expanded={activeDropdown === 'partners'}
                 style={{
                   background: 'transparent',
                   border: 'none',
@@ -757,67 +547,46 @@ export const Navbar = ({ onOpenSearch }) => {
                   alignItems: 'center',
                   gap: '0.35rem',
                   borderRadius: '6px',
-                  transition: 'all 0.15s ease'
+                  position: 'relative',
+                  transition: 'color 0.15s ease'
                 }}
               >
                 <span>Partners</span>
                 <ChevronDown size={14} style={{ transform: activeDropdown === 'partners' ? 'rotate(180deg)' : 'none', transition: 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)' }} />
+                <span
+                  className="mega-nav-underline"
+                  style={{
+                    position: 'absolute',
+                    bottom: '2px',
+                    left: '0.75rem',
+                    right: '0.75rem',
+                    height: '2px',
+                    backgroundColor: '#0071ba',
+                    transformOrigin: 'left',
+                    transform: activeDropdown === 'partners' || currentView === 'partners' ? 'scaleX(1)' : 'scaleX(0)',
+                    transition: 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)'
+                  }}
+                />
               </button>
-
-              <GsapDropdown
-                isOpen={activeDropdown === 'partners'}
-                width="390px"
-                align="left"
-                style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}
-                onMouseEnter={() => handleDropdownEnter('partners')}
-                onMouseLeave={handleDropdownLeave}
-              >
-                <div
-                  onClick={() => handleNavClick('partners')}
-                  style={{ padding: '0.65rem 0.85rem', borderRadius: '8px', cursor: 'pointer' }}
-                  className="dropdown-hover-item"
-                >
-                  <div style={{ fontWeight: 700, fontSize: '0.9rem', color: '#0f172a', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                    <Handshake size={16} color="#009a44" />
-                    <span>GS1 Global Certified Partner</span>
-                  </div>
-                  <div style={{ fontSize: '0.78rem', color: '#64748b', marginTop: '2px' }}>Authorized GS1 barcode & RFID serialization partner</div>
-                </div>
-
-                <div
-                  onClick={() => handleNavClick('partners')}
-                  style={{ padding: '0.65rem 0.85rem', borderRadius: '8px', cursor: 'pointer' }}
-                  className="dropdown-hover-item"
-                >
-                  <div style={{ fontWeight: 700, fontSize: '0.9rem', color: '#0f172a', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                    <Radio size={16} color="#fbb03b" />
-                    <span>Hardware OEM Partners</span>
-                  </div>
-                  <div style={{ fontSize: '0.78rem', color: '#64748b', marginTop: '2px' }}>Zebra, Honeywell, Datalogic & Impinj alliance</div>
-                </div>
-
-                <div
-                  onClick={() => handleNavClick('partners')}
-                  style={{ padding: '0.65rem 0.85rem', borderRadius: '8px', cursor: 'pointer' }}
-                  className="dropdown-hover-item"
-                >
-                  <div style={{ fontWeight: 700, fontSize: '0.9rem', color: '#0f172a', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                    <Cpu size={16} color="#0071ba" />
-                    <span>ERP & Cloud Alliances</span>
-                  </div>
-                  <div style={{ fontSize: '0.78rem', color: '#64748b', marginTop: '2px' }}>SAP S/4HANA, Oracle Cloud & Microsoft Dynamics</div>
-                </div>
-              </GsapDropdown>
             </div>
 
-            {/* 5. 3D Twin Simulator Dropdown */}
+            {/* 5. 3D Twin Simulator Dropdown Trigger */}
             <div
+              className="mega-nav-item-wrap"
               style={{ position: 'relative' }}
               onMouseEnter={() => handleDropdownEnter('demos')}
               onMouseLeave={handleDropdownLeave}
             >
               <button
-                onClick={() => handleNavClick('demos')}
+                onClick={() => {
+                  if (activeDropdown === 'demos') {
+                    handleNavClick('demos');
+                  } else {
+                    handleDropdownEnter('demos');
+                  }
+                }}
+                className="mega-nav-btn"
+                aria-expanded={activeDropdown === 'demos'}
                 style={{
                   background: 'transparent',
                   border: 'none',
@@ -830,87 +599,27 @@ export const Navbar = ({ onOpenSearch }) => {
                   alignItems: 'center',
                   gap: '0.35rem',
                   borderRadius: '6px',
-                  transition: 'all 0.15s ease'
+                  position: 'relative',
+                  transition: 'color 0.15s ease'
                 }}
               >
                 <span>3D Twin Simulator</span>
                 <ChevronDown size={14} style={{ transform: activeDropdown === 'demos' ? 'rotate(180deg)' : 'none', transition: 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)' }} />
+                <span
+                  className="mega-nav-underline"
+                  style={{
+                    position: 'absolute',
+                    bottom: '2px',
+                    left: '0.75rem',
+                    right: '0.75rem',
+                    height: '2px',
+                    backgroundColor: '#0071ba',
+                    transformOrigin: 'left',
+                    transform: activeDropdown === 'demos' || currentView === 'demos' || currentView === 'factory-3d' ? 'scaleX(1)' : 'scaleX(0)',
+                    transition: 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)'
+                  }}
+                />
               </button>
-
-              <GsapDropdown
-                isOpen={activeDropdown === 'demos'}
-                width="380px"
-                align="right"
-                style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}
-                onMouseEnter={() => handleDropdownEnter('demos')}
-                onMouseLeave={handleDropdownLeave}
-              >
-                <div
-                  onClick={() => {
-                    handleNavClick('demos');
-                    setTimeout(() => {
-                      const el = document.getElementById('3d-simulator');
-                      if (el) el.scrollIntoView({ behavior: 'smooth' });
-                    }, 100);
-                  }}
-                  style={{ padding: '0.65rem 0.85rem', borderRadius: '8px', cursor: 'pointer' }}
-                  className="dropdown-hover-item"
-                >
-                  <div style={{ fontWeight: 700, fontSize: '0.88rem', color: '#0071ba', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                    <Sparkles size={15} color="#00f0ff" />
-                    <span>3D Smart Factory Simulator</span>
-                  </div>
-                  <div style={{ fontSize: '0.76rem', color: '#64748b' }}>Live virtual plant inspection with Archie AI flight &amp; telemetry</div>
-                </div>
-
-                <div
-                  onClick={() => {
-                    handleNavClick('demos');
-                    setTimeout(() => {
-                      const el = document.getElementById('hardware-360-matrix');
-                      if (el) el.scrollIntoView({ behavior: 'smooth' });
-                    }, 100);
-                  }}
-                  style={{ padding: '0.65rem 0.85rem', borderRadius: '8px', cursor: 'pointer' }}
-                  className="dropdown-hover-item"
-                >
-                  <div style={{ fontWeight: 700, fontSize: '0.88rem', color: '#E85874', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                    <RotateCw size={15} color="#E85874" />
-                    <span>360° Product Demo Videos</span>
-                  </div>
-                  <div style={{ fontSize: '0.76rem', color: '#64748b' }}>20 rotating turntable demo videos of scanners, RFID &amp; printers</div>
-                </div>
-
-                <div
-                  onClick={() => {
-                    handleNavClick('demos');
-                    setTimeout(() => {
-                      const el = document.getElementById('stations-deepdive');
-                      if (el) el.scrollIntoView({ behavior: 'smooth' });
-                    }, 100);
-                  }}
-                  style={{ padding: '0.65rem 0.85rem', borderRadius: '8px', cursor: 'pointer' }}
-                  className="dropdown-hover-item"
-                >
-                  <div style={{ fontWeight: 700, fontSize: '0.88rem', color: '#10b981', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                    <Activity size={15} color="#10b981" />
-                    <span>High-Speed Conveyor &amp; RFID Gates</span>
-                  </div>
-                  <div style={{ fontSize: '0.76rem', color: '#64748b' }}>See vision tunnels, dock doors &amp; DPM laser stations in motion</div>
-                </div>
-
-                <div
-                  onClick={() => handleNavClick('factory-3d')}
-                  style={{ padding: '0.65rem 0.85rem', borderRadius: '8px', cursor: 'pointer', borderTop: '1px solid #f1f5f9' }}
-                  className="dropdown-hover-item"
-                >
-                  <div style={{ fontWeight: 700, fontSize: '0.88rem', color: '#0284c7', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                    <Maximize2 size={15} color="#0284c7" />
-                    <span>Full-Screen Immersive 3D Flight</span>
-                  </div>
-                  <div style={{ fontSize: '0.76rem', color: '#64748b' }}>Launch dedicated edge-to-edge 3D plant flight mode</div>
-                </div>
-              </GsapDropdown>
             </div>
 
             {/* Direct 360° Videos Link */}
@@ -1326,6 +1035,29 @@ export const Navbar = ({ onOpenSearch }) => {
           </div>
 
         </div>
+
+        {/* Reusable Compact Mega Menu Panel */}
+        <MegaMenu
+          menuKey={activeDropdown}
+          isOpen={Boolean(activeDropdown && ['hardware', 'software', 'customers', 'partners', 'demos'].includes(activeDropdown))}
+          onClose={() => setActiveDropdown(null)}
+          onNavigate={(view, anchor) => {
+            handleNavClick(view);
+            if (anchor) {
+              setTimeout(() => {
+                const el = document.getElementById(anchor);
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+              }, 120);
+            }
+          }}
+          onOpenDemo={openDemoModal}
+          onMouseEnter={() => {
+            if (closeTimeoutRef.current) {
+              clearTimeout(closeTimeoutRef.current);
+            }
+          }}
+          onMouseLeave={handleDropdownLeave}
+        />
 
         {/* Mobile Clean Full-Screen Navigation Drawer */}
         {mobileMenuOpen && (
