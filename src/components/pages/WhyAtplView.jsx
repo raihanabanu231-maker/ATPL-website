@@ -223,10 +223,7 @@ export const WhyAtplView = () => {
   const [videoModalOpen, setVideoModalOpen] = useState(false);
   const [activeStationIndex, setActiveStationIndex] = useState(0);
   const [isHeroExpanded, setIsHeroExpanded] = useState(true);
-  const [isTourPlaying, setIsTourPlaying] = useState(false);
-  const [simulatorLoaded, setSimulatorLoaded] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const simulatorIframeRef = useRef(null);
   const consoleContainerRef = useRef(null);
 
   const toggleFullscreen = useCallback(() => {
@@ -259,27 +256,6 @@ export const WhyAtplView = () => {
       document.removeEventListener('webkitfullscreenchange', handleFsChange);
     };
   }, []);
-
-  useEffect(() => {
-    const handleMsg = (event) => {
-      if (event.data && event.data.type === 'TOUR_STATE') {
-        setIsTourPlaying(!!event.data.isPlaying);
-      }
-    };
-    window.addEventListener('message', handleMsg);
-    return () => window.removeEventListener('message', handleMsg);
-  }, []);
-
-  const toggleTour = useCallback(() => {
-    if (!simulatorLoaded) setSimulatorLoaded(true);
-    const nextState = !isTourPlaying;
-    setIsTourPlaying(nextState);
-    if (simulatorIframeRef.current && simulatorIframeRef.current.contentWindow) {
-      simulatorIframeRef.current.contentWindow.postMessage({
-        action: nextState ? 'startTour' : 'stopTour'
-      }, '*');
-    }
-  }, [isTourPlaying, simulatorLoaded]);
 
   // Full-View Cinematic Robot Theater State
   const [fullVideoMode, setFullVideoMode] = useState('presentation');
@@ -369,20 +345,8 @@ export const WhyAtplView = () => {
     }
   };
 
-  // Machine Vision & 3D Plant Simulation Stations
+  // Machine Vision & Industrial Automation Live Video Stations
   const stations = [
-    {
-      id: '3d-simulator',
-      type: 'simulator',
-      name: '3D Plant Twin Simulator',
-      shortName: '3D Simulator',
-      tagline: 'Interactive 3D WebGL factory floor & autonomous line simulation',
-      simulatorUrl: '/factory-map.html?embedded=true',
-      poster: '/assets/images/atpl_connected_3d_twin.webp',
-      badge: '★ 3D DIGITAL TWIN SIMULATOR',
-      telemetry: '60 FPS WebGL // REAL-TIME 3D',
-      description: 'Explore ATPL’s turnkey Industry 4.0 plant floor in real-time 3D: automated conveyor lines, collaborative robotic inspection, RAIN RFID dock gates, and live shopfloor telemetry.'
-    },
     {
       id: 'vision-qc',
       type: 'video',
@@ -394,6 +358,18 @@ export const WhyAtplView = () => {
       badge: '99.985% First-Pass Yield',
       telemetry: 'LIVE ATPL TELEMETRY: 6.2ms',
       description: 'Synchronized telecentric cameras and 460nm polarized ring strobes catching 50-micron porosity, burrs, and barcode grading violations in under 6.2 milliseconds.'
+    },
+    {
+      id: 'factory-twin',
+      type: 'video',
+      name: 'Smart Factory Twin & Robotics',
+      shortName: 'Robotics & Twin',
+      tagline: 'Autonomous line routing & shopfloor telemetry',
+      video: '/assets/videos/archie_presentation.mp4',
+      poster: '/assets/videos/posters/archie_presentation.jpg',
+      badge: '★ 3D DIGITAL TWIN & ROBOTICS',
+      telemetry: '60 FPS 4K // REAL-TIME TELEMETRY',
+      description: 'Explore ATPL’s turnkey Industry 4.0 plant floor in real time: automated conveyor lines, collaborative robotic inspection, RAIN RFID dock gates, and live shopfloor telemetry.'
     },
     {
       id: 'dpm-laser',
@@ -418,6 +394,18 @@ export const WhyAtplView = () => {
       badge: 'Zero Ghost-Read Shielding',
       telemetry: '1,420 TAGS/SEC // DENSE MODE',
       description: 'Directional narrow-beam phased arrays paired with Doppler phase velocity filtering, eliminating cross-dock staging crosstalk while forklifts pass at 12 km/h.'
+    },
+    {
+      id: 'mobile-wms',
+      type: 'video',
+      name: 'Rugged Warehouse Handhelds & ASRS',
+      shortName: 'Warehouse Handhelds',
+      tagline: 'Continuous cold-chain and forklift inventory sync',
+      video: '/assets/videos/mobility_360.mp4',
+      poster: '/assets/videos/posters/touch_computer_360.jpg',
+      badge: 'IP68 & Drop-Tested 2.4m',
+      telemetry: 'SUB-12MS SAP EWM SYNC',
+      description: 'Enterprise Android mobile computers integrated natively into Perfect Store™ WMS and SAP EWM with 3D spatial bin heatmaps and offline buffer caching.'
     }
   ];
 
@@ -721,31 +709,6 @@ export const WhyAtplView = () => {
                 {activeStation.telemetry}
               </span>
 
-              {activeStation.type === 'simulator' && (
-                <button
-                  onClick={toggleTour}
-                  style={{
-                    background: isTourPlaying ? 'rgba(0, 240, 255, 0.22)' : 'rgba(255, 255, 255, 0.08)',
-                    border: isTourPlaying ? '1px solid #00f0ff' : '1px solid rgba(255, 255, 255, 0.2)',
-                    color: isTourPlaying ? '#00f0ff' : '#ffffff',
-                    borderRadius: '6px',
-                    padding: '0.35rem 0.75rem',
-                    fontSize: '0.76rem',
-                    fontWeight: 800,
-                    cursor: 'pointer',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '0.35rem',
-                    boxShadow: isTourPlaying ? '0 0 14px rgba(0, 240, 255, 0.45)' : 'none',
-                    transition: 'all 0.15s ease'
-                  }}
-                  title={isTourPlaying ? 'Pause Archie Robot Movement' : 'Resume Archie Robot Factory Tour'}
-                >
-                  {isTourPlaying ? <Pause size={13} color="#00f0ff" /> : <Play size={13} color="#ffffff" />}
-                  <span>{isTourPlaying ? '❚❚ Pause Robot Tour' : '▶ Start Robot Tour'}</span>
-                </button>
-              )}
-
               <button
                 onClick={() => setIsHeroExpanded(prev => !prev)}
                 style={{
@@ -827,199 +790,72 @@ export const WhyAtplView = () => {
             backgroundColor: '#020b14',
             transition: 'height 0.3s ease'
           }}>
-            {activeStation.type === 'simulator' ? (
-              <div style={{ width: '100%', height: '100%', position: 'relative' }}>
-                {simulatorLoaded ? (
-                  <iframe
-                    ref={simulatorIframeRef}
-                    src={activeStation.simulatorUrl}
-                    title="ATPL Smart Factory 3D Twin Simulator"
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      border: 'none',
-                      display: 'block'
-                    }}
-                    allow="fullscreen; accelerometer; gyroscope"
-                  />
-                ) : (
-                  <div
-                    onClick={() => setSimulatorLoaded(true)}
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      position: 'relative',
-                      cursor: 'pointer',
-                      backgroundImage: `url(${activeStation.poster})`,
-                      backgroundSize: 'cover',
-                      backgroundPosition: 'center',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      padding: '2rem'
-                    }}
-                  >
-                    <div style={{
-                      position: 'absolute',
-                      inset: 0,
-                      background: 'radial-gradient(circle at center, rgba(2, 11, 20, 0.45) 0%, rgba(2, 11, 20, 0.88) 100%)'
-                    }} />
+            <div style={{ width: '100%', height: '100%', position: 'relative' }}>
+              <video
+                key={activeStation.video}
+                src={activeStation.video}
+                poster={activeStation.poster}
+                autoPlay
+                loop
+                muted
+                playsInline
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  opacity: 0.94,
+                  display: 'block'
+                }}
+              />
 
-                    <div style={{
-                      position: 'relative',
-                      zIndex: 2,
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      gap: '1rem',
-                      textAlign: 'center',
-                      maxWidth: '520px'
-                    }}>
-                      <div style={{
-                        width: '72px',
-                        height: '72px',
-                        borderRadius: '50%',
-                        background: 'linear-gradient(135deg, rgba(0, 113, 186, 0.3) 0%, rgba(0, 240, 255, 0.4) 100%)',
-                        border: '2px solid #00f0ff',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        color: '#00f0ff',
-                        boxShadow: '0 0 35px rgba(0, 240, 255, 0.5)'
-                      }}>
-                        <Play size={32} style={{ marginLeft: '4px' }} />
-                      </div>
+              {/* Shading Vignette */}
+              <div style={{
+                position: 'absolute',
+                inset: 0,
+                pointerEvents: 'none',
+                background: 'linear-gradient(to bottom, rgba(4, 9, 20, 0.15) 0%, rgba(4, 9, 20, 0.5) 100%)'
+              }} />
 
-                      <h3 style={{
-                        color: '#ffffff',
-                        fontSize: 'clamp(1.2rem, 2vw, 1.6rem)',
-                        fontWeight: 900,
-                        margin: 0,
-                        textShadow: '0 2px 10px rgba(0, 0, 0, 0.8)'
-                      }}>
-                        Interactive 3D Digital Twin Simulator
-                      </h3>
-
-                      <p style={{
-                        color: '#94a3b8',
-                        fontSize: '0.88rem',
-                        margin: 0,
-                        lineHeight: 1.5
-                      }}>
-                        Click to launch live WebGL factory floor: autonomous conveyor routing, robot stations, and real-time shopfloor telemetry.
-                      </p>
-
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setSimulatorLoaded(true);
-                        }}
-                        style={{
-                          background: 'linear-gradient(135deg, #0071ba 0%, #00f0ff 100%)',
-                          color: '#040812',
-                          fontWeight: 800,
-                          fontSize: '0.86rem',
-                          padding: '0.65rem 1.6rem',
-                          borderRadius: '8px',
-                          border: 'none',
-                          cursor: 'pointer',
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          gap: '0.5rem',
-                          boxShadow: '0 0 25px rgba(0, 240, 255, 0.45)',
-                          marginTop: '0.35rem'
-                        }}
-                      >
-                        <RotateCw size={15} />
-                        <span>Launch 3D Simulator</span>
-                      </button>
-                    </div>
-                  </div>
-                )}
-
-                {/* 3D Interaction Pill Overlay */}
-                <div style={{
-                  position: 'absolute',
-                  top: '1rem',
-                  right: '1rem',
-                  background: 'rgba(9, 14, 26, 0.90)',
-                  border: '1px solid rgba(56, 189, 248, 0.5)',
-                  backdropFilter: 'blur(10px)',
-                  color: '#38bdf8',
-                  padding: '0.45rem 0.95rem',
-                  borderRadius: '8px',
-                  fontSize: '0.76rem',
-                  fontWeight: 800,
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.45rem',
-                  pointerEvents: 'none',
-                  zIndex: 10,
-                  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.5)'
-                }}>
-                  <RotateCw size={13} />
-                  <span>Interactive 3D WebGL Plant // Drag to Rotate, Zoom &amp; Orbit</span>
-                </div>
-              </div>
-            ) : (
-              <>
-                <video
-                  key={activeStation.video}
-                  src={activeStation.video}
-                  poster={activeStation.poster}
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
+              {/* Bottom-Right Fullscreen / 4K Expanded Modal Trigger */}
+              <div style={{
+                position: 'absolute',
+                bottom: '3.8rem',
+                right: '1.25rem',
+                zIndex: 10
+              }}>
+                <button
+                  onClick={() => setVideoModalOpen(true)}
                   style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                    opacity: 0.94
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                    background: 'rgba(9, 19, 34, 0.88)',
+                    border: '1.5px solid #00f0ff',
+                    color: '#ffffff',
+                    borderRadius: '999px',
+                    padding: '0.55rem 1.25rem',
+                    fontSize: '0.82rem',
+                    fontWeight: 800,
+                    cursor: 'pointer',
+                    backdropFilter: 'blur(10px)',
+                    boxShadow: '0 0 25px rgba(0, 240, 255, 0.4)',
+                    transition: 'all 0.2s ease'
                   }}
-                />
-
-                {/* Shading Vignette */}
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  pointerEvents: 'none',
-                  background: 'linear-gradient(to bottom, rgba(4, 9, 20, 0.2) 0%, rgba(4, 9, 20, 0.6) 100%)'
-                }} />
-
-                {/* Central Yellow Cognex-Style Play Button */}
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center'
-                }}>
-                  <button
-                    onClick={() => setVideoModalOpen(true)}
-                    style={{
-                      width: '76px',
-                      height: '76px',
-                      borderRadius: '50%',
-                      background: '#eab308',
-                      border: 'none',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      cursor: 'pointer',
-                      boxShadow: '0 0 40px rgba(234, 179, 8, 0.75)',
-                      transition: 'transform 0.2s cubic-bezier(0.16, 1, 0.3, 1)'
-                    }}
-                    onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.12)'}
-                    onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-                    title="Watch Full-Screen Demonstration"
-                  >
-                    <Play size={32} color="#040812" fill="#040812" style={{ marginLeft: '4px' }} />
-                  </button>
-                </div>
-              </>
-            )}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'scale(1.06)';
+                    e.currentTarget.style.background = '#0071ba';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'scale(1)';
+                    e.currentTarget.style.background = 'rgba(9, 19, 34, 0.88)';
+                  }}
+                  title="Watch Full-Screen Demonstration with Audio"
+                >
+                  <Play size={14} color="#00f0ff" fill="#00f0ff" />
+                  <span>Watch Fullscreen (4K)</span>
+                </button>
+              </div>
+            </div>
           </div>
 
           {/* Station Switcher Tabs Bar */}
@@ -1822,24 +1658,15 @@ export const WhyAtplView = () => {
             </div>
 
             <div style={{ position: 'relative', height: '480px', backgroundColor: '#000000' }}>
-              {activeStation.type === 'simulator' ? (
-                <iframe
-                  src={activeStation.simulatorUrl}
-                  title={activeStation.name}
-                  style={{ width: '100%', height: '100%', border: 'none', display: 'block' }}
-                  allow="fullscreen; accelerometer; gyroscope"
-                />
-              ) : (
-                <video
-                  key={activeStation.video}
-                  src={activeStation.video}
-                  poster={activeStation.poster}
-                  autoPlay
-                  controls
-                  playsInline
-                  style={{ width: '100%', height: '100%', objectFit: 'contain' }}
-                />
-              )}
+              <video
+                key={activeStation.video}
+                src={activeStation.video}
+                poster={activeStation.poster}
+                autoPlay
+                controls
+                playsInline
+                style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+              />
             </div>
 
             <div style={{ padding: '1.25rem 1.5rem', background: '#090e1a', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
