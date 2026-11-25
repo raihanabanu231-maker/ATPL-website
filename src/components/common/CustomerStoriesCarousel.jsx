@@ -241,61 +241,6 @@ const STACKED_CUSTOMER_STORIES = [
       statB: 'MOTION: 15 KM/H',
       statC: 'ACCURACY: 100%'
     }
-  },
-  {
-    id: 'case-roche',
-    client: 'Roche Diagnostics',
-    sector: 'Pharma & Biotech Formulations',
-    facility: 'Cold-Chain Hubs // 21 CFR Part 11 Certified',
-    tabStatement: '100% cold-chain serialization & instant 21 CFR Part 11 audit trails',
-    tabProduct: 'PHARMA TRACE',
-    tabIcon: 'shield',
-    tierBadge: 'GLOBAL HEALTHCARE & BIOTECH',
-    logoUrl: '/assets/images/clients/roche-diagnostics.webp',
-    logoBg: '#ffffff',
-    headline: '100% cold-chain serialization & audit trails for critical diagnostics',
-    subheadline: 'GS1 compliant clinical batch tracking and DGFT export serialization.',
-    summary: 'End-to-end GS1 DataMatrix serialization and cold-chain temperature telemetry across pharmaceutical distribution hubs compliant with US-FDA DSCSA & EU-FMD.',
-    challenge: 'Strict regulatory mandates for temperature-sensitive reagents required continuous batch genealogy logging with zero tolerance for label degradation or unrecorded temp excursions.',
-    solution: 'ATPL deployed cryogenic-resistant barcode labels, handheld scanners, and cloud-synced PERFECT TRACE with tamper-evident audit trails.',
-    results: [
-      '100% end-to-end cold-chain audit compliance achieved',
-      'Zero batch recalls due to label unreadability under cryo conditions',
-      'Instant GS1 compliant export verification for global shipments',
-      'Under 2-minute complete backward lot trace genealogy recall reports'
-    ],
-    primaryMetric: {
-      value: '100%',
-      label: 'Cold-Chain Compliance',
-      subtext: 'Tamper-evident 21 CFR Part 11'
-    },
-    secondaryMetric: {
-      value: '< 2 Min',
-      label: 'Audit Genealogy Speed',
-      subtext: 'Down from 2 days manual audit search'
-    },
-    quote: {
-      text: 'Compliance with 21 CFR Part 11 and DGFT pharmaceutical serialization protocols handled seamlessly with ATPL Perfect Trace.',
-      author: 'Regulatory Affairs Manager',
-      role: 'Clinical Diagnostics Supply Chain'
-    },
-    techStack: ['ATPL PERFECT TRACE™ Pharma', 'Cryo-Resistant Synthetic Tags', '21 CFR Part 11 Audit Trail', 'GS1 Cryptographic Serials'],
-    image: '/assets/images/software_trace.jpg',
-    theme: {
-      gradient: 'linear-gradient(135deg, #3b0717 0%, #701a35 50%, #29030e 100%)',
-      headerBg: '#520c23',
-      accent: '#fb7185',
-      accentGlow: 'rgba(251, 113, 133, 0.45)',
-      tabBorder: 'rgba(251, 113, 133, 0.4)',
-      badgeBg: 'rgba(251, 113, 133, 0.12)',
-      badgeText: '#fda4af'
-    },
-    telemetry: {
-      status: 'COLD-CHAIN AUDIT LIVE',
-      statA: 'TEMP: -20°C MONITORED',
-      statB: '21 CFR: VERIFIED',
-      statC: 'TRACE: 100%'
-    }
   }
 ];
 
