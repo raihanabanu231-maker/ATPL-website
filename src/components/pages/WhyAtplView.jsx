@@ -224,7 +224,29 @@ export const WhyAtplView = () => {
   const [activeStationIndex, setActiveStationIndex] = useState(0);
   const [isHeroExpanded, setIsHeroExpanded] = useState(true);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isTourPlaying, setIsTourPlaying] = useState(true);
+  const simulatorIframeRef = useRef(null);
   const consoleContainerRef = useRef(null);
+
+  useEffect(() => {
+    const handleMsg = (event) => {
+      if (event.data && event.data.type === 'TOUR_STATE') {
+        setIsTourPlaying(!!event.data.isPlaying);
+      }
+    };
+    window.addEventListener('message', handleMsg);
+    return () => window.removeEventListener('message', handleMsg);
+  }, []);
+
+  const toggleTour = useCallback(() => {
+    const nextState = !isTourPlaying;
+    setIsTourPlaying(nextState);
+    if (simulatorIframeRef.current && simulatorIframeRef.current.contentWindow) {
+      simulatorIframeRef.current.contentWindow.postMessage({
+        action: nextState ? 'startTour' : 'stopTour'
+      }, '*');
+    }
+  }, [isTourPlaying]);
 
   const toggleFullscreen = useCallback(() => {
     if (!document.fullscreenElement) {
@@ -345,8 +367,19 @@ export const WhyAtplView = () => {
     }
   };
 
-  // Machine Vision & Industrial Automation Live Video Stations
+  // Machine Vision & 3D Plant Simulation Stations
   const stations = [
+    {
+      id: '3d-simulator',
+      type: 'simulator',
+      name: 'Interactive 3D Factory Twin Tour',
+      shortName: '★ 3D Factory Tour',
+      tagline: 'Live WebGL plant floor, autonomous robot tour & conveyor simulation',
+      simulatorUrl: '/factory-map.html?embedded=true&autostart=true',
+      badge: '★ LIVE 3D PLANT TOUR',
+      telemetry: '60 FPS WebGL // REAL-TIME 3D',
+      description: 'Explore ATPL’s turnkey Industry 4.0 plant floor in real-time 3D: automated conveyor lines, collaborative robotic inspection, RAIN RFID dock gates, and live shopfloor telemetry.'
+    },
     {
       id: 'vision-qc',
       type: 'video',
@@ -709,6 +742,31 @@ export const WhyAtplView = () => {
                 {activeStation.telemetry}
               </span>
 
+              {activeStation.type === 'simulator' && (
+                <button
+                  onClick={toggleTour}
+                  style={{
+                    background: isTourPlaying ? 'rgba(0, 240, 255, 0.22)' : 'rgba(255, 255, 255, 0.08)',
+                    border: isTourPlaying ? '1px solid #00f0ff' : '1px solid rgba(255, 255, 255, 0.2)',
+                    color: isTourPlaying ? '#00f0ff' : '#ffffff',
+                    borderRadius: '6px',
+                    padding: '0.35rem 0.75rem',
+                    fontSize: '0.76rem',
+                    fontWeight: 800,
+                    cursor: 'pointer',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.35rem',
+                    boxShadow: isTourPlaying ? '0 0 14px rgba(0, 240, 255, 0.45)' : 'none',
+                    transition: 'all 0.15s ease'
+                  }}
+                  title={isTourPlaying ? 'Pause Automated Plant Tour' : 'Resume Automated Plant Tour'}
+                >
+                  {isTourPlaying ? <Pause size={13} color="#00f0ff" /> : <Play size={13} color="#ffffff" />}
+                  <span>{isTourPlaying ? '❚❚ Pause Tour' : '▶ Start Tour'}</span>
+                </button>
+              )}
+
               <button
                 onClick={() => setIsHeroExpanded(prev => !prev)}
                 style={{
@@ -791,30 +849,73 @@ export const WhyAtplView = () => {
             transition: 'height 0.3s ease'
           }}>
             <div style={{ width: '100%', height: '100%', position: 'relative' }}>
-              <video
-                key={activeStation.video}
-                src={activeStation.video}
-                poster={activeStation.poster}
-                autoPlay
-                loop
-                muted
-                playsInline
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  opacity: 0.94,
-                  display: 'block'
-                }}
-              />
+              {activeStation.type === 'simulator' ? (
+                <div style={{ width: '100%', height: '100%', position: 'relative' }}>
+                  <iframe
+                    ref={simulatorIframeRef}
+                    src={activeStation.simulatorUrl}
+                    title={activeStation.name}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      border: 'none',
+                      display: 'block'
+                    }}
+                    allow="fullscreen; accelerometer; gyroscope"
+                  />
+                  {/* Floating 3D Interaction Pill */}
+                  <div style={{
+                    position: 'absolute',
+                    top: '0.85rem',
+                    right: '0.85rem',
+                    zIndex: 10,
+                    background: 'rgba(4, 22, 40, 0.88)',
+                    border: '1px solid rgba(0, 240, 255, 0.45)',
+                    borderRadius: '20px',
+                    padding: '0.35rem 0.85rem',
+                    color: '#00f0ff',
+                    fontSize: '0.72rem',
+                    fontWeight: 700,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.45rem',
+                    backdropFilter: 'blur(8px)',
+                    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.5)',
+                    letterSpacing: '0.3px',
+                    pointerEvents: 'none'
+                  }}>
+                    <RotateCw size={12} />
+                    <span>Live 3D Factory Tour // Interactive Controls &amp; Orbit</span>
+                  </div>
+                </div>
+              ) : (
+                <video
+                  key={activeStation.video}
+                  src={activeStation.video}
+                  poster={activeStation.poster}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    opacity: 0.94,
+                    display: 'block'
+                  }}
+                />
+              )}
 
-              {/* Shading Vignette */}
-              <div style={{
-                position: 'absolute',
-                inset: 0,
-                pointerEvents: 'none',
-                background: 'linear-gradient(to bottom, rgba(4, 9, 20, 0.15) 0%, rgba(4, 9, 20, 0.5) 100%)'
-              }} />
+              {/* Shading Vignette (Only for video to keep 3D simulation crisp & bright) */}
+              {activeStation.type !== 'simulator' && (
+                <div style={{
+                  position: 'absolute',
+                  inset: 0,
+                  pointerEvents: 'none',
+                  background: 'linear-gradient(to bottom, rgba(4, 9, 20, 0.15) 0%, rgba(4, 9, 20, 0.5) 100%)'
+                }} />
+              )}
 
               {/* Bottom-Right Fullscreen / 4K Expanded Modal Trigger */}
               <div style={{
@@ -824,7 +925,13 @@ export const WhyAtplView = () => {
                 zIndex: 10
               }}>
                 <button
-                  onClick={() => setVideoModalOpen(true)}
+                  onClick={() => {
+                    if (activeStation.type === 'simulator') {
+                      window.open('/factory-map.html', '_blank');
+                    } else {
+                      setVideoModalOpen(true);
+                    }
+                  }}
                   style={{
                     display: 'inline-flex',
                     alignItems: 'center',
@@ -849,10 +956,19 @@ export const WhyAtplView = () => {
                     e.currentTarget.style.transform = 'scale(1)';
                     e.currentTarget.style.background = 'rgba(9, 19, 34, 0.88)';
                   }}
-                  title="Watch Full-Screen Demonstration with Audio"
+                  title={activeStation.type === 'simulator' ? "Open Full 3D Simulation in New Tab" : "Watch Full-Screen Demonstration with Audio"}
                 >
-                  <Play size={14} color="#00f0ff" fill="#00f0ff" />
-                  <span>Watch Fullscreen (4K)</span>
+                  {activeStation.type === 'simulator' ? (
+                    <>
+                      <ExternalLink size={14} color="#00f0ff" />
+                      <span>Launch Full 3D Plant</span>
+                    </>
+                  ) : (
+                    <>
+                      <Play size={14} color="#00f0ff" fill="#00f0ff" />
+                      <span>Watch Fullscreen (4K)</span>
+                    </>
+                  )}
                 </button>
               </div>
             </div>
@@ -1658,15 +1774,24 @@ export const WhyAtplView = () => {
             </div>
 
             <div style={{ position: 'relative', height: '480px', backgroundColor: '#000000' }}>
-              <video
-                key={activeStation.video}
-                src={activeStation.video}
-                poster={activeStation.poster}
-                autoPlay
-                controls
-                playsInline
-                style={{ width: '100%', height: '100%', objectFit: 'contain' }}
-              />
+              {activeStation.type === 'simulator' ? (
+                <iframe
+                  src={activeStation.simulatorUrl}
+                  title={activeStation.name}
+                  style={{ width: '100%', height: '100%', border: 'none', display: 'block' }}
+                  allow="fullscreen; accelerometer; gyroscope"
+                />
+              ) : (
+                <video
+                  key={activeStation.video}
+                  src={activeStation.video}
+                  poster={activeStation.poster}
+                  autoPlay
+                  controls
+                  playsInline
+                  style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                />
+              )}
             </div>
 
             <div style={{ padding: '1.25rem 1.5rem', background: '#090e1a', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>

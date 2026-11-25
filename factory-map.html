@@ -1461,6 +1461,11 @@ function startTour(){
     sel((cur + 1) % 12);
   }, 5000);
   auto = tourTimer;
+  try {
+    if (window.parent && window.parent !== window) {
+      window.parent.postMessage({ type: 'TOUR_STATE', isPlaying: true }, '*');
+    }
+  } catch(e){}
 }
 
 function stopTour(){
@@ -1477,6 +1482,11 @@ function stopTour(){
     tourBtn.classList.remove('on');
     tourBtn.textContent = '▷ Tour';
   }
+  try {
+    if (window.parent && window.parent !== window) {
+      window.parent.postMessage({ type: 'TOUR_STATE', isPlaying: false }, '*');
+    }
+  } catch(e){}
 }
 
 function stop(){
@@ -1996,6 +2006,41 @@ function closePitchDeck(){
   const abBtn = $('ab');
   if(abBtn) abBtn.classList.remove('on');
 }
+
+// URL Parameter auto-tour & embedded mode
+(function() {
+  try {
+    var urlParams = new URLSearchParams(window.location.search);
+    var isEmbedded = urlParams.get('embedded') === 'true';
+    var shouldAutostart = urlParams.get('autostart') === 'true' || urlParams.get('tour') === 'true' || isEmbedded;
+    
+    if (isEmbedded) {
+      var ann = document.getElementById('ann');
+      if (ann) ann.style.display = 'none';
+      var topNav = document.getElementById('nav') || document.querySelector('.top-nav');
+      if (topNav) topNav.style.display = 'none';
+    }
+
+    if (shouldAutostart) {
+      setTimeout(function() {
+        if (typeof startTour === 'function') {
+          startTour();
+        }
+      }, 1000);
+    }
+
+    window.addEventListener('message', function(e) {
+      if (!e.data) return;
+      if (e.data.action === 'startTour' && typeof startTour === 'function') {
+        startTour();
+      } else if (e.data.action === 'stopTour' && typeof stopTour === 'function') {
+        stopTour();
+      }
+    });
+  } catch(err) {
+    console.error('Error in factory-map autostart:', err);
+  }
+})();
 </script>
 
 </body>
