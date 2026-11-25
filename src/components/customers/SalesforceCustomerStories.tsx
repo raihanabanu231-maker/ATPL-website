@@ -254,32 +254,76 @@ export const SalesforceCustomerStories: React.FC<SalesforceCustomerStoriesProps>
     });
   };
 
-  // Measure natural offsets of cards within the deck container
-  const measureCardOffsets = () => {
-    const deck = deckRef.current;
-    if (!deck) return;
-    const cards = cardRefs.current.filter(Boolean) as HTMLElement[];
-    cardOffsets.current = cards.map(c => c.offsetTop);
-  };
-
+  // Salesforce "Agentic Enterprise" Stacked Cards Scroll Handler
   useEffect(() => {
-    measureCardOffsets();
-    window.addEventListener('resize', measureCardOffsets);
-    return () => window.removeEventListener('resize', measureCardOffsets);
-  }, [filteredStories]);
+    if (viewMode !== 'stacked') return;
 
-  // Switch to a target story card
-  const scrollToCard = (idx: number) => {
-    setActiveStoryIdx(idx);
-    const deck = deckRef.current;
-    if (deck) {
+    let ticking = false;
+
+    const updateCoveredCards = () => {
+      const cards = cardRefs.current.filter(Boolean) as HTMLElement[];
+      const total = cards.length;
+      if (total === 0) return;
+
       const isMobile = window.innerWidth <= 768;
-      const navH = isMobile ? 64 : 96;
-      const deckRect = deck.getBoundingClientRect();
-      if (deckRect.top < navH - 20 || deckRect.top > navH + 120) {
-        const targetY = deckRect.top + window.scrollY - navH - 10;
-        window.scrollTo({ top: Math.max(0, targetY), behavior: 'smooth' });
+      const navH = isMobile ? 64 : 72;
+      const stackGap = isMobile ? 34 : 38;
+
+      let activeIdx = 0;
+      cards.forEach((card, i) => {
+        // The last card in the stack is never covered
+        if (i === total - 1) {
+          card.classList.remove('is-covered');
+          return;
+        }
+
+        const nextCard = cards[i + 1];
+        if (!nextCard) return;
+
+        const nextRect = nextCard.getBoundingClientRect();
+        const stickyThreshold = navH + (i + 1) * stackGap;
+
+        // When the next card reaches its sticky docking top, the previous card is covered
+        if (nextRect.top <= stickyThreshold + 4) {
+          card.classList.add('is-covered');
+          activeIdx = i + 1;
+        } else {
+          card.classList.remove('is-covered');
+        }
+      });
+
+      setActiveStoryIdx(activeIdx);
+      ticking = false;
+    };
+
+    const handleScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        window.requestAnimationFrame(updateCoveredCards);
       }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', handleScroll, { passive: true });
+    handleScroll();
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
+    };
+  }, [viewMode, filteredStories]);
+
+  // Switch to a target story card by scrolling to its natural docking position
+  const scrollToCard = (idx: number) => {
+    const card = cardRefs.current[idx];
+    if (card) {
+      const isMobile = window.innerWidth <= 768;
+      const navH = isMobile ? 64 : 72;
+      const stackGap = isMobile ? 34 : 38;
+      const rect = card.getBoundingClientRect();
+      const currentScroll = window.scrollY;
+      const targetY = currentScroll + rect.top - (navH + idx * stackGap);
+      window.scrollTo({ top: Math.max(0, targetY), behavior: 'smooth' });
     }
   };
 
@@ -289,14 +333,16 @@ export const SalesforceCustomerStories: React.FC<SalesforceCustomerStoriesProps>
     const handleKeyDown = (e: KeyboardEvent) => {
       if (['INPUT', 'TEXTAREA'].includes((e.target as HTMLElement)?.tagName)) return;
       if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
-        setActiveStoryIdx(prev => Math.min(filteredStories.length - 1, prev + 1));
+        const nextIdx = Math.min(filteredStories.length - 1, activeStoryIdx + 1);
+        scrollToCard(nextIdx);
       } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
-        setActiveStoryIdx(prev => Math.max(0, prev - 1));
+        const prevIdx = Math.max(0, activeStoryIdx - 1);
+        scrollToCard(prevIdx);
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [viewMode, filteredStories.length]);
+  }, [viewMode, activeStoryIdx, filteredStories.length]);
 
   return (
     <section
@@ -410,41 +456,45 @@ export const SalesforceCustomerStories: React.FC<SalesforceCustomerStoriesProps>
             {/* Scoped CSS for Salesforce "Agentic Enterprise" Stacked Cards */}
             <style>{`
               .deck {
-                --strip-h: 38px;
+                --nav-h: 72px;
+                --strip-h: 36px;
+                --stack-gap: 38px;
+                --inset-step: 22px;
                 position: relative;
                 width: 100%;
                 margin: 0 auto;
-                display: flex;
-                flex-direction: column;
-                gap: 6px;
+                padding-bottom: 2.5rem;
                 overflow: visible;
               }
 
               .deck-card {
-                position: relative;
-                border-radius: 24px;
+                position: sticky;
+                top: calc(var(--nav-h) + var(--card-i) * var(--stack-gap));
+                z-index: calc(var(--card-i) + 1);
+                min-height: calc(100vh - var(--nav-h) - 80px);
+                margin-bottom: calc(100vh - var(--nav-h) - 80px);
+                margin-inline: 0px;
+                border-radius: 28px;
+                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
                 border: 1px solid rgba(255, 255, 255, 0.12);
                 overflow: hidden;
                 box-sizing: border-box;
                 transform-origin: top center;
-                transition: margin-inline 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease, filter 0.2s ease;
-                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+                transition: margin-inline 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+                will-change: margin-inline;
                 backdrop-filter: blur(16px);
               }
 
-              .deck-card.is-active {
-                box-shadow: 0 25px 60px rgba(0, 0, 0, 0.55), 0 0 35px rgba(0, 240, 255, 0.15);
+              .deck-card:last-child {
+                margin-bottom: 0px;
               }
 
-              .deck-card.is-collapsed {
-                cursor: pointer;
+              /* Covered Card: Width shrink via margin-inline (newest is full width, oldest is narrowest) */
+              .deck-card.is-covered {
+                margin-inline: calc((var(--total-n) - 1 - var(--card-i)) * var(--inset-step));
               }
 
-              .deck-card.is-collapsed:hover {
-                filter: brightness(1.12);
-              }
-
-              /* Header Strip: 38px tall, title left, product label + icon right */
+              /* Header Strip: 36px tall, title left, product label + icon right */
               .deck-card-header {
                 height: var(--strip-h);
                 box-sizing: border-box;
@@ -499,36 +549,40 @@ export const SalesforceCustomerStories: React.FC<SalesforceCustomerStoriesProps>
                 flex-shrink: 0;
               }
 
-              /* Card Body: smoothly expands when active, collapses to 0 height when collapsed */
+              /* Card Body: fades out when covered leaving only the header strip */
               .deck-card-body {
                 opacity: 1;
-                max-height: 1400px;
                 display: grid;
                 grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
                 gap: 2.5rem;
                 padding: clamp(1.75rem, 3.5vw, 3rem);
                 box-sizing: border-box;
-                transition: all 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+                transition: opacity 0.35s cubic-bezier(0.22, 1, 0.36, 1);
               }
 
-              .deck-card.is-collapsed .deck-card-body {
-                max-height: 0px !important;
-                padding-top: 0px !important;
-                padding-bottom: 0px !important;
-                opacity: 0 !important;
-                pointer-events: none !important;
-                overflow: hidden !important;
-                border-top: none !important;
+              .deck-card.is-covered .deck-card-body {
+                opacity: 0;
+                pointer-events: none;
               }
 
-              /* Mobile (< 768px): reduce strip height to 34px, stack body vertically */
+              /* Mobile (< 768px): reduce strip height to 32px, inset to 10px, stack body vertically */
               @media (max-width: 768px) {
                 .deck {
-                  --strip-h: 34px;
+                  --nav-h: 64px;
+                  --strip-h: 32px;
+                  --stack-gap: 34px;
+                  --inset-step: 10px;
+                  padding-bottom: 1.5rem;
                 }
 
                 .deck-card {
                   border-radius: 20px;
+                  min-height: auto;
+                  margin-bottom: 50vh;
+                }
+
+                .deck-card:last-child {
+                  margin-bottom: 0px;
                 }
 
                 .deck-card-header {
@@ -677,20 +731,20 @@ export const SalesforceCustomerStories: React.FC<SalesforceCustomerStoriesProps>
                     };
                     const tabStatement = tabStatementMap[story.id] || story.headline;
 
-                    const isSelected = activeStoryIdx === index;
-                    const inset = isSelected ? 0 : Math.abs(activeStoryIdx - index) * 14;
-
                     return (
                       <article
                         key={story.id}
                         ref={(el) => (cardRefs.current[index] = el)}
-                        className={`deck-card ${isSelected ? 'is-active' : 'is-collapsed'}`}
+                        className="deck-card"
                         style={{
-                          marginInline: `${inset}px`,
+                          '--card-i': index,
+                          '--total-n': filteredStories.length,
+                          position: 'sticky',
+                          top: `calc(var(--nav-h, 72px) + ${index * 38}px)`,
+                          zIndex: index + 1,
                           background: theme.gradient,
                           border: `1px solid ${theme.tabBorder}`,
-                          borderTop: `2px solid ${theme.accent}`,
-                          zIndex: isSelected ? 20 : 10 - Math.abs(activeStoryIdx - index)
+                          borderTop: `2px solid ${theme.accent}`
                         } as React.CSSProperties}
                       >
                         {/* Top edge glow */}
@@ -706,12 +760,12 @@ export const SalesforceCustomerStories: React.FC<SalesforceCustomerStoriesProps>
                           }}
                         />
 
-                        {/* CARD TAB HEADER STRIP (38px tall) */}
+                        {/* CARD TAB HEADER STRIP (36px tall) */}
                         <div
                           className="deck-card-header"
-                          onClick={() => setActiveStoryIdx(index)}
+                          onClick={() => scrollToCard(index)}
                           style={{ backgroundColor: theme.headerBg }}
-                          title={`Click to open ${story.client} story`}
+                          title={`Click to scroll to ${story.client} story`}
                         >
                         <div className="deck-card-header-left">
                           <span
