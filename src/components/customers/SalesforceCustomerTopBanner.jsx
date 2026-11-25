@@ -30,29 +30,15 @@ export const SalesforceCustomerTopBanner = () => {
       data-section="customers-top"
       style={{
         position: 'relative',
-        backgroundColor: '#0176D3',
-        backgroundImage: 'linear-gradient(180deg, #E6F3FE 0%, #BFE0FD 10%, #0176D3 28%, #00569E 100%)',
+        backgroundColor: '#050b16',
+        backgroundImage: 'radial-gradient(ellipse 100% 70% at 50% 0%, rgba(0, 113, 186, 0.22) 0%, rgba(5, 11, 24, 0.95) 70%, #070c18 100%)',
         color: '#ffffff',
         padding: 'clamp(2.5rem, 4vw, 4rem) 0 clamp(2.5rem, 4vw, 3.5rem) 0',
         overflow: 'hidden',
-        width: '100%'
+        width: '100%',
+        borderBottom: '1px solid rgba(255, 255, 255, 0.08)'
       }}
     >
-      {/* Decorative Golden Star Accent (Salesforce Signature) */}
-      <div
-        style={{
-          position: 'absolute',
-          top: 'clamp(20px, 4vw, 50px)',
-          right: 'clamp(4%, 8vw, 12%)',
-          zIndex: 20,
-          pointerEvents: 'none'
-        }}
-      >
-        <svg width="48" height="48" viewBox="0 0 24 24" fill="#FFB800" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 0L14.7 9.3L24 12L14.7 14.7L12 24L9.3 14.7L0 12L9.3 9.3L12 0Z" />
-        </svg>
-      </div>
-
       <div
         style={{
           maxWidth: '1360px',
@@ -63,13 +49,13 @@ export const SalesforceCustomerTopBanner = () => {
         }}
       >
         {/* =====================================================================
-            1. SALESFORCE-STYLE BOLD HEADING & SUBTITLE (Positioned ABOVE the Video)
+            1. BOLD HEADING & SUBTITLE (Positioned ABOVE the Video)
            ===================================================================== */}
         <div style={{ textAlign: 'center', maxWidth: '1040px', margin: '0 auto clamp(2rem, 3.5vw, 3rem) auto' }}>
           
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 16px', borderRadius: '999px', backgroundColor: 'rgba(255, 255, 255, 0.15)', backdropFilter: 'blur(8px)', border: '1px solid rgba(255, 255, 255, 0.25)', marginBottom: '1.25rem' }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 18px', borderRadius: '999px', backgroundColor: 'rgba(0, 240, 255, 0.08)', backdropFilter: 'blur(10px)', border: '1px solid rgba(0, 240, 255, 0.3)', marginBottom: '1.25rem' }}>
             <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#00f0ff', boxShadow: '0 0 8px #00f0ff' }} />
-            <span style={{ fontSize: '11.5px', fontWeight: 800, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#ffffff' }}>
+            <span style={{ fontSize: '11.5px', fontWeight: 800, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#00f0ff' }}>
               VERIFIED ENTERPRISE SUCCESS
             </span>
           </div>
@@ -84,14 +70,17 @@ export const SalesforceCustomerTopBanner = () => {
               margin: '0 0 1.25rem 0'
             }}
           >
-            Customers of every size, business, and industry succeed with ATPL
+            Customers of every size, business, and industry{' '}
+            <span style={{ background: 'linear-gradient(135deg, #00f0ff 0%, #38bdf8 55%, #ffffff 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', textShadow: '0 0 35px rgba(0, 240, 255, 0.3)' }}>
+              succeed with ATPL
+            </span>
           </h1>
 
           <p
             style={{
               fontSize: 'clamp(1.05rem, 1.6vw, 1.25rem)',
               lineHeight: 1.6,
-              color: 'rgba(255, 255, 255, 0.95)',
+              color: '#94a3b8',
               maxWidth: '860px',
               margin: '0 auto',
               fontWeight: 450
@@ -113,7 +102,7 @@ export const SalesforceCustomerTopBanner = () => {
             margin: '0 auto clamp(2.5rem, 4.5vw, 3.5rem) auto',
             borderRadius: 'clamp(18px, 2.5vw, 28px)',
             overflow: 'hidden',
-            boxShadow: '0 30px 80px rgba(0, 35, 90, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.28)',
+            boxShadow: '0 25px 70px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(0, 240, 255, 0.22), 0 0 45px rgba(0, 113, 186, 0.2)',
             backgroundColor: '#020b18',
             aspectRatio: '16 / 9',
             maxHeight: '620px'
@@ -175,10 +164,10 @@ export const SalesforceCustomerTopBanner = () => {
           marginLeft: '-50vw',
           marginRight: '-50vw',
           padding: '1.8rem 0',
-          borderTop: '1px solid rgba(255, 255, 255, 0.22)',
-          borderBottom: '1px solid rgba(255, 255, 255, 0.22)',
-          backgroundColor: '#00569E',
-          backgroundImage: 'linear-gradient(90deg, #004d8c 0%, #00569E 50%, #004d8c 100%)',
+          borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+          borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+          backgroundColor: '#050b16',
+          backgroundImage: 'linear-gradient(90deg, #050b16 0%, #081329 50%, #050b16 100%)',
           display: 'flex',
           alignItems: 'center',
           overflow: 'hidden'
@@ -192,7 +181,7 @@ export const SalesforceCustomerTopBanner = () => {
             top: 0,
             bottom: 0,
             width: 'clamp(60px, 12vw, 180px)',
-            background: 'linear-gradient(90deg, #004d8c 0%, rgba(0, 77, 140, 0.85) 35%, transparent 100%)',
+            background: 'linear-gradient(90deg, #050b16 0%, rgba(5, 11, 22, 0.9) 35%, transparent 100%)',
             zIndex: 5,
             pointerEvents: 'none'
           }}
@@ -204,7 +193,7 @@ export const SalesforceCustomerTopBanner = () => {
             top: 0,
             bottom: 0,
             width: 'clamp(60px, 12vw, 180px)',
-            background: 'linear-gradient(270deg, #004d8c 0%, rgba(0, 77, 140, 0.85) 35%, transparent 100%)',
+            background: 'linear-gradient(270deg, #050b16 0%, rgba(5, 11, 22, 0.9) 35%, transparent 100%)',
             zIndex: 5,
             pointerEvents: 'none'
           }}
