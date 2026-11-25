@@ -97,7 +97,6 @@ const TRUSTED_ENTERPRISE_BRANDS = [
   { name: 'ABB Automation', logo: '/assets/images/clients/abb.svg' },
   { name: 'Honeywell Gold Partner', logo: '/assets/images/partners/honeywell_gold_seal.png' },
   { name: 'Cholayil', logo: '/assets/images/clients/cholayil.webp' },
-  { name: 'Roche Diagnostics', logo: '/assets/images/clients/roche-diagnostics.webp' },
   { name: 'Seoyon E-Hwa', logo: '/assets/images/clients/seoyon-ehwa.webp' },
   { name: 'Shanthi Gears', logo: '/assets/images/clients/shanthi-gears.webp' }
 ];

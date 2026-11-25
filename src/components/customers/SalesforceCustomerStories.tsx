@@ -1,21 +1,21 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Building2, 
-  ShieldCheck, 
-  Sparkles, 
-  ArrowUpRight, 
-  CheckCircle2, 
-  Search, 
-  Filter, 
-  Play, 
-  ChevronRight, 
-  ChevronLeft, 
-  Quote, 
-  Layers, 
-  LayoutGrid, 
+import {
+  Building2,
+  ShieldCheck,
+  Sparkles,
+  ArrowUpRight,
+  CheckCircle2,
+  Search,
+  Filter,
+  Play,
+  ChevronRight,
+  ChevronLeft,
+  Quote,
+  Layers,
+  LayoutGrid,
   RotateCw,
-  Zap, 
+  Zap,
   ExternalLink,
   Award,
   TrendingUp,
@@ -29,7 +29,7 @@ import confetti from 'canvas-confetti';
 export interface SalesforceStory {
   id: string;
   client: string;
-  industry: 'Automotive & EV' | 'High-Tech EMS' | '3PL & Supply Chain' | 'Heavy Engineering' | 'Pharma & FMCG';
+  industry: 'Automotive & EV' | 'High-Tech EMS' | '3PL & Supply Chain' | 'Heavy Engineering';
   product: 'PERFECT TRACE' | 'PERFECT VERIFIER' | 'PERFECT WAREHOUSE' | 'RAIN RFID PORTALS' | 'MACHINE VISION';
   tierBadge: string;
   logoUrl: string;
@@ -213,11 +213,14 @@ export const SalesforceCustomerStories: React.FC<SalesforceCustomerStoriesProps>
   const [selectedProduct, setSelectedProduct] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [viewMode, setViewMode] = useState<'stacked' | 'grid' | 'swipe'>('stacked');
+  const [activeStoryIdx, setActiveStoryIdx] = useState<number>(0);
   const cardRefs = useRef<(HTMLElement | null)[]>([]);
+  const deckRef = useRef<HTMLDivElement | null>(null);
+  const cardOffsets = useRef<number[]>([]);
 
   // Industries list
   const industries = ['All', 'Automotive & EV', 'High-Tech EMS', '3PL & Supply Chain', 'Heavy Engineering'];
-  
+
   // Products list
   const products = ['All', 'PERFECT TRACE', 'PERFECT VERIFIER', 'PERFECT WAREHOUSE', 'RAIN RFID PORTALS', 'MACHINE VISION'];
 
@@ -226,7 +229,7 @@ export const SalesforceCustomerStories: React.FC<SalesforceCustomerStoriesProps>
     return SALESFORCE_STYLE_STORIES.filter(s => {
       const matchIndustry = selectedIndustry === 'All' || s.industry === selectedIndustry;
       const matchProduct = selectedProduct === 'All' || s.product === selectedProduct;
-      const matchSearch = !searchQuery || 
+      const matchSearch = !searchQuery ||
         s.client.toLowerCase().includes(searchQuery.toLowerCase()) ||
         s.headline.toLowerCase().includes(searchQuery.toLowerCase()) ||
         s.summary.toLowerCase().includes(searchQuery.toLowerCase());
@@ -251,66 +254,54 @@ export const SalesforceCustomerStories: React.FC<SalesforceCustomerStoriesProps>
     });
   };
 
-  // Salesforce "Agentic Enterprise" Stacked Cards Scroll Handler
+  // Measure natural offsets of cards within the deck container
+  const measureCardOffsets = () => {
+    const deck = deckRef.current;
+    if (!deck) return;
+    const cards = cardRefs.current.filter(Boolean) as HTMLElement[];
+    cardOffsets.current = cards.map(c => c.offsetTop);
+  };
+
+  useEffect(() => {
+    measureCardOffsets();
+    window.addEventListener('resize', measureCardOffsets);
+    return () => window.removeEventListener('resize', measureCardOffsets);
+  }, [filteredStories]);
+
+  // Switch to a target story card
+  const scrollToCard = (idx: number) => {
+    setActiveStoryIdx(idx);
+    const deck = deckRef.current;
+    if (deck) {
+      const isMobile = window.innerWidth <= 768;
+      const navH = isMobile ? 64 : 96;
+      const deckRect = deck.getBoundingClientRect();
+      if (deckRect.top < navH - 20 || deckRect.top > navH + 120) {
+        const targetY = deckRect.top + window.scrollY - navH - 10;
+        window.scrollTo({ top: Math.max(0, targetY), behavior: 'smooth' });
+      }
+    }
+  };
+
+  // Keyboard navigation between stacked cards
   useEffect(() => {
     if (viewMode !== 'stacked') return;
-
-    let ticking = false;
-
-    const updateCoveredCards = () => {
-      const cards = cardRefs.current.filter(Boolean) as HTMLElement[];
-      const total = cards.length;
-      if (total === 0) return;
-
-      const isMobile = window.innerWidth <= 768;
-      const navH = isMobile ? 64 : 72;
-      const stackGap = isMobile ? 34 : 38;
-
-      cards.forEach((card, i) => {
-        // The last card in the stack is never covered
-        if (i === total - 1) {
-          card.classList.remove('is-covered');
-          return;
-        }
-
-        const nextCard = cards[i + 1];
-        if (!nextCard) return;
-
-        const nextRect = nextCard.getBoundingClientRect();
-        const stickyThreshold = navH + (i + 1) * stackGap;
-
-        // When the next card reaches its sticky docking top, the previous card is covered
-        if (nextRect.top <= stickyThreshold + 2) {
-          card.classList.add('is-covered');
-        } else {
-          card.classList.remove('is-covered');
-        }
-      });
-
-      ticking = false;
-    };
-
-    const handleScroll = () => {
-      if (!ticking) {
-        ticking = true;
-        window.requestAnimationFrame(updateCoveredCards);
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (['INPUT', 'TEXTAREA'].includes((e.target as HTMLElement)?.tagName)) return;
+      if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+        setActiveStoryIdx(prev => Math.min(filteredStories.length - 1, prev + 1));
+      } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+        setActiveStoryIdx(prev => Math.max(0, prev - 1));
       }
     };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    window.addEventListener('resize', handleScroll, { passive: true });
-    handleScroll();
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('resize', handleScroll);
-    };
-  }, [viewMode, filteredStories]);
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [viewMode, filteredStories.length]);
 
   return (
-    <section 
-      id="customer-stories" 
-      data-section="salesforce-customer-stories" 
+    <section
+      id="customer-stories"
+      data-section="salesforce-customer-stories"
       style={{
         backgroundColor: '#070c18',
         color: '#ffffff',
@@ -343,7 +334,7 @@ export const SalesforceCustomerStories: React.FC<SalesforceCustomerStoriesProps>
             1. SALESFORCE-STYLE HERO HEADER WITH PROVENANCE BADGE & STAT STRIP
            ===================================================================== */}
         <div style={{ textAlign: 'center', maxWidth: '840px', margin: '0 auto 3rem auto' }}>
-          
+
           {/* Eyebrow Badge */}
           <motion.div
             initial={{ opacity: 0, y: 12 }}
@@ -419,45 +410,41 @@ export const SalesforceCustomerStories: React.FC<SalesforceCustomerStoriesProps>
             {/* Scoped CSS for Salesforce "Agentic Enterprise" Stacked Cards */}
             <style>{`
               .deck {
-                --nav-h: 72px;
-                --strip-h: 36px;
-                --stack-gap: 38px;
-                --inset-step: 22px;
+                --strip-h: 38px;
                 position: relative;
                 width: 100%;
                 margin: 0 auto;
-                padding-bottom: 2.5rem;
+                display: flex;
+                flex-direction: column;
+                gap: 6px;
                 overflow: visible;
               }
 
               .deck-card {
-                position: sticky;
-                top: calc(var(--nav-h) + var(--card-i) * var(--stack-gap));
-                z-index: calc(var(--card-i) + 1);
-                min-height: calc(100vh - var(--nav-h) - 80px);
-                margin-bottom: calc(100vh - var(--nav-h) - 80px);
-                margin-inline: 0px;
-                border-radius: 28px;
-                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+                position: relative;
+                border-radius: 24px;
                 border: 1px solid rgba(255, 255, 255, 0.12);
                 overflow: hidden;
                 box-sizing: border-box;
                 transform-origin: top center;
-                transition: margin-inline 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-                will-change: margin-inline;
+                transition: margin-inline 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease, filter 0.2s ease;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
                 backdrop-filter: blur(16px);
               }
 
-              .deck-card:last-child {
-                margin-bottom: 0px;
+              .deck-card.is-active {
+                box-shadow: 0 25px 60px rgba(0, 0, 0, 0.55), 0 0 35px rgba(0, 240, 255, 0.15);
               }
 
-              /* Covered Card: Width shrink via margin-inline (newest is full width, oldest is narrowest) */
-              .deck-card.is-covered {
-                margin-inline: calc((var(--total-n) - 1 - var(--card-i)) * var(--inset-step));
+              .deck-card.is-collapsed {
+                cursor: pointer;
               }
 
-              /* Header Strip: 36px tall, title left, product label + icon right */
+              .deck-card.is-collapsed:hover {
+                filter: brightness(1.12);
+              }
+
+              /* Header Strip: 38px tall, title left, product label + icon right */
               .deck-card-header {
                 height: var(--strip-h);
                 box-sizing: border-box;
@@ -512,36 +499,36 @@ export const SalesforceCustomerStories: React.FC<SalesforceCustomerStoriesProps>
                 flex-shrink: 0;
               }
 
-              /* Card Body: fades out when covered leaving only the 36px header strip */
+              /* Card Body: smoothly expands when active, collapses to 0 height when collapsed */
               .deck-card-body {
                 opacity: 1;
+                max-height: 1400px;
                 display: grid;
                 grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
                 gap: 2.5rem;
                 padding: clamp(1.75rem, 3.5vw, 3rem);
                 box-sizing: border-box;
-                transition: opacity 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+                transition: all 0.38s cubic-bezier(0.22, 1, 0.36, 1);
               }
 
-              .deck-card.is-covered .deck-card-body {
-                opacity: 0;
-                pointer-events: none;
+              .deck-card.is-collapsed .deck-card-body {
+                max-height: 0px !important;
+                padding-top: 0px !important;
+                padding-bottom: 0px !important;
+                opacity: 0 !important;
+                pointer-events: none !important;
+                overflow: hidden !important;
+                border-top: none !important;
               }
 
-              /* Mobile (< 768px): reduce strip height to 32px, inset to 10px, stack body vertically */
+              /* Mobile (< 768px): reduce strip height to 34px, stack body vertically */
               @media (max-width: 768px) {
                 .deck {
-                  --nav-h: 64px;
-                  --strip-h: 32px;
-                  --stack-gap: 34px;
-                  --inset-step: 10px;
-                  padding-bottom: 1.5rem;
+                  --strip-h: 34px;
                 }
 
                 .deck-card {
                   border-radius: 20px;
-                  min-height: auto;
-                  margin-bottom: 50vh;
                 }
 
                 .deck-card-header {
@@ -589,401 +576,506 @@ export const SalesforceCustomerStories: React.FC<SalesforceCustomerStoriesProps>
                 </button>
               </div>
             ) : (
-              <div className="deck">
-                {filteredStories.map((story, index) => {
-                const themes = [
-                  // 1. Navy -> Blue
-                  {
-                    gradient: 'linear-gradient(135deg, #021a38 0%, #062e60 50%, #0a4d8c 100%)',
-                    headerBg: '#031e40',
-                    accent: '#00f0ff',
-                    accentGlow: 'rgba(0, 240, 255, 0.45)',
-                    tabBorder: 'rgba(0, 240, 255, 0.35)',
-                    badgeBg: 'rgba(0, 240, 255, 0.12)'
-                  },
-                  // 2. Indigo -> Violet
-                  {
-                    gradient: 'linear-gradient(135deg, #0b1329 0%, #1a1e4a 50%, #2e266d 100%)',
-                    headerBg: '#0e1836',
-                    accent: '#818cf8',
-                    accentGlow: 'rgba(129, 140, 248, 0.45)',
-                    tabBorder: 'rgba(129, 140, 248, 0.4)',
-                    badgeBg: 'rgba(129, 140, 248, 0.12)'
-                  },
-                  // 3. Teal -> Green
-                  {
-                    gradient: 'linear-gradient(135deg, #022c22 0%, #034e3d 50%, #056852 100%)',
-                    headerBg: '#033b2e',
-                    accent: '#34d399',
-                    accentGlow: 'rgba(52, 211, 153, 0.45)',
-                    tabBorder: 'rgba(52, 211, 153, 0.4)',
-                    badgeBg: 'rgba(52, 211, 153, 0.12)'
-                  },
-                  // 4. Deep Blue -> Cyan
-                  {
-                    gradient: 'linear-gradient(135deg, #002855 0%, #015ea8 50%, #0077c8 100%)',
-                    headerBg: '#00366b',
-                    accent: '#38bdf8',
-                    accentGlow: 'rgba(56, 189, 248, 0.45)',
-                    tabBorder: 'rgba(56, 189, 248, 0.4)',
-                    badgeBg: 'rgba(56, 189, 248, 0.12)'
-                  }
-                ];
-                const theme = themes[index % themes.length];
-                const tabStatementMap: Record<string, string> = {
-                  'case-ola': 'Enterprise intelligence runs on core shopfloor systems',
-                  'case-pegatron': 'An agentic coworker for sub-millisecond AI vision inspection',
-                  'case-proconnect': 'Deploy trusted paperless execution that moves at full speed',
-                  'case-apollo': 'Ground plant logistics with automated RAIN RFID motion portals',
-                  'case-abb': 'Flawless cognitive identification under extreme thermal flux'
-                };
-                const tabStatement = tabStatementMap[story.id] || story.headline;
-
-                return (
-                  <article
-                    key={story.id}
-                    ref={(el) => (cardRefs.current[index] = el)}
-                    className="deck-card"
-                    style={{
-                      '--card-i': index,
-                      '--total-n': filteredStories.length,
-                      position: 'sticky',
-                      top: `calc(var(--nav-h, 72px) + ${index * 38}px)`,
-                      zIndex: index + 1,
-                      background: theme.gradient,
-                      border: `1px solid ${theme.tabBorder}`,
-                      borderTop: `2px solid ${theme.accent}`
-                    } as React.CSSProperties}
-                  >
-                    {/* Top edge glow */}
-                    <div 
-                      style={{
-                        position: 'absolute',
-                        top: 0,
-                        left: '10%',
-                        right: '10%',
-                        height: '2px',
-                        background: `linear-gradient(90deg, transparent, ${theme.accent}, transparent)`,
-                        pointerEvents: 'none'
-                      }}
-                    />
-
-                    {/* CARD TAB HEADER STRIP (36px tall) */}
-                    <div
-                      className="deck-card-header"
-                      onClick={() => onSelectCaseStudy(story)}
-                      style={{ backgroundColor: theme.headerBg }}
-                    >
-                      <div className="deck-card-header-left">
-                        <span 
-                          className="deck-card-dot" 
+              <>
+                {/* Quick Story Selector Bar (1-Click Stacking) */}
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    flexWrap: 'wrap',
+                    gap: '10px',
+                    marginBottom: '2.5rem'
+                  }}
+                >
+                  {filteredStories.map((s, idx) => {
+                    const isActive = activeStoryIdx === idx;
+                    return (
+                      <button
+                        key={s.id}
+                        type="button"
+                        onClick={() => scrollToCard(idx)}
+                        style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '8px',
+                          padding: '7px 16px',
+                          borderRadius: '999px',
+                          backgroundColor: isActive ? 'rgba(0, 240, 255, 0.16)' : 'rgba(255, 255, 255, 0.05)',
+                          border: isActive ? '1px solid #00f0ff' : '1px solid rgba(255, 255, 255, 0.12)',
+                          boxShadow: isActive ? '0 0 16px rgba(0, 240, 255, 0.35)' : 'none',
+                          color: isActive ? '#00f0ff' : '#cbd5e1',
+                          fontSize: '12.5px',
+                          fontWeight: 700,
+                          cursor: 'pointer',
+                          transition: 'all 0.25s ease'
+                        }}
+                      >
+                        <span
                           style={{
-                            backgroundColor: theme.accent,
-                            boxShadow: `0 0 10px ${theme.accent}`
-                          }} 
+                            width: '8px',
+                            height: '8px',
+                            borderRadius: '50%',
+                            backgroundColor: s.accentColor,
+                            boxShadow: `0 0 8px ${s.accentColor}`
+                          }}
                         />
-                        <span className="deck-card-header-title">
-                          {tabStatement}
-                        </span>
-                      </div>
+                        <span>{s.client}</span>
+                        <span style={{ fontSize: '11px', opacity: 0.75, fontFamily: 'monospace' }}>({s.metric})</span>
+                      </button>
+                    );
+                  })}
+                </div>
 
-                      <div className="deck-card-header-right">
-                        <Sparkles size={12} color={theme.accent} />
-                        <span>{story.product}</span>
-                      </div>
-                    </div>
+                <div className="deck" ref={deckRef}>
+                  {filteredStories.map((story, index) => {
+                    const themes = [
+                      // 1. Navy -> Blue
+                      {
+                        gradient: 'linear-gradient(135deg, #021a38 0%, #062e60 50%, #0a4d8c 100%)',
+                        headerBg: '#031e40',
+                        accent: '#00f0ff',
+                        accentGlow: 'rgba(0, 240, 255, 0.45)',
+                        tabBorder: 'rgba(0, 240, 255, 0.35)',
+                        badgeBg: 'rgba(0, 240, 255, 0.12)'
+                      },
+                      // 2. Indigo -> Violet
+                      {
+                        gradient: 'linear-gradient(135deg, #0b1329 0%, #1a1e4a 50%, #2e266d 100%)',
+                        headerBg: '#0e1836',
+                        accent: '#818cf8',
+                        accentGlow: 'rgba(129, 140, 248, 0.45)',
+                        tabBorder: 'rgba(129, 140, 248, 0.4)',
+                        badgeBg: 'rgba(129, 140, 248, 0.12)'
+                      },
+                      // 3. Teal -> Green
+                      {
+                        gradient: 'linear-gradient(135deg, #022c22 0%, #034e3d 50%, #056852 100%)',
+                        headerBg: '#033b2e',
+                        accent: '#34d399',
+                        accentGlow: 'rgba(52, 211, 153, 0.45)',
+                        tabBorder: 'rgba(52, 211, 153, 0.4)',
+                        badgeBg: 'rgba(52, 211, 153, 0.12)'
+                      },
+                      // 4. Deep Blue -> Cyan
+                      {
+                        gradient: 'linear-gradient(135deg, #002855 0%, #015ea8 50%, #0077c8 100%)',
+                        headerBg: '#00366b',
+                        accent: '#38bdf8',
+                        accentGlow: 'rgba(56, 189, 248, 0.45)',
+                        tabBorder: 'rgba(56, 189, 248, 0.4)',
+                        badgeBg: 'rgba(56, 189, 248, 0.12)'
+                      }
+                    ];
+                    const theme = themes[index % themes.length];
+                    const tabStatementMap: Record<string, string> = {
+                      'case-ola': 'Enterprise intelligence runs on core shopfloor systems',
+                      'case-pegatron': 'An agentic coworker for sub-millisecond AI vision inspection',
+                      'case-proconnect': 'Deploy trusted paperless execution that moves at full speed',
+                      'case-apollo': 'Ground plant logistics with automated RAIN RFID motion portals',
+                      'case-abb': 'Flawless cognitive identification under extreme thermal flux'
+                    };
+                    const tabStatement = tabStatementMap[story.id] || story.headline;
 
-                    {/* CARD BODY */}
-                    <div className="deck-card-body">
-                      {/* Left: Narrative & Metrics */}
-                      <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                        <div>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.25rem', flexWrap: 'wrap' }}>
-                            <div style={{
-                              backgroundColor: '#ffffff',
-                              borderRadius: '999px',
-                              padding: '6px 16px',
-                              display: 'inline-flex',
-                              alignItems: 'center',
-                              boxShadow: '0 4px 15px rgba(0, 0, 0, 0.25)'
-                            }}>
-                              <img 
-                                src={story.logoUrl} 
-                                alt={story.client} 
-                                style={{ height: '22px', maxWidth: '120px', objectFit: 'contain' }}
-                              />
-                            </div>
-                            <span style={{
-                              fontSize: '11px',
-                              fontWeight: 800,
-                              letterSpacing: '0.08em',
-                              textTransform: 'uppercase',
-                              color: theme.accent
-                            }}>
-                              {story.tierBadge}
-                            </span>
-                          </div>
+                    const isSelected = activeStoryIdx === index;
+                    const inset = isSelected ? 0 : Math.abs(activeStoryIdx - index) * 14;
 
-                          <h3 style={{
-                            fontSize: 'clamp(1.6rem, 2.5vw, 2.3rem)',
-                            fontWeight: 800,
-                            color: '#ffffff',
-                            lineHeight: 1.22,
-                            letterSpacing: '-0.02em',
-                            margin: '0 0 1rem 0'
-                          }}>
-                            {story.headline}
-                          </h3>
+                    return (
+                      <article
+                        key={story.id}
+                        ref={(el) => (cardRefs.current[index] = el)}
+                        className={`deck-card ${isSelected ? 'is-active' : 'is-collapsed'}`}
+                        style={{
+                          marginInline: `${inset}px`,
+                          background: theme.gradient,
+                          border: `1px solid ${theme.tabBorder}`,
+                          borderTop: `2px solid ${theme.accent}`,
+                          zIndex: isSelected ? 20 : 10 - Math.abs(activeStoryIdx - index)
+                        } as React.CSSProperties}
+                      >
+                        {/* Top edge glow */}
+                        <div
+                          style={{
+                            position: 'absolute',
+                            top: 0,
+                            left: '10%',
+                            right: '10%',
+                            height: '2px',
+                            background: `linear-gradient(90deg, transparent, ${theme.accent}, transparent)`,
+                            pointerEvents: 'none'
+                          }}
+                        />
 
-                          <p style={{
-                            fontSize: 'clamp(0.92rem, 1.1vw, 1.02rem)',
-                            color: 'rgba(255, 255, 255, 0.85)',
-                            lineHeight: 1.65,
-                            margin: '0 0 1.75rem 0'
-                          }}>
-                            {story.summary}
-                          </p>
-
-                          <div style={{
-                            display: 'grid',
-                            gridTemplateColumns: '1fr 1fr',
-                            gap: '1.5rem',
-                            padding: '1.5rem 0',
-                            borderTop: '1px solid rgba(255, 255, 255, 0.12)',
-                            borderBottom: '1px solid rgba(255, 255, 255, 0.12)',
-                            marginBottom: '1.75rem'
-                          }}>
-                            <div>
-                              <div style={{
-                                fontSize: 'clamp(2.1rem, 3.4vw, 3rem)',
-                                fontWeight: 900,
-                                color: theme.accent,
-                                lineHeight: 1,
-                                letterSpacing: '-0.02em',
-                                textShadow: `0 0 25px ${theme.accentGlow}`
-                              }}>
-                                {story.metric}
-                              </div>
-                              <div style={{ fontSize: '0.82rem', fontWeight: 700, color: '#ffffff', marginTop: '6px' }}>
-                                {story.metricLabel}
-                              </div>
-                            </div>
-
-                            <div>
-                              <div style={{
-                                fontSize: 'clamp(2.1rem, 3.4vw, 3rem)',
-                                fontWeight: 900,
-                                color: '#ffffff',
-                                lineHeight: 1,
-                                letterSpacing: '-0.02em'
-                              }}>
-                                {story.secondaryMetric}
-                              </div>
-                              <div style={{ fontSize: '0.82rem', fontWeight: 700, color: '#ffffff', marginTop: '6px' }}>
-                                {story.secondaryLabel}
-                              </div>
-                            </div>
-                          </div>
-
-                          <div style={{
-                            display: 'flex',
-                            alignItems: 'flex-start',
-                            gap: '12px',
-                            marginBottom: '1.75rem',
-                            padding: '1rem',
-                            backgroundColor: 'rgba(0, 0, 0, 0.25)',
-                            borderRadius: '12px',
-                            borderLeft: `3px solid ${theme.accent}`
-                          }}>
-                            <Quote size={22} color={theme.accent} style={{ flexShrink: 0, marginTop: '2px', opacity: 0.8 }} />
-                            <div>
-                              <p style={{
-                                fontSize: '0.88rem',
-                                fontStyle: 'italic',
-                                color: 'rgba(255, 255, 255, 0.9)',
-                                lineHeight: 1.55,
-                                margin: '0 0 6px 0'
-                              }}>
-                                "{story.quoteText}"
-                              </p>
-                              <div style={{ fontSize: '11.5px', fontWeight: 700, color: theme.accent }}>
-                                {story.quoteAuthor} &mdash; <span style={{ color: 'rgba(255, 255, 255, 0.65)', fontWeight: 500 }}>{story.quoteRole}</span>
-                              </div>
-                            </div>
-                          </div>
+                        {/* CARD TAB HEADER STRIP (38px tall) */}
+                        <div
+                          className="deck-card-header"
+                          onClick={() => setActiveStoryIdx(index)}
+                          style={{ backgroundColor: theme.headerBg }}
+                          title={`Click to open ${story.client} story`}
+                        >
+                        <div className="deck-card-header-left">
+                          <span
+                            className="deck-card-dot"
+                            style={{
+                              backgroundColor: theme.accent,
+                              boxShadow: `0 0 10px ${theme.accent}`
+                            }}
+                          />
+                          <span className="deck-card-header-title">
+                            {tabStatement}
+                          </span>
                         </div>
 
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
-                          <button
-                            type="button"
-                            onClick={() => onSelectCaseStudy(story)}
-                            style={{
-                              backgroundColor: '#ffffff',
-                              color: '#070c18',
-                              border: 'none',
-                              padding: '11px 22px',
-                              borderRadius: '999px',
-                              fontSize: '13px',
-                              fontWeight: 800,
-                              letterSpacing: '0.04em',
-                              cursor: 'pointer',
-                              display: 'inline-flex',
-                              alignItems: 'center',
-                              gap: '8px',
-                              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
-                              transition: 'all 0.2s ease'
-                            }}
-                            onMouseEnter={(e) => {
-                              e.currentTarget.style.transform = 'translateY(-2px)';
-                              e.currentTarget.style.backgroundColor = theme.accent;
-                              e.currentTarget.style.color = '#050914';
-                            }}
-                            onMouseLeave={(e) => {
-                              e.currentTarget.style.transform = 'translateY(0)';
-                              e.currentTarget.style.backgroundColor = '#ffffff';
-                              e.currentTarget.style.color = '#070c18';
-                            }}
-                          >
-                            <span>EXPLORE FULL CASE STUDY</span>
-                            <ArrowUpRight size={16} strokeWidth={2.6} />
-                          </button>
+                        <div className="deck-card-header-right">
+                          <Sparkles size={12} color={theme.accent} />
+                          <span>{story.product}</span>
+                        </div>
+                      </div>
 
-                          {onRequestAssessment && (
+                      {/* CARD BODY */}
+                      <div className="deck-card-body">
+                        {/* Left: Narrative & Metrics */}
+                        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                          <div>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.25rem', flexWrap: 'wrap' }}>
+                              <div style={{
+                                backgroundColor: '#ffffff',
+                                borderRadius: '999px',
+                                padding: '6px 16px',
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                boxShadow: '0 4px 15px rgba(0, 0, 0, 0.25)'
+                              }}>
+                                <img
+                                  src={story.logoUrl}
+                                  alt={story.client}
+                                  style={{ height: '22px', maxWidth: '120px', objectFit: 'contain' }}
+                                />
+                              </div>
+                              <span style={{
+                                fontSize: '11px',
+                                fontWeight: 800,
+                                letterSpacing: '0.08em',
+                                textTransform: 'uppercase',
+                                color: theme.accent
+                              }}>
+                                {story.tierBadge}
+                              </span>
+                            </div>
+
+                            <h3 style={{
+                              fontSize: 'clamp(1.6rem, 2.5vw, 2.3rem)',
+                              fontWeight: 800,
+                              color: '#ffffff',
+                              lineHeight: 1.22,
+                              letterSpacing: '-0.02em',
+                              margin: '0 0 1rem 0'
+                            }}>
+                              {story.headline}
+                            </h3>
+
+                            <p style={{
+                              fontSize: 'clamp(0.92rem, 1.1vw, 1.02rem)',
+                              color: 'rgba(255, 255, 255, 0.85)',
+                              lineHeight: 1.65,
+                              margin: '0 0 1.75rem 0'
+                            }}>
+                              {story.summary}
+                            </p>
+
+                            <div style={{
+                              display: 'grid',
+                              gridTemplateColumns: '1fr 1fr',
+                              gap: '1.5rem',
+                              padding: '1.5rem 0',
+                              borderTop: '1px solid rgba(255, 255, 255, 0.12)',
+                              borderBottom: '1px solid rgba(255, 255, 255, 0.12)',
+                              marginBottom: '1.75rem'
+                            }}>
+                              <div>
+                                <div style={{
+                                  fontSize: 'clamp(2.1rem, 3.4vw, 3rem)',
+                                  fontWeight: 900,
+                                  color: theme.accent,
+                                  lineHeight: 1,
+                                  letterSpacing: '-0.02em',
+                                  textShadow: `0 0 25px ${theme.accentGlow}`
+                                }}>
+                                  {story.metric}
+                                </div>
+                                <div style={{ fontSize: '0.82rem', fontWeight: 700, color: '#ffffff', marginTop: '6px' }}>
+                                  {story.metricLabel}
+                                </div>
+                              </div>
+
+                              <div>
+                                <div style={{
+                                  fontSize: 'clamp(2.1rem, 3.4vw, 3rem)',
+                                  fontWeight: 900,
+                                  color: '#ffffff',
+                                  lineHeight: 1,
+                                  letterSpacing: '-0.02em'
+                                }}>
+                                  {story.secondaryMetric}
+                                </div>
+                                <div style={{ fontSize: '0.82rem', fontWeight: 700, color: '#ffffff', marginTop: '6px' }}>
+                                  {story.secondaryLabel}
+                                </div>
+                              </div>
+                            </div>
+
+                            <div style={{
+                              display: 'flex',
+                              alignItems: 'flex-start',
+                              gap: '12px',
+                              marginBottom: '1.75rem',
+                              padding: '1rem',
+                              backgroundColor: 'rgba(0, 0, 0, 0.25)',
+                              borderRadius: '12px',
+                              borderLeft: `3px solid ${theme.accent}`
+                            }}>
+                              <Quote size={22} color={theme.accent} style={{ flexShrink: 0, marginTop: '2px', opacity: 0.8 }} />
+                              <div>
+                                <p style={{
+                                  fontSize: '0.88rem',
+                                  fontStyle: 'italic',
+                                  color: 'rgba(255, 255, 255, 0.9)',
+                                  lineHeight: 1.55,
+                                  margin: '0 0 6px 0'
+                                }}>
+                                  "{story.quoteText}"
+                                </p>
+                                <div style={{ fontSize: '11.5px', fontWeight: 700, color: theme.accent }}>
+                                  {story.quoteAuthor} &mdash; <span style={{ color: 'rgba(255, 255, 255, 0.65)', fontWeight: 500 }}>{story.quoteRole}</span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
                             <button
                               type="button"
-                              onClick={onRequestAssessment}
+                              onClick={() => onSelectCaseStudy(story)}
                               style={{
-                                backgroundColor: 'transparent',
-                                color: '#ffffff',
-                                border: '1px solid rgba(255, 255, 255, 0.25)',
-                                padding: '11px 20px',
+                                backgroundColor: '#ffffff',
+                                color: '#070c18',
+                                border: 'none',
+                                padding: '11px 22px',
                                 borderRadius: '999px',
                                 fontSize: '13px',
-                                fontWeight: 700,
+                                fontWeight: 800,
+                                letterSpacing: '0.04em',
                                 cursor: 'pointer',
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '8px',
+                                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
                                 transition: 'all 0.2s ease'
                               }}
                               onMouseEnter={(e) => {
-                                e.currentTarget.style.borderColor = theme.accent;
-                                e.currentTarget.style.color = theme.accent;
+                                e.currentTarget.style.transform = 'translateY(-2px)';
+                                e.currentTarget.style.backgroundColor = theme.accent;
+                                e.currentTarget.style.color = '#050914';
                               }}
                               onMouseLeave={(e) => {
-                                e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.25)';
-                                e.currentTarget.style.color = '#ffffff';
+                                e.currentTarget.style.transform = 'translateY(0)';
+                                e.currentTarget.style.backgroundColor = '#ffffff';
+                                e.currentTarget.style.color = '#070c18';
                               }}
                             >
-                              REQUEST PLANT ASSESSMENT
+                              <span>EXPLORE FULL CASE STUDY</span>
+                              <ArrowUpRight size={16} strokeWidth={2.6} />
                             </button>
-                          )}
-                        </div>
-                      </div>
 
-                      {/* Right: Media & Live Laser HUD */}
-                      <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                        <div style={{
-                          position: 'relative',
-                          borderRadius: '18px',
-                          overflow: 'hidden',
-                          aspectRatio: '16 / 11',
-                          border: '1px solid rgba(255, 255, 255, 0.15)',
-                          boxShadow: '0 20px 40px rgba(0, 0, 0, 0.5)'
-                        }}>
-                          <img 
-                            src={story.image} 
-                            alt={story.client} 
-                            style={{
-                              width: '100%',
-                              height: '100%',
-                              objectFit: 'cover',
-                              display: 'block'
-                            }}
-                          />
-                          <div style={{
-                            position: 'absolute',
-                            inset: 0,
-                            background: 'linear-gradient(180deg, rgba(5, 9, 20, 0.1) 0%, rgba(5, 9, 20, 0.55) 100%)',
-                            pointerEvents: 'none'
-                          }} />
-                          <motion.div
-                            animate={{
-                              top: ['0%', '98%', '0%']
-                            }}
-                            transition={{
-                              duration: 3.8,
-                              repeat: Infinity,
-                              ease: 'easeInOut'
-                            }}
-                            style={{
-                              position: 'absolute',
-                              left: 0,
-                              right: 0,
-                              height: '2px',
-                              background: `linear-gradient(90deg, transparent 0%, ${theme.accent} 50%, transparent 100%)`,
-                              boxShadow: `0 0 14px ${theme.accent}, 0 0 28px ${theme.accent}`,
-                              pointerEvents: 'none',
-                              zIndex: 4
-                            }}
-                          />
-                          <div style={{
-                            position: 'absolute',
-                            bottom: '16px',
-                            left: '16px',
-                            right: '16px',
-                            backgroundColor: 'rgba(5, 12, 28, 0.85)',
-                            backdropFilter: 'blur(10px)',
-                            border: `1px solid ${theme.tabBorder}`,
-                            borderRadius: '12px',
-                            padding: '10px 14px',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'space-between',
-                            flexWrap: 'wrap',
-                            gap: '8px',
-                            zIndex: 5
-                          }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                              <span style={{
-                                width: '7px',
-                                height: '7px',
-                                borderRadius: '50%',
-                                backgroundColor: '#10b981',
-                                boxShadow: '0 0 8px #10b981'
-                              }} />
-                              <span style={{ fontSize: '11px', fontWeight: 800, color: '#ffffff', letterSpacing: '0.06em' }}>
-                                LIVE SHOPFLOOR RADAR
-                              </span>
+                            {onRequestAssessment && (
+                              <button
+                                type="button"
+                                onClick={onRequestAssessment}
+                                style={{
+                                  backgroundColor: 'transparent',
+                                  color: '#ffffff',
+                                  border: '1px solid rgba(255, 255, 255, 0.25)',
+                                  padding: '11px 20px',
+                                  borderRadius: '999px',
+                                  fontSize: '13px',
+                                  fontWeight: 700,
+                                  cursor: 'pointer',
+                                  transition: 'all 0.2s ease'
+                                }}
+                                onMouseEnter={(e) => {
+                                  e.currentTarget.style.borderColor = theme.accent;
+                                  e.currentTarget.style.color = theme.accent;
+                                }}
+                                onMouseLeave={(e) => {
+                                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.25)';
+                                  e.currentTarget.style.color = '#ffffff';
+                                }}
+                              >
+                                REQUEST PLANT ASSESSMENT
+                              </button>
+                            )}
+
+                            {/* Deck Story Stepper Buttons */}
+                            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setActiveStoryIdx(prev => Math.max(0, prev - 1));
+                                }}
+                                disabled={activeStoryIdx === 0}
+                                style={{
+                                  backgroundColor: activeStoryIdx === 0 ? 'rgba(255, 255, 255, 0.04)' : 'rgba(255, 255, 255, 0.08)',
+                                  color: activeStoryIdx === 0 ? 'rgba(255, 255, 255, 0.3)' : '#ffffff',
+                                  border: '1px solid rgba(255, 255, 255, 0.12)',
+                                  padding: '10px 14px',
+                                  borderRadius: '999px',
+                                  fontSize: '12px',
+                                  fontWeight: 700,
+                                  cursor: activeStoryIdx === 0 ? 'not-allowed' : 'pointer',
+                                  display: 'inline-flex',
+                                  alignItems: 'center',
+                                  gap: '4px'
+                                }}
+                                title="Previous Story"
+                              >
+                                <ChevronLeft size={15} /> Prev
+                              </button>
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setActiveStoryIdx(prev => Math.min(filteredStories.length - 1, prev + 1));
+                                }}
+                                disabled={activeStoryIdx === filteredStories.length - 1}
+                                style={{
+                                  backgroundColor: activeStoryIdx === filteredStories.length - 1 ? 'rgba(255, 255, 255, 0.04)' : 'rgba(255, 255, 255, 0.08)',
+                                  color: activeStoryIdx === filteredStories.length - 1 ? 'rgba(255, 255, 255, 0.3)' : '#ffffff',
+                                  border: '1px solid rgba(255, 255, 255, 0.12)',
+                                  padding: '10px 14px',
+                                  borderRadius: '999px',
+                                  fontSize: '12px',
+                                  fontWeight: 700,
+                                  cursor: activeStoryIdx === filteredStories.length - 1 ? 'not-allowed' : 'pointer',
+                                  display: 'inline-flex',
+                                  alignItems: 'center',
+                                  gap: '4px'
+                                }}
+                                title="Next Story"
+                              >
+                                Next <ChevronRight size={15} />
+                              </button>
                             </div>
-                            <span style={{ fontSize: '11px', fontFamily: 'monospace', color: theme.accent, fontWeight: 700 }}>
-                              {story.techStack[0]}
-                            </span>
                           </div>
                         </div>
 
-                        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginTop: '1rem' }}>
-                          {story.techStack.map((tech, idx) => (
-                            <span 
-                              key={idx}
+                        {/* Right: Media & Live Laser HUD */}
+                        <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                          <div style={{
+                            position: 'relative',
+                            borderRadius: '18px',
+                            overflow: 'hidden',
+                            aspectRatio: '16 / 11',
+                            border: '1px solid rgba(255, 255, 255, 0.15)',
+                            boxShadow: '0 20px 40px rgba(0, 0, 0, 0.5)'
+                          }}>
+                            <img
+                              src={story.image}
+                              alt={story.client}
                               style={{
-                                fontSize: '11px',
-                                fontWeight: 600,
-                                color: 'rgba(255, 255, 255, 0.75)',
-                                backgroundColor: 'rgba(255, 255, 255, 0.06)',
-                                border: '1px solid rgba(255, 255, 255, 0.1)',
-                                padding: '4px 10px',
-                                borderRadius: '6px'
+                                width: '100%',
+                                height: '100%',
+                                objectFit: 'cover',
+                                display: 'block'
                               }}
-                            >
-                              {tech}
-                            </span>
-                          ))}
+                            />
+                            <div style={{
+                              position: 'absolute',
+                              inset: 0,
+                              background: 'linear-gradient(180deg, rgba(5, 9, 20, 0.1) 0%, rgba(5, 9, 20, 0.55) 100%)',
+                              pointerEvents: 'none'
+                            }} />
+                            <motion.div
+                              animate={{
+                                top: ['0%', '98%', '0%']
+                              }}
+                              transition={{
+                                duration: 3.8,
+                                repeat: Infinity,
+                                ease: 'easeInOut'
+                              }}
+                              style={{
+                                position: 'absolute',
+                                left: 0,
+                                right: 0,
+                                height: '2px',
+                                background: `linear-gradient(90deg, transparent 0%, ${theme.accent} 50%, transparent 100%)`,
+                                boxShadow: `0 0 14px ${theme.accent}, 0 0 28px ${theme.accent}`,
+                                pointerEvents: 'none',
+                                zIndex: 4
+                              }}
+                            />
+                            <div style={{
+                              position: 'absolute',
+                              bottom: '16px',
+                              left: '16px',
+                              right: '16px',
+                              backgroundColor: 'rgba(5, 12, 28, 0.85)',
+                              backdropFilter: 'blur(10px)',
+                              border: `1px solid ${theme.tabBorder}`,
+                              borderRadius: '12px',
+                              padding: '10px 14px',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'space-between',
+                              flexWrap: 'wrap',
+                              gap: '8px',
+                              zIndex: 5
+                            }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                <span style={{
+                                  width: '7px',
+                                  height: '7px',
+                                  borderRadius: '50%',
+                                  backgroundColor: '#10b981',
+                                  boxShadow: '0 0 8px #10b981'
+                                }} />
+                                <span style={{ fontSize: '11px', fontWeight: 800, color: '#ffffff', letterSpacing: '0.06em' }}>
+                                  LIVE SHOPFLOOR RADAR
+                                </span>
+                              </div>
+                              <span style={{ fontSize: '11px', fontFamily: 'monospace', color: theme.accent, fontWeight: 700 }}>
+                                {story.techStack[0]}
+                              </span>
+                            </div>
+                          </div>
+
+                          <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginTop: '1rem' }}>
+                            {story.techStack.map((tech, idx) => (
+                              <span
+                                key={idx}
+                                style={{
+                                  fontSize: '11px',
+                                  fontWeight: 600,
+                                  color: 'rgba(255, 255, 255, 0.75)',
+                                  backgroundColor: 'rgba(255, 255, 255, 0.06)',
+                                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                                  padding: '4px 10px',
+                                  borderRadius: '6px'
+                                }}
+                              >
+                                {tech}
+                              </span>
+                            ))}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </article>
-                );
-              })}
-            </div>
-            )}
+                    </article>
+                  );
+                })}
+              </div>
+            </>
+          )}
           </>
         ) : viewMode === 'grid' ? (
           /* Salesforce-Grade 3-Column Lightning Cards Grid */

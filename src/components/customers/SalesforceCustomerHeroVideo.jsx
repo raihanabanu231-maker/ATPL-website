@@ -17,7 +17,6 @@ const TOP_CLIENT_LOGOS = [
   { name: 'ABB Automation', logoUrl: '/assets/images/clients/abb.webp', fallbackText: 'ABB' },
   { name: 'Larsen & Toubro', logoUrl: '/assets/images/clients/larsen-toubro.webp', fallbackText: 'L&T' },
   { name: 'Proconnect Logistics', logoUrl: '/assets/images/clients/proconnect-logistics.svg', fallbackText: 'PROCONNECT' },
-  { name: 'Roche Diagnostics', logoUrl: '/assets/images/clients/roche-diagnostics.webp', fallbackText: 'ROCHE' },
   { name: 'Bharat Electronics', logoUrl: '/assets/images/clients/bel-bharat-electronics.webp', fallbackText: 'BEL' },
   { name: 'Hindustan Unilever', logoUrl: '/assets/images/clients/hindustan-unilever.webp', fallbackText: 'HUL' },
   { name: 'BorgWarner', logoUrl: '/assets/images/clients/borgwarner.webp', fallbackText: 'BORGWARNER' },
