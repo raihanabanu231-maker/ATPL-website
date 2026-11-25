@@ -338,75 +338,6 @@ export const PartnersView = () => {
     return Math.max(340, Math.round((count * 170) / (2 * Math.PI)));
   }, [filteredPartners.length]);
 
-  // Particle Canvas Background
-  const canvasRef = useRef(null);
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    let width = (canvas.width = canvas.offsetWidth || window.innerWidth);
-    let height = (canvas.height = canvas.offsetHeight || 600);
-
-    const particles = [];
-    const count = Math.min(Math.floor((width * height) / 14000), 75);
-    for (let i = 0; i < count; i++) {
-      particles.push({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 0.5,
-        vy: (Math.random() - 0.5) * 0.5,
-        radius: Math.random() * 1.6 + 1,
-        color: Math.random() > 0.4 ? 'rgba(34, 211, 238, ' : 'rgba(2, 132, 199, '
-      });
-    }
-
-    let frameId;
-    const render = () => {
-      ctx.clearRect(0, 0, width, height);
-      for (let i = 0; i < particles.length; i++) {
-        const p = particles[i];
-        p.x += p.vx;
-        p.y += p.vy;
-        if (p.x < 0) p.x = width;
-        if (p.x > width) p.x = 0;
-        if (p.y < 0) p.y = height;
-        if (p.y > height) p.y = 0;
-
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-        ctx.fillStyle = p.color + '0.7)';
-        ctx.fill();
-
-        for (let j = i + 1; j < particles.length; j++) {
-          const p2 = particles[j];
-          const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
-          if (dist < 100) {
-            ctx.beginPath();
-            ctx.moveTo(p.x, p.y);
-            ctx.lineTo(p2.x, p2.y);
-            ctx.strokeStyle = `rgba(34, 211, 238, ${0.16 * (1 - dist / 100)})`;
-            ctx.lineWidth = 0.7;
-            ctx.stroke();
-          }
-        }
-      }
-      frameId = requestAnimationFrame(render);
-    };
-    render();
-
-    const handleResize = () => {
-      if (!canvas) return;
-      width = canvas.width = canvas.offsetWidth || window.innerWidth;
-      height = canvas.height = canvas.offsetHeight || 600;
-    };
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      cancelAnimationFrame(frameId);
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
-
   return (
     <div style={{ backgroundColor: '#050b18', color: '#eaf1fb', minHeight: '100vh', overflowX: 'clip', fontFamily: 'Inter, system-ui, sans-serif' }}>
       
@@ -451,13 +382,18 @@ export const PartnersView = () => {
       `}</style>
 
       {/* =====================================================================
-          1. 3D PARTICLE HERO WITH CYCLING KEYWORD & 3 STAT METRICS
+          1. ALLIANCES HERO WITH CYCLING KEYWORD & 3 STAT METRICS
          ===================================================================== */}
-      <section style={{ position: 'relative', minHeight: '520px', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '6rem 1.5rem 3.5rem 1.5rem', overflow: 'hidden' }}>
-        <canvas
-          ref={canvasRef}
-          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 1 }}
-        />
+      <section style={{
+        position: 'relative',
+        minHeight: '480px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '5.5rem 1.5rem 3rem 1.5rem',
+        overflow: 'hidden',
+        background: 'radial-gradient(ellipse 90% 60% at 50% -10%, rgba(34, 211, 238, 0.12) 0%, rgba(5, 11, 24, 0.98) 70%, #050b18 100%)'
+      }}>
 
         <div style={{ position: 'relative', zIndex: 2, textAlign: 'center', maxWidth: '960px', margin: '0 auto' }}>
           
@@ -904,128 +840,6 @@ export const PartnersView = () => {
             </button>
           </div>
         </motion.div>
-      </section>
-
-      {/* =====================================================================
-          6. COMPREHENSIVE ALLIANCE DIRECTORY GRID
-         ===================================================================== */}
-      <section style={{ maxWidth: '1280px', margin: '0 auto 5rem auto', padding: '0 1.5rem' }}>
-        <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
-          <h2 style={{ fontSize: 'clamp(1.8rem, 3vw, 2.4rem)', fontWeight: 800, color: '#ffffff', margin: '0 0 0.5rem 0' }}>
-            Comprehensive Alliance Directory
-          </h2>
-          <p style={{ color: '#94a3b8', fontSize: '14px', margin: 0 }}>
-            Showing {filteredPartners.length} verified partner programs across factory automation &amp; AIDC hardware
-          </p>
-        </div>
-
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
-          gap: '1.5rem'
-        }}>
-          {filteredPartners.map(partner => (
-            <motion.div
-              key={partner.id}
-              whileHover={{ y: -6, transition: { duration: 0.2 } }}
-              onClick={() => {
-                setSelectedPartner(partner);
-                const el = document.getElementById('details-section');
-                if (el) el.scrollIntoView({ behavior: 'smooth' });
-              }}
-              style={{
-                backgroundColor: 'rgba(8, 20, 42, 0.8)',
-                border: '1px solid rgba(255, 255, 255, 0.08)',
-                borderRadius: '18px',
-                padding: '1.75rem',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                cursor: 'pointer',
-                boxShadow: '0 15px 35px rgba(0, 0, 0, 0.4)',
-                backdropFilter: 'blur(10px)'
-              }}
-            >
-              <div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.25rem' }}>
-                  <div style={{
-                    width: '120px',
-                    height: '54px',
-                    backgroundColor: '#ffffff',
-                    borderRadius: '10px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    padding: '8px 14px',
-                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)'
-                  }}>
-                    <img
-                      src={partner.img}
-                      alt={partner.full}
-                      style={{ maxHeight: '36px', maxWidth: '100%', objectFit: 'contain' }}
-                    />
-                  </div>
-                  {partner.s && (
-                    <span style={{
-                      fontSize: '10px',
-                      fontWeight: 800,
-                      textTransform: 'uppercase',
-                      padding: '3px 8px',
-                      borderRadius: '999px',
-                      backgroundColor: 'rgba(244, 63, 94, 0.12)',
-                      border: '1px solid #f43f5e',
-                      color: '#fda4af'
-                    }}>
-                      {partner.s.slice(0, 20)}...
-                    </span>
-                  )}
-                </div>
-
-                <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#ffffff', margin: '0 0 0.5rem 0' }}>
-                  {partner.full}
-                </h3>
-                <div style={{ fontSize: '11.5px', fontWeight: 700, color: '#22d3ee', textTransform: 'uppercase', marginBottom: '0.75rem' }}>
-                  {partner.r}
-                </div>
-                <p style={{ fontSize: '13.5px', color: '#94a3b8', lineHeight: 1.6, margin: '0 0 1.25rem 0' }}>
-                  {partner.d}
-                </p>
-              </div>
-
-              <div>
-                <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', marginBottom: '1.25rem' }}>
-                  {partner.c.map(cat => (
-                    <span
-                      key={cat}
-                      style={{
-                        fontSize: '10.5px',
-                        padding: '2px 8px',
-                        backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                        border: '1px solid rgba(255, 255, 255, 0.08)',
-                        borderRadius: '6px',
-                        color: '#94a3b8'
-                      }}
-                    >
-                      {cat}
-                    </span>
-                  ))}
-                </div>
-
-                <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  color: '#22d3ee',
-                  fontSize: '12.5px',
-                  fontWeight: 700
-                }}>
-                  <span>View Specifications &amp; Hardware</span>
-                  <ChevronRight size={14} />
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
       </section>
 
     </div>

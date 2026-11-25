@@ -1216,12 +1216,6 @@
     </div>
   </section>
 
-  <!-- Complete Directory Grid View -->
-  <section class="container" style="padding-top: 2rem;">
-    <h2 class="directory-heading">Comprehensive Alliance Directory</h2>
-    <p class="directory-sub">Showing <span id="showing-count">0</span> verified partner programs</p>
-    <div class="partner-grid" id="partner-grid"></div>
-  </section>
 
   <!-- Consultation & Inquiries Contact Form -->
   <section class="contact-section" id="contact-section">
@@ -1736,8 +1730,9 @@
        DIRECTORY GRID VIEW
        ========================================================================== */
     function renderDirectoryGrid(items) {
+      if (!gridEl) return;
       gridEl.innerHTML = '';
-      showingCountEl.textContent = items.length;
+      if (showingCountEl) showingCountEl.textContent = items.length;
 
       items.forEach(partner => {
         var card = document.createElement('div');
