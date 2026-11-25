@@ -216,7 +216,7 @@ export const SalesforceCustomerStories: React.FC<SalesforceCustomerStoriesProps>
   const [activeStoryIdx, setActiveStoryIdx] = useState<number>(0);
   const cardRefs = useRef<(HTMLElement | null)[]>([]);
   const deckRef = useRef<HTMLDivElement | null>(null);
-  const cardOffsets = useRef<number[]>([]);
+  const sectionRef = useRef<HTMLElement | null>(null);
 
   // Industries list
   const industries = ['All', 'Automotive & EV', 'High-Tech EMS', '3PL & Supply Chain', 'Heavy Engineering'];
@@ -254,52 +254,43 @@ export const SalesforceCustomerStories: React.FC<SalesforceCustomerStoriesProps>
     });
   };
 
-  // Salesforce "Agentic Enterprise" Stacked Cards Scroll Handler
+  // Synchronize page scroll runway with active stacked card
   useEffect(() => {
     if (viewMode !== 'stacked') return;
 
     let ticking = false;
 
-    const updateCoveredCards = () => {
-      const cards = cardRefs.current.filter(Boolean) as HTMLElement[];
-      const total = cards.length;
-      if (total === 0) return;
+    const onScroll = () => {
+      const section = sectionRef.current;
+      if (!section) return;
 
+      const rect = section.getBoundingClientRect();
       const isMobile = window.innerWidth <= 768;
       const navH = isMobile ? 64 : 72;
-      const stackGap = isMobile ? 34 : 38;
+      const headerOffset = 280; // approximate height of hero headline above sticky deck
+      const runwayDist = rect.height - window.innerHeight - headerOffset;
+      if (runwayDist <= 0) return;
 
-      let activeIdx = 0;
-      cards.forEach((card, i) => {
-        // The last card in the stack is never covered
-        if (i === total - 1) {
-          card.classList.remove('is-covered');
-          return;
-        }
+      const scrolled = -(rect.top - navH) - headerOffset;
+      if (scrolled < 0) {
+        setActiveStoryIdx(0);
+        ticking = false;
+        return;
+      }
 
-        const nextCard = cards[i + 1];
-        if (!nextCard) return;
+      const progress = Math.max(0, Math.min(1, scrolled / runwayDist));
+      const total = filteredStories.length;
+      if (total <= 1) return;
 
-        const nextRect = nextCard.getBoundingClientRect();
-        const stickyThreshold = navH + (i + 1) * stackGap;
-
-        // When the next card reaches its sticky docking top, the previous card is covered
-        if (nextRect.top <= stickyThreshold + 4) {
-          card.classList.add('is-covered');
-          activeIdx = i + 1;
-        } else {
-          card.classList.remove('is-covered');
-        }
-      });
-
-      setActiveStoryIdx(activeIdx);
+      const targetIdx = Math.min(total - 1, Math.floor(progress * total));
+      setActiveStoryIdx(targetIdx);
       ticking = false;
     };
 
     const handleScroll = () => {
       if (!ticking) {
         ticking = true;
-        window.requestAnimationFrame(updateCoveredCards);
+        window.requestAnimationFrame(onScroll);
       }
     };
 
@@ -311,19 +302,24 @@ export const SalesforceCustomerStories: React.FC<SalesforceCustomerStoriesProps>
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', handleScroll);
     };
-  }, [viewMode, filteredStories]);
+  }, [viewMode, filteredStories.length]);
 
-  // Switch to a target story card by scrolling to its natural docking position
-  const scrollToCard = (idx: number) => {
-    const card = cardRefs.current[idx];
-    if (card) {
+  // Click handler to smooth scroll to the target story
+  const selectStoryAndScroll = (idx: number) => {
+    setActiveStoryIdx(idx);
+    const section = sectionRef.current;
+    if (section) {
+      const rect = section.getBoundingClientRect();
       const isMobile = window.innerWidth <= 768;
       const navH = isMobile ? 64 : 72;
-      const stackGap = isMobile ? 34 : 38;
-      const rect = card.getBoundingClientRect();
-      const currentScroll = window.scrollY;
-      const targetY = currentScroll + rect.top - (navH + idx * stackGap);
-      window.scrollTo({ top: Math.max(0, targetY), behavior: 'smooth' });
+      const headerOffset = 280;
+      const runwayDist = rect.height - window.innerHeight - headerOffset;
+      const total = filteredStories.length;
+      if (runwayDist > 0 && total > 1) {
+        const stepProgress = (idx + 0.35) / total;
+        const targetScrollY = window.scrollY + rect.top - navH + headerOffset + stepProgress * runwayDist;
+        window.scrollTo({ top: Math.max(0, targetScrollY), behavior: 'smooth' });
+      }
     }
   };
 
@@ -334,26 +330,85 @@ export const SalesforceCustomerStories: React.FC<SalesforceCustomerStoriesProps>
       if (['INPUT', 'TEXTAREA'].includes((e.target as HTMLElement)?.tagName)) return;
       if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
         const nextIdx = Math.min(filteredStories.length - 1, activeStoryIdx + 1);
-        scrollToCard(nextIdx);
+        selectStoryAndScroll(nextIdx);
       } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
         const prevIdx = Math.max(0, activeStoryIdx - 1);
-        scrollToCard(prevIdx);
+        selectStoryAndScroll(prevIdx);
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [viewMode, activeStoryIdx, filteredStories.length]);
 
+  // Themes for deck cards and docked tabs
+  const themes = [
+    // 1. Navy -> Blue (Ola)
+    {
+      gradient: 'linear-gradient(135deg, #021a38 0%, #062e60 50%, #0a4d8c 100%)',
+      headerBg: '#031e40',
+      accent: '#00f0ff',
+      accentGlow: 'rgba(0, 240, 255, 0.45)',
+      tabBorder: 'rgba(0, 240, 255, 0.35)',
+      badgeBg: 'rgba(0, 240, 255, 0.12)'
+    },
+    // 2. Indigo -> Violet (Pegatron)
+    {
+      gradient: 'linear-gradient(135deg, #0b1329 0%, #1a1e4a 50%, #2e266d 100%)',
+      headerBg: '#0e1836',
+      accent: '#818cf8',
+      accentGlow: 'rgba(129, 140, 248, 0.45)',
+      tabBorder: 'rgba(129, 140, 248, 0.4)',
+      badgeBg: 'rgba(129, 140, 248, 0.12)'
+    },
+    // 3. Teal -> Green (Proconnect)
+    {
+      gradient: 'linear-gradient(135deg, #022c22 0%, #034e3d 50%, #056852 100%)',
+      headerBg: '#033b2e',
+      accent: '#34d399',
+      accentGlow: 'rgba(52, 211, 153, 0.45)',
+      tabBorder: 'rgba(52, 211, 153, 0.4)',
+      badgeBg: 'rgba(52, 211, 153, 0.12)'
+    },
+    // 4. Deep Blue -> Cyan (Apollo)
+    {
+      gradient: 'linear-gradient(135deg, #002855 0%, #015ea8 50%, #0077c8 100%)',
+      headerBg: '#00366b',
+      accent: '#38bdf8',
+      accentGlow: 'rgba(56, 189, 248, 0.45)',
+      tabBorder: 'rgba(56, 189, 248, 0.4)',
+      badgeBg: 'rgba(56, 189, 248, 0.12)'
+    },
+    // 5. Deep Cyber Navy (ABB)
+    {
+      gradient: 'linear-gradient(135deg, #021a38 0%, #0a2550 50%, #1a3668 100%)',
+      headerBg: '#052248',
+      accent: '#00f0ff',
+      accentGlow: 'rgba(0, 240, 255, 0.45)',
+      tabBorder: 'rgba(0, 240, 255, 0.4)',
+      badgeBg: 'rgba(0, 240, 255, 0.12)'
+    }
+  ];
+
+  const tabStatementMap: Record<string, string> = {
+    'case-ola': 'Enterprise intelligence runs on core shopfloor systems',
+    'case-pegatron': 'An agentic coworker for sub-millisecond AI vision inspection',
+    'case-proconnect': 'Deploy trusted paperless execution that moves at full speed',
+    'case-apollo': 'Ground plant logistics with automated RAIN RFID motion portals',
+    'case-abb': 'Flawless cognitive identification under extreme thermal flux'
+  };
+
   return (
     <section
       id="customer-stories"
+      ref={sectionRef}
       data-section="salesforce-customer-stories"
       style={{
         backgroundColor: '#070c18',
         color: '#ffffff',
-        padding: 'clamp(3rem, 5vh, 4.5rem) 0 clamp(3rem, 5vh, 4.5rem) 0',
+        padding: 'clamp(2rem, 3.5vh, 3.5rem) 0 clamp(2rem, 3.5vh, 3.5rem) 0',
         fontFamily: 'Inter, system-ui, -apple-system, sans-serif',
         position: 'relative',
+        minHeight: viewMode === 'stacked' ? '280vh' : 'auto',
         overflow: 'visible',
         borderBottom: '1px solid rgba(255, 255, 255, 0.08)'
       }}
@@ -374,7 +429,7 @@ export const SalesforceCustomerStories: React.FC<SalesforceCustomerStoriesProps>
         }}
       />
 
-      <div className="container" style={{ maxWidth: '1360px', margin: '0 auto', padding: '0 1.5rem', position: 'relative', zIndex: 10, overflow: 'visible' }}>
+      <div className="container" style={{ maxWidth: '1360px', margin: '0 auto', padding: '0 1.5rem', position: 'relative', zIndex: 10, overflow: 'visible', minHeight: 'inherit', height: '100%', display: 'flex', flexDirection: 'column' }}>
 
         {/* =====================================================================
             1. SALESFORCE-STYLE HERO HEADER WITH PROVENANCE BADGE & STAT STRIP
@@ -453,165 +508,76 @@ export const SalesforceCustomerStories: React.FC<SalesforceCustomerStoriesProps>
            ===================================================================== */}
         {viewMode === 'stacked' ? (
           <>
-            {/* Scoped CSS for Salesforce "Agentic Enterprise" Stacked Cards */}
             <style>{`
-              .deck {
-                --nav-h: 72px;
-                --strip-h: 36px;
-                --stack-gap: 38px;
-                --inset-step: 22px;
-                position: relative;
-                width: 100%;
-                margin: 0 auto;
-                padding-bottom: 2.5rem;
-                overflow: visible;
-              }
-
-              .deck-card {
+              .sticky-deck-stage {
                 position: sticky;
-                top: calc(var(--nav-h) + var(--card-i) * var(--stack-gap));
-                z-index: calc(var(--card-i) + 1);
-                min-height: calc(100vh - var(--nav-h) - 80px);
-                margin-bottom: calc(100vh - var(--nav-h) - 80px);
-                margin-inline: 0px;
-                border-radius: 28px;
-                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
-                border: 1px solid rgba(255, 255, 255, 0.12);
+                top: 72px;
+                height: calc(100vh - 72px);
+                max-height: calc(100vh - 72px);
+                display: flex;
+                flex-direction: column;
+                box-sizing: border-box;
                 overflow: hidden;
-                box-sizing: border-box;
-                transform-origin: top center;
-                transition: margin-inline 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-                will-change: margin-inline;
-                backdrop-filter: blur(16px);
+                padding: clamp(0.25rem, 1vh, 0.75rem) 0 clamp(0.5rem, 1.5vh, 1rem) 0;
               }
 
-              .deck-card:last-child {
-                margin-bottom: 0px;
+              .docked-tabs-stack {
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+                flex-shrink: 0;
+                margin-bottom: 4px;
               }
 
-              /* Covered Card: Width shrink via margin-inline (newest is full width, oldest is narrowest) */
-              .deck-card.is-covered {
-                margin-inline: calc((var(--total-n) - 1 - var(--card-i)) * var(--inset-step));
-              }
-
-              /* Header Strip: 36px tall, title left, product label + icon right */
-              .deck-card-header {
-                height: var(--strip-h);
-                box-sizing: border-box;
+              .deck-docked-tab {
+                height: 38px;
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
-                padding: 0 1.5rem;
-                border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+                padding: 0 1.25rem;
+                border-radius: 18px 18px 12px 12px;
                 cursor: pointer;
                 user-select: none;
-                gap: 1rem;
-                transition: background-color 0.2s ease;
+                box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+                transition: all 0.25s cubic-bezier(0.2, 1, 0.3, 1);
               }
 
-              .deck-card-header-left {
-                display: flex;
-                align-items: center;
-                gap: 10px;
-                min-width: 0;
+              .deck-docked-tab:hover {
+                filter: brightness(1.15);
               }
 
-              .deck-card-dot {
-                width: 8px;
-                height: 8px;
-                border-radius: 50%;
-                flex-shrink: 0;
+              .deck-card-body::-webkit-scrollbar {
+                width: 6px;
+              }
+              .deck-card-body::-webkit-scrollbar-track {
+                background: rgba(0, 0, 0, 0.2);
+              }
+              .deck-card-body::-webkit-scrollbar-thumb {
+                background: rgba(255, 255, 255, 0.2);
+                border-radius: 4px;
               }
 
-              .deck-card-header-title {
-                font-size: 13px;
-                font-weight: 700;
-                color: #ffffff;
-                letter-spacing: -0.01em;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-              }
-
-              .deck-card-header-right {
-                display: inline-flex;
-                align-items: center;
-                gap: 6px;
-                padding: 3px 10px;
-                border-radius: 999px;
-                background: rgba(255, 255, 255, 0.12);
-                border: 1px solid rgba(255, 255, 255, 0.18);
-                color: #ffffff;
-                font-size: 11px;
-                font-weight: 800;
-                letter-spacing: 0.05em;
-                text-transform: uppercase;
-                flex-shrink: 0;
-              }
-
-              /* Card Body: fades out when covered leaving only the header strip */
-              .deck-card-body {
-                opacity: 1;
-                display: grid;
-                grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
-                gap: 2.5rem;
-                padding: clamp(1.75rem, 3.5vw, 3rem);
-                box-sizing: border-box;
-                transition: opacity 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-              }
-
-              .deck-card.is-covered .deck-card-body {
-                opacity: 0;
-                pointer-events: none;
-              }
-
-              /* Mobile (< 768px): reduce strip height to 32px, inset to 10px, stack body vertically */
               @media (max-width: 768px) {
-                .deck {
-                  --nav-h: 64px;
-                  --strip-h: 32px;
-                  --stack-gap: 34px;
-                  --inset-step: 10px;
-                  padding-bottom: 1.5rem;
+                .sticky-deck-stage {
+                  top: 64px;
+                  height: calc(100vh - 64px);
+                  max-height: calc(100vh - 64px);
                 }
-
-                .deck-card {
-                  border-radius: 20px;
-                  min-height: auto;
-                  margin-bottom: 50vh;
+                .deck-docked-tab {
+                  height: 32px;
+                  padding: 0 0.85rem;
                 }
-
-                .deck-card:last-child {
-                  margin-bottom: 0px;
-                }
-
-                .deck-card-header {
-                  height: var(--strip-h);
-                  padding: 0 1rem;
-                }
-
-                .deck-card-header-title {
-                  font-size: 11px;
-                }
-
-                .deck-card-header-right {
-                  font-size: 9.5px;
-                  padding: 2px 7px;
-                }
-
                 .deck-card-body {
-                  grid-template-columns: 1fr;
-                  gap: 1.5rem;
-                  padding: 1.25rem 1rem;
+                  grid-template-columns: 1fr !important;
+                  gap: 1.25rem !important;
+                  padding: 1rem !important;
                 }
               }
 
-              /* Respect prefers-reduced-motion */
               @media (prefers-reduced-motion: reduce) {
-                .deck-card,
-                .deck-card-body,
-                .deck-card-header,
-                .salesforce-ask-ai-pill {
+                .deck-docked-tab,
+                .deck-active-card,
+                .deck-card-body {
                   transition: none !important;
                   animation: none !important;
                 }
@@ -630,7 +596,7 @@ export const SalesforceCustomerStories: React.FC<SalesforceCustomerStoriesProps>
                 </button>
               </div>
             ) : (
-              <>
+              <div className="sticky-deck-stage">
                 {/* Quick Story Selector Bar (1-Click Stacking) */}
                 <div
                   style={{
@@ -638,8 +604,9 @@ export const SalesforceCustomerStories: React.FC<SalesforceCustomerStoriesProps>
                     justifyContent: 'center',
                     alignItems: 'center',
                     flexWrap: 'wrap',
-                    gap: '10px',
-                    marginBottom: '2.5rem'
+                    gap: '8px',
+                    marginBottom: '10px',
+                    flexShrink: 0
                   }}
                 >
                   {filteredStories.map((s, idx) => {
@@ -648,18 +615,18 @@ export const SalesforceCustomerStories: React.FC<SalesforceCustomerStoriesProps>
                       <button
                         key={s.id}
                         type="button"
-                        onClick={() => scrollToCard(idx)}
+                        onClick={() => selectStoryAndScroll(idx)}
                         style={{
                           display: 'inline-flex',
                           alignItems: 'center',
                           gap: '8px',
-                          padding: '7px 16px',
+                          padding: '6px 14px',
                           borderRadius: '999px',
                           backgroundColor: isActive ? 'rgba(0, 240, 255, 0.16)' : 'rgba(255, 255, 255, 0.05)',
                           border: isActive ? '1px solid #00f0ff' : '1px solid rgba(255, 255, 255, 0.12)',
                           boxShadow: isActive ? '0 0 16px rgba(0, 240, 255, 0.35)' : 'none',
                           color: isActive ? '#00f0ff' : '#cbd5e1',
-                          fontSize: '12.5px',
+                          fontSize: '12px',
                           fontWeight: 700,
                           cursor: 'pointer',
                           transition: 'all 0.25s ease'
@@ -667,85 +634,130 @@ export const SalesforceCustomerStories: React.FC<SalesforceCustomerStoriesProps>
                       >
                         <span
                           style={{
-                            width: '8px',
-                            height: '8px',
+                            width: '7px',
+                            height: '7px',
                             borderRadius: '50%',
                             backgroundColor: s.accentColor,
                             boxShadow: `0 0 8px ${s.accentColor}`
                           }}
                         />
                         <span>{s.client}</span>
-                        <span style={{ fontSize: '11px', opacity: 0.75, fontFamily: 'monospace' }}>({s.metric})</span>
+                        <span style={{ fontSize: '10.5px', opacity: 0.75, fontFamily: 'monospace' }}>({s.metric})</span>
                       </button>
                     );
                   })}
                 </div>
 
-                <div className="deck" ref={deckRef}>
-                  {filteredStories.map((story, index) => {
-                    const themes = [
-                      // 1. Navy -> Blue
-                      {
-                        gradient: 'linear-gradient(135deg, #021a38 0%, #062e60 50%, #0a4d8c 100%)',
-                        headerBg: '#031e40',
-                        accent: '#00f0ff',
-                        accentGlow: 'rgba(0, 240, 255, 0.45)',
-                        tabBorder: 'rgba(0, 240, 255, 0.35)',
-                        badgeBg: 'rgba(0, 240, 255, 0.12)'
-                      },
-                      // 2. Indigo -> Violet
-                      {
-                        gradient: 'linear-gradient(135deg, #0b1329 0%, #1a1e4a 50%, #2e266d 100%)',
-                        headerBg: '#0e1836',
-                        accent: '#818cf8',
-                        accentGlow: 'rgba(129, 140, 248, 0.45)',
-                        tabBorder: 'rgba(129, 140, 248, 0.4)',
-                        badgeBg: 'rgba(129, 140, 248, 0.12)'
-                      },
-                      // 3. Teal -> Green
-                      {
-                        gradient: 'linear-gradient(135deg, #022c22 0%, #034e3d 50%, #056852 100%)',
-                        headerBg: '#033b2e',
-                        accent: '#34d399',
-                        accentGlow: 'rgba(52, 211, 153, 0.45)',
-                        tabBorder: 'rgba(52, 211, 153, 0.4)',
-                        badgeBg: 'rgba(52, 211, 153, 0.12)'
-                      },
-                      // 4. Deep Blue -> Cyan
-                      {
-                        gradient: 'linear-gradient(135deg, #002855 0%, #015ea8 50%, #0077c8 100%)',
-                        headerBg: '#00366b',
-                        accent: '#38bdf8',
-                        accentGlow: 'rgba(56, 189, 248, 0.45)',
-                        tabBorder: 'rgba(56, 189, 248, 0.4)',
-                        badgeBg: 'rgba(56, 189, 248, 0.12)'
-                      }
-                    ];
-                    const theme = themes[index % themes.length];
-                    const tabStatementMap: Record<string, string> = {
-                      'case-ola': 'Enterprise intelligence runs on core shopfloor systems',
-                      'case-pegatron': 'An agentic coworker for sub-millisecond AI vision inspection',
-                      'case-proconnect': 'Deploy trusted paperless execution that moves at full speed',
-                      'case-apollo': 'Ground plant logistics with automated RAIN RFID motion portals',
-                      'case-abb': 'Flawless cognitive identification under extreme thermal flux'
-                    };
+                {/* Unified Folder Deck Container */}
+                <div
+                  className="deck"
+                  ref={deckRef}
+                  style={{
+                    flex: 1,
+                    minHeight: 0,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    width: '100%',
+                    maxWidth: '1360px',
+                    margin: '0 auto',
+                    position: 'relative',
+                    overflow: 'hidden'
+                  }}
+                >
+                  {/* 1. DOCKED TABS STACK AT TOP (for all cards 0 <= i < activeStoryIdx) */}
+                  {activeStoryIdx > 0 && (
+                    <div className="docked-tabs-stack">
+                      {filteredStories.slice(0, activeStoryIdx).map((story, i) => {
+                        const theme = themes[i % themes.length];
+                        const tabStatement = tabStatementMap[story.id] || story.headline;
+                        const inset = (activeStoryIdx - i) * 16;
+                        return (
+                          <div
+                            key={story.id}
+                            className="deck-docked-tab"
+                            onClick={() => selectStoryAndScroll(i)}
+                            title={`Switch to ${story.client}`}
+                            style={{
+                              marginInline: `${inset}px`,
+                              backgroundColor: theme.headerBg,
+                              border: `1px solid ${theme.tabBorder}`,
+                              borderTop: `2px solid ${theme.accent}`
+                            }}
+                          >
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', minWidth: 0 }}>
+                              <span
+                                style={{
+                                  width: '8px',
+                                  height: '8px',
+                                  borderRadius: '50%',
+                                  backgroundColor: theme.accent,
+                                  boxShadow: `0 0 10px ${theme.accent}`,
+                                  flexShrink: 0
+                                }}
+                              />
+                              <span
+                                style={{
+                                  fontSize: '12.5px',
+                                  fontWeight: 700,
+                                  color: '#ffffff',
+                                  whiteSpace: 'nowrap',
+                                  overflow: 'hidden',
+                                  textOverflow: 'ellipsis'
+                                }}
+                              >
+                                {tabStatement}
+                              </span>
+                            </div>
+                            <div
+                              style={{
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '6px',
+                                padding: '3px 10px',
+                                borderRadius: '999px',
+                                background: 'rgba(255, 255, 255, 0.12)',
+                                border: '1px solid rgba(255, 255, 255, 0.18)',
+                                color: '#ffffff',
+                                fontSize: '10.5px',
+                                fontWeight: 800,
+                                letterSpacing: '0.05em',
+                                textTransform: 'uppercase',
+                                flexShrink: 0
+                              }}
+                            >
+                              <Sparkles size={11} color={theme.accent} />
+                              <span>{story.product}</span>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+
+                  {/* 2. ACTIVE STORY CARD (i === activeStoryIdx) */}
+                  {(() => {
+                    const story = filteredStories[activeStoryIdx] || filteredStories[0];
+                    const theme = themes[activeStoryIdx % themes.length];
                     const tabStatement = tabStatementMap[story.id] || story.headline;
 
                     return (
                       <article
                         key={story.id}
-                        ref={(el) => (cardRefs.current[index] = el)}
-                        className="deck-card"
+                        className="deck-active-card"
                         style={{
-                          '--card-i': index,
-                          '--total-n': filteredStories.length,
-                          position: 'sticky',
-                          top: `calc(var(--nav-h, 72px) + ${index * 38}px)`,
-                          zIndex: index + 1,
+                          flex: 1,
+                          minHeight: 0,
+                          display: 'flex',
+                          flexDirection: 'column',
+                          marginInline: '0px',
                           background: theme.gradient,
                           border: `1px solid ${theme.tabBorder}`,
-                          borderTop: `2px solid ${theme.accent}`
-                        } as React.CSSProperties}
+                          borderTop: `2px solid ${theme.accent}`,
+                          borderRadius: '20px',
+                          boxShadow: '0 20px 60px rgba(0, 0, 0, 0.55)',
+                          overflow: 'hidden',
+                          position: 'relative'
+                        }}
                       >
                         {/* Top edge glow */}
                         <div
@@ -756,380 +768,428 @@ export const SalesforceCustomerStories: React.FC<SalesforceCustomerStoriesProps>
                             right: '10%',
                             height: '2px',
                             background: `linear-gradient(90deg, transparent, ${theme.accent}, transparent)`,
-                            pointerEvents: 'none'
+                            pointerEvents: 'none',
+                            zIndex: 3
                           }}
                         />
 
-                        {/* CARD TAB HEADER STRIP (36px tall) */}
+                        {/* Card Tab Header Strip (38px tall) */}
                         <div
-                          className="deck-card-header"
-                          onClick={() => scrollToCard(index)}
-                          style={{ backgroundColor: theme.headerBg }}
-                          title={`Click to scroll to ${story.client} story`}
+                          style={{
+                            height: '38px',
+                            backgroundColor: theme.headerBg,
+                            borderBottom: '1px solid rgba(255, 255, 255, 0.12)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                            padding: '0 1.25rem',
+                            flexShrink: 0,
+                            userSelect: 'none'
+                          }}
                         >
-                        <div className="deck-card-header-left">
-                          <span
-                            className="deck-card-dot"
-                            style={{
-                              backgroundColor: theme.accent,
-                              boxShadow: `0 0 10px ${theme.accent}`
-                            }}
-                          />
-                          <span className="deck-card-header-title">
-                            {tabStatement}
-                          </span>
-                        </div>
-
-                        <div className="deck-card-header-right">
-                          <Sparkles size={12} color={theme.accent} />
-                          <span>{story.product}</span>
-                        </div>
-                      </div>
-
-                      {/* CARD BODY */}
-                      <div className="deck-card-body">
-                        {/* Left: Narrative & Metrics */}
-                        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                          <div>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.25rem', flexWrap: 'wrap' }}>
-                              <div style={{
-                                backgroundColor: '#ffffff',
-                                borderRadius: '999px',
-                                padding: '6px 16px',
-                                display: 'inline-flex',
-                                alignItems: 'center',
-                                boxShadow: '0 4px 15px rgba(0, 0, 0, 0.25)'
-                              }}>
-                                <img
-                                  src={story.logoUrl}
-                                  alt={story.client}
-                                  style={{ height: '22px', maxWidth: '120px', objectFit: 'contain' }}
-                                />
-                              </div>
-                              <span style={{
-                                fontSize: '11px',
-                                fontWeight: 800,
-                                letterSpacing: '0.08em',
-                                textTransform: 'uppercase',
-                                color: theme.accent
-                              }}>
-                                {story.tierBadge}
-                              </span>
-                            </div>
-
-                            <h3 style={{
-                              fontSize: 'clamp(1.6rem, 2.5vw, 2.3rem)',
-                              fontWeight: 800,
-                              color: '#ffffff',
-                              lineHeight: 1.22,
-                              letterSpacing: '-0.02em',
-                              margin: '0 0 1rem 0'
-                            }}>
-                              {story.headline}
-                            </h3>
-
-                            <p style={{
-                              fontSize: 'clamp(0.92rem, 1.1vw, 1.02rem)',
-                              color: 'rgba(255, 255, 255, 0.85)',
-                              lineHeight: 1.65,
-                              margin: '0 0 1.75rem 0'
-                            }}>
-                              {story.summary}
-                            </p>
-
-                            <div style={{
-                              display: 'grid',
-                              gridTemplateColumns: '1fr 1fr',
-                              gap: '1.5rem',
-                              padding: '1.5rem 0',
-                              borderTop: '1px solid rgba(255, 255, 255, 0.12)',
-                              borderBottom: '1px solid rgba(255, 255, 255, 0.12)',
-                              marginBottom: '1.75rem'
-                            }}>
-                              <div>
-                                <div style={{
-                                  fontSize: 'clamp(2.1rem, 3.4vw, 3rem)',
-                                  fontWeight: 900,
-                                  color: theme.accent,
-                                  lineHeight: 1,
-                                  letterSpacing: '-0.02em',
-                                  textShadow: `0 0 25px ${theme.accentGlow}`
-                                }}>
-                                  {story.metric}
-                                </div>
-                                <div style={{ fontSize: '0.82rem', fontWeight: 700, color: '#ffffff', marginTop: '6px' }}>
-                                  {story.metricLabel}
-                                </div>
-                              </div>
-
-                              <div>
-                                <div style={{
-                                  fontSize: 'clamp(2.1rem, 3.4vw, 3rem)',
-                                  fontWeight: 900,
-                                  color: '#ffffff',
-                                  lineHeight: 1,
-                                  letterSpacing: '-0.02em'
-                                }}>
-                                  {story.secondaryMetric}
-                                </div>
-                                <div style={{ fontSize: '0.82rem', fontWeight: 700, color: '#ffffff', marginTop: '6px' }}>
-                                  {story.secondaryLabel}
-                                </div>
-                              </div>
-                            </div>
-
-                            <div style={{
-                              display: 'flex',
-                              alignItems: 'flex-start',
-                              gap: '12px',
-                              marginBottom: '1.75rem',
-                              padding: '1rem',
-                              backgroundColor: 'rgba(0, 0, 0, 0.25)',
-                              borderRadius: '12px',
-                              borderLeft: `3px solid ${theme.accent}`
-                            }}>
-                              <Quote size={22} color={theme.accent} style={{ flexShrink: 0, marginTop: '2px', opacity: 0.8 }} />
-                              <div>
-                                <p style={{
-                                  fontSize: '0.88rem',
-                                  fontStyle: 'italic',
-                                  color: 'rgba(255, 255, 255, 0.9)',
-                                  lineHeight: 1.55,
-                                  margin: '0 0 6px 0'
-                                }}>
-                                  "{story.quoteText}"
-                                </p>
-                                <div style={{ fontSize: '11.5px', fontWeight: 700, color: theme.accent }}>
-                                  {story.quoteAuthor} &mdash; <span style={{ color: 'rgba(255, 255, 255, 0.65)', fontWeight: 500 }}>{story.quoteRole}</span>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
-                            <button
-                              type="button"
-                              onClick={() => onSelectCaseStudy(story)}
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', minWidth: 0 }}>
+                            <span
                               style={{
-                                backgroundColor: '#ffffff',
-                                color: '#070c18',
-                                border: 'none',
-                                padding: '11px 22px',
-                                borderRadius: '999px',
-                                fontSize: '13px',
-                                fontWeight: 800,
-                                letterSpacing: '0.04em',
-                                cursor: 'pointer',
-                                display: 'inline-flex',
-                                alignItems: 'center',
-                                gap: '8px',
-                                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
-                                transition: 'all 0.2s ease'
+                                width: '8px',
+                                height: '8px',
+                                borderRadius: '50%',
+                                backgroundColor: theme.accent,
+                                boxShadow: `0 0 10px ${theme.accent}`,
+                                flexShrink: 0
                               }}
-                              onMouseEnter={(e) => {
-                                e.currentTarget.style.transform = 'translateY(-2px)';
-                                e.currentTarget.style.backgroundColor = theme.accent;
-                                e.currentTarget.style.color = '#050914';
-                              }}
-                              onMouseLeave={(e) => {
-                                e.currentTarget.style.transform = 'translateY(0)';
-                                e.currentTarget.style.backgroundColor = '#ffffff';
-                                e.currentTarget.style.color = '#070c18';
+                            />
+                            <span
+                              style={{
+                                fontSize: '12.5px',
+                                fontWeight: 700,
+                                color: '#ffffff',
+                                whiteSpace: 'nowrap',
+                                overflow: 'hidden',
+                                textOverflow: 'ellipsis'
                               }}
                             >
-                              <span>EXPLORE FULL CASE STUDY</span>
-                              <ArrowUpRight size={16} strokeWidth={2.6} />
-                            </button>
+                              {tabStatement}
+                            </span>
+                          </div>
 
-                            {onRequestAssessment && (
+                          <div
+                            style={{
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              gap: '6px',
+                              padding: '3px 10px',
+                              borderRadius: '999px',
+                              background: 'rgba(255, 255, 255, 0.12)',
+                              border: '1px solid rgba(255, 255, 255, 0.18)',
+                              color: '#ffffff',
+                              fontSize: '10.5px',
+                              fontWeight: 800,
+                              letterSpacing: '0.05em',
+                              textTransform: 'uppercase',
+                              flexShrink: 0
+                            }}
+                          >
+                            <Sparkles size={11} color={theme.accent} />
+                            <span>{story.product}</span>
+                          </div>
+                        </div>
+
+                        {/* Card Body */}
+                        <div
+                          className="deck-card-body"
+                          style={{
+                            flex: 1,
+                            minHeight: 0,
+                            overflowY: 'auto',
+                            display: 'grid',
+                            gridTemplateColumns: 'minmax(0, 1.25fr) minmax(0, 1fr)',
+                            gap: 'clamp(1.5rem, 2.5vw, 2.5rem)',
+                            padding: 'clamp(1.25rem, 2.2vw, 2.2rem)',
+                            boxSizing: 'border-box'
+                          }}
+                        >
+                          {/* Left: Narrative & Metrics */}
+                          <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                            <div>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.25rem', flexWrap: 'wrap' }}>
+                                <div style={{
+                                  backgroundColor: '#ffffff',
+                                  borderRadius: '999px',
+                                  padding: '6px 16px',
+                                  display: 'inline-flex',
+                                  alignItems: 'center',
+                                  boxShadow: '0 4px 15px rgba(0, 0, 0, 0.25)'
+                                }}>
+                                  <img
+                                    src={story.logoUrl}
+                                    alt={story.client}
+                                    style={{ height: '22px', maxWidth: '120px', objectFit: 'contain' }}
+                                  />
+                                </div>
+                                <span style={{
+                                  fontSize: '11px',
+                                  fontWeight: 800,
+                                  letterSpacing: '0.08em',
+                                  textTransform: 'uppercase',
+                                  color: theme.accent
+                                }}>
+                                  {story.tierBadge}
+                                </span>
+                              </div>
+
+                              <h3 style={{
+                                fontSize: 'clamp(1.5rem, 2.3vw, 2.1rem)',
+                                fontWeight: 800,
+                                color: '#ffffff',
+                                lineHeight: 1.22,
+                                letterSpacing: '-0.02em',
+                                margin: '0 0 0.85rem 0'
+                              }}>
+                                {story.headline}
+                              </h3>
+
+                              <p style={{
+                                fontSize: 'clamp(0.9rem, 1.05vw, 0.98rem)',
+                                color: 'rgba(255, 255, 255, 0.85)',
+                                lineHeight: 1.6,
+                                margin: '0 0 1.5rem 0'
+                              }}>
+                                {story.summary}
+                              </p>
+
+                              <div style={{
+                                display: 'grid',
+                                gridTemplateColumns: '1fr 1fr',
+                                gap: '1.5rem',
+                                padding: '1.25rem 0',
+                                borderTop: '1px solid rgba(255, 255, 255, 0.12)',
+                                borderBottom: '1px solid rgba(255, 255, 255, 0.12)',
+                                marginBottom: '1.5rem'
+                              }}>
+                                <div>
+                                  <div style={{
+                                    fontSize: 'clamp(2rem, 3.2vw, 2.8rem)',
+                                    fontWeight: 900,
+                                    color: theme.accent,
+                                    lineHeight: 1,
+                                    letterSpacing: '-0.02em',
+                                    textShadow: `0 0 25px ${theme.accentGlow}`
+                                  }}>
+                                    {story.metric}
+                                  </div>
+                                  <div style={{ fontSize: '0.82rem', fontWeight: 700, color: '#ffffff', marginTop: '6px' }}>
+                                    {story.metricLabel}
+                                  </div>
+                                </div>
+
+                                <div>
+                                  <div style={{
+                                    fontSize: 'clamp(2rem, 3.2vw, 2.8rem)',
+                                    fontWeight: 900,
+                                    color: '#ffffff',
+                                    lineHeight: 1,
+                                    letterSpacing: '-0.02em'
+                                  }}>
+                                    {story.secondaryMetric}
+                                  </div>
+                                  <div style={{ fontSize: '0.82rem', fontWeight: 700, color: '#ffffff', marginTop: '6px' }}>
+                                    {story.secondaryLabel}
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div style={{
+                                display: 'flex',
+                                alignItems: 'flex-start',
+                                gap: '12px',
+                                marginBottom: '1.5rem',
+                                padding: '0.9rem 1rem',
+                                backgroundColor: 'rgba(0, 0, 0, 0.25)',
+                                borderRadius: '12px',
+                                borderLeft: `3px solid ${theme.accent}`
+                              }}>
+                                <Quote size={20} color={theme.accent} style={{ flexShrink: 0, marginTop: '2px', opacity: 0.8 }} />
+                                <div>
+                                  <p style={{
+                                    fontSize: '0.85rem',
+                                    fontStyle: 'italic',
+                                    color: 'rgba(255, 255, 255, 0.9)',
+                                    lineHeight: 1.5,
+                                    margin: '0 0 6px 0'
+                                  }}>
+                                    "{story.quoteText}"
+                                  </p>
+                                  <div style={{ fontSize: '11px', fontWeight: 700, color: theme.accent }}>
+                                    {story.quoteAuthor} &mdash; <span style={{ color: 'rgba(255, 255, 255, 0.65)', fontWeight: 500 }}>{story.quoteRole}</span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem', flexWrap: 'wrap' }}>
                               <button
                                 type="button"
-                                onClick={onRequestAssessment}
+                                onClick={() => onSelectCaseStudy(story)}
                                 style={{
-                                  backgroundColor: 'transparent',
-                                  color: '#ffffff',
-                                  border: '1px solid rgba(255, 255, 255, 0.25)',
-                                  padding: '11px 20px',
+                                  backgroundColor: '#ffffff',
+                                  color: '#070c18',
+                                  border: 'none',
+                                  padding: '10px 20px',
                                   borderRadius: '999px',
-                                  fontSize: '13px',
-                                  fontWeight: 700,
+                                  fontSize: '12.5px',
+                                  fontWeight: 800,
+                                  letterSpacing: '0.04em',
                                   cursor: 'pointer',
+                                  display: 'inline-flex',
+                                  alignItems: 'center',
+                                  gap: '8px',
+                                  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
                                   transition: 'all 0.2s ease'
                                 }}
                                 onMouseEnter={(e) => {
-                                  e.currentTarget.style.borderColor = theme.accent;
-                                  e.currentTarget.style.color = theme.accent;
+                                  e.currentTarget.style.transform = 'translateY(-2px)';
+                                  e.currentTarget.style.backgroundColor = theme.accent;
+                                  e.currentTarget.style.color = '#050914';
                                 }}
                                 onMouseLeave={(e) => {
-                                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.25)';
-                                  e.currentTarget.style.color = '#ffffff';
+                                  e.currentTarget.style.transform = 'translateY(0)';
+                                  e.currentTarget.style.backgroundColor = '#ffffff';
+                                  e.currentTarget.style.color = '#070c18';
                                 }}
                               >
-                                REQUEST PLANT ASSESSMENT
+                                <span>EXPLORE FULL CASE STUDY</span>
+                                <ArrowUpRight size={15} strokeWidth={2.6} />
                               </button>
-                            )}
 
-                            {/* Deck Story Stepper Buttons */}
-                            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
-                              <button
-                                type="button"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  setActiveStoryIdx(prev => Math.max(0, prev - 1));
-                                }}
-                                disabled={activeStoryIdx === 0}
-                                style={{
-                                  backgroundColor: activeStoryIdx === 0 ? 'rgba(255, 255, 255, 0.04)' : 'rgba(255, 255, 255, 0.08)',
-                                  color: activeStoryIdx === 0 ? 'rgba(255, 255, 255, 0.3)' : '#ffffff',
-                                  border: '1px solid rgba(255, 255, 255, 0.12)',
-                                  padding: '10px 14px',
-                                  borderRadius: '999px',
-                                  fontSize: '12px',
-                                  fontWeight: 700,
-                                  cursor: activeStoryIdx === 0 ? 'not-allowed' : 'pointer',
-                                  display: 'inline-flex',
-                                  alignItems: 'center',
-                                  gap: '4px'
-                                }}
-                                title="Previous Story"
-                              >
-                                <ChevronLeft size={15} /> Prev
-                              </button>
-                              <button
-                                type="button"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  setActiveStoryIdx(prev => Math.min(filteredStories.length - 1, prev + 1));
-                                }}
-                                disabled={activeStoryIdx === filteredStories.length - 1}
-                                style={{
-                                  backgroundColor: activeStoryIdx === filteredStories.length - 1 ? 'rgba(255, 255, 255, 0.04)' : 'rgba(255, 255, 255, 0.08)',
-                                  color: activeStoryIdx === filteredStories.length - 1 ? 'rgba(255, 255, 255, 0.3)' : '#ffffff',
-                                  border: '1px solid rgba(255, 255, 255, 0.12)',
-                                  padding: '10px 14px',
-                                  borderRadius: '999px',
-                                  fontSize: '12px',
-                                  fontWeight: 700,
-                                  cursor: activeStoryIdx === filteredStories.length - 1 ? 'not-allowed' : 'pointer',
-                                  display: 'inline-flex',
-                                  alignItems: 'center',
-                                  gap: '4px'
-                                }}
-                                title="Next Story"
-                              >
-                                Next <ChevronRight size={15} />
-                              </button>
+                              {onRequestAssessment && (
+                                <button
+                                  type="button"
+                                  onClick={onRequestAssessment}
+                                  style={{
+                                    backgroundColor: 'transparent',
+                                    color: '#ffffff',
+                                    border: '1px solid rgba(255, 255, 255, 0.25)',
+                                    padding: '10px 18px',
+                                    borderRadius: '999px',
+                                    fontSize: '12.5px',
+                                    fontWeight: 700,
+                                    cursor: 'pointer',
+                                    transition: 'all 0.2s ease'
+                                  }}
+                                  onMouseEnter={(e) => {
+                                    e.currentTarget.style.borderColor = theme.accent;
+                                    e.currentTarget.style.color = theme.accent;
+                                  }}
+                                  onMouseLeave={(e) => {
+                                    e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.25)';
+                                    e.currentTarget.style.color = '#ffffff';
+                                  }}
+                                >
+                                  REQUEST PLANT ASSESSMENT
+                                </button>
+                              )}
+
+                              {/* Deck Story Stepper Buttons */}
+                              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                                <button
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    selectStoryAndScroll(Math.max(0, activeStoryIdx - 1));
+                                  }}
+                                  disabled={activeStoryIdx === 0}
+                                  style={{
+                                    backgroundColor: activeStoryIdx === 0 ? 'rgba(255, 255, 255, 0.04)' : 'rgba(255, 255, 255, 0.08)',
+                                    color: activeStoryIdx === 0 ? 'rgba(255, 255, 255, 0.3)' : '#ffffff',
+                                    border: '1px solid rgba(255, 255, 255, 0.12)',
+                                    padding: '9px 13px',
+                                    borderRadius: '999px',
+                                    fontSize: '11.5px',
+                                    fontWeight: 700,
+                                    cursor: activeStoryIdx === 0 ? 'not-allowed' : 'pointer',
+                                    display: 'inline-flex',
+                                    alignItems: 'center',
+                                    gap: '4px'
+                                  }}
+                                  title="Previous Story"
+                                >
+                                  <ChevronLeft size={14} /> Prev
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    selectStoryAndScroll(Math.min(filteredStories.length - 1, activeStoryIdx + 1));
+                                  }}
+                                  disabled={activeStoryIdx === filteredStories.length - 1}
+                                  style={{
+                                    backgroundColor: activeStoryIdx === filteredStories.length - 1 ? 'rgba(255, 255, 255, 0.04)' : 'rgba(255, 255, 255, 0.08)',
+                                    color: activeStoryIdx === filteredStories.length - 1 ? 'rgba(255, 255, 255, 0.3)' : '#ffffff',
+                                    border: '1px solid rgba(255, 255, 255, 0.12)',
+                                    padding: '9px 13px',
+                                    borderRadius: '999px',
+                                    fontSize: '11.5px',
+                                    fontWeight: 700,
+                                    cursor: activeStoryIdx === filteredStories.length - 1 ? 'not-allowed' : 'pointer',
+                                    display: 'inline-flex',
+                                    alignItems: 'center',
+                                    gap: '4px'
+                                  }}
+                                  title="Next Story"
+                                >
+                                  Next <ChevronRight size={14} />
+                                </button>
+                              </div>
                             </div>
                           </div>
-                        </div>
 
-                        {/* Right: Media & Live Laser HUD */}
-                        <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                          <div style={{
-                            position: 'relative',
-                            borderRadius: '18px',
-                            overflow: 'hidden',
-                            aspectRatio: '16 / 11',
-                            border: '1px solid rgba(255, 255, 255, 0.15)',
-                            boxShadow: '0 20px 40px rgba(0, 0, 0, 0.5)'
-                          }}>
-                            <img
-                              src={story.image}
-                              alt={story.client}
-                              style={{
-                                width: '100%',
-                                height: '100%',
-                                objectFit: 'cover',
-                                display: 'block'
-                              }}
-                            />
+                          {/* Right: Media & Live Laser HUD */}
+                          <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                             <div style={{
-                              position: 'absolute',
-                              inset: 0,
-                              background: 'linear-gradient(180deg, rgba(5, 9, 20, 0.1) 0%, rgba(5, 9, 20, 0.55) 100%)',
-                              pointerEvents: 'none'
-                            }} />
-                            <motion.div
-                              animate={{
-                                top: ['0%', '98%', '0%']
-                              }}
-                              transition={{
-                                duration: 3.8,
-                                repeat: Infinity,
-                                ease: 'easeInOut'
-                              }}
-                              style={{
-                                position: 'absolute',
-                                left: 0,
-                                right: 0,
-                                height: '2px',
-                                background: `linear-gradient(90deg, transparent 0%, ${theme.accent} 50%, transparent 100%)`,
-                                boxShadow: `0 0 14px ${theme.accent}, 0 0 28px ${theme.accent}`,
-                                pointerEvents: 'none',
-                                zIndex: 4
-                              }}
-                            />
-                            <div style={{
-                              position: 'absolute',
-                              bottom: '16px',
-                              left: '16px',
-                              right: '16px',
-                              backgroundColor: 'rgba(5, 12, 28, 0.85)',
-                              backdropFilter: 'blur(10px)',
-                              border: `1px solid ${theme.tabBorder}`,
-                              borderRadius: '12px',
-                              padding: '10px 14px',
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'space-between',
-                              flexWrap: 'wrap',
-                              gap: '8px',
-                              zIndex: 5
+                              position: 'relative',
+                              borderRadius: '16px',
+                              overflow: 'hidden',
+                              aspectRatio: '16 / 10',
+                              border: '1px solid rgba(255, 255, 255, 0.15)',
+                              boxShadow: '0 20px 40px rgba(0, 0, 0, 0.5)'
                             }}>
-                              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                <span style={{
-                                  width: '7px',
-                                  height: '7px',
-                                  borderRadius: '50%',
-                                  backgroundColor: '#10b981',
-                                  boxShadow: '0 0 8px #10b981'
-                                }} />
-                                <span style={{ fontSize: '11px', fontWeight: 800, color: '#ffffff', letterSpacing: '0.06em' }}>
-                                  LIVE SHOPFLOOR RADAR
+                              <img
+                                src={story.image}
+                                alt={story.client}
+                                style={{
+                                  width: '100%',
+                                  height: '100%',
+                                  objectFit: 'cover',
+                                  display: 'block'
+                                }}
+                              />
+                              <div style={{
+                                position: 'absolute',
+                                inset: 0,
+                                background: 'linear-gradient(180deg, rgba(5, 9, 20, 0.1) 0%, rgba(5, 9, 20, 0.55) 100%)',
+                                pointerEvents: 'none'
+                              }} />
+                              <motion.div
+                                animate={{
+                                  top: ['0%', '98%', '0%']
+                                }}
+                                transition={{
+                                  duration: 3.8,
+                                  repeat: Infinity,
+                                  ease: 'easeInOut'
+                                }}
+                                style={{
+                                  position: 'absolute',
+                                  left: 0,
+                                  right: 0,
+                                  height: '2px',
+                                  background: `linear-gradient(90deg, transparent 0%, ${theme.accent} 50%, transparent 100%)`,
+                                  boxShadow: `0 0 14px ${theme.accent}, 0 0 28px ${theme.accent}`,
+                                  pointerEvents: 'none',
+                                  zIndex: 4
+                                }}
+                              />
+                              <div style={{
+                                position: 'absolute',
+                                bottom: '12px',
+                                left: '12px',
+                                right: '12px',
+                                backgroundColor: 'rgba(5, 12, 28, 0.85)',
+                                backdropFilter: 'blur(10px)',
+                                border: `1px solid ${theme.tabBorder}`,
+                                borderRadius: '10px',
+                                padding: '8px 12px',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'space-between',
+                                flexWrap: 'wrap',
+                                gap: '6px',
+                                zIndex: 5
+                              }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                  <span style={{
+                                    width: '7px',
+                                    height: '7px',
+                                    borderRadius: '50%',
+                                    backgroundColor: '#10b981',
+                                    boxShadow: '0 0 8px #10b981'
+                                  }} />
+                                  <span style={{ fontSize: '10.5px', fontWeight: 800, color: '#ffffff', letterSpacing: '0.06em' }}>
+                                    LIVE SHOPFLOOR RADAR
+                                  </span>
+                                </div>
+                                <span style={{ fontSize: '10.5px', fontFamily: 'monospace', color: theme.accent, fontWeight: 700 }}>
+                                  {story.techStack[0]}
                                 </span>
                               </div>
-                              <span style={{ fontSize: '11px', fontFamily: 'monospace', color: theme.accent, fontWeight: 700 }}>
-                                {story.techStack[0]}
-                              </span>
+                            </div>
+
+                            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginTop: '0.85rem' }}>
+                              {story.techStack.map((tech, idx) => (
+                                <span
+                                  key={idx}
+                                  style={{
+                                    fontSize: '10.5px',
+                                    fontWeight: 600,
+                                    color: 'rgba(255, 255, 255, 0.75)',
+                                    backgroundColor: 'rgba(255, 255, 255, 0.06)',
+                                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                                    padding: '4px 9px',
+                                    borderRadius: '6px'
+                                  }}
+                                >
+                                  {tech}
+                                </span>
+                              ))}
                             </div>
                           </div>
-
-                          <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginTop: '1rem' }}>
-                            {story.techStack.map((tech, idx) => (
-                              <span
-                                key={idx}
-                                style={{
-                                  fontSize: '11px',
-                                  fontWeight: 600,
-                                  color: 'rgba(255, 255, 255, 0.75)',
-                                  backgroundColor: 'rgba(255, 255, 255, 0.06)',
-                                  border: '1px solid rgba(255, 255, 255, 0.1)',
-                                  padding: '4px 10px',
-                                  borderRadius: '6px'
-                                }}
-                              >
-                                {tech}
-                              </span>
-                            ))}
-                          </div>
                         </div>
-                      </div>
-                    </article>
-                  );
-                })}
+                      </article>
+                    );
+                  })()}
+                </div>
               </div>
-            </>
-          )}
+            )}
           </>
         ) : viewMode === 'grid' ? (
           /* Salesforce-Grade 3-Column Lightning Cards Grid */
