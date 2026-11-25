@@ -305,7 +305,7 @@ export const SalesforceCustomerStories: React.FC<SalesforceCustomerStoriesProps>
       style={{
         backgroundColor: '#070c18',
         color: '#ffffff',
-        padding: 'clamp(3rem, 5vh, 4.5rem) 0 2rem 0',
+        padding: 'clamp(3rem, 5vh, 4.5rem) 0 clamp(3rem, 5vh, 4.5rem) 0',
         fontFamily: 'Inter, system-ui, -apple-system, sans-serif',
         position: 'relative',
         overflow: 'visible',

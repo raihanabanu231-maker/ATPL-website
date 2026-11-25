@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useApp } from '../../context/AppContext';
 import { SalesforceCustomerStories } from '../customers/SalesforceCustomerStories';
 import { SalesforceCustomerTopBanner } from '../customers/SalesforceCustomerTopBanner';
-import { AtplOpenEcosystemBanner } from '../common/AtplOpenEcosystemBanner';
 
 export const CustomersView = () => {
   const { openDemoModal } = useApp();
@@ -43,10 +42,6 @@ export const CustomersView = () => {
         onRequestAssessment={() => openDemoModal({ solution: 'Enterprise Plant Assessment', notes: 'Request verified engineering case study walkthrough' })}
       />
 
-      {/* =========================================================================
-          3. ATPL OPEN ECOSYSTEM MANIFESTO & INTEROPERABILITY (Salesforce-Style)
-         ========================================================================= */}
-      <AtplOpenEcosystemBanner />
 
       {/* =========================================================================
           5. MODAL: FULL CASE STUDY DEEP DIVE POPUP
