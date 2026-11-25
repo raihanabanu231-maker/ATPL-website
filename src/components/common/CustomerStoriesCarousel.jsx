@@ -1,36 +1,25 @@
-import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useApp } from '../../context/AppContext';
-import { useSmoothScroll } from './SmoothScrollProvider';
 import { 
   Sparkles, 
   ShieldCheck, 
   ArrowUpRight, 
-  ArrowRight,
+  ArrowRight, 
   CheckCircle2, 
   ChevronRight, 
   ChevronLeft, 
   X, 
-  ExternalLink, 
-  Layers, 
-  Activity, 
   Quote, 
-  Factory, 
   Warehouse, 
-  Cpu, 
   Zap, 
-  Eye, 
   Radio, 
-  Barcode, 
-  Clock, 
-  Award, 
-  TrendingUp,
-  SlidersHorizontal,
-  ChevronDown
+  Play, 
+  Pause 
 } from 'lucide-react';
 
 // ============================================================================
-// AUTHENTIC ATPL ENTERPRISE CUSTOMER STORIES (SALESFORCE-GRADE DATASET)
+// AUTHENTIC ATPL ENTERPRISE CUSTOMER STORIES (VERIFIED DATASET)
 // ============================================================================
 const STACKED_CUSTOMER_STORIES = [
   {
@@ -312,116 +301,58 @@ const STACKED_CUSTOMER_STORIES = [
 
 export const CustomerStoriesCarousel = () => {
   const { openDemoModal } = useApp();
-  const { lenis } = useSmoothScroll ? useSmoothScroll() : { lenis: null };
 
-  const [activeTabIdx, setActiveTabIdx] = useState(0);
+  const [activeIdx, setActiveIdx] = useState(0);
   const [selectedModalStory, setSelectedModalStory] = useState(null);
-  const cardRefs = useRef([]);
-  const sectionRef = useRef(null);
+  const [isPaused, setIsPaused] = useState(false);
+  const [direction, setDirection] = useState(1);
+  const autoPlayRef = useRef(null);
 
-  // Responsive tab spacing constants
-  const BASE_TOP = 90; // px distance from top of viewport (accounting for navbar)
-  const TAB_HEIGHT = 28; // px visible tab height step when stacked
+  const activeStory = STACKED_CUSTOMER_STORIES[activeIdx] || STACKED_CUSTOMER_STORIES[0];
 
-  // Smooth scroll to a target card
-  const scrollToCard = useCallback((idx) => {
-    setActiveTabIdx(idx);
-    const el = cardRefs.current[idx];
-    if (el) {
-      const rect = el.getBoundingClientRect();
-      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-      const targetY = scrollTop + rect.top - (BASE_TOP + idx * TAB_HEIGHT) + 4;
-      
-      if (lenis && typeof lenis.scrollTo === 'function') {
-        lenis.scrollTo(targetY, { duration: 1.1 });
-      } else {
-        window.scrollTo({
-          top: targetY,
-          behavior: 'smooth'
-        });
-      }
-    }
-  }, [lenis]);
+  const handleNext = useCallback(() => {
+    setDirection(1);
+    setActiveIdx((prev) => (prev + 1) % STACKED_CUSTOMER_STORIES.length);
+  }, []);
 
-  // Salesforce "Agentic Enterprise" Stacked Cards Scroll Handler
+  const handlePrev = useCallback(() => {
+    setDirection(-1);
+    setActiveIdx((prev) => (prev - 1 + STACKED_CUSTOMER_STORIES.length) % STACKED_CUSTOMER_STORIES.length);
+  }, []);
+
+  const handleSelect = (idx) => {
+    setDirection(idx >= activeIdx ? 1 : -1);
+    setActiveIdx(idx);
+  };
+
+  // Auto-advance every 6.5s unless hovered or modal open
   useEffect(() => {
-    let ticking = false;
+    if (isPaused || selectedModalStory) return;
 
-    const updateCoveredCards = () => {
-      const cards = cardRefs.current.filter(Boolean);
-      const total = cards.length;
-      if (total === 0) return;
-
-      const isMobile = window.innerWidth <= 768;
-      const navH = isMobile ? 64 : 72;
-      const stackGap = isMobile ? 34 : 38;
-
-      cards.forEach((card, i) => {
-        if (i === total - 1) {
-          card.classList.remove('is-covered');
-          return;
-        }
-
-        const nextCard = cards[i + 1];
-        if (!nextCard) return;
-
-        const nextRect = nextCard.getBoundingClientRect();
-        const stickyThreshold = navH + (i + 1) * stackGap;
-
-        if (nextRect.top <= stickyThreshold + 2) {
-          card.classList.add('is-covered');
-        } else {
-          card.classList.remove('is-covered');
-        }
-      });
-
-      // Track active jump pill
-      let currentFocus = 0;
-      const scrollThreshold = window.scrollY + navH + 100;
-      cards.forEach((card, idx) => {
-        if (card && scrollThreshold >= card.offsetTop) {
-          currentFocus = idx;
-        }
-      });
-      setActiveTabIdx(currentFocus);
-
-      ticking = false;
-    };
-
-    const handleScroll = () => {
-      if (!ticking) {
-        ticking = true;
-        window.requestAnimationFrame(updateCoveredCards);
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    window.addEventListener('resize', handleScroll, { passive: true });
-    handleScroll();
+    autoPlayRef.current = setInterval(() => {
+      handleNext();
+    }, 6500);
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('resize', handleScroll);
+      if (autoPlayRef.current) clearInterval(autoPlayRef.current);
     };
-  }, []);
+  }, [isPaused, selectedModalStory, handleNext]);
 
   return (
     <section 
       id="customer-stories-section" 
-      ref={sectionRef}
       style={{
         backgroundColor: '#050914',
         color: '#ffffff',
-        padding: '5.5rem 0 7rem 0',
+        padding: '5.5rem 0 6.5rem 0',
         position: 'relative',
-        overflowX: 'clip',
-        overflowY: 'visible',
-        transform: 'none',
-        filter: 'none',
+        overflow: 'hidden',
         borderBottom: '1px solid rgba(0, 240, 255, 0.15)',
         borderTop: '1px solid rgba(0, 240, 255, 0.15)',
         fontFamily: 'Inter, system-ui, -apple-system, sans-serif'
       }}
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
     >
       {/* Background Ambience Gradient */}
       <div 
@@ -432,12 +363,28 @@ export const CustomerStoriesCarousel = () => {
           transform: 'translateX(-50%)',
           width: '1200px',
           height: '500px',
-          background: 'radial-gradient(ellipse at top, rgba(1, 118, 211, 0.15) 0%, rgba(0, 240, 255, 0.05) 50%, transparent 80%)',
+          background: 'radial-gradient(ellipse at top, rgba(1, 118, 211, 0.18) 0%, rgba(0, 240, 255, 0.05) 50%, transparent 80%)',
           filter: 'blur(90px)',
           pointerEvents: 'none',
           zIndex: 0
         }}
       />
+
+      {/* Global CSS animations for laser and shine */}
+      <style>{`
+        @keyframes customerLaserScan {
+          0%, 100% { top: 3%; }
+          50% { top: 95%; }
+        }
+        .customer-laser-beam {
+          animation: customerLaserScan 3.8s ease-in-out infinite;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .customer-laser-beam {
+            animation: none !important;
+          }
+        }
+      `}</style>
 
       <div 
         className="container" 
@@ -446,18 +393,14 @@ export const CustomerStoriesCarousel = () => {
           margin: '0 auto', 
           padding: '0 clamp(1rem, 2.5vw, 2rem)', 
           position: 'relative', 
-          zIndex: 2,
-          overflowX: 'clip',
-          overflowY: 'visible',
-          transform: 'none',
-          filter: 'none'
+          zIndex: 2
         }}
       >
         
         {/* =====================================================================
-            1. SALESFORCE-GRADE HERO INTRO & PILL NAVIGATION
+            1. SECTION INTRO & QUICK CLIENT SELECTOR PILLS
            ===================================================================== */}
-        <div style={{ textAlign: 'center', maxWidth: '880px', margin: '0 auto 3.5rem auto' }}>
+        <div style={{ textAlign: 'center', maxWidth: '880px', margin: '0 auto 2.5rem auto' }}>
           
           {/* Eyebrow Badge */}
           <div style={{
@@ -477,7 +420,7 @@ export const CustomerStoriesCarousel = () => {
             marginBottom: '1.25rem'
           }}>
             <Sparkles size={14} color="#00f0ff" />
-            <span>SALESFORCE-GRADE CUSTOMER STORIES &amp; ROI</span>
+            <span>ENTERPRISE CUSTOMER STORIES &amp; AUDITED ROI</span>
           </div>
 
           {/* Section Headline */}
@@ -487,7 +430,7 @@ export const CustomerStoriesCarousel = () => {
             letterSpacing: '-0.025em',
             color: '#ffffff',
             lineHeight: 1.18,
-            margin: '0 0 1.25rem 0'
+            margin: '0 0 1.15rem 0'
           }}>
             See how Trailblazers transform manufacturing with{' '}
             <span style={{
@@ -501,16 +444,16 @@ export const CustomerStoriesCarousel = () => {
 
           {/* Description */}
           <p style={{
-            fontSize: 'clamp(0.96rem, 1.3vw, 1.1rem)',
+            fontSize: 'clamp(0.96rem, 1.3vw, 1.08rem)',
             color: '#94a3b8',
             lineHeight: 1.65,
-            margin: '0 auto 2.25rem auto',
+            margin: '0 auto 2rem auto',
             maxWidth: '740px'
           }}>
-            Explore verified enterprise case studies across automotive mega-factories, SMT cleanrooms, and high-velocity 3PL distribution centers. Audited takt-times, zero defect escapes, and hard production ROI.
+            Explore verified enterprise case studies across automotive gigafactories, SMT cleanrooms, and high-velocity 3PL distribution centers. Audited takt-times, zero defect escapes, and hard production ROI.
           </p>
 
-          {/* QUICK SELECTOR PILLS: Jump directly to any story */}
+          {/* QUICK SELECTOR PILLS */}
           <div style={{
             display: 'flex',
             alignItems: 'center',
@@ -519,11 +462,11 @@ export const CustomerStoriesCarousel = () => {
             gap: '0.65rem'
           }}>
             {STACKED_CUSTOMER_STORIES.map((s, idx) => {
-              const isActive = activeTabIdx === idx;
+              const isActive = activeIdx === idx;
               return (
                 <button
                   key={s.id}
-                  onClick={() => scrollToCard(idx)}
+                  onClick={() => handleSelect(idx)}
                   style={{
                     display: 'inline-flex',
                     alignItems: 'center',
@@ -565,7 +508,7 @@ export const CustomerStoriesCarousel = () => {
                     boxShadow: isActive ? `0 0 8px ${s.theme.accent}` : 'none'
                   }} />
                   <span>{s.client}</span>
-                  <span style={{ fontSize: '11px', opacity: 0.6 }}>({s.primaryMetric.value})</span>
+                  <span style={{ fontSize: '11px', opacity: 0.7 }}>({s.primaryMetric.value})</span>
                 </button>
               );
             })}
@@ -574,580 +517,581 @@ export const CustomerStoriesCarousel = () => {
         </div>
 
         {/* =====================================================================
-            2. SALESFORCE STICKY STACKING CARDS DECK (Reference: salesforce.com/in)
-               Each card has rounded top, tab header sticking out, and stacks
-               over previous cards during vertical scroll.
+            2. ACTIVE SHOWCASE CARD (CLEAN, SEAMLESS, NO STACKING GLITCH)
            ===================================================================== */}
-        {/* Scoped CSS for Salesforce "Agentic Enterprise" Stacked Cards */}
-        <style>{`
-          .deck {
-            --nav-h: 72px;
-            --strip-h: 36px;
-            --stack-gap: 38px;
-            --inset-step: 22px;
-            position: relative;
-            width: 100%;
-            margin: 0 auto;
-            padding-bottom: calc(100vh - var(--nav-h) - 80px);
-            overflow: visible;
-          }
+        <div style={{ maxWidth: '1200px', margin: '0 auto', position: 'relative' }}>
+          
+          {/* Top navigation controls strip */}
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            marginBottom: '1rem',
+            padding: '0 0.5rem'
+          }}>
+            {/* Story index & client selector status */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <span style={{
+                fontSize: '12px',
+                fontFamily: 'monospace',
+                fontWeight: 800,
+                color: activeStory.theme.accent,
+                letterSpacing: '0.1em'
+              }}>
+                {String(activeIdx + 1).padStart(2, '0')} / {String(STACKED_CUSTOMER_STORIES.length).padStart(2, '0')}
+              </span>
+              <span style={{ width: '4px', height: '4px', borderRadius: '50%', backgroundColor: 'rgba(255, 255, 255, 0.3)' }} />
+              <span style={{ fontSize: '12px', color: '#94a3b8', fontWeight: 600 }}>
+                {activeStory.client} &bull; {activeStory.sector}
+              </span>
+            </div>
 
-          .deck-card {
-            position: sticky;
-            top: calc(var(--nav-h) + var(--card-i) * var(--stack-gap));
-            z-index: calc(var(--card-i) + 1);
-            min-height: calc(100vh - var(--nav-h) - 80px);
-            margin-bottom: calc(100vh - var(--nav-h) - 80px);
-            margin-inline: 0px;
-            border-radius: 28px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            overflow: hidden;
-            box-sizing: border-box;
-            transform-origin: top center;
-            transition: margin-inline 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-            will-change: margin-inline;
-            backdrop-filter: blur(16px);
-          }
-
-          .deck-card:last-child {
-            margin-bottom: 0px;
-          }
-
-          .deck-card.is-covered {
-            margin-inline: calc((var(--total-n) - 1 - var(--card-i)) * var(--inset-step));
-          }
-
-          .deck-card-header {
-            height: var(--strip-h);
-            box-sizing: border-box;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 1.5rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-            cursor: pointer;
-            user-select: none;
-            gap: 1rem;
-            transition: background-color 0.2s ease;
-          }
-
-          .deck-card-body {
-            opacity: 1;
-            display: grid;
-            grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
-            gap: 2.5rem;
-            padding: clamp(1.75rem, 3.5vw, 3rem);
-            box-sizing: border-box;
-            transition: opacity 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-          }
-
-          .deck-card.is-covered .deck-card-body {
-            opacity: 0;
-            pointer-events: none;
-          }
-
-          @media (max-width: 768px) {
-            .deck {
-              --nav-h: 64px;
-              --strip-h: 32px;
-              --stack-gap: 34px;
-              --inset-step: 10px;
-              padding-bottom: 50vh;
-            }
-
-            .deck-card {
-              border-radius: 20px;
-              min-height: auto;
-              margin-bottom: 50vh;
-            }
-
-            .deck-card-header {
-              height: var(--strip-h);
-              padding: 0 1rem;
-            }
-
-            .deck-card-body {
-              grid-template-columns: 1fr;
-              gap: 1.5rem;
-              padding: 1.25rem 1rem;
-            }
-          }
-
-          @media (prefers-reduced-motion: reduce) {
-            .deck-card,
-            .deck-card-body,
-            .deck-card-header,
-            .customer-laser-beam {
-              transition: none !important;
-              animation: none !important;
-            }
-          }
-
-          @keyframes customerLaserScan {
-            0%, 100% {
-              top: 2%;
-            }
-            50% {
-              top: 96%;
-            }
-          }
-
-          .customer-laser-beam {
-            animation: customerLaserScan 3.8s ease-in-out infinite;
-          }
-        `}</style>
-
-        <div 
-          className="deck"
-          style={{
-            maxWidth: '1200px',
-            margin: '0 auto'
-          }}
-        >
-          {STACKED_CUSTOMER_STORIES.map((story, index) => {
-            return (
-              <article
-                key={story.id}
-                ref={(el) => (cardRefs.current[index] = el)}
-                className="deck-card"
-                data-index={index}
+            {/* Prev / Next & Pause controls */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <button
+                onClick={() => setIsPaused(!isPaused)}
+                title={isPaused ? "Resume auto-rotation" : "Pause auto-rotation"}
                 style={{
-                  '--card-i': index,
-                  '--total-n': STACKED_CUSTOMER_STORIES.length,
-                  position: 'sticky',
-                  top: `calc(var(--nav-h, 72px) + ${index * 38}px)`,
-                  zIndex: index + 1,
-                  background: story.theme.gradient,
-                  border: `1px solid ${story.theme.tabBorder}`,
-                  borderTop: `2px solid ${story.theme.accent}`
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '50%',
+                  border: '1px solid rgba(255, 255, 255, 0.15)',
+                  backgroundColor: 'rgba(15, 23, 42, 0.6)',
+                  color: isPaused ? activeStory.theme.accent : '#94a3b8',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease'
                 }}
               >
-                  {/* Subtle top edge glow */}
-                  <div 
-                    style={{
-                      position: 'absolute',
-                      top: 0,
-                      left: '10%',
-                      right: '10%',
-                      height: '2px',
-                      background: `linear-gradient(90deg, transparent, ${story.theme.accent}, transparent)`,
-                      pointerEvents: 'none'
-                    }}
-                  />
+                {isPaused ? <Play size={13} fill="currentColor" /> : <Pause size={13} fill="currentColor" />}
+              </button>
 
-                  {/* CARD TAB HEADER STRIP */}
-                  <div
-                    className="deck-card-header"
-                    onClick={() => scrollToCard(index)}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      padding: '0.95rem 1.75rem',
-                      backgroundColor: story.theme.headerBg,
-                      borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
-                      cursor: 'pointer',
-                      gap: '1rem',
-                      userSelect: 'none',
-                      transition: 'background-color 0.2s ease'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.08)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.backgroundColor = story.theme.headerBg;
-                    }}
-                  >
-                    {/* Left: Punchy Salesforce-style statement */}
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', minWidth: 0 }}>
-                      <span style={{
-                        width: '9px',
-                        height: '9px',
-                        borderRadius: '50%',
-                        backgroundColor: story.theme.accent,
-                        boxShadow: `0 0 10px ${story.theme.accent}`,
-                        flexShrink: 0
-                      }} />
-                      <span style={{
-                        fontSize: 'clamp(0.95rem, 1.4vw, 1.15rem)',
-                        fontWeight: 700,
-                        color: '#ffffff',
-                        letterSpacing: '-0.01em',
-                        whiteSpace: 'nowrap',
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis'
+              <button
+                onClick={handlePrev}
+                aria-label="Previous customer story"
+                style={{
+                  width: '36px',
+                  height: '36px',
+                  borderRadius: '50%',
+                  border: '1px solid rgba(255, 255, 255, 0.15)',
+                  backgroundColor: 'rgba(15, 23, 42, 0.7)',
+                  color: '#ffffff',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = activeStory.theme.accent;
+                  e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.12)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.15)';
+                  e.currentTarget.style.backgroundColor = 'rgba(15, 23, 42, 0.7)';
+                }}
+              >
+                <ChevronLeft size={18} />
+              </button>
+
+              <button
+                onClick={handleNext}
+                aria-label="Next customer story"
+                style={{
+                  width: '36px',
+                  height: '36px',
+                  borderRadius: '50%',
+                  border: '1px solid rgba(255, 255, 255, 0.15)',
+                  backgroundColor: 'rgba(15, 23, 42, 0.7)',
+                  color: '#ffffff',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = activeStory.theme.accent;
+                  e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.12)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.15)';
+                  e.currentTarget.style.backgroundColor = 'rgba(15, 23, 42, 0.7)';
+                }}
+              >
+                <ChevronRight size={18} />
+              </button>
+            </div>
+          </div>
+
+          {/* Main Card Viewport with Animation */}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeStory.id}
+              initial={{ opacity: 0, y: direction * 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: direction * -14 }}
+              transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+              style={{
+                borderRadius: '24px',
+                background: activeStory.theme.gradient,
+                border: `1px solid ${activeStory.theme.tabBorder}`,
+                boxShadow: `0 24px 60px rgba(0, 0, 0, 0.5), 0 0 40px ${activeStory.theme.accentGlow}`,
+                overflow: 'hidden',
+                position: 'relative'
+              }}
+            >
+              {/* Subtle top edge accent glow */}
+              <div 
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: '10%',
+                  right: '10%',
+                  height: '2px',
+                  background: `linear-gradient(90deg, transparent, ${activeStory.theme.accent}, transparent)`,
+                  pointerEvents: 'none'
+                }}
+              />
+
+              {/* CARD TOP HEADER STRIP */}
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  padding: '1rem clamp(1rem, 2.5vw, 1.75rem)',
+                  backgroundColor: activeStory.theme.headerBg,
+                  borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+                  gap: '0.75rem',
+                  userSelect: 'none',
+                  flexWrap: 'wrap'
+                }}
+              >
+                {/* Left: Punchy statement */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', minWidth: 0, flex: '1 1 240px' }}>
+                  <span style={{
+                    width: '9px',
+                    height: '9px',
+                    borderRadius: '50%',
+                    backgroundColor: activeStory.theme.accent,
+                    boxShadow: `0 0 10px ${activeStory.theme.accent}`,
+                    flexShrink: 0
+                  }} />
+                  <span style={{
+                    fontSize: 'clamp(0.84rem, 1.25vw, 1.05rem)',
+                    fontWeight: 700,
+                    color: '#ffffff',
+                    letterSpacing: '-0.01em',
+                    lineHeight: 1.35
+                  }}>
+                    {activeStory.tabStatement}
+                  </span>
+                </div>
+
+                {/* Right: Product / Brand Badge */}
+                <div style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  padding: '5px 14px',
+                  borderRadius: '999px',
+                  backgroundColor: 'rgba(255, 255, 255, 0.12)',
+                  border: '1px solid rgba(255, 255, 255, 0.18)',
+                  color: '#ffffff',
+                  fontSize: '11.5px',
+                  fontWeight: 800,
+                  letterSpacing: '0.06em',
+                  textTransform: 'uppercase',
+                  flexShrink: 0
+                }}>
+                  {activeStory.tabIcon === 'cloud' && <Sparkles size={13} color={activeStory.theme.accent} />}
+                  {activeStory.tabIcon === 'sparkle' && <Zap size={13} color={activeStory.theme.accent} />}
+                  {activeStory.tabIcon === 'box' && <Warehouse size={13} color={activeStory.theme.accent} />}
+                  {activeStory.tabIcon === 'rfid' && <Radio size={13} color={activeStory.theme.accent} />}
+                  {activeStory.tabIcon === 'shield' && <ShieldCheck size={13} color={activeStory.theme.accent} />}
+                  <span>{activeStory.tabProduct}</span>
+                </div>
+              </div>
+
+              {/* CARD MAIN BODY */}
+              <div 
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'minmax(0, 1.22fr) minmax(0, 1fr)',
+                  gap: '2.5rem',
+                  padding: 'clamp(1.75rem, 3.5vw, 3rem)'
+                }}
+                className="deck-body-grid"
+              >
+                {/* Responsive CSS helper */}
+                <style>{`
+                  @media (max-width: 900px) {
+                    .deck-body-grid {
+                      grid-template-columns: 1fr !important;
+                      gap: 2rem !important;
+                    }
+                  }
+                `}</style>
+
+                {/* LEFT COLUMN: Customer Narrative & Metrics */}
+                <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                  
+                  <div>
+                    {/* Client Identity Pill */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.25rem', flexWrap: 'wrap' }}>
+                      <div style={{
+                        backgroundColor: '#ffffff',
+                        borderRadius: '999px',
+                        padding: '6px 16px',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        boxShadow: '0 4px 15px rgba(0, 0, 0, 0.25)'
                       }}>
-                        {story.tabStatement}
+                        <img 
+                          src={activeStory.logoUrl} 
+                          alt={activeStory.client} 
+                          style={{ height: '22px', maxWidth: '120px', objectFit: 'contain' }}
+                        />
+                      </div>
+
+                      <span style={{
+                        fontSize: '11px',
+                        fontWeight: 800,
+                        letterSpacing: '0.08em',
+                        textTransform: 'uppercase',
+                        color: activeStory.theme.accent
+                      }}>
+                        {activeStory.tierBadge}
                       </span>
                     </div>
 
-                    {/* Right: Product / Brand Badge */}
-                    <div style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '8px',
-                      padding: '5px 14px',
-                      borderRadius: '999px',
-                      backgroundColor: 'rgba(255, 255, 255, 0.12)',
-                      border: '1px solid rgba(255, 255, 255, 0.18)',
-                      color: '#ffffff',
-                      fontSize: '11.5px',
+                    {/* Bold Headline */}
+                    <h3 style={{
+                      fontSize: 'clamp(1.5rem, 2.3vw, 2.2rem)',
                       fontWeight: 800,
-                      letterSpacing: '0.06em',
-                      textTransform: 'uppercase',
-                      flexShrink: 0
+                      color: '#ffffff',
+                      lineHeight: 1.22,
+                      letterSpacing: '-0.02em',
+                      margin: '0 0 1rem 0'
                     }}>
-                      {story.tabIcon === 'cloud' && <Sparkles size={13} color={story.theme.accent} />}
-                      {story.tabIcon === 'sparkle' && <Zap size={13} color={story.theme.accent} />}
-                      {story.tabIcon === 'box' && <Warehouse size={13} color={story.theme.accent} />}
-                      {story.tabIcon === 'rfid' && <Radio size={13} color={story.theme.accent} />}
-                      {story.tabIcon === 'shield' && <ShieldCheck size={13} color={story.theme.accent} />}
-                      <span>{story.tabProduct}</span>
-                    </div>
-                  </div>
+                      {activeStory.headline}
+                    </h3>
 
-                  {/* CARD MAIN BODY */}
-                  <div 
-                    className="deck-card-body"
-                    style={{
+                    {/* Story Summary Paragraph */}
+                    <p style={{
+                      fontSize: 'clamp(0.92rem, 1.1vw, 1.02rem)',
+                      color: 'rgba(255, 255, 255, 0.88)',
+                      lineHeight: 1.65,
+                      margin: '0 0 1.75rem 0'
+                    }}>
+                      {activeStory.summary}
+                    </p>
+
+                    {/* TWO GRAND METRIC HIGHLIGHTS */}
+                    <div style={{
                       display: 'grid',
-                      gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-                      gap: '2rem',
-                      padding: 'clamp(1.75rem, 3.5vw, 3rem)'
-                    }}
-                  >
-                    {/* LEFT COLUMN: Customer Narrative & Metrics */}
-                    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                      
+                      gridTemplateColumns: '1fr 1fr',
+                      gap: '1.5rem',
+                      padding: '1.5rem 0',
+                      borderTop: '1px solid rgba(255, 255, 255, 0.12)',
+                      borderBottom: '1px solid rgba(255, 255, 255, 0.12)',
+                      marginBottom: '1.75rem'
+                    }}>
                       <div>
-                        {/* Client Identity Pill */}
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.25rem', flexWrap: 'wrap' }}>
-                          <div style={{
-                            backgroundColor: '#ffffff',
-                            borderRadius: '999px',
-                            padding: '6px 16px',
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            boxShadow: '0 4px 15px rgba(0, 0, 0, 0.25)'
-                          }}>
-                            <img 
-                              src={story.logoUrl} 
-                              alt={story.client} 
-                              style={{ height: '22px', maxWidth: '120px', objectFit: 'contain' }}
-                            />
-                          </div>
-
-                          <span style={{
-                            fontSize: '11px',
-                            fontWeight: 800,
-                            letterSpacing: '0.08em',
-                            textTransform: 'uppercase',
-                            color: story.theme.accent
-                          }}>
-                            {story.tierBadge}
-                          </span>
-                        </div>
-
-                        {/* Bold Headline */}
-                        <h3 style={{
-                          fontSize: 'clamp(1.6rem, 2.5vw, 2.3rem)',
-                          fontWeight: 800,
-                          color: '#ffffff',
-                          lineHeight: 1.22,
+                        <div style={{
+                          fontSize: 'clamp(2.1rem, 3.4vw, 3rem)',
+                          fontWeight: 900,
+                          color: activeStory.theme.accent,
+                          lineHeight: 1,
                           letterSpacing: '-0.02em',
-                          margin: '0 0 1rem 0'
+                          textShadow: `0 0 25px ${activeStory.theme.accentGlow}`
                         }}>
-                          {story.headline}
-                        </h3>
-
-                        {/* Story Summary Paragraph */}
-                        <p style={{
-                          fontSize: 'clamp(0.92rem, 1.1vw, 1.02rem)',
-                          color: 'rgba(255, 255, 255, 0.85)',
-                          lineHeight: 1.65,
-                          margin: '0 0 1.75rem 0'
-                        }}>
-                          {story.summary}
-                        </p>
-
-                        {/* TWO GRAND METRIC HIGHLIGHTS */}
-                        <div style={{
-                          display: 'grid',
-                          gridTemplateColumns: '1fr 1fr',
-                          gap: '1.5rem',
-                          padding: '1.5rem 0',
-                          borderTop: '1px solid rgba(255, 255, 255, 0.12)',
-                          borderBottom: '1px solid rgba(255, 255, 255, 0.12)',
-                          marginBottom: '1.75rem'
-                        }}>
-                          <div>
-                            <div style={{
-                              fontSize: 'clamp(2.1rem, 3.4vw, 3rem)',
-                              fontWeight: 900,
-                              color: story.theme.accent,
-                              lineHeight: 1,
-                              letterSpacing: '-0.02em',
-                              textShadow: `0 0 25px ${story.theme.accentGlow}`
-                            }}>
-                              {story.primaryMetric.value}
-                            </div>
-                            <div style={{ fontSize: '0.82rem', fontWeight: 700, color: '#ffffff', marginTop: '6px' }}>
-                              {story.primaryMetric.label}
-                            </div>
-                            <div style={{ fontSize: '0.74rem', color: 'rgba(255, 255, 255, 0.6)', marginTop: '2px' }}>
-                              {story.primaryMetric.subtext}
-                            </div>
-                          </div>
-
-                          <div>
-                            <div style={{
-                              fontSize: 'clamp(2.1rem, 3.4vw, 3rem)',
-                              fontWeight: 900,
-                              color: '#ffffff',
-                              lineHeight: 1,
-                              letterSpacing: '-0.02em'
-                            }}>
-                              {story.secondaryMetric.value}
-                            </div>
-                            <div style={{ fontSize: '0.82rem', fontWeight: 700, color: '#ffffff', marginTop: '6px' }}>
-                              {story.secondaryMetric.label}
-                            </div>
-                            <div style={{ fontSize: '0.74rem', color: 'rgba(255, 255, 255, 0.6)', marginTop: '2px' }}>
-                              {story.secondaryMetric.subtext}
-                            </div>
-                          </div>
+                          {activeStory.primaryMetric.value}
                         </div>
-
-                        {/* Verified Quote Snippet */}
-                        <div style={{
-                          display: 'flex',
-                          alignItems: 'flex-start',
-                          gap: '12px',
-                          marginBottom: '1.75rem',
-                          padding: '1rem',
-                          backgroundColor: 'rgba(0, 0, 0, 0.25)',
-                          borderRadius: '12px',
-                          borderLeft: `3px solid ${story.theme.accent}`
-                        }}>
-                          <Quote size={22} color={story.theme.accent} style={{ flexShrink: 0, marginTop: '2px', opacity: 0.8 }} />
-                          <div>
-                            <p style={{
-                              fontSize: '0.88rem',
-                              fontStyle: 'italic',
-                              color: 'rgba(255, 255, 255, 0.9)',
-                              lineHeight: 1.55,
-                              margin: '0 0 6px 0'
-                            }}>
-                              "{story.quote.text}"
-                            </p>
-                            <div style={{ fontSize: '11.5px', fontWeight: 700, color: story.theme.accent }}>
-                              {story.quote.author} &mdash; <span style={{ color: 'rgba(255, 255, 255, 0.65)', fontWeight: 500 }}>{story.quote.role}</span>
-                            </div>
-                          </div>
+                        <div style={{ fontSize: '0.82rem', fontWeight: 700, color: '#ffffff', marginTop: '6px' }}>
+                          {activeStory.primaryMetric.label}
+                        </div>
+                        <div style={{ fontSize: '0.74rem', color: 'rgba(255, 255, 255, 0.65)', marginTop: '2px' }}>
+                          {activeStory.primaryMetric.subtext}
                         </div>
                       </div>
 
-                      {/* ACTION CTAs & TECH CHIPS */}
-                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
-                        
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
-                          <button
-                            onClick={() => setSelectedModalStory(story)}
-                            style={{
-                              backgroundColor: '#ffffff',
-                              color: '#070c18',
-                              border: 'none',
-                              padding: '11px 22px',
-                              borderRadius: '999px',
-                              fontSize: '13px',
-                              fontWeight: 800,
-                              letterSpacing: '0.04em',
-                              cursor: 'pointer',
-                              display: 'inline-flex',
-                              alignItems: 'center',
-                              gap: '8px',
-                              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
-                              transition: 'all 0.2s ease'
-                            }}
-                            onMouseEnter={(e) => {
-                              e.currentTarget.style.transform = 'translateY(-2px)';
-                              e.currentTarget.style.backgroundColor = story.theme.accent;
-                              e.currentTarget.style.color = '#050914';
-                            }}
-                            onMouseLeave={(e) => {
-                              e.currentTarget.style.transform = 'translateY(0)';
-                              e.currentTarget.style.backgroundColor = '#ffffff';
-                              e.currentTarget.style.color = '#070c18';
-                            }}
-                          >
-                            <span>EXPLORE FULL CASE STUDY</span>
-                            <ArrowUpRight size={16} strokeWidth={2.6} />
-                          </button>
-
-                          <button
-                            onClick={() => openDemoModal({ 
-                              solution: `${story.client} - ${story.tabProduct}`, 
-                              notes: `Inquiry regarding case study: ${story.headline}` 
-                            })}
-                            style={{
-                              backgroundColor: 'transparent',
-                              color: '#ffffff',
-                              border: '1px solid rgba(255, 255, 255, 0.25)',
-                              padding: '11px 20px',
-                              borderRadius: '999px',
-                              fontSize: '13px',
-                              fontWeight: 700,
-                              cursor: 'pointer',
-                              transition: 'all 0.2s ease'
-                            }}
-                            onMouseEnter={(e) => {
-                              e.currentTarget.style.borderColor = story.theme.accent;
-                              e.currentTarget.style.color = story.theme.accent;
-                            }}
-                            onMouseLeave={(e) => {
-                              e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.25)';
-                              e.currentTarget.style.color = '#ffffff';
-                            }}
-                          >
-                            REQUEST PLANT ASSESSMENT
-                          </button>
-                        </div>
-
-                      </div>
-
-                    </div>
-
-                    {/* RIGHT COLUMN: Cinematic Imagery + Laser Scanning + Telemetry HUD */}
-                    <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                      
-                      <div style={{
-                        position: 'relative',
-                        borderRadius: '18px',
-                        overflow: 'hidden',
-                        aspectRatio: '16 / 11',
-                        border: '1px solid rgba(255, 255, 255, 0.15)',
-                        boxShadow: '0 20px 40px rgba(0, 0, 0, 0.5)'
-                      }}>
-                        {/* High-res authentic image */}
-                        <img 
-                          src={story.image} 
-                          alt={story.client} 
-                          style={{
-                            width: '100%',
-                            height: '100%',
-                            objectFit: 'cover',
-                            display: 'block'
-                          }}
-                        />
-
-                        {/* Overlay gradient */}
+                      <div>
                         <div style={{
-                          position: 'absolute',
-                          inset: 0,
-                          background: 'linear-gradient(180deg, rgba(5, 9, 20, 0.1) 0%, rgba(5, 9, 20, 0.55) 100%)',
-                          pointerEvents: 'none'
-                        }} />
-
-                        {/* ANIMATED LASER SCANNING BEAM (Pure GPU CSS) */}
-                        <div
-                          className="customer-laser-beam"
-                          style={{
-                            position: 'absolute',
-                            left: 0,
-                            right: 0,
-                            height: '2px',
-                            background: `linear-gradient(90deg, transparent 0%, ${story.theme.accent} 50%, transparent 100%)`,
-                            boxShadow: `0 0 14px ${story.theme.accent}, 0 0 28px ${story.theme.accent}`,
-                            pointerEvents: 'none',
-                            zIndex: 4
-                          }}
-                        />
-
-                        {/* FLOATING TELEMETRY HUD BADGE */}
-                        <div style={{
-                          position: 'absolute',
-                          bottom: '16px',
-                          left: '16px',
-                          right: '16px',
-                          backgroundColor: 'rgba(5, 12, 28, 0.85)',
-                          backdropFilter: 'blur(10px)',
-                          border: `1px solid ${story.theme.tabBorder}`,
-                          borderRadius: '12px',
-                          padding: '10px 14px',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'space-between',
-                          flexWrap: 'wrap',
-                          gap: '8px',
-                          zIndex: 5
-                        }}>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                            <span style={{
-                              width: '7px',
-                              height: '7px',
-                              borderRadius: '50%',
-                              backgroundColor: '#10b981',
-                              boxShadow: '0 0 8px #10b981'
-                            }} />
-                            <span style={{ fontSize: '11px', fontWeight: 800, color: '#ffffff', letterSpacing: '0.06em' }}>
-                              {story.telemetry.status}
-                            </span>
-                          </div>
-
-                          <div style={{ display: 'flex', gap: '12px', fontSize: '10.5px', fontFamily: 'monospace', color: story.theme.accent, fontWeight: 700 }}>
-                            <span>{story.telemetry.statA}</span>
-                            <span>•</span>
-                            <span>{story.telemetry.statB}</span>
-                          </div>
-                        </div>
-
-                        {/* Top corner sector tag */}
-                        <div style={{
-                          position: 'absolute',
-                          top: '14px',
-                          right: '14px',
-                          backgroundColor: 'rgba(5, 12, 28, 0.85)',
-                          backdropFilter: 'blur(8px)',
-                          border: '1px solid rgba(255, 255, 255, 0.15)',
-                          borderRadius: '999px',
-                          padding: '4px 12px',
-                          fontSize: '10.5px',
-                          fontWeight: 700,
+                          fontSize: 'clamp(2.1rem, 3.4vw, 3rem)',
+                          fontWeight: 900,
                           color: '#ffffff',
-                          zIndex: 5
+                          lineHeight: 1,
+                          letterSpacing: '-0.02em'
                         }}>
-                          {story.facility}
+                          {activeStory.secondaryMetric.value}
+                        </div>
+                        <div style={{ fontSize: '0.82rem', fontWeight: 700, color: '#ffffff', marginTop: '6px' }}>
+                          {activeStory.secondaryMetric.label}
+                        </div>
+                        <div style={{ fontSize: '0.74rem', color: 'rgba(255, 255, 255, 0.65)', marginTop: '2px' }}>
+                          {activeStory.secondaryMetric.subtext}
                         </div>
                       </div>
-
-                      {/* Tech Stack Badges Below Image */}
-                      <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginTop: '1rem' }}>
-                        {story.techStack.map((tech, idx) => (
-                          <span 
-                            key={idx}
-                            style={{
-                              fontSize: '11px',
-                              fontWeight: 600,
-                              color: 'rgba(255, 255, 255, 0.75)',
-                              backgroundColor: 'rgba(255, 255, 255, 0.06)',
-                              border: '1px solid rgba(255, 255, 255, 0.1)',
-                              padding: '4px 10px',
-                              borderRadius: '6px'
-                            }}
-                          >
-                            {tech}
-                          </span>
-                        ))}
-                      </div>
-
                     </div>
 
+                    {/* Verified Quote Snippet */}
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'flex-start',
+                      gap: '12px',
+                      marginBottom: '1.75rem',
+                      padding: '1rem',
+                      backgroundColor: 'rgba(0, 0, 0, 0.25)',
+                      borderRadius: '12px',
+                      borderLeft: `3px solid ${activeStory.theme.accent}`
+                    }}>
+                      <Quote size={22} color={activeStory.theme.accent} style={{ flexShrink: 0, marginTop: '2px', opacity: 0.8 }} />
+                      <div>
+                        <p style={{
+                          fontSize: '0.88rem',
+                          fontStyle: 'italic',
+                          color: 'rgba(255, 255, 255, 0.92)',
+                          lineHeight: 1.55,
+                          margin: '0 0 6px 0'
+                        }}>
+                          "{activeStory.quote.text}"
+                        </p>
+                        <div style={{ fontSize: '11.5px', fontWeight: 700, color: activeStory.theme.accent }}>
+                          {activeStory.quote.author} &mdash; <span style={{ color: 'rgba(255, 255, 255, 0.65)', fontWeight: 500 }}>{activeStory.quote.role}</span>
+                        </div>
+                      </div>
+                    </div>
                   </div>
 
-                </article>
-            );
-          })}
+                  {/* ACTION CTAs */}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+                    <button
+                      onClick={() => setSelectedModalStory(activeStory)}
+                      style={{
+                        backgroundColor: '#ffffff',
+                        color: '#070c18',
+                        border: 'none',
+                        padding: '11px 22px',
+                        borderRadius: '999px',
+                        fontSize: '13px',
+                        fontWeight: 800,
+                        letterSpacing: '0.04em',
+                        cursor: 'pointer',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
+                        transition: 'all 0.2s ease'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'translateY(-2px)';
+                        e.currentTarget.style.backgroundColor = activeStory.theme.accent;
+                        e.currentTarget.style.color = '#050914';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'translateY(0)';
+                        e.currentTarget.style.backgroundColor = '#ffffff';
+                        e.currentTarget.style.color = '#070c18';
+                      }}
+                    >
+                      <span>EXPLORE FULL CASE STUDY</span>
+                      <ArrowUpRight size={16} strokeWidth={2.6} />
+                    </button>
+
+                    <button
+                      onClick={() => openDemoModal({ 
+                        solution: `${activeStory.client} - ${activeStory.tabProduct}`, 
+                        notes: `Inquiry regarding case study: ${activeStory.headline}` 
+                      })}
+                      style={{
+                        backgroundColor: 'transparent',
+                        color: '#ffffff',
+                        border: '1px solid rgba(255, 255, 255, 0.25)',
+                        padding: '11px 20px',
+                        borderRadius: '999px',
+                        fontSize: '13px',
+                        fontWeight: 700,
+                        cursor: 'pointer',
+                        transition: 'all 0.2s ease'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.borderColor = activeStory.theme.accent;
+                        e.currentTarget.style.color = activeStory.theme.accent;
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.25)';
+                        e.currentTarget.style.color = '#ffffff';
+                      }}
+                    >
+                      REQUEST PLANT ASSESSMENT
+                    </button>
+                  </div>
+
+                </div>
+
+                {/* RIGHT COLUMN: Cinematic Imagery + Laser Scanning + Telemetry HUD */}
+                <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                  
+                  <div style={{
+                    position: 'relative',
+                    borderRadius: '18px',
+                    overflow: 'hidden',
+                    aspectRatio: '16 / 11',
+                    border: '1px solid rgba(255, 255, 255, 0.15)',
+                    boxShadow: '0 20px 40px rgba(0, 0, 0, 0.5)'
+                  }}>
+                    {/* High-res authentic image */}
+                    <img 
+                      src={activeStory.image} 
+                      alt={activeStory.client} 
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        display: 'block'
+                      }}
+                    />
+
+                    {/* Overlay gradient */}
+                    <div style={{
+                      position: 'absolute',
+                      inset: 0,
+                      background: 'linear-gradient(180deg, rgba(5, 9, 20, 0.1) 0%, rgba(5, 9, 20, 0.55) 100%)',
+                      pointerEvents: 'none'
+                    }} />
+
+                    {/* ANIMATED LASER SCANNING BEAM */}
+                    <div
+                      className="customer-laser-beam"
+                      style={{
+                        position: 'absolute',
+                        left: 0,
+                        right: 0,
+                        height: '2px',
+                        background: `linear-gradient(90deg, transparent 0%, ${activeStory.theme.accent} 50%, transparent 100%)`,
+                        boxShadow: `0 0 14px ${activeStory.theme.accent}, 0 0 28px ${activeStory.theme.accent}`,
+                        pointerEvents: 'none',
+                        zIndex: 4
+                      }}
+                    />
+
+                    {/* FLOATING TELEMETRY HUD BADGE */}
+                    <div style={{
+                      position: 'absolute',
+                      bottom: '16px',
+                      left: '16px',
+                      right: '16px',
+                      backgroundColor: 'rgba(5, 12, 28, 0.88)',
+                      backdropFilter: 'blur(10px)',
+                      border: `1px solid ${activeStory.theme.tabBorder}`,
+                      borderRadius: '12px',
+                      padding: '10px 14px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      flexWrap: 'wrap',
+                      gap: '8px',
+                      zIndex: 5
+                    }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <span style={{
+                          width: '7px',
+                          height: '7px',
+                          borderRadius: '50%',
+                          backgroundColor: '#10b981',
+                          boxShadow: '0 0 8px #10b981'
+                        }} />
+                        <span style={{ fontSize: '11px', fontWeight: 800, color: '#ffffff', letterSpacing: '0.06em' }}>
+                          {activeStory.telemetry.status}
+                        </span>
+                      </div>
+
+                      <div style={{ display: 'flex', gap: '12px', fontSize: '10.5px', fontFamily: 'monospace', color: activeStory.theme.accent, fontWeight: 700 }}>
+                        <span>{activeStory.telemetry.statA}</span>
+                        <span>&bull;</span>
+                        <span>{activeStory.telemetry.statB}</span>
+                      </div>
+                    </div>
+
+                    {/* Top corner sector tag */}
+                    <div style={{
+                      position: 'absolute',
+                      top: '14px',
+                      right: '14px',
+                      backgroundColor: 'rgba(5, 12, 28, 0.85)',
+                      backdropFilter: 'blur(8px)',
+                      border: '1px solid rgba(255, 255, 255, 0.15)',
+                      borderRadius: '999px',
+                      padding: '4px 12px',
+                      fontSize: '10.5px',
+                      fontWeight: 700,
+                      color: '#ffffff',
+                      zIndex: 5
+                    }}>
+                      {activeStory.facility}
+                    </div>
+                  </div>
+
+                  {/* Tech Stack Badges Below Image */}
+                  <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginTop: '1rem' }}>
+                    {activeStory.techStack.map((tech, idx) => (
+                      <span 
+                        key={idx}
+                        style={{
+                          fontSize: '11px',
+                          fontWeight: 600,
+                          color: 'rgba(255, 255, 255, 0.8)',
+                          backgroundColor: 'rgba(255, 255, 255, 0.06)',
+                          border: '1px solid rgba(255, 255, 255, 0.12)',
+                          padding: '4px 10px',
+                          borderRadius: '6px'
+                        }}
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+
+                </div>
+
+              </div>
+            </motion.div>
+          </AnimatePresence>
+
+          {/* Bottom Dot Indicators */}
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '8px',
+            marginTop: '1.75rem'
+          }}>
+            {STACKED_CUSTOMER_STORIES.map((s, idx) => {
+              const isActive = activeIdx === idx;
+              return (
+                <button
+                  key={s.id}
+                  onClick={() => handleSelect(idx)}
+                  title={`View ${s.client}`}
+                  style={{
+                    height: '8px',
+                    width: isActive ? '32px' : '8px',
+                    borderRadius: '999px',
+                    backgroundColor: isActive ? s.theme.accent : 'rgba(255, 255, 255, 0.2)',
+                    boxShadow: isActive ? `0 0 10px ${s.theme.accent}` : 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s cubic-bezier(0.22, 1, 0.36, 1)'
+                  }}
+                />
+              );
+            })}
+          </div>
+
         </div>
 
         {/* =====================================================================
@@ -1155,7 +1099,7 @@ export const CustomerStoriesCarousel = () => {
            ===================================================================== */}
         <div style={{
           textAlign: 'center',
-          marginTop: '4rem',
+          marginTop: '3.5rem',
           padding: '1.75rem 2rem',
           backgroundColor: 'rgba(15, 23, 42, 0.75)',
           border: '1px solid rgba(0, 240, 255, 0.2)',
@@ -1166,7 +1110,7 @@ export const CustomerStoriesCarousel = () => {
           flexWrap: 'wrap',
           gap: '1.5rem',
           maxWidth: '1200px',
-          margin: '4rem auto 0 auto'
+          margin: '3.5rem auto 0 auto'
         }}>
           <div style={{ textAlign: 'left' }}>
             <div style={{ fontSize: '1.15rem', fontWeight: 800, color: '#ffffff', marginBottom: '4px' }}>
