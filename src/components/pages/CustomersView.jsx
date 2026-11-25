@@ -10,7 +10,7 @@ export const CustomersView = () => {
   const [selectedCaseStudy, setSelectedCaseStudy] = useState(null);
 
   return (
-    <div style={{ backgroundColor: '#FFFFFF', color: '#032D60', minHeight: '100vh', overflowX: 'clip' }}>
+    <div style={{ backgroundColor: '#060b14', color: '#ffffff', minHeight: '100vh', overflowX: 'clip' }}>
       
       {/* =========================================================================
           1. FULL-SCREEN HANDSHAKE VIDEO HERO & 100% CLIENT MARQUEE (Salesforce-Style)
