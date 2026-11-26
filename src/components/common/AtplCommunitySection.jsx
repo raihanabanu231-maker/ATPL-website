@@ -333,13 +333,14 @@ export function AtplCommunitySection() {
                         width="800"
                         height="440"
                         loading="lazy"
+                        decoding="async"
                         style={{
                           width: '100%',
                           height: 'auto',
                           maxHeight: '430px',
                           aspectRatio: '730 / 440',
                           objectFit: 'cover',
-                          objectPosition: 'center top',
+                          objectPosition: activePhotoTab === 'team' ? 'center top' : 'center center',
                           display: 'block'
                         }}
                       />

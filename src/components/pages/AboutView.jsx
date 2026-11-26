@@ -454,6 +454,7 @@ export const AboutView = () => {
                       height: '84px',
                       borderRadius: '16px',
                       objectFit: 'cover',
+                      objectPosition: '68% 28%',
                       border: '2px solid #00f0ff',
                       boxShadow: '0 8px 20px rgba(0, 113, 186, 0.35)'
                     }}
