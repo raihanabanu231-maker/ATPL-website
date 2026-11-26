@@ -61,56 +61,7 @@ export const Archie3DRobotSection = () => {
         }}
       >
         <div style={{ maxWidth: '1180px', margin: '0 auto', display: 'flex', flexDirection: 'column' }}>
-          
-          {/* Header Badge */}
-          <div
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '8px',
-              padding: '6px 16px',
-              borderRadius: '999px',
-              backgroundColor: 'rgba(0, 240, 255, 0.1)',
-              border: '1px solid rgba(0, 240, 255, 0.35)',
-              fontSize: '11.5px',
-              fontWeight: 800,
-              letterSpacing: '0.08em',
-              textTransform: 'uppercase',
-              color: '#00f0ff',
-              marginBottom: '0.75rem',
-              width: 'fit-content'
-            }}
-          >
-            <span style={{ width: '7px', height: '7px', borderRadius: '50%', backgroundColor: '#00f0ff', boxShadow: '0 0 8px #00f0ff' }} />
-            <span>OPERATIONAL BENCHMARK // 250+ CONNECTED MEGA-PLANTS</span>
-          </div>
-
-          <h2
-            style={{
-              fontSize: 'clamp(2rem, 3.8vw, 3rem)',
-              fontWeight: 900,
-              lineHeight: 1.15,
-              letterSpacing: '-0.03em',
-              color: '#ffffff',
-              margin: '0 0 0.5rem 0'
-            }}
-          >
-            Why ATPL for <span style={{ color: '#00f0ff', textShadow: '0 0 25px rgba(0, 240, 255, 0.45)' }}>Factory Automation</span>
-          </h2>
-
-          <p
-            style={{
-              fontSize: 'clamp(0.95rem, 1.2vw, 1.08rem)',
-              lineHeight: 1.55,
-              color: '#94a3b8',
-              margin: '0 0 1.75rem 0',
-              maxWidth: '850px'
-            }}
-          >
-            Direct engineering integration with in-house software, guaranteed &lt;4-hr SLAs, and native SAP/Oracle synchronization.
-          </p>
-
-          {/* The Dual Animated Split Comparison (ATPL Way vs Without ATPL) */}
+          {/* The Dual Animated Split Comparison (ATPL Way vs Without ATPL with Pro Physics Drops) */}
           <AtplSplitComparison />
 
           {/* Bottom Actions Bar */}
