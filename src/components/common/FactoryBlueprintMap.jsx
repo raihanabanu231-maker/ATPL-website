@@ -68,8 +68,50 @@ export const ATPL_FACTORY_NODES = [
     targetView: 'software'
   },
   {
-    id: 'node-rfid',
+    id: 'node-labeler',
     stepNumber: 4,
+    name: 'PERFECT LABELER™',
+    category: 'AUTOMATED PRINT & APPLY',
+    icon: '🏷️',
+    x: 47,
+    y: 71,
+    image: '/assets/images/stations/labeler.webp',
+    tagline: '120 Packs/Min Automated Print & Apply with In-Line Verifier',
+    highlight: 'High-speed robotic carton & pallet labeling with interchangeable tamp-blow arms, 100% ISO/IEC 15415 barcode grading, and pneumatic zero-defect reject.',
+    roiMetric: '120 Packs/Min Inline',
+    targetView: 'software'
+  },
+  {
+    id: 'node-mdm',
+    stepNumber: 5,
+    name: 'PERFECT MDM™',
+    category: 'MOBILE DEVICE MANAGEMENT',
+    icon: '📱',
+    x: 64,
+    y: 38,
+    image: '/assets/images/stations/mdm.webp',
+    tagline: 'Enterprise Fleet Governance & Kiosk Lockdown for 1,500+ Handhelds',
+    highlight: 'Zero-touch QR/NFC staging, single-app kiosk lockdown, real-time remote screen takeover, and battery health telemetry across 1,500+ rugged devices.',
+    roiMetric: '<60s Zero-Touch Staging',
+    targetView: 'software'
+  },
+  {
+    id: 'node-flow',
+    stepNumber: 6,
+    name: 'PERFECT FLOW 360™',
+    category: 'CRM & FIELD OPERATIONS',
+    icon: '⚡',
+    x: 33,
+    y: 35,
+    image: '/assets/images/stations/flow360.webp',
+    tagline: '360° Real-Time Field Service, Customer SLAs & Plant Workflow',
+    highlight: 'Unified customer telemetry, technician dispatch scheduling, real-time warranty SLA tracking, and bi-directional shopfloor-to-field automation.',
+    roiMetric: '100% SLA Compliance',
+    targetView: 'software'
+  },
+  {
+    id: 'node-rfid',
+    stepNumber: 7,
     name: 'RFID ANTENNA & READERS',
     category: 'AIDC HARDWARE',
     icon: '📡',
@@ -83,7 +125,7 @@ export const ATPL_FACTORY_NODES = [
   },
   {
     id: 'node-pms',
-    stepNumber: 5,
+    stepNumber: 8,
     name: 'PERFECT PMS™',
     category: 'PRODUCTION MANAGEMENT (MES)',
     icon: '⚙️',
@@ -97,7 +139,7 @@ export const ATPL_FACTORY_NODES = [
   },
   {
     id: 'node-scanners',
-    stepNumber: 6,
+    stepNumber: 9,
     name: 'SCANNING SOLUTIONS',
     category: 'AIDC HARDWARE',
     icon: '📱',
@@ -111,7 +153,7 @@ export const ATPL_FACTORY_NODES = [
   },
   {
     id: 'node-printers',
-    stepNumber: 7,
+    stepNumber: 10,
     name: 'INDUSTRIAL PRINTING',
     category: 'PRINTING SOLUTIONS',
     icon: '🖨️',
@@ -125,7 +167,7 @@ export const ATPL_FACTORY_NODES = [
   },
   {
     id: 'node-drones',
-    stepNumber: 8,
+    stepNumber: 11,
     name: 'DRONES & REMOTE CONTROL',
     category: 'AERIAL WAREHOUSE AUDIT',
     icon: '🛸',
@@ -139,7 +181,7 @@ export const ATPL_FACTORY_NODES = [
   },
   {
     id: 'node-dev',
-    stepNumber: 9,
+    stepNumber: 12,
     name: 'SOFTWARE DEVELOPMENT',
     category: 'R&D LABS (MADURAI & CHENNAI)',
     icon: '💻',
@@ -153,7 +195,7 @@ export const ATPL_FACTORY_NODES = [
   },
   {
     id: 'node-ai',
-    stepNumber: 10,
+    stepNumber: 13,
     name: 'SUPER COMPUTER AI & ML',
     category: 'EDGE AI & VISION INTELLIGENCE',
     icon: '🧠',
@@ -167,7 +209,7 @@ export const ATPL_FACTORY_NODES = [
   },
   {
     id: 'node-erp',
-    stepNumber: 11,
+    stepNumber: 14,
     name: 'ERP SOLUTIONS & SYNC',
     category: 'ENTERPRISE INTEGRATION',
     icon: '🔄',
