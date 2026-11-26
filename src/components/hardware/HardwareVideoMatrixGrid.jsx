@@ -585,14 +585,12 @@ function releaseDecoderSlot(id) {
 
 /**
  * TurntableVideoPlayer
- * Pure 100% continuous automatic 360° video turntable player.
- * - IntersectionObserver: rootMargin '100px', threshold 0.2.
- * - Completely unmounts <video> when out of viewport to release hardware decoders back to the OS.
- * - Caps active decoders to MAX_ACTIVE_DECODERS (6), falling back to optimized first-frame .jpg poster.
- * - Uses preload="metadata", autoPlay, loop, muted, playsInline.
- * - Sets video.muted = true and defaultMuted = true before calling play().
- * - Pure native GPU rotation without setInterval, onWaiting, or onStalled hacks.
- * - Simple clean video styling with no drop-shadow filter.
+ * High-performance 360° video turntable player:
+ * - Pre-loads 300px before entering viewport (rootMargin: '300px', threshold: 0).
+ * - 2-second grace period before unmounting out-of-view videos to prevent thrashing during scrolling.
+ * - preload="auto" for smooth buffer-ahead playback without stalling.
+ * - Isolated playbackSpeed updates without tearing down or reloading the video element.
+ * - Clean composite stack with no backdrop blur over the playing video surface.
  */
 const TurntableVideoPlayer = ({
   src = '/assets/videos/rotating_optimized.mp4',
@@ -605,6 +603,7 @@ const TurntableVideoPlayer = ({
   const instanceId = useRef(Math.random().toString(36).substring(2, 9)).current;
   const containerRef = useRef(null);
   const videoRef = useRef(null);
+  const leaveTimeoutRef = useRef(null);
 
   const [inView, setInView] = useState(inModal);
   const [hasSlot, setHasSlot] = useState(inModal);
@@ -616,7 +615,7 @@ const TurntableVideoPlayer = ({
     return src.replace('/assets/videos/', '/assets/videos/posters/').replace(/\.mp4$/, '.jpg');
   }, [poster, src]);
 
-  // Viewport intersection observer (rootMargin '100px', threshold 0.2)
+  // Viewport intersection observer (rootMargin '300px', threshold 0 with 2s exit grace period)
   useEffect(() => {
     if (inModal) {
       setInView(true);
@@ -632,14 +631,35 @@ const TurntableVideoPlayer = ({
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          setInView(entry.isIntersecting);
+          if (entry.isIntersecting) {
+            // Cancel any pending unmount grace timer
+            if (leaveTimeoutRef.current) {
+              clearTimeout(leaveTimeoutRef.current);
+              leaveTimeoutRef.current = null;
+            }
+            setInView(true);
+          } else {
+            // Card left the 300px pre-load viewport margin.
+            // Wait 2 seconds before unmounting to avoid stutter during quick scroll gestures
+            if (leaveTimeoutRef.current) {
+              clearTimeout(leaveTimeoutRef.current);
+            }
+            leaveTimeoutRef.current = setTimeout(() => {
+              setInView(false);
+              leaveTimeoutRef.current = null;
+            }, 2000);
+          }
         });
       },
-      { root: null, rootMargin: '100px', threshold: 0.2 }
+      { root: null, rootMargin: '300px', threshold: 0 }
     );
 
     observer.observe(container);
     return () => {
+      if (leaveTimeoutRef.current) {
+        clearTimeout(leaveTimeoutRef.current);
+        leaveTimeoutRef.current = null;
+      }
       observer.disconnect();
     };
   }, [inModal]);
@@ -679,7 +699,8 @@ const TurntableVideoPlayer = ({
 
   const shouldMountVideo = inView && hasSlot;
 
-  // Video playback lifecycle and immediate decoder cleanup on unmount
+  // Video playback lifecycle and decoder cleanup on unmount
+  // NOTE: playbackSpeed is deliberately NOT in the dependency array so speed changes never tear down the video
   useEffect(() => {
     if (!shouldMountVideo) return;
     const v = videoRef.current;
@@ -699,7 +720,6 @@ const TurntableVideoPlayer = ({
     }
 
     return () => {
-      // Immediate hardware decoder release: pause, clear src, load
       try {
         v.pause();
         v.removeAttribute('src');
@@ -708,9 +728,9 @@ const TurntableVideoPlayer = ({
         // ignore
       }
     };
-  }, [shouldMountVideo, src, playbackSpeed]);
+  }, [shouldMountVideo, src]);
 
-  // Dynamic playback rate sync
+  // Dynamic playback rate sync: only touches playbackRate without reloading
   useEffect(() => {
     if (videoRef.current) {
       videoRef.current.playbackRate = playbackSpeed;
@@ -744,7 +764,7 @@ const TurntableVideoPlayer = ({
           loop
           muted
           playsInline
-          preload="metadata"
+          preload="auto"
           style={{
             width: '100%',
             height: '100%',
@@ -1181,8 +1201,7 @@ export const HardwareVideoMatrixGrid = ({
                       top: '12px',
                       left: '12px',
                       zIndex: 5,
-                      backgroundColor: 'rgba(5, 11, 24, 0.85)',
-                      backdropFilter: 'blur(8px)',
+                      backgroundColor: 'rgba(5, 11, 24, 0.92)',
                       border: '1px solid rgba(0, 240, 255, 0.4)',
                       padding: '3px 9px',
                       borderRadius: '999px',
@@ -1205,8 +1224,7 @@ export const HardwareVideoMatrixGrid = ({
                     top: '12px',
                     right: '12px',
                     zIndex: 5,
-                    background: 'rgba(5, 11, 24, 0.85)',
-                    backdropFilter: 'blur(8px)',
+                    background: 'rgba(5, 11, 24, 0.92)',
                     border: '1px solid rgba(255, 255, 255, 0.25)',
                     padding: '6px',
                     borderRadius: '8px',
