@@ -605,6 +605,10 @@ const TurntableVideoPlayer = ({
   const videoRef = useRef(null);
   const leaveTimeoutRef = useRef(null);
 
+  // Store playbackSpeed in a ref updated on every render
+  const speedRef = useRef(playbackSpeed);
+  speedRef.current = playbackSpeed;
+
   const [inView, setInView] = useState(inModal);
   const [hasSlot, setHasSlot] = useState(inModal);
 
@@ -615,7 +619,7 @@ const TurntableVideoPlayer = ({
     return src.replace('/assets/videos/', '/assets/videos/posters/').replace(/\.mp4$/, '.jpg');
   }, [poster, src]);
 
-  // Viewport intersection observer (rootMargin '300px', threshold 0 with 2s exit grace period)
+  // Viewport intersection observer (rootMargin '300px', threshold 0 with 2000ms exit grace period)
   useEffect(() => {
     if (inModal) {
       setInView(true);
@@ -632,15 +636,14 @@ const TurntableVideoPlayer = ({
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            // Cancel any pending unmount grace timer
+            // Become visible immediately; clear any pending exit timeout
             if (leaveTimeoutRef.current) {
               clearTimeout(leaveTimeoutRef.current);
               leaveTimeoutRef.current = null;
             }
             setInView(true);
           } else {
-            // Card left the 300px pre-load viewport margin.
-            // Wait 2 seconds before unmounting to avoid stutter during quick scroll gestures
+            // Wait 2000ms before unmounting out-of-view videos
             if (leaveTimeoutRef.current) {
               clearTimeout(leaveTimeoutRef.current);
             }
@@ -699,8 +702,8 @@ const TurntableVideoPlayer = ({
 
   const shouldMountVideo = inView && hasSlot;
 
-  // Video playback lifecycle and decoder cleanup on unmount
-  // NOTE: playbackSpeed is deliberately NOT in the dependency array so speed changes never tear down the video
+  // Video playback lifecycle: depends ONLY on [shouldMountVideo, src]
+  // StrictMode-safe cleanup: pauses immediately, but only frees src if element actually disconnected from DOM
   useEffect(() => {
     if (!shouldMountVideo) return;
     const v = videoRef.current;
@@ -712,7 +715,7 @@ const TurntableVideoPlayer = ({
     v.setAttribute('muted', '');
     v.setAttribute('playsinline', '');
     v.setAttribute('webkit-playsinline', '');
-    v.playbackRate = playbackSpeed;
+    v.playbackRate = speedRef.current;
 
     const playPromise = v.play();
     if (playPromise !== undefined) {
@@ -722,15 +725,20 @@ const TurntableVideoPlayer = ({
     return () => {
       try {
         v.pause();
-        v.removeAttribute('src');
-        v.load();
-      } catch (e) {
-        // ignore
-      }
+      } catch (e) {}
+
+      setTimeout(() => {
+        if (!v.isConnected) {
+          try {
+            v.removeAttribute('src');
+            v.load();
+          } catch (e) {}
+        }
+      }, 0);
     };
   }, [shouldMountVideo, src]);
 
-  // Dynamic playback rate sync: only touches playbackRate without reloading
+  // Dynamic playback rate sync: only sets playbackRate without reloading
   useEffect(() => {
     if (videoRef.current) {
       videoRef.current.playbackRate = playbackSpeed;
@@ -765,6 +773,11 @@ const TurntableVideoPlayer = ({
           muted
           playsInline
           preload="auto"
+          onLoadedMetadata={() => {
+            if (videoRef.current) {
+              videoRef.current.playbackRate = speedRef.current;
+            }
+          }}
           style={{
             width: '100%',
             height: '100%',
