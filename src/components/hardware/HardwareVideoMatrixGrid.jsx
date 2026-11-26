@@ -1207,30 +1207,6 @@ export const HardwareVideoMatrixGrid = ({
                   <span style={{ position: 'absolute', bottom: '8px', left: '8px', width: '10px', height: '10px', borderBottom: '2px solid #00f0ff', borderLeft: '2px solid #00f0ff', zIndex: 4, pointerEvents: 'none' }} />
                   <span style={{ position: 'absolute', bottom: '8px', right: '8px', width: '10px', height: '10px', borderBottom: '2px solid #00f0ff', borderRight: '2px solid #00f0ff', zIndex: 4, pointerEvents: 'none' }} />
 
-                  {/* Top-Left Live Turntable Badge */}
-                  <div
-                    style={{
-                      position: 'absolute',
-                      top: '12px',
-                      left: '12px',
-                      zIndex: 5,
-                      backgroundColor: 'rgba(5, 11, 24, 0.92)',
-                      border: '1px solid rgba(0, 240, 255, 0.4)',
-                      padding: '3px 9px',
-                      borderRadius: '999px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '5px',
-                      fontSize: '10px',
-                      fontWeight: 800,
-                      color: '#00f0ff',
-                      letterSpacing: '0.05em'
-                    }}
-                  >
-                    <RotateCw size={10} color="#00f0ff" />
-                    <span>360° 60FPS</span>
-                  </div>
-
                   {/* Top-Right Expand Button */}
                   <div style={{
                     position: 'absolute',
