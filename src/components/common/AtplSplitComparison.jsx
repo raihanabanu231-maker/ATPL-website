@@ -2,15 +2,9 @@ import React, { useState, useEffect, useRef, useCallback, memo } from 'react';
 import { useInView, useReducedMotion } from 'framer-motion';
 import { 
   RotateCcw, 
-  Sparkles, 
   Clock, 
   ShieldCheck, 
-  Zap, 
-  Check, 
-  X,
-  TrendingUp,
-  Activity,
-  Layers
+  Zap 
 } from 'lucide-react';
 
 // =========================================================================
@@ -30,27 +24,25 @@ export const ROWS = [
 ];
 
 // =========================================================================
-// 2. ANIMATION TIMING CONFIGURATION (TUNE ALL PARAMETERS HERE)
+// 2. ANIMATION TIMING CONFIGURATION (EASILY TUNE PARAMETERS HERE)
 // =========================================================================
 export const ANIM_CONFIG = {
-  // Stagger between rows in seconds
+  // Total length of one endless loop cycle per chip (in seconds)
+  cycleLength: 6.4, 
+  // Stagger between consecutive rows (in seconds, top row first)
   rowStagger: 0.30, 
-  // Fall duration per chip in seconds
-  fallDuration: 1.10, 
-  // Drop initial tilt angle in degrees (-14deg left, +14deg right)
-  tiltLeft: -14,
-  tiltRight: 14,
   // Bounce physics: first rebound up 62px, second rebound 15px
   firstBounceHeight: 62, 
   secondBounceHeight: 15,
-  // Impact effects duration in ms
+  // Drop initial tilt angle in degrees (-14deg left, +14deg right)
+  tiltLeft: -14,
+  tiltRight: 14,
+  // Landing impact effects (duration in ms and upward spark count)
   impactDuration: 700,
   sparkCount: 7,
   // Idle floating loop duration in seconds
   floatDuration: 4.5,
   floatDisplacement: 6,
-  // Pair highlight auto-cycle interval in ms
-  pairCycleInterval: 2400,
   // 3D Panel Tilt Angles (degrees)
   maxTiltX: 5,
   maxTiltY: 7,
@@ -58,20 +50,20 @@ export const ANIM_CONFIG = {
 };
 
 // =========================================================================
-// 3. STATS COUNT-UP COMPONENT (Shown after chips land)
+// 3. STATS COUNT-UP COMPONENT (Counts up once section starts)
 // =========================================================================
 const StatCard = memo(({ label, targetValue, prefix = '', suffix = '', subtext, icon: Icon, color = '#00f0ff' }) => {
   const [val, setVal] = useState(0);
 
   useEffect(() => {
     let start = 0;
-    const duration = 1600;
+    const duration = 1800;
     const startTime = performance.now();
 
     const animateCount = (now) => {
       const elapsed = now - startTime;
       const progress = Math.min(1, elapsed / duration);
-      // easeOutExpo
+      // easeOutExpo for ultra smooth counter
       const ease = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
       setVal(Math.round(ease * targetValue));
       if (progress < 1) {
@@ -120,7 +112,7 @@ const StatCard = memo(({ label, targetValue, prefix = '', suffix = '', subtext, 
 });
 
 // =========================================================================
-// 4. MAIN ATPL SPLIT COMPARISON COMPONENT
+// 4. MAIN ATPL SPLIT COMPARISON COMPONENT (ENDLESS FALL LOOP)
 // =========================================================================
 export const AtplSplitComparison = memo(() => {
   const containerRef = useRef(null);
@@ -128,39 +120,29 @@ export const AtplSplitComparison = memo(() => {
   const rightPanelRef = useRef(null);
   const sparksOverlayRef = useRef(null);
   const canvasRef = useRef(null);
-  const overlayRef = useRef(null);
 
   const atplRefs = useRef([]);
   const probRefs = useRef([]);
   const animInstancesRef = useRef([]);
   const timersRef = useRef([]);
+  const intervalsRef = useRef([]);
 
-  // Reduced motion preference
   const prefersReduced = useReducedMotion();
+  const isInView = useInView(containerRef, { amount: 0.1 });
 
-  // Scroll in-view trigger
-  const isInView = useInView(containerRef, { once: true, amount: 0.15 });
-
-  // Animation lifecycle states
   const [hasStarted, setHasStarted] = useState(false);
-  const [landedRows, setLandedRows] = useState(new Set());
-  const [allLanded, setAllLanded] = useState(false);
-  const [isReplaying, setIsReplaying] = useState(false);
+  const [activeHoverRow, setActiveHoverRow] = useState(null);
 
-  // Pair highlight states
-  const [activeRow, setActiveRow] = useState(0);
-  const [hoveredRow, setHoveredRow] = useState(null);
-  const [isMouseOver, setIsMouseOver] = useState(false);
-  const [lineCoords, setLineCoords] = useState(null);
-
-  // 3D tilt coordinates & cursor glow
+  // 3D tilt coordinates & cursor glow position
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const [mousePos, setMousePos] = useState({ x: 50, y: 50 });
 
-  // Clear all pending timers and animations
+  // Clean up all pending timers, intervals, and active WAAPI animations
   const cleanupAllAnimations = useCallback(() => {
     timersRef.current.forEach(t => clearTimeout(t));
     timersRef.current = [];
+    intervalsRef.current.forEach(i => clearInterval(i));
+    intervalsRef.current = [];
     animInstancesRef.current.forEach(a => {
       try { a.cancel(); } catch (e) {}
     });
@@ -195,7 +177,7 @@ export const AtplSplitComparison = memo(() => {
       spark.style.boxShadow = `0 0 8px ${color}, 0 0 2px #ffffff`;
       sparksOverlayRef.current.appendChild(spark);
 
-      // Random upward fan angle (-150deg to -30deg)
+      // Upward fan angles (-150deg to -30deg)
       const angle = (-150 + Math.random() * 120) * (Math.PI / 180);
       const dist = 22 + Math.random() * 40;
       const targetX = Math.cos(angle) * dist;
@@ -211,147 +193,133 @@ export const AtplSplitComparison = memo(() => {
     }
   }, []);
 
-  // Run the physics drop animation sequence
-  const startDropAnimation = useCallback(() => {
+  // Build the 6.4s endless loop keyframes for a single chip
+  // Phases:
+  // - 0% to 17%: Fall from top edge with gravity ease-in & bounce physics (squash 1.14x0.76, 62px rebound, 15px settle)
+  // - 17% to 76%: Rest phase with gentle floating idle
+  // - 76% to 90%: Lift straight up, tilt opposite way, fade out above panel top edge
+  // - 90% to 100%: Hidden above panel top edge until cycle repeats
+  const buildEndlessKeyframes = (dropDistance, isLeft) => {
+    const initialTilt = isLeft ? ANIM_CONFIG.tiltLeft : ANIM_CONFIG.tiltRight;
+    const oppositeTilt = -initialTilt;
+
+    return [
+      // 0% (t = 0s): Tilted, clipped above panel top edge
+      { transform: `translate3d(0, -${dropDistance}px, 0) rotate(${initialTilt}deg) scale(1, 1)`, opacity: 0, offset: 0 },
+      // 1.5% (t = ~0.10s): Enters top edge of panel
+      { transform: `translate3d(0, -${dropDistance * 0.9}px, 0) rotate(${initialTilt * 0.9}deg) scale(1, 1)`, opacity: 1, offset: 0.015 },
+      // 9% (t = ~0.58s): Impact 1 - Hard landing squash (1.14 x 0.76)
+      { transform: `translate3d(0, 0px, 0) rotate(0deg) scale(1.14, 0.76)`, opacity: 1, offset: 0.09 },
+      // 11.5% (t = ~0.74s): Rebound 1 - Big spring up 62px
+      { transform: `translate3d(0, -${ANIM_CONFIG.firstBounceHeight}px, 0) rotate(${initialTilt * 0.15}deg) scale(0.96, 1.05)`, opacity: 1, offset: 0.115 },
+      // 14% (t = ~0.90s): Landing 2 - Secondary squash (1.06 x 0.90)
+      { transform: `translate3d(0, 0px, 0) rotate(0deg) scale(1.06, 0.90)`, opacity: 1, offset: 0.14 },
+      // 15.5% (t = ~0.99s): Rebound 2 - Small bounce 15px
+      { transform: `translate3d(0, -${ANIM_CONFIG.secondBounceHeight}px, 0) rotate(0deg) scale(0.98, 1.02)`, opacity: 1, offset: 0.155 },
+      // 17% (t = ~1.09s): Fully settled!
+      { transform: `translate3d(0, 0px, 0) rotate(0deg) scale(1, 1)`, opacity: 1, offset: 0.17 },
+
+      // 17% to 76%: REST PHASE with gentle floating idle (translateY 6px)
+      { transform: `translate3d(0, -3px, 0) rotate(0deg) scale(1, 1)`, opacity: 1, offset: 0.32 },
+      { transform: `translate3d(0, 3px, 0) rotate(0deg) scale(1, 1)`, opacity: 1, offset: 0.47 },
+      { transform: `translate3d(0, -3px, 0) rotate(0deg) scale(1, 1)`, opacity: 1, offset: 0.62 },
+      { transform: `translate3d(0, 0px, 0) rotate(0deg) scale(1, 1)`, opacity: 1, offset: 0.76 },
+
+      // 76% to 90%: LIFT AND HIDE PHASE (Lifts straight up, tilts opposite way, fades to 0)
+      { transform: `translate3d(0, -${dropDistance * 0.5}px, 0) rotate(${oppositeTilt * 0.5}deg) scale(1, 1)`, opacity: 0.8, offset: 0.83 },
+      { transform: `translate3d(0, -${dropDistance + 25}px, 0) rotate(${oppositeTilt}deg) scale(1, 1)`, opacity: 0, offset: 0.90 },
+
+      // 90% to 100%: HIDDEN above panel edge until cycle restarts
+      { transform: `translate3d(0, -${dropDistance + 25}px, 0) rotate(${initialTilt}deg) scale(1, 1)`, opacity: 0, offset: 0.98 },
+      { transform: `translate3d(0, -${dropDistance}px, 0) rotate(${initialTilt}deg) scale(1, 1)`, opacity: 0, offset: 1 }
+    ];
+  };
+
+  // Launch the endless fall loop across all 10 rows
+  const launchEndlessFallLoop = useCallback(() => {
     cleanupAllAnimations();
     setHasStarted(true);
-    setLandedRows(new Set());
-    setAllLanded(false);
-    setIsReplaying(true);
 
-    const fallMs = ANIM_CONFIG.fallDuration * 1000;
+    const cycleMs = ANIM_CONFIG.cycleLength * 1000;
     const staggerMs = ANIM_CONFIG.rowStagger * 1000;
 
     ROWS.forEach((row, i) => {
       const delayMs = i * staggerMs;
-
-      // Drop distance calculation: start above the top border of the panel
-      // so chips enter from the top edge and are clipped by overflow:hidden
       const dropDistance = 110 + i * 46;
 
-      // 1. Trigger falling animation at staggered time
-      const timerDrop = setTimeout(() => {
+      const timer = setTimeout(() => {
         const atplEl = atplRefs.current[row.id];
         const probEl = probRefs.current[row.id];
 
-        // Shared realistic gravity keyframes:
-        // - Ease-in fall
-        // - Impact squash (1.14 x 0.76)
-        // - Bounce up 62px
-        // - Land squash (1.06 x 0.90)
-        // - Small bounce 15px
-        // - Settle
-        const buildKeyframes = (initialTilt) => [
-          { transform: `translate3d(0, -${dropDistance}px, 0) rotate(${initialTilt}deg) scale(1, 1)`, opacity: 0, offset: 0 },
-          { transform: `translate3d(0, -${dropDistance * 0.9}px, 0) rotate(${initialTilt * 0.9}deg) scale(1, 1)`, opacity: 1, offset: 0.06 },
-          { transform: `translate3d(0, 0px, 0) rotate(0deg) scale(1.14, 0.76)`, opacity: 1, offset: 0.58 }, // First impact!
-          { transform: `translate3d(0, -${ANIM_CONFIG.firstBounceHeight}px, 0) rotate(${initialTilt * 0.12}deg) scale(0.96, 1.05)`, opacity: 1, offset: 0.73 }, // Rebound 62px
-          { transform: `translate3d(0, 0px, 0) rotate(0deg) scale(1.06, 0.90)`, opacity: 1, offset: 0.86 }, // Second landing
-          { transform: `translate3d(0, -${ANIM_CONFIG.secondBounceHeight}px, 0) rotate(0deg) scale(0.98, 1.02)`, opacity: 1, offset: 0.94 }, // Rebound 15px
-          { transform: `translate3d(0, 0px, 0) rotate(0deg) scale(1, 1)`, opacity: 1, offset: 1 } // Settled
-        ];
-
+        // 1. Web Animations API with iterations: Infinity for flawless 60fps compositor motion
         if (atplEl) {
-          const animLeft = atplEl.animate(buildKeyframes(ANIM_CONFIG.tiltLeft), {
-            duration: fallMs,
+          const animLeft = atplEl.animate(buildEndlessKeyframes(dropDistance, true), {
+            duration: cycleMs,
+            iterations: Infinity,
             easing: 'linear',
-            fill: 'forwards'
+            fill: 'both'
           });
           animInstancesRef.current.push(animLeft);
         }
 
         if (probEl) {
-          const animRight = probEl.animate(buildKeyframes(ANIM_CONFIG.tiltRight), {
-            duration: fallMs,
+          const animRight = probEl.animate(buildEndlessKeyframes(dropDistance, false), {
+            duration: cycleMs,
+            iterations: Infinity,
             easing: 'linear',
-            fill: 'forwards'
+            fill: 'both'
           });
           animInstancesRef.current.push(animRight);
         }
 
-        // 2. Impact sparks & ring at 58% of fall duration (exact landing point)
-        const impactDelay = fallMs * 0.58;
-        const timerImpact = setTimeout(() => {
+        // 2. Landing impact sparks on EVERY loop (at 9% of cycle = impact moment)
+        const impactOffsetMs = cycleMs * 0.09;
+        
+        // Initial impact
+        const timerFirstImpact = setTimeout(() => {
           triggerImpact(atplRefs.current[row.id], '#00f0ff');
           triggerImpact(probRefs.current[row.id], '#ef4444');
-        }, impactDelay);
-        timersRef.current.push(timerImpact);
+        }, impactOffsetMs);
+        timersRef.current.push(timerFirstImpact);
 
-        // 3. Mark row as landed when settle completes
-        const timerLanded = setTimeout(() => {
-          setLandedRows(prev => new Set(prev).add(row.id));
-
-          // If this is the last row (Row 9), trigger all-landed state and stat cards
-          if (i === ROWS.length - 1) {
-            setAllLanded(true);
-            setIsReplaying(false);
-          }
-        }, fallMs);
-        timersRef.current.push(timerLanded);
+        // Recurring impact on every subsequent loop
+        const intervalImpact = setInterval(() => {
+          triggerImpact(atplRefs.current[row.id], '#00f0ff');
+          triggerImpact(probRefs.current[row.id], '#ef4444');
+        }, cycleMs);
+        intervalsRef.current.push(intervalImpact);
 
       }, delayMs);
 
-      timersRef.current.push(timerDrop);
+      timersRef.current.push(timer);
     });
   }, [cleanupAllAnimations, triggerImpact]);
 
-  // Autostart when scrolled into view
+  // Start when scrolled into view (once), never stop afterwards
   useEffect(() => {
     if (isInView && !hasStarted) {
-      startDropAnimation();
+      launchEndlessFallLoop();
     }
-  }, [isInView, hasStarted, startDropAnimation]);
+  }, [isInView, hasStarted, launchEndlessFallLoop]);
+
+  // BATTERY & CPU OPTIMIZATION: Pause WAAPI animations when scrolled off-screen
+  useEffect(() => {
+    if (!hasStarted) return;
+    if (isInView) {
+      animInstancesRef.current.forEach(a => {
+        if (a && a.playState === 'paused') a.play();
+      });
+    } else {
+      animInstancesRef.current.forEach(a => {
+        if (a && a.playState === 'running') a.pause();
+      });
+    }
+  }, [isInView, hasStarted]);
 
   // Replay animation button click
   const handleReplay = useCallback(() => {
-    startDropAnimation();
-  }, [startDropAnimation]);
-
-  // Pair highlight auto-cycling every 2.4s (active only after all chips land, pauses on hover)
-  useEffect(() => {
-    if (!allLanded || isMouseOver) return;
-
-    const timer = setInterval(() => {
-      setActiveRow(prev => (prev + 1) % ROWS.length);
-    }, ANIM_CONFIG.pairCycleInterval);
-
-    return () => clearInterval(timer);
-  }, [allLanded, isMouseOver]);
-
-  // Which row is currently highlighted (hover overrides auto-cycle)
-  const effectiveActiveRow = hoveredRow !== null ? hoveredRow : (allLanded ? activeRow : null);
-
-  // Compute animated connecting dashed line coordinates
-  const updateLine = useCallback(() => {
-    if (effectiveActiveRow === null || !containerRef.current) {
-      setLineCoords(null);
-      return;
-    }
-    const atplEl = atplRefs.current[effectiveActiveRow];
-    const probEl = probRefs.current[effectiveActiveRow];
-    if (!atplEl || !probEl) {
-      setLineCoords(null);
-      return;
-    }
-
-    const containerRect = containerRef.current.getBoundingClientRect();
-    const atplRect = atplEl.getBoundingClientRect();
-    const probRect = probEl.getBoundingClientRect();
-
-    // From right edge of ATPL chip to left edge of Problem chip
-    const x1 = atplRect.right - containerRect.left;
-    const y1 = atplRect.top + atplRect.height / 2 - containerRect.top;
-    const x2 = probRect.left - containerRect.left;
-    const y2 = probRect.top + probRect.height / 2 - containerRect.top;
-
-    setLineCoords({ x1, y1, x2, y2 });
-  }, [effectiveActiveRow]);
-
-  useEffect(() => {
-    updateLine();
-    window.addEventListener('resize', updateLine);
-    return () => window.removeEventListener('resize', updateLine);
-  }, [updateLine]);
+    launchEndlessFallLoop();
+  }, [launchEndlessFallLoop]);
 
   // 3D Tilt calculation & cursor glow on mouse move
   const handleMouseMove = (e) => {
@@ -367,13 +335,11 @@ export const AtplSplitComparison = memo(() => {
 
     setTilt({ x: rotX, y: rotY });
     setMousePos({ x: (x / rect.width) * 100, y: (y / rect.height) * 100 });
-    updateLine();
   };
 
   const handleMouseLeave = () => {
     setTilt({ x: 0, y: 0 });
-    setIsMouseOver(false);
-    setHoveredRow(null);
+    setActiveHoverRow(null);
   };
 
   // Background Canvas: Rising Cyan and Red Particles
@@ -448,9 +414,10 @@ export const AtplSplitComparison = memo(() => {
     <div
       ref={containerRef}
       onMouseMove={handleMouseMove}
-      onMouseEnter={() => setIsMouseOver(true)}
       onMouseLeave={handleMouseLeave}
       style={{
+        '--mx': `${mousePos.x}%`,
+        '--my': `${mousePos.y}%`,
         position: 'relative',
         width: '100%',
         maxWidth: '1240px',
@@ -482,7 +449,7 @@ export const AtplSplitComparison = memo(() => {
         }}
       />
 
-      {/* Background Animated Architectural Grid */}
+      {/* Moving Architectural Background Grid */}
       <div className="animated-moving-grid" />
 
       {/* Sparks & Impact Overlay Container */}
@@ -498,10 +465,10 @@ export const AtplSplitComparison = memo(() => {
       />
 
       {/* =====================================================================
-          EMBEDDED STYLES (Performance Composite Only: Transform & Opacity)
+          EMBEDDED STYLES (Performance Composited: Transform & Opacity)
          ===================================================================== */}
       <style>{`
-        /* 1. Moving Subtle Background Grid */
+        /* 1. Moving Background Grid */
         @keyframes movingGrid {
           from { background-position: 0 0; }
           to { background-position: 32px 32px; }
@@ -548,30 +515,30 @@ export const AtplSplitComparison = memo(() => {
           filter: drop-shadow(0 0 20px rgba(0, 240, 255, 0.45));
         }
 
-        /* 3. Panel Conic-Gradient Border Sweep (CSS @property with fallback) */
-        @property --conic-angle {
+        /* 3. Panel Conic-Gradient Border Light Sweep (CSS @property --a) */
+        @property --a {
           syntax: '<angle>';
           initial-value: 0deg;
           inherits: false;
         }
-        @keyframes rotateConic {
-          from { --conic-angle: 0deg; }
-          to { --conic-angle: 360deg; }
+        @keyframes rotateConicSweep {
+          from { --a: 0deg; }
+          to { --a: 360deg; }
         }
         .conic-border-left {
-          --conic-angle: 0deg;
-          animation: rotateConic 7s linear infinite;
+          --a: 0deg;
+          animation: rotateConicSweep 7s linear infinite;
           background: 
             linear-gradient(#050f22, #040c1b) padding-box,
-            conic-gradient(from var(--conic-angle), #00f0ff 0%, transparent 30%, #0071ba 65%, #00f0ff 100%) border-box;
+            conic-gradient(from var(--a), #00f0ff 0%, transparent 30%, #0071ba 65%, #00f0ff 100%) border-box;
           border: 1.5px solid transparent;
         }
         .conic-border-right {
-          --conic-angle: 0deg;
-          animation: rotateConic 7s linear infinite;
+          --a: 0deg;
+          animation: rotateConicSweep 7s linear infinite;
           background: 
             linear-gradient(#16060e, #0e0409) padding-box,
-            conic-gradient(from var(--conic-angle), #ef4444 0%, transparent 30%, #991b1b 65%, #ef4444 100%) border-box;
+            conic-gradient(from var(--a), #ef4444 0%, transparent 30%, #991b1b 65%, #ef4444 100%) border-box;
           border: 1.5px solid transparent;
         }
 
@@ -607,16 +574,7 @@ export const AtplSplitComparison = memo(() => {
           z-index: 51;
         }
 
-        /* 5. Post-Landing Chip Floating Idle (4.5s loop, 6px displacement) */
-        @keyframes chipIdleFloat {
-          0%, 100% { transform: translateY(-3px); }
-          50% { transform: translateY(3px); }
-        }
-        .chip-floating-idle {
-          animation: chipIdleFloat 4.5s ease-in-out infinite;
-        }
-
-        /* 6. Light Shine Sweep across each chip every ~5s */
+        /* 5. Sweeping Light Shine across each chip every ~5s */
         @keyframes chipLightSweep {
           0%, 25% { transform: translateX(-160%) skewX(-20deg); }
           55%, 100% { transform: translateX(260%) skewX(-20deg); }
@@ -633,7 +591,7 @@ export const AtplSplitComparison = memo(() => {
           z-index: 3;
         }
 
-        /* 7. RGB Glitch Flicker on Red Chips */
+        /* 6. RGB Glitch Flicker on Red Chips */
         @keyframes redRgbGlitch {
           0%, 94%, 100% {
             filter: drop-shadow(0 0 0 transparent);
@@ -656,22 +614,10 @@ export const AtplSplitComparison = memo(() => {
           animation: redRgbGlitch 4.8s ease-in-out infinite;
         }
 
-        /* 8. Active Pair Shake on the Problem Chip */
-        @keyframes activeProblemShake {
-          0%, 100% { transform: scale(1.09) rotate(0deg); }
-          20% { transform: scale(1.09) rotate(-1.5deg); }
-          40% { transform: scale(1.09) rotate(1.5deg); }
-          60% { transform: scale(1.09) rotate(-1deg); }
-          80% { transform: scale(1.09) rotate(1deg); }
-        }
-        .active-problem-shake {
-          animation: activeProblemShake 0.38s ease-in-out;
-        }
-
-        /* 9. VS Badge Counter-Rotating Rings */
+        /* 7. Center VS Badge Counter-Rotating Rings */
         @keyframes spinClockwise {
           from { transform: rotate(0deg); }
-          to { rotate: 360deg; }
+          to { transform: rotate(360deg); }
         }
         @keyframes spinCounterClockwise {
           from { transform: rotate(360deg); }
@@ -691,15 +637,17 @@ export const AtplSplitComparison = memo(() => {
           animation: vsPulseGlow 2.5s ease-in-out infinite;
         }
 
-        /* 10. Connector Animated Dash Line */
-        @keyframes connectorFlow {
-          to { stroke-dashoffset: -20; }
+        /* 8. Self-Drawing SVG Stroke */
+        @keyframes drawCheckSvg {
+          from { stroke-dashoffset: 24; }
+          to { stroke-dashoffset: 0; }
         }
-        .connector-flow-line {
-          animation: connectorFlow 1.2s linear infinite;
+        .draw-check-path {
+          stroke-dasharray: 24;
+          animation: drawCheckSvg 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        /* 11. Responsive Grid Structure */
+        /* 9. Responsive Grid Structure */
         .split-comp-layout {
           display: grid;
           grid-template-columns: 1fr 1fr;
@@ -710,19 +658,16 @@ export const AtplSplitComparison = memo(() => {
         @media (max-width: 760px) {
           .split-comp-layout {
             grid-template-columns: 1fr;
-            gap: 40px;
+            gap: 36px;
           }
           .vs-badge-container {
             position: relative !important;
             top: auto !important;
             left: auto !important;
             transform: none !important;
-            margin: -10px auto !important;
+            margin: -8px auto !important;
             display: flex !important;
             justify-content: center !important;
-          }
-          .svg-connector-overlay {
-            display: none !important;
           }
           .split-chip-row {
             height: 42px !important;
@@ -733,15 +678,13 @@ export const AtplSplitComparison = memo(() => {
           }
         }
 
-        /* 12. Accessibility: prefers-reduced-motion turns off ONLY infinite decorative loops */
+        /* 10. Accessibility: prefers-reduced-motion turns off ONLY infinite decorative loops */
         @media (prefers-reduced-motion: reduce) {
-          .chip-floating-idle,
           .chip-shine-streak,
           .red-chip-glitch,
           .vs-ring-dashed-cyan,
           .vs-ring-thin-red,
-          .animated-moving-grid,
-          .connector-flow-line {
+          .animated-moving-grid {
             animation: none !important;
           }
         }
@@ -752,7 +695,6 @@ export const AtplSplitComparison = memo(() => {
          ===================================================================== */}
       <div style={{ position: 'relative', zIndex: 10, marginBottom: '2rem' }}>
         <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '1rem', marginBottom: '0.75rem' }}>
-          {/* Header Benchmark Badge */}
           <div
             style={{
               display: 'inline-flex',
@@ -773,34 +715,31 @@ export const AtplSplitComparison = memo(() => {
             <span>OPERATIONAL BENCHMARK // 250+ CONNECTED MEGA-PLANTS</span>
           </div>
 
-          {/* Replay Animation Button */}
           <button
             type="button"
             onClick={handleReplay}
-            disabled={isReplaying}
             style={{
               display: 'inline-flex',
               alignItems: 'center',
               gap: '0.45rem',
-              backgroundColor: isReplaying ? 'rgba(0, 113, 186, 0.35)' : 'rgba(0, 240, 255, 0.12)',
+              backgroundColor: 'rgba(0, 240, 255, 0.12)',
               border: '1px solid rgba(0, 240, 255, 0.45)',
               color: '#ffffff',
               padding: '0.45rem 1.15rem',
               borderRadius: '999px',
               fontSize: '0.8rem',
               fontWeight: 800,
-              cursor: isReplaying ? 'default' : 'pointer',
+              cursor: 'pointer',
               boxShadow: '0 0 15px rgba(0, 240, 255, 0.25)',
               transition: 'all 0.2s ease'
             }}
-            title="Replay the chips drop and landing sequence"
+            title="Restart the continuous chip fall loop"
           >
-            <RotateCcw size={13} color="#00f0ff" style={{ transform: isReplaying ? 'rotate(180deg)' : 'none', transition: 'transform 0.5s ease' }} />
-            <span>{isReplaying ? 'Dropping Chips...' : 'Replay Animation'}</span>
+            <RotateCcw size={13} color="#00f0ff" />
+            <span>Replay Animation</span>
           </button>
         </div>
 
-        {/* Shimmering Title with Blur Rise */}
         <h2
           className="title-blur-rise"
           style={{
@@ -839,20 +778,20 @@ export const AtplSplitComparison = memo(() => {
           transformStyle: 'preserve-3d'
         }}
       >
-        {/* Soft Radial Cursor Glow */}
+        {/* Soft Radial Cursor Glow following --mx and --my */}
         <div
           style={{
             position: 'absolute',
             inset: 0,
             pointerEvents: 'none',
-            background: `radial-gradient(500px circle at ${mousePos.x}% ${mousePos.y}%, rgba(0, 240, 255, 0.08), transparent 70%)`,
+            background: 'radial-gradient(500px circle at var(--mx, 50%) var(--my, 50%), rgba(0, 240, 255, 0.08), transparent 70%)',
             zIndex: 2,
             transition: 'background 0.1s ease-out'
           }}
         />
 
         {/* =====================================================================
-            LEFT PANEL: "● The ATPL way" (Cyan Conic Glow, 10 Falling Chips)
+            LEFT PANEL: "● The ATPL way" (Cyan Conic Glow, Endless Falling Chips)
            ===================================================================== */}
         <div
           ref={leftPanelRef}
@@ -861,7 +800,7 @@ export const AtplSplitComparison = memo(() => {
             borderRadius: '20px',
             padding: '1.25rem 1.25rem 1.4rem 1.25rem',
             position: 'relative',
-            overflow: 'hidden', // REQUIRED: Clips falling chips entering from the top
+            overflow: 'hidden', // REQUIRED: Clips chips falling in from top and lifting out
             boxShadow: '0 20px 50px rgba(0, 0, 0, 0.6), 0 0 25px rgba(0, 113, 186, 0.25)',
             backdropFilter: 'blur(16px)',
             WebkitBackdropFilter: 'blur(16px)',
@@ -895,8 +834,7 @@ export const AtplSplitComparison = memo(() => {
           {/* 10 Fixed Rows with Zigzag Alignment */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.38rem', position: 'relative', zIndex: 10 }}>
             {ROWS.map((row, idx) => {
-              const isActive = effectiveActiveRow === row.id;
-              const isLanded = landedRows.has(row.id);
+              const isHovered = activeHoverRow === row.id;
 
               return (
                 <div
@@ -908,65 +846,63 @@ export const AtplSplitComparison = memo(() => {
                     alignItems: 'center',
                     justifyContent: row.alignAtpl,
                     position: 'relative',
-                    zIndex: isActive ? 20 : 5
+                    zIndex: isHovered ? 25 : 5
                   }}
-                  onMouseEnter={() => setHoveredRow(row.id)}
-                  onMouseLeave={() => setHoveredRow(null)}
+                  onMouseEnter={() => setActiveHoverRow(row.id)}
+                  onMouseLeave={() => setActiveHoverRow(null)}
                 >
-                  {/* Floating idle wrapper (enabled after landing) */}
+                  {/* The Endless Falling ATPL Chip */}
                   <div
-                    className={isLanded && !isActive ? 'chip-floating-idle' : ''}
+                    ref={(el) => { atplRefs.current[row.id] = el; }}
+                    className="chip-item"
                     style={{
-                      animationDelay: `${idx * 0.4}s`,
-                      display: 'inline-flex'
+                      transformOrigin: '50% 100%',
+                      backgroundColor: isHovered ? '#ffffff' : 'rgba(4, 22, 48, 0.85)',
+                      color: isHovered ? '#031527' : '#ffffff',
+                      border: isHovered ? '1.5px solid #00f0ff' : '1px solid rgba(0, 240, 255, 0.45)',
+                      borderRadius: '9999px',
+                      padding: '0.38rem 0.95rem 0.38rem 0.55rem',
+                      fontSize: '0.8rem',
+                      fontWeight: 800,
+                      letterSpacing: '-0.01em',
+                      whiteSpace: 'nowrap',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '0.55rem',
+                      cursor: 'pointer',
+                      position: 'relative',
+                      overflow: 'hidden',
+                      backdropFilter: 'blur(10px)',
+                      WebkitBackdropFilter: 'blur(10px)',
+                      boxShadow: isHovered
+                        ? '0 0 0 2px #00f0ff, 0 0 32px rgba(0, 240, 255, 0.95)'
+                        : '0 4px 18px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
+                      transition: 'background-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease'
                     }}
                   >
-                    {/* The Falling ATPL Chip with transform-origin 50% 100% */}
+                    {/* Sweeping Light Shine */}
+                    <div className="chip-shine-streak" style={{ animationDelay: `${idx * 0.5}s` }} />
+
+                    {/* Round Badge with Self-Drawing SVG ✓ Icon */}
                     <div
-                      ref={(el) => { atplRefs.current[row.id] = el; }}
-                      className="chip-item"
                       style={{
-                        transformOrigin: '50% 100%',
-                        backgroundColor: isActive ? '#ffffff' : 'rgba(4, 22, 48, 0.85)',
-                        color: isActive ? '#031527' : '#ffffff',
-                        border: isActive ? '1.5px solid #00f0ff' : '1px solid rgba(0, 240, 255, 0.45)',
-                        borderRadius: '9999px',
-                        padding: '0.45rem 1.05rem',
-                        fontSize: '0.8rem',
-                        fontWeight: 800,
-                        letterSpacing: '-0.01em',
-                        whiteSpace: 'nowrap',
-                        display: 'inline-flex',
+                        width: '24px',
+                        height: '24px',
+                        borderRadius: '50%',
+                        backgroundColor: isHovered ? 'rgba(0, 113, 186, 0.15)' : 'rgba(0, 240, 255, 0.15)',
+                        border: `1.2px solid ${isHovered ? '#0071ba' : '#00f0ff'}`,
+                        display: 'flex',
                         alignItems: 'center',
-                        gap: '0.5rem',
-                        cursor: 'pointer',
-                        position: 'relative',
-                        overflow: 'hidden',
-                        backdropFilter: 'blur(10px)',
-                        WebkitBackdropFilter: 'blur(10px)',
-                        boxShadow: isActive
-                          ? '0 0 0 2px #00f0ff, 0 0 32px rgba(0, 240, 255, 0.95)'
-                          : '0 4px 18px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
-                        transform: isActive ? 'scale(1.09)' : 'scale(1)',
-                        transition: 'background-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease'
+                        justifyContent: 'center',
+                        flexShrink: 0
                       }}
                     >
-                      {/* Sweeping Light Shine */}
-                      <div className="chip-shine-streak" style={{ animationDelay: `${idx * 0.5}s` }} />
-
-                      {/* Self-Drawing SVG ✓ Checkmark Icon */}
-                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={isActive ? "#0071ba" : "#00f0ff"} strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
-                        <path
-                          d="M4 12l5 5L20 6"
-                          style={{
-                            strokeDasharray: 26,
-                            strokeDashoffset: isLanded ? 0 : 26,
-                            transition: 'stroke-dashoffset 0.45s cubic-bezier(0.16, 1, 0.3, 1)'
-                          }}
-                        />
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={isHovered ? "#0071ba" : "#00f0ff"} strokeWidth="3.4" strokeLinecap="round" strokeLinejoin="round">
+                        <path className="draw-check-path" d="M4 12l5 5L20 6" />
                       </svg>
-                      <span>{row.atpl}</span>
                     </div>
+
+                    <span>{row.atpl}</span>
                   </div>
                 </div>
               );
@@ -975,7 +911,7 @@ export const AtplSplitComparison = memo(() => {
         </div>
 
         {/* =====================================================================
-            RIGHT PANEL: "● Without ATPL" (Red Conic Glow, 10 Falling Chips)
+            RIGHT PANEL: "● Without ATPL" (Red Conic Glow, Endless Falling Chips)
            ===================================================================== */}
         <div
           ref={rightPanelRef}
@@ -984,7 +920,7 @@ export const AtplSplitComparison = memo(() => {
             borderRadius: '20px',
             padding: '1.25rem 1.25rem 1.4rem 1.25rem',
             position: 'relative',
-            overflow: 'hidden', // REQUIRED: Clips falling chips entering from the top
+            overflow: 'hidden', // REQUIRED: Clips chips falling in from top and lifting out
             boxShadow: '0 20px 50px rgba(0, 0, 0, 0.6), 0 0 25px rgba(239, 68, 68, 0.22)',
             backdropFilter: 'blur(16px)',
             WebkitBackdropFilter: 'blur(16px)',
@@ -1016,8 +952,7 @@ export const AtplSplitComparison = memo(() => {
           {/* 10 Fixed Rows with Zigzag Alignment */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.38rem', position: 'relative', zIndex: 10 }}>
             {ROWS.map((row, idx) => {
-              const isActive = effectiveActiveRow === row.id;
-              const isLanded = landedRows.has(row.id);
+              const isHovered = activeHoverRow === row.id;
 
               return (
                 <div
@@ -1029,73 +964,64 @@ export const AtplSplitComparison = memo(() => {
                     alignItems: 'center',
                     justifyContent: row.alignProb,
                     position: 'relative',
-                    zIndex: isActive ? 20 : 5
+                    zIndex: isHovered ? 25 : 5
                   }}
-                  onMouseEnter={() => setHoveredRow(row.id)}
-                  onMouseLeave={() => setHoveredRow(null)}
+                  onMouseEnter={() => setActiveHoverRow(row.id)}
+                  onMouseLeave={() => setActiveHoverRow(null)}
                 >
-                  {/* Floating idle wrapper + RGB Glitch Flicker */}
+                  {/* The Endless Falling Problem Chip + RGB Glitch */}
                   <div
-                    className={`${isLanded && !isActive ? 'chip-floating-idle' : ''} red-chip-glitch`}
+                    ref={(el) => { probRefs.current[row.id] = el; }}
+                    className="chip-item red-chip-glitch"
                     style={{
-                      animationDelay: `${idx * 0.4 + 0.3}s`,
-                      display: 'inline-flex'
+                      transformOrigin: '50% 100%',
+                      backgroundColor: isHovered ? 'rgba(78, 12, 24, 0.98)' : 'rgba(38, 10, 20, 0.85)',
+                      color: isHovered ? '#ffffff' : '#fecaca',
+                      border: isHovered ? '1.5px solid #ef4444' : '1px solid rgba(239, 68, 68, 0.45)',
+                      borderRadius: '9999px',
+                      padding: '0.38rem 0.95rem 0.38rem 0.55rem',
+                      fontSize: '0.8rem',
+                      fontWeight: 700,
+                      letterSpacing: '-0.01em',
+                      whiteSpace: 'nowrap',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '0.55rem',
+                      cursor: 'pointer',
+                      position: 'relative',
+                      overflow: 'hidden',
+                      backdropFilter: 'blur(10px)',
+                      WebkitBackdropFilter: 'blur(10px)',
+                      boxShadow: isHovered
+                        ? '0 0 0 2px #ef4444, 0 0 32px rgba(239, 68, 68, 0.95)'
+                        : '0 4px 18px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.12)',
+                      transition: 'background-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease'
                     }}
                   >
-                    {/* The Falling Problem Chip with transform-origin 50% 100% */}
+                    {/* Sweeping Light Shine */}
+                    <div className="chip-shine-streak" style={{ animationDelay: `${idx * 0.5 + 0.25}s` }} />
+
+                    {/* Round Badge with Self-Drawing SVG ✕ Icon */}
                     <div
-                      ref={(el) => { probRefs.current[row.id] = el; }}
-                      className={`chip-item ${isActive ? 'active-problem-shake' : ''}`}
                       style={{
-                        transformOrigin: '50% 100%',
-                        backgroundColor: isActive ? 'rgba(78, 12, 24, 0.98)' : 'rgba(38, 10, 20, 0.85)',
-                        color: isActive ? '#ffffff' : '#fecaca',
-                        border: isActive ? '1.5px solid #ef4444' : '1px solid rgba(239, 68, 68, 0.45)',
-                        borderRadius: '9999px',
-                        padding: '0.45rem 1.05rem',
-                        fontSize: '0.8rem',
-                        fontWeight: 700,
-                        letterSpacing: '-0.01em',
-                        whiteSpace: 'nowrap',
-                        display: 'inline-flex',
+                        width: '24px',
+                        height: '24px',
+                        borderRadius: '50%',
+                        backgroundColor: 'rgba(239, 68, 68, 0.15)',
+                        border: '1.2px solid #ef4444',
+                        display: 'flex',
                         alignItems: 'center',
-                        gap: '0.5rem',
-                        cursor: 'pointer',
-                        position: 'relative',
-                        overflow: 'hidden',
-                        backdropFilter: 'blur(10px)',
-                        WebkitBackdropFilter: 'blur(10px)',
-                        boxShadow: isActive
-                          ? '0 0 0 2px #ef4444, 0 0 32px rgba(239, 68, 68, 0.95)'
-                          : '0 4px 18px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.12)',
-                        transform: isActive ? 'scale(1.09)' : 'scale(1)',
-                        transition: 'background-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease'
+                        justifyContent: 'center',
+                        flexShrink: 0
                       }}
                     >
-                      {/* Sweeping Light Shine */}
-                      <div className="chip-shine-streak" style={{ animationDelay: `${idx * 0.5 + 0.25}s` }} />
-
-                      {/* Self-Drawing SVG ✕ Cross Icon */}
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ff4d63" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
-                        <line
-                          x1="5" y1="5" x2="19" y2="19"
-                          style={{
-                            strokeDasharray: 22,
-                            strokeDashoffset: isLanded ? 0 : 22,
-                            transition: 'stroke-dashoffset 0.35s cubic-bezier(0.16, 1, 0.3, 1)'
-                          }}
-                        />
-                        <line
-                          x1="19" y1="5" x2="5" y2="19"
-                          style={{
-                            strokeDasharray: 22,
-                            strokeDashoffset: isLanded ? 0 : 22,
-                            transition: 'stroke-dashoffset 0.35s cubic-bezier(0.16, 1, 0.3, 1) 0.1s'
-                          }}
-                        />
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#ff4d63" strokeWidth="3.4" strokeLinecap="round" strokeLinejoin="round">
+                        <line x1="5" y1="5" x2="19" y2="19" />
+                        <line x1="19" y1="5" x2="5" y2="19" />
                       </svg>
-                      <span>{row.problem}</span>
                     </div>
+
+                    <span>{row.problem}</span>
                   </div>
                 </div>
               );
@@ -1104,7 +1030,7 @@ export const AtplSplitComparison = memo(() => {
         </div>
 
         {/* =====================================================================
-            CENTER "VS" BADGE (Spring Overshoot, Dual Counter-Rotating Rings)
+            CENTER "VS" BADGE (Dual Counter-Rotating Rings & Pulsing Glow)
            ===================================================================== */}
         <div
           className="vs-badge-container"
@@ -1161,69 +1087,12 @@ export const AtplSplitComparison = memo(() => {
             VS
           </div>
         </div>
-
-        {/* =====================================================================
-            DYNAMIC SVG BEZIER CONNECTOR (With Bright Travelling Dot)
-           ===================================================================== */}
-        <svg
-          ref={overlayRef}
-          className="svg-connector-overlay"
-          style={{
-            position: 'absolute',
-            inset: 0,
-            width: '100%',
-            height: '100%',
-            pointerEvents: 'none',
-            zIndex: 30,
-            overflow: 'visible'
-          }}
-        >
-          <defs>
-            <linearGradient id="atplSplitGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#00f0ff" stopOpacity="0.95" />
-              <stop offset="50%" stopColor="#ffffff" stopOpacity="0.85" />
-              <stop offset="100%" stopColor="#ef4444" stopOpacity="0.95" />
-            </linearGradient>
-            <filter id="glowDot" x="-50%" y="-50%" width="200%" height="200%">
-              <feGaussianBlur stdDeviation="3" result="blur" />
-              <feMerge>
-                <feMergeNode in="blur" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
-            </filter>
-          </defs>
-
-          {lineCoords && (
-            <g>
-              {/* Dashed Bezier Line */}
-              <path
-                id="connectorPath"
-                className="connector-flow-line"
-                d={`M ${lineCoords.x1} ${lineCoords.y1} C ${lineCoords.x1 + (lineCoords.x2 - lineCoords.x1) * 0.45} ${lineCoords.y1}, ${lineCoords.x1 + (lineCoords.x2 - lineCoords.x1) * 0.55} ${lineCoords.y2}, ${lineCoords.x2} ${lineCoords.y2}`}
-                fill="none"
-                stroke="url(#atplSplitGrad)"
-                strokeWidth="2.4"
-                strokeDasharray="6 4"
-                style={{ filter: 'drop-shadow(0 0 8px rgba(0, 240, 255, 0.65))' }}
-              />
-
-              {/* Bright Travelling Dot across path */}
-              <circle r="4.5" fill="#ffffff" filter="url(#glowDot)">
-                <animateMotion
-                  dur="1.8s"
-                  repeatCount="indefinite"
-                  path={`M ${lineCoords.x1} ${lineCoords.y1} C ${lineCoords.x1 + (lineCoords.x2 - lineCoords.x1) * 0.45} ${lineCoords.y1}, ${lineCoords.x1 + (lineCoords.x2 - lineCoords.x1) * 0.55} ${lineCoords.y2}, ${lineCoords.x2} ${lineCoords.y2}`}
-                />
-              </circle>
-            </g>
-          )}
-        </svg>
       </div>
 
       {/* =====================================================================
-          AFTER LANDING: 3 STAT CARDS COUNTING UP
+          BOTTOM: 3 STAT CARDS COUNTING UP
          ===================================================================== */}
-      {allLanded && (
+      {hasStarted && (
         <div
           style={{
             marginTop: '2.5rem',
